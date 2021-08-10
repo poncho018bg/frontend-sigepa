@@ -19,8 +19,7 @@ import DashboardPage from "views/Dashboard/Dashboard.js";
 
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.js";
-import { BandejaScreen } from "views/Bandeja/BandejaScreen";
-import { PersonScreen } from "views/Personas/PersonScreen";
+
 
 
 const dashboardRoutes = [
@@ -32,22 +31,7 @@ const dashboardRoutes = [
     component: DashboardPage,
     layout: "/admin"
   },
-  {
-    path: "/bandeja",
-    name: "Bandeja",
-    rtlName: "قائمة الجدول",
-    icon: "assignment_returned",
-    component: BandejaScreen,
-    layout: "/admin"
-  },
-  {
-    path: "/persona",
-    name: "Persona",
-    rtlName: "قائمة الجدول",
-    icon: "assignment_returned",
-    component: PersonScreen,
-    layout: "/admin"
-  }
+
 ];
 
 export default dashboardRoutes;
