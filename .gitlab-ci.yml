@@ -1,0 +1,54 @@
+services:
+- name: docker:dind
+
+stages:
+  - build
+  - push
+  - deploy
+
+construccion:
+  image: node:14.16.1-alpine
+  stage: build
+  script:
+    - CI=false
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - build/*
+    expire_in: 1 week
+
+
+imagen_container:
+  image: docker:stable
+  stage: push
+  script: 
+    - echo -n "$HARBOR_PASSWORD" | docker login "$HARBOR_REGISTRY" --username $HARBOR_USERNAME --password-stdin
+    - docker pull $HARBOR_REGISTRY/library/$HARBOR_REGISTRY_IMAGE:lastest || true
+    - >
+      docker build
+      --pull
+      --cache-from $HARBOR_REGISTRY_IMAGE:latest
+      --tag $HARBOR_REGISTRY/library/$HARBOR_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+      --tag $HARBOR_REGISTRY/library/$HARBOR_REGISTRY_IMAGE:lastest .
+    - docker push $HARBOR_REGISTRY/library/$HARBOR_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    - docker push $HARBOR_REGISTRY/library/$HARBOR_REGISTRY_IMAGE:lastest
+    - docker logout $HARBOR_REGISTRY
+
+despliegue_develop:
+  stage: deploy
+  image: dtzar/helm-kubectl
+  script:
+    - kubectl config set-cluster k8s --server="${K8S_SERVER}"
+    - kubectl config set clusters.k8s.certificate-authority-data ${K8S_CERTIFICATE_AUTHORITY_DATA}
+    - kubectl config set-credentials "$K8S_USER" --token="${K8S_USER_TOKEN}"
+    - kubectl config set-context default --cluster=k8s --user="$K8S_USER"
+    - kubectl config use-context default
+    - cat ${KUBECONFIG}
+    - sed -i "s/<VERSION>/${CI_COMMIT_SHORT_SHA}/g" deployment.yaml
+    - sed -i "s/<HARBOR_REGISTRY>/${HARBOR_REGISTRY}/g" deployment.yaml
+    - cat deployment.yaml
+    - kubectl apply -f deployment.yaml
+
+after_script:
+  - echo "Finalizando Integracion Continua"
