@@ -31,7 +31,8 @@ import { PersonContextProvider } from "contexts/personContext";
 import { ModalContextProvider } from "contexts/modalContex";
 import { ModalContextDeleteProvider } from "contexts/modalContexDelete";
 
-const hist = createBrowserHistory();
+
+const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
 const theme = createMuiTheme({
 }, esES);
