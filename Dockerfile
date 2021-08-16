@@ -18,6 +18,12 @@ RUN npm install
 
 RUN npm run build
 
+RUN mkdir /app/build/frontend-sigepa
+
+RUN mv /app/build/static/ /app/build/frontend-sigepa/
+
+RUN mv /app/build/keycloak.json /app/build/frontend-sigepa/
+
 EXPOSE 3000
 
 CMD ["serve", "-l", "3000", "-s", "build"]
