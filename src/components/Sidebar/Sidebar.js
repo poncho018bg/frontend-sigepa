@@ -20,7 +20,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import UserService from "../../servicios/UserService";
 import Avatar from "@material-ui/core/Avatar";
-import { useDispatch,useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Button from "components/CustomButtons/Button.js";
 
 import { DialogLogOut } from "views/Dialogs/DialogLogOut";
@@ -40,7 +40,7 @@ export default function Sidebar(props) {
   const { color, logo, image, logoText, routes } = props;
   var links = (
     <>
-      
+
       <List className={classes.list}>
         {routes.map((prop, key) => {
           var activePro = " ";
@@ -96,42 +96,42 @@ export default function Sidebar(props) {
           );
         })}
       </List>
-        <div style={{ position: `fixed`,bottom: `0px` }}>
+      <div style={{ position: `fixed`, bottom: `0px` }}>
         <Avatar><PersonIcon></PersonIcon></Avatar><span style={{ color: `#fff` }}>{UserService.getFirstName()} {UserService.getLastName()}</span>
-       
-                                                               <Button
-                                                               style={{ background: `transparent` }}
-                                                                    variant="contained"
-                                                                    color="primary"
-                                                                    className={classes.button}
-                                                                    endIcon={<ExitToAppIcon/>}
-                                                                    onClick={logout}
-                                                                >
-                                                                  Salir
-                                                                </Button>
-        </div>
 
-        <DialogLogOut
-openDialog={openDialog}
-setOpenDialog={setOpenDialog}
-handleDeshabilitar={handleDeshabilitar}
-/>
+        <Button
+          style={{ background: `transparent` }}
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          endIcon={<ExitToAppIcon />}
+          onClick={logout}
+        >
+          Salir
+        </Button>
+      </div>
 
-      
+      <DialogLogOut
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+        handleDeshabilitar={handleDeshabilitar}
+      />
+
+
     </>
   );
-  function logout  ()  {
+  function logout() {
     //kcc.keycloak.logout();
     setOpenProfile(null);
     //sessionStorage.removeItem("token");
     setOpenDialog(true);
     //UserService.doLogout();
   }
-  function handleDeshabilitar  ()  {
+  function handleDeshabilitar() {
     dispatch(cerrarSesion());
     UserService.doLogout();
     setOpenDialog(false);
-}
+  }
   var brand = (
     <div className={classes.logo}>
       <a
