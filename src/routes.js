@@ -31,7 +31,22 @@ const dashboardRoutes = [
     component: DashboardPage,
     layout: "/admin"
   },
-
+  {
+    path: "/grafica",
+    name: "Grafica",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: DashboardPage,
+    layout: "/admin"
+  },
+  {
+    path: "/grid",
+    name: "GRid",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: DashboardPage,
+    layout: "/admin"
+  },
 ];
 
 export default dashboardRoutes;

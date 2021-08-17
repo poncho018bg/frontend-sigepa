@@ -50,8 +50,7 @@ export default function Header(props) {
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={props.handleDrawerToggle}
-          >
+            onClick={props.handleDrawerToggle}>
             <Menu />
           </IconButton>
         </Hidden>

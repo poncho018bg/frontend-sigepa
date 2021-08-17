@@ -18,7 +18,7 @@ import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 
 // core components
-import Admin from "layouts/Admin.js";
+//import Admin from "layouts/Admin.js";
 import RTL from "layouts/RTL.js";
 import { Provider } from 'react-redux';
 import "assets/css/material-dashboard-react.css?v=1.9.0";
@@ -31,11 +31,45 @@ import { PersonContextProvider } from "contexts/personContext";
 import { ModalContextProvider } from "contexts/modalContex";
 import { ModalContextDeleteProvider } from "contexts/modalContexDelete";
 
+import HttpService from "./servicios/HttpService";
+import UserService from "./servicios/UserService";
+import Admin from "./views/Admin";
+
 const hist = createBrowserHistory();
 
 const theme = createMuiTheme({
 }, esES);
 
+const renderApp = () => ReactDOM.render(
+  <ThemeProvider theme={theme}>
+  <Router history={hist}>
+     <Provider store={store}>
+       <ModalContextProvider>
+         <ModalContextDeleteProvider>
+          <PersonContextProvider>
+              <Switch>
+                <Route path="/admin" component={Admin} />
+                <Route path="/rtl" component={RTL} />
+                <Redirect from="/" to="/admin/dashboard" />
+              </Switch>
+            </PersonContextProvider>
+            </ModalContextDeleteProvider>
+        </ModalContextProvider>
+    </Provider>
+  </Router></ThemeProvider>,
+  document.getElementById("root")
+);
+
+UserService.initKeycloak(renderApp);
+HttpService.configure();
+
+/*
+const hist = createBrowserHistory();
+
+const theme = createMuiTheme({
+}, esES);
+*/
+/*
 ReactDOM.render(
   <ThemeProvider theme={theme}>
   <Router history={hist}>
@@ -55,3 +89,4 @@ ReactDOM.render(
   </Router></ThemeProvider>,
   document.getElementById("root")
 );
+*/

@@ -1,6 +1,6 @@
 {
-  "realm": "BandejaGenerica",
-     "auth-server-url": "http://10.4.2.135/auth/",
+  "realm": "bandeja",
+  "auth-server-url": "http://localhost:8080/auth/",
   "ssl-required": "external",
   "resource": "cliente-web",
   "public-client": true,

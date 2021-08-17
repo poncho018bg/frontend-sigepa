@@ -23,14 +23,18 @@ import styles from "assets/jss/material-dashboard-react/components/headerLinksSt
 
 import { useSelector } from 'react-redux'
 
+import UserService from "../../servicios/UserService";
+
 const useStyles = makeStyles(styles);
 
+
 export default function AdminNavbarLinks() {
-  const kcc = useSelector(state => state.auth);
-  const logout= () => {
-    kcc.keycloak.logout();
+  //const kcc = useSelector(state => state.auth);
+  const logout = () => {
+    //kcc.keycloak.logout();
     setOpenProfile(null);
-    sessionStorage.removeItem("token");
+    //sessionStorage.removeItem("token");
+    UserService.doLogout();
   }
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
@@ -80,6 +84,8 @@ export default function AdminNavbarLinks() {
         aria-label="Dashboard"
         className={classes.buttonLink}
       >
+        <div>
+        </div>
         <Dashboard className={classes.icons} />
         <Hidden mdUp implementation="css">
           <p className={classes.linkText}>Dashboard</p>
@@ -148,7 +154,7 @@ export default function AdminNavbarLinks() {
                       onClick={handleCloseNotification}
                       className={classes.dropdownItem}
                     >
-                     Los colores primarios han cambiado
+                      Los colores primarios han cambiado
                     </MenuItem>
                     <MenuItem
                       onClick={handleCloseNotification}
