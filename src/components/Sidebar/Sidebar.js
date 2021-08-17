@@ -96,6 +96,7 @@ export default function Sidebar(props) {
           );
         })}
       </List>
+
       <div style={{ position: `fixed`, bottom: `0px` }}>
         <Avatar><PersonIcon></PersonIcon></Avatar>
         <span style={{ color: `#fff` }}>{UserService.getFirstName()} {UserService.getLastName()}</span>
@@ -111,7 +112,15 @@ export default function Sidebar(props) {
         </Button>
       </div>
       <div style={{ position: `fixed`, bottom: `0px` }}>
-        <span style={{ color: `#fff` }}>{UserService.getRoles()}</span>
+        <span style={{ color: `#fff` }}>
+          {UserService.getRoles().roles.map((rol) => {
+            if (rol != 'offline_access') {
+              if (rol != 'uma_authorization') {
+                return <p>{rol}</p>
+              }
+            }
+          })}
+        </span>
       </div>
 
       <DialogLogOut
