@@ -1,4 +1,5 @@
 import Keycloak from "keycloak-js";
+import React from "react";
 
 const _kc = new Keycloak(process.env.REACT_APP_KEYCLOAK_CONFIG);
 
@@ -9,9 +10,10 @@ const _kc = new Keycloak(process.env.REACT_APP_KEYCLOAK_CONFIG);
  */
 const initKeycloak = (onAuthenticatedCallback) => {
   _kc.init({
-      onLoad: 'login-required', 
-      checkLoginIframeInterval: 1, 
-      enableLogging: true}
+    onLoad: 'login-required',
+    checkLoginIframeInterval: 1,
+    enableLogging: true
+  }
   )
     .then((authenticated) => {
       // if (authenticated) {
@@ -20,7 +22,7 @@ const initKeycloak = (onAuthenticatedCallback) => {
       //   doLogin();
       // }
     })
-    console.log("keycloak", _kc);
+  console.log("keycloak", _kc);
 };
 
 const doLogin = _kc.login;
@@ -36,6 +38,8 @@ const getUsername = () => _kc.tokenParsed?.preferred_username;
 const getFirstName = () => _kc.tokenParsed?.given_name;
 const getLastName = () => _kc.tokenParsed?.family_name;
 
+const getRoles = () => _kc.tokenParsed?.realm_access.roles;
+
 const hasRole = (roles) => roles.some((role) => _kc.hasRealmRole(role));
 
 const UserService = {
@@ -49,6 +53,7 @@ const UserService = {
   hasRole,
   getFirstName,
   getLastName,
+  getRoles,
 };
 
 export default UserService;

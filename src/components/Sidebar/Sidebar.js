@@ -97,8 +97,8 @@ export default function Sidebar(props) {
         })}
       </List>
       <div style={{ position: `fixed`, bottom: `0px` }}>
-        <Avatar><PersonIcon></PersonIcon></Avatar><span style={{ color: `#fff` }}>{UserService.getFirstName()} {UserService.getLastName()}</span>
-
+        <Avatar><PersonIcon></PersonIcon></Avatar>
+        <span style={{ color: `#fff` }}>{UserService.getFirstName()} {UserService.getLastName()}</span>
         <Button
           style={{ background: `transparent` }}
           variant="contained"
@@ -109,6 +109,9 @@ export default function Sidebar(props) {
         >
           Salir
         </Button>
+      </div>
+      <div style={{ position: `fixed`, bottom: `0px` }}>
+        <span style={{ color: `#fff` }}>{UserService.getRoles()}</span>
       </div>
 
       <DialogLogOut
