@@ -6,6 +6,10 @@ stages:
   - push
   - deploy
 
+cache:
+  paths:
+    - node_modules
+
 construccion:
   image: node:14.16.1-alpine
   stage: build
