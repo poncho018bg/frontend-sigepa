@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
@@ -16,14 +16,23 @@ import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
 import RTLNavbarLinks from "components/Navbars/RTLNavbarLinks.js";
 
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
-
+import PersonIcon from '@material-ui/icons/Person';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import UserService from "../../servicios/UserService";
 import Avatar from "@material-ui/core/Avatar";
+import { useDispatch,useSelector } from 'react-redux'
+import Button from "components/CustomButtons/Button.js";
+
+import { DialogLogOut } from "views/Dialogs/DialogLogOut";
+import { cerrarSesion } from "actions/SesionAction";
 
 const useStyles = makeStyles(styles);
 
 export default function Sidebar(props) {
   const classes = useStyles();
+  const [openProfile, setOpenProfile] = React.useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
+  const dispatch = useDispatch();
   // verifies if routeName is the one active (in browser input)
   function activeRoute(routeName) {
     return window.location.href.indexOf(routeName) > -1 ? true : false;
@@ -31,7 +40,7 @@ export default function Sidebar(props) {
   const { color, logo, image, logoText, routes } = props;
   var links = (
     <>
-      <Avatar>SC</Avatar>{UserService.getFirstName()} {UserService.getLastName()}
+      
       <List className={classes.list}>
         {routes.map((prop, key) => {
           var activePro = " ";
@@ -87,8 +96,42 @@ export default function Sidebar(props) {
           );
         })}
       </List>
+        <div style={{ position: `fixed`,bottom: `0px` }}>
+        <Avatar><PersonIcon></PersonIcon></Avatar><span style={{ color: `#fff` }}>{UserService.getFirstName()} {UserService.getLastName()}</span>
+       
+                                                               <Button
+                                                               style={{ background: `transparent` }}
+                                                                    variant="contained"
+                                                                    color="primary"
+                                                                    className={classes.button}
+                                                                    endIcon={<ExitToAppIcon/>}
+                                                                    onClick={logout}
+                                                                >
+                                                                  Salir
+                                                                </Button>
+        </div>
+
+        <DialogLogOut
+openDialog={openDialog}
+setOpenDialog={setOpenDialog}
+handleDeshabilitar={handleDeshabilitar}
+/>
+
+      
     </>
   );
+  function logout  ()  {
+    //kcc.keycloak.logout();
+    setOpenProfile(null);
+    //sessionStorage.removeItem("token");
+    setOpenDialog(true);
+    //UserService.doLogout();
+  }
+  function handleDeshabilitar  ()  {
+    dispatch(cerrarSesion());
+    UserService.doLogout();
+    setOpenDialog(false);
+}
   var brand = (
     <div className={classes.logo}>
       <a
