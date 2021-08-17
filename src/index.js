@@ -35,7 +35,7 @@ import HttpService from "./servicios/HttpService";
 import UserService from "./servicios/UserService";
 import Admin from "./views/Admin";
 
-const hist = createBrowserHistory();
+//const hist = createBrowserHistory();
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
