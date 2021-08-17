@@ -1,4 +1,4 @@
-import React from "react";
+import React , { useEffect, useState }from "react";
 import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -21,9 +21,12 @@ import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 
-import { useSelector } from 'react-redux'
+import { useDispatch,useSelector } from 'react-redux'
 
 import UserService from "../../servicios/UserService";
+import { DialogLogOut } from "views/Dialogs/DialogLogOut";
+import { cerrarSesion } from "actions/SesionAction";
+
 
 const useStyles = makeStyles(styles);
 
@@ -34,11 +37,14 @@ export default function AdminNavbarLinks() {
     //kcc.keycloak.logout();
     setOpenProfile(null);
     //sessionStorage.removeItem("token");
-    UserService.doLogout();
+    setOpenDialog(true);
+    //UserService.doLogout();
   }
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
+  const dispatch = useDispatch();
   const handleClickNotification = event => {
     if (openNotification && openNotification.contains(event.target)) {
       setOpenNotification(null);
@@ -59,6 +65,12 @@ export default function AdminNavbarLinks() {
   const handleCloseProfile = () => {
     setOpenProfile(null);
   };
+
+  const handleDeshabilitar = () => {
+    dispatch(cerrarSesion());
+    UserService.doLogout();
+    setOpenDialog(false);
+}
   return (
     <div>
       <div className={classes.searchWrapper}>
@@ -233,6 +245,14 @@ export default function AdminNavbarLinks() {
           )}
         </Poppers>
       </div>
+              
+      <DialogLogOut
+openDialog={openDialog}
+setOpenDialog={setOpenDialog}
+handleDeshabilitar={handleDeshabilitar}
+/>
     </div>
+
+
   );
 }

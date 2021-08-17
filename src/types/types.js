@@ -43,3 +43,9 @@ export const typesRolesExpDig = {
     rolExpDigUpdated: '[rol exp dig] Updated ',
     rolExpDigLoaded: '[rol exp dig] Rol Exp Dig loaded'
 }
+
+export const typesSesion={
+    COMENZAR_CIERRE_SESION :'COMENZAR_CIERRE_SESION',
+    CIERRE_SESION_EXITOSO : 'CIERRE_SESION_EXITOSO',
+    CIERRE_SESION_ERROR :'CIERRE_SESION_ERROR'
+}
