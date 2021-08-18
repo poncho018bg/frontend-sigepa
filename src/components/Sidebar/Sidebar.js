@@ -30,6 +30,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import { red } from '@material-ui/core/colors';
 import IconButton from '@material-ui/core/IconButton';
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles(styles);
 
@@ -54,10 +55,22 @@ const useStylesCard = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  title: {
+    color: '#fff',
+  },
+  subheader:{
+    color: '#fff',
+  },
+  card:{
+    color: '#fff !important',
+    background: 'transparent'
+  }
+
 }));
 
+
 const nombre = () => {
-  return (<>{UserService.getFirstName()} {UserService.getLastName()}</>)
+  return (<div>{UserService.getFirstName()} {UserService.getLastName()}</div>)
 }
 const roles = () => {
   return (
@@ -143,23 +156,25 @@ export default function Sidebar(props) {
         })}
       </List>
       <div style={{ position: `fixed`, bottom: `0px` }}>
-        <Card className={classesCard.root}>
+        <Card className={classesCard.card}>
           <CardHeader
+           className={classesCard.card}
             avatar={
-              <Avatar aria-label="recipe" className={classesCard.avatar}>
-                <PersonIcon></PersonIcon>
+              <Avatar aria-label="recipe" style={{ color: `#fff` }}>
+                <PersonIcon style={{ color: `#fff` }}></PersonIcon>
               </Avatar>
             }
             action={
-              <IconButton aria-label="settings"
+              <IconButton aria-label="settings" style={{ color: `#fff` }}
                 onClick={logout}
               >
                 <ExitToAppIcon />
               </IconButton>
             }
-            title={nombre()}
-            subheader={roles()}
+            title= {<Typography className={classes.card}>{nombre()}</Typography>}
+            subheader=  {<Typography className={classes.card}>{roles().slice(0,1)}</Typography>}
           />
+          
         </Card>
       </div>
       {/*
