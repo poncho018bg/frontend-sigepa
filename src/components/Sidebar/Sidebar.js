@@ -26,10 +26,56 @@ import Button from "components/CustomButtons/Button.js";
 import { DialogLogOut } from "views/Dialogs/DialogLogOut";
 import { cerrarSesion } from "actions/SesionAction";
 
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import { red } from '@material-ui/core/colors';
+import IconButton from '@material-ui/core/IconButton';
+
 const useStyles = makeStyles(styles);
+
+const useStylesCard = makeStyles((theme) => ({
+  root: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
+}));
+
+const nombre = () => {
+  return (<>{UserService.getFirstName()} {UserService.getLastName()}</>)
+}
+const roles = () => {
+  return (
+    UserService.getRoles().roles.map((rol) => {
+      if (rol != 'offline_access') {
+        if (rol != 'uma_authorization') {
+          return (<p>{rol}</p>);
+        }
+      }
+    })
+  )
+
+}
 
 export default function Sidebar(props) {
   const classes = useStyles();
+  const classesCard = useStylesCard();
+
   const [openProfile, setOpenProfile] = React.useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch();
@@ -96,9 +142,29 @@ export default function Sidebar(props) {
           );
         })}
       </List>
-
       <div style={{ position: `fixed`, bottom: `0px` }}>
-        <Avatar><PersonIcon></PersonIcon></Avatar>
+        <Card className={classesCard.root}>
+          <CardHeader
+            avatar={
+              <Avatar aria-label="recipe" className={classesCard.avatar}>
+                <PersonIcon></PersonIcon>
+              </Avatar>
+            }
+            action={
+              <IconButton aria-label="settings"
+                onClick={logout}
+              >
+                <ExitToAppIcon />
+              </IconButton>
+            }
+            title={nombre()}
+            subheader={roles()}
+          />
+        </Card>
+      </div>
+      {/*
+      <div style={{ position: `fixed`, bottom: `0px` }}>
+        <Avatar></Avatar>
         <span style={{ color: `#fff` }}>{UserService.getFirstName()} {UserService.getLastName()}</span>
         <Button
           style={{ background: `transparent` }}
@@ -122,6 +188,7 @@ export default function Sidebar(props) {
           })}
         </span>
       </div>
+        */}
 
       <DialogLogOut
         openDialog={openDialog}
