@@ -56,7 +56,10 @@ const useStylesCard = makeStyles((theme) => ({
     backgroundColor: red[500],
   },
   title: {
-    color: '#fff',
+    color: '#fff !important',
+    background: 'transparent',
+    wordBreak: 'break-all',
+    width: '3em !important',
   },
   subheader:{
     color: '#fff',
@@ -155,7 +158,7 @@ export default function Sidebar(props) {
           );
         })}
       </List>
-      <div style={{ position: `fixed`, bottom: `0px` }}>
+      <div style={{ position: `fixed`, bottom: `0px`, width: `15em`, wordBreak:`break-word`}}>
         <Card className={classesCard.card}>
           <CardHeader
            className={classesCard.card}
@@ -171,8 +174,8 @@ export default function Sidebar(props) {
                 <ExitToAppIcon />
               </IconButton>
             }
-            title= {<Typography className={classes.card}>{nombre()}</Typography>}
-            subheader=  {<Typography className={classes.card}>{roles().slice(0,1)}</Typography>}
+            title= {<Typography className={classes.title}>{nombre()}</Typography>}
+            subheader=  {<Typography className={classes.title}>{roles().slice(0,1)}</Typography>}
           />
           
         </Card>
