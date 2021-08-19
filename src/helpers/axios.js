@@ -1,4 +1,5 @@
 import axios from "axios";
+import UserService from "servicios/UserService";
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -13,7 +14,7 @@ const baseUrlExpediente = process.env.REACT_APP_API_EXPEDIENTE_URL;
                 method:'GET',
                 url,
                 headers: {
-                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+                    Authorization: 'Bearer ' + UserService.getToken(),
                 }
             }).then(response => {
             return response.data
@@ -36,7 +37,7 @@ const baseUrlExpediente = process.env.REACT_APP_API_EXPEDIENTE_URL;
                 data,
                
                 headers: {
-                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+                    Authorization: 'Bearer ' + UserService.getToken(),
                     'Content-Type': 'application/json'
                 }
             }).then(response => {
@@ -73,7 +74,7 @@ async function axiosGetExpediente(endpoint) {
                 method:'GET',
                 url,
                 headers: {
-                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+                    Authorization: 'Bearer ' + UserService.getToken(),
                 }
             }).then(response => {
             return response.data
@@ -95,7 +96,7 @@ async function axiosExpedienteToken(endpoint, method) {
                 method,
                 url,
                 headers: {
-                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+                    Authorization: 'Bearer ' + UserService.getToken(),
                 }
             }).then(response => {
             return response.data
@@ -115,7 +116,7 @@ async function axiosPostExpediente(endpoint,data, method ) {
                 data,
                 url,
                 headers: {
-                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+                    Authorization: 'Bearer ' + UserService.getToken(),
                 }
             }).then(response => {
             return response.data
@@ -134,7 +135,7 @@ async function axiosGetTipo(endpoint) {
                 method:'GET',
                 url,
                 headers: {
-                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+                    Authorization: 'Bearer ' + UserService.getToken(),
                 }
             }).then(response => {
             return response.data
@@ -156,7 +157,7 @@ async function axiosGetTipo(endpoint) {
                 data,
                
                 headers: {
-                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+                    Authorization: 'Bearer ' + UserService.getToken(),
                     'Content-Type': 'application/json'
                 }
             }).then(response => {
@@ -177,7 +178,7 @@ async function axiosDeleteTipo(endpoint) {
                 method:'DELETE',
                 url,
                 headers: {
-                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+                    Authorization: 'Bearer ' + UserService.getToken(),
                 }
             }).then(response => {
             return response.data
@@ -189,6 +190,29 @@ async function axiosDeleteTipo(endpoint) {
     }
 }
 
+
+async function axiosPostHetoas(endpoint,data, method ) {
+    const url = endpoint;
+    try{
+            const promise = await axios({
+                method,
+                url,
+                data,
+               
+                headers: {
+                    Authorization: 'Bearer ' + UserService.getToken(),
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+            return response.data
+            });
+            return promise;
+        } catch (error) {
+        console.error('There was an error!', error);
+        return Promise.reject(error);
+        }
+}
+
 export {
     axiosGet,
     axiosPost,
@@ -198,5 +222,6 @@ export {
     axiosGetTipo,
     axiosPostTipo,
     axiosDeleteTipo,
-    axiosExpedienteToken
+    axiosExpedienteToken,
+    axiosPostHetoas
 }

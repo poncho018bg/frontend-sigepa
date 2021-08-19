@@ -4,13 +4,17 @@ import { stylesArchivo } from 'css/stylesArchivo';
 import React, { useContext } from 'react'
 const useStyles = makeStyles(stylesArchivo);
 import CloseIcon from '@material-ui/icons/Close';
-export const Modal = (props) => {
+import { ModalContextUpdate } from 'contexts/modalContexUpdate';
+export const ModalUpdate = (props) => {
 
-    const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
+    const { showModalUpdate, modalTitleUpdate,
+        setShowModalUpdate, setModalTitleUpdate } = useContext(ModalContextUpdate);
+
+
     const classes = useStyles();    
 
     const handleClose = () => {
-        setShowModal(false);
+        setShowModalUpdate(false);
     }
     
 
@@ -18,9 +22,9 @@ export const Modal = (props) => {
         <>
         <Dialog
                 classes={{ paper: classes.paper}}
-                onClose={setShowModal}
+                onClose={setShowModalUpdate}
                 aria-labelledby="customized-dialog-title"
-                open={showModal}
+                open={showModalUpdate}
         >   
         <Grid container justify="flex-end">
             <IconButton aria-label="close"  onClick={handleClose}>
@@ -29,7 +33,7 @@ export const Modal = (props) => {
         </Grid>
             <Grid container justify="center">
                 <DialogTitle id="customized-dialog-title"  onClose={handleClose}>
-                       Nuevo registro
+                        Actualizar registro
                 </DialogTitle>
             </Grid>
             

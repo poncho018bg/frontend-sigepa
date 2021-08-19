@@ -1,4 +1,4 @@
-import { GET_PERSONS,REGISTRAR_PERSONA} from '../types/actionTypes';
+import { GET_PERSONS,REGISTRAR_PERSONA,ELIMINAR_PERSONA,MODIFICAR_PERSONA} from '../types/actionTypes';
 
 export default (state, action) => {
 
@@ -13,6 +13,18 @@ export default (state, action) => {
           ...state,
           personList: [...state.personList, action.payload]
     };
+    case MODIFICAR_PERSONA:
+      return {
+        ...state,
+        personList: state.personList.map(
+          persona =>persona.id === action.payload.id ? action.payload : persona
+        )
+      };
+    case ELIMINAR_PERSONA:
+      return {
+        ...state,
+        personList: state.personList.filter( persona => persona.id !== action.payload )
+      };
     default:
       return state;
   }

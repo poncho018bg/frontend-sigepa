@@ -3,9 +3,11 @@ import PersonReducer from '../reducers/PersonReducer';
 
 import Axios from 'axios';
 
-import { GET_PERSONS,REGISTRAR_PERSONA} from '../types/actionTypes';
+import { GET_PERSONS,REGISTRAR_PERSONA,ELIMINAR_PERSONA,MODIFICAR_PERSONA} from '../types/actionTypes';
 import { axiosGet } from 'helpers/axios';
 import { axiosPost } from 'helpers/axios';
+import { axiosDeleteTipo } from 'helpers/axios';
+import { axiosPostHetoas } from 'helpers/axios';
 
 export const PersonContext = createContext();
 
@@ -51,12 +53,53 @@ export const PersonContextProvider = props => {
   }
 
 
+  const actualizarPersona = async persona => {
+    console.log(persona);
+    const {id, firstName, lastName,activo,_links:{person:{href}}}= persona;
+    let personaEnviar={
+      firstName,
+      lastName,
+      activo
+  } 
+   try {
+     const resultado = await axiosPostHetoas(href,personaEnviar,'PUT' );   
+        
+      dispatch({
+        type: MODIFICAR_PERSONA,
+        payload: resultado,
+      })
+
+    } catch (error) {
+    
+
+      console.log(error);
+    }
+  }
+
+  const eliminarPersona = async idPersona => {
+    try {
+
+          await axiosDeleteTipo(`people/${idPersona}`);
+          dispatch({
+            type: ELIMINAR_PERSONA,
+            payload: idPersona
+          })
+
+    } catch (error) {
+      
+      console.log(error);
+    }
+  }
+
+
   return (
     <PersonContext.Provider
       value={{
         personList: state.personList,
         getPersons,
-        registrarPersona
+        registrarPersona,
+        eliminarPersona,
+        actualizarPersona
        
       }}
     >

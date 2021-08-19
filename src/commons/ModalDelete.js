@@ -8,7 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "components/CustomButtons/Button.js";
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 
-export const ModalDelete = () => {
+export const ModalDelete = (props) => {
 
 
     const { showModalDelete, modalTitleDelete, setShowModalDelete, setModalTitleDelete }
@@ -16,6 +16,9 @@ export const ModalDelete = () => {
 
     const handleClose = () => {
         setShowModalDelete(false)
+    }
+    const handleAceptar= () => {
+        console.log('aceptar');
     }
     return (
         <Dialog

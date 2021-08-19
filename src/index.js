@@ -34,6 +34,8 @@ import { ModalContextDeleteProvider } from "contexts/modalContexDelete";
 import HttpService from "./servicios/HttpService";
 import UserService from "./servicios/UserService";
 import Admin from "./views/Admin";
+import { ModuloContextProvider } from "contexts/moduloContext";
+import { ModalContextUpdateProvider } from "contexts/modalContexUpdate";
 
 //const hist = createBrowserHistory();
 
@@ -48,13 +50,17 @@ const renderApp = () => ReactDOM.render(
      <Provider store={store}>
        <ModalContextProvider>
          <ModalContextDeleteProvider>
+         <ModalContextUpdateProvider>
           <PersonContextProvider>
+          <ModuloContextProvider>
               <Switch>
                 <Route path="/admin" component={Admin} />
                 <Route path="/rtl" component={RTL} />
                 <Redirect from="/" to="/admin/dashboard" />
               </Switch>
+              </ModuloContextProvider>
             </PersonContextProvider>
+            </ModalContextUpdateProvider>
             </ModalContextDeleteProvider>
         </ModalContextProvider>
     </Provider>
