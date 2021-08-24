@@ -37,6 +37,7 @@ const updateToken = (successCallback) =>
 const getUsername = () => _kc.tokenParsed?.preferred_username;
 const getFirstName = () => _kc.tokenParsed?.given_name;
 const getLastName = () => _kc.tokenParsed?.family_name;
+const getIdUSuario = () => _kc.tokenParsed?.sub;
 
 const getRoles = () => _kc.tokenParsed?.realm_access;
 
@@ -54,6 +55,7 @@ const UserService = {
   getFirstName,
   getLastName,
   getRoles,
+  getIdUSuario
 };
 
 export default UserService;

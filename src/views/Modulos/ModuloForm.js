@@ -5,6 +5,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { ModuloContext } from 'contexts/moduloContext';
 import { ModalContext } from 'contexts/modalContex';
+import UserService from "../../servicios/UserService";
 
 export const ModuloForm = () => {
 
@@ -15,7 +16,7 @@ export const ModuloForm = () => {
     const formik = useFormik({
         initialValues: {
             dsmodulo: '',
-            usuarioCreacionId: 'c37d40e8-9288-4726-8163-4d635483d134'
+            usuarioCreacionId: UserService.getIdUSuario()
         },
         validationSchema: Yup.object({
             dsmodulo: Yup.string()
@@ -31,8 +32,9 @@ export const ModuloForm = () => {
 
             let module = {
                 dsmodulo: dsmodulo,
-                usuarioCreacionId: `${ process.env.REACT_APP_API_URL}/usuario/c37d40e8-9288-4726-8163-4d635483d134`,
-                boactivo: true
+                usuarioCreacionId: `${ process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}`,
+                boactivo: true,
+                'SubModulos':[]
             }
             registrarModulos(module);
             setShowModal(false);

@@ -20,6 +20,7 @@ import { ModuloScreen } from "views/Modulos/ModuloScreen";
 
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.js";
+import { SubModuloScreen } from "views/SubModulos/SubModuloScreen";
 
 
 
@@ -41,11 +42,11 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/grid",
-    name: "GRid",
+    path: "/submodulos",
+    name: "Submódulos",
     rtlName: "لوحة القيادة",
     icon: Dashboard,
-    component: DashboardPage,
+    component: SubModuloScreen,
     layout: "/admin"
   },
 ];

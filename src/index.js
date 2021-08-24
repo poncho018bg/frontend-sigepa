@@ -36,6 +36,8 @@ import UserService from "./servicios/UserService";
 import Admin from "./views/Admin";
 import { ModuloContextProvider } from "contexts/moduloContext";
 import { ModalContextUpdateProvider } from "contexts/modalContexUpdate";
+import { SubModuloContextProvider } from "contexts/subModuloContext";
+import { ModuloSubContextProvider } from "contexts/moduloSubContext";
 
 //const hist = createBrowserHistory();
 
@@ -46,25 +48,29 @@ const theme = createMuiTheme({
 
 const renderApp = () => ReactDOM.render(
   <ThemeProvider theme={theme}>
-  <Router history={hist}>
-     <Provider store={store}>
-       <ModalContextProvider>
-         <ModalContextDeleteProvider>
-         <ModalContextUpdateProvider>
-          <PersonContextProvider>
-          <ModuloContextProvider>
-              <Switch>
-                <Route path="/admin" component={Admin} />
-                <Route path="/rtl" component={RTL} />
-                <Redirect from="/" to="/admin/dashboard" />
-              </Switch>
-              </ModuloContextProvider>
-            </PersonContextProvider>
+    <Router history={hist}>
+      <Provider store={store}>
+        <ModalContextProvider>
+          <ModalContextDeleteProvider>
+            <ModalContextUpdateProvider>
+              <PersonContextProvider>
+                <ModuloContextProvider>
+                  <SubModuloContextProvider>
+                    <ModuloSubContextProvider>
+                      <Switch>
+                        <Route path="/admin" component={Admin} />
+                        <Route path="/rtl" component={RTL} />
+                        <Redirect from="/" to="/admin/dashboard" />
+                      </Switch>
+                    </ModuloSubContextProvider>
+                  </SubModuloContextProvider>
+                </ModuloContextProvider>
+              </PersonContextProvider>
             </ModalContextUpdateProvider>
-            </ModalContextDeleteProvider>
+          </ModalContextDeleteProvider>
         </ModalContextProvider>
-    </Provider>
-  </Router></ThemeProvider>,
+      </Provider>
+    </Router></ThemeProvider>,
   document.getElementById("root")
 );
 

@@ -8,6 +8,8 @@ import { axiosGet } from 'helpers/axios';
 import { axiosPost } from 'helpers/axios';
 import { axiosDeleteTipo } from 'helpers/axios';
 import { axiosPostHetoas } from 'helpers/axios';
+import UserService from 'servicios/UserService';
+
 
 export const ModuloContext = createContext();
 
@@ -56,8 +58,9 @@ export const ModuloContextProvider = props => {
        
         let moduloEnviar = {
             dsmodulo,
-            'usuarioCreacionId':  `${ process.env.REACT_APP_API_URL}/usuario/c37d40e8-9288-4726-8163-4d635483d134` ,
-            boactivo
+            'usuarioCreacionId':  `${ process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}` ,
+            boactivo,
+            'SubModulos':[]
         }
         console.log(moduloEnviar);
         try {
