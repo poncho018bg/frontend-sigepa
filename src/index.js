@@ -59,6 +59,7 @@ const renderApp = () => ReactDOM.render(
                 <ModuloContextProvider>
                   <SubModuloContextProvider>
                     <ModuloSubContextProvider>
+                      <SubmodulosByPerfilContexProvider>
                       <Switch>
                         <Route path="/admin" component={Admin} />
                         {/*<Route path="/rtl" component={RTL} />*/}
@@ -67,6 +68,7 @@ const renderApp = () => ReactDOM.render(
                           <Redirect from="/" to="/admin/dashboardPublic"/>
                         }
                       </Switch>
+                      </SubmodulosByPerfilContexProvider>
                     </ModuloSubContextProvider>
                   </SubModuloContextProvider>
                 </ModuloContextProvider>
