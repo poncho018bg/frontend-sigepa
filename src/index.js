@@ -38,6 +38,9 @@ import { ModuloContextProvider } from "contexts/moduloContext";
 import { ModalContextUpdateProvider } from "contexts/modalContexUpdate";
 import { SubModuloContextProvider } from "contexts/subModuloContext";
 import { ModuloSubContextProvider } from "contexts/moduloSubContext";
+import { SubmodulosByPerfilContexProvider } from "contexts/submodulosByPerfilContex";
+
+
 
 //const hist = createBrowserHistory();
 
@@ -57,11 +60,13 @@ const renderApp = () => ReactDOM.render(
                 <ModuloContextProvider>
                   <SubModuloContextProvider>
                     <ModuloSubContextProvider>
+                      <SubmodulosByPerfilContexProvider>                      
                       <Switch>
                         <Route path="/admin" component={Admin} />
                         <Route path="/rtl" component={RTL} />
                         <Redirect from="/" to="/admin/dashboard" />
                       </Switch>
+                      </SubmodulosByPerfilContexProvider>
                     </ModuloSubContextProvider>
                   </SubModuloContextProvider>
                 </ModuloContextProvider>
