@@ -14,15 +14,15 @@ const initKeycloak = (onAuthenticatedCallback) => {
     checkLoginIframeInterval: 1,
     enableLogging: true
   }
-  )
-    .then((authenticated) => {
+  ).then((authenticated) => {
+    console.log("keycloak", _kc);
       // if (authenticated) {
       onAuthenticatedCallback();
       // } else {
       //   doLogin();
       // }
     })
-  console.log("keycloak", _kc);
+  
 };
 
 const doLogin = _kc.login;
@@ -41,6 +41,8 @@ const getIdUSuario = () => _kc.tokenParsed?.sub;
 
 const getRoles = () => _kc.tokenParsed?.realm_access;
 
+const getGroups = () => _kc.tokenParsed?.groups;
+
 const hasRole = (roles) => roles.some((role) => _kc.hasRealmRole(role));
 
 const UserService = {
@@ -55,7 +57,8 @@ const UserService = {
   getFirstName,
   getLastName,
   getRoles,
-  getIdUSuario
+  getIdUSuario,
+  getGroups,
 };
 
 export default UserService;

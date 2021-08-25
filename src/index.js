@@ -38,6 +38,7 @@ import { ModuloContextProvider } from "contexts/moduloContext";
 import { ModalContextUpdateProvider } from "contexts/modalContexUpdate";
 import { SubModuloContextProvider } from "contexts/subModuloContext";
 import { ModuloSubContextProvider } from "contexts/moduloSubContext";
+import RenderGroup from "components/RenderGroup"
 
 //const hist = createBrowserHistory();
 
@@ -48,6 +49,7 @@ const theme = createMuiTheme({
 
 const renderApp = () => ReactDOM.render(
   <ThemeProvider theme={theme}>
+    {console.log("grupos {}", UserService.getGroups())}
     <Router history={hist}>
       <Provider store={store}>
         <ModalContextProvider>
@@ -59,8 +61,11 @@ const renderApp = () => ReactDOM.render(
                     <ModuloSubContextProvider>
                       <Switch>
                         <Route path="/admin" component={Admin} />
-                        <Route path="/rtl" component={RTL} />
-                        <Redirect from="/" to="/admin/dashboard" />
+                        {/*<Route path="/rtl" component={RTL} />*/}
+                        {RenderGroup("/administrador") === true ?
+                          <Redirect from="/" to="/admin/dashboard"/> :
+                          <Redirect from="/" to="/admin/dashboardPublic"/>
+                        }
                       </Switch>
                     </ModuloSubContextProvider>
                   </SubModuloContextProvider>
@@ -74,8 +79,9 @@ const renderApp = () => ReactDOM.render(
   document.getElementById("root")
 );
 
-UserService.initKeycloak(renderApp);
 HttpService.configure();
+UserService.initKeycloak(renderApp);
+
 
 /*
 const hist = createBrowserHistory();

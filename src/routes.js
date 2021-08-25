@@ -16,6 +16,7 @@ import Dashboard from "@material-ui/icons/Dashboard";
 
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
+import DashboardPublic from "views/Public/PublicDashboard.js";
 import { ModuloScreen } from "views/Modulos/ModuloScreen";
 
 // core components/views for RTL layout
@@ -31,6 +32,13 @@ const dashboardRoutes = [
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: DashboardPage,
+    layout: "/admin"
+  },
+  {
+    path: "/dashboardPublic",
+    name: "Dashboard Publico",
+    icon: Dashboard,
+    component: DashboardPublic,
     layout: "/admin"
   },
   {
