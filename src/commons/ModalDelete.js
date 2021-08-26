@@ -10,15 +10,18 @@ import { ModalContextDelete } from 'contexts/modalContexDelete';
 
 export const ModalDelete = (props) => {
 
+    const {handleDeshabilitar} = props;
 
     const { showModalDelete, modalTitleDelete, setShowModalDelete, setModalTitleDelete }
          = useContext(ModalContextDelete);
 
     const handleClose = () => {
+        
         setShowModalDelete(false)
     }
     const handleAceptar= () => {
         console.log('aceptar');
+        handleDeshabilitar();
     }
     return (
         <Dialog
@@ -37,7 +40,7 @@ export const ModalDelete = (props) => {
                 <Button onClick={handleClose} color="primary">
                 Cancelar
                 </Button>
-                <Button onClick={handleClose} color="primary" autoFocus>
+                <Button onClick={handleAceptar} color="primary" autoFocus>
                 Aceptar
                 </Button>
             </DialogActions>

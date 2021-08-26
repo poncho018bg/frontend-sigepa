@@ -22,6 +22,8 @@ import { ModuloScreen } from "views/Modulos/ModuloScreen";
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.js";
 import { SubModuloScreen } from "views/SubModulos/SubModuloScreen";
+import { TipoApoyoScreen } from "views/Catalogos/TipoApoyo/TipoApoyoScreen"
+import { TipoBeneficiarioScreen } from "views/Catalogos/TiposBeneficiarios/TipoBeneficiarioScreen";
 
 
 
@@ -55,6 +57,20 @@ const dashboardRoutes = [
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: SubModuloScreen,
+    layout: "/admin"
+  },
+  {
+    path: "/tiposApoyos",
+    name: "Tipos de Apoyo",
+    icon: Dashboard,
+    component: TipoApoyoScreen,
+    layout: "/admin"
+  },
+  {
+    path: "/tiposBeneficiario",
+    name: "Tipos de Beneficiarios",
+    icon: Dashboard,
+    component: TipoBeneficiarioScreen,
     layout: "/admin"
   },
 ];

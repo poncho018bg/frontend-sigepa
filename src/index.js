@@ -38,6 +38,8 @@ import { ModuloContextProvider } from "contexts/moduloContext";
 import { ModalContextUpdateProvider } from "contexts/modalContexUpdate";
 import { SubModuloContextProvider } from "contexts/subModuloContext";
 import { ModuloSubContextProvider } from "contexts/moduloSubContext";
+import { TiposApoyosContextProvider } from "contexts/catalogos/tiposApoyosContext";
+import { TiposBeneficiariosContextProvider } from "contexts/catalogos/tiposBeneficiariosContext";
 import RenderGroup from "components/RenderGroup"
 
 //const hist = createBrowserHistory();
@@ -59,14 +61,18 @@ const renderApp = () => ReactDOM.render(
                 <ModuloContextProvider>
                   <SubModuloContextProvider>
                     <ModuloSubContextProvider>
-                      <Switch>
-                        <Route path="/admin" component={Admin} />
-                        {/*<Route path="/rtl" component={RTL} />*/}
-                        {RenderGroup("/administrador") === true ?
-                          <Redirect from="/" to="/admin/dashboard"/> :
-                          <Redirect from="/" to="/admin/dashboardPublic"/>
-                        }
-                      </Switch>
+                      <TiposApoyosContextProvider>
+                        <TiposBeneficiariosContextProvider>
+                          <Switch>
+                            <Route path="/admin" component={Admin} />
+                            {/*<Route path="/rtl" component={RTL} />*/}
+                            {RenderGroup("/administrador") === true ?
+                              <Redirect from="/" to="/admin/dashboard" /> :
+                              <Redirect from="/" to="/admin/dashboardPublic" />
+                            }
+                          </Switch>
+                        </TiposBeneficiariosContextProvider>
+                      </TiposApoyosContextProvider>
                     </ModuloSubContextProvider>
                   </SubModuloContextProvider>
                 </ModuloContextProvider>
