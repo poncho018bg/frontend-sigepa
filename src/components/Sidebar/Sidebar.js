@@ -227,7 +227,7 @@ export default function Sidebar(props) {
   function handleDeshabilitar() {
     dispatch(cerrarSesion());
     UserService.doLogout();
-    props.history.push(PUBLIC_URL);
+    props.history.push('/frontend-sigepa');
     setOpenDialog(false);
   }
   var brand = (
