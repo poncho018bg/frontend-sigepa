@@ -35,17 +35,15 @@ const descargaPerfilSubmoduloError = () => ({
 });
 
 
-export const PerfilSubmoduloStartAddNew = (perfilsubmodulo, modulos) => {
+export const PerfilSubmoduloStartAddNew = (perfilsubmodulo) => {
     return async (dispatch) => {
-        console.log('SAVE=>',perfilsubmodulo, modulos)
+        console.log('SAVE=>',perfilsubmodulo)
         dispatch(descargarPerfilSubmodulo());
         try {
-            const data = await axiosPost(`perfilmodulo`, perfilsubmodulo, 'POST');
+            const data = await axiosPost(`perfilessubmodulosOverride`, perfilsubmodulo, 'POST');
             dispatch(perfilSubmodulosAdded(data));
             
-            console.log('Perfiles enviar =>', modulos)
-            const data2 = await axiosPost(`perfilmodulo/${perfilsubmodulo.id}/crcSubModulosCollection`, modulos, 'PUT');
-            dispatch(perfilSubmoduloUpdated(data2));
+            
         } catch (error) {
             console.log(error);
             dispatch(perfilSubmodulosAddedError())
