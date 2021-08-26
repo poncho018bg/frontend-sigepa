@@ -41,6 +41,7 @@ import { ModuloSubContextProvider } from "contexts/moduloSubContext";
 import { TiposApoyosContextProvider } from "contexts/catalogos/tiposApoyosContext";
 import { TiposBeneficiariosContextProvider } from "contexts/catalogos/tiposBeneficiariosContext";
 import RenderGroup from "components/RenderGroup"
+import { SubmodulosByPerfilContexProvider } from "contexts/submodulosByPerfilContex";
 
 //const hist = createBrowserHistory();
 
@@ -61,8 +62,9 @@ const renderApp = () => ReactDOM.render(
                 <ModuloContextProvider>
                   <SubModuloContextProvider>
                     <ModuloSubContextProvider>
-                      <TiposApoyosContextProvider>
-                        <TiposBeneficiariosContextProvider>
+                      <SubmodulosByPerfilContexProvider>
+                        <TiposApoyosContextProvider>
+                          <TiposBeneficiariosContextProvider>
                             <Switch>
                               <Route path="/admin" component={Admin} />
                               {/*<Route path="/rtl" component={RTL} />*/}
@@ -71,8 +73,9 @@ const renderApp = () => ReactDOM.render(
                                 <Redirect from="/" to="/admin/dashboardPublic" />
                               }
                             </Switch>
-                        </TiposBeneficiariosContextProvider>
-                      </TiposApoyosContextProvider>
+                          </TiposBeneficiariosContextProvider>
+                        </TiposApoyosContextProvider>
+                      </SubmodulosByPerfilContexProvider>
                     </ModuloSubContextProvider>
                   </SubModuloContextProvider>
                 </ModuloContextProvider>
