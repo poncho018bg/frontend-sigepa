@@ -25,3 +25,8 @@ async function axiosGet(endpoint) {
        return Promise.reject(error)
    }
 }
+
+
+export {
+    axiosGet
+}

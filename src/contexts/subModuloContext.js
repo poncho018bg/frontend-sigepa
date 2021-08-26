@@ -58,6 +58,7 @@ export const SubModuloContextProvider = props => {
             console.log(subModulo);
             const  crcModulosCollection  = subModulo.crcModulosCollection
             subModulo.crcModulosCollection =[{}]
+            subModulo.perfiles =[]
             console.log('POST SubModulos',subModulo)
             const resultado = await axiosPost('subModulos', subModulo);
             console.log(resultado);
