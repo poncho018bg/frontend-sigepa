@@ -242,7 +242,7 @@ export const RolesScreen = () => {
         }
         console.log('Nuevo sent =>', data)
         dispatch(PerfilSubmoduloStartAddNew(data))
-        props.setShowDialogForm(true)
+       
     }
 
 

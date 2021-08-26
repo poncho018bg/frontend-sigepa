@@ -1,6 +1,6 @@
 {
   "realm": "SIGEPA",
-  "auth-server-url": "http://localhost:9000/auth/",
+  "auth-server-url": "http://10.4.2.135/auth/",
   "ssl-required": "external",
   "resource": "sigepa-web",
   "public-client": true,
