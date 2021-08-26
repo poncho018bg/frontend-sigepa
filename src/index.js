@@ -63,7 +63,6 @@ const renderApp = () => ReactDOM.render(
                     <ModuloSubContextProvider>
                       <TiposApoyosContextProvider>
                         <TiposBeneficiariosContextProvider>
-                          <SubmodulosByPerfilContexProvider>
                             <Switch>
                               <Route path="/admin" component={Admin} />
                               {/*<Route path="/rtl" component={RTL} />*/}
@@ -72,7 +71,6 @@ const renderApp = () => ReactDOM.render(
                                 <Redirect from="/" to="/admin/dashboardPublic" />
                               }
                             </Switch>
-                          </SubmodulosByPerfilContexProvider>
                         </TiposBeneficiariosContextProvider>
                       </TiposApoyosContextProvider>
                     </ModuloSubContextProvider>
