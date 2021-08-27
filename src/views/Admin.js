@@ -35,10 +35,11 @@ const switchRoutes = (
             }
             return null;
         })}
-        {RenderGroup("/administrador") === true ?
+        <Redirect from="/" to="/admin/dashboard"/>
+        {/* {RenderGroup("/administrador") === true ?
             <Redirect from="/" to="/admin/dashboard"/> :
             <Redirect from="/" to="/admin/dashboardPublic"/>
-        }
+        } */}
     </Switch>
 );
 

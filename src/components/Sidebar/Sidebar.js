@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
+import { NavLink,  useHistory } from "react-router-dom";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -91,7 +91,7 @@ const roles = () => {
 export default function Sidebar(props) {
   const classes = useStyles();
   const classesCard = useStylesCard();
-
+  const history = useHistory();
   const [openProfile, setOpenProfile] = React.useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch();
@@ -225,8 +225,14 @@ export default function Sidebar(props) {
     //UserService.doLogout();
   }
   function handleDeshabilitar() {
-    dispatch(cerrarSesion());
+    
     UserService.doLogout();
+    dispatch(cerrarSesion());
+   console.log('Cerrando sesion')
+   //cambiar esta forma de redireccionar
+   //browserHistory.replace('http://10.4.2.135/frontend-sigepa')
+   window.location.replace('http://10.4.2.135/frontend-sigepa/')
+    
     setOpenDialog(false);
   }
   var brand = (
