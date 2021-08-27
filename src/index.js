@@ -43,6 +43,12 @@ import { TiposBeneficiariosContextProvider } from "contexts/catalogos/tiposBenef
 import RenderGroup from "components/RenderGroup"
 import { SubmodulosByPerfilContexProvider } from "contexts/submodulosByPerfilContex";
 
+import { ComiteSecretariasContextProvider } from "contexts/catalogos/comiteSecretariasContext";
+import { EdadesBeneficiariosContextProvider } from "contexts/catalogos/edadesBeneficiariosContext";
+import { MotivoRechazosContextProvider } from "contexts/catalogos/motivoRechazosContext";
+import { NumeroApoyosContextProvider } from "contexts/catalogos/numeroApoyosContext";
+import { PeriodicidadApoyosContextProvider } from "contexts/catalogos/periodicidadApoyosContext";
+
 //const hist = createBrowserHistory();
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
@@ -65,15 +71,25 @@ const renderApp = () => ReactDOM.render(
                       <SubmodulosByPerfilContexProvider>
                         <TiposApoyosContextProvider>
                           <TiposBeneficiariosContextProvider>
-                            <Switch>
-                              <Route path="/admin" component={Admin} />
-                              <Redirect from="/" to="/admin/dashboard" />
-                              {/* <Route path="/rtl" component={RTL} />
+                            <ComiteSecretariasContextProvider>
+                              <EdadesBeneficiariosContextProvider>
+                                <MotivoRechazosContextProvider>
+                                  <NumeroApoyosContextProvider>
+                                    <PeriodicidadApoyosContextProvider>
+                                      <Switch>
+                                        <Route path="/admin" component={Admin} />
+                                        <Redirect from="/" to="/admin/dashboard" />
+                                        {/* <Route path="/rtl" component={RTL} />
                               {RenderGroup("/administrador") === true ?
                                 <Redirect from="/" to="/admin/dashboard" /> :
                                 <Redirect from="/" to="/admin/dashboardPublic" />
                               } */}
-                            </Switch>
+                                      </Switch>
+                                    </PeriodicidadApoyosContextProvider>
+                                  </NumeroApoyosContextProvider>
+                                </MotivoRechazosContextProvider>
+                              </EdadesBeneficiariosContextProvider>
+                            </ComiteSecretariasContextProvider>
                           </TiposBeneficiariosContextProvider>
                         </TiposApoyosContextProvider>
                       </SubmodulosByPerfilContexProvider>
