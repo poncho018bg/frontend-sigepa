@@ -228,9 +228,10 @@ export default function Sidebar(props) {
     
     UserService.doLogout();
     dispatch(cerrarSesion());
-   
-   
-
+   console.log('Cerrando sesion')
+   //cambiar esta forma de redireccionar
+   //browserHistory.replace('http://10.4.2.135/frontend-sigepa')
+   window.location.replace('http://10.4.2.135/frontend-sigepa')
     
     setOpenDialog(false);
   }
