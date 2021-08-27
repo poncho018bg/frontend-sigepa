@@ -226,10 +226,10 @@ export default function Sidebar(props) {
   }
   function handleDeshabilitar() {
     
-
-    dispatch(cerrarSesion());
     UserService.doLogout();
-    history.push('/')
+    dispatch(cerrarSesion());
+   
+   
 
     
     setOpenDialog(false);

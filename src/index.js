@@ -67,11 +67,12 @@ const renderApp = () => ReactDOM.render(
                           <TiposBeneficiariosContextProvider>
                             <Switch>
                               <Route path="/admin" component={Admin} />
-                              {/*<Route path="/rtl" component={RTL} />*/}
+                              <Redirect from="/" to="/admin/dashboard" />
+                              {/* <Route path="/rtl" component={RTL} />
                               {RenderGroup("/administrador") === true ?
                                 <Redirect from="/" to="/admin/dashboard" /> :
                                 <Redirect from="/" to="/admin/dashboardPublic" />
-                              }
+                              } */}
                             </Switch>
                           </TiposBeneficiariosContextProvider>
                         </TiposApoyosContextProvider>
