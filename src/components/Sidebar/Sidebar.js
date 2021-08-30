@@ -611,7 +611,7 @@ function Sidebar(props) {
     //UserService.doLogout();
   }
   function handleDeshabilitar() {
-    
+    window.location.replace('http://10.4.2.135/frontend-sigepa/')
     UserService.doLogout();
     dispatch(cerrarSesion());
    console.log('Cerrando sesion')
