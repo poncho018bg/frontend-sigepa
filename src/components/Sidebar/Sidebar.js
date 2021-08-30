@@ -112,7 +112,7 @@ const roles = () => {
     UserService.getRoles().roles.map((rol) => {
       if (rol != 'offline_access') {
         if (rol != 'uma_authorization') {
-          return (<p>{rol}</p>);
+          return (<>{rol}</>);
         }
       }
     })
@@ -223,6 +223,7 @@ function Sidebar(props) {
             [classes.collapseItemMiniRTL]: rtlActive,
           });
         return (
+         
           <ListItem
             key={key}
             className={cx(
@@ -246,7 +247,7 @@ function Sidebar(props) {
                   <prop.icon className={itemIcon} />
                 )
               ) : (
-                <span className={collapseItemMini}>
+                <span className={collapseItemMini} style={{fontSize:`1px`}}>
                   {rtlActive ? prop.rtlMini : prop.mini}
                 </span>
               )}
@@ -326,6 +327,7 @@ function Sidebar(props) {
             { [classes.collapseItem]: prop.icon === undefined }
           )}
         >
+           
           <NavLink
             to={prop.layout + prop.path}
             className={cx(

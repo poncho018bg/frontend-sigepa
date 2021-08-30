@@ -13,6 +13,7 @@
 */
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
+import Image from "@material-ui/icons/Image";
 
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
@@ -29,8 +30,9 @@ import { TipoBeneficiarioScreen } from "views/Catalogos/TiposBeneficiarios/TipoB
 import { ComiteSecretariasScreen } from "views/Catalogos/ComiteSecretarias/ComiteSecretariasScreen";
 import { EdadesBeneficiariosScreen } from "views/Catalogos/EdadesBeneficiarios/EdadesBeneficiariosScreen";
 import { MotivoRechazosScreen } from "views/Catalogos/MotivoRechazos/MotivoRechazosScreen";
-import { NumeroApoyosScreen } from "views/Catalogos/NumeroApoyos/numeroApoyosScreen";
+//import { NumeroApoyosScreen } from "views/Catalogos/NumeroApoyos/numeroApoyosScreen";
 import { PeriodicidadApoyosScreen } from "views/Catalogos/PeriodicidadApoyos/PeriodicidadApoyosScreen";
+import { NumeroApoyosScreen } from "views/Catalogos/NumeroApoyos/NumeroApoyosScreen";
 
 
 
@@ -50,79 +52,115 @@ const dashboardRoutes = [
     component: DashboardPublic,
     layout: "/admin"
   },
+
   {
-    path: "/modulos",
-    name: "Modulos",
-    rtlName: "لوحة القيادة",
+    path: "/dashboardPublic",
+    name: "Dashboard Publico",
     icon: Dashboard,
-    component: ModuloScreen,
+    component: DashboardPublic,
     layout: "/admin"
   },
+
+  //CATALOGOS
   {
-    path: "/submodulos",
-    name: "Submódulos",
-    rtlName: "لوحة القيادة",
-    icon: Dashboard,
-    component: SubModuloScreen,
-    layout: "/admin"
-  },
-  {
-    path: "/roles",
-    name: "Roles",
-    rtlName: "لوحة القيادة",
-    icon: Dashboard,
-    component: RolesScreen,
-    layout: "/admin"
-  },
-  {
-    path: "/tiposApoyos",
-    name: "Tipos de Apoyo",
-    icon: Dashboard,
-    component: TipoApoyoScreen,
-    layout: "/admin"
-  },
-  {
-    path: "/tiposBeneficiario",
-    name: "Tipos de Beneficiarios",
-    icon: Dashboard,
-    component: TipoBeneficiarioScreen,
-    layout: "/admin"
-  },
-  {
-    path: "/comitessecretarias",
-    name: "Comites Secretarías",
-    icon: Dashboard,
-    component: ComiteSecretariasScreen,
-    layout: "/admin"
-  },
-  {
-    path: "/edadesBeneficiarios",
-    name: "Edades Beneficiarios",
-    icon: Dashboard,
-    component: EdadesBeneficiariosScreen,
-    layout: "/admin"
-  },
-  {
-    path: "/motivosRechazos",
-    name: "Motivos Rechazos",
-    icon: Dashboard,
-    component: MotivoRechazosScreen,
-    layout: "/admin"
-  },
-  {
-    path: "/numeroApoyos",
-    name: "Número de Apoyos",
-    icon: Dashboard,
-    component: NumeroApoyosScreen,
-    layout: "/admin"
-  },
-  {
-    path: "/periodicidadApoyos",
-    name: "Periodicidad Apoyos",
-    icon: Dashboard,
-    component: PeriodicidadApoyosScreen,
-    layout: "/admin"
-  },
+    collapse: true,
+    name: "Catalogos",
+    rtlName: "صفحات",
+    icon: Image,
+    state: "pageCollapse",
+    views: [
+      {
+        path: "/modulos",
+        name: "Modulos",
+        rtlName: "modulos",
+        mini: "M",
+        rtlMini: "m",
+        component: ModuloScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/submodulos",
+        name: "Submódulos",
+        rtlName: "submodulos",
+        mini: "SB",
+        rtlMini: "sb",
+        component: SubModuloScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/roles",
+        name: "Roles",
+        rtlName: "roles",
+        mini: "R",
+        rtlMini: "r",
+        component: RolesScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/tiposApoyos",
+        name: "Tipos de Apoyo",
+        rtlName: "tipoapoyo",
+        mini: "TA",
+        rtlMini: "ta",
+        component: TipoApoyoScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/tiposBeneficiario",
+        name: "Tipos de Beneficiarios",
+        rtlName: "tipobeneficiario",
+        mini: "TB",
+        rtlMini: "tb",
+        component: TipoBeneficiarioScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/comitessecretarias",
+        name: "Comites Secretarías",
+        rtlName: "comitesecretarias",
+        mini: "CS",
+        rtlMini: "cs",
+        component: ComiteSecretariasScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/edadesBeneficiarios",
+        name: "Edades Beneficiarios",
+        rtlName: "edadesbeneficiarios",
+        mini: "EB",
+        rtlMini: "eb",
+        component: EdadesBeneficiariosScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/motivosRechazos",
+        name: "Motivos Rechazos",
+        rtlName: "motivosrechazos",
+        mini: "MR",
+        rtlMini: "mr",
+        component: MotivoRechazosScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/numeroApoyos",
+        name: "Número de Apoyos",
+        rtlName: "numapoyos",
+        mini: "NA",
+        rtlMini: "na",
+        component: NumeroApoyosScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/periodicidadApoyos",
+        name: "Periodicidad Apoyos",
+        rtlName: "periodicidadapoyos",
+        mini: "PA",
+        rtlMini: "pa",
+        component: PeriodicidadApoyosScreen,
+        layout: "/admin"
+      },
+    ]
+  }
 ];
 
 export default dashboardRoutes;
