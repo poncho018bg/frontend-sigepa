@@ -45,21 +45,7 @@ const dashboardRoutes = [
     component: DashboardPage,
     layout: "/admin"
   },
-  {
-    path: "/dashboardPublic",
-    name: "Dashboard Publico",
-    icon: Dashboard,
-    component: DashboardPublic,
-    layout: "/admin"
-  },
-
-  {
-    path: "/dashboardPublic",
-    name: "Dashboard Publico",
-    icon: Dashboard,
-    component: DashboardPublic,
-    layout: "/admin"
-  },
+  
 
   //CATALOGOS
   {
