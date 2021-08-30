@@ -21,13 +21,14 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 
-import { TiposBeneficiariosContext } from 'contexts/catalogos/tiposBeneficiariosContext';
+//contexts
+import { EdadesBeneficiariosContext } from 'contexts/catalogos/edadesBeneficiariosContext';
 import { ModalContext } from 'contexts/modalContex';
 import { Modal } from 'commons/Modal';
 
 
-import { TipoBeneficiarioForm } from './TipoBeneficiarioForm';
-import { TipoBeneficiarioEdit } from './TipoBeneficiarioEdit';
+import { EdadesBeneficiariosForm } from './EdadesBeneficiariosForm';
+import { EdadesBeneficiariosEdit } from './EdadesBeneficiariosEdit';
 
 import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
@@ -36,15 +37,15 @@ import { ModalUpdate } from 'commons/ModalUpdate';
 
 const useStyles = makeStyles(stylesArchivo);
 
-export const TipoBeneficiarioScreen = () => {
+export const EdadesBeneficiariosScreen = () => {
 
     const classes = useStyles();
     //const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(1);
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
-    const [tipoBeneficiarioSeleccionado, setTipoBeneficiarioSeleccionado] = useState();
-    const { getTipoBeneficiarios, eliminarTiposBeneficiarios, tiposBeneficiariosList } = useContext(TiposBeneficiariosContext);
+    const [edadesBeneficiariosSeleccionado, setEdadesBeneficiariosSeleccionado] = useState();
+    const { getEdadesBeneficiarios, eliminarEdadesBeneficiarios, edadesBeneficiariosList } = useContext(EdadesBeneficiariosContext);
     const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
     const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -52,9 +53,9 @@ export const TipoBeneficiarioScreen = () => {
         = useContext(ModalContextUpdate);
 
     useEffect(() => {
-        getTipoBeneficiarios();
+        getEdadesBeneficiarios();
         // eslint-disable-next-line
-        console.log("tipo de apoyo", tiposBeneficiariosList);
+        console.log("tipo de apoyo", edadesBeneficiariosList);
     }, []);
 
     const total = 0;
@@ -70,7 +71,7 @@ export const TipoBeneficiarioScreen = () => {
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
-        setTipoBeneficiarioSeleccionado(e);
+        setEdadesBeneficiariosSeleccionado(e);
     }
 
     const addDialog = () => {
@@ -84,7 +85,7 @@ export const TipoBeneficiarioScreen = () => {
 
 
     const handleDeshabilitar = () => {
-        eliminarTiposBeneficiarios(idEliminar)
+        eliminarEdadesBeneficiarios(idEliminar)
         setShowModalDelete(false);
     }
 
@@ -93,9 +94,9 @@ export const TipoBeneficiarioScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Tipos de Beneficiarios</h4>
+                    <h4 className={classes.cardTitleWhite}>Edades Beneficiarios</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Esta pantalla permite agregar tipos de Beneficiario
+                        Esta pantalla permite agregar las Edades para Beneficiarios
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -134,9 +135,9 @@ export const TipoBeneficiarioScreen = () => {
                         < TableBody >
                             {
                                 (searched ?
-                                    tiposBeneficiariosList.filter(row => row.dstipobeneficiario ?
-                                        row.dstipoapoyo.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : tiposBeneficiariosList
+                                    edadesBeneficiariosList.filter(row => row.dsedadbeneficiario ?
+                                        row.dsedadbeneficiario.toLowerCase().includes(searched.toLowerCase()) : null)
+                                    : edadesBeneficiariosList
                                 ).map(row => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
@@ -149,7 +150,7 @@ export const TipoBeneficiarioScreen = () => {
                                                 />
                                             </TableCell>
                                             <TableCell>{row.id}</TableCell>
-                                            <TableCell>{row.dstipobeneficiario}</TableCell >
+                                            <TableCell>{row.dsedadbeneficiario}</TableCell >
                                             <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
@@ -180,13 +181,13 @@ export const TipoBeneficiarioScreen = () => {
                 </CardBody>
             </Card>
             <Modal>
-                <TipoBeneficiarioForm />
+                <EdadesBeneficiariosForm />
             </Modal>
             <ModalDelete
                 handleDeshabilitar={handleDeshabilitar}
             />
             <ModalUpdate>
-                <TipoBeneficiarioEdit tipoBeneficiarioSeleccionado={tipoBeneficiarioSeleccionado} />
+                <EdadesBeneficiariosEdit edadesBeneficiariosSeleccionado={edadesBeneficiariosSeleccionado} />
             </ModalUpdate>
         </GridItem>
 
