@@ -643,13 +643,13 @@ const roles = () => {
     //UserService.doLogout();
   }
   function handleDeshabilitar() {
-    window.location.replace('http://10.4.2.135/frontend-sigepa/')
+    //window.location.replace('http://10.4.2.135/frontend-sigepa/')
     UserService.doLogout();
-    dispatch(cerrarSesion());
-    console.log('Cerrando sesion')
+    //dispatch(cerrarSesion());
+    console.log('Cerrando sesion3')
     //cambiar esta forma de redireccionar
     //browserHistory.replace('http://10.4.2.135/frontend-sigepa')
-    window.location.replace('http://10.4.2.135/frontend-sigepa/')
+    //window.location.replace('http://10.4.2.135/frontend-sigepa/')
 
     setOpenDialog(false);
   }
