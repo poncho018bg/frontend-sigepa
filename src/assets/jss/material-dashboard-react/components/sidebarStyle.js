@@ -176,7 +176,7 @@ const sidebarStyle = theme => ({
     ...defaultFont,
     margin: "0",
     lineHeight: "30px",
-    fontSize: "14px",
+    fontSize: "12px",
     color: whiteColor
   },
   itemTextRTL: {
