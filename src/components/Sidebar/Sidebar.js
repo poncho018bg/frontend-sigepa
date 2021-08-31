@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React,{useEffect, useState}from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
@@ -28,12 +28,15 @@ import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
 import UserService from "../../servicios/UserService";
 import { DialogLogOut } from "views/Dialogs/DialogLogOut";
 import { cerrarSesion } from "actions/SesionAction";
+import { useDispatch, useSelector } from 'react-redux';
 
 //import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sidebarStyle.js";
 import sidebarStyle from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 
 import avatar from "assets/img/faces/avatar.jpg";
 import { Avatar } from "@material-ui/core";
+import { getSubmodulosByperfil } from "actions/perfilSubmoduloAction";
+import { obtenerRolesAction } from "actions/rolesKeycloakAction";
 
 const useStyles = makeStyles(sidebarStyle);
 
@@ -64,10 +67,10 @@ const useStylesCard = makeStyles((theme) => ({
     wordBreak: 'break-all',
     width: '3em !important',
   },
-  subheader:{
+  subheader: {
     color: '#fff',
   },
-  card:{
+  card: {
     color: '#fff !important',
     background: 'transparent'
   }
@@ -82,7 +85,9 @@ var ps;
 // the links, and couldn't initialize the plugin.
 function SidebarWrapper({ className, user, headerLinks, links }) {
   const sidebarWrapper = React.useRef();
+   
   React.useEffect(() => {
+    
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(sidebarWrapper.current, {
         suppressScrollX: true,
@@ -120,20 +125,24 @@ const roles = () => {
 
 }
 
-
-function Sidebar(props) {
+ function Sidebar(props) {
+  //console.log('PROPS=>',props)
   const classes = useStyles();
   const [miniActive, setMiniActive] = React.useState(true);
   const classesCard = useStylesCard();
   const [openProfile, setOpenProfile] = React.useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const dispatch = useDispatch();
+  const  rolesall  = useSelector(state => state.roles);
+  const  perfilSubmodulos  = useSelector(state => state.perfilSubmodulos);
+
   // to check for active links and opened collapses
   let location = useLocation();
   // this is for the user collapse
   const [openAvatar, setOpenAvatar] = React.useState(false);
   // this is for the rest of the collapses
   const [state, setState] = React.useState({});
-  React.useEffect(() => {
+  React.useEffect(() => {   
     setState(getCollapseStates(props.routes));
   }, []);
   const mainPanel = React.useRef();
@@ -169,6 +178,15 @@ function Sidebar(props) {
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
     return location.pathname === routeName ? "active" : "";
+  };
+
+
+  const validateprofiles = (routeNam, lstRoutes) => {   
+    //console.log('filter=>',lstRoutes.filter(md => md === routeNam))
+   if( lstRoutes.filter(md => md === routeNam).length !== 0){
+     return true
+   }
+    
   };
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = (routes) => {
@@ -223,7 +241,7 @@ function Sidebar(props) {
             [classes.collapseItemMiniRTL]: rtlActive,
           });
         return (
-         
+
           <ListItem
             key={key}
             className={cx(
@@ -231,7 +249,7 @@ function Sidebar(props) {
               { [classes.collapseItem]: prop.icon === undefined }
             )}
           >
-            
+
             <NavLink
               to={"#"}
               className={navLinkClasses}
@@ -247,7 +265,7 @@ function Sidebar(props) {
                   <prop.icon className={itemIcon} />
                 )
               ) : (
-                <span className={collapseItemMini} style={{fontSize:`1px`}}>
+                <span className={collapseItemMini} style={{ fontSize: `1px` }}>
                   {rtlActive ? prop.rtlMini : prop.mini}
                 </span>
               )}
@@ -327,7 +345,8 @@ function Sidebar(props) {
             { [classes.collapseItem]: prop.icon === undefined }
           )}
         >
-           
+
+
           <NavLink
             to={prop.layout + prop.path}
             className={cx(
@@ -335,25 +354,38 @@ function Sidebar(props) {
               { [innerNavLinkClasses]: prop.icon === undefined }
             )}
           >
-            {prop.icon !== undefined ? (
-              typeof prop.icon === "string" ? (
-                <Icon className={itemIcon}>{prop.icon}</Icon>
-              ) : (
-                <prop.icon className={itemIcon} />
-              )
+            
+            {/*INICIO PRUEBA DE PERMISOS */}
+            {validateprofiles(prop.name,props.pantallasview) ? (
+              <>
+              
+                {prop.icon !== undefined ? (
+                  typeof prop.icon === "string" ? (
+                    <Icon className={itemIcon}>{prop.icon}</Icon>
+                  ) : (
+                    <prop.icon className={itemIcon} />
+                  )
+                ) : (
+                  <span className={collapseItemMini}>
+                    {rtlActive ? prop.rtlMini : prop.mini}
+                  </span>
+                )}
+                <ListItemText
+                  primary={rtlActive ? prop.rtlName : prop.name}
+                  disableTypography={true}
+                  className={cx(
+                    { [itemText]: prop.icon !== undefined },
+                    { [collapseItemText]: prop.icon === undefined }
+                  )}
+                />
+              </>
             ) : (
-              <span className={collapseItemMini}>
-                {rtlActive ? prop.rtlMini : prop.mini}
-              </span>
-            )}
-            <ListItemText
-              primary={rtlActive ? prop.rtlName : prop.name}
-              disableTypography={true}
-              className={cx(
-                { [itemText]: prop.icon !== undefined },
-                { [collapseItemText]: prop.icon === undefined }
-              )}
-            />
+              <></>
+            )
+
+            }
+
+            {/*FIN PRUEBA DE PERMISOS */}
           </NavLink>
         </ListItem>
       );
@@ -403,10 +435,10 @@ function Sidebar(props) {
     });
   var user = (
     <div className={userWrapperClass}>
-      
+
       <List className={classes.list}>
         <ListItem className={classes.item + " " + classes.userItem}>
-          
+
           <Collapse in={openAvatar} unmountOnExit>
             <List className={classes.list + " " + classes.collapseList}>
               <ListItem className={classes.collapseItem}>
@@ -459,10 +491,10 @@ function Sidebar(props) {
         </ListItem>
       </List>
 
-      <div style={{ position: `fixed`, bottom: `0px`, width: `15em`, wordBreak:`break-word`}}>
+      <div style={{ position: `fixed`, bottom: `0px`, width: `15em`, wordBreak: `break-word` }}>
         <Card className={classesCard.card}>
           <CardHeader
-           className={classesCard.card}
+            className={classesCard.card}
             avatar={
               <Avatar aria-label="recipe" style={{ color: `#fff` }}>
                 <PersonIcon style={{ color: `#fff` }}></PersonIcon>
@@ -475,10 +507,10 @@ function Sidebar(props) {
                 <ExitToAppIcon />
               </IconButton>
             }
-            title= {<Typography className={classes.title}>{nombre()}</Typography>}
-            subheader=  {<Typography className={classes.title}>{roles().slice(0,1)}</Typography>}
+            title={<Typography className={classes.title}>{nombre()}</Typography>}
+            subheader={<Typography className={classes.title}>{roles().slice(0, 1)}</Typography>}
           />
-          
+
         </Card>
       </div>
       <DialogLogOut
@@ -599,7 +631,7 @@ function Sidebar(props) {
           ) : null}
         </Drawer>
       </Hidden>
-  
+
     </div>
   );
 
@@ -614,14 +646,14 @@ function Sidebar(props) {
     window.location.replace('http://10.4.2.135/frontend-sigepa/')
     UserService.doLogout();
     dispatch(cerrarSesion());
-   console.log('Cerrando sesion')
-   //cambiar esta forma de redireccionar
-   //browserHistory.replace('http://10.4.2.135/frontend-sigepa')
-   window.location.replace('http://10.4.2.135/frontend-sigepa/')
-    
+    console.log('Cerrando sesion')
+    //cambiar esta forma de redireccionar
+    //browserHistory.replace('http://10.4.2.135/frontend-sigepa')
+    window.location.replace('http://10.4.2.135/frontend-sigepa/')
+
     setOpenDialog(false);
   }
-  
+
 }
 
 Sidebar.defaultProps = {

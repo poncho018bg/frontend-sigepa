@@ -18,7 +18,35 @@ export function obtenerPerfilSubmoduloAction() {
     }
 }
 
+export const getSubmodulosByperfil = ( idPerfil) => {
+    console.log('entro al metodo getSubmodulosByperfil',idPerfil)
+    return async (dispatch) => {
+        dispatch(descargarPerfilSubmodulo());
+        try {
+            const data = await axiosGet(`perfilessubmodulosOverride/${idPerfil}`);
+            console.log(data);
+            dispatch(descargaPerfilSubmoduloExitosa(data));
+        } catch (error) {
+            console.log(error);
+            dispatch(descargaPerfilSubmoduloError())
+        }
+    }
+}
 
+export const getSubmodulosByPerfilId = ( idPerfil) => {
+    console.log('entro al metodo getSubmodulosByperfilID',idPerfil)
+    return async (dispatch) => {
+        dispatch(descargarPerfilSubmodulo());
+        try {
+            const data = await axiosGet(`perfilessubmodulosOverride/SubmodulosByPerfilId/${idPerfil}`);
+            console.log(data);
+            dispatch(descargaPerfilSubmoduloExitosa(data));
+        } catch (error) {
+            console.log(error);
+            dispatch(descargaPerfilSubmoduloError())
+        }
+    }
+}
 
 const descargarPerfilSubmodulo = () => ({
     type: typesPerfilSubmodulo.COMENZAR_DESCARGA_PERFILSUBMODULO,
@@ -51,6 +79,8 @@ export const PerfilSubmoduloStartAddNew = (perfilsubmodulo) => {
         }
     }
 }
+
+
 
 const perfilSubmodulosAdded = (perfilsubmodulo) => ({
     type: typesPerfilSubmodulo.AGREGAR_PERFILSUBMODULO_EXITO,

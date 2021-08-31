@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import cx from "classnames";
 import { Switch, Route, Redirect } from "react-router-dom";
 // creates a beautiful scrollbar
@@ -17,6 +17,10 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 import routes from "routes.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/layouts/adminStyle.js";
+import { useDispatch, useSelector } from "react-redux";
+import { getSubmodulosByPerfilId } from "actions/perfilSubmoduloAction";
+import UserService from "servicios/UserService";
+import { obtenerRolesAction } from "actions/rolesKeycloakAction";
 
 var ps;
 
@@ -30,6 +34,12 @@ export default function Dashboard(props) {
   const [image, setImage] = React.useState(
     require("assets/img/sidebar-2.jpg").default
   );
+  const dispatch = useDispatch();
+  const  rolesall  = useSelector(state => state.roles);
+  const  {perfilSubmodulos}  = useSelector(state => state.submodulosbyperfil);
+  const [rolUser,setRolUser] = React.useState('');
+  const [opcionesMenu,setOpcionesMenu] = React.useState('');
+ 
   const [color, setColor] = React.useState("blue");
   const [bgColor, setBgColor] = React.useState("black");
   // const [hasImage, setHasImage] = React.useState(true);
@@ -144,8 +154,49 @@ export default function Dashboard(props) {
     }
   };
 
+ 
+  React.useEffect(() => {      
+    {console.log("grupos {1}", UserService.getGroups())}   
+    const cargarRolesActivos = () => dispatch(obtenerRolesAction());
+    cargarRolesActivos();    
+  }, [UserService.getGroups()]);
+
+
+  React.useEffect(() => {    
+    
+    console.log('Todos los roles =>',rolesall.roles)
+    rolesall.roles.forEach(element => {
+      console.log('KR',element.path,)
+      console.log('UR',UserService.getGroups())
+       if(element.path === UserService.getGroups()[0]){
+        setRolUser( element.id)
+         console.log('rolUser',rolUser)
+       }
+    });    
+
+  }, [rolesall]);
+
+  React.useEffect(() => {      
+    console.log('entro a getSubmodulosByPerfilId 123')
+     const cargarPerfilesActivos = () => dispatch(getSubmodulosByPerfilId(rolUser)); 
+     cargarPerfilesActivos();
+
+   
+  }, [rolUser]);
+
+  React.useEffect(() => {      
+    setOpcionesMenu(perfilSubmodulos)
+    console.log('Permisos=>',perfilSubmodulos)
+  }, [perfilSubmodulos]);
+
+
+
+
+
   return (
     <div className={classes.wrapper}>
+      {console.log('perfiles1we=>',opcionesMenu)}
+     
       <Sidebar
         routes={routes}
         logoText={"SIGEPA"}
@@ -156,6 +207,7 @@ export default function Dashboard(props) {
         color={color}
         bgColor={bgColor}
         miniActive={miniActive}
+        pantallasview={perfilSubmodulos}
         {...rest}
       />
       <div className={mainPanelClasses} ref={mainPanel}>

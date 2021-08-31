@@ -20,7 +20,7 @@ import { Router, Route, Switch, Redirect } from "react-router-dom";
 // core components
 //import Admin from "layouts/Admin.js";
 import RTL from "layouts/RTL.js";
-import { Provider } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import "assets/css/material-dashboard-react.css?v=1.9.0";
 import { store } from "store/store";
 
@@ -48,17 +48,21 @@ import { EdadesBeneficiariosContextProvider } from "contexts/catalogos/edadesBen
 import { MotivoRechazosContextProvider } from "contexts/catalogos/motivoRechazosContext";
 import { NumeroApoyosContextProvider } from "contexts/catalogos/numeroApoyosContext";
 import { PeriodicidadApoyosContextProvider } from "contexts/catalogos/periodicidadApoyosContext";
+import { obtenerRolesAction } from "actions/rolesKeycloakAction";
+import { getSubmodulosByperfil } from "actions/perfilSubmoduloAction";
 
 //const hist = createBrowserHistory();
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
-const theme = createMuiTheme({
+const theme = createMuiTheme({ 
 }, esES);
 
 const renderApp = () => ReactDOM.render(
+  
   <ThemeProvider theme={theme}>
     {console.log("grupos {}", UserService.getGroups())}
+    
     <Router history={hist}>
       <Provider store={store}>
         <ModalContextProvider>
@@ -75,7 +79,7 @@ const renderApp = () => ReactDOM.render(
                               <EdadesBeneficiariosContextProvider>
                                 <MotivoRechazosContextProvider>
                                   <NumeroApoyosContextProvider>
-                                    <PeriodicidadApoyosContextProvider>
+                                    <PeriodicidadApoyosContextProvider>                                      
                                       <Switch>
                                         <Route path="/admin" component={Admin} />
                                         <Redirect from="/" to="/admin/dashboard" />
@@ -107,7 +111,6 @@ const renderApp = () => ReactDOM.render(
 
 HttpService.configure();
 UserService.initKeycloak(renderApp);
-
 
 /*
 const hist = createBrowserHistory();
