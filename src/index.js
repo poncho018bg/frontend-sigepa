@@ -50,6 +50,7 @@ import { NumeroApoyosContextProvider } from "contexts/catalogos/numeroApoyosCont
 import { PeriodicidadApoyosContextProvider } from "contexts/catalogos/periodicidadApoyosContext";
 import { obtenerRolesAction } from "actions/rolesKeycloakAction";
 import { getSubmodulosByperfil } from "actions/perfilSubmoduloAction";
+import { CursosCapacitacionesContextProvider } from "contexts/catalogos/CursosCapacitaciones/cursosCapacitacionesContext";
 
 //const hist = createBrowserHistory();
 
@@ -102,7 +103,9 @@ const AppState = ({ children }) => {
                           <MotivoRechazosContextProvider>
                             <NumeroApoyosContextProvider>
                               <PeriodicidadApoyosContextProvider>    
+                                <CursosCapacitacionesContextProvider>
                                   {children}
+                                  </CursosCapacitacionesContextProvider>
                                 </PeriodicidadApoyosContextProvider>
                                   </NumeroApoyosContextProvider>
                                 </MotivoRechazosContextProvider>

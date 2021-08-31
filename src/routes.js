@@ -33,6 +33,7 @@ import { MotivoRechazosScreen } from "views/Catalogos/MotivoRechazos/MotivoRecha
 //import { NumeroApoyosScreen } from "views/Catalogos/NumeroApoyos/numeroApoyosScreen";
 import { PeriodicidadApoyosScreen } from "views/Catalogos/PeriodicidadApoyos/PeriodicidadApoyosScreen";
 import { NumeroApoyosScreen } from "views/Catalogos/NumeroApoyos/NumeroApoyosScreen";
+import { CursosCapacitacionesScreen } from "views/Catalogos/CursosCapacitaciones/CursosCapacitacionesScreen";
 
 
 
@@ -143,6 +144,16 @@ const dashboardRoutes = [
         mini: "PA",
         rtlMini: "pa",
         component: PeriodicidadApoyosScreen,
+        layout: "/admin"
+      },
+
+      {
+        path: "/cursosCapacitaciones",
+        name: "Cursos Capacitaciones",
+        rtlName: "cursoscapacitaciones",
+        mini: "PA",
+        rtlMini: "pa",
+        component: CursosCapacitacionesScreen,
         layout: "/admin"
       },
     ]
