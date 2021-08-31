@@ -14,6 +14,14 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Image from "@material-ui/icons/Image";
+import FolderIcon from '@material-ui/icons/Folder';
+import MoveToInboxIcon from '@material-ui/icons/MoveToInbox';
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import CreditCardIcon from '@material-ui/icons/CreditCard';
+import DescriptionIcon from '@material-ui/icons/Description';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
+import TimelineIcon from '@material-ui/icons/Timeline';
+import MarkunreadMailboxIcon from '@material-ui/icons/MarkunreadMailbox';
 
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
@@ -27,6 +35,7 @@ import { SubModuloScreen } from "views/SubModulos/SubModuloScreen";
 import { TipoApoyoScreen } from "views/Catalogos/TipoApoyo/TipoApoyoScreen"
 import { TipoBeneficiarioScreen } from "views/Catalogos/TiposBeneficiarios/TipoBeneficiarioScreen";
 
+
 import { ComiteSecretariasScreen } from "views/Catalogos/ComiteSecretarias/ComiteSecretariasScreen";
 import { EdadesBeneficiariosScreen } from "views/Catalogos/EdadesBeneficiarios/EdadesBeneficiariosScreen";
 import { MotivoRechazosScreen } from "views/Catalogos/MotivoRechazos/MotivoRechazosScreen";
@@ -37,15 +46,95 @@ import { NumeroApoyosScreen } from "views/Catalogos/NumeroApoyos/NumeroApoyosScr
 
 
 const dashboardRoutes = [
+
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    rtlName: "لوحة القيادة",
-    icon: Dashboard,
-    component: DashboardPage,
-    layout: "/admin"
+    collapse: true,
+    name: "Administración General",
+    rtlName: "ag",
+    icon: FolderIcon,
+    state: "pageCollapse",
+    views: [
+      {
+      }
+    ]
   },
-  
+  {
+    collapse: true,
+    name: "Bandeja General de Solicitudes ",
+    rtlName: "bgs",
+    icon: MoveToInboxIcon,
+    state: "pageCollapse",
+    views: [
+      {
+      }
+    ]
+  }
+  , {
+    collapse: true,
+    name: "Entrega de Apoyos",
+    rtlName: "صفحات",
+    icon: LocalShippingIcon,
+    state: "pageCollapse",
+    views: [
+      {
+      }
+    ]
+  },
+  {
+    collapse: true,
+    name: "Módulos de dispersión",
+    rtlName: "صفحات",
+    icon: CreditCardIcon,
+    state: "pageCollapse",
+    views: [
+      {
+      }
+    ]
+  },
+  {
+    collapse: true,
+    name: "Bitácora",
+    rtlName: "صفحات",
+    icon: DescriptionIcon,
+    state: "pageCollapse",
+    views: [
+      {
+      }
+    ]
+  },
+  {
+    collapse: true,
+    name: "Dashboard",
+    rtlName: "صفحات",
+    icon: EqualizerIcon,
+    state: "pageCollapse",
+    views: [
+      {
+      }
+    ]
+  },
+  {
+    collapse: true,
+    name: "Reportes",
+    rtlName: "صفحات",
+    icon: TimelineIcon,
+    state: "pageCollapse",
+    views: [
+      {
+      }
+    ]
+  },
+  {
+    collapse: true,
+    name: "Buzón de Notificaciones",
+    rtlName: "صفحات",
+    icon: MarkunreadMailboxIcon,
+    state: "pageCollapse",
+    views: [
+      {
+      }
+    ]
+  },
 
   //CATALOGOS
   {
