@@ -65,31 +65,45 @@ const renderApp = () => ReactDOM.render(
     
     <Router history={hist}>
       <Provider store={store}>
-        <ModalContextProvider>
-          <ModalContextDeleteProvider>
-            <ModalContextUpdateProvider>
-              <PersonContextProvider>
-                <ModuloContextProvider>
-                  <SubModuloContextProvider>
-                    <ModuloSubContextProvider>
-                      <SubmodulosByPerfilContexProvider>
-                        <TiposApoyosContextProvider>
-                          <TiposBeneficiariosContextProvider>
-                            <ComiteSecretariasContextProvider>
-                              <EdadesBeneficiariosContextProvider>
-                                <MotivoRechazosContextProvider>
-                                  <NumeroApoyosContextProvider>
-                                    <PeriodicidadApoyosContextProvider>                                      
-                                      <Switch>
-                                        <Route path="/admin" component={Admin} />
-                                        <Redirect from="/" to="/admin/dashboard" />
-                                        {/* <Route path="/rtl" component={RTL} />
+        <AppState>                                    
+                <Switch>
+                        <Route path="/admin" component={Admin} />
+                              <Redirect from="/" to="/admin/dashboard" />
+                                {/* <Route path="/rtl" component={RTL} />
                               {RenderGroup("/administrador") === true ?
                                 <Redirect from="/" to="/admin/dashboard" /> :
                                 <Redirect from="/" to="/admin/dashboardPublic" />
                               } */}
-                                      </Switch>
-                                    </PeriodicidadApoyosContextProvider>
+                  </Switch>
+            </AppState>
+      </Provider>
+    </Router></ThemeProvider>,
+  document.getElementById("root")
+);
+
+HttpService.configure();
+UserService.initKeycloak(renderApp);
+
+
+const AppState = ({ children }) => {
+  return (
+    <ModalContextProvider>
+    <ModalContextDeleteProvider>
+      <ModalContextUpdateProvider>
+        <PersonContextProvider>
+          <ModuloContextProvider>
+            <SubModuloContextProvider>
+              <ModuloSubContextProvider>
+                <SubmodulosByPerfilContexProvider>
+                  <TiposApoyosContextProvider>
+                    <TiposBeneficiariosContextProvider>
+                      <ComiteSecretariasContextProvider>
+                        <EdadesBeneficiariosContextProvider>
+                          <MotivoRechazosContextProvider>
+                            <NumeroApoyosContextProvider>
+                              <PeriodicidadApoyosContextProvider>    
+                                  {children}
+                                </PeriodicidadApoyosContextProvider>
                                   </NumeroApoyosContextProvider>
                                 </MotivoRechazosContextProvider>
                               </EdadesBeneficiariosContextProvider>
@@ -103,14 +117,9 @@ const renderApp = () => ReactDOM.render(
               </PersonContextProvider>
             </ModalContextUpdateProvider>
           </ModalContextDeleteProvider>
-        </ModalContextProvider>
-      </Provider>
-    </Router></ThemeProvider>,
-  document.getElementById("root")
-);
-
-HttpService.configure();
-UserService.initKeycloak(renderApp);
+        </ModalContextProvider>              
+  )
+}
 
 /*
 const hist = createBrowserHistory();
