@@ -183,9 +183,10 @@ const roles = () => {
 
   const validateprofiles = (routeNam, lstRoutes) => {   
     //console.log('filter=>',lstRoutes.filter(md => md === routeNam))
-   if( lstRoutes.filter(md => md === routeNam).length !== 0){
-     return true
-   }
+  //  if( lstRoutes.filter(md => md === routeNam).length !== 0){
+  //    return true
+  //  }
+   return true
     
   };
   // this function creates the links and collapses that appear in the sidebar (left menu)
@@ -367,7 +368,7 @@ const roles = () => {
                   )
                 ) : (
                   <span className={collapseItemMini}>
-                    {rtlActive ? prop.rtlMini : prop.mini}
+                   
                   </span>
                 )}
                 <ListItemText

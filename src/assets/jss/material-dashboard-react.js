@@ -74,7 +74,7 @@ const primaryColor = ["#404447", "#535659", "#50565a", "#66696b"];
 const warningColor = ["#fA9C2A", "#faa53f", "#e18c25", "#fbaf54"];
 const dangerColor = ["#ED1949", "#ef315c", "#db113f", "#f1486e"];
 const successColor = ["#98C93C", "#a3cf50", "#8ab833", "#add464"];
-const infoColor = ["#00A6E4", "#00b9fe", "#0093cb", "#18c0ff"];
+const infoColor = ["#404447", "#00b9fe", "#0093cb", "#18c0ff"];
 const roseColor = ["#e91e63", "#ec407a", "#d81b60", "#eb3573"];
 const grayColor = [
   "#999",
