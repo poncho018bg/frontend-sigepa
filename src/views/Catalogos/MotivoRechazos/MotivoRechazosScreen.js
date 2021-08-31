@@ -81,6 +81,7 @@ export const MotivoRechazosScreen = () => {
     const deleteDialog = (e) => {
         setShowModalDelete(true);
         setIdEliminar(e.id);
+
     }
 
 

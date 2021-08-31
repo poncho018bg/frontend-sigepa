@@ -77,8 +77,9 @@ export const MotivoRechazosContextProvider = props => {
     }
 
     const eliminarMotivoRechazos = async idMotivoRechazos => {
+
         try {
-            await axiosDeleteTipo(`/motivoRechazos/${idMotivoRechazos}`);
+            await axiosDeleteTipo(`motivoRechazos/${idMotivoRechazos}`);
             dispatch({
                 type: ELIMINAR_MOTIVO_RECHAZOS,
                 payload: idMotivoRechazos,

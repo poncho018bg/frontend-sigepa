@@ -172,7 +172,7 @@ async function axiosGetTipo(endpoint) {
 
 
 async function axiosDeleteTipo(endpoint) {
-    const url = `${ baseUrlExpediente }${ endpoint }`;
+    const url = `${ baseUrl }${ endpoint }`;
     try{
             const promise = await axios({
                 method:'DELETE',
