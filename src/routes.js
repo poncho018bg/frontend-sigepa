@@ -43,6 +43,7 @@ import { MotivoRechazosScreen } from "views/Catalogos/MotivoRechazos/MotivoRecha
 import { PeriodicidadApoyosScreen } from "views/Catalogos/PeriodicidadApoyos/PeriodicidadApoyosScreen";
 import { NumeroApoyosScreen } from "views/Catalogos/NumeroApoyos/NumeroApoyosScreen";
 import { CatalogosScreen } from "views/Catalogos/CatalogosScreen";
+import { ContinuidadActividadesScreen } from "views/Catalogos/ContinuidadActividades/ContinuidadActividadesScreen";
 
 
 
@@ -242,6 +243,15 @@ const dashboardRoutes = [
         component: PeriodicidadApoyosScreen,
         layout: "/admin"
       },
+      {
+        path: "/continuidadActividades",
+        name: "Continuidad Actividades",
+        rtlName: "ContinuidadActividades",
+        mini: "CA",
+        rtlMini: "CA",
+        component: ContinuidadActividadesScreen,
+        layout: "/admin"
+      }
     ]
   }
 ];

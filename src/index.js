@@ -50,32 +50,33 @@ import { NumeroApoyosContextProvider } from "contexts/catalogos/numeroApoyosCont
 import { PeriodicidadApoyosContextProvider } from "contexts/catalogos/periodicidadApoyosContext";
 import { obtenerRolesAction } from "actions/rolesKeycloakAction";
 import { getSubmodulosByperfil } from "actions/perfilSubmoduloAction";
+import { ActividadesContinuarContextProvider } from "contexts/catalogos/ActividadesContinuarContext";
 
 //const hist = createBrowserHistory();
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
-const theme = createMuiTheme({ 
+const theme = createMuiTheme({
 }, esES);
 
 const renderApp = () => ReactDOM.render(
-  
+
   <ThemeProvider theme={theme}>
     {console.log("grupos {}", UserService.getGroups())}
-    
+
     <Router history={hist}>
       <Provider store={store}>
-        <AppState>                                    
-                <Switch>
-                        <Route path="/admin" component={Admin} />
-                              <Redirect from="/" to="/admin/dashboard" />
-                                {/* <Route path="/rtl" component={RTL} />
+        <AppState>
+          <Switch>
+            <Route path="/admin" component={Admin} />
+            <Redirect from="/" to="/admin/dashboard" />
+            {/* <Route path="/rtl" component={RTL} />
                               {RenderGroup("/administrador") === true ?
                                 <Redirect from="/" to="/admin/dashboard" /> :
                                 <Redirect from="/" to="/admin/dashboardPublic" />
                               } */}
-                  </Switch>
-            </AppState>
+          </Switch>
+        </AppState>
       </Provider>
     </Router></ThemeProvider>,
   document.getElementById("root")
@@ -88,36 +89,38 @@ UserService.initKeycloak(renderApp);
 const AppState = ({ children }) => {
   return (
     <ModalContextProvider>
-    <ModalContextDeleteProvider>
-      <ModalContextUpdateProvider>
-        <PersonContextProvider>
-          <ModuloContextProvider>
-            <SubModuloContextProvider>
-              <ModuloSubContextProvider>
-                <SubmodulosByPerfilContexProvider>
-                  <TiposApoyosContextProvider>
-                    <TiposBeneficiariosContextProvider>
-                      <ComiteSecretariasContextProvider>
-                        <EdadesBeneficiariosContextProvider>
-                          <MotivoRechazosContextProvider>
-                            <NumeroApoyosContextProvider>
-                              <PeriodicidadApoyosContextProvider>    
-                                  {children}
+      <ModalContextDeleteProvider>
+        <ModalContextUpdateProvider>
+          <PersonContextProvider>
+            <ModuloContextProvider>
+              <SubModuloContextProvider>
+                <ModuloSubContextProvider>
+                  <SubmodulosByPerfilContexProvider>
+                    <TiposApoyosContextProvider>
+                      <TiposBeneficiariosContextProvider>
+                        <ComiteSecretariasContextProvider>
+                          <EdadesBeneficiariosContextProvider>
+                            <MotivoRechazosContextProvider>
+                              <NumeroApoyosContextProvider>
+                                <PeriodicidadApoyosContextProvider>
+                                  <ActividadesContinuarContextProvider>
+                                    {children}
+                                  </ActividadesContinuarContextProvider>
                                 </PeriodicidadApoyosContextProvider>
-                                  </NumeroApoyosContextProvider>
-                                </MotivoRechazosContextProvider>
-                              </EdadesBeneficiariosContextProvider>
-                            </ComiteSecretariasContextProvider>
-                          </TiposBeneficiariosContextProvider>
-                        </TiposApoyosContextProvider>
-                      </SubmodulosByPerfilContexProvider>
-                    </ModuloSubContextProvider>
-                  </SubModuloContextProvider>
-                </ModuloContextProvider>
-              </PersonContextProvider>
-            </ModalContextUpdateProvider>
-          </ModalContextDeleteProvider>
-        </ModalContextProvider>              
+                              </NumeroApoyosContextProvider>
+                            </MotivoRechazosContextProvider>
+                          </EdadesBeneficiariosContextProvider>
+                        </ComiteSecretariasContextProvider>
+                      </TiposBeneficiariosContextProvider>
+                    </TiposApoyosContextProvider>
+                  </SubmodulosByPerfilContexProvider>
+                </ModuloSubContextProvider>
+              </SubModuloContextProvider>
+            </ModuloContextProvider>
+          </PersonContextProvider>
+        </ModalContextUpdateProvider>
+      </ModalContextDeleteProvider>
+    </ModalContextProvider>
   )
 }
 
