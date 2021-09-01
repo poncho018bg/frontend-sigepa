@@ -23,9 +23,11 @@ export const ContinuidadActividadesForm = () => {
             const { dsactividadcontinuidad } = valores
             let actividadcontinuidad = {
                 dsactividadcontinuidad: dsactividadcontinuidad,
-                activo: true
+                activo: true,
+                apoyos:[],
+                continuidadActividades:{}
             }
-            registrarActividadesContinuar(persona);
+            registrarActividadesContinuar(actividadcontinuidad);
             setShowModal(false);
         }
     })

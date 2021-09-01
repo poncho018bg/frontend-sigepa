@@ -15,7 +15,7 @@ export const ContinuidadActividadesEdit = ({ continuidadActividadesSeleccionada 
             .required('La descripción de la actividad  es obligatorio')
     });
 
-    const actualizarActividad = async valores => {
+    const actualizarActividad = async valores => {            
         actualizarActividadesContinuar(valores);
         setShowModalUpdate(false);
     }
