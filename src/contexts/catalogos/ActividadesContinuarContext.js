@@ -51,12 +51,14 @@ export const ActividadesContinuarContextProvider = props => {
 
 
     const actualizarActividadesContinuar = async continuidadActividades => {
-        console.log(continuidadActividades);
+          
+        console.log('Update=>',continuidadActividades);        
         const { id, dsactividadcontinuidad, boactivo, _links: { continuidadActividades: { href } } } = continuidadActividades;
         let continuidadActividadesEnviar = {
             id,
             dsactividadcontinuidad,
-            boactivo
+            boactivo,
+            apoyos:[]
         }
         try {
             const resultado = await axiosPostHetoas(href, continuidadActividadesEnviar, 'PUT');
