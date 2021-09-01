@@ -42,6 +42,7 @@ import { MotivoRechazosScreen } from "views/Catalogos/MotivoRechazos/MotivoRecha
 //import { NumeroApoyosScreen } from "views/Catalogos/NumeroApoyos/numeroApoyosScreen";
 import { PeriodicidadApoyosScreen } from "views/Catalogos/PeriodicidadApoyos/PeriodicidadApoyosScreen";
 import { NumeroApoyosScreen } from "views/Catalogos/NumeroApoyos/NumeroApoyosScreen";
+import { CatalogosScreen } from "views/Catalogos/CatalogosScreen";
 
 
 
@@ -55,7 +56,14 @@ const dashboardRoutes = [
     state: "pageCollapse",
     views: [
       {
-      }
+        path: "/catalogos",
+        name: "Catalogos",
+        rtlName: "cat",
+        mini: "M",
+        rtlMini: "m",
+        component: CatalogosScreen,
+        layout: "/admin"
+      },
     ]
   },
   {
