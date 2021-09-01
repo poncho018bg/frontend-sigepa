@@ -51,32 +51,33 @@ import { PeriodicidadApoyosContextProvider } from "contexts/catalogos/periodicid
 import { obtenerRolesAction } from "actions/rolesKeycloakAction";
 import { getSubmodulosByperfil } from "actions/perfilSubmoduloAction";
 import { CursosCapacitacionesContextProvider } from "contexts/catalogos/CursosCapacitaciones/cursosCapacitacionesContext";
+import { ActividadesContinuarContextProvider } from "contexts/catalogos/ActividadesContinuarContext";
 
 //const hist = createBrowserHistory();
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
-const theme = createMuiTheme({ 
+const theme = createMuiTheme({
 }, esES);
 
 const renderApp = () => ReactDOM.render(
-  
+
   <ThemeProvider theme={theme}>
     {console.log("grupos {}", UserService.getGroups())}
-    
+
     <Router history={hist}>
       <Provider store={store}>
-        <AppState>                                    
-                <Switch>
-                        <Route path="/admin" component={Admin} />
-                              <Redirect from="/" to="/admin/dashboard" />
-                                {/* <Route path="/rtl" component={RTL} />
+        <AppState>
+          <Switch>
+            <Route path="/admin" component={Admin} />
+            <Redirect from="/" to="/admin/dashboard" />
+            {/* <Route path="/rtl" component={RTL} />
                               {RenderGroup("/administrador") === true ?
                                 <Redirect from="/" to="/admin/dashboard" /> :
                                 <Redirect from="/" to="/admin/dashboardPublic" />
                               } */}
-                  </Switch>
-            </AppState>
+          </Switch>
+        </AppState>
       </Provider>
     </Router></ThemeProvider>,
   document.getElementById("root")
@@ -103,9 +104,11 @@ const AppState = ({ children }) => {
                           <MotivoRechazosContextProvider>
                             <NumeroApoyosContextProvider>
                               <PeriodicidadApoyosContextProvider>    
-                                <CursosCapacitacionesContextProvider>
-                                  {children}
-                                  </CursosCapacitacionesContextProvider>
+                                  <CursosCapacitacionesContextProvider>
+                                       <ActividadesContinuarContextProvider>
+                                             {children}
+                                        </ActividadesContinuarContextProvider>
+                                   </CursosCapacitacionesContextProvider>
                                 </PeriodicidadApoyosContextProvider>
                                   </NumeroApoyosContextProvider>
                                 </MotivoRechazosContextProvider>

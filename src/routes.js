@@ -44,6 +44,7 @@ import { PeriodicidadApoyosScreen } from "views/Catalogos/PeriodicidadApoyos/Per
 import { NumeroApoyosScreen } from "views/Catalogos/NumeroApoyos/NumeroApoyosScreen";
 import { CursosCapacitacionesScreen } from "views/Catalogos/CursosCapacitaciones/CursosCapacitacionesScreen";
 import { CatalogosScreen } from "views/Catalogos/CatalogosScreen";
+import { ContinuidadActividadesScreen } from "views/Catalogos/ContinuidadActividades/ContinuidadActividadesScreen";
 
 
 
@@ -253,6 +254,15 @@ const dashboardRoutes = [
         component: CursosCapacitacionesScreen,
         layout: "/admin"
       },
+      {
+        path: "/continuidadActividades",
+        name: "Continuidad Actividades",
+        rtlName: "ContinuidadActividades",
+        mini: "CA",
+        rtlMini: "CA",
+        component: ContinuidadActividadesScreen,
+        layout: "/admin"
+      }
     ]
   }
 ];
