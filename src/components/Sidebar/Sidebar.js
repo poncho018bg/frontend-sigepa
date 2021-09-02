@@ -185,10 +185,10 @@ const roles = () => {
     console.log('routeNam=>',routeNam)
     console.log('lstRoutes=>',lstRoutes)
     console.log('filter=>',lstRoutes.filter(md => md === routeNam))
-    if( lstRoutes.filter(md => md === routeNam).length !== 0){
-      return true
-    }
-   //return true
+    //if( lstRoutes.filter(md => md === routeNam).length !== 0){
+    //  return true
+   // }
+   return true
     
   };
   // this function creates the links and collapses that appear in the sidebar (left menu)
@@ -252,6 +252,10 @@ const roles = () => {
               { [classes.collapseItem]: prop.icon === undefined }
             )}
           >
+            <>
+ 
+            {/* AQUI VA VALIDACIÓN QUE OCULTE LOS MENUS */}
+            </>
 
             <NavLink
               to={"#"}
@@ -293,6 +297,7 @@ const roles = () => {
             <Collapse in={state[prop.state]} unmountOnExit>
               <List className={classes.list + " " + classes.collapseList}>
                 {createLinks(prop.views)}
+               
               </List>
             </Collapse>
           </ListItem>

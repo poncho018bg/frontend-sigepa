@@ -95,9 +95,9 @@ export const MotivoRechazosScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Motivos de Rechazo</h4>
+                    <h4 className={classes.cardTitleWhite}>CAUSAS DE BAJA</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Esta pantalla permite agregar los Motivos de Rechazo
+                        
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
