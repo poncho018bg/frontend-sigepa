@@ -60,7 +60,7 @@ const dashboardRoutes = [
     views: [
       {
         path: "/catalogos",
-        name: "Catalogos",
+        name: "Catálogos",
         rtlName: "cat",
         mini: "M",
         rtlMini: "m",
