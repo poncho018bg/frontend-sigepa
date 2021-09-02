@@ -52,6 +52,7 @@ import { obtenerRolesAction } from "actions/rolesKeycloakAction";
 import { getSubmodulosByperfil } from "actions/perfilSubmoduloAction";
 import { CursosCapacitacionesContextProvider } from "contexts/catalogos/CursosCapacitaciones/cursosCapacitacionesContext";
 import { ActividadesContinuarContextProvider } from "contexts/catalogos/ActividadesContinuarContext";
+import { BtActividadesContextProvider } from "contexts/catalogos/BtActividadesContext";
 
 //const hist = createBrowserHistory();
 
@@ -90,40 +91,42 @@ UserService.initKeycloak(renderApp);
 const AppState = ({ children }) => {
   return (
     <ModalContextProvider>
-    <ModalContextDeleteProvider>
-      <ModalContextUpdateProvider>
-        <PersonContextProvider>
-          <ModuloContextProvider>
-            <SubModuloContextProvider>
-              <ModuloSubContextProvider>
-                <SubmodulosByPerfilContexProvider>
-                  <TiposApoyosContextProvider>
-                    <TiposBeneficiariosContextProvider>
-                      <ComiteSecretariasContextProvider>
-                        <EdadesBeneficiariosContextProvider>
-                          <MotivoRechazosContextProvider>
-                            <NumeroApoyosContextProvider>
-                              <PeriodicidadApoyosContextProvider>    
-                                  <CursosCapacitacionesContextProvider>
-                                       <ActividadesContinuarContextProvider>
-                                             {children}
-                                        </ActividadesContinuarContextProvider>
+      <ModalContextDeleteProvider>
+        <ModalContextUpdateProvider>
+          <PersonContextProvider>
+            <ModuloContextProvider>
+              <SubModuloContextProvider>
+                <ModuloSubContextProvider>
+                  <SubmodulosByPerfilContexProvider>
+                    <TiposApoyosContextProvider>
+                      <TiposBeneficiariosContextProvider>
+                        <ComiteSecretariasContextProvider>
+                          <EdadesBeneficiariosContextProvider>
+                            <MotivoRechazosContextProvider>
+                              <NumeroApoyosContextProvider>
+                                <PeriodicidadApoyosContextProvider>
+                                 <CursosCapacitacionesContextProvider>
+                                  <ActividadesContinuarContextProvider>
+                                    <BtActividadesContextProvider>
+                                                                           {children}
+                                                                        </BtActividadesContextProvider>
+                                  </ActividadesContinuarContextProvider>
                                    </CursosCapacitacionesContextProvider>
                                 </PeriodicidadApoyosContextProvider>
-                                  </NumeroApoyosContextProvider>
-                                </MotivoRechazosContextProvider>
-                              </EdadesBeneficiariosContextProvider>
-                            </ComiteSecretariasContextProvider>
-                          </TiposBeneficiariosContextProvider>
-                        </TiposApoyosContextProvider>
-                      </SubmodulosByPerfilContexProvider>
-                    </ModuloSubContextProvider>
-                  </SubModuloContextProvider>
-                </ModuloContextProvider>
-              </PersonContextProvider>
-            </ModalContextUpdateProvider>
-          </ModalContextDeleteProvider>
-        </ModalContextProvider>              
+                              </NumeroApoyosContextProvider>
+                            </MotivoRechazosContextProvider>
+                          </EdadesBeneficiariosContextProvider>
+                        </ComiteSecretariasContextProvider>
+                      </TiposBeneficiariosContextProvider>
+                    </TiposApoyosContextProvider>
+                  </SubmodulosByPerfilContexProvider>
+                </ModuloSubContextProvider>
+              </SubModuloContextProvider>
+            </ModuloContextProvider>
+          </PersonContextProvider>
+        </ModalContextUpdateProvider>
+      </ModalContextDeleteProvider>
+    </ModalContextProvider>
   )
 }
 
