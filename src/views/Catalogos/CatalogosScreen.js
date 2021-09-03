@@ -42,7 +42,7 @@ export const CatalogosScreen = () => {
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <a href="/admin/bitacoraActividades">
+                            <a href="../admin/bitacoraActividades">
                                 <CardHeader color="info" stats icon>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Movimientos por usuario</p>
                                 </CardHeader>
@@ -52,7 +52,7 @@ export const CatalogosScreen = () => {
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <a href="/admin/tiposApoyos">
+                            <a href="../admin/tiposApoyos">
                                 <CardHeader color="info" stats icon>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Tipo de apoyo</p>
                                 </CardHeader>
@@ -63,7 +63,7 @@ export const CatalogosScreen = () => {
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <a href="/admin/continuidadActividades">
+                            <a href="../admin/continuidadActividades">
                                 <CardHeader color="info" stats icon>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Actividades por realizar para continuar con el beneficio</p>
                                 </CardHeader>
@@ -93,7 +93,7 @@ export const CatalogosScreen = () => {
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <a href="/admin/motivosRechazos">
+                            <a href="../admin/motivosRechazos">
                                 <CardHeader color="info" stats icon>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Causas de baja</p>
                                 </CardHeader>
@@ -110,7 +110,7 @@ export const CatalogosScreen = () => {
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <a href="/admin/apoyoservicio">
+                            <a href="../admin/apoyoservicio">
                                 <CardHeader color="info" stats icon>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Apoyo en servicios</p>
                                 </CardHeader>
