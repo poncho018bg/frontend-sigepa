@@ -45,6 +45,7 @@ import { NumeroApoyosScreen } from "views/Catalogos/NumeroApoyos/NumeroApoyosScr
 import { CatalogosScreen } from "views/Catalogos/CatalogosScreen";
 import { ContinuidadActividadesScreen } from "views/Catalogos/ContinuidadActividades/ContinuidadActividadesScreen";
 import { BitacoraActividadesScreen } from "views/Catalogos/BitacoraActividades/BitacoraActividadesScreen";
+import { ApoyoServicioScreen } from "views/Catalogos/ApoyoServicio/ApoyoServicioScreen";
 
 
 
@@ -260,6 +261,15 @@ const dashboardRoutes = [
         mini: "BA",
         rtlMini: "BA",
         component: BitacoraActividadesScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/apoyoservicio",
+        name: "Apoyo servicios",
+        rtlName: "apoyoservicio",
+        mini: "AS",
+        rtlMini: "AS",
+        component: ApoyoServicioScreen,
         layout: "/admin"
       }
     ]

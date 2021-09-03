@@ -52,6 +52,7 @@ import { obtenerRolesAction } from "actions/rolesKeycloakAction";
 import { getSubmodulosByperfil } from "actions/perfilSubmoduloAction";
 import { ActividadesContinuarContextProvider } from "contexts/catalogos/ActividadesContinuarContext";
 import { BtActividadesContextProvider } from "contexts/catalogos/BtActividadesContext";
+import { ApoyoServicioContextProvider } from "contexts/catalogos/ApoyoServicioContext";
 
 //const hist = createBrowserHistory();
 
@@ -106,8 +107,10 @@ const AppState = ({ children }) => {
                                 <PeriodicidadApoyosContextProvider>
                                   <ActividadesContinuarContextProvider>
                                     <BtActividadesContextProvider>
-                                       {children}
-                                    </BtActividadesContextProvider>                                    
+                                      <ApoyoServicioContextProvider>
+                                        {children}
+                                      </ApoyoServicioContextProvider>
+                                    </BtActividadesContextProvider>
                                   </ActividadesContinuarContextProvider>
                                 </PeriodicidadApoyosContextProvider>
                               </NumeroApoyosContextProvider>
