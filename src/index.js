@@ -53,6 +53,7 @@ import { getSubmodulosByperfil } from "actions/perfilSubmoduloAction";
 import { CursosCapacitacionesContextProvider } from "contexts/catalogos/CursosCapacitaciones/cursosCapacitacionesContext";
 import { ActividadesContinuarContextProvider } from "contexts/catalogos/ActividadesContinuarContext";
 import { BtActividadesContextProvider } from "contexts/catalogos/BtActividadesContext";
+import { ApoyoServicioContextProvider } from "contexts/catalogos/ApoyoServicioContext";
 
 //const hist = createBrowserHistory();
 
@@ -105,13 +106,15 @@ const AppState = ({ children }) => {
                             <MotivoRechazosContextProvider>
                               <NumeroApoyosContextProvider>
                                 <PeriodicidadApoyosContextProvider>
-                                 <CursosCapacitacionesContextProvider>
-                                  <ActividadesContinuarContextProvider>
-                                    <BtActividadesContextProvider>
-                                                                           {children}
-                                                                        </BtActividadesContextProvider>
-                                  </ActividadesContinuarContextProvider>
-                                   </CursosCapacitacionesContextProvider>
+                                  <CursosCapacitacionesContextProvider>
+                                                                    <ActividadesContinuarContextProvider>
+                                                                      <BtActividadesContextProvider>
+                                                                                                             <ApoyoServicioContextProvider>
+                                                                                                                                                     {children}
+                                                                                                                                                   </ApoyoServicioContextProvider>
+                                                                                                          </BtActividadesContextProvider>
+                                                                    </ActividadesContinuarContextProvider>
+                                                                     </CursosCapacitacionesContextProvider>
                                 </PeriodicidadApoyosContextProvider>
                               </NumeroApoyosContextProvider>
                             </MotivoRechazosContextProvider>

@@ -180,15 +180,24 @@ const roles = () => {
     return location.pathname === routeName ? "active" : "";
   };
 
+  const validateprofilesModulos = (modulename, lstRoutes) => {   
+    console.log('modulename=>',modulename)
+    console.log('lstRoutes=>',lstRoutes)
+    console.log('filter=>',lstRoutes.filter(md => md.dsModulo === modulename))
+    if( lstRoutes.filter(md => md.dsModulo === modulename).length !== 0){
+      return true
+    }  
+    
+  };
 
   const validateprofiles = (routeNam, lstRoutes) => {   
     console.log('routeNam=>',routeNam)
     console.log('lstRoutes=>',lstRoutes)
-    console.log('filter=>',lstRoutes.filter(md => md === routeNam))
-    //if( lstRoutes.filter(md => md === routeNam).length !== 0){
-    //  return true
-   // }
-   return true
+    console.log('filter=>',lstRoutes.filter(md => md.dsSubmodulo === routeNam))
+    if( lstRoutes.filter(md => md.dsSubmodulo === routeNam).length !== 0){
+      return true
+    }
+   //return true
     
   };
   // this function creates the links and collapses that appear in the sidebar (left menu)
@@ -255,9 +264,9 @@ const roles = () => {
             <>
  
             {/* AQUI VA VALIDACIÓN QUE OCULTE LOS MENUS */}
-            </>
 
-            <NavLink
+            {validateprofilesModulos(prop.name,props.pantallasview ) ?(<>
+              <NavLink
               to={"#"}
               className={navLinkClasses}
               onClick={(e) => {
@@ -294,13 +303,23 @@ const roles = () => {
                 )}
               />
             </NavLink>
+
             <Collapse in={state[prop.state]} unmountOnExit>
               <List className={classes.list + " " + classes.collapseList}>
                 {createLinks(prop.views)}
                
               </List>
             </Collapse>
+            
+            </>):(<></>)}
+           
+            </>
+           
+
+            
+           
           </ListItem>
+           
         );
       }
       const innerNavLinkClasses =
