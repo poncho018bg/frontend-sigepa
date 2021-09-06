@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { authReducer } from './authReducer';
 import { bandejaReducer } from './bandejaReducer';
+import { TipoApoyoReducer } from './Catalogos/TipoApoyoReducer';
 import { perfilSubmodulosReducer } from './PerfilSubmodulos';
 import { rolReducer } from './RolesKeycloakReducer';
 
@@ -14,7 +15,8 @@ export const rootReducer = combineReducers({
     bandeja: bandejaReducer,
     auth: authReducer,
     roles:rolReducer,
-    submodulosbyperfil:perfilSubmodulosReducer
+    submodulosbyperfil:perfilSubmodulosReducer,
+    tipoApoyo:TipoApoyoReducer
    
 })
 
