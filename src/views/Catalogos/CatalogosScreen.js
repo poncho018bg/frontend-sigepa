@@ -52,7 +52,7 @@ export const CatalogosScreen = () => {
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <a href="../admin/tiposApoyos">
+                            <a href="../admin/catapoyoservicio">
                                 <CardHeader color="info" stats icon>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Tipo de apoyo</p>
                                 </CardHeader>
