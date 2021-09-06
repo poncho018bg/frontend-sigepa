@@ -45,6 +45,9 @@ import { NumeroApoyosScreen } from "views/Catalogos/NumeroApoyos/NumeroApoyosScr
 import { CursosCapacitacionesScreen } from "views/Catalogos/CursosCapacitaciones/CursosCapacitacionesScreen";
 import { CatalogosScreen } from "views/Catalogos/CatalogosScreen";
 import { ContinuidadActividadesScreen } from "views/Catalogos/ContinuidadActividades/ContinuidadActividadesScreen";
+import { BitacoraActividadesScreen } from "views/Catalogos/BitacoraActividades/BitacoraActividadesScreen";
+import { ApoyoServicioScreen } from "views/Catalogos/ApoyoServicio/ApoyoServicioScreen";
+import { CatTipoApoyoScreen } from "views/Catalogos/CatTipoApoyo/CatTipoApoyoScreen";
 
 
 
@@ -59,7 +62,7 @@ const dashboardRoutes = [
     views: [
       {
         path: "/catalogos",
-        name: "Catalogos",
+        name: "Catálogos",
         rtlName: "cat",
         mini: "M",
         rtlMini: "m",
@@ -261,6 +264,33 @@ const dashboardRoutes = [
         mini: "CA",
         rtlMini: "CA",
         component: ContinuidadActividadesScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/bitacoraActividades",
+        name: "Bitacora Actividades",
+        rtlName: "BitacoradActividades",
+        mini: "BA",
+        rtlMini: "BA",
+        component: BitacoraActividadesScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/apoyoservicio",
+        name: "Apoyo servicios",
+        rtlName: "apoyoservicio",
+        mini: "AS",
+        rtlMini: "AS",
+        component: ApoyoServicioScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/catapoyoservicio",
+        name: "Apoyo servicios",
+        rtlName: "apoyoservicio",
+        mini: "AS",
+        rtlMini: "AS",
+        component: CatTipoApoyoScreen,
         layout: "/admin"
       }
     ]

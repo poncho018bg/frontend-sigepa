@@ -186,7 +186,7 @@ export default function Dashboard(props) {
 
   React.useEffect(() => {      
     setOpcionesMenu(perfilSubmodulos)
-    console.log('Permisos=>',perfilSubmodulos)
+    console.log('Permisosccccc=>',perfilSubmodulos)
   }, [perfilSubmodulos]);
 
 

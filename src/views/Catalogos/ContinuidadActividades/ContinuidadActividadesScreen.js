@@ -85,7 +85,7 @@ export const ContinuidadActividadesScreen = () => {
                 <CardHeader color="primary">
                     <h4 className={classes.cardTitleWhite}>Actividades por realizar para continuar con el beneficio</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Pantalla que permite configurar las actividades por realizar para continuar con el beneficio {total}
+                        Pantalla que permite configurar las actividades por realizar para continuar con el beneficio 
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>

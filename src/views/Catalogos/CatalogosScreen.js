@@ -33,8 +33,8 @@ export const CatalogosScreen = () => {
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <a href="">
-                                <CardHeader color="warning" stats icon>                                   
-                                    <p style={{ margin: '3em', textAlign:'center' }} className={classes.cardCategory}>Programas</p>
+                                <CardHeader color="warning" stats icon>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Programas</p>
                                 </CardHeader>
                             </a>
                         </Card>
@@ -42,18 +42,20 @@ export const CatalogosScreen = () => {
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <CardHeader color="info" stats icon>                                
-                                <p style={{ margin: '3em', textAlign:'center' }} className={classes.cardCategory}>Movimientos por usuario</p>
-                            </CardHeader>
+                            <a href="../admin/bitacoraActividades">
+                                <CardHeader color="info" stats icon>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Movimientos por usuario</p>
+                                </CardHeader>
+                            </a>
                         </Card>
                     </GridItem>
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                        <a href="/admin/tiposApoyos">
-                            <CardHeader color="info" stats icon>                                
-                                <p style={{ margin: '3em' , textAlign:'center' }} className={classes.cardCategory}>Tipo de apoyo</p>
-                            </CardHeader>
+                            <a href="../admin/tiposApoyos">
+                                <CardHeader color="info" stats icon>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Tipo de apoyo</p>
+                                </CardHeader>
                             </a>
                         </Card>
                     </GridItem>
@@ -61,10 +63,10 @@ export const CatalogosScreen = () => {
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                        <a href="/admin/continuidadActividades">
-                            <CardHeader color="info" stats icon>                                
-                                <p style={{ margin: '3em', textAlign:'center' }} className={classes.cardCategory}>Actividades por realizar para continuar con el beneficio</p>
-                            </CardHeader>
+                            <a href="../admin/continuidadActividades">
+                                <CardHeader color="info" stats icon>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Actividades por realizar para continuar con el beneficio</p>
+                                </CardHeader>
                             </a>
                         </Card>
                     </GridItem>
@@ -75,46 +77,50 @@ export const CatalogosScreen = () => {
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <CardHeader color="info" stats icon>                                
-                                <p  style={{ margin: '3em', textAlign:'center' }} className={classes.cardCategory}>Usuarios/Roles</p>
+                            <CardHeader color="info" stats icon>
+                                <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Usuarios/Roles</p>
                             </CardHeader>
                         </Card>
                     </GridItem>
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <CardHeader color="info" stats icon>                                
-                                <p style={{ margin: '3em', textAlign:'center' }} className={classes.cardCategory}>Padrón de beneficiarios</p>
+                            <CardHeader color="info" stats icon>
+                                <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Padrón de beneficiarios</p>
                             </CardHeader>
                         </Card>
                     </GridItem>
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <CardHeader color="info" stats icon>                                
-                                <p style={{ margin: '3em', textAlign:'center' }} className={classes.cardCategory}>Causas de baja</p>
-                            </CardHeader>
+                            <a href="../admin/motivosRechazos">
+                                <CardHeader color="info" stats icon>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Causas de baja</p>
+                                </CardHeader>
+                            </a>
                         </Card>
                     </GridItem>
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <CardHeader color="info" stats icon>                               
-                                <p style={{ margin: '3em', textAlign:'center' }} className={classes.cardCategory}>Firmas de autorización de solicitudes</p>
+                            <CardHeader color="info" stats icon>
+                                <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Firmas de autorización de solicitudes</p>
                             </CardHeader>
                         </Card>
                     </GridItem>
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <CardHeader color="info" stats icon>                                
-                                <p style={{ margin: '3em', textAlign:'center' }} className={classes.cardCategory}>Apoyo en servicios</p>
-                            </CardHeader>
+                            <a href="../admin/apoyoservicio">
+                                <CardHeader color="info" stats icon>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Apoyo en servicios</p>
+                                </CardHeader>
+                            </a>
                         </Card>
                     </GridItem>
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <CardHeader color="info" stats icon>                                
-                                <p style={{ margin: '3em', textAlign:'center' }} className={classes.cardCategory}>Cursos de capacitación (Tipo de apoyo en servicio)</p>
+                            <CardHeader color="info" stats icon>
+                                <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Cursos de capacitación (Tipo de apoyo en servicio)</p>
                             </CardHeader>
                         </Card>
                     </GridItem>

@@ -21,48 +21,44 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 
-//contexts
-import { MotivoRechazosContext } from 'contexts/catalogos/motivoRechazosContext';
 import { ModalContext } from 'contexts/modalContex';
 import { Modal } from 'commons/Modal';
-
-
-import { MotivoRechazosForm } from './MotivoRechazosForm';
-import { MotivoRechazosEdit } from './MotivoRechazosEdit';
 
 import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
+
 import { ModalUpdate } from 'commons/ModalUpdate';
+import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
+import { ApoyoServicioFormEdit } from './ApoyoServicioFormEdit';
+import { ApoyoServicioForm } from './ApoyoServicioForm';
 
 const useStyles = makeStyles(stylesArchivo);
 
-export const MotivoRechazosScreen = () => {
+export const ApoyoServicioScreen = () => {
 
     const classes = useStyles();
     //const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(1);
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
-    const [motivoRechazosSeleccionado, setMotivoRechazosSeleccionado] = useState();
-    const { getMotivoRechazos, eliminarMotivoRechazos, motivoRechazosList } = useContext(MotivoRechazosContext);
+    const [ApoyoServicioSeleccionada, setApoyoServicioSeleccionada] = useState();
+
+    const { apoyoservicioList, getApoyoServicio, eliminarApoyoServicio } = useContext(ApoyoServicioContext);
     const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
     const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
-
     const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
         = useContext(ModalContextUpdate);
 
     useEffect(() => {
-        getMotivoRechazos();
-        // eslint-disable-next-line
-        console.log("tipo de apoyo", motivoRechazosList);
+        getApoyoServicio();
+        // eslint-disable-next-line      
     }, []);
 
     const total = 0;
     const idiomas = [];
     const size = 0;
     const page = 0;
-
     const handleChangePage = (event, newPage) => {
     };
 
@@ -71,7 +67,7 @@ export const MotivoRechazosScreen = () => {
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
-        setMotivoRechazosSeleccionado(e);
+        setApoyoServicioSeleccionada(e);
     }
 
     const addDialog = () => {
@@ -81,23 +77,25 @@ export const MotivoRechazosScreen = () => {
     const deleteDialog = (e) => {
         setShowModalDelete(true);
         setIdEliminar(e.id);
-
     }
 
 
     const handleDeshabilitar = () => {
-        eliminarMotivoRechazos(idEliminar)
+        eliminarApoyoServicio(idEliminar)
         setShowModalDelete(false);
     }
+
+
+
 
     return (
         <GridItem xs={12} sm={12} md={12}>
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>CAUSAS DE BAJA</h4>
+                    <h4 className={classes.cardTitleWhite}>Apoyo en servicio</h4>
                     <p className={classes.cardCategoryWhite}>
-                        
+
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -125,34 +123,29 @@ export const MotivoRechazosScreen = () => {
                 <CardBody>
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
-                            < TableRow key="ta1" >
-                                < TableCell > Estado</TableCell >
-                                < TableCell > ID</TableCell >
-                                < TableCell> Desc. Tipo Beneficiario</TableCell >
-                                < TableCell> Fecha Registro</TableCell >
+                            < TableRow key="898as" >
+                                < TableCell > TIPO DE SERVICIO </TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
                             {
                                 (searched ?
-                                    motivoRechazosList.filter(row => row.dsmotivorechazo ?
-                                        row.dsmotivorechazo.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : motivoRechazosList
+                                    apoyoservicioList.filter(row => row.dsservicio ?
+                                        row.dsservicio.toLowerCase().includes(searched.toLowerCase()) : null)
+                                    : apoyoservicioList
                                 ).map(row => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
                                             <TableCell>
                                                 <Checkbox
-                                                    checked={row.boactivo}
+                                                    checked={row.activo}
                                                     color="primary"
                                                     inputProps={{ 'aria-label': 'Checkbox A' }}
                                                 />
                                             </TableCell>
-                                            <TableCell>{row.id}</TableCell>
-                                            <TableCell>{row.dsmotivorechazo}</TableCell >
-                                            <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell>{row.dsservicio}</TableCell >
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />
@@ -182,16 +175,15 @@ export const MotivoRechazosScreen = () => {
                 </CardBody>
             </Card>
             <Modal>
-                <MotivoRechazosForm />
+                <ApoyoServicioForm />
             </Modal>
             <ModalDelete
                 handleDeshabilitar={handleDeshabilitar}
             />
             <ModalUpdate>
-                <MotivoRechazosEdit motivoRechazosSeleccionado={motivoRechazosSeleccionado} />
+                <ApoyoServicioFormEdit ApoyoServicioSeleccionada={ApoyoServicioSeleccionada} />
             </ModalUpdate>
         </GridItem>
 
     )
-
 }
