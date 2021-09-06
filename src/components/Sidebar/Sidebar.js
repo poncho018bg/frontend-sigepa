@@ -194,10 +194,10 @@ const roles = () => {
     console.log('routeNam=>',routeNam)
     console.log('lstRoutes=>',lstRoutes)
     console.log('filter=>',lstRoutes.filter(md => md.dsSubmodulo === routeNam))
-    if( lstRoutes.filter(md => md.dsSubmodulo === routeNam).length !== 0){
-      return true
-    }
-   //return true
+    //if( lstRoutes.filter(md => md.dsSubmodulo === routeNam).length !== 0){
+     // return true
+    //}
+   return true
     
   };
   // this function creates the links and collapses that appear in the sidebar (left menu)

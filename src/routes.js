@@ -47,6 +47,7 @@ import { CatalogosScreen } from "views/Catalogos/CatalogosScreen";
 import { ContinuidadActividadesScreen } from "views/Catalogos/ContinuidadActividades/ContinuidadActividadesScreen";
 import { BitacoraActividadesScreen } from "views/Catalogos/BitacoraActividades/BitacoraActividadesScreen";
 import { ApoyoServicioScreen } from "views/Catalogos/ApoyoServicio/ApoyoServicioScreen";
+import { CatTipoApoyoScreen } from "views/Catalogos/CatTipoApoyo/CatTipoApoyoScreen";
 
 
 
@@ -281,6 +282,15 @@ const dashboardRoutes = [
         mini: "AS",
         rtlMini: "AS",
         component: ApoyoServicioScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/catapoyoservicio",
+        name: "Apoyo servicios",
+        rtlName: "apoyoservicio",
+        mini: "AS",
+        rtlMini: "AS",
+        component: CatTipoApoyoScreen,
         layout: "/admin"
       }
     ]
