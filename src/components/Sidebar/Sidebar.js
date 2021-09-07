@@ -181,23 +181,19 @@ const roles = () => {
   };
 
   const validateprofilesModulos = (modulename, lstRoutes) => {   
-    console.log('modulename=>',modulename)
-    console.log('lstRoutes=>',lstRoutes)
-    console.log('filter=>',lstRoutes.filter(md => md.dsModulo === modulename))
+    
     if( lstRoutes.filter(md => md.dsModulo === modulename).length !== 0){
       return true
     }  
-    
+    //return true
   };
 
   const validateprofiles = (routeNam, lstRoutes) => {   
-    console.log('routeNam=>',routeNam)
-    console.log('lstRoutes=>',lstRoutes)
-    console.log('filter=>',lstRoutes.filter(md => md.dsSubmodulo === routeNam))
-    //if( lstRoutes.filter(md => md.dsSubmodulo === routeNam).length !== 0){
-     // return true
-    //}
-   return true
+    
+    if( lstRoutes.filter(md => md.dsSubmodulo === routeNam).length !== 0){
+      return true
+    }
+   //return true
     
   };
   // this function creates the links and collapses that appear in the sidebar (left menu)
@@ -605,7 +601,7 @@ const roles = () => {
     });
   return (
     <div ref={mainPanel}>
-      <Hidden mdUp implementation="css">
+      {/* <Hidden mdUp implementation="css">
         <Drawer
           variant="temporary"
           anchor={rtlActive ? "left" : "right"}
@@ -632,7 +628,7 @@ const roles = () => {
             />
           ) : null}
         </Drawer>
-      </Hidden>
+      </Hidden> */}
       <Hidden smDown implementation="css">
         <Drawer
           onMouseOver={() => setMiniActive(false)}
@@ -673,7 +669,7 @@ const roles = () => {
     //window.location.replace('http://10.4.2.135/frontend-sigepa/')
     UserService.doLogout();
     //dispatch(cerrarSesion());
-    console.log('Cerrando sesion3')
+    //console.log('Cerrando sesion3')
     //cambiar esta forma de redireccionar
     //browserHistory.replace('http://10.4.2.135/frontend-sigepa')
     //window.location.replace('http://10.4.2.135/frontend-sigepa/')

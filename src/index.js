@@ -54,6 +54,7 @@ import { CursosCapacitacionesContextProvider } from "contexts/catalogos/CursosCa
 import { ActividadesContinuarContextProvider } from "contexts/catalogos/ActividadesContinuarContext";
 import { BtActividadesContextProvider } from "contexts/catalogos/BtActividadesContext";
 import { ApoyoServicioContextProvider } from "contexts/catalogos/ApoyoServicioContext";
+import { DocumentosContextProvider } from "contexts/catalogos/documentosContext";
 
 //const hist = createBrowserHistory();
 
@@ -107,14 +108,16 @@ const AppState = ({ children }) => {
                               <NumeroApoyosContextProvider>
                                 <PeriodicidadApoyosContextProvider>
                                   <CursosCapacitacionesContextProvider>
-                                                                    <ActividadesContinuarContextProvider>
-                                                                      <BtActividadesContextProvider>
-                                                                                                             <ApoyoServicioContextProvider>
-                                                                                                                                                     {children}
-                                                                                                                                                   </ApoyoServicioContextProvider>
-                                                                                                          </BtActividadesContextProvider>
-                                                                    </ActividadesContinuarContextProvider>
-                                                                     </CursosCapacitacionesContextProvider>
+                                    <ActividadesContinuarContextProvider>
+                                      <BtActividadesContextProvider>
+                                        <ApoyoServicioContextProvider>
+                                          <DocumentosContextProvider>
+                                            {children}
+                                          </DocumentosContextProvider>
+                                        </ApoyoServicioContextProvider>
+                                      </BtActividadesContextProvider>
+                                    </ActividadesContinuarContextProvider>
+                                  </CursosCapacitacionesContextProvider>
                                 </PeriodicidadApoyosContextProvider>
                               </NumeroApoyosContextProvider>
                             </MotivoRechazosContextProvider>

@@ -50,6 +50,8 @@ import { ApoyoServicioScreen } from "views/Catalogos/ApoyoServicio/ApoyoServicio
 import { CatTipoApoyoScreen } from "views/Catalogos/CatTipoApoyo/CatTipoApoyoScreen";
 import { ProgramasScreen } from "views/Catalogos/Programas/ProgramasScreen";
 
+import { DocumentosScreen } from "views/Catalogos/DocumentosRequisitos/DocumentosScreen";
+
 
 
 const dashboardRoutes = [
@@ -70,6 +72,101 @@ const dashboardRoutes = [
         component: CatalogosScreen,
         layout: "/admin"
       },
+      {
+        path: "/roles",
+        name: "Administración de perfiles",
+        rtlName: "roles",
+        mini: "R",
+        rtlMini: "r",
+        component: RolesScreen,
+        layout: "/admin"
+      },
+    ]
+  },
+  {
+    collapse: true,
+    name: "Catálogos administrativos",
+    rtlName: "ag",
+    icon: FolderIcon,
+    state: "pageCollapse",
+    views: [
+      {
+        path: "/modulos",
+        name: "Modulos",
+        rtlName: "modulos",
+        mini: "M",
+        rtlMini: "m",
+        component: ModuloScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/submodulos",
+        name: "Submódulos",
+        rtlName: "submodulos",
+        mini: "SB",
+        rtlMini: "sb",
+        component: SubModuloScreen,
+        layout: "/admin"
+      },
+     
+      {
+        path: "/tiposApoyos",
+        name: "Tipos de Apoyo",
+        rtlName: "tipoapoyo",
+        mini: "TA",
+        rtlMini: "ta",
+        component: TipoApoyoScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/tiposBeneficiario",
+        name: "Tipos de Beneficiarios",
+        rtlName: "tipobeneficiario",
+        mini: "TB",
+        rtlMini: "tb",
+        component: TipoBeneficiarioScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/comitessecretarias",
+        name: "Comites Secretarías",
+        rtlName: "comitesecretarias",
+        mini: "CS",
+        rtlMini: "cs",
+        component: ComiteSecretariasScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/edadesBeneficiarios",
+        name: "Edades Beneficiarios",
+        rtlName: "edadesbeneficiarios",
+        mini: "EB",
+        rtlMini: "eb",
+        component: EdadesBeneficiariosScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/numeroApoyos",
+        name: "Número de Apoyos",
+        rtlName: "numapoyos",
+        mini: "NA",
+        rtlMini: "na",
+        component: NumeroApoyosScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/periodicidadApoyos",
+        name: "Periodicidad Apoyos",
+        rtlName: "periodicidadapoyos",
+        mini: "PA",
+        rtlMini: "pa",
+        component: PeriodicidadApoyosScreen,
+        layout: "/admin"
+      },
+
+      
+      
+      
     ]
   },
   {
@@ -159,69 +256,6 @@ const dashboardRoutes = [
     state: "pageCollapse",
     views: [
       {
-        path: "/modulos",
-        name: "Modulos",
-        rtlName: "modulos",
-        mini: "M",
-        rtlMini: "m",
-        component: ModuloScreen,
-        layout: "/admin"
-      },
-      {
-        path: "/submodulos",
-        name: "Submódulos",
-        rtlName: "submodulos",
-        mini: "SB",
-        rtlMini: "sb",
-        component: SubModuloScreen,
-        layout: "/admin"
-      },
-      {
-        path: "/roles",
-        name: "Roles",
-        rtlName: "roles",
-        mini: "R",
-        rtlMini: "r",
-        component: RolesScreen,
-        layout: "/admin"
-      },
-      {
-        path: "/tiposApoyos",
-        name: "Tipos de Apoyo",
-        rtlName: "tipoapoyo",
-        mini: "TA",
-        rtlMini: "ta",
-        component: TipoApoyoScreen,
-        layout: "/admin"
-      },
-      {
-        path: "/tiposBeneficiario",
-        name: "Tipos de Beneficiarios",
-        rtlName: "tipobeneficiario",
-        mini: "TB",
-        rtlMini: "tb",
-        component: TipoBeneficiarioScreen,
-        layout: "/admin"
-      },
-      {
-        path: "/comitessecretarias",
-        name: "Comites Secretarías",
-        rtlName: "comitesecretarias",
-        mini: "CS",
-        rtlMini: "cs",
-        component: ComiteSecretariasScreen,
-        layout: "/admin"
-      },
-      {
-        path: "/edadesBeneficiarios",
-        name: "Edades Beneficiarios",
-        rtlName: "edadesbeneficiarios",
-        mini: "EB",
-        rtlMini: "eb",
-        component: EdadesBeneficiariosScreen,
-        layout: "/admin"
-      },
-      {
         path: "/motivosRechazos",
         name: "Motivos Rechazos",
         rtlName: "motivosrechazos",
@@ -230,34 +264,8 @@ const dashboardRoutes = [
         component: MotivoRechazosScreen,
         layout: "/admin"
       },
-      {
-        path: "/numeroApoyos",
-        name: "Número de Apoyos",
-        rtlName: "numapoyos",
-        mini: "NA",
-        rtlMini: "na",
-        component: NumeroApoyosScreen,
-        layout: "/admin"
-      },
-      {
-        path: "/periodicidadApoyos",
-        name: "Periodicidad Apoyos",
-        rtlName: "periodicidadapoyos",
-        mini: "PA",
-        rtlMini: "pa",
-        component: PeriodicidadApoyosScreen,
-        layout: "/admin"
-      },
-
-      {
-        path: "/cursosCapacitaciones",
-        name: "Cursos Capacitaciones",
-        rtlName: "cursoscapacitaciones",
-        mini: "PA",
-        rtlMini: "pa",
-        component: CursosCapacitacionesScreen,
-        layout: "/admin"
-      },
+     
+     
       {
         path: "/continuidadActividades",
         name: "Continuidad Actividades",
@@ -302,7 +310,24 @@ const dashboardRoutes = [
         rtlMini: "AS",
         component: ProgramasScreen,
         layout: "/admin"
-      }
+      },{
+        path: "/documentoRequisito",
+        name: "Documentos",
+        rtlName: "Documentos",
+        mini: "DR",
+        rtlMini: "DR",
+        component: DocumentosScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/cursosCapacitaciones",
+        name: "Cursos Capacitaciones",
+        rtlName: "cursoscapacitaciones",
+        mini: "PA",
+        rtlMini: "pa",
+        component: CursosCapacitacionesScreen,
+        layout: "/admin"
+      },
     ]
   }
 ];
