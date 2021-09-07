@@ -5,22 +5,32 @@ import { stylesArchivo } from 'css/stylesArchivo';
 
 import { DocumentosContext } from 'contexts/catalogos/documentosContext';
 
+import { axiosGetHetoas } from 'helpers/axios';
+
 const useStyles = makeStyles(stylesArchivo);
 
 
 export const DocumentoVigencia = ({ documentosRequisitos }) => {
     const classes = useStyles();
+    const [vigencia, setVigencia] = useState([]);
+
+    const { _links: { vigencias: { href } } } = documentosRequisitos;
 
     const { getVigenciaDocumentos, vigenciaList } = useContext(DocumentosContext);
 
     useEffect(() => {
-        getVigenciaDocumentos(documentosRequisitos);
-        console.log("vigencia console log--->", vigenciaList);
-    }, []);
+        //getVigenciaDocumentos(documentosRequisitos);
+        //console.log("vigencia console log--->", vigenciaList);
+        const getVigencia = async () => {
+            const result = await axiosGetHetoas(href);
+            setVigencia(result);
+        }
+        getVigencia();
+    }, [documentosRequisitos.id]);
 
     return (
         <span>
-            {vigenciaList.dsvigencia}
+            {vigencia.dsvigencia}
         </span>
     )
 
