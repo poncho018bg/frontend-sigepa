@@ -37,7 +37,7 @@ export default function AdminNavbar(props) {
   return (
     <AppBar className={classes.appBar + appBarClasses}>
       <Toolbar className={classes.container}>
-        <Hidden smDown implementation="css">
+        {/* <Hidden smDown implementation="css">
           <div className={sidebarMinimize}>
             {props.miniActive ? (
               <Button
@@ -59,7 +59,7 @@ export default function AdminNavbar(props) {
               </Button>
             )}
           </div>
-        </Hidden>
+        </Hidden> */}
         <div className={classes.flex}>
           {/* Here we create navbar brand, based on route name */}
           <Button href="#" className={classes.title} color="transparent">

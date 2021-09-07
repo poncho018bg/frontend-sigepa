@@ -601,7 +601,7 @@ const roles = () => {
     });
   return (
     <div ref={mainPanel}>
-      <Hidden mdUp implementation="css">
+      {/* <Hidden mdUp implementation="css">
         <Drawer
           variant="temporary"
           anchor={rtlActive ? "left" : "right"}
@@ -628,7 +628,7 @@ const roles = () => {
             />
           ) : null}
         </Drawer>
-      </Hidden>
+      </Hidden> */}
       <Hidden smDown implementation="css">
         <Drawer
           onMouseOver={() => setMiniActive(false)}
