@@ -114,7 +114,9 @@ export const SubModuloContextProvider = props => {
             dssubmodulo,
             'usuarioCreacionId': `${process.env.REACT_APP_API_URL}msubModulosodulos/${UserService.getIdUSuario()}`,
             boactivo,
-            'crcModulosCollection':[{}]
+            'crcModulosCollection':[{}],
+            "perfiles":[]
+
         }
         console.log(moduloEnviar);
         try {

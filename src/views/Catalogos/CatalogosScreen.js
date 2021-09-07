@@ -119,9 +119,11 @@ export const CatalogosScreen = () => {
                     </GridItem>
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <CardHeader color="info" stats icon>
-                                <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Cursos de capacitación (Tipo de apoyo en servicio)</p>
-                            </CardHeader>
+                            <a href="../admin/cursosCapacitaciones">
+                                <CardHeader color="info" stats icon>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Cursos de capacitación (Tipo de apoyo en servicio)</p>
+                                </CardHeader>
+                            </a>
                         </Card>
                     </GridItem>
 

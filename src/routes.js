@@ -163,15 +163,7 @@ const dashboardRoutes = [
         layout: "/admin"
       },
 
-      {
-        path: "/cursosCapacitaciones",
-        name: "Cursos Capacitaciones",
-        rtlName: "cursoscapacitaciones",
-        mini: "PA",
-        rtlMini: "pa",
-        component: CursosCapacitacionesScreen,
-        layout: "/admin"
-      },
+      
       
       
     ]
@@ -317,7 +309,16 @@ const dashboardRoutes = [
         rtlMini: "DR",
         component: DocumentosScreen,
         layout: "/admin"
-      }
+      },
+      {
+        path: "/cursosCapacitaciones",
+        name: "Cursos Capacitaciones",
+        rtlName: "cursoscapacitaciones",
+        mini: "PA",
+        rtlMini: "pa",
+        component: CursosCapacitacionesScreen,
+        layout: "/admin"
+      },
     ]
   }
 ];
