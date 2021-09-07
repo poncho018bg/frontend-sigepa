@@ -105,7 +105,7 @@ export const DocumentosContextProvider = props => {
             id,
             dsdocumento,
             dsdescripcion,
-            vigencias: `${ process.env.REACT_APP_API_URL}vigencias/${idVigencia}`,
+            vigencias: `${process.env.REACT_APP_API_URL}vigencias/${idVigencia}`,
             'apoyos':[],
             activo,
         };
