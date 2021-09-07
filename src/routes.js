@@ -52,6 +52,7 @@ import { ProgramasScreen } from "views/Catalogos/Programas/ProgramasScreen";
 
 import { DocumentosScreen } from "views/Catalogos/DocumentosRequisitos/DocumentosScreen";
 import { PadronBeneficiariosScreen } from "views/Catalogos/PadronBeneficiarios/PadronBeneficiariosScreen";
+import { EstadosScreen } from "views/Catalogos/Estados/EstadosScreen";
 
 
 
@@ -164,7 +165,15 @@ const dashboardRoutes = [
         component: PeriodicidadApoyosScreen,
         layout: "/admin"
       },
-
+      {
+        path: "/estados",
+        name: "Estados",
+        rtlName: "estados",
+        mini: "ES",
+        rtlMini: "ES",
+        component: EstadosScreen,
+        layout: "/admin"
+      },
       
       
       
