@@ -28,15 +28,17 @@ const initTipoApoyo = {
     estatus: '',
     visita: '',
     idTipoApoyo: '',
-    vigenciaDesde: moment(new Date()).format("yyyy-MM-dd") ,
+    vigenciaDesde: moment(new Date()).format("yyyy-MM-dd"),
     vigenciaHasta: moment(new Date()).format("yyyy-MM-dd"),
     idRangoEdad: '',
     idTipoBeneficiario: '',
     cantidadPesos: '',
-    desApoyoEspecia: '',
+    desApoyoEspecie: '',
     idPeriodicidad: '',
     observaciones: null,
-    formaEntrega: ''
+    formaEntrega: '',
+    documentacion:[],
+    
 }
 
 function not(a, b) {
@@ -65,7 +67,7 @@ export const DialogTipoApoyoForm = (props) => {
         idRangoEdad,
         idTipoBeneficiario,
         cantidadPesos,
-        desApoyoEspecia,
+        desApoyoEspecie,
         idPeriodicidad,
         observaciones,
         formaEntrega
@@ -307,7 +309,7 @@ export const DialogTipoApoyoForm = (props) => {
                             id="vigenciaDesde"
                             label="Desde"
                             type="date"
-                           
+
                             className={classes.textField}
                             InputLabelProps={{
                                 shrink: true,
@@ -322,7 +324,7 @@ export const DialogTipoApoyoForm = (props) => {
                             id="vigenciaHasta"
                             label="Hasta"
                             type="date"
-                            
+
                             className={classes.textField}
                             InputLabelProps={{
                                 shrink: true,
@@ -417,17 +419,17 @@ export const DialogTipoApoyoForm = (props) => {
                 <DialogContent>
 
                     <TextField
-                        id="desApoyoEspecia"
+                        id="desApoyoEspecie"
                         label=" Descripción del apoyo en especie"
                         variant="outlined"
-                        name="desApoyoEspecia"
-                        error={errors.desApoyoEspecia !== null && errors.desApoyoEspecia !== undefined}
-                        value={desApoyoEspecia}
+                        name="desApoyoEspecie"
+                        error={errors.desApoyoEspecie !== null && errors.desApoyoEspecie !== undefined}
+                        value={desApoyoEspecie}
                         onChange={handleInputChange}
                         fullWidth
                         inputProps={{ maxLength: 100 }}
                     />
-                    {errors.desApoyoEspecia && <FormHelperText error={errors.desApoyoEspecia !== null && errors.desApoyoEspecia !== undefined}>{errors.desApoyoEspecia}</FormHelperText>}
+                    {errors.desApoyoEspecie && <FormHelperText error={errors.desApoyoEspecie !== null && errors.desApoyoEspecie !== undefined}>{errors.desApoyoEspecie}</FormHelperText>}
 
                 </DialogContent>
 

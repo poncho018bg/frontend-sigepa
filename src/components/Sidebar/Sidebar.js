@@ -181,21 +181,21 @@ const roles = () => {
   };
 
   const validateprofilesModulos = (modulename, lstRoutes) => {   
-    console.log('modulename=>',modulename)
-    console.log('lstRoutes=>',lstRoutes)
-    console.log('filter=>',lstRoutes.filter(md => md.dsModulo === modulename))
-    if( lstRoutes.filter(md => md.dsModulo === modulename).length !== 0){
-      return true
-    }  
-    
+    //console.log('modulename=>',modulename)
+    //console.log('lstRoutes=>',lstRoutes)
+    //console.log('filter=>',lstRoutes.filter(md => md.dsModulo === modulename))
+    //if( lstRoutes.filter(md => md.dsModulo === modulename).length !== 0){
+    //  return true
+    //}  
+    return true
   };
 
   const validateprofiles = (routeNam, lstRoutes) => {   
-    console.log('routeNam=>',routeNam)
-    console.log('lstRoutes=>',lstRoutes)
-    console.log('filter=>',lstRoutes.filter(md => md.dsSubmodulo === routeNam))
+    //console.log('routeNam=>',routeNam)
+    //console.log('lstRoutes=>',lstRoutes)
+    //console.log('filter=>',lstRoutes.filter(md => md.dsSubmodulo === routeNam))
     //if( lstRoutes.filter(md => md.dsSubmodulo === routeNam).length !== 0){
-     // return true
+    //  return true
     //}
    return true
     
@@ -673,7 +673,7 @@ const roles = () => {
     //window.location.replace('http://10.4.2.135/frontend-sigepa/')
     UserService.doLogout();
     //dispatch(cerrarSesion());
-    console.log('Cerrando sesion3')
+    //console.log('Cerrando sesion3')
     //cambiar esta forma de redireccionar
     //browserHistory.replace('http://10.4.2.135/frontend-sigepa')
     //window.location.replace('http://10.4.2.135/frontend-sigepa/')
