@@ -51,6 +51,7 @@ import { CatTipoApoyoScreen } from "views/Catalogos/CatTipoApoyo/CatTipoApoyoScr
 import { ProgramasScreen } from "views/Catalogos/Programas/ProgramasScreen";
 
 import { DocumentosScreen } from "views/Catalogos/DocumentosRequisitos/DocumentosScreen";
+import { PadronBeneficiariosScreen } from "views/Catalogos/PadronBeneficiarios/PadronBeneficiariosScreen";
 
 
 
@@ -309,6 +310,15 @@ const dashboardRoutes = [
         mini: "AS",
         rtlMini: "AS",
         component: ProgramasScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/padronBeneficiarios",
+        name: "Padron Beneficiarios",
+        rtlName: "padronBeneficiarios",
+        mini: "AS",
+        rtlMini: "AS",
+        component: PadronBeneficiariosScreen,
         layout: "/admin"
       },{
         path: "/documentoRequisito",

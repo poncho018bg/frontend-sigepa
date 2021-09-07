@@ -12,6 +12,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import FormatIndentDecreaseIcon from '@material-ui/icons/FormatIndentDecrease';
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(styles);
 
@@ -77,6 +78,7 @@ export const CatalogosScreen = () => {
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
+                       
                             <CardHeader color="info" stats icon>
                                 <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Usuarios/Roles</p>
                             </CardHeader>
@@ -85,9 +87,11 @@ export const CatalogosScreen = () => {
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
+                        <Link to="../admin/padronBeneficiarios">
                             <CardHeader color="info" stats icon>
                                 <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Padrón de beneficiarios</p>
                             </CardHeader>
+                            </Link>
                         </Card>
                     </GridItem>
 
