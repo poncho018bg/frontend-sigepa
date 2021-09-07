@@ -48,6 +48,7 @@ import { ContinuidadActividadesScreen } from "views/Catalogos/ContinuidadActivid
 import { BitacoraActividadesScreen } from "views/Catalogos/BitacoraActividades/BitacoraActividadesScreen";
 import { ApoyoServicioScreen } from "views/Catalogos/ApoyoServicio/ApoyoServicioScreen";
 import { CatTipoApoyoScreen } from "views/Catalogos/CatTipoApoyo/CatTipoApoyoScreen";
+import { ProgramasScreen } from "views/Catalogos/Programas/ProgramasScreen";
 
 
 
@@ -291,6 +292,15 @@ const dashboardRoutes = [
         mini: "AS",
         rtlMini: "AS",
         component: CatTipoApoyoScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/programas",
+        name: "Programas",
+        rtlName: "programas",
+        mini: "AS",
+        rtlMini: "AS",
+        component: ProgramasScreen,
         layout: "/admin"
       }
     ]

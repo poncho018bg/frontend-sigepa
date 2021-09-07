@@ -32,7 +32,7 @@ export const CatalogosScreen = () => {
                 <GridContainer>
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <a href="">
+                            <a href="../admin/programas">
                                 <CardHeader color="warning" stats icon>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Programas</p>
                                 </CardHeader>
