@@ -48,8 +48,12 @@ import { ContinuidadActividadesScreen } from "views/Catalogos/ContinuidadActivid
 import { BitacoraActividadesScreen } from "views/Catalogos/BitacoraActividades/BitacoraActividadesScreen";
 import { ApoyoServicioScreen } from "views/Catalogos/ApoyoServicio/ApoyoServicioScreen";
 import { CatTipoApoyoScreen } from "views/Catalogos/CatTipoApoyo/CatTipoApoyoScreen";
+import { ProgramasScreen } from "views/Catalogos/Programas/ProgramasScreen";
 
 import { DocumentosScreen } from "views/Catalogos/DocumentosRequisitos/DocumentosScreen";
+import { PadronBeneficiariosScreen } from "views/Catalogos/PadronBeneficiarios/PadronBeneficiariosScreen";
+import { EstadosScreen } from "views/Catalogos/Estados/EstadosScreen";
+import { MunicipiosScreen } from "views/Catalogos/Municipios/MunicipiosScreen";
 
 
 
@@ -162,8 +166,24 @@ const dashboardRoutes = [
         component: PeriodicidadApoyosScreen,
         layout: "/admin"
       },
-
-      
+      {
+        path: "/estados",
+        name: "Estados",
+        rtlName: "estados",
+        mini: "ES",
+        rtlMini: "ES",
+        component: EstadosScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/municipios",
+        name: "Municipios",
+        rtlName: "municipios",
+        mini: "MUN",
+        rtlMini: "MUN",
+        component: MunicipiosScreen,
+        layout: "/admin"
+      },
       
       
     ]
@@ -302,6 +322,23 @@ const dashboardRoutes = [
         layout: "/admin"
       },
       {
+        path: "/programas",
+        name: "Programas",
+        rtlName: "programas",
+        mini: "AS",
+        rtlMini: "AS",
+        component: ProgramasScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/padronBeneficiarios",
+        name: "Padron Beneficiarios",
+        rtlName: "padronBeneficiarios",
+        mini: "AS",
+        rtlMini: "AS",
+        component: PadronBeneficiariosScreen,
+        layout: "/admin"
+      },{
         path: "/documentoRequisito",
         name: "Documentos",
         rtlName: "Documentos",

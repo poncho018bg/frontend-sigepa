@@ -55,6 +55,8 @@ import { ActividadesContinuarContextProvider } from "contexts/catalogos/Activida
 import { BtActividadesContextProvider } from "contexts/catalogos/BtActividadesContext";
 import { ApoyoServicioContextProvider } from "contexts/catalogos/ApoyoServicioContext";
 import { DocumentosContextProvider } from "contexts/catalogos/documentosContext";
+import { EstadosContextProvider } from "contexts/catalogos/EstadosContext";
+import { MunicipiosContextProvider } from "contexts/catalogos/MunicipiosContext";
 
 //const hist = createBrowserHistory();
 
@@ -112,7 +114,11 @@ const AppState = ({ children }) => {
                                       <BtActividadesContextProvider>
                                         <ApoyoServicioContextProvider>
                                           <DocumentosContextProvider>
-                                            {children}
+                                            <EstadosContextProvider>
+                                              <MunicipiosContextProvider>
+                                                {children}
+                                              </MunicipiosContextProvider>
+                                            </EstadosContextProvider>
                                           </DocumentosContextProvider>
                                         </ApoyoServicioContextProvider>
                                       </BtActividadesContextProvider>
