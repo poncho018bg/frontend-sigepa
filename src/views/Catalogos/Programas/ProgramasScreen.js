@@ -17,21 +17,34 @@ import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardAvatar from "components/Card/CardAvatar.js";
-import Datetime from "react-datetime";
+
 import styles from "assets/jss/material-dashboard-pro-react/views/userProfileStyles.js";
 
 import avatar from "assets/img/faces/marc.jpg";
-import { FormControl, FormHelperText, TextField } from "@material-ui/core";
+import { FormControl, FormHelperText, MenuItem, TextField } from "@material-ui/core";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 const useStyles = makeStyles(styles);
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
 
+const currencies = [
+  {
+    value: 'USD',
+    label: 'Menores de 15 años',
+  },
+  {
+    value: 'EUR',
+    label: 'De 18 a 59 años',
+  },
+  {
+    value: 'BTC',
+    label: 'Mayores de 60 años',
+  },
+  {
+    value: 'JPY',
+    label: 'Otro',
+  },
+];
 export const ProgramasScreen = () => {
 
     const [programaApoyo, setProgramaApoyo] = useState('');
@@ -41,8 +54,13 @@ export const ProgramasScreen = () => {
     const formik = useFormik({
       initialValues: {
           nombrePrograma: '',
-          email:'',
-          vigenciaDesde:''
+          clavePrograma:'',
+          vigenciaDesde:'',
+          vigenciaHasta:'',
+          periodoRegistroWebDesde:'',
+          periodoRegistroWebHasta:'',
+          periodoRegistroPresencialDesde:'',
+          periodoRegistroPresencialHasta:''
       },
       validationSchema: Yup.object({
         nombrePrograma: Yup.string()
@@ -79,11 +97,13 @@ export const ProgramasScreen = () => {
               </CardHeader>
               <CardBody>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={12}>
                       <TextField
+                        style={{marginBottom: '20px'}}
                         id="nombrePrograma"
                         error={formik.errors.nombrePrograma}
                         label="Nombre del Programa de apoyo"
+                        variant="outlined"
                         name="nombrePrograma"
                         fullWidth
                         onChange={formik.handleChange}
@@ -92,12 +112,17 @@ export const ProgramasScreen = () => {
                     />
                    
                   </GridItem>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={12}>
                    <TextField
-                        id="clavePograma"
+                        id="clavePrograma"
                         label="Clave del Programa"
-                        name="nombrePograma"
+                        name="clavePrograma"
+                        variant="outlined"
+                        style={{marginBottom: '20px'}}
                         fullWidth
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.clavePrograma}
                     />
                   </GridItem>
                   
@@ -106,46 +131,164 @@ export const ProgramasScreen = () => {
                   <GridItem xs={12} sm={12} md={6}>
                   <TextField
                         id="vigenciaDesde"
-                       
+                        style={{marginBottom: '20px'}}
+                        label="Vigencia del Programa Desde"
                         name="vigenciaDesde"
                         type="date"
                         fullWidth
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.vigenciaDesde}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                    />
+                  </GridItem>
+
+                  <GridItem xs={12} sm={12} md={6}>
+                  <TextField
+                        id="vigenciaHasta"
+                        label="Vigencia del Programa Hasta"
+                        style={{marginBottom: '20px'}}
+                        name="vigenciaHasta"
+                        type="date"
+                        fullWidth
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.vigenciaHasta}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
-                  
+                    <TextField
+                          id="periodoRegistroWebDesde"
+                          style={{marginBottom: '20px'}}
+                          label="Periodo Registro Web Desde"
+                          name="periodoRegistroWebDesde"
+                          type="date"
+                          fullWidth
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.periodoRegistroWebDesde}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                      />
+                  </GridItem>
+
+                  <GridItem xs={12} sm={12} md={6}>
+                    <TextField
+                          id="periodoRegistroWebHasta"
+                          style={{marginBottom: '20px'}}
+                          label="Periodo Registro web Hasta"
+                          name="periodoRegistroWebHasta"
+                          type="date"
+                          fullWidth
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.periodoRegistroWebHasta}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                      />
+                  </GridItem>
+
+                  <GridItem xs={12} sm={12} md={6}>
+                    <TextField
+                          id="periodoRegistroPresencialDesde"
+                          style={{marginBottom: '20px'}}
+                          label="Periodo Registro Presencial Desde"
+                          name="periodoRegistroPresencialDesde"
+                          type="date"
+                          fullWidth
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.periodoRegistroPresencialDesde}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                      />
+                  </GridItem>
+
+                  <GridItem xs={12} sm={12} md={6}>
+                    <TextField
+                          id="periodoRegistroPresencialHasta"
+                          style={{marginBottom: '20px'}}
+                          label="Periodo Registro Presencial Hasta"
+                          name="periodoRegistroPresencialHasta"
+                          type="date"
+                          fullWidth
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.periodoRegistroPresencialHasta}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                      />
+                  </GridItem>
+
+                  <GridItem xs={12} sm={12} md={12}>
+                      <TextField
+                              id="outlined-multiline-static"
+                              label="Descripción del Programa de Apoyo"
+                              style={{marginBottom: '20px'}}
+                              fullWidth
+                              multiline
+                              rows={4}
+                              variant="outlined"
+                    />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                      labelText="City"
-                      id="city"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                    />
+                    <TextField
+                        id="outlined-select-currency"
+                        select
+                        label="Rango de edad del beneficiario"
+                        style={{marginBottom: '20px'}}
+                        fullWidth
+                        variant="outlined"
+                      >
+                        {currencies.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                    </TextField>
                   </GridItem>
                   <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                      labelText="Country"
-                      id="country"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                    />
+                    <TextField
+                          id="outlined-select-currency2"
+                          select
+                          label="Rango de edad del beneficiario"
+                          style={{marginBottom: '20px'}}
+                          fullWidth
+                          variant="outlined"
+                        >
+                          {currencies.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                      </TextField>
                   </GridItem>
                   <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                      labelText="Postal Code"
-                      id="postal-code"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                    />
+                    <TextField
+                        id="outlined-select-currency3"
+                        select
+                        label="Rango de edad del beneficiario"
+                        style={{marginBottom: '20px'}}
+                        fullWidth
+                        variant="outlined"
+                      >
+                        {currencies.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                    </TextField>
                   </GridItem>
                 </GridContainer>
                 
