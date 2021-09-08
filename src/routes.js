@@ -53,6 +53,7 @@ import { ProgramasScreen } from "views/Catalogos/Programas/ProgramasScreen";
 import { DocumentosScreen } from "views/Catalogos/DocumentosRequisitos/DocumentosScreen";
 import { PadronBeneficiariosScreen } from "views/Catalogos/PadronBeneficiarios/PadronBeneficiariosScreen";
 import { EstadosScreen } from "views/Catalogos/Estados/EstadosScreen";
+import { MunicipiosScreen } from "views/Catalogos/Municipios/MunicipiosScreen";
 
 
 
@@ -174,7 +175,15 @@ const dashboardRoutes = [
         component: EstadosScreen,
         layout: "/admin"
       },
-      
+      {
+        path: "/municipios",
+        name: "Municipios",
+        rtlName: "municipios",
+        mini: "MUN",
+        rtlMini: "MUN",
+        component: MunicipiosScreen,
+        layout: "/admin"
+      },
       
       
     ]

@@ -3,11 +3,13 @@ import EstadosReducer from 'reducers/Catalogos/EstadosReducer';
 
 import Axios from 'axios';
 
-import { GET_ESTADOS, REGISTRAR_ESTADOS, ELIMINAR_ESTADOS, MODIFICAR_ESTADOS } from 'types/actionTypes';
+import { GET_ESTADOS, REGISTRAR_ESTADOS, ELIMINAR_ESTADOS, MODIFICAR_ESTADOS ,GET_ESTADO} from 'types/actionTypes';
 import { axiosGet } from 'helpers/axios';
 import { axiosPost } from 'helpers/axios';
 import { axiosDeleteTipo } from 'helpers/axios';
 import { axiosPostHetoas } from 'helpers/axios';
+import { axiosGetHetoas } from 'helpers/axios';
+
 
 
 
@@ -17,6 +19,7 @@ export const EstadosContextProvider = props => {
 
     const initialState = {
         estadosList: [],
+        estado:null,
         clienteActual: null
     }
 
@@ -32,6 +35,21 @@ export const EstadosContextProvider = props => {
             dispatch({
                 type: GET_ESTADOS,
                 payload: resultado._embedded.estados
+            })
+        } catch (error) {
+
+            console.log(error);
+        }
+    }
+
+    const getEstadoByIdHetoas = async endpoint => {
+
+        try {
+            const resultado = await axiosGetHetoas(endpoint);
+            console.log(resultado);
+            dispatch({
+                type: GET_ESTADO,
+                payload: resultado
             })
         } catch (error) {
 
@@ -99,7 +117,9 @@ export const EstadosContextProvider = props => {
         <EstadosContext.Provider
           value={{
             estadosList: state.estadosList,
+            estado:state.estado,
             getEstados,
+            getEstadoByIdHetoas,
             registrarEstados,
             eliminarEstados,
             actualizarEstados
