@@ -55,6 +55,8 @@ import { PadronBeneficiariosScreen } from "views/Catalogos/PadronBeneficiarios/P
 import { EstadosScreen } from "views/Catalogos/Estados/EstadosScreen";
 import { MunicipiosScreen } from "views/Catalogos/Municipios/MunicipiosScreen";
 
+import { FirmasScreen } from "views/Catalogos/Firmas/FirmasScreen";
+
 
 
 const dashboardRoutes = [
@@ -111,7 +113,7 @@ const dashboardRoutes = [
         component: SubModuloScreen,
         layout: "/admin"
       },
-     
+
       {
         path: "/tiposApoyos",
         name: "Tipos de Apoyo",
@@ -184,8 +186,8 @@ const dashboardRoutes = [
         component: MunicipiosScreen,
         layout: "/admin"
       },
-      
-      
+
+
     ]
   },
   {
@@ -283,8 +285,6 @@ const dashboardRoutes = [
         component: MotivoRechazosScreen,
         layout: "/admin"
       },
-     
-     
       {
         path: "/continuidadActividades",
         name: "Continuidad Actividades",
@@ -338,7 +338,8 @@ const dashboardRoutes = [
         rtlMini: "AS",
         component: PadronBeneficiariosScreen,
         layout: "/admin"
-      },{
+      },
+      {
         path: "/documentoRequisito",
         name: "Documentos",
         rtlName: "Documentos",
@@ -354,6 +355,15 @@ const dashboardRoutes = [
         mini: "PA",
         rtlMini: "pa",
         component: CursosCapacitacionesScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/firmas",
+        name: "Catalogo Firmas",
+        rtlName: "Firmas",
+        mini: "CF",
+        rtlMini: "CF",
+        component: FirmasScreen,
         layout: "/admin"
       },
     ]
