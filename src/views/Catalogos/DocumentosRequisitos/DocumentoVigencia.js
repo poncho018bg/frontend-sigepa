@@ -9,7 +9,11 @@ import { axiosGetHetoas } from 'helpers/axios';
 
 const useStyles = makeStyles(stylesArchivo);
 
-
+/**
+ * Busca la vigencia del documento utilizando el href hetoas
+ * @param {documentosRequisitos} documentosRequisitos 
+ * @returns vigencia
+ */
 export const DocumentoVigencia = ({ documentosRequisitos }) => {
     const classes = useStyles();
     const [vigencia, setVigencia] = useState([]);
