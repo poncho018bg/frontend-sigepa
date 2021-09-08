@@ -1,4 +1,4 @@
-import { GET_ESTADOS, REGISTRAR_ESTADOS, ELIMINAR_ESTADOS, MODIFICAR_ESTADOS } from 'types/actionTypes';
+import { GET_ESTADOS, REGISTRAR_ESTADOS, ELIMINAR_ESTADOS, MODIFICAR_ESTADOS,GET_ESTADO } from 'types/actionTypes';
 
 
 export default (state, action) => {
@@ -8,6 +8,11 @@ export default (state, action) => {
       return {
         ...state,
         estadosList: action.payload
+      };
+      case GET_ESTADO:
+      return {
+        ...state,
+        estado: action.payload
       };
     case REGISTRAR_ESTADOS:
       return {

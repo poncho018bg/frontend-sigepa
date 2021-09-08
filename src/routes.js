@@ -53,6 +53,10 @@ import { ProgramasScreen } from "views/Catalogos/Programas/ProgramasScreen";
 import { DocumentosScreen } from "views/Catalogos/DocumentosRequisitos/DocumentosScreen";
 import { PadronBeneficiariosScreen } from "views/Catalogos/PadronBeneficiarios/PadronBeneficiariosScreen";
 import { EstadosScreen } from "views/Catalogos/Estados/EstadosScreen";
+import { MunicipiosScreen } from "views/Catalogos/Municipios/MunicipiosScreen";
+import { RegionMunicipioScreen } from "views/Catalogos/RegionMunicipio/RegionMunicipioScreen";
+
+import { FirmasScreen } from "views/Catalogos/Firmas/FirmasScreen";
 
 
 
@@ -174,8 +178,24 @@ const dashboardRoutes = [
         component: EstadosScreen,
         layout: "/admin"
       },
-      
-      
+      {
+        path: "/municipios",
+        name: "Municipios",
+        rtlName: "municipios",
+        mini: "MUN",
+        rtlMini: "MUN",
+        component: MunicipiosScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/regionmunicip",
+        name: "Regiones",
+        rtlName: "Regiones",
+        mini: "regmun",
+        rtlMini: "regmun",
+        component: RegionMunicipioScreen,
+        layout: "/admin"
+      },
       
     ]
   },
@@ -345,6 +365,15 @@ const dashboardRoutes = [
         mini: "PA",
         rtlMini: "pa",
         component: CursosCapacitacionesScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/firmas",
+        name: "Catalogo Firmas",
+        rtlName: "Firmas",
+        mini: "CF",
+        rtlMini: "CF",
+        component: FirmasScreen,
         layout: "/admin"
       },
     ]
