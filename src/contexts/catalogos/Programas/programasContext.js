@@ -1,24 +1,22 @@
 import React, { createContext, useReducer } from 'react';
 
-
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
-import CursosCapacitacionesReducer from 'reducers/Catalogos/CursosCapacitacionesReducer';
-import { REGISTRAR_CURSOS_CAPACITACIONES } from 'types/actionTypes';
+import { REGISTRAR_PROGRAMAS } from 'types/actionTypes';
 import { MODIFICAR_CURSOS_CAPACITACIONES } from 'types/actionTypes';
 import { ELIMINAR_CURSOS_CAPACITACIONES } from 'types/actionTypes';
 import { GET_CURSOS_CAPACITACIONES } from 'types/actionTypes';
-import { idText } from 'typescript';
+import ProgramasReducer from 'reducers/Catalogos/Programas/ProgramasReducer';
+
 
 
 export const ProgramasContext = createContext();
 
-export const CursosCapacitacionesContextProvider = props => {
+export const ProgramasContextProvider = props => {
     const initialState = {
-        cursosCapacitacionesList: [],
-        clienteActual: null
+        programasList: []
     }
 
-    const [state, dispatch] = useReducer(CursosCapacitacionesReducer, initialState);
+    const [state, dispatch] = useReducer(ProgramasReducer, initialState);
 
     /**
      * obtener tipos de apoyo
@@ -26,8 +24,6 @@ export const CursosCapacitacionesContextProvider = props => {
     const get= async () => {
         try {
             const result = await axiosGet('cursosCapacitaciones');
-            console.log(result._embedded);
-            console.log(result._embedded.cursosCapacitaciones);
             dispatch({
                 type: GET_CURSOS_CAPACITACIONES,
                 payload: result._embedded.cursosCapacitaciones
@@ -41,13 +37,11 @@ export const CursosCapacitacionesContextProvider = props => {
      * Se registran los tipos de apoyos
      * @param {motivoRechazos} motivoRechazos 
      */
-    const registrar = async cursosCapacitaciones => {
+    const registrar = async programas => {
         try {
-            console.log(cursosCapacitaciones);
-            const resultado = await axiosPost('cursosCapacitaciones', cursosCapacitaciones);
-            console.log(resultado);
+            const resultado = await axiosPost('programas', programas);
             dispatch({
-                type: REGISTRAR_CURSOS_CAPACITACIONES,
+                type: REGISTRAR_PROGRAMAS,
                 payload: resultado
             })
         } catch (error) {
@@ -93,9 +87,9 @@ export const CursosCapacitacionesContextProvider = props => {
     }
 
     return (
-        <CursosCapacitacionesContext.Provider
+        <ProgramasContext.Provider
             value={{
-                cursosCapacitacionesList: state.cursosCapacitacionesList,
+                programasList: state.programasList,
                 get,
                 registrar,
                 actualizar,
@@ -103,6 +97,6 @@ export const CursosCapacitacionesContextProvider = props => {
             }}
         >
             {props.children}
-        </CursosCapacitacionesContext.Provider>
+        </ProgramasContext.Provider>
     )
 }

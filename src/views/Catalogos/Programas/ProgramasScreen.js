@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -24,31 +24,14 @@ import avatar from "assets/img/faces/marc.jpg";
 import { FormControl, FormHelperText, MenuItem, TextField } from "@material-ui/core";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { ProgramasContext } from "contexts/catalogos/Programas/programasContext";
 
 const useStyles = makeStyles(styles);
 
-const currencies = [
-  {
-    value: 'USD',
-    label: 'Menores de 15 años',
-  },
-  {
-    value: 'EUR',
-    label: 'De 18 a 59 años',
-  },
-  {
-    value: 'BTC',
-    label: 'Mayores de 60 años',
-  },
-  {
-    value: 'JPY',
-    label: 'Otro',
-  },
-];
 export const ProgramasScreen = () => {
 
-    const [programaApoyo, setProgramaApoyo] = useState('');
-    const [clavePrograma, setClavePrograma] = useState('');
+    const { registrar} = useContext(ProgramasContext);
+
     const classes = useStyles();
     
     const formik = useFormik({
@@ -79,7 +62,14 @@ export const ProgramasScreen = () => {
           console.log(email);
           console.log(vigenciaDesde);
 
+          let programas = {
+            nombrePrograma,
+            email,
+            vigenciaDesde,
+            boactivo: true
+          }
 
+          registrar(programas);
         
       }
   })
