@@ -1,15 +1,17 @@
-import React, { useContext } from 'react';
-import { Button, Dialog, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
+import React, { useContext,useEffect } from 'react';
+import { Button, Dialog, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { RegionMunicipiosContext } from 'contexts/catalogos/RegionMunicipiosContext';
+import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 
 export const RegionMunicipioFormEdit = ({ regionMunicipioSeleccionada }) => {
 
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { actualizarRegionMunicipios } = useContext(RegionMunicipiosContext);
+    const { municipiosList, getMunicipios } = useContext(MunicipiosContext);
 
     // Schema de validación
     const schemaValidacion = Yup.object({
@@ -26,6 +28,11 @@ export const RegionMunicipioFormEdit = ({ regionMunicipioSeleccionada }) => {
         setShowModalUpdate(false);
     }
 
+    
+    useEffect(() => {
+        getMunicipios();
+    }, []);
+
     return (
 
         <Formik
@@ -41,6 +48,38 @@ export const RegionMunicipioFormEdit = ({ regionMunicipioSeleccionada }) => {
                     <form
                         className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
                         onSubmit={props.handleSubmit}>
+
+                        <DialogContent>
+                            <TextField
+                                variant="outlined"
+                                label="Selecciona un municipio"
+                                select
+                                fullWidth
+                                name="idMunicipio"
+                                value={props.values.idMunicipio}
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
+                            >
+                                <MenuItem value="0">
+                                    <em>Ninguno</em>
+                                </MenuItem>
+                                {
+                                    municipiosList.map(
+                                        item => (
+                                            <MenuItem
+                                                key={item.id}
+                                                value={item.id}>
+                                                {item.dsmunicipio}
+                                            </MenuItem>
+                                        )
+                                    )
+                                }
+
+                            </TextField>
+                            {props.touched.idMunicipio && props.errors.idMunicipio ? (
+                                <FormHelperText error={props.errors.idMunicipio}>{props.errors.idMunicipio}</FormHelperText>
+                            ) : null}
+                        </DialogContent>
                         <DialogContent>
                             <TextField
                                 id="noclaveregion"

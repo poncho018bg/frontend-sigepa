@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -24,31 +24,16 @@ import avatar from "assets/img/faces/marc.jpg";
 import { FormControl, FormHelperText, MenuItem, TextField } from "@material-ui/core";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { ProgramasContext } from "contexts/catalogos/Programas/programasContext";
+import SnackbarContent from "components/Snackbar/SnackbarContent";
+import Snackbar from "components/Snackbar/Snackbar";
 
 const useStyles = makeStyles(styles);
 
-const currencies = [
-  {
-    value: 'USD',
-    label: 'Menores de 15 años',
-  },
-  {
-    value: 'EUR',
-    label: 'De 18 a 59 años',
-  },
-  {
-    value: 'BTC',
-    label: 'Mayores de 60 años',
-  },
-  {
-    value: 'JPY',
-    label: 'Otro',
-  },
-];
 export const ProgramasScreen = () => {
 
-    const [programaApoyo, setProgramaApoyo] = useState('');
-    const [clavePrograma, setClavePrograma] = useState('');
+    const { registrar, error} = useContext(ProgramasContext);
+
     const classes = useStyles();
     
     const formik = useFormik({
@@ -60,7 +45,11 @@ export const ProgramasScreen = () => {
           periodoRegistroWebDesde:'',
           periodoRegistroWebHasta:'',
           periodoRegistroPresencialDesde:'',
-          periodoRegistroPresencialHasta:''
+          periodoRegistroPresencialHasta:'',
+          desripcionPrograma: '',
+          criterioPrograma: '',
+          actividadesPrograma: '',
+          obervacionesPrograma: '',
       },
       validationSchema: Yup.object({
         nombrePrograma: Yup.string()
@@ -69,13 +58,42 @@ export const ProgramasScreen = () => {
     }),
       onSubmit: async valores => {
 
-          const { nombrePrograma,email,vigenciaDesde } = valores;
+          const {
+               nombrePrograma,
+               clavePrograma,
+               vigenciaDesde,
+               vigenciaHasta,
+               periodoRegistroWebDesde,
+               periodoRegistroWebHasta,
+               periodoRegistroPresencialDesde,
+               periodoRegistroPresencialHasta,
+               desripcionPrograma,
+               criterioPrograma,
+               actividadesPrograma,
+               obervacionesPrograma
+            } = valores;
 
-          console.log(nombrePrograma);
-          console.log(email);
-          console.log(vigenciaDesde);
 
-
+          let programas = {
+            dsprograma:nombrePrograma,
+            dsclaveprograma:clavePrograma,
+            
+            fcvigenciainicio:vigenciaDesde,
+            fcvigenciafin: vigenciaHasta,
+            fcregistrowebinicio: periodoRegistroWebDesde,
+            fcregistrowebfin: periodoRegistroWebHasta,
+            fcregistropresencialinicio: periodoRegistroPresencialDesde,
+            fcregistropresencialfin: periodoRegistroPresencialHasta,
+            dsdescripcion: desripcionPrograma,
+            dscriterioelegibilidad: criterioPrograma,
+            dscontinuidad: actividadesPrograma,
+            dsobservaciones: obervacionesPrograma,
+            boactivo: true
+          }
+          
+            registrar(programas);
+          console.log(error);
+         
         
       }
   })
@@ -242,53 +260,38 @@ export const ProgramasScreen = () => {
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <TextField
-                        id="outlined-select-currency"
-                        select
-                        label="Rango de edad del beneficiario"
-                        style={{marginBottom: '20px'}}
-                        fullWidth
-                        variant="outlined"
-                      >
-                        {currencies.map((option) => (
-                          <MenuItem key={option.value} value={option.value}>
-                            {option.label}
-                          </MenuItem>
-                        ))}
-                    </TextField>
+                  <GridItem xs={12} sm={12} md={12}>
+                  <TextField
+                              id="outlined-multiline-static"
+                              label="Criterios de Elegibilidad del Programa (opcional)"
+                              style={{marginBottom: '20px'}}
+                              fullWidth
+                              multiline
+                              rows={4}
+                              variant="outlined"
+                    />
                   </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
+                  <GridItem xs={12} sm={12} md={12}>
                     <TextField
-                          id="outlined-select-currency2"
-                          select
-                          label="Rango de edad del beneficiario"
-                          style={{marginBottom: '20px'}}
-                          fullWidth
-                          variant="outlined"
-                        >
-                          {currencies.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                      </TextField>
+                                id="outlined-multiline-static"
+                                label="Actividades por realizar para continuar con el programa (opcional)"
+                                style={{marginBottom: '20px'}}
+                                fullWidth
+                                multiline
+                                rows={4}
+                                variant="outlined"
+                      />
                   </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <TextField
-                        id="outlined-select-currency3"
-                        select
-                        label="Rango de edad del beneficiario"
-                        style={{marginBottom: '20px'}}
-                        fullWidth
-                        variant="outlined"
-                      >
-                        {currencies.map((option) => (
-                          <MenuItem key={option.value} value={option.value}>
-                            {option.label}
-                          </MenuItem>
-                        ))}
-                    </TextField>
+                  <GridItem xs={12} sm={12} md={12}>
+                  <TextField
+                                id="outlined-multiline-static"
+                                label="Observaciones (opcional)"
+                                style={{marginBottom: '20px'}}
+                                fullWidth
+                                multiline
+                                rows={4}
+                                variant="outlined"
+                      />
                   </GridItem>
                 </GridContainer>
                 
@@ -302,7 +305,14 @@ export const ProgramasScreen = () => {
           </GridItem>
           
         </GridContainer>
+        <Snackbar
+                      place="bc"
+                      color="danger"
+                      message="Ocurrio un error"
+                      open={error}
+                    />
       </form>
+
     );
 }
 

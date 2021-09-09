@@ -59,6 +59,8 @@ import { EstadosContextProvider } from "contexts/catalogos/EstadosContext";
 import { MunicipiosContextProvider } from "contexts/catalogos/MunicipiosContext";
 import { FirmasContextProvider } from "contexts/catalogos/firmasContext";
 import { RegionMunicipiosContextProvider } from "contexts/catalogos/RegionMunicipiosContext";
+import { ProgramasContextProvider } from "contexts/catalogos/Programas/programasContext";
+import { ApoyoContextProvider } from "contexts/catalogos/ApoyoContext";
 
 //const hist = createBrowserHistory();
 
@@ -119,9 +121,13 @@ const AppState = ({ children }) => {
                                             <EstadosContextProvider>
                                               <MunicipiosContextProvider>
                                                 <FirmasContextProvider>
-                                                <RegionMunicipiosContextProvider>
-                                                {children}
-                                                </RegionMunicipiosContextProvider>
+                                                  <RegionMunicipiosContextProvider>
+                                                    <ProgramasContextProvider>
+                                                      <ApoyoContextProvider>
+                                                        {children}
+                                                      </ApoyoContextProvider>
+                                                    </ProgramasContextProvider>
+                                                  </RegionMunicipiosContextProvider>
                                                 </FirmasContextProvider>
                                               </MunicipiosContextProvider>
                                             </EstadosContextProvider>
