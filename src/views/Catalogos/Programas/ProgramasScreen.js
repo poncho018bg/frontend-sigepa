@@ -25,12 +25,14 @@ import { FormControl, FormHelperText, MenuItem, TextField } from "@material-ui/c
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { ProgramasContext } from "contexts/catalogos/Programas/programasContext";
+import SnackbarContent from "components/Snackbar/SnackbarContent";
+import Snackbar from "components/Snackbar/Snackbar";
 
 const useStyles = makeStyles(styles);
 
 export const ProgramasScreen = () => {
 
-    const { registrar} = useContext(ProgramasContext);
+    const { registrar, error} = useContext(ProgramasContext);
 
     const classes = useStyles();
     
@@ -56,20 +58,42 @@ export const ProgramasScreen = () => {
     }),
       onSubmit: async valores => {
 
-          const { nombrePrograma,email,vigenciaDesde } = valores;
+          const {
+               nombrePrograma,
+               clavePrograma,
+               vigenciaDesde,
+               vigenciaHasta,
+               periodoRegistroWebDesde,
+               periodoRegistroWebHasta,
+               periodoRegistroPresencialDesde,
+               periodoRegistroPresencialHasta,
+               desripcionPrograma,
+               criterioPrograma,
+               actividadesPrograma,
+               obervacionesPrograma
+            } = valores;
 
-          console.log(nombrePrograma);
-          console.log(email);
-          console.log(vigenciaDesde);
 
           let programas = {
-            nombrePrograma,
-            email,
-            vigenciaDesde,
+            dsprograma:nombrePrograma,
+            dsclaveprograma:clavePrograma,
+            
+            fcvigenciainicio:vigenciaDesde,
+            fcvigenciafin: vigenciaHasta,
+            fcregistrowebinicio: periodoRegistroWebDesde,
+            fcregistrowebfin: periodoRegistroWebHasta,
+            fcregistropresencialinicio: periodoRegistroPresencialDesde,
+            fcregistropresencialfin: periodoRegistroPresencialHasta,
+            dsdescripcion: desripcionPrograma,
+            dscriterioelegibilidad: criterioPrograma,
+            dscontinuidad: actividadesPrograma,
+            dsobservaciones: obervacionesPrograma,
             boactivo: true
           }
-
-          registrar(programas);
+          
+            registrar(programas);
+          console.log(error);
+         
         
       }
   })
@@ -281,7 +305,14 @@ export const ProgramasScreen = () => {
           </GridItem>
           
         </GridContainer>
+        <Snackbar
+                      place="bc"
+                      color="danger"
+                      message="Ocurrio un error"
+                      open={error}
+                    />
       </form>
+
     );
 }
 

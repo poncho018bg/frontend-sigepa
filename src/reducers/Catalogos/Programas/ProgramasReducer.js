@@ -2,16 +2,23 @@
 import { REGISTRAR_PROGRAMAS } from 'types/actionTypes';
 import { MODIFICAR_CURSOS_CAPACITACIONES } from 'types/actionTypes';
 import { ELIMINAR_CURSOS_CAPACITACIONES } from 'types/actionTypes';
-import { GET_CURSOS_CAPACITACIONES } from 'types/actionTypes';
+import { GET_PROGRAMAS,AGREGAR_PROGRAMA_ERROR } from 'types/actionTypes';
 
 export default (state, action) => {
 
     switch (action.type) {
-        case GET_CURSOS_CAPACITACIONES:
+       
+        case GET_PROGRAMAS:
             return {
                 ...state,
-                cursosCapacitacionesList: action.payload
+                programasList: action.payload
             };
+        case AGREGAR_PROGRAMA_ERROR:
+            console.log(action.type);
+                return {
+                    ...state,
+                    error: action.payload
+        }
         case REGISTRAR_PROGRAMAS:
             return {
                 ...state,

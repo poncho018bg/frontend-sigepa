@@ -1,10 +1,10 @@
 import React, { createContext, useReducer } from 'react';
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
-import { REGISTRAR_PROGRAMAS } from 'types/actionTypes';
+import { REGISTRAR_PROGRAMAS,AGREGAR_PROGRAMA_ERROR } from 'types/actionTypes';
 import { MODIFICAR_CURSOS_CAPACITACIONES } from 'types/actionTypes';
 import { ELIMINAR_CURSOS_CAPACITACIONES } from 'types/actionTypes';
-import { GET_CURSOS_CAPACITACIONES } from 'types/actionTypes';
+import { GET_PROGRAMAS } from 'types/actionTypes';
 import ProgramasReducer from 'reducers/Catalogos/Programas/ProgramasReducer';
 
 
@@ -13,7 +13,8 @@ export const ProgramasContext = createContext();
 
 export const ProgramasContextProvider = props => {
     const initialState = {
-        programasList: []
+        programasList: [],
+        error: false,
     }
 
     const [state, dispatch] = useReducer(ProgramasReducer, initialState);
@@ -23,10 +24,10 @@ export const ProgramasContextProvider = props => {
      */
     const get= async () => {
         try {
-            const result = await axiosGet('cursosCapacitaciones');
+            const result = await axiosGet('programas');
             dispatch({
-                type: GET_CURSOS_CAPACITACIONES,
-                payload: result._embedded.cursosCapacitaciones
+                type: GET_PROGRAMAS,
+                payload: result._embedded.programas
             })
         } catch (error) {
             console.log(error);
@@ -45,7 +46,12 @@ export const ProgramasContextProvider = props => {
                 payload: resultado
             })
         } catch (error) {
+            console.log('ocurrio un error en el context');
             console.log(error);
+            dispatch({
+                type: AGREGAR_PROGRAMA_ERROR,
+                payload: true
+            })
         }
     }
 
@@ -86,10 +92,15 @@ export const ProgramasContextProvider = props => {
         }
     }
 
+
+          
+
+
     return (
         <ProgramasContext.Provider
             value={{
                 programasList: state.programasList,
+                error:state.error,
                 get,
                 registrar,
                 actualizar,
