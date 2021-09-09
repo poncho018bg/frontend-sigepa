@@ -30,7 +30,7 @@ export const DocumentoVigencia = ({ documentosRequisitos }) => {
             setVigencia(result);
         }
         getVigencia();
-    }, [documentosRequisitos.id]);
+    }, []);
 
     return (
         <span>

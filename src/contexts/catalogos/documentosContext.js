@@ -5,6 +5,8 @@ import { GET_DOCUMENTOS_REQUISITOS, REGISTRAR_DOCUMENTOS_REQUISITOS, MODIFICAR_D
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
 
+const baseUrl = process.env.REACT_APP_API_URL;
+
 export const DocumentosContext = createContext();
 
 export const DocumentosContextProvider = props => {
@@ -106,13 +108,19 @@ export const DocumentosContextProvider = props => {
             dsdocumento,
             dsdescripcion,
             vigencias: `${process.env.REACT_APP_API_URL}vigencias/${idVigencia}`,
-            'apoyos':[],
+            'apoyos': [],
             activo,
         };
-        console.log("que llega aqui ---> ", documentosRequisitosEnviar);
-        
+        console.log("documento a enviar ---> ", documentosRequisitosEnviar);
+        let actualizarVigencia = {
+            "_links": { "1": { "href": `/${idVigencia}` } },
+        };
+        console.log("nueva vigencia ---> ", actualizarVigencia);
+        const urVigencia = `${baseUrl}documentosRequisitos/${id}/vigencias`;
         try {
+            const resultV = await axiosPostHetoas(urVigencia, actualizarVigencia, 'PUT');
             const result = await axiosPostHetoas(href, documentosRequisitosEnviar, 'PUT');
+            console.log("retorna esto --> ", result);
             dispatch({
                 type: MODIFICAR_DOCUMENTOS_REQUISITOS,
                 payload: result,

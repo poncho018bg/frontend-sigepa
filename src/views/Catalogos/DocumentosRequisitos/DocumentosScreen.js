@@ -188,7 +188,7 @@ export const DocumentosScreen = () => {
                                             </TableCell >
                                             <TableCell align="center">
                                                 <DocumentoVigencia key={i}
-                                                    documentosRequisitos={row} />
+                                                    documentosRequisitos={row}/>
                                                 {/*
                                                 <IconButton aria-label="create" onClick={() => onSelectVigencia(row)}>
                                                     <CreateIcon />
@@ -197,7 +197,7 @@ export const DocumentosScreen = () => {
 
                                             <TableCell >
                                                 <Checkbox
-                                                    disabled="true"
+                                                    disabled
                                                     checked={row.activo}
                                                     color="primary"
                                                     inputProps={{ 'aria-label': 'Checkbox A' }}

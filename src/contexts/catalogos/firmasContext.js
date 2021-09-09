@@ -3,6 +3,8 @@ import FirmasReducer from 'reducers/Catalogos/FirmasReducer';
 import { GET_FIRMAS, REGISTRAR_FIRMAS, MODIFICAR_FIRMAS, ELIMINAR_FIRMAS, GET_PROGRAMAS } from "../../types/actionTypes";
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
+const baseUrl = process.env.REACT_APP_API_URL;
+
 export const FirmasContext = createContext();
 
 export const FirmasContextProvider = props => {
@@ -75,7 +77,13 @@ export const FirmasContextProvider = props => {
             activo: activo
         };
         console.log("que llega aqui ---> ", FirmasEnviar);
+        let actualizarPrograma = {
+            "_links": { "1": { "href": `/${idPrograma}` } },
+        }
+        console.log("nuevo programa ---> ", actualizarPrograma);
+        const urPrograma = `${baseUrl}firmas/${id}/programas`;
         try {
+            const resultV = await axiosPostHetoas(urPrograma, actualizarPrograma, 'PUT');
             const result = await axiosPostHetoas(href, FirmasEnviar, 'PUT');
             dispatch({
                 type: MODIFICAR_FIRMAS,
