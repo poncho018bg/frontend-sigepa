@@ -61,10 +61,13 @@ export const DocumentosScreen = () => {
     const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
         = useContext(ModalContextUpdate);
 
+    const [actualiza, setActualiza] = useState('noactual');
+
     useEffect(() => {
         getDocumentos();
         // eslint-disable-next-line
         console.log("documentos", documentosList);
+        setActualiza('actualiza');
     }, []);
 
     const total = 0;
@@ -81,6 +84,7 @@ export const DocumentosScreen = () => {
     const onSelect = (e) => {
         setShowModalUpdate(true);
         setDocumentoSeleccionado(e);
+        setActualiza('noactual');
     }
 
     const onSelectVigencia = (e) => {
@@ -103,12 +107,12 @@ export const DocumentosScreen = () => {
     }
 
 
-    
+
     const handleDeshabilitar = () => {
         eliminarEdadesBeneficiarios(idEliminar)
         setShowModalDelete(false);
     }
-    
+
 
     const verProgramas = (e) => {
         console.log("programa seleccionado --->", e);
@@ -120,6 +124,9 @@ export const DocumentosScreen = () => {
         setVerProgramasDocumento(false);
         setDocumentoProgramaSeleccionado(null);
     }
+
+
+
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -188,7 +195,8 @@ export const DocumentosScreen = () => {
                                             </TableCell >
                                             <TableCell align="center">
                                                 <DocumentoVigencia key={i}
-                                                    documentosRequisitos={row}/>
+                                                    documentosRequisitos={row}
+                                                    actualiza={row.fechaRegistro} />
                                                 {/*
                                                 <IconButton aria-label="create" onClick={() => onSelectVigencia(row)}>
                                                     <CreateIcon />
@@ -242,7 +250,9 @@ export const DocumentosScreen = () => {
                 handleDeshabilitar={handleDeshabilitar}
             />
             <ModalUpdate>
-                <DocumentosEdit documentoSeleccionado={documentoSeleccionado} />
+                <DocumentosEdit
+                    documentoSeleccionado={documentoSeleccionado}
+                />
             </ModalUpdate>
             {verProgramasDocumento === true &&
                 <DocumentosProgramas

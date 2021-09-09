@@ -11,7 +11,7 @@ const useStyles = makeStyles(stylesArchivo);
  * @param {Firma} Firma 
  * @returns programa.dsprograma
  */
-export const FirmaPrograma = ({ Firma }) => {
+export const FirmaPrograma = ({ Firma, actualiza }) => {
     const classes = useStyles();
     const [programa, setPrograma] = useState([]);
 
@@ -23,7 +23,7 @@ export const FirmaPrograma = ({ Firma }) => {
             setPrograma(result);
         }
         GetPrograma();
-    }, [Firma.id]);
+    }, [actualiza]);
 
     return (
         <span>
