@@ -19,6 +19,8 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import moment from 'moment';
 import 'moment/locale/es';
+import { ApoyoContext } from 'contexts/catalogos/ApoyoContext';
+import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
 const useStyles = makeStyles(stylesArchivo);
 
 
@@ -66,6 +68,8 @@ export const DialogTipoApoyoForm = (props) => {
     const { getTipoBeneficiarios, tiposBeneficiariosList } = useContext(TiposBeneficiariosContext);
     const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
     const { getDocumentos, documentosList } = useContext(DocumentosContext);
+    const { registrarApoyo } = useContext(ApoyoContext);
+    const { programasList, get } = useContext(ProgramasContext);
 
     const [checked, setChecked] = React.useState([]);
     const [left, setLeft] = React.useState([]);
@@ -91,6 +95,7 @@ export const DialogTipoApoyoForm = (props) => {
         getTipoBeneficiarios();
         getPeriodicidadApoyos();
         getDocumentos();
+        get();
         setLeft(documentosList)
     }, []);
 
@@ -182,7 +187,6 @@ export const DialogTipoApoyoForm = (props) => {
                 .required('La vigencia desde obligatorio'),
             fcregistropresencialfin: Yup.string()
                 .required('La vigencia hasta es obligatorio'),
-
             idRangoEdadBeneficiario: Yup.string()
                 .required('El rango de edad es obligatorio'),
             idBeneficiario: Yup.string()
@@ -201,7 +205,6 @@ export const DialogTipoApoyoForm = (props) => {
                 .required('El número de entrega es obligatorio'),
             documentosRequisitos: Yup.string()
                 .required('La documentación es obligatorio'),
-
             idActividadContinuidadApoyo: Yup.string()
                 .required('La actividad es obligatorio'),
             cobertura: Yup.string()
@@ -271,17 +274,12 @@ export const DialogTipoApoyoForm = (props) => {
                 coberturaMunicipal: coberturaMunicipal,
                 idEstado: 'a3de85a7-6c23-46a4-847b-d79b3a90963d'
 
-
-
-
-
-
             }
 
 
 
 
-            //registrarMunicipios(nuevoApoyo);
+            registrarApoyo(nuevoApoyo);
             setShowModal(false);
 
         }
@@ -372,6 +370,37 @@ export const DialogTipoApoyoForm = (props) => {
 
                     {formik.touched.dsapoyo && formik.errors.dsapoyo ? (
                         <FormHelperText error={formik.errors.dsapoyo}>{formik.errors.dsapoyo}</FormHelperText>
+                    ) : null}
+                </DialogContent>
+
+                <DialogContent>
+                    <TextField
+                        variant="outlined"
+                        label="Selecciona un programa"
+                        select
+                        fullWidth
+                        name="idPrograma"
+                        value={formik.values.idPrograma}
+                        onChange={formik.handleChange}                      
+                    >
+                        <MenuItem value="0">
+                            <em>Ninguno</em>
+                        </MenuItem>
+                        {
+                            programasList.map(
+                                item => (
+                                    <MenuItem
+                                        key={item.id}
+                                        value={item.id}>
+                                        {item.dsclaveprograma} - {item.dsprograma}
+                                    </MenuItem>
+                                )
+                            )
+                        }
+
+                    </TextField>
+                    {formik.touched.idPrograma && formik.errors.idPrograma ? (
+                        <FormHelperText error={formik.errors.idPrograma}>{formik.errors.idPrograma}</FormHelperText>
                     ) : null}
                 </DialogContent>
 
