@@ -54,6 +54,7 @@ import { DocumentosScreen } from "views/Catalogos/DocumentosRequisitos/Documento
 import { PadronBeneficiariosScreen } from "views/Catalogos/PadronBeneficiarios/PadronBeneficiariosScreen";
 import { EstadosScreen } from "views/Catalogos/Estados/EstadosScreen";
 import { MunicipiosScreen } from "views/Catalogos/Municipios/MunicipiosScreen";
+import { RegionMunicipioScreen } from "views/Catalogos/RegionMunicipio/RegionMunicipioScreen";
 
 import { FirmasScreen } from "views/Catalogos/Firmas/FirmasScreen";
 
@@ -113,7 +114,7 @@ const dashboardRoutes = [
         component: SubModuloScreen,
         layout: "/admin"
       },
-
+     
       {
         path: "/tiposApoyos",
         name: "Tipos de Apoyo",
@@ -186,8 +187,16 @@ const dashboardRoutes = [
         component: MunicipiosScreen,
         layout: "/admin"
       },
-
-
+      {
+        path: "/regionmunicip",
+        name: "Regiones",
+        rtlName: "Regiones",
+        mini: "regmun",
+        rtlMini: "regmun",
+        component: RegionMunicipioScreen,
+        layout: "/admin"
+      },
+      
     ]
   },
   {
@@ -285,6 +294,8 @@ const dashboardRoutes = [
         component: MotivoRechazosScreen,
         layout: "/admin"
       },
+     
+     
       {
         path: "/continuidadActividades",
         name: "Continuidad Actividades",
@@ -338,8 +349,7 @@ const dashboardRoutes = [
         rtlMini: "AS",
         component: PadronBeneficiariosScreen,
         layout: "/admin"
-      },
-      {
+      },{
         path: "/documentoRequisito",
         name: "Documentos",
         rtlName: "Documentos",
