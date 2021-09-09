@@ -60,7 +60,11 @@ export const ProgramasScreen = () => {
           periodoRegistroWebDesde:'',
           periodoRegistroWebHasta:'',
           periodoRegistroPresencialDesde:'',
-          periodoRegistroPresencialHasta:''
+          periodoRegistroPresencialHasta:'',
+          desripcionPrograma: '',
+          criterioPrograma: '',
+          actividadesPrograma: '',
+          obervacionesPrograma: '',
       },
       validationSchema: Yup.object({
         nombrePrograma: Yup.string()
@@ -242,53 +246,38 @@ export const ProgramasScreen = () => {
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <TextField
-                        id="outlined-select-currency"
-                        select
-                        label="Rango de edad del beneficiario"
-                        style={{marginBottom: '20px'}}
-                        fullWidth
-                        variant="outlined"
-                      >
-                        {currencies.map((option) => (
-                          <MenuItem key={option.value} value={option.value}>
-                            {option.label}
-                          </MenuItem>
-                        ))}
-                    </TextField>
+                  <GridItem xs={12} sm={12} md={12}>
+                  <TextField
+                              id="outlined-multiline-static"
+                              label="Criterios de Elegibilidad del Programa (opcional)"
+                              style={{marginBottom: '20px'}}
+                              fullWidth
+                              multiline
+                              rows={4}
+                              variant="outlined"
+                    />
                   </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
+                  <GridItem xs={12} sm={12} md={12}>
                     <TextField
-                          id="outlined-select-currency2"
-                          select
-                          label="Rango de edad del beneficiario"
-                          style={{marginBottom: '20px'}}
-                          fullWidth
-                          variant="outlined"
-                        >
-                          {currencies.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                      </TextField>
+                                id="outlined-multiline-static"
+                                label="Actividades por realizar para continuar con el programa (opcional)"
+                                style={{marginBottom: '20px'}}
+                                fullWidth
+                                multiline
+                                rows={4}
+                                variant="outlined"
+                      />
                   </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <TextField
-                        id="outlined-select-currency3"
-                        select
-                        label="Rango de edad del beneficiario"
-                        style={{marginBottom: '20px'}}
-                        fullWidth
-                        variant="outlined"
-                      >
-                        {currencies.map((option) => (
-                          <MenuItem key={option.value} value={option.value}>
-                            {option.label}
-                          </MenuItem>
-                        ))}
-                    </TextField>
+                  <GridItem xs={12} sm={12} md={12}>
+                  <TextField
+                                id="outlined-multiline-static"
+                                label="Observaciones (opcional)"
+                                style={{marginBottom: '20px'}}
+                                fullWidth
+                                multiline
+                                rows={4}
+                                variant="outlined"
+                      />
                   </GridItem>
                 </GridContainer>
                 
