@@ -14,7 +14,7 @@ const useStyles = makeStyles(stylesArchivo);
  * @param {documentosRequisitos} documentosRequisitos 
  * @returns vigencia
  */
-export const DocumentoVigencia = ({ documentosRequisitos }) => {
+export const DocumentoVigencia = ({ documentosRequisitos, actualiza }) => {
     const classes = useStyles();
     const [vigencia, setVigencia] = useState([]);
 
@@ -30,7 +30,7 @@ export const DocumentoVigencia = ({ documentosRequisitos }) => {
             setVigencia(result);
         }
         getVigencia();
-    }, []);
+    }, [actualiza]);
 
     return (
         <span>

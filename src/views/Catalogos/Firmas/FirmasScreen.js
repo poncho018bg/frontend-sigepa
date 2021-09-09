@@ -148,7 +148,7 @@ export const FirmasScreen = () => {
                                         < TableRow key={row.id}>
 
                                             <TableCell>
-                                                <FirmaPrograma Firma={row}/>
+                                                <FirmaPrograma Firma={row} actualiza={row.fechaRegistro}/>
                                             </TableCell>
                                             <TableCell>{row.dsautoriza}</TableCell >
                                             <TableCell >{row.dspuesto}</TableCell>
