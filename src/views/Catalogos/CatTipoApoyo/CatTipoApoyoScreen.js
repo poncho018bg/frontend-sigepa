@@ -195,14 +195,6 @@ export const CatTipoApoyoScreen = () => {
                 handleDeshabilitar={handleDeshabilitar}
             />
 
-            <DialogTipoApoyoForm
-                showDialogForm={showDialogForm}
-                setShowDialogForm={setShowDialogForm}
-                setOpen={setOpen}
-                setSeverity={setSeverity}
-                setMessage={setMessage}
-                idTipo={idSelect}
-            />
         </>
     )
 }

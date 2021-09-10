@@ -58,6 +58,9 @@ import { RegionMunicipioScreen } from "views/Catalogos/RegionMunicipio/RegionMun
 
 import { FirmasScreen } from "views/Catalogos/Firmas/FirmasScreen";
 import { ClasificacionServiciosScreen } from "views/Catalogos/ClasificacionServicios/ClasificacionServiciosScreen";
+import { DialogTipoApoyoForm } from "views/Catalogos/CatTipoApoyo/DialogTipoApoyoForm";
+
+
 
 const dashboardRoutes = [
 
@@ -113,7 +116,7 @@ const dashboardRoutes = [
         component: SubModuloScreen,
         layout: "/admin"
       },
-
+     
       {
         path: "/tiposApoyos",
         name: "Tipos de Apoyo",
@@ -195,7 +198,7 @@ const dashboardRoutes = [
         component: RegionMunicipioScreen,
         layout: "/admin"
       },
-
+      
     ]
   },
   {
@@ -293,8 +296,8 @@ const dashboardRoutes = [
         component: MotivoRechazosScreen,
         layout: "/admin"
       },
-
-
+     
+     
       {
         path: "/continuidadActividades",
         name: "Continuidad Actividades",
@@ -348,7 +351,7 @@ const dashboardRoutes = [
         rtlMini: "AS",
         component: PadronBeneficiariosScreen,
         layout: "/admin"
-      }, {
+      },{
         path: "/documentoRequisito",
         name: "Documentos",
         rtlName: "Documentos",
@@ -373,6 +376,15 @@ const dashboardRoutes = [
         mini: "CF",
         rtlMini: "CF",
         component: FirmasScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/nuevoApoyo",
+        name: "Registro de apoyos",
+        rtlName: "rapoyo",
+        mini: "RP",
+        rtlMini: "RP",
+        component: DialogTipoApoyoForm,
         layout: "/admin"
       },
       {
