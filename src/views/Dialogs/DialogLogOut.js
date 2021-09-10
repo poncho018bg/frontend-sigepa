@@ -12,11 +12,10 @@ import { useDispatch } from 'react-redux';
 
 export const DialogLogOut = (props) => {
 
-    const dispatch = useDispatch();
+    //aqui estaba el dispatch
 
     const handleClose = () => {
         props.setOpenDialog(false);
-       // dispatch(obtenerModuloEliminar(null));
     }
 
   

@@ -1,15 +1,11 @@
 
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox, Chip, Container, DialogTitle, FormControlLabel, FormHelperText, FormLabel, Grid, Input, InputAdornment, List, ListItem, ListItemIcon, ListItemText, ListSubheader, makeStyles, MenuItem, Paper, Radio, RadioGroup, Select, TextField, useTheme } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, DialogTitle, FormControlLabel, FormHelperText, FormLabel, Grid, Input, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, Radio, RadioGroup, Select, TextField, useTheme } from '@material-ui/core'
 import React, { useEffect, useState, useContext } from 'react';
-import { useForm } from 'hooks/useForm';
 import Button from "components/CustomButtons/Button.js";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { stylesArchivo } from 'css/stylesArchivo';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Typography from '@material-ui/core/Typography';
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { TiposApoyosContext } from 'contexts/catalogos/tiposApoyosContext';
@@ -21,7 +17,6 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import moment from 'moment';
 import 'moment/locale/es';
-import { ApoyoContext } from 'contexts/catalogos/ApoyoContext';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
 import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 import { NumeroApoyosContext } from 'contexts/catalogos/numeroApoyosContext';
@@ -43,12 +38,6 @@ const MenuProps = {
 };
 
 
-// const initTipoApoyo = {
-
-
-// }
-
-
 
 function not(a, b) {
     return a.filter((value) => b.indexOf(value) === -1);
@@ -60,42 +49,22 @@ function intersection(a, b) {
 
 export const DialogTipoApoyoForm = (props) => {
 
-    const dispatch = useDispatch();
+    /**
+     * estaba el dispatch
+     */
     const classes = useStyles();
-    const theme = useTheme();
-    // const [formValues, handleInputChange, reset, setValues] = useForm(initTipoApoyo);
-    // const {
-    //     dsapoyo,
-    //     nombrePrograma,
-    //     clavePrograma,
-    //     dsdescripcion,
-    //     estatus,
-    //     visita,
-    //     idTipoApoyo,
-    //     fcvigenciainicio,
-    //     fcvigenciafin,
-    //     idRangoEdadBeneficiario,
-    //     idBeneficiario,
-    //     cantidadPesos,
-    //     descApoyoEspecie,
-    //     idPeriodicidad,
-    //     observaciones,
-    //     formaEntrega
-    // } = formValues;
-    // const [errors, setErrors] = useState({});
     const { tipoApoyoEditar } = useSelector(state => state.tipoApoyo);
     const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);
     const { getEdadesBeneficiarios, edadesBeneficiariosList } = useContext(EdadesBeneficiariosContext);
     const { getTipoBeneficiarios, tiposBeneficiariosList } = useContext(TiposBeneficiariosContext);
     const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
     const { getDocumentos, documentosList } = useContext(DocumentosContext);
-    const { registrarApoyo } = useContext(ApoyoContext);
     const { programasList, get } = useContext(ProgramasContext);
     const { apoyoservicioList, getApoyoServicio } = useContext(ApoyoServicioContext);
     const { numeroApoyosList, getNumeroApoyos } = useContext(NumeroApoyosContext);
     const { municipiosList, getMunicipios } = useContext(MunicipiosContext);
 
-    const [checkedTipoApoyo, setCheckedTipoApoyo] = React.useState([0]);
+    
     const [municipiosSelect, setMunicipiosSelect] = React.useState([]);
 
 
@@ -106,16 +75,9 @@ export const DialogTipoApoyoForm = (props) => {
 
     const leftChecked = intersection(checked, left);
     const rightChecked = intersection(checked, right);
-    const [estatusf, setEstatusf] = React.useState('Activo');
-    const [visitaf, setVisitaf] = React.useState('SI');
     const [state, setState] = React.useState({
         checkedA: false
     });
-    const [valueStatus, setValueStatus] = React.useState('true');
-
-    const handleChangeStatus = (event) => {
-        setValueStatus(event.target.value);
-    };
 
 
     const options = [
@@ -154,46 +116,6 @@ export const DialogTipoApoyoForm = (props) => {
         
     }, [municipiosList]);
 
-
-
-    const handleClose = () => {
-        props.setShowDialogForm(false);
-        formik.resetForm()
-    }
-
-    function getStyles(name, personName, theme) {
-        return {
-            fontWeight:
-                personName.indexOf(name) === -1
-                    ? theme.typography.fontWeightRegular
-                    : theme.typography.fontWeightMedium,
-        };
-    }
-
-    // const isObjEmpty = (obj) => {
-    //     return Object.keys(obj).length === 0 && obj.constructor === Object;
-    // }
-
-
-    // const handleAgregar = (e) => {
-    //     e.preventDefault();
-
-    //     const errors = {};
-    //     if (dsidioma === '') {
-    //         errors.idioma = "El nombre del idioma es requerido";
-    //     }
-
-
-    //     if (!isObjEmpty(errors)) {
-    //         setErrors(errors);
-    //         return;
-    //     }
-
-
-    //     props.setShowDialogForm(false);
-
-    // }
-
     function parseSelect(params) {
         const nombrs = []
         params.map((mp) => {
@@ -211,18 +133,6 @@ export const DialogTipoApoyoForm = (props) => {
         }
         formik.values.enServicio[index] = serv
         console.log('agregarServicioFormik 1=>', formik.values.enServicio)
-    }
-    const agregarServicioFormikFinicio = (value, index) => () => {
-        console.log('calendar 1=>', value)
-        console.log('calendar 1=>', index)
-        //formik.values.enServicio[index].fechaInicio = value
-        //console.log('agregarServicioFormik 2=>', formik.values.enServicio)
-    }
-    const agregarServicioFormikFfin = (value, index) => () => {
-        console.log('calendar 2=>', value)
-        console.log('calendar 2=>', index)
-        //formik.values.enServicio[index].fechaFin = value
-        //console.log('agregarServicioFormik 3=>', checkeformik.values.enServicio)
     }
 
     const formik = useFormik({
@@ -337,56 +247,18 @@ export const DialogTipoApoyoForm = (props) => {
                 documentosRequisitos,
                 idActividadContinuidadApoyo,
                 cobertura,
-                coberturaMunicipal,
-                idEstado
+                coberturaMunicipal
 
 
 
             } = valores
 
-            let nuevoApoyo = {
-                dsapoyo: dsapoyo,
-                idPrograma: idPrograma,
-                dsdescripcion: dsdescripcion,
-                estatus: estatus,
-                visita: visita,
-                idTipoApoyo: idTipoApoyo,
-                fcvigenciainicio: fcvigenciainicio,
-                fcvigenciafin: fcvigenciafin,
-                fcregistrowebinicio: fcregistrowebinicio,
-                fcregistrowebfin: fcregistrowebfin,
-                fcregistropresencialinicio: fcregistropresencialinicio,
-                fcregistropresencialfin: fcregistropresencialfin,
-                idRangoEdadBeneficiario: idRangoEdadBeneficiario,
-                idBeneficiario: idBeneficiario,
-                cantidadPesos: cantidadPesos,
-                enServicio: enServicio,
-                descApoyoEspecie: descApoyoEspecie,
-                idPeriodicidad: idPeriodicidad,
-                observaciones: observaciones,
-                formaEntrega: formaEntrega,
-                numEntregas: numEntregas,
-                documentosRequisitos: documentosRequisitos,
-                idActividadContinuidadApoyo: idActividadContinuidadApoyo,
-                cobertura: cobertura,
-                coberturaMunicipal: coberturaMunicipal,
-                idEstado: 'a3de85a7-6c23-46a4-847b-d79b3a90963d'
-
-            }
-
-
-
-
-            //registrarApoyo(nuevoApoyo);
             setShowModal(false);
 
         }
     })
 
 
-    const handleChangeForma = (event) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
-    };
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -720,7 +592,7 @@ export const DialogTipoApoyoForm = (props) => {
                     onChange={formik.handleChange}
                     input={<Input />}
                     //renderValue={(selected) => selected.join(', ')}
-                    renderValue={(selected) => parseSelect(selected).join(', ')}
+                    renderValue={() => parseSelect(selected).join(', ')}
                     MenuProps={MenuProps}
                 >
                     {tiposApoyosList.map((name) => (
@@ -781,7 +653,6 @@ export const DialogTipoApoyoForm = (props) => {
                     apoyoservicioList.map((apyo, i) => {
                         const fechaInicioq = `enServicio[${i}].fechaInicio`;
                         const fechaFinq = `enServicio[${i}].fechaFin`;
-                        const idq = `enServicio[${i}].id`;
 
                         return (
                             <Accordion>

@@ -34,30 +34,22 @@ const useStyles = makeStyles(stylesArchivo);
 
 export const ContinuidadActividadesScreen = () => {
     const classes = useStyles();
-    const [rowsPerPage, setRowsPerPage] = useState(1);
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [continuidadActividadesSeleccionada, setContinuidadActividadesSeleccionada] = useState();
 
     const { actividadescontinuarList, getActividadesContinuar, eliminarActividadesContinuar } = useContext(ActividadesContinuarContext);
-    const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
-    const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
-    const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate } = useContext(ModalContextUpdate);
+    const { setShowModal } = useContext(ModalContext);
+    const { setShowModalDelete } = useContext(ModalContextDelete);
+    const { setShowModalUpdate } = useContext(ModalContextUpdate);
 
     useEffect(() => {
         getActividadesContinuar();
     }, []);
 
     const total = 0;
-    const idiomas = [];
     const size = 0;
     const page = 0;
-
-    const handleChangePage = (event, newPage) => {
-    };
-
-    const handleChangeRowsPerPage = event => {
-    };
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -163,8 +155,6 @@ export const ContinuidadActividadesScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

@@ -29,25 +29,21 @@ import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { SubModuloFormEdit } from './SubModuloFormEdit';
 import { ModalUpdate } from 'commons/ModalUpdate';
-import { ModuloSubContext } from 'contexts/moduloSubContext';
 
 const useStyles = makeStyles(stylesArchivo);
 
 export const SubModuloScreen = () => {
 
     const classes = useStyles();
-    //const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(1);
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [subModuloSeleccionado, setSubModuloSeleccionado] = useState();
     const { getSubModulos, eliminarSubModulo, submoduloList } = useContext(SubModuloContext);
-    const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
-    const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
+    const { setShowModal } = useContext(ModalContext);
+    const { setShowModalDelete } = useContext(ModalContextDelete);
 
 
-    const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
-        = useContext(ModalContextUpdate);
+    const { setShowModalUpdate } = useContext(ModalContextUpdate);
 
     useEffect(() => {
         getSubModulos();
@@ -56,15 +52,9 @@ export const SubModuloScreen = () => {
     }, []);
 
     const total = 0;
-    const idiomas = [];
     const size = 0;
     const page = 0;
 
-    const handleChangePage = (event, newPage) => {
-    };
-
-    const handleChangeRowsPerPage = event => {
-    };
 
     const onSelect = (e) => {
        
@@ -174,8 +164,6 @@ export const SubModuloScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>
