@@ -5,8 +5,6 @@ import { GET_EDADES_BENEFICIARIOS, REGISTRAR_EDADES_BENEFICIARIOS, MODIFICAR_EDA
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
-import UserService from 'servicios/UserService';
-
 export const EdadesBeneficiariosContext = createContext();
 
 export const EdadesBeneficiariosContextProvider = props => {
@@ -57,7 +55,7 @@ export const EdadesBeneficiariosContextProvider = props => {
      * @param {edadesBeneficiarios} edadesBeneficiarios 
      */
     const actualizarEdadesBeneficiarios= async edadesBeneficiarios => {
-        const { id, dsedadbeneficiario, boactivo, _links: { ct_EdadesBeneficiarios: { href } } } = edadesBeneficiarios;
+        const { dsedadbeneficiario, boactivo, _links: { ct_EdadesBeneficiarios: { href } } } = edadesBeneficiarios;
 
         let edadesBeneficiariosEnviar = {
             dsedadbeneficiario,

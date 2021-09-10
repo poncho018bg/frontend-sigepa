@@ -40,7 +40,6 @@ import { SubModuloContextProvider } from "contexts/subModuloContext";
 import { ModuloSubContextProvider } from "contexts/moduloSubContext";
 import { TiposApoyosContextProvider } from "contexts/catalogos/tiposApoyosContext";
 import { TiposBeneficiariosContextProvider } from "contexts/catalogos/tiposBeneficiariosContext";
-import RenderGroup from "components/RenderGroup"
 import { SubmodulosByPerfilContexProvider } from "contexts/submodulosByPerfilContex";
 
 import { ComiteSecretariasContextProvider } from "contexts/catalogos/comiteSecretariasContext";
@@ -63,7 +62,6 @@ import { ProgramasContextProvider } from "contexts/catalogos/Programas/programas
 import { ApoyoContextProvider } from "contexts/catalogos/ApoyoContext";
 import { ClasificacionServiciosContextProvider } from "contexts/catalogos/clasificacionServiciosContext";
 
-//const hist = createBrowserHistory();
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
@@ -156,31 +154,3 @@ const AppState = ({ children }) => {
     </ModalContextProvider>
   )
 }
-
-/*
-const hist = createBrowserHistory();
-
-const theme = createMuiTheme({
-}, esES);
-*/
-/*
-ReactDOM.render(
-  <ThemeProvider theme={theme}>
-  <Router history={hist}>
-     <Provider store={store}>
-       <ModalContextProvider>
-         <ModalContextDeleteProvider>
-          <PersonContextProvider>
-              <Switch>
-                <Route path="/admin" component={Admin} />
-                <Route path="/rtl" component={RTL} />
-                <Redirect from="/" to="/admin/dashboard" />
-              </Switch>
-            </PersonContextProvider>
-            </ModalContextDeleteProvider>
-        </ModalContextProvider>
-    </Provider>
-  </Router></ThemeProvider>,
-  document.getElementById("root")
-);
-*/

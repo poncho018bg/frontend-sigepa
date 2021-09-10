@@ -83,7 +83,7 @@ export const FirmasContextProvider = props => {
         console.log("nuevo programa ---> ", actualizarPrograma);
         const urPrograma = `${baseUrl}firmas/${id}/programas`;
         try {
-            const resultV = await axiosPostHetoas(urPrograma, actualizarPrograma, 'PUT');
+            await axiosPostHetoas(urPrograma, actualizarPrograma, 'PUT');
             const result = await axiosPostHetoas(href, FirmasEnviar, 'PUT');
             dispatch({
                 type: MODIFICAR_FIRMAS,

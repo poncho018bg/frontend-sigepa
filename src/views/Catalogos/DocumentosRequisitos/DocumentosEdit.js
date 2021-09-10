@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Button, Dialog, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
+import React, { useEffect, useContext } from 'react';
+import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { DocumentosContext } from 'contexts/catalogos/documentosContext';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 
 import NativeSelect from '@material-ui/core/NativeSelect';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 
 const BootstrapInput = withStyles((theme) => ({
@@ -48,7 +48,6 @@ const BootstrapInput = withStyles((theme) => ({
 export const DocumentosEdit = ({ documentoSeleccionado }) => {
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    //const { actualizarModulo } = useContext(ModuloContext);
     const { getVigencias, todasVigencias, actualizarDocumento } = useContext(DocumentosContext);
 
 

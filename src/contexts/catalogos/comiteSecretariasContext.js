@@ -5,8 +5,6 @@ import { GET_COMITE_SECRETARIAS, REGISTRAR_COMITE_SECRETARIAS, ELIMINAR_COMITE_S
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
-import UserService from 'servicios/UserService';
-
 export const ComiteSecretariasContext = createContext();
 
 export const ComiteSecretariasContextProvider = props => {
@@ -57,7 +55,7 @@ export const ComiteSecretariasContextProvider = props => {
      * @param {comiteSecretarias} comiteSecretarias 
      */
     const actualizarComiteSecretarias = async comiteSecretarias => {
-        const { id, dstipoapoyo, boactivo, _links: { ct_ComiteSecretarias: { href } } } = comiteSecretarias;
+        const { dssecretaria, boactivo, _links: { ct_ComiteSecretarias: { href } } } = comiteSecretarias;
 
         let comiteSecretariasEnviar = {
             dssecretaria,

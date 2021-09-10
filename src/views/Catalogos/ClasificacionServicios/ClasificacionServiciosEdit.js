@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, Dialog, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
+import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ClasificacionServiciosContext } from 'contexts/catalogos/clasificacionServiciosContext';
@@ -9,7 +9,6 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 export const ClasificacionServiciosEdit = ({ clasificacionServiciosSeleccionado }) => {
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    //const { actualizarModulo } = useContext(ModuloContext);
     const { actualizarClasificacionServicios } = useContext(ClasificacionServiciosContext);
 
 

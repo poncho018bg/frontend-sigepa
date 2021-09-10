@@ -9,12 +9,9 @@ import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow } fro
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 
-import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 import { Grid } from '@material-ui/core';
@@ -42,26 +39,21 @@ const useStyles = makeStyles(stylesArchivo);
 export const DocumentosScreen = () => {
 
     const classes = useStyles();
-    //const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(1);
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
-    const [edadesBeneficiariosSeleccionado, setEdadesBeneficiariosSeleccionado] = useState();
     const [documentoSeleccionado, setDocumentoSeleccionado] = useState();
     const { getDocumentos, documentosList } = useContext(DocumentosContext);
-    const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
-    const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
+    const { setShowModal } = useContext(ModalContext);
+    const { setShowModalDelete } = useContext(ModalContextDelete);
 
     const [documentoProgramaSeleccionado, setDocumentoProgramaSeleccionado] = useState();
     const [verProgramasDocumento, setVerProgramasDocumento] = useState();
 
 
-    const [vigenciaDocumentos, setVigenDocumento] = useState();
 
-    const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
+    const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
 
-    const [actualiza, setActualiza] = useState('noactual');
 
     useEffect(() => {
         getDocumentos();
@@ -71,43 +63,17 @@ export const DocumentosScreen = () => {
     }, []);
 
     const total = 0;
-    const idiomas = [];
     const size = 0;
     const page = 0;
-
-    const handleChangePage = (event, newPage) => {
-    };
-
-    const handleChangeRowsPerPage = event => {
-    };
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
         setDocumentoSeleccionado(e);
-        setActualiza('noactual');
-    }
-
-    const onSelectVigencia = (e) => {
-        setVigenDocumento(true);
-        //console.log("que llega aqui para llenar",e);
-        setDocumentoSeleccionado(e);
-    }
-
-    const onCloseVigencia = () => {
-        setVigenDocumento(false);
     }
 
     const addDialog = () => {
         setShowModal(true);
     }
-
-    const deleteDialog = (e) => {
-        setShowModalDelete(true);
-        setIdEliminar(e.id);
-    }
-
-
-
     const handleDeshabilitar = () => {
         eliminarEdadesBeneficiarios(idEliminar)
         setShowModalDelete(false);
@@ -197,10 +163,6 @@ export const DocumentosScreen = () => {
                                                 <DocumentoVigencia key={i}
                                                     documentosRequisitos={row}
                                                     actualiza={row.fechaRegistro} />
-                                                {/*
-                                                <IconButton aria-label="create" onClick={() => onSelectVigencia(row)}>
-                                                    <CreateIcon />
-                                                </IconButton>*/}
                                             </TableCell>
 
                                             <TableCell >
@@ -218,13 +180,6 @@ export const DocumentosScreen = () => {
                                                     <CreateIcon />
                                                 </IconButton>
                                             </TableCell>
-                                            {/*
-                                            <TableCell align="center">
-                                                <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <DeleteIcon /> : <RefreshIcon />}
-                                                </IconButton>
-                                            </TableCell>
-                                            */}
                                         </TableRow >
                                     );
                                 })
@@ -238,8 +193,6 @@ export const DocumentosScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

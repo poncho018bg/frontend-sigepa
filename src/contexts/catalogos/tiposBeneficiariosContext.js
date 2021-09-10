@@ -5,8 +5,6 @@ import { GET_TIPOS_BENEFICIARIOS, REGISTRAR_TIPOS_BENEFICIARIOS, ELIMINAR_TIPOS_
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
-import UserService from 'servicios/UserService';
-
 export const TiposBeneficiariosContext = createContext();
 
 export const TiposBeneficiariosContextProvider = props => {
@@ -57,10 +55,10 @@ export const TiposBeneficiariosContextProvider = props => {
      * @param {tiposBeneficiarios} tiposBeneficiarios 
      */
     const actualizarTiposBeneficiarios = async tiposBeneficiarios => {
-        const { id, dstipoapoyo, boactivo, _links: { ct_TiposBeneficiarios: { href } } } = tiposBeneficiarios;
+        const { dstipobeneficiario, boactivo, _links: { ct_TiposBeneficiarios: { href } } } = tiposBeneficiarios;
 
         let tiposBeneficiariosEnviar = {
-            dstipoapoyo,
+            dstipobeneficiario,
             boactivo
         };
 

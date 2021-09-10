@@ -32,13 +32,9 @@ const useStyles = makeStyles(styles);
 
 
 export default function AdminNavbarLinks() {
-  //const kcc = useSelector(state => state.auth);
   const logout = () => {
-    //kcc.keycloak.logout();
     setOpenProfile(null);
-    //sessionStorage.removeItem("token");
     setOpenDialog(true);
-    //UserService.doLogout();
   }
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);

@@ -4,7 +4,6 @@ import { DocumentosContext } from 'contexts/catalogos/documentosContext';
 
 //componentes
 import Button from "components/CustomButtons/Button.js";
-import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
@@ -21,7 +20,6 @@ const useStyles = makeStyles(stylesArchivo);
 export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVistaProgramas }) => {
     const classes = useStyles();
     const total = 0;
-    const idiomas = [];
     const size = 0;
     const page = 0;
 
@@ -36,12 +34,6 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
     const cerrarProgramas = () => {
         cerrarVistaProgramas();
     }
-
-    const handleChangePage = (event, newPage) => {
-    };
-
-    const handleChangeRowsPerPage = event => {
-    };
 
     return (
         <span>
@@ -132,8 +124,6 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
                         count={total}
                         rowsPerPage={size}
                         page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

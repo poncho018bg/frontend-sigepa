@@ -1,10 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, Dialog, FormHelperText, DialogContent, DialogTitle, Grid, IconButton, TextField, makeStyles } from '@material-ui/core';
-import { stylesArchivo } from 'css/stylesArchivo';
+import React, { useEffect, useState } from 'react';
 
 import { axiosGetHetoas } from 'helpers/axios';
-
-const useStyles = makeStyles(stylesArchivo);
 
 /**
  * Busca los programas a los que se le asigno la firma
@@ -12,7 +8,7 @@ const useStyles = makeStyles(stylesArchivo);
  * @returns programa.dsprograma
  */
 export const FirmaPrograma = ({ Firma, actualiza }) => {
-    const classes = useStyles();
+
     const [programa, setPrograma] = useState([]);
 
     const { _links: { programas: { href } } } = Firma;

@@ -5,8 +5,6 @@ import { GET_TIPOS_APOYOS, REGISTRAR_TIPOS_APOYOS, ELIMINAR_TIPOS_APOYOS, MODIFI
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
-import UserService from 'servicios/UserService';
-
 export const TiposApoyosContext = createContext();
 
 export const TiposApoyosContextProvider = props => {
@@ -57,7 +55,7 @@ export const TiposApoyosContextProvider = props => {
      * @param {tiposApoyos} tiposApoyos 
      */
     const actualizarTiposApoyos = async tiposApoyos => {
-        const { id, dstipoapoyo, boactivo, _links: { ct_TiposApoyos: { href } } } = tiposApoyos;
+        const { dstipoapoyo, boactivo, _links: { ct_TiposApoyos: { href } } } = tiposApoyos;
 
         let tiposApoyosEnviar = {
             dstipoapoyo,

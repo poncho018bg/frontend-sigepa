@@ -5,7 +5,6 @@ import { GET_NUMERO_APOYOS, REGISTRAR_NUMERO_APOYOS, MODIFICAR_NUMERO_APOYOS, EL
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
-import UserService from 'servicios/UserService';
 
 export const NumeroApoyosContext = createContext();
 
@@ -57,7 +56,7 @@ export const NumeroApoyosContextProvider = props => {
      * @param {numeroApoyos} numeroApoyos 
      */
     const actualizarNumeroApoyos= async numeroApoyos => {
-        const { id, noapoyo, boactivo, _links: { ct_NumeroApoyos: { href } } } = numeroApoyos;
+        const { noapoyo, boactivo, _links: { ct_NumeroApoyos: { href } } } = numeroApoyos;
 
         let numeroApoyosEnviar = {
             noapoyo,
