@@ -168,6 +168,16 @@ const dashboardRoutes = [
         component: PeriodicidadApoyosScreen,
         layout: "/admin"
       },
+
+      {
+        path: "/periodicidadApoyos",
+        name: "Loclidades",
+        rtlName: "periodicidadapoyos",
+        mini: "PA",
+        rtlMini: "pa",
+        component: PeriodicidadApoyosScreen,
+        layout: "/admin"
+      },
       {
         path: "/estados",
         name: "Estados",

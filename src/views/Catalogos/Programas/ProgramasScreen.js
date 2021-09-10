@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -27,15 +27,25 @@ import * as Yup from 'yup';
 import { ProgramasContext } from "contexts/catalogos/Programas/programasContext";
 import SnackbarContent from "components/Snackbar/SnackbarContent";
 import Snackbar from "components/Snackbar/Snackbar";
+import { Mensaje } from "components/Personalizados/Mensaje";
 
 const useStyles = makeStyles(styles);
 
 export const ProgramasScreen = () => {
 
+   
     const { registrar, error} = useContext(ProgramasContext);
-
+    const [open, setOpen] = useState(false);
     const classes = useStyles();
     
+    useEffect(() => {
+      if(error){
+        setOpen(true);
+      }else{
+        setOpen(false);
+      }
+    }, [error])
+
     const formik = useFormik({
       initialValues: {
           nombrePrograma: '',
@@ -305,12 +315,12 @@ export const ProgramasScreen = () => {
           </GridItem>
           
         </GridContainer>
-        <Snackbar
-                      place="bc"
-                      color="danger"
-                      message="Ocurrio un error"
-                      open={error}
-                    />
+        <Mensaje
+             setOpen={setOpen}
+             open={open}
+            severity={"error"}
+            message={"Ocurrio un erriro"}
+          />
       </form>
 
     );
