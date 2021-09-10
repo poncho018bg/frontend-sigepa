@@ -57,6 +57,7 @@ import { MunicipiosScreen } from "views/Catalogos/Municipios/MunicipiosScreen";
 import { RegionMunicipioScreen } from "views/Catalogos/RegionMunicipio/RegionMunicipioScreen";
 
 import { FirmasScreen } from "views/Catalogos/Firmas/FirmasScreen";
+import { DialogTipoApoyoForm } from "views/Catalogos/CatTipoApoyo/DialogTipoApoyoForm";
 
 
 
@@ -374,6 +375,15 @@ const dashboardRoutes = [
         mini: "CF",
         rtlMini: "CF",
         component: FirmasScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/nuevoApoyo",
+        name: "Registro de apoyos",
+        rtlName: "rapoyo",
+        mini: "RP",
+        rtlMini: "RP",
+        component: DialogTipoApoyoForm,
         layout: "/admin"
       },
     ]
