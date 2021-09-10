@@ -131,7 +131,15 @@ export const CatalogosScreen = () => {
                         </Card>
                     </GridItem>
 
-
+                    <GridItem xs={12} sm={6} md={3}>
+                        <Card>
+                            <Link to="../admin/localidades">
+                                    <CardHeader color="warning" stats icon>
+                                        <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Localidades</p>
+                                    </CardHeader>
+                            </Link>
+                        </Card>
+                    </GridItem>
 
 
 

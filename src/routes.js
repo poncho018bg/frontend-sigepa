@@ -57,6 +57,7 @@ import { RegionMunicipioScreen } from "views/Catalogos/RegionMunicipio/RegionMun
 import { FirmasScreen } from "views/Catalogos/Firmas/FirmasScreen";
 import { ClasificacionServiciosScreen } from "views/Catalogos/ClasificacionServicios/ClasificacionServiciosScreen";
 import { DialogTipoApoyoForm } from "views/Catalogos/CatTipoApoyo/DialogTipoApoyoForm";
+import { LocalidadesScreen } from "views/Catalogos/Localidades/LocalidadesScreen";
 
 
 
@@ -402,6 +403,15 @@ const dashboardRoutes = [
         mini: "CF",
         rtlMini: "CF",
         component: ClasificacionServiciosScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/localidades",
+        name: "Localidades",
+        rtlName: "Localidades",
+        mini: "CF",
+        rtlMini: "CF",
+        component: LocalidadesScreen,
         layout: "/admin"
       },
 
