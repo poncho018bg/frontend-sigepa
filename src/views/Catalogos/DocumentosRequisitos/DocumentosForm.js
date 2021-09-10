@@ -1,17 +1,12 @@
-import { Button, Dialog, DialogContent, FormHelperText, Grid, TextField, MenuItem } from '@material-ui/core'
+import { Button, DialogContent, FormHelperText, Grid, TextField, MenuItem } from '@material-ui/core'
 import NativeSelect from '@material-ui/core/NativeSelect';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import {  withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-//import { EdadesBeneficiariosContext } from 'contexts/catalogos/edadesBeneficiariosContext';
 import { ModalContext } from 'contexts/modalContex';
-import UserService from "../../../servicios/UserService";
-
-import { useForm } from 'hooks/useForm';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { DocumentosContext } from 'contexts/catalogos/documentosContext';
 
@@ -53,12 +48,9 @@ const BootstrapInput = withStyles((theme) => ({
 
 export const DocumentosForm = () => {
 
-    //const { registrarEdadesBeneficiarios } = useContext(EdadesBeneficiariosContext);
     const { setShowModal } = useContext(ModalContext);
 
     const { getVigencias, todasVigencias, registrarDocumento } = useContext(DocumentosContext);
-
-    //const [idVigencia, setIdVigencia] = useState('');
 
     useEffect(() => {
         getVigencias();
@@ -93,21 +85,11 @@ export const DocumentosForm = () => {
                 boactivo: true,
                 'apoyos':[]
             }
-            /**
-             * ToDo: este debe de cambiar para el registro de documento
-             */
             registrarDocumento(documentosRequisitos);
             setShowModal(false);
 
         }
     })
-
-    /*
-    const handleChange = (event) => {
-        console.log("evento --> ", event.target.value)
-        setIdVigencia(event.target.value);
-      };
-*/
     return (
         <form
             onSubmit={formik.handleSubmit}

@@ -5,7 +5,6 @@ import { GET_PERIODICIDAD_APOYOS, REGISTRAR_PERIODICIDAD_APOYOS, MODIFICAR_PERIO
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
-import UserService from 'servicios/UserService';
 
 export const PeriodicidadApoyosContext = createContext();
 
@@ -57,7 +56,7 @@ export const PeriodicidadApoyosContextProvider = props => {
      * @param {periodicidadApoyos} periodicidadApoyos 
      */
     const actualizarPeriodicidadApoyos= async periodicidadApoyos => {
-        const { id, noapoyo, boactivo, _links: { ct_PeriodicidadApoyos: { href } } } = periodicidadApoyos;
+        const {dsperiodicidad, boactivo, _links: { ct_PeriodicidadApoyos: { href } } } = periodicidadApoyos;
 
         let periodicidadApoyosEnviar = {
             dsperiodicidad,

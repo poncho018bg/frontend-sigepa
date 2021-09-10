@@ -1,9 +1,9 @@
 import React, { createContext, useReducer } from 'react';
 import DocumentosReducer from 'reducers/Catalogos/DocumentosReducer';
 
-import { GET_DOCUMENTOS_REQUISITOS, REGISTRAR_DOCUMENTOS_REQUISITOS, MODIFICAR_DOCUMENTOS_REQUISITOS, ELIMINAR_DOCUMENTOS_REQUISITOS, VIGENCIA_DOCUMENTOS_REQUISITOS, GET_VIGENCIAS } from "../../types/actionTypes";
+import { GET_DOCUMENTOS_REQUISITOS, REGISTRAR_DOCUMENTOS_REQUISITOS, MODIFICAR_DOCUMENTOS_REQUISITOS, VIGENCIA_DOCUMENTOS_REQUISITOS, GET_VIGENCIAS } from "../../types/actionTypes";
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
+import { axiosGet, axiosPost, axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -118,7 +118,7 @@ export const DocumentosContextProvider = props => {
         console.log("nueva vigencia ---> ", actualizarVigencia);
         const urVigencia = `${baseUrl}documentosRequisitos/${id}/vigencias`;
         try {
-            const resultV = await axiosPostHetoas(urVigencia, actualizarVigencia, 'PUT');
+            axiosPostHetoas(urVigencia, actualizarVigencia, 'PUT');
             const result = await axiosPostHetoas(href, documentosRequisitosEnviar, 'PUT');
             console.log("retorna esto --> ", result);
             dispatch({

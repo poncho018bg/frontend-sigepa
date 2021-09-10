@@ -24,8 +24,6 @@ import TimelineIcon from '@material-ui/icons/Timeline';
 import MarkunreadMailboxIcon from '@material-ui/icons/MarkunreadMailbox';
 
 // core components/views for Admin layout
-import DashboardPage from "views/Dashboard/Dashboard.js";
-import DashboardPublic from "views/Public/PublicDashboard.js";
 import { ModuloScreen } from "views/Modulos/ModuloScreen";
 import { RolesScreen } from "views/Roles/RolesScreen";
 

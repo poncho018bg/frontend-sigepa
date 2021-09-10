@@ -5,8 +5,6 @@ import { GET_MOTIVO_RECHAZOS, REGISTRAR_MOTIVO_RECHAZOS, MODIFICAR_MOTIVO_RECHAZ
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
-import UserService from 'servicios/UserService';
-
 export const MotivoRechazosContext = createContext();
 
 export const MotivoRechazosContextProvider = props => {
@@ -57,7 +55,7 @@ export const MotivoRechazosContextProvider = props => {
      * @param {motivoRechazos} motivoRechazos 
      */
     const actualizarMotivoRechazos= async motivoRechazos => {
-        const { id, dsmotivorechazo, boactivo, _links: { ct_MotivoRechazos: { href } } } = motivoRechazos;
+        const { dsmotivorechazo, boactivo, _links: { ct_MotivoRechazos: { href } } } = motivoRechazos;
 
         let motivoRechazosEnviar = {
             dsmotivorechazo,

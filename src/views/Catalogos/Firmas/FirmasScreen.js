@@ -13,8 +13,6 @@ import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 import { Grid } from '@material-ui/core';
@@ -42,15 +40,14 @@ export const FirmasScreen = () => {
 
     const classes = useStyles();
     //const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(1);
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [firmasSeleccionado, setfirmasSeleccionado] = useState();
     const { getFirmas, eliminarFirmas, firmasList } = useContext(FirmasContext);
-    const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
-    const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
+    const { setShowModal } = useContext(ModalContext);
+    const { setShowModalDelete } = useContext(ModalContextDelete);
 
-    const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
+    const {setShowModalUpdate }
         = useContext(ModalContextUpdate);
 
     useEffect(() => {
@@ -60,15 +57,9 @@ export const FirmasScreen = () => {
     }, []);
 
     const total = 0;
-    const idiomas = [];
     const size = 0;
     const page = 0;
 
-    const handleChangePage = (event, newPage) => {
-    };
-
-    const handleChangeRowsPerPage = event => {
-    };
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -77,11 +68,6 @@ export const FirmasScreen = () => {
 
     const addDialog = () => {
         setShowModal(true);
-    }
-
-    const deleteDialog = (e) => {
-        setShowModalDelete(true);
-        setIdEliminar(e.id);
     }
 
 
@@ -96,11 +82,6 @@ export const FirmasScreen = () => {
             <Card>
                 <CardHeader color="primary">
                     <h4 className={classes.cardTitleWhite}>Catalogo de Firmas</h4>
-                    {/*
-                    <p className={classes.cardCategoryWhite}>
-                        Esta pantalla permite agregar las Edades para Beneficiarios
-                    </p>
-                    */}
                     <CardActions>
                         <Grid container spacing={3}>
                             <Grid item xs={6}>
@@ -167,13 +148,6 @@ export const FirmasScreen = () => {
                                                     <CreateIcon />
                                                 </IconButton>
                                             </TableCell>
-                                            {/*
-                                            <TableCell align="center">
-                                                <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <DeleteIcon /> : <RefreshIcon />}
-                                                </IconButton>
-                                            </TableCell>
-                                            */}
                                         </TableRow >
                                     );
                                 })
@@ -187,8 +161,6 @@ export const FirmasScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

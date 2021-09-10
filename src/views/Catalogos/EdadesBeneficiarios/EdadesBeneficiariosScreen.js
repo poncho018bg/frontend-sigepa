@@ -41,15 +41,15 @@ export const EdadesBeneficiariosScreen = () => {
 
     const classes = useStyles();
     //const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(1);
+
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [edadesBeneficiariosSeleccionado, setEdadesBeneficiariosSeleccionado] = useState();
     const { getEdadesBeneficiarios, eliminarEdadesBeneficiarios, edadesBeneficiariosList } = useContext(EdadesBeneficiariosContext);
-    const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
-    const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
+    const { setShowModal } = useContext(ModalContext);
+    const { setShowModalDelete } = useContext(ModalContextDelete);
 
-    const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
+    const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
 
     useEffect(() => {
@@ -59,15 +59,8 @@ export const EdadesBeneficiariosScreen = () => {
     }, []);
 
     const total = 0;
-    const idiomas = [];
     const size = 0;
     const page = 0;
-
-    const handleChangePage = (event, newPage) => {
-    };
-
-    const handleChangeRowsPerPage = event => {
-    };
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -175,8 +168,6 @@ export const EdadesBeneficiariosScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

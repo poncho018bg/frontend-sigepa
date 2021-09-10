@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, Dialog, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
+import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { MotivoRechazosContext } from 'contexts/catalogos/motivoRechazosContext';
@@ -9,8 +9,7 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    //const { actualizarModulo } = useContext(ModuloContext);
-    const { actualizarMotivoRechazos} = useContext(MotivoRechazosContext);
+    const { actualizarMotivoRechazos } = useContext(MotivoRechazosContext);
 
 
     // Schema de validación
@@ -19,7 +18,7 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
             .required('El motivo de rechazo  es obligatorio')
     });
 
-    const actualizarInfoMotivoRechazos= async valores => {
+    const actualizarInfoMotivoRechazos = async valores => {
         actualizarMotivoRechazos(valores);
         setShowModalUpdate(false);
     }

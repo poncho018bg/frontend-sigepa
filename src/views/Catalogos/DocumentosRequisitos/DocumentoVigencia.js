@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-//import { Button, Dialog, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core';
-import { Button, Dialog, FormHelperText, DialogContent, DialogTitle, Grid, IconButton, TextField, makeStyles } from '@material-ui/core';
+
+import {  makeStyles } from '@material-ui/core';
 import { stylesArchivo } from 'css/stylesArchivo';
 
 import { DocumentosContext } from 'contexts/catalogos/documentosContext';
@@ -15,16 +15,12 @@ const useStyles = makeStyles(stylesArchivo);
  * @returns vigencia
  */
 export const DocumentoVigencia = ({ documentosRequisitos, actualiza }) => {
-    const classes = useStyles();
     const [vigencia, setVigencia] = useState([]);
 
     const { _links: { vigencias: { href } } } = documentosRequisitos;
 
-    const { getVigenciaDocumentos, vigenciaList } = useContext(DocumentosContext);
 
     useEffect(() => {
-        //getVigenciaDocumentos(documentosRequisitos);
-        //console.log("vigencia console log--->", vigenciaList);
         const getVigencia = async () => {
             const result = await axiosGetHetoas(href);
             setVigencia(result);

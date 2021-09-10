@@ -40,17 +40,14 @@ const useStyles = makeStyles(stylesArchivo);
 export const ClasificacionServiciosScreen = () => {
 
     const classes = useStyles();
-    //const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(1);
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [clasificacionServiciosSeleccionado, setClasificacionServiciosSeleccionado] = useState();
     const { getClasificacionServicios, eliminarClasificacionServicios, clasificacionServiciosList } = useContext(ClasificacionServiciosContext);
-    const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
-    const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
+    const { setShowModal } = useContext(ModalContext);
+    const { setShowModalDelete } = useContext(ModalContextDelete);
 
-    const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
-        = useContext(ModalContextUpdate);
+    const { setShowModalUpdate } = useContext(ModalContextUpdate);
 
     useEffect(() => {
         getClasificacionServicios();
@@ -59,15 +56,9 @@ export const ClasificacionServiciosScreen = () => {
     }, []);
 
     const total = 0;
-    const idiomas = [];
     const size = 0;
     const page = 0;
 
-    const handleChangePage = (event, newPage) => {
-    };
-
-    const handleChangeRowsPerPage = event => {
-    };
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -139,7 +130,7 @@ export const ClasificacionServiciosScreen = () => {
                                     clasificacionServiciosList.filter(row => row.dsclasificacionservicio ?
                                         row.dsclasificacionservicio.toLowerCase().includes(searched.toLowerCase()) : null)
                                     : clasificacionServiciosList
-                                ).map((row,i) => {
+                                ).map((row, i) => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={i}>
@@ -177,8 +168,6 @@ export const ClasificacionServiciosScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

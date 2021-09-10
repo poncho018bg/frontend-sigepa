@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
-import { Button, Dialog, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
+import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-//import { ModuloContext } from 'contexts/moduloContext';
 import {TiposApoyosContext} from 'contexts/catalogos/tiposApoyosContext';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 
@@ -10,7 +9,6 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 export const TipoApoyoEdit = ({ tipoApoyoSeleccionado }) => {
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    //const { actualizarModulo } = useContext(ModuloContext);
     const { actualizarTiposApoyos} = useContext(TiposApoyosContext);
 
 
