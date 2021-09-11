@@ -248,8 +248,7 @@ footer ul li a:hover {
   z-index: 1031;
   border-radius: 8px 0 0 8px;
   text-align: center;
-  top: 120px;
-  .badge-primary-background-color: #9c27b0;
+  top: 120px; 
 }
 
 .fixed-plugin .SocialMediaShareButton,

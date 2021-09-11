@@ -63,9 +63,12 @@ export const CursosCapacitacionesScreen = () => {
     const page = 0;
 
     const handleChangePage = (event, newPage) => {
+        setPage(newPage);
     };
 
     const handleChangeRowsPerPage = event => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
     };
 
     const onSelect = (e) => {
