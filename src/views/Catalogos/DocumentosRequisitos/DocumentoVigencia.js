@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import {  makeStyles } from '@material-ui/core';
-import { stylesArchivo } from 'css/stylesArchivo';
-
 import { axiosGetHetoas } from 'helpers/axios';
 
 /**

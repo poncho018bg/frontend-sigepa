@@ -1,5 +1,5 @@
 
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox, DialogTitle, FormControlLabel, FormHelperText, FormLabel, Grid, Input, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, Radio, RadioGroup, Select, TextField, useTheme } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, DialogTitle, FormControlLabel, FormHelperText, FormLabel, Grid, Input, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, Radio, RadioGroup, Select, TextField } from '@material-ui/core'
 import React, { useEffect, useState, useContext } from 'react';
 import Button from "components/CustomButtons/Button.js";
 import DialogContent from '@material-ui/core/DialogContent';
@@ -223,31 +223,31 @@ export const DialogTipoApoyoForm = (props) => {
             console.log('VALORES=>', valores)
             console.log('VALORES mun=>', selected)
             const {
-                dsapoyo,
-                idPrograma,
-                dsdescripcion,
-                estatus,
-                visita,
-                idTipoApoyo,
-                fcvigenciainicio,
-                fcvigenciafin,
-                fcregistrowebinicio,
-                fcregistrowebfin,
-                fcregistropresencialinicio,
-                fcregistropresencialfin,
-                idRangoEdadBeneficiario,
-                idBeneficiario,
-                cantidadPesos,
-                enServicio,
-                descApoyoEspecie,
-                idPeriodicidad,
-                observaciones,
-                formaEntrega,
-                numEntregas,
-                documentosRequisitos,
-                idActividadContinuidadApoyo,
-                cobertura,
-                coberturaMunicipal
+                //dsapoyo,
+                //idPrograma,
+                //dsdescripcion,
+                //estatus,
+                //visita,
+                //idTipoApoyo,
+                //fcvigenciainicio,
+                //fcvigenciafin,
+                //fcregistrowebinicio,
+                //fcregistrowebfin,
+                //fcregistropresencialinicio,
+                //fcregistropresencialfin,
+                //idRangoEdadBeneficiario,
+                //idBeneficiario,
+                //cantidadPesos,
+                //enServicio,
+                //descApoyoEspecie,
+                //idPeriodicidad,
+                //observaciones,
+                //formaEntrega,
+                //numEntregas,
+                //documentosRequisitos,
+                //idActividadContinuidadApoyo,
+                //cobertura,
+                //coberturaMunicipal
 
 
 

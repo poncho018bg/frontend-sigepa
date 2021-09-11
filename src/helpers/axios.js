@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useState } from "react";
 import UserService from "servicios/UserService";
 
 const baseUrl = process.env.REACT_APP_API_URL;
@@ -224,7 +225,7 @@ async function axiosGetHetoas(endpoint) {
                 }
             }).then(response => {
             return response.data
-            });   
+            });
             return promise;
         } catch (error) {
         console.error('There was an error!', error);

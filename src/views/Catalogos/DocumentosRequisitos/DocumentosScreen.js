@@ -59,7 +59,6 @@ export const DocumentosScreen = () => {
         getDocumentos();
         // eslint-disable-next-line
         console.log("documentos", documentosList);
-        setActualiza('actualiza');
     }, []);
 
     const total = 0;

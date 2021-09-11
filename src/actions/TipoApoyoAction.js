@@ -97,8 +97,7 @@ export const tipoApoyoEliminar = (tipoApoyo) =>({
 
 
 export const borrarModuloAction = () => {
-    return async (dispatch,getState) => {
-        const {tipoApoyoEliminar} = getState().tipoApoyo
+    return async (dispatch) => {
         try {
             const data = await axiosDeleteTipoEtiquetas(`/idiomas/deshabilitarIdioma/${idiomaEliminar.idIdioma}`,'DELETE' );
             dispatch( tipoApoyoEliminado( data ) );
