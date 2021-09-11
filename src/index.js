@@ -18,9 +18,8 @@ import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 
 // core components
-//import Admin from "layouts/Admin.js";
-import RTL from "layouts/RTL.js";
-import { Provider, useDispatch, useSelector } from 'react-redux';
+
+import { Provider } from 'react-redux';
 import "assets/css/material-dashboard-react.css?v=1.9.0";
 import { store } from "store/store";
 
@@ -47,8 +46,6 @@ import { EdadesBeneficiariosContextProvider } from "contexts/catalogos/edadesBen
 import { MotivoRechazosContextProvider } from "contexts/catalogos/motivoRechazosContext";
 import { NumeroApoyosContextProvider } from "contexts/catalogos/numeroApoyosContext";
 import { PeriodicidadApoyosContextProvider } from "contexts/catalogos/periodicidadApoyosContext";
-import { obtenerRolesAction } from "actions/rolesKeycloakAction";
-import { getSubmodulosByperfil } from "actions/perfilSubmoduloAction";
 import { CursosCapacitacionesContextProvider } from "contexts/catalogos/CursosCapacitaciones/cursosCapacitacionesContext";
 import { ActividadesContinuarContextProvider } from "contexts/catalogos/ActividadesContinuarContext";
 import { BtActividadesContextProvider } from "contexts/catalogos/BtActividadesContext";

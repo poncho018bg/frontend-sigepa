@@ -128,20 +128,20 @@ export const RolesScreen = () => {
 
         } else {
             //quitara los check activo de todos los submodulos
-            var modules2 = [...checkedSub]
-            var modulesCK2 = [...subModulosChecked]
+            var modules3 = [...checkedSub]
+            var modulesCK3 = [...subModulosChecked]
             submoduloList.forEach((sb, i) => {
                 if (sb.crcModulosCollection === id.id) {
 
-                    modules2 = modules2.filter(word => word !== i);
-                    modulesCK2 = modulesCK2.filter(word => word !== sb.id);
+                    modules3 = modules3.filter(word => word !== i);
+                    modulesCK3 = modulesCK3.filter(word => word !== sb.id);
 
                 }
             })
             //agrega los index de los submodulos a activar
-            setCheckedSub(modules2);
+            setCheckedSub(modules3);
             //agrega los modulos a guardar
-            setSubModulosChecked(modulesCK2)
+            setSubModulosChecked(modulesCK3)
 
 
         }

@@ -80,11 +80,6 @@ export const DialogTipoApoyoForm = (props) => {
     });
 
 
-    const options = [
-        { label: "Grapes 🍇", value: "grapes" },
-        { label: "Mango 🥭", value: "mango" },
-        { label: "Strawberry 🍓", value: "strawberry", disabled: true },
-    ];
     const [selected, setSelected] = useState([]);
 
     useEffect(() => {
@@ -169,54 +164,54 @@ export const DialogTipoApoyoForm = (props) => {
             idEstado: ''
         },
         validationSchema: Yup.object({
-            // dsapoyo: Yup.string()
-            //     .required('El nombre del apoyo es obligatorio'),
-            // idPrograma: Yup.string()
-            //     .required('El programa es obligatorio'),
-            // dsdescripcion: Yup.string()
-            //     .required('La descripción obligatorio'),
-            // estatus: Yup.string()
-            //     .required('El estatus es obligatorio'),
-            // visita: Yup.string()
-            //     .required('la visita es obligatorio'),
-            // // idTipoApoyo: Yup.string()
-            // //     .required('El tipo apoyo  es obligatorio'),
-            // fcvigenciainicio: Yup.string()
-            //     .required('La vigencia desde obligatorio'),
-            // fcvigenciafin: Yup.string()
-            //     .required('La vigencia hasta es obligatorio'),
-            // fcregistrowebinicio: Yup.string()
-            //     .required('La vigencia desde obligatorio'),
-            // fcregistrowebfin: Yup.string()
-            //     .required('La vigencia hasta es obligatorio'),
-            // fcregistropresencialinicio: Yup.string()
-            //     .required('La vigencia desde obligatorio'),
-            // fcregistropresencialfin: Yup.string()
-            //     .required('La vigencia hasta es obligatorio'),
-            // idRangoEdadBeneficiario: Yup.string()
-            //     .required('El rango de edad es obligatorio'),
-            // idBeneficiario: Yup.string()
-            //     .required('El tipo de beneficiario es obligatorio'),
-            // cantidadPesos: Yup.string()
-            //     .required('La cantidad es obligatorio'),
-            // enServicio: Yup.string()
-            //     .required('EL servicio es obligatorio'),
-            // descApoyoEspecie: Yup.string()
-            //     .required('El apoyo en especie es obligatorio'),
-            // idPeriodicidad: Yup.string()
-            //     .required('La periodicidad es obligatorio'),
-            // formaEntrega: Yup.string()
-            //     .required('La forma de entrega es obligatorio'),
-            // numEntregas: Yup.string()
-            //     .required('El número de entrega es obligatorio'),
-            // // documentosRequisitos: Yup.string()
-            // //     .required('La documentación es obligatorio'),
-            // idActividadContinuidadApoyo: Yup.string()
-            //     .required('La actividad es obligatorio'),
-            // cobertura: Yup.string()
+            dsapoyo: Yup.string()
+                .required('El nombre del apoyo es obligatorio'),
+            idPrograma: Yup.string()
+                .required('El programa es obligatorio'),
+            dsdescripcion: Yup.string()
+                .required('La descripción obligatorio'),
+            estatus: Yup.string()
+                .required('El estatus es obligatorio'),
+            visita: Yup.string()
+                .required('la visita es obligatorio'),
+            // idTipoApoyo: Yup.string()
+            //     .required('El tipo apoyo  es obligatorio'),
+            fcvigenciainicio: Yup.string()
+                .required('La vigencia desde obligatorio'),
+            fcvigenciafin: Yup.string()
+                .required('La vigencia hasta es obligatorio'),
+            fcregistrowebinicio: Yup.string()
+                .required('La vigencia desde obligatorio'),
+            fcregistrowebfin: Yup.string()
+                .required('La vigencia hasta es obligatorio'),
+            fcregistropresencialinicio: Yup.string()
+                .required('La vigencia desde obligatorio'),
+            fcregistropresencialfin: Yup.string()
+                .required('La vigencia hasta es obligatorio'),
+            idRangoEdadBeneficiario: Yup.string()
+                .required('El rango de edad es obligatorio'),
+            idBeneficiario: Yup.string()
+                .required('El tipo de beneficiario es obligatorio'),
+            cantidadPesos: Yup.string()
+                .required('La cantidad es obligatorio'),
+            enServicio: Yup.string()
+                .required('EL servicio es obligatorio'),
+            descApoyoEspecie: Yup.string()
+                .required('El apoyo en especie es obligatorio'),
+            idPeriodicidad: Yup.string()
+                .required('La periodicidad es obligatorio'),
+            formaEntrega: Yup.string()
+                .required('La forma de entrega es obligatorio'),
+            numEntregas: Yup.string()
+                .required('El número de entrega es obligatorio'),
+            // documentosRequisitos: Yup.string()
+            //     .required('La documentación es obligatorio'),
+            idActividadContinuidadApoyo: Yup.string()
+                .required('La actividad es obligatorio'),
+            cobertura: Yup.string()
+                .required('La cobertura es obligatorio'),
+            // coberturaMunicipal: Yup.string()
             //     .required('La cobertura es obligatorio'),
-            // // coberturaMunicipal: Yup.string()
-            // //     .required('La cobertura es obligatorio'),
         }),
 
         onSubmit: async valores => {

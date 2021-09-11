@@ -12,7 +12,6 @@
 =========================================================
 */
 // @material-ui/icons
-import Dashboard from "@material-ui/icons/Dashboard";
 import Image from "@material-ui/icons/Image";
 import FolderIcon from '@material-ui/icons/Folder';
 import MoveToInboxIcon from '@material-ui/icons/MoveToInbox';
@@ -28,7 +27,6 @@ import { ModuloScreen } from "views/Modulos/ModuloScreen";
 import { RolesScreen } from "views/Roles/RolesScreen";
 
 // core components/views for RTL layout
-import RTLPage from "views/RTLPage/RTLPage.js";
 import { SubModuloScreen } from "views/SubModulos/SubModuloScreen";
 import { TipoApoyoScreen } from "views/Catalogos/TipoApoyo/TipoApoyoScreen"
 import { TipoBeneficiarioScreen } from "views/Catalogos/TiposBeneficiarios/TipoBeneficiarioScreen";

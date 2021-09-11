@@ -4,7 +4,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow ,Grid} from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,16 +16,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
-import { Grid } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 import { Loading } from 'views/Loading/Loading';
 import { DialogDelete } from 'views/Dialogs/DialogDelete';
-import { tipoApoyoEditar } from 'actions/TipoApoyoAction';
-import { tipoApoyoEliminar } from 'actions/TipoApoyoAction';
-import { borrarModuloAction } from 'actions/TipoApoyoAction';
-import { obtenerTipoApoyoAction } from 'actions/TipoApoyoAction';
-import { DialogTipoApoyoForm } from './DialogTipoApoyoForm';
+import { tipoApoyoEditar,tipoApoyoEliminar,borrarModuloAction,obtenerTipoApoyoAction } from 'actions/TipoApoyoAction';
 
 
 const useStyles = makeStyles(stylesArchivo);
