@@ -1,10 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
-import { REGISTRAR_PROGRAMAS,AGREGAR_PROGRAMA_ERROR } from 'types/actionTypes';
-import { MODIFICAR_CURSOS_CAPACITACIONES } from 'types/actionTypes';
-import { ELIMINAR_CURSOS_CAPACITACIONES } from 'types/actionTypes';
-import { GET_PROGRAMAS } from 'types/actionTypes';
+import { REGISTRAR_PROGRAMAS,AGREGAR_PROGRAMA_ERROR,MODIFICAR_CURSOS_CAPACITACIONES,ELIMINAR_CURSOS_CAPACITACIONES,GET_PROGRAMAS } from 'types/actionTypes';
 import ProgramasReducer from 'reducers/Catalogos/Programas/ProgramasReducer';
 
 
@@ -61,7 +58,7 @@ export const ProgramasContextProvider = props => {
      */
     const actualizar= async objetoActualizar => {
         console.log(objetoActualizar);
-        const { id, dsestado, boactivo, _links: { cursosCapacitaciones: { href } } } = objetoActualizar;
+        const {  dsestado, boactivo, _links: { cursosCapacitaciones: { href } } } = objetoActualizar;
 
         let objetoEnviar = {
             dsestado,

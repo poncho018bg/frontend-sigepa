@@ -54,7 +54,6 @@ export const ApoyoServicioScreen = () => {
     }, []);
 
     const total = 0;
-    const idiomas = [];
     const size = 0;
     const page = 0;
     const handleChangePage = (event, newPage) => {

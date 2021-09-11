@@ -1,8 +1,6 @@
 
-import { REGISTRAR_PROGRAMAS } from 'types/actionTypes';
-import { MODIFICAR_CURSOS_CAPACITACIONES } from 'types/actionTypes';
-import { ELIMINAR_CURSOS_CAPACITACIONES } from 'types/actionTypes';
-import { GET_PROGRAMAS,AGREGAR_PROGRAMA_ERROR } from 'types/actionTypes';
+import { REGISTRAR_PROGRAMAS ,MODIFICAR_CURSOS_CAPACITACIONES,ELIMINAR_CURSOS_CAPACITACIONES,GET_PROGRAMAS,AGREGAR_PROGRAMA_ERROR} from 'types/actionTypes';
+
 
 export default (state, action) => {
 

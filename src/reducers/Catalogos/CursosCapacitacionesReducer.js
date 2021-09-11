@@ -1,8 +1,6 @@
 
-import { REGISTRAR_CURSOS_CAPACITACIONES } from 'types/actionTypes';
-import { MODIFICAR_CURSOS_CAPACITACIONES } from 'types/actionTypes';
-import { ELIMINAR_CURSOS_CAPACITACIONES } from 'types/actionTypes';
-import { GET_CURSOS_CAPACITACIONES } from 'types/actionTypes';
+import { REGISTRAR_CURSOS_CAPACITACIONES ,MODIFICAR_CURSOS_CAPACITACIONES,ELIMINAR_CURSOS_CAPACITACIONES,GET_CURSOS_CAPACITACIONES} from 'types/actionTypes';
+
 
 export default (state, action) => {
     console.log('context');
