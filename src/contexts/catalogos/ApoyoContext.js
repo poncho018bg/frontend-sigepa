@@ -1,13 +1,10 @@
 import React, { createContext, useReducer } from 'react';
 import ApoyoReducer from 'reducers/Catalogos/ApoyoReducer';
 
-import Axios from 'axios';
 
 import { GET_APOYOS, REGISTRAR_APOYOS, ELIMINAR_APOYOS, MODIFICAR_APOYOS } from 'types/actionTypes';
-import { axiosGet } from 'helpers/axios';
-import { axiosPost } from 'helpers/axios';
-import { axiosDeleteTipo } from 'helpers/axios';
-import { axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,axiosPost,axiosDeleteTipo ,axiosPostHetoas} from 'helpers/axios';
+
 
 
 export const ApoyoContext = createContext();

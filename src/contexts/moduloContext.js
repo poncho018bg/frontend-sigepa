@@ -1,13 +1,8 @@
 import React, { createContext, useReducer } from 'react';
 import ModuloReducer from '../reducers/ModuloReducer';
 
-import Axios from 'axios';
-
 import { GET_MODULOS, REGISTRAR_MODULO, ELIMINAR_MODULO, MODIFICAR_MODULO } from '../types/actionTypes';
-import { axiosGet } from 'helpers/axios';
-import { axiosPost } from 'helpers/axios';
-import { axiosDeleteTipo } from 'helpers/axios';
-import { axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,axiosPost,axiosDeleteTipo,axiosPostHetoas } from 'helpers/axios';
 import UserService from 'servicios/UserService';
 
 
@@ -26,7 +21,6 @@ export const ModuloContextProvider = props => {
 
         try {
             const resultado = await axiosGet('modulos');
-            //   console.log(resultado);
             console.log(resultado._embedded.modulos);
             dispatch({
                 type: GET_MODULOS,
@@ -53,8 +47,7 @@ export const ModuloContextProvider = props => {
 
     const actualizarModulo = async modulo => {
         
-        const { id, dsmodulo, usuarioCreacionId, boactivo, _links: { modulos: { href } } } = modulo;
-       
+        const {  dsmodulo,  boactivo, _links: { modulos: { href } } } = modulo;       
        
         let moduloEnviar = {
             dsmodulo,

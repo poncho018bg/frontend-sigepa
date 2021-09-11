@@ -1,13 +1,10 @@
 import React, { createContext, useReducer } from 'react';
 import ApoyoServicioReducer from 'reducers/Catalogos/ApoyoServicioReducer';
 
-import Axios from 'axios';
 
 import { GET_APOYOSERVICIO, REGISTRAR_APOYOSERVICIO, ELIMINAR_APOYOSERVICIO, MODIFICAR_APOYOSERVICIO } from 'types/actionTypes';
-import { axiosGet } from 'helpers/axios';
-import { axiosPost } from 'helpers/axios';
-import { axiosDeleteTipo } from 'helpers/axios';
-import { axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,axiosPost,axiosDeleteTipo,axiosPostHetoas} from 'helpers/axios';
+
 
 
 export const ApoyoServicioContext = createContext();
@@ -26,7 +23,6 @@ export const ApoyoServicioContextProvider = props => {
 
         try {
             const resultado = await axiosGet('apoyosServicios');
-            //   console.log(resultado);
             console.log(resultado._embedded.apoyosServicios);
             dispatch({
                 type: GET_APOYOSERVICIO,
@@ -57,7 +53,7 @@ export const ApoyoServicioContextProvider = props => {
 
     const actualizarApoyoServicio = async apoyosServicios => {
         console.log(apoyosServicios);
-        const { id, dsservicio, activo, _links: { apoyosServicios: { href } } } = apoyosServicios;
+        const {  dsservicio, activo, _links: { apoyosServicios: { href } } } = apoyosServicios;
         let apoyosServiciosEnviar = {
             dsservicio,
             activo,
