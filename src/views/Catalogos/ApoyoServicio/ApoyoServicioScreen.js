@@ -60,9 +60,12 @@ export const ApoyoServicioScreen = () => {
     const size = 0;
     const page = 0;
     const handleChangePage = (event, newPage) => {
+        setPage(newPage);
     };
 
     const handleChangeRowsPerPage = event => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
     };
 
     const onSelect = (e) => {
