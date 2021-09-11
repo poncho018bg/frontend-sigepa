@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import PropTypes from "prop-types";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
@@ -21,14 +21,14 @@ import CardHeader from '@material-ui/core/CardHeader';
 import { red } from '@material-ui/core/colors';
 import IconButton from '@material-ui/core/IconButton';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { Typography } from "@material-ui/core";
+import { Typography,Avatar } from "@material-ui/core";
 
 // core components
 import UserService from "../../servicios/UserService";
 import { DialogLogOut } from "views/Dialogs/DialogLogOut";
 import { useDispatch, useSelector } from 'react-redux';
 import sidebarStyle from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
-import { Avatar } from "@material-ui/core";
+
 
 
 const useStyles = makeStyles(sidebarStyle);

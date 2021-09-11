@@ -1,5 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, makeStyles } from '@material-ui/core';
-import { ModalContext } from 'contexts/modalContex';
+import {  Dialog,  DialogContent, DialogTitle, Grid, IconButton, makeStyles } from '@material-ui/core';
 import { stylesArchivo } from 'css/stylesArchivo';
 import React, { useContext } from 'react'
 const useStyles = makeStyles(stylesArchivo);
@@ -7,8 +6,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 export const ModalUpdate = (props) => {
 
-    const { showModalUpdate, modalTitleUpdate,
-        setShowModalUpdate, setModalTitleUpdate } = useContext(ModalContextUpdate);
+    const { showModalUpdate, 
+        setShowModalUpdate, } = useContext(ModalContextUpdate);
 
 
     const classes = useStyles();    

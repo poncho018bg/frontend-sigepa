@@ -1,15 +1,8 @@
 import React, { createContext, useReducer } from 'react';
 import MunicipiosReducer from 'reducers/Catalogos/MunicipiosReducer';
 
-import Axios from 'axios';
-
 import { GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO } from 'types/actionTypes';
-import { axiosGet } from 'helpers/axios';
-import { axiosPost } from 'helpers/axios';
-import { axiosDeleteTipo } from 'helpers/axios';
-import { axiosPostHetoas } from 'helpers/axios';
-import { axiosGetHetoas } from 'helpers/axios';
-
+import { axiosGet,axiosPost ,axiosDeleteTipo,axiosPostHetoas,axiosGetHetoas} from 'helpers/axios';
 
 
 
@@ -30,7 +23,6 @@ export const MunicipiosContextProvider = props => {
 
         try {
             const resultado = await axiosGet('municipios');
-            //   console.log(resultado);
             console.log(resultado._embedded.municipios);
             dispatch({
                 type: GET_MUNICIPIOS,
@@ -80,7 +72,7 @@ export const MunicipiosContextProvider = props => {
 
     const actualizarMunicipios = async municipio => {
         console.log(municipio);
-        const { id, dsclavemunicipio, dsmunicipio, activo, estadoId, _links: { municipios: { href } } } = municipio;
+        const {  dsclavemunicipio, dsmunicipio, activo, estadoId, _links: { municipios: { href } } } = municipio;
         let municipioEnviar = {
             dsclavemunicipio,
             dsmunicipio,

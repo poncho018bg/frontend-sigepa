@@ -1,14 +1,9 @@
 import React, { createContext, useReducer } from 'react';
 import ModuloSubReducer from '../reducers/ModuloSubReducer';
 
-import Axios from 'axios';
-
 import { GET_MODULO_SUBMODULOS } from '../types/actionTypes';
 import { axiosGet } from 'helpers/axios';
-import { axiosPost } from 'helpers/axios';
-import { axiosDeleteTipo } from 'helpers/axios';
-import { axiosPostHetoas } from 'helpers/axios';
-import UserService from 'servicios/UserService';
+
 
 export const ModuloSubContext = createContext();
 
@@ -29,7 +24,6 @@ export const ModuloSubContextProvider = props => {
         try {
             console.log('mod. buscar =>', subModulo)
             const resultado = await axiosGet(`subModulos/${subModulo.id}/crcModulosCollection`);
-            //   console.log(resultado);
             console.log('RES=> 1', resultado._embedded.modulos);
             dispatch({
                 type: GET_MODULO_SUBMODULOS,

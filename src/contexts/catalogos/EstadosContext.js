@@ -1,14 +1,10 @@
 import React, { createContext, useReducer } from 'react';
 import EstadosReducer from 'reducers/Catalogos/EstadosReducer';
 
-import Axios from 'axios';
 
 import { GET_ESTADOS, REGISTRAR_ESTADOS, ELIMINAR_ESTADOS, MODIFICAR_ESTADOS ,GET_ESTADO} from 'types/actionTypes';
-import { axiosGet } from 'helpers/axios';
-import { axiosPost } from 'helpers/axios';
-import { axiosDeleteTipo } from 'helpers/axios';
-import { axiosPostHetoas } from 'helpers/axios';
-import { axiosGetHetoas } from 'helpers/axios';
+import { axiosGet ,axiosPost,axiosDeleteTipo,axiosPostHetoas,axiosGetHetoas} from 'helpers/axios';
+
 
 
 
@@ -30,7 +26,6 @@ export const EstadosContextProvider = props => {
 
         try {
             const resultado = await axiosGet('estados');
-            //   console.log(resultado);
             console.log(resultado._embedded.estados);
             dispatch({
                 type: GET_ESTADOS,
@@ -76,7 +71,7 @@ export const EstadosContextProvider = props => {
 
     const actualizarEstados = async estado => {
         console.log(estado);
-        const { id, noestado, dsestado, activo, _links: { estados: { href } } } = estado;
+        const {  noestado, dsestado,  _links: { estados: { href } } } = estado;
         let estadosEnviar = {
             noestado,
             dsestado,

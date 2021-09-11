@@ -1,11 +1,8 @@
 import React, { createContext, useReducer } from 'react';
 import ActividadesContinuarReducer from 'reducers/Catalogos/ActividadesContinuarReducer';
-import Axios from 'axios';
 import { GET_ACTIVIDADESCONTINUAR, REGISTRAR_ACTIVIDADESCONTINUAR, ELIMINAR_ACTIVIDADESCONTINUAR, MODIFICAR_ACTIVIDADESCONTINUAR } from 'types/actionTypes';
-import { axiosGet } from 'helpers/axios';
-import { axiosPost } from 'helpers/axios';
-import { axiosDeleteTipo } from 'helpers/axios';
-import { axiosPostHetoas } from 'helpers/axios';
+import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+
 
 
 
@@ -51,14 +48,14 @@ export const ActividadesContinuarContextProvider = props => {
 
 
     const actualizarActividadesContinuar = async continuidadActividades => {
-          
-        console.log('Update=>',continuidadActividades);        
+
+        console.log('Update=>', continuidadActividades);
         const { id, dsactividadcontinuidad, boactivo, _links: { continuidadActividades: { href } } } = continuidadActividades;
         let continuidadActividadesEnviar = {
             id,
             dsactividadcontinuidad,
             boactivo,
-            apoyos:[]
+            apoyos: []
         }
         try {
             const resultado = await axiosPostHetoas(href, continuidadActividadesEnviar, 'PUT');
