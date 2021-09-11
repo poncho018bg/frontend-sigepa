@@ -106,7 +106,7 @@ export const RolesScreen = () => {
         } else {
             newChecked.splice(currentIndex, 1);
         }
-        //console.log('Modulos=>', checked, modulosChecked)
+       
         setChecked(newChecked);
 
         //selecciona todos los submodulos couando este activo

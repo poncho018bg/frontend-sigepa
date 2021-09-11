@@ -24,19 +24,12 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Typography } from "@material-ui/core";
 
 // core components
-import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
 import UserService from "../../servicios/UserService";
 import { DialogLogOut } from "views/Dialogs/DialogLogOut";
-import { cerrarSesion } from "actions/SesionAction";
 import { useDispatch, useSelector } from 'react-redux';
-
-//import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sidebarStyle.js";
 import sidebarStyle from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
-
-import avatar from "assets/img/faces/avatar.jpg";
 import { Avatar } from "@material-ui/core";
-import { getSubmodulosByperfil } from "actions/perfilSubmoduloAction";
-import { obtenerRolesAction } from "actions/rolesKeycloakAction";
+
 
 const useStyles = makeStyles(sidebarStyle);
 
@@ -85,9 +78,9 @@ var ps;
 // the links, and couldn't initialize the plugin.
 function SidebarWrapper({ className, user, headerLinks, links }) {
   const sidebarWrapper = React.useRef();
-   
+
   React.useEffect(() => {
-    
+
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(sidebarWrapper.current, {
         suppressScrollX: true,
@@ -125,16 +118,16 @@ const roles = () => {
 
 }
 
- function Sidebar(props) {
-  //console.log('PROPS=>',props)
+function Sidebar(props) {
+ 
   const classes = useStyles();
   const [miniActive, setMiniActive] = React.useState(true);
   const classesCard = useStylesCard();
   const [openProfile, setOpenProfile] = React.useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch();
-  const  rolesall  = useSelector(state => state.roles);
-  const  perfilSubmodulos  = useSelector(state => state.perfilSubmodulos);
+  const rolesall = useSelector(state => state.roles);
+  const perfilSubmodulos = useSelector(state => state.perfilSubmodulos);
 
   // to check for active links and opened collapses
   let location = useLocation();
@@ -142,7 +135,7 @@ const roles = () => {
   const [openAvatar, setOpenAvatar] = React.useState(false);
   // this is for the rest of the collapses
   const [state, setState] = React.useState({});
-  React.useEffect(() => {   
+  React.useEffect(() => {
     setState(getCollapseStates(props.routes));
   }, []);
   const mainPanel = React.useRef();
@@ -180,21 +173,18 @@ const roles = () => {
     return location.pathname === routeName ? "active" : "";
   };
 
-  const validateprofilesModulos = (modulename, lstRoutes) => {   
-    
-    if( lstRoutes.filter(md => md.dsModulo === modulename).length !== 0){
-      return true
-    }  
-    //return true
-  };
-
-  const validateprofiles = (routeNam, lstRoutes) => {   
-    
-    if( lstRoutes.filter(md => md.dsSubmodulo === routeNam).length !== 0){
+  const validateprofilesModulos = (modulename, lstRoutes) => {
+    if (lstRoutes.filter(md => md.dsModulo === modulename).length !== 0) {
       return true
     }
-   //return true
-    
+  };
+
+  const validateprofiles = (routeNam, lstRoutes) => {
+
+    if (lstRoutes.filter(md => md.dsSubmodulo === routeNam).length !== 0) {
+      return true
+    }
+
   };
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = (routes) => {
@@ -258,64 +248,64 @@ const roles = () => {
             )}
           >
             <>
- 
-            {/* AQUI VA VALIDACIÓN QUE OCULTE LOS MENUS */}
 
-            {validateprofilesModulos(prop.name,props.pantallasview ) ?(<>
-              <NavLink
-              to={"#"}
-              className={navLinkClasses}
-              onClick={(e) => {
-                e.preventDefault();
-                setState(st);
-              }}
-            >
-              {prop.icon !== undefined ? (
-                typeof prop.icon === "string" ? (
-                  <Icon className={itemIcon}>{prop.icon}</Icon>
-                ) : (
-                  <prop.icon className={itemIcon} />
-                )
-              ) : (
-                <span className={collapseItemMini} style={{ fontSize: `1px` }}>
-                  {rtlActive ? prop.rtlMini : prop.mini}
-                </span>
-              )}
-              <ListItemText
-                primary={rtlActive ? prop.rtlName : prop.name}
-                secondary={
-                  <b
-                    className={
-                      caret +
-                      " " +
-                      (state[prop.state] ? classes.caretActive : "")
+              {/* AQUI VA VALIDACIÓN QUE OCULTE LOS MENUS */}
+
+              {validateprofilesModulos(prop.name, props.pantallasview) ? (<>
+                <NavLink
+                  to={"#"}
+                  className={navLinkClasses}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setState(st);
+                  }}
+                >
+                  {prop.icon !== undefined ? (
+                    typeof prop.icon === "string" ? (
+                      <Icon className={itemIcon}>{prop.icon}</Icon>
+                    ) : (
+                      <prop.icon className={itemIcon} />
+                    )
+                  ) : (
+                    <span className={collapseItemMini} style={{ fontSize: `1px` }}>
+                      {rtlActive ? prop.rtlMini : prop.mini}
+                    </span>
+                  )}
+                  <ListItemText
+                    primary={rtlActive ? prop.rtlName : prop.name}
+                    secondary={
+                      <b
+                        className={
+                          caret +
+                          " " +
+                          (state[prop.state] ? classes.caretActive : "")
+                        }
+                      />
                     }
+                    disableTypography={true}
+                    className={cx(
+                      { [itemText]: prop.icon !== undefined },
+                      { [collapseItemText]: prop.icon === undefined }
+                    )}
                   />
-                }
-                disableTypography={true}
-                className={cx(
-                  { [itemText]: prop.icon !== undefined },
-                  { [collapseItemText]: prop.icon === undefined }
-                )}
-              />
-            </NavLink>
+                </NavLink>
 
-            <Collapse in={state[prop.state]} unmountOnExit>
-              <List className={classes.list + " " + classes.collapseList}>
-                {createLinks(prop.views)}
-               
-              </List>
-            </Collapse>
-            
-            </>):(<></>)}
-           
+                <Collapse in={state[prop.state]} unmountOnExit>
+                  <List className={classes.list + " " + classes.collapseList}>
+                    {createLinks(prop.views)}
+
+                  </List>
+                </Collapse>
+
+              </>) : (<></>)}
+
             </>
-           
 
-            
-           
+
+
+
           </ListItem>
-           
+
         );
       }
       const innerNavLinkClasses =
@@ -377,11 +367,11 @@ const roles = () => {
               { [innerNavLinkClasses]: prop.icon === undefined }
             )}
           >
-            
+
             {/*INICIO PRUEBA DE PERMISOS */}
-            {validateprofiles(prop.name,props.pantallasview) ? (
+            {validateprofiles(prop.name, props.pantallasview) ? (
               <>
-              
+
                 {prop.icon !== undefined ? (
                   typeof prop.icon === "string" ? (
                     <Icon className={itemIcon}>{prop.icon}</Icon>
@@ -390,7 +380,7 @@ const roles = () => {
                   )
                 ) : (
                   <span className={collapseItemMini}>
-                   
+
                   </span>
                 )}
                 <ListItemText
@@ -601,34 +591,6 @@ const roles = () => {
     });
   return (
     <div ref={mainPanel}>
-      {/* <Hidden mdUp implementation="css">
-        <Drawer
-          variant="temporary"
-          anchor={rtlActive ? "left" : "right"}
-          open={props.open}
-          classes={{
-            paper: drawerPaper + " " + classes[bgColor + "Background"],
-          }}
-          onClose={props.handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-        >
-          {brand}
-          <SidebarWrapper
-            className={sidebarWrapper}
-            user={user}
-            headerLinks={<AdminNavbarLinks rtlActive={rtlActive} />}
-            links={links}
-          />
-          {image !== undefined ? (
-            <div
-              className={classes.background}
-              style={{ backgroundImage: "url(" + image + ")" }}
-            />
-          ) : null}
-        </Drawer>
-      </Hidden> */}
       <Hidden smDown implementation="css">
         <Drawer
           onMouseOver={() => setMiniActive(false)}
@@ -659,21 +621,11 @@ const roles = () => {
   );
 
   function logout() {
-    //kcc.keycloak.logout();
     setOpenProfile(null);
-    //sessionStorage.removeItem("token");
     setOpenDialog(true);
-    //UserService.doLogout();
   }
   function handleDeshabilitar() {
-    //window.location.replace('http://10.4.2.135/frontend-sigepa/')
     UserService.doLogout();
-    //dispatch(cerrarSesion());
-    //console.log('Cerrando sesion3')
-    //cambiar esta forma de redireccionar
-    //browserHistory.replace('http://10.4.2.135/frontend-sigepa')
-    //window.location.replace('http://10.4.2.135/frontend-sigepa/')
-
     setOpenDialog(false);
   }
 

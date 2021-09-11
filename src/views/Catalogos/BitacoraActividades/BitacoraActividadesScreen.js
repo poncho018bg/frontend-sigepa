@@ -205,19 +205,7 @@ export const BitacoraActividadesScreen = () => {
                             </TextField>
                         </Grid>
                         <Grid item xs={2}>
-                            {/* <KeyboardDatePicker
-                                disableToolbar
-                                variant="inline"
-                                format="MM/dd/yyyy"
-                                margin="normal"
-                                id="date-picker-inline"
-                                label="Date picker inline"
-                                value={selectedDate}
-                                onChange={handleDateChange}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change date',
-                                }}
-                            /> */}
+                           
                         </Grid>
                         <Grid item xs={2}>
                             <Button variant="contained" color="primary" fullWidth onClick={buscarMovimientos}>

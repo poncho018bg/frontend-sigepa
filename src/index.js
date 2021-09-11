@@ -71,19 +71,14 @@ const theme = createMuiTheme({
 const renderApp = () => ReactDOM.render(
 
   <ThemeProvider theme={theme}>
-    {console.log("grupos {}", UserService.getGroups())}
+   
 
     <Router history={hist}>
       <Provider store={store}>
         <AppState>
           <Switch>
             <Route path="/admin" component={Admin} />
-            <Redirect from="/" to="/admin/dashboard" />
-            {/* <Route path="/rtl" component={RTL} />
-                              {RenderGroup("/administrador") === true ?
-                                <Redirect from="/" to="/admin/dashboard" /> :
-                                <Redirect from="/" to="/admin/dashboardPublic" />
-                              } */}
+            <Redirect from="/" to="/admin/dashboard" />          
           </Switch>
         </AppState>
       </Provider>

@@ -37,7 +37,6 @@ import { TipoBeneficiarioScreen } from "views/Catalogos/TiposBeneficiarios/TipoB
 import { ComiteSecretariasScreen } from "views/Catalogos/ComiteSecretarias/ComiteSecretariasScreen";
 import { EdadesBeneficiariosScreen } from "views/Catalogos/EdadesBeneficiarios/EdadesBeneficiariosScreen";
 import { MotivoRechazosScreen } from "views/Catalogos/MotivoRechazos/MotivoRechazosScreen";
-//import { NumeroApoyosScreen } from "views/Catalogos/NumeroApoyos/numeroApoyosScreen";
 import { PeriodicidadApoyosScreen } from "views/Catalogos/PeriodicidadApoyos/PeriodicidadApoyosScreen";
 import { NumeroApoyosScreen } from "views/Catalogos/NumeroApoyos/NumeroApoyosScreen";
 import { CursosCapacitacionesScreen } from "views/Catalogos/CursosCapacitaciones/CursosCapacitacionesScreen";
