@@ -222,36 +222,6 @@ export const DialogTipoApoyoForm = (props) => {
         onSubmit: async valores => {
             console.log('VALORES=>', valores)
             console.log('VALORES mun=>', selected)
-            const {
-                //dsapoyo,
-                //idPrograma,
-                //dsdescripcion,
-                //estatus,
-                //visita,
-                //idTipoApoyo,
-                //fcvigenciainicio,
-                //fcvigenciafin,
-                //fcregistrowebinicio,
-                //fcregistrowebfin,
-                //fcregistropresencialinicio,
-                //fcregistropresencialfin,
-                //idRangoEdadBeneficiario,
-                //idBeneficiario,
-                //cantidadPesos,
-                //enServicio,
-                //descApoyoEspecie,
-                //idPeriodicidad,
-                //observaciones,
-                //formaEntrega,
-                //numEntregas,
-                //documentosRequisitos,
-                //idActividadContinuidadApoyo,
-                //cobertura,
-                //coberturaMunicipal
-
-
-
-            } = valores
 
             setShowModal(false);
 
