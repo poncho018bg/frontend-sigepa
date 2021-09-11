@@ -225,11 +225,10 @@ async function axiosGetHetoas(endpoint) {
             }).then(response => {
             return response.data
             });   
+            return promise;
         } catch (error) {
         console.error('There was an error!', error);
         return Promise.reject(error)
-    }finally {
-        return promise;
     }
 }
 

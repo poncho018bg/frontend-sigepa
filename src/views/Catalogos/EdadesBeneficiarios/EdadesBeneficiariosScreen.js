@@ -40,8 +40,6 @@ const useStyles = makeStyles(stylesArchivo);
 export const EdadesBeneficiariosScreen = () => {
 
     const classes = useStyles();
-    //const [page, setPage] = useState(0);
-
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [edadesBeneficiariosSeleccionado, setEdadesBeneficiariosSeleccionado] = useState();

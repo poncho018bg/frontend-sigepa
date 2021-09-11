@@ -39,9 +39,8 @@ const useStyles = makeStyles(stylesArchivo);
 export const FirmasScreen = () => {
 
     const classes = useStyles();
-    //const [page, setPage] = useState(0);
     const [searched, setSearched] = useState('');
-    const [idEliminar, setIdEliminar] = useState(0);
+    const [idEliminar] = useState(0);
     const [firmasSeleccionado, setfirmasSeleccionado] = useState();
     const { getFirmas, eliminarFirmas, firmasList } = useContext(FirmasContext);
     const { setShowModal } = useContext(ModalContext);

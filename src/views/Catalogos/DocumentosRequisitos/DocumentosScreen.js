@@ -40,7 +40,7 @@ export const DocumentosScreen = () => {
 
     const classes = useStyles();
     const [searched, setSearched] = useState('');
-    const [idEliminar, setIdEliminar] = useState(0);
+    const [idEliminar] = useState(0);
     const [documentoSeleccionado, setDocumentoSeleccionado] = useState();
     const { getDocumentos, documentosList } = useContext(DocumentosContext);
     const { setShowModal } = useContext(ModalContext);
