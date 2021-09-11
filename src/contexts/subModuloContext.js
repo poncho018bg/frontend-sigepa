@@ -74,11 +74,11 @@ export const SubModuloContextProvider = props => {
 
             console.log(moduloEnviar);
             try {
-                const resultado = await axiosPostHetoas(href, moduloEnviar, 'PUT');
+                const resultado2 = await axiosPostHetoas(href, moduloEnviar, 'PUT');
 
                 dispatch({
                     type: MODIFICAR_SUBMODULO,
-                    payload: resultado,
+                    payload: resultado2,
                 })
 
             } catch (error) {

@@ -50,7 +50,7 @@ export const PersonContextProvider = props => {
 
   const actualizarPersona = async persona => {
     console.log(persona);
-    const {id, firstName, lastName,activo,_links:{person:{href}}}= persona;
+    const { firstName, lastName,activo,_links:{person:{href}}}= persona;
     let personaEnviar={
       firstName,
       lastName,

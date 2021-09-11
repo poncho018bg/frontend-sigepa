@@ -168,7 +168,7 @@ const useStyles = makeStyles((theme) => ({
  * @returns 
  */
 function BandejaPersonalizada(props) {
-    //const classes = useStyles();
+    
     const { idBandeja, endPoint } = props;
     const classes = useStyles();
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -178,7 +178,7 @@ function BandejaPersonalizada(props) {
     const [bandeja, setBandeja] = useState([]);
     console.log()
     const urlConstruirBandeja = endPoint;
-    //const urlConstruirBandeja = baseUrl + 'bandejas/construirBandeja/' + idBandeja;
+    
     const [registros, setRegistros] = useState([]);
 
     const [verAccion, setVerAccion] = useState([]);

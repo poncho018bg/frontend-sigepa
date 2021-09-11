@@ -26,7 +26,6 @@ export const BitacoraActividadesScreen = () => {
 
     const classes = useStyles();
     const dispatch = useDispatch();
-    //const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(1);
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
@@ -84,7 +83,6 @@ export const BitacoraActividadesScreen = () => {
 
 
     const handleDeshabilitar = () => {
-        //eliminarPersona(idEliminar)
         setShowModalDelete(false);
     }
 
