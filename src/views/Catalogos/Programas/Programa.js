@@ -11,11 +11,15 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
-export const Localidad = ( {localidad}) => {
+export const Programa = ( {programa}) => {
 
-   const { 
-            id, dsclavelocalidad, dslocalidad, dscodigopostal,fechaRegistro,activo 
-    } = localidad;
+    const { 
+        id, dsprograma, dsclaveprograma, 
+        fcvigenciainicio,fcvigenciafin,
+        dsdescripcion,
+        activo 
+} = programa;
+
 
 
     const onSelect = (e) => {
@@ -43,18 +47,20 @@ export const Localidad = ( {localidad}) => {
                      inputProps={{ 'aria-label': 'Checkbox A' }}
                 />
             </TableCell>
-            <TableCell>{dsclavelocalidad}</TableCell >
-            <TableCell>{dslocalidad}</TableCell >
-            <TableCell>{dscodigopostal}</TableCell >
-            <TableCell >{moment(fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
-             <TableCell align="center">                                 
-                <IconButton aria-label="create" onClick={() => onSelect(localidad)}>
+            <TableCell>{dsprograma}</TableCell>
+            <TableCell>{dsclaveprograma}</TableCell >
+            <TableCell >{moment(fcvigenciainicio).format("MM/DD/YYYY")}</TableCell>
+            <TableCell >{moment(fcvigenciafin).format("MM/DD/YYYY")}</TableCell>
+            <TableCell>{dsdescripcion}</TableCell >
+            
+            <TableCell align="center">                                 
+                <IconButton aria-label="create" onClick={() => onSelect(programa)}>
                 <CreateIcon/>
                 </IconButton>
              </TableCell>
             <TableCell align="center">                                 
-                <IconButton aria-label="create"  onClick={() => handleClickOpen(localidad)}>
-                     {(localidad.activo)? <DeleteIcon/>:<RefreshIcon/>} 
+                <IconButton aria-label="create"  onClick={() => handleClickOpen(programa)}>
+                     {(programa.activo)? <DeleteIcon/>:<RefreshIcon/>} 
                 </IconButton>
             </TableCell> 
         </TableRow >

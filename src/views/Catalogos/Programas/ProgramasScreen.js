@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -8,6 +8,8 @@ import CardActions from '@material-ui/core/CardActions';
 import { makeStyles, Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
 import { stylesArchivo } from 'css/stylesArchivo';
 import SearchBar from 'material-ui-search-bar';
+import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
+import { Programa } from './Programa';
 const useStyles = makeStyles(stylesArchivo);
 
 export const ProgramasScreen = () => {
@@ -28,6 +30,14 @@ export const ProgramasScreen = () => {
       setPage(0);
   };
 
+  const { programasList, get } = useContext(ProgramasContext);
+
+
+
+  useEffect(() => {
+   
+    get();
+}, []);
 
   return (
       <GridItem xs={12} sm={12} md={12}>
@@ -53,26 +63,26 @@ export const ProgramasScreen = () => {
             < Table stickyHeader aria-label="sticky table" >
               < TableHead >
                 < TableRow key="898as" >
-                  < TableCell > Beneficiario</TableCell >
-                  < TableCell > CURP  </TableCell >
-                  < TableCell> Apoyo Otorgado</TableCell >
-                  <TableCell>Tipo de Apoyo</TableCell>
-                  < TableCell> Año Registro Programa</TableCell >
-                  < TableCell>Periocidad</TableCell >
-                  < TableCell>Nùmero de veces</TableCell >
+                  < TableCell > Activo</TableCell >
+                  < TableCell > Programa  </TableCell >
+                  < TableCell > Clave  </TableCell >
+                  < TableCell> Vigencia I</TableCell >
+                  <TableCell>Vigencia F</TableCell>
+                  < TableCell> Descripción</TableCell >
+                  < TableCell colSpan={2} align="center"> Acciones</TableCell >
                 </TableRow >
               </TableHead >
               < TableBody >
                 {
                      (searched ?
-                      paginas.filter(row => row.dsPagina ?
-                        row.dsPagina.toLowerCase().includes(searched.toLowerCase()) : null)
-                      : paginas
+                      programasList.filter(row => row.dsprograma ?
+                        row.dsprograma.toLowerCase().includes(searched.toLowerCase()) : null)
+                      : programasList
                     ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                       return (
-                        <Pagina 
+                        <Programa 
                            key={row.id}
-                          pagina={row}
+                           programa={row}
                         />
                       );
                     })

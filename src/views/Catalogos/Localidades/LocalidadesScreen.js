@@ -59,13 +59,12 @@ export const LocalidadesScreen = () => {
               < Table stickyHeader aria-label="sticky table" >
                 < TableHead >
                   < TableRow key="898as" >
-                    < TableCell > Beneficiario</TableCell >
-                    < TableCell > CURP  </TableCell >
-                    < TableCell> Apoyo Otorgado</TableCell >
-                    <TableCell>Tipo de Apoyo</TableCell>
-                    < TableCell> Año Registro Programa</TableCell >
-                    < TableCell>Periocidad</TableCell >
-                    < TableCell>Nùmero de veces</TableCell >
+                    < TableCell > Activo</TableCell >
+                    < TableCell > Clave</TableCell >
+                    < TableCell > Localidad  </TableCell >
+                    < TableCell> CP</TableCell >
+                    < TableCell> Registro</TableCell >
+                    < TableCell colSpan={2} align="center"> Acciones</TableCell >
                   </TableRow >
                 </TableHead >
                 < TableBody >
