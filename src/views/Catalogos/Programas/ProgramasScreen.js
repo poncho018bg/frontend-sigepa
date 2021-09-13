@@ -19,9 +19,9 @@ export const ProgramasScreen = () => {
   const [searched, setSearched] = useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [showDialogForm, setShowDialogForm] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [paginas, setPaginas] = useState([]);
+
+
+
 
   const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -110,7 +110,7 @@ export const ProgramasScreen = () => {
               rowsPerPageOptions={[5, 10, 15]}
               component="div"
               labelRowsPerPage="Registros por página"
-              count={paginas.length}
+              count={programasList.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onChangePage={handleChangePage}

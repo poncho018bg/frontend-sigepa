@@ -56,6 +56,7 @@ import { ClasificacionServiciosScreen } from "views/Catalogos/ClasificacionServi
 import { DialogTipoApoyoForm } from "views/Catalogos/CatTipoApoyo/DialogTipoApoyoForm";
 import { LocalidadesScreen } from "views/Catalogos/Localidades/LocalidadesScreen";
 import { ProgramasForm } from "views/Catalogos/Programas/ProgramasForm";
+import { ProgramasEdit } from "views/Catalogos/Programas/ProgramasEdit";
 
 
 
@@ -358,6 +359,15 @@ const dashboardRoutes = [
         mini: "AS",
         rtlMini: "AS",
         component: ProgramasForm,
+        layout: "/admin"
+      },
+      {
+        path: "/editarPrograma",
+        name: "Editar Programa",
+        rtlName: "programas",
+        mini: "AS",
+        rtlMini: "AS",
+        component: ProgramasEdit,
         layout: "/admin"
       },
       {

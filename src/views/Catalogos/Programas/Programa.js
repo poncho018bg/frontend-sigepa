@@ -12,9 +12,13 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
+import { ProgramasEdit } from './ProgramasEdit';
+import { ModalContextUpdate } from 'contexts/modalContexUpdate';
+import { ModalUpdate } from 'commons/ModalUpdate';
+import { useHistory } from 'react-router';
 
 export const Programa = ( {programa}) => {
-
+    let history = useHistory();
     const { 
          dsprograma, dsclaveprograma, 
         fcvigenciainicio,fcvigenciafin,
@@ -24,12 +28,8 @@ export const Programa = ( {programa}) => {
     const [idEliminar, setIdEliminar] = useState(0);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const {  eliminar } = useContext(ProgramasContext);
+    const [objetoActualizar, setObjetoActualizar] = useState();
 
-    const onSelect = (e) => {
-        dispatch(obtenerPaginaEditar(e));
-        setShowDialogForm(true);
-    }
-   
     const handleClickOpen = (e) => {
 
         setShowModalDelete(true);
@@ -41,6 +41,14 @@ export const Programa = ( {programa}) => {
         eliminar(idEliminar);
         setShowModalDelete(false);
       }
+
+      const onSelect = (e) => {
+        console.log(e);
+        setObjetoActualizar(e);
+
+        //history.push(`/admin/editarPrograma/${e.id}`)
+       history.push("/admin/editarPrograma",{mobNo:e})
+    }   
 
 
     return (
@@ -61,7 +69,8 @@ export const Programa = ( {programa}) => {
             
             <TableCell align="center">                                 
                 <IconButton aria-label="create" onClick={() => onSelect(programa)}>
-                <CreateIcon/>
+                    
+                    <CreateIcon/>
                 </IconButton>
              </TableCell>
             <TableCell align="center">                                 
@@ -73,6 +82,10 @@ export const Programa = ( {programa}) => {
         <ModalDelete
                 handleDeshabilitar={handleDeshabilitar}
             />
+
+     
+        <ProgramasEdit objetoActualizar={objetoActualizar} />
+           
         </>
     )
 }
