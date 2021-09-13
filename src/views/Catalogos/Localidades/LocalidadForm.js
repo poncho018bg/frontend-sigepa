@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from 'react';
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { ModalContext } from 'contexts/modalContex';
-import { CursosCapacitacionesContext } from 'contexts/catalogos/CursosCapacitaciones/cursosCapacitacionesContext';
 import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
 

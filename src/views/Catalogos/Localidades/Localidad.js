@@ -16,10 +16,10 @@ import { ModalDelete } from 'commons/ModalDelete';
 export const Localidad = ( {localidad}) => {
 
    const { 
-            id, dsclavelocalidad, dslocalidad, dscodigopostal,fechaRegistro,activo 
+             dsclavelocalidad, dslocalidad, dscodigopostal,fechaRegistro,activo 
     } = localidad;
     const [idEliminar, setIdEliminar] = useState(0);
-    const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
+    const {  setShowModalDelete } = useContext(ModalContextDelete);
     const {  eliminar } = useContext(LocalidadesContext);
 
 

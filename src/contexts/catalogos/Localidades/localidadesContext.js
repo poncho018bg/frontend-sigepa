@@ -4,11 +4,12 @@ import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/a
 import { GET_LOCALIDADES,
         REGISTRAR_LOCALIDADES,
         ELIMINAR_LOCALIDADES,
-        MODIFICAR_LOCALIDADES 
+        MODIFICAR_LOCALIDADES,
+        AGREGAR_PROGRAMA_ERROR
 } from 'types/actionTypes';
 
 import LocalidadesReducer from 'reducers/Catalogos/Localidades/LocalidadesReducer';
-import { AGREGAR_PROGRAMA_ERROR } from 'types/actionTypes';
+
 
 
 
@@ -42,7 +43,7 @@ export const LocalidadesContextProvider = props => {
      * @param {motivoRechazos} motivoRechazos 
      */
     const registrar = async localidades => {
-        console.log(localidades);
+
         try {
             const resultado = await axiosPost('localidades', localidades);
             dispatch({
@@ -65,7 +66,7 @@ export const LocalidadesContextProvider = props => {
      */
     const actualizar= async objetoActualizar => {
         console.log(objetoActualizar);
-        const { id, dsestado, boactivo, _links: { cursosCapacitaciones: { href } } } = objetoActualizar;
+        const { dsestado, boactivo, _links: { cursosCapacitaciones: { href } } } = objetoActualizar;
 
         let objetoEnviar = {
             dsestado,

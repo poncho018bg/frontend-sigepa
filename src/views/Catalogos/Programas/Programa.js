@@ -3,7 +3,6 @@ import React, {  useContext, useState } from 'react'
 
 import Checkbox from '@material-ui/core/Checkbox';
 import { TableCell, TableRow } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
@@ -17,7 +16,7 @@ import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext'
 export const Programa = ( {programa}) => {
 
     const { 
-        id, dsprograma, dsclaveprograma, 
+         dsprograma, dsclaveprograma, 
         fcvigenciainicio,fcvigenciafin,
         dsdescripcion,
         activo 
@@ -32,13 +31,13 @@ export const Programa = ( {programa}) => {
     }
    
     const handleClickOpen = (e) => {
-        console.log(e);
+
         setShowModalDelete(true);
         setIdEliminar(e.id);
     }
 
     const handleDeshabilitar = () => {
-        console.log(idEliminar);
+
         eliminar(idEliminar);
         setShowModalDelete(false);
       }

@@ -4,13 +4,13 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardActions from '@material-ui/core/CardActions';
-import { Grid } from '@material-ui/core';
-import { makeStyles, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@material-ui/core';
+
+import { Grid,makeStyles, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@material-ui/core';
 import { stylesArchivo } from 'css/stylesArchivo';
 import SearchBar from 'material-ui-search-bar';
 import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
 import { Localidad } from './Localidad';
-import { ModalContextDelete } from 'contexts/modalContexDelete';
+
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 import { ModalContext } from 'contexts/modalContex';
@@ -23,16 +23,8 @@ export const LocalidadesScreen = () => {
     const [searched, setSearched] = useState('');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [showDialogForm, setShowDialogForm] = useState(false);
-    const [open, setOpen] = useState(false);
-    const [paginas, setPaginas] = useState([]);
-
-
-    const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
-    
-    const { get, eliminar, localidadesList } = useContext(LocalidadesContext);
-
-    const { showModal, setShowModal  } = useContext(ModalContext);
+    const { get,localidadesList } = useContext(LocalidadesContext);
+    const {  setShowModal  } = useContext(ModalContext);
   
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -113,7 +105,7 @@ export const LocalidadesScreen = () => {
                 rowsPerPageOptions={[5, 10, 15]}
                 component="div"
                 labelRowsPerPage="Registros por página"
-                count={paginas.length}
+                count={localidadesList.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}
