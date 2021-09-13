@@ -1,13 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
-
-import {  makeStyles } from '@material-ui/core';
-import { stylesArchivo } from 'css/stylesArchivo';
-
-import { DocumentosContext } from 'contexts/catalogos/documentosContext';
+import React, { useEffect, useState } from 'react';
 
 import { axiosGetHetoas } from 'helpers/axios';
-
-const useStyles = makeStyles(stylesArchivo);
 
 /**
  * Busca la vigencia del documento utilizando el href hetoas

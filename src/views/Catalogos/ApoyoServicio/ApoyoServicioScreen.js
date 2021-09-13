@@ -5,11 +5,10 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 
-import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,7 +16,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
-import { Grid } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 
@@ -38,7 +36,7 @@ const useStyles = makeStyles(stylesArchivo);
 export const ApoyoServicioScreen = () => {
 
     const classes = useStyles();
-    //const [page, setPage] = useState(0);
+
     const [rowsPerPage, setRowsPerPage] = useState(1);
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
@@ -52,17 +50,19 @@ export const ApoyoServicioScreen = () => {
 
     useEffect(() => {
         getApoyoServicio();
-        // eslint-disable-next-line      
+    
     }, []);
 
     const total = 0;
-    const idiomas = [];
     const size = 0;
     const page = 0;
     const handleChangePage = (event, newPage) => {
+        setPage(newPage);
     };
 
     const handleChangeRowsPerPage = event => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
     };
 
     const onSelect = (e) => {

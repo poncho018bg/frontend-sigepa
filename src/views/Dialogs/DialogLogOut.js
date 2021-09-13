@@ -6,17 +6,14 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "components/CustomButtons/Button.js";
-import { useDispatch } from 'react-redux';
-
 
 
 export const DialogLogOut = (props) => {
 
-    const dispatch = useDispatch();
+    //aqui estaba el dispatch
 
     const handleClose = () => {
         props.setOpenDialog(false);
-       // dispatch(obtenerModuloEliminar(null));
     }
 
   

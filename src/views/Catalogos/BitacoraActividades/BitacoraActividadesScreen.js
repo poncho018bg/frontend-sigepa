@@ -1,33 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
-
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { MenuItem, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, TextField } from '@material-ui/core';
+import { MenuItem, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, TextField,Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
-import Add from "@material-ui/icons/Add";
 import moment from 'moment';
 import 'moment/locale/es';
-import CreateIcon from '@material-ui/icons/Create';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import RefreshIcon from '@material-ui/icons/Refresh';
+
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
-import { Grid } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 import { ModalContext } from 'contexts/modalContex';
-import { Modal } from 'commons/Modal';
-import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
-import { ModalUpdate } from 'commons/ModalUpdate';
 import { BtActividadesContext } from 'contexts/catalogos/BtActividadesContext';
 import { obtenerRolesAction } from 'actions/rolesKeycloakAction';
-//import {MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -37,7 +26,6 @@ export const BitacoraActividadesScreen = () => {
 
     const classes = useStyles();
     const dispatch = useDispatch();
-    //const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(1);
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
@@ -67,13 +55,17 @@ export const BitacoraActividadesScreen = () => {
     }, []);
 
     const total = 0;
-    const idiomas = [];
+    
     const size = 0;
     const page = 0;
     const handleChangePage = (event, newPage) => {
+        setPage(newPage);
     };
     const handleChangeRowsPerPage = event => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
     };
+    
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -91,7 +83,6 @@ export const BitacoraActividadesScreen = () => {
 
 
     const handleDeshabilitar = () => {
-        //eliminarPersona(idEliminar)
         setShowModalDelete(false);
     }
 
@@ -205,19 +196,7 @@ export const BitacoraActividadesScreen = () => {
                             </TextField>
                         </Grid>
                         <Grid item xs={2}>
-                            {/* <KeyboardDatePicker
-                                disableToolbar
-                                variant="inline"
-                                format="MM/dd/yyyy"
-                                margin="normal"
-                                id="date-picker-inline"
-                                label="Date picker inline"
-                                value={selectedDate}
-                                onChange={handleDateChange}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change date',
-                                }}
-                            /> */}
+                           
                         </Grid>
                         <Grid item xs={2}>
                             <Button variant="contained" color="primary" fullWidth onClick={buscarMovimientos}>
@@ -269,5 +248,4 @@ export const BitacoraActividadesScreen = () => {
         </GridItem>
 
     )
-
-}
+                        }

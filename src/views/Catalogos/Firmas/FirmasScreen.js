@@ -5,7 +5,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 
@@ -15,7 +15,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
-import { Grid } from '@material-ui/core';
+
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 
@@ -39,9 +39,8 @@ const useStyles = makeStyles(stylesArchivo);
 export const FirmasScreen = () => {
 
     const classes = useStyles();
-    //const [page, setPage] = useState(0);
     const [searched, setSearched] = useState('');
-    const [idEliminar, setIdEliminar] = useState(0);
+    const [idEliminar] = useState(0);
     const [firmasSeleccionado, setfirmasSeleccionado] = useState();
     const { getFirmas, eliminarFirmas, firmasList } = useContext(FirmasContext);
     const { setShowModal } = useContext(ModalContext);

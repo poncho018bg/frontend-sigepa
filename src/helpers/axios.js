@@ -8,7 +8,7 @@ const baseUrlExpediente = process.env.REACT_APP_API_EXPEDIENTE_URL;
  async function axiosGet(endpoint) {
      const url = `${ baseUrl }${ endpoint }`;
 
-   //const url = 'http://localhost:9051/people';
+
     try{
             const promise = await axios({
                 method:'GET',
@@ -29,7 +29,7 @@ const baseUrlExpediente = process.env.REACT_APP_API_EXPEDIENTE_URL;
 
  async function axiosPost(endpoint,data, method ) {
     const url = `${ baseUrl }${ endpoint }`;
-    //const url = 'http://localhost:9051/people';
+
     try{
             const promise = await axios({
                 method:'POST',
@@ -224,12 +224,11 @@ async function axiosGetHetoas(endpoint) {
                 }
             }).then(response => {
             return response.data
-            });   
+            });
+            return promise;
         } catch (error) {
         console.error('There was an error!', error);
         return Promise.reject(error)
-    }finally {
-        return promise;
     }
 }
 

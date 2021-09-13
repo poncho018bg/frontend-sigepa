@@ -1,13 +1,9 @@
 import React, { createContext, useReducer } from 'react';
 import PersonReducer from '../reducers/PersonReducer';
 
-import Axios from 'axios';
-
 import { GET_PERSONS,REGISTRAR_PERSONA,ELIMINAR_PERSONA,MODIFICAR_PERSONA} from '../types/actionTypes';
-import { axiosGet } from 'helpers/axios';
-import { axiosPost } from 'helpers/axios';
-import { axiosDeleteTipo } from 'helpers/axios';
-import { axiosPostHetoas } from 'helpers/axios';
+import { axiosGet ,axiosPost,axiosDeleteTipo,axiosPostHetoas} from 'helpers/axios';
+
 
 export const PersonContext = createContext();
 
@@ -24,7 +20,6 @@ export const PersonContextProvider = props => {
  
     try {
       const resultado = await axiosGet('people');
-   //   console.log(resultado);
       console.log(resultado._embedded.people);
       dispatch({
         type: GET_PERSONS,
@@ -55,7 +50,7 @@ export const PersonContextProvider = props => {
 
   const actualizarPersona = async persona => {
     console.log(persona);
-    const {id, firstName, lastName,activo,_links:{person:{href}}}= persona;
+    const { firstName, lastName,activo,_links:{person:{href}}}= persona;
     let personaEnviar={
       firstName,
       lastName,

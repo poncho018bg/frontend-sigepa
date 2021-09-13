@@ -1,13 +1,8 @@
 import React, { createContext, useReducer } from 'react';
 import SubModuloReducer from '../reducers/SubModuloReducer';
 
-import Axios from 'axios';
-
 import { GET_SUBMODULOS, REGISTRAR_SUBMODULO, ELIMINAR_SUBMODULO, MODIFICAR_SUBMODULO, GET_MODULO_SUBMODULOS } from '../types/actionTypes';
-import { axiosGet } from 'helpers/axios';
-import { axiosPost } from 'helpers/axios';
-import { axiosDeleteTipo } from 'helpers/axios';
-import { axiosPostHetoas } from 'helpers/axios';
+import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 import UserService from 'servicios/UserService';
 
 
@@ -16,7 +11,7 @@ export const SubModuloContext = createContext();
 export const SubModuloContextProvider = props => {
 
     const initialState = {
-        submoduloList: [],       
+        submoduloList: [],
         clienteActual: null
     }
 
@@ -26,7 +21,6 @@ export const SubModuloContextProvider = props => {
 
         try {
             const resultado = await axiosGet('submodulosOverride/');
-            //   console.log(resultado);
             console.log(resultado);
             dispatch({
                 type: GET_SUBMODULOS,
@@ -40,10 +34,9 @@ export const SubModuloContextProvider = props => {
     const getModulosBySubModulos = async subModulo => {
 
         try {
-            console.log('mod. buscar =>',subModulo )
+            console.log('mod. buscar =>', subModulo)
             const resultado = await axiosGet(`subModulos/${subModulo.id}/crcModulosCollection`);
-            //   console.log(resultado);
-            console.log('RES=>',resultado._embedded.modulos);
+            console.log('RES=>', resultado._embedded.modulos);
             dispatch({
                 type: GET_MODULO_SUBMODULOS,
                 payload: resultado._embedded.modulos
@@ -56,36 +49,36 @@ export const SubModuloContextProvider = props => {
     const registrarSubModulos = async subModulo => {
         try {
             console.log(subModulo);
-            const  crcModulosCollection  = subModulo.crcModulosCollection
-            subModulo.crcModulosCollection =[{}]
-            subModulo.perfiles =[]
-            console.log('POST SubModulos',subModulo)
+            const crcModulosCollection = subModulo.crcModulosCollection
+            subModulo.crcModulosCollection = [{}]
+            subModulo.perfiles = []
+            console.log('POST SubModulos', subModulo)
             const resultado = await axiosPost('subModulos', subModulo);
             console.log(resultado);
 
-          
-
-            const { id, dssubmodulo, usuarioCreacionId, boactivo, _links: { crcModulosCollection: { href } } } = resultado;
-            let moduloEnviar =  {
-
-                    '_links': {
-
-                        '1': {
-                            'href': `${process.env.REACT_APP_API_URL}/modulos/${crcModulosCollection}`,
-                            'submodulo_id': `${process.env.REACT_APP_API_URL}/subModulos/${id}`
 
 
-                        }
+            const { id,  _links: { crcModulosCollection: { href } } } = resultado;
+            let moduloEnviar = {
+
+                '_links': {
+
+                    '1': {
+                        'href': `${process.env.REACT_APP_API_URL}/modulos/${crcModulosCollection}`,
+                        'submodulo_id': `${process.env.REACT_APP_API_URL}/subModulos/${id}`
+
+
                     }
                 }
-            
+            }
+
             console.log(moduloEnviar);
             try {
-                const resultado = await axiosPostHetoas(href, moduloEnviar, 'PUT');
+                const resultado2 = await axiosPostHetoas(href, moduloEnviar, 'PUT');
 
                 dispatch({
                     type: MODIFICAR_SUBMODULO,
-                    payload: resultado,
+                    payload: resultado2,
                 })
 
             } catch (error) {
@@ -107,15 +100,15 @@ export const SubModuloContextProvider = props => {
     const actualizarSubModulo = async submodulo => {
 
         console.log('x=>>', submodulo)
-        const { id, dssubmodulo, usuarioCreacionId, boactivo, crcModulosCollection} = submodulo;
+        const { id, dssubmodulo,  boactivo, crcModulosCollection } = submodulo;
 
 
         let moduloEnviar = {
             dssubmodulo,
             'usuarioCreacionId': `${process.env.REACT_APP_API_URL}msubModulosodulos/${UserService.getIdUSuario()}`,
             boactivo,
-            'crcModulosCollection':[{}],
-            "perfiles":[]
+            'crcModulosCollection': [{}],
+            "perfiles": []
 
         }
         console.log(moduloEnviar);
@@ -126,8 +119,8 @@ export const SubModuloContextProvider = props => {
                 type: MODIFICAR_SUBMODULO,
                 payload: resultado,
             })
-            console.log('Res 1.- =>',resultado)
-            let moduloEnviarm =  {
+            console.log('Res 1.- =>', resultado)
+            let moduloEnviarm = {
 
                 '_links': {
 
@@ -139,9 +132,9 @@ export const SubModuloContextProvider = props => {
                     }
                 }
             }
-            console.log('MD 1.- =>',moduloEnviarm)
-            const resultado2 = await axiosPostHetoas( `${process.env.REACT_APP_API_URL}subModulos/${id}/crcModulosCollection`, moduloEnviarm, 'PUT');
-            console.log('Res 2.- =>',resultado)
+            console.log('MD 1.- =>', moduloEnviarm)
+            const resultado2 = await axiosPostHetoas(`${process.env.REACT_APP_API_URL}subModulos/${id}/crcModulosCollection`, moduloEnviarm, 'PUT');
+            console.log('Res 2.- =>', resultado)
             dispatch({
                 type: MODIFICAR_SUBMODULO,
                 payload: resultado2,
@@ -168,14 +161,14 @@ export const SubModuloContextProvider = props => {
     return (
         <SubModuloContext.Provider
             value={{
-                submoduloList: state.submoduloList,    
-                         
+                submoduloList: state.submoduloList,
+
                 getSubModulos,
                 getModulosBySubModulos,
                 registrarSubModulos,
                 actualizarSubModulo,
                 eliminarSubModulo,
-                
+
 
             }}
         >

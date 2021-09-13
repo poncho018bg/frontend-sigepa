@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, Dialog, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
+import { Button,  DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
@@ -8,7 +8,7 @@ import { CursosCapacitacionesContext } from 'contexts/catalogos/CursosCapacitaci
 
 export const CursosCapacitacionesEdit = ({ objetoActualizar }) => {
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    //const { actualizarModulo } = useContext(ModuloContext);
+
     const { actualizar} = useContext(CursosCapacitacionesContext);
 
 

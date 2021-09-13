@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
 
 // @material-ui/icons
 import PermIdentity from "@material-ui/icons/PermIdentity";
@@ -10,23 +9,21 @@ import PermIdentity from "@material-ui/icons/PermIdentity";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
+
 import Clearfix from "components/Clearfix/Clearfix.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
-import CardIcon from "components/Card/CardIcon.js";
-import CardAvatar from "components/Card/CardAvatar.js";
+
 
 import styles from "assets/jss/material-dashboard-pro-react/views/userProfileStyles.js";
 
-import avatar from "assets/img/faces/marc.jpg";
-import { FormControl, FormHelperText, MenuItem, TextField } from "@material-ui/core";
+
+import {  TextField } from "@material-ui/core";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { ProgramasContext } from "contexts/catalogos/Programas/programasContext";
-import SnackbarContent from "components/Snackbar/SnackbarContent";
-import Snackbar from "components/Snackbar/Snackbar";
+
 import { Mensaje } from "components/Personalizados/Mensaje";
 
 const useStyles = makeStyles(styles);

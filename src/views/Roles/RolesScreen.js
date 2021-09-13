@@ -2,34 +2,15 @@ import React, { useEffect, useState, useContext } from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useForm } from 'hooks/useForm';
 // core components
-import GridItem from "components/Grid/GridItem.js";
-import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
-import { Collapse, DialogActions, DialogContent, FormHelperText, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, ListSubheader, MenuItem, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, TextField } from '@material-ui/core';
+import { Collapse, DialogContent, FormHelperText, List, ListItem, ListItemIcon, ListItemText, ListSubheader, MenuItem, TextField } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
-import Add from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import 'moment/locale/es';
-import CreateIcon from '@material-ui/icons/Create';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import SearchBar from "material-ui-search-bar";
-import CardActions from '@material-ui/core/CardActions';
-import { Grid } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
-
-import ExpandMore from '@material-ui/icons/ExpandMore';
 
 
 import { obtenerRolesAction } from 'actions/rolesKeycloakAction';
-import { ExpandLess, StarBorder } from '@material-ui/icons';
 import { ModuloContext } from 'contexts/moduloContext';
 import { SubModuloContext } from 'contexts/subModuloContext';
 import { PerfilSubmoduloStartAddNew } from 'actions/perfilSubmoduloAction';
@@ -52,11 +33,11 @@ export const RolesScreen = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    const [formValues, handleInputChange, setValues] = useForm(initPerfiles);
+    const [formValues, handleInputChange] = useForm(initPerfiles);
     const { getModulos, moduloList } = useContext(ModuloContext);
     const { getSubModulos, submoduloList } = useContext(SubModuloContext);
     const { getSubmodulosByperfil, submodulosPerfilList } = useContext(SubmodulosByPerfilContex);
-    const { idPerfil, idModulo } = formValues;
+    const { idPerfil } = formValues;
     const [errors, setErrors] = useState({});
     const [checked, setChecked] = React.useState([-1]);
     const [checkedSub, setCheckedSub] = React.useState([0]);
@@ -73,12 +54,8 @@ export const RolesScreen = () => {
 
 
     const { roles } = useSelector(state => state.roles);
-    const [open, setOpen] = React.useState(true);
+    const [open] = React.useState(true);
 
-    const handleClose = () => {
-        props.setShowDialogForm(false);
-        setErrors({});
-    }
 
     const compareModSub = (mod, sub, indxS, indxM, labelId) => {
 
@@ -129,12 +106,11 @@ export const RolesScreen = () => {
         } else {
             newChecked.splice(currentIndex, 1);
         }
-        //console.log('Modulos=>', checked, modulosChecked)
+       
         setChecked(newChecked);
 
         //selecciona todos los submodulos couando este activo
         if (currentIndex === -1) {
-            let lstSub = []
             var modules2 = [...checkedSub]
             var modulesCK2 = [...subModulosChecked]
             submoduloList.forEach((sb, i) => {
@@ -152,21 +128,20 @@ export const RolesScreen = () => {
 
         } else {
             //quitara los check activo de todos los submodulos
-            let lstSub = []
-            var modules2 = [...checkedSub]
-            var modulesCK2 = [...subModulosChecked]
+            var modules3 = [...checkedSub]
+            var modulesCK3 = [...subModulosChecked]
             submoduloList.forEach((sb, i) => {
                 if (sb.crcModulosCollection === id.id) {
 
-                    modules2 = modules2.filter(word => word !== i);
-                    modulesCK2 = modulesCK2.filter(word => word !== sb.id);
+                    modules3 = modules3.filter(word => word !== i);
+                    modulesCK3 = modulesCK3.filter(word => word !== sb.id);
 
                 }
             })
             //agrega los index de los submodulos a activar
-            setCheckedSub(modules2);
+            setCheckedSub(modules3);
             //agrega los modulos a guardar
-            setSubModulosChecked(modulesCK2)
+            setSubModulosChecked(modulesCK3)
 
 
         }
@@ -189,13 +164,6 @@ export const RolesScreen = () => {
             modules.splice(modules.indexOf(idMod), modules.indexOf(idMod))
         }
 
-        // console.log('find=>',modules.find(element => element === idMod)!== undefined)
-        // if (modules.find(element => element === idMod)!== undefined) {
-        //     modules = modules.filter(item => item !== idMod)
-        // } else {
-        //     modules.push(idMod)
-        // }
-
         setSubModulosChecked(modules)
         console.log('subModulosChecked=>', subModulosChecked)
         //obtiene los index para poner check
@@ -217,8 +185,10 @@ export const RolesScreen = () => {
 
     const handleSavePerfiles = () => {
         setErrors({});
-        console.log('entro handleSavePerfiles =>')
-        const errors = {};
+        console.log('entro handleSavePerfiles =>');
+        /**
+         * Aqui estaba la constante de errors
+         */
 
         if (idPerfil === '') {
             errors.idPerfil = "El campo perfil es obligatorio";
@@ -242,7 +212,7 @@ export const RolesScreen = () => {
         }
         console.log('Nuevo sent =>', data)
         dispatch(PerfilSubmoduloStartAddNew(data))
-       
+
     }
 
 

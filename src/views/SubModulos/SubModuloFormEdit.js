@@ -1,18 +1,16 @@
 import React, { useContext, useEffect } from 'react';
-import { Button, Dialog, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
+import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { SubModuloContext } from 'contexts/subModuloContext';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModuloContext } from 'contexts/moduloContext';
-import { ModuloSubContext } from 'contexts/moduloSubContext';
 
 
 export const SubModuloFormEdit = ({ subModuloSeleccionado }) => {
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { actualizarSubModulo } = useContext(SubModuloContext);
-    //const { getModulosBySubModulos,  moduloSubList } = useContext(ModuloSubContext);
     const { getModulos, moduloList } = useContext(ModuloContext);
 
 
@@ -88,7 +86,6 @@ export const SubModuloFormEdit = ({ subModuloSeleccionado }) => {
                             {props.touched.crcModulosCollection && props.errors.crcModulosCollection ? (
                                 <FormHelperText error={props.errors.crcModulosCollection}>{props.errors.crcModulosCollection}</FormHelperText>
                             ) : null}
-                            {/* {errors.lltipoetiqueta && <FormHelperText error={errors.lltipoetiqueta}>{errors.lltipoetiqueta}</FormHelperText>} */}
                         </DialogContent>
 
                         <DialogContent>

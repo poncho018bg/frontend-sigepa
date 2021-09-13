@@ -26,7 +26,7 @@ const baseUrl = process.env.REACT_APP_API_URL;
 
 
 export default function BandejaExample() {
-    //const classes = useStyles();
+
     const [bandejas, setBandejas] = useState([]);
     const [showBandeja, setShowBandeja] = useState([]);
     const [selectedIdBandeja, setSelectedIdBandeja] = useState([]);
@@ -38,15 +38,10 @@ export default function BandejaExample() {
     const urlBandejas = baseUrl + 'tipoBandejas';
 
     useEffect(() => {
-        /*
-        const GetBandejas = async () => {
-            const result = await axios.get(urlBandejas);
-            setBandejas(result.data);
-        }
-        */
+      
 
         const GetBandejas = async () => {
-            //const result = await axios.get(urlRoles);
+            
             try {
                 const result = await axios({
                     method: 'get',
@@ -173,7 +168,7 @@ const useStyles = makeStyles((theme) => ({
  * @returns 
  */
 function BandejaPersonalizada(props) {
-    //const classes = useStyles();
+    
     const { idBandeja, endPoint } = props;
     const classes = useStyles();
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -183,7 +178,7 @@ function BandejaPersonalizada(props) {
     const [bandeja, setBandeja] = useState([]);
     console.log()
     const urlConstruirBandeja = endPoint;
-    //const urlConstruirBandeja = baseUrl + 'bandejas/construirBandeja/' + idBandeja;
+    
     const [registros, setRegistros] = useState([]);
 
     const [verAccion, setVerAccion] = useState([]);
@@ -200,15 +195,9 @@ function BandejaPersonalizada(props) {
     };
 
     useEffect(() => {
-        /*
+   
         const GetBandeja = async () => {
-            const result = await axios.get(urlConstruirBandeja);
-            setBandeja(result.data[0]);
-            setRegistros(result.data);
-        }
-        */
-        const GetBandeja = async () => {
-            //const result = await axios.get(urlRoles);
+          
             try {
                 const result = await axios({
                     method: 'get',
@@ -275,9 +264,7 @@ function BandejaPersonalizada(props) {
                                                         </TableCell>
                                                     } else {
                                                         return <FormatoFechaTabla valor={r.valor} />
-                                                        /*
-                                                        return <TableCell align="center">{r.valor}</TableCell>
-                                                        */
+                                                       
                                                     }
 
                                                 })
@@ -346,35 +333,7 @@ function BandejaPersonalizada(props) {
         const { acciones, registro } = props;
         var obj = JSON.parse(acciones.parametros);
 
-        /**
-         * ejemplo de como seria esto mas o menos
-         */
-        /*
-        if (acciones != null) {
-            if (acciones.metodo == "GET") {
-                useEffect(() => {
-                    const GetBandeja = async () => {
-                        const result = await axios.get(acciones.accion + '/' + obj.idUser);
-                        setBandeja(result.data[0]);
-                        setRegistros(result.data);
-                    }
-                    GetBandeja();
-                    console.log('columnas', bandeja);
-                }, [urlConstruirBandeja]);
-
-            } else {
-                axios({
-                    method: 'post',
-                    url: acciones.accion + '/' + obj.idUser,
-                    headers: {
-                        Accept: "application/json",
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
-            }
-        }
-        */
-
+       
         function formatDate() {
             var options = { year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -419,13 +378,7 @@ function BandejaPersonalizada(props) {
                             value={registro[4].valor} />
                         <Button>Guardar</Button>
                     </form>
-                    {/*}
-                    <h6>ID: {registro[0].valor}</h6>
-                    <p>Destinatario: {registro[1].valor}</p>
-                    <p>Remitente: {registro[2].valor}</p>
-                    <p>Fecha de Registro: {registro[3].valor}</p>
-                    <p>Monto: {registro[4].valor}</p>
-                    */}
+                   
                 </CardBody>
             </Card>
         )

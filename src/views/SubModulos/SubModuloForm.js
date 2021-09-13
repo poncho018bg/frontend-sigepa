@@ -1,5 +1,5 @@
-import { Button, Dialog, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
-import React, { useContext, useEffect, useState } from 'react';
+import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
+import React, { useContext, useEffect } from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -91,7 +91,6 @@ export const SubModuloForm = () => {
                 {formik.touched.crcModulosCollection && formik.errors.crcModulosCollection ? (
                     <FormHelperText error={formik.errors.crcModulosCollection}>{formik.errors.crcModulosCollection}</FormHelperText>
                 ) : null}
-                {/* {errors.lltipoetiqueta && <FormHelperText error={errors.lltipoetiqueta}>{errors.lltipoetiqueta}</FormHelperText>} */}
             </DialogContent>
 
             <DialogContent>

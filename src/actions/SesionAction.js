@@ -1,4 +1,3 @@
-import { axiosGet } from "helpers/axios";
 import UserService from "servicios/UserService";
 import { typesSesion } from "types/types";
 

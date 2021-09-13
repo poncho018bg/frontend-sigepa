@@ -1,13 +1,9 @@
 import React, { createContext, useReducer } from 'react';
 import RegionMunicipiosReducer from 'reducers/Catalogos/RegionMunicipiosReducer';
 
-import Axios from 'axios';
-
 import { GET_REGIONMUNICIPIOS, REGISTRAR_REGIONMUNICIPIOS, ELIMINAR_REGIONMUNICIPIOS, MODIFICAR_REGIONMUNICIPIOS } from 'types/actionTypes';
-import { axiosGet } from 'helpers/axios';
-import { axiosPost } from 'helpers/axios';
-import { axiosDeleteTipo } from 'helpers/axios';
-import { axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,axiosPost,axiosDeleteTipo} from 'helpers/axios';
+
 
 
 export const RegionMunicipiosContext = createContext();
@@ -53,17 +49,9 @@ export const RegionMunicipiosContextProvider = props => {
 
 
     const actualizarRegionMunicipios = async regionMunicipio => {
-        console.log(regionMunicipio);
-        // const { id, firstName, lastName, activo, _links: { person: { href } } } = regionMunicipio;
-        // let personaEnviar = {
-        //     firstName,
-        //     lastName,
-        //     activo
-        // }
-        try {
-            //const resultado = await axiosPostHetoas(href, personaEnviar, 'PUT');
+        console.log(regionMunicipio);  
+        try {          
             const resultado = await axiosPost('municipiosRegion', regionMunicipio);
-
             dispatch({
                 type: MODIFICAR_REGIONMUNICIPIOS,
                 payload: resultado,

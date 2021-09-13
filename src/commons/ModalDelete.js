@@ -12,7 +12,7 @@ export const ModalDelete = (props) => {
 
     const {handleDeshabilitar} = props;
 
-    const { showModalDelete, modalTitleDelete, setShowModalDelete, setModalTitleDelete }
+    const { showModalDelete,  setShowModalDelete}
          = useContext(ModalContextDelete);
 
     const handleClose = () => {
