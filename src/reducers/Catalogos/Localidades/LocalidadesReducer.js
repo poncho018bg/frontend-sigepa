@@ -2,7 +2,8 @@
 import { GET_LOCALIDADES,
     REGISTRAR_LOCALIDADES,
     ELIMINAR_LOCALIDADES,
-    MODIFICAR_LOCALIDADES 
+    MODIFICAR_LOCALIDADES,
+    AGREGAR_LOCALIDADES_ERROR
 } from 'types/actionTypes';
 
 export default (state, action) => {
@@ -14,7 +15,7 @@ export default (state, action) => {
                 ...state,
                 localidadesList: action.payload
             };
-        case AGREGAR_PROGRAMA_ERROR:
+        case AGREGAR_LOCALIDADES_ERROR:
             console.log(action.type);
                 return {
                     ...state,

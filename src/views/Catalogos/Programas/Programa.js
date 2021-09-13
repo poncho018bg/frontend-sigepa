@@ -1,5 +1,5 @@
 
-import React, {  useState } from 'react'
+import React, {  useContext, useState } from 'react'
 
 import Checkbox from '@material-ui/core/Checkbox';
 import { TableCell, TableRow } from '@material-ui/core';
@@ -10,6 +10,9 @@ import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import { ModalDelete } from 'commons/ModalDelete';
+import { ModalContextDelete } from 'contexts/modalContexDelete';
+import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
 
 export const Programa = ( {programa}) => {
 
@@ -19,8 +22,9 @@ export const Programa = ( {programa}) => {
         dsdescripcion,
         activo 
 } = programa;
-
-
+    const [idEliminar, setIdEliminar] = useState(0);
+    const { setShowModalDelete } = useContext(ModalContextDelete);
+    const {  eliminar } = useContext(ProgramasContext);
 
     const onSelect = (e) => {
         dispatch(obtenerPaginaEditar(e));
@@ -28,14 +32,17 @@ export const Programa = ( {programa}) => {
     }
    
     const handleClickOpen = (e) => {
-        dispatch(obtenerPaginaEliminar(e));
-        setOpenDialog(true);
+        console.log(e);
+        setShowModalDelete(true);
+        setIdEliminar(e.id);
     }
 
     const handleDeshabilitar = () => {
-        dispatch(borrarPaginaAction());
-        setOpenDialog(false);
+        console.log(idEliminar);
+        eliminar(idEliminar);
+        setShowModalDelete(false);
       }
+
 
     return (
          <>
@@ -64,6 +71,9 @@ export const Programa = ( {programa}) => {
                 </IconButton>
             </TableCell> 
         </TableRow >
+        <ModalDelete
+                handleDeshabilitar={handleDeshabilitar}
+            />
         </>
     )
 }

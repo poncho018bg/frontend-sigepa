@@ -10,6 +10,12 @@ import { stylesArchivo } from 'css/stylesArchivo';
 import SearchBar from 'material-ui-search-bar';
 import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
 import { Localidad } from './Localidad';
+import { ModalContextDelete } from 'contexts/modalContexDelete';
+import Button from "components/CustomButtons/Button.js";
+import Add from "@material-ui/icons/Add";
+import { ModalContext } from 'contexts/modalContex';
+import { LocalidadForm } from './LocalidadForm';
+import { Modal } from 'commons/Modal';
 const useStyles = makeStyles(stylesArchivo);
 
 export const LocalidadesScreen = () => {
@@ -20,6 +26,13 @@ export const LocalidadesScreen = () => {
     const [showDialogForm, setShowDialogForm] = useState(false);
     const [open, setOpen] = useState(false);
     const [paginas, setPaginas] = useState([]);
+
+
+    const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
+    
+    const { get, eliminar, localidadesList } = useContext(LocalidadesContext);
+
+    const { showModal, setShowModal  } = useContext(ModalContext);
   
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -29,8 +42,11 @@ export const LocalidadesScreen = () => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    
-    const { get, eliminar, localidadesList } = useContext(LocalidadesContext);
+
+    const addDialog = () => {
+      console.log('asasasassssssssssssssss');
+      setShowModal(true);
+    }
  
     useEffect(() => {
       get();
@@ -43,14 +59,23 @@ export const LocalidadesScreen = () => {
             
             <CardActions>
             <Grid container spacing={3}>
-          
-            <Grid item xs={6}>
-              <SearchBar
-                placeholder="Buscar"
-                value={searched}
-                onChange={(searchVal) => setSearched(searchVal)}
-                onCancelSearch={() => setSearched('')}
-              />
+              <Grid item xs={6}>
+                      <Button
+                          color="white"
+                          aria-label="edit"
+                          justIcon round
+                          onClick={addDialog}
+                        >
+                              <Add />
+                          </Button>
+                  </Grid>
+              <Grid item xs={6}>
+                <SearchBar
+                  placeholder="Buscar"
+                  value={searched}
+                  onChange={(searchVal) => setSearched(searchVal)}
+                  onCancelSearch={() => setSearched('')}
+                />
             </Grid>
             </Grid>
             </CardActions>
@@ -95,6 +120,10 @@ export const LocalidadesScreen = () => {
                 onChangeRowsPerPage={handleChangeRowsPerPage}
               />
           </CardBody>
+
+          <Modal>
+                <LocalidadForm />
+            </Modal>
         </Card>
       </GridItem>
     )

@@ -25,6 +25,7 @@ import * as Yup from 'yup';
 import { ProgramasContext } from "contexts/catalogos/Programas/programasContext";
 
 import { Mensaje } from "components/Personalizados/Mensaje";
+import CardIcon from "components/Card/CardIcon";
 
 const useStyles = makeStyles(styles);
 
@@ -111,7 +112,7 @@ export const ProgramasForm = () => {
           <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="rose" icon>
-                <CardIcon color="rose">
+                <CardIcon  color="rose">
                   <PermIdentity />
                 </CardIcon>
                 <h4 className={classes.cardIconTitle}>

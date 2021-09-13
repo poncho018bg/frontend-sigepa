@@ -4,12 +4,14 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardActions from '@material-ui/core/CardActions';
-
+import Button from "components/CustomButtons/Button.js";
 import { makeStyles, Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
 import { stylesArchivo } from 'css/stylesArchivo';
 import SearchBar from 'material-ui-search-bar';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
 import { Programa } from './Programa';
+import Add from '@material-ui/icons/Add';
+import { Link } from 'react-router-dom';
 const useStyles = makeStyles(stylesArchivo);
 
 export const ProgramasScreen = () => {
@@ -39,6 +41,10 @@ export const ProgramasScreen = () => {
     get();
 }, []);
 
+  const showForm=()=>{
+
+  }
+
   return (
       <GridItem xs={12} sm={12} md={12}>
       <Card>
@@ -47,15 +53,26 @@ export const ProgramasScreen = () => {
           
           <CardActions>
           <Grid container spacing={3}>
-        
-          <Grid item xs={6}>
-            <SearchBar
-              placeholder="Buscar"
-              value={searched}
-              onChange={(searchVal) => setSearched(searchVal)}
-              onCancelSearch={() => setSearched('')}
-            />
-          </Grid>
+            <Grid item xs={6}>
+                                  <Button
+                                      color="white"
+                                      aria-label="edit"
+                                      justIcon round
+                                      onClick={showForm}
+                                  >
+                                     <Link to="../admin/nuevoPrograma">
+                                        <Add />
+                                      </Link>
+                                  </Button>
+                </Grid>
+            <Grid item xs={6}>
+              <SearchBar
+                placeholder="Buscar"
+                value={searched}
+                onChange={(searchVal) => setSearched(searchVal)}
+                onCancelSearch={() => setSearched('')}
+              />
+            </Grid>
           </Grid>
           </CardActions>
         </CardHeader>

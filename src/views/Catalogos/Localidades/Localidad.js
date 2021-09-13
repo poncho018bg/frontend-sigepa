@@ -1,21 +1,26 @@
 
-import React, {  useState } from 'react'
+import React, {  useContext, useState } from 'react'
 
 import Checkbox from '@material-ui/core/Checkbox';
 import { TableCell, TableRow } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
+import { ModalContextDelete } from 'contexts/modalContexDelete';
+import { ModalDelete } from 'commons/ModalDelete';
 
 export const Localidad = ( {localidad}) => {
 
    const { 
             id, dsclavelocalidad, dslocalidad, dscodigopostal,fechaRegistro,activo 
     } = localidad;
+    const [idEliminar, setIdEliminar] = useState(0);
+    const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
+    const {  eliminar } = useContext(LocalidadesContext);
 
 
     const onSelect = (e) => {
@@ -24,13 +29,13 @@ export const Localidad = ( {localidad}) => {
     }
    
     const handleClickOpen = (e) => {
-        dispatch(obtenerPaginaEliminar(e));
-        setOpenDialog(true);
+        setShowModalDelete(true);
+        setIdEliminar(e.id);
     }
 
     const handleDeshabilitar = () => {
-        dispatch(borrarPaginaAction());
-        setOpenDialog(false);
+        eliminar(idEliminar);
+        setShowModalDelete(false);
       }
 
     return (
@@ -58,6 +63,9 @@ export const Localidad = ( {localidad}) => {
                 </IconButton>
             </TableCell> 
         </TableRow >
+        <ModalDelete
+                handleDeshabilitar={handleDeshabilitar}
+            />
         </>
     )
 }

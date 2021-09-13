@@ -1,7 +1,13 @@
 import React, { createContext, useReducer } from 'react';
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
-import { REGISTRAR_PROGRAMAS,AGREGAR_PROGRAMA_ERROR,MODIFICAR_CURSOS_CAPACITACIONES,ELIMINAR_CURSOS_CAPACITACIONES,GET_PROGRAMAS } from 'types/actionTypes';
+import { 
+        REGISTRAR_PROGRAMAS,
+        AGREGAR_PROGRAMA_ERROR,
+        MODIFICAR_CURSOS_CAPACITACIONES,
+        ELIMINAR_PROGRAMAS,
+        GET_PROGRAMAS } 
+from 'types/actionTypes';
 import ProgramasReducer from 'reducers/Catalogos/Programas/ProgramasReducer';
 
 
@@ -77,11 +83,12 @@ export const ProgramasContextProvider = props => {
     }
 
     const eliminar= async id => {
-     
+     console.log('eliminar por a');
+     console.log(id);
         try {
-            await axiosDeleteTipo(`cursosCapacitaciones/${id}`);
+            await axiosDeleteTipo(`programas/${id}`);
             dispatch({
-                type: ELIMINAR_CURSOS_CAPACITACIONES,
+                type: ELIMINAR_PROGRAMAS,
                 payload: id,
             })
         } catch (error) {

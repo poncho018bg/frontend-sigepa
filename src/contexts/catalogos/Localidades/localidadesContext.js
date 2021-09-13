@@ -8,6 +8,7 @@ import { GET_LOCALIDADES,
 } from 'types/actionTypes';
 
 import LocalidadesReducer from 'reducers/Catalogos/Localidades/LocalidadesReducer';
+import { AGREGAR_PROGRAMA_ERROR } from 'types/actionTypes';
 
 
 
@@ -41,8 +42,9 @@ export const LocalidadesContextProvider = props => {
      * @param {motivoRechazos} motivoRechazos 
      */
     const registrar = async localidades => {
+        console.log(localidades);
         try {
-            const resultado = await axiosPost('programas', localidades);
+            const resultado = await axiosPost('localidades', localidades);
             dispatch({
                 type: REGISTRAR_LOCALIDADES,
                 payload: resultado
