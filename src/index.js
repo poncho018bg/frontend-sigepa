@@ -61,6 +61,7 @@ import { RegionMunicipiosContextProvider } from "contexts/catalogos/RegionMunici
 import { ProgramasContextProvider } from "contexts/catalogos/Programas/programasContext";
 import { ApoyoContextProvider } from "contexts/catalogos/ApoyoContext";
 import { ClasificacionServiciosContextProvider } from "contexts/catalogos/clasificacionServiciosContext";
+import { LocalidadesContextProvider } from "contexts/catalogos/Localidades/localidadesContext";
 
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
@@ -124,7 +125,9 @@ const AppState = ({ children }) => {
                                                     <ProgramasContextProvider>
                                                       <ApoyoContextProvider>
                                                         <ClasificacionServiciosContextProvider>
+                                                          <LocalidadesContextProvider>
                                                           {children}
+                                                          </LocalidadesContextProvider>
                                                         </ClasificacionServiciosContextProvider>
                                                       </ApoyoContextProvider>
                                                     </ProgramasContextProvider>
