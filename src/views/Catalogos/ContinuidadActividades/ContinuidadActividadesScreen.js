@@ -124,7 +124,7 @@ export const ContinuidadActividadesScreen = () => {
                         < TableHead >
                             < TableRow key="898as" >
                                 < TableCell > Estado</TableCell >
-                                < TableCell > ID</TableCell >
+                                < TableCell > Id</TableCell >
                                 < TableCell> Descripción de actividad </TableCell>
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >

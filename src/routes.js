@@ -29,10 +29,10 @@ import { RolesScreen } from "views/Roles/RolesScreen";
 // core components/views for RTL layout
 import { SubModuloScreen } from "views/SubModulos/SubModuloScreen";
 import { TipoApoyoScreen } from "views/Catalogos/TipoApoyo/TipoApoyoScreen"
-import { TipoBeneficiarioScreen } from "views/Catalogos/TiposBeneficiarios/TipoBeneficiarioScreen";
+//import { TipoBeneficiarioScreen } from "views/Catalogos/TiposBeneficiarios/TipoBeneficiarioScreen";
 
 
-import { ComiteSecretariasScreen } from "views/Catalogos/ComiteSecretarias/ComiteSecretariasScreen";
+//import { ComiteSecretariasScreen } from "views/Catalogos/ComiteSecretarias/ComiteSecretariasScreen";
 import { EdadesBeneficiariosScreen } from "views/Catalogos/EdadesBeneficiarios/EdadesBeneficiariosScreen";
 import { MotivoRechazosScreen } from "views/Catalogos/MotivoRechazos/MotivoRechazosScreen";
 import { PeriodicidadApoyosScreen } from "views/Catalogos/PeriodicidadApoyos/PeriodicidadApoyosScreen";
@@ -124,6 +124,7 @@ const dashboardRoutes = [
         component: TipoApoyoScreen,
         layout: "/admin"
       },
+      /*
       {
         path: "/tiposBeneficiario",
         name: "Tipos de Beneficiarios",
@@ -142,6 +143,7 @@ const dashboardRoutes = [
         component: ComiteSecretariasScreen,
         layout: "/admin"
       },
+*/
       {
         path: "/edadesBeneficiarios",
         name: "Edades Beneficiarios",

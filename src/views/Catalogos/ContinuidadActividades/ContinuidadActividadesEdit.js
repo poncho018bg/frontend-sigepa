@@ -50,6 +50,7 @@ export const ContinuidadActividadesEdit = ({ continuidadActividadesSeleccionada 
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dsactividadcontinuidad}
+                                inputProps={{maxLength:"50"}}
                             />
                             {props.touched.dsactividadcontinuidad && props.errors.dsactividadcontinuidad ? (
                                 <FormHelperText error={props.errors.dsactividadcontinuidad}>{props.errors.dsactividadcontinuidad}</FormHelperText>

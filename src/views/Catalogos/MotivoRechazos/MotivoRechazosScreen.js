@@ -119,8 +119,8 @@ export const MotivoRechazosScreen = () => {
                         < TableHead >
                             < TableRow key="ta1" >
                                 < TableCell > Estado</TableCell >
-                                < TableCell > ID</TableCell >
-                                < TableCell> Desc. Tipo Beneficiario</TableCell >
+                                < TableCell > Id</TableCell >
+                                < TableCell> Descripción del Motivo de Rechazo</TableCell >
                                 < TableCell> Fecha Registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >

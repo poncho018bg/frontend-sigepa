@@ -16,6 +16,7 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
     const schemaValidacion = Yup.object({
         dsmotivorechazo: Yup.string()
             .required('El motivo de rechazo  es obligatorio')
+            .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/,"No debe contener caracteres especiales")
     });
 
     const actualizarInfoMotivoRechazos = async valores => {
@@ -46,13 +47,14 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dsmotivorechazo"
-                                label="Desc. Motivo de Rechazo"
+                                label="Descripción Motivo de Rechazo"
                                 variant="outlined"
                                 name="dsmotivorechazo"
                                 fullWidth
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dsmotivorechazo}
+                                inputProps={{maxLength:"50"}}
                             />
                             {props.touched.dsmotivorechazo && props.errors.dsmotivorechazo ? (
                                 <FormHelperText error={props.errors.dsmotivorechazo}>{props.errors.dsmotivorechazo}</FormHelperText>

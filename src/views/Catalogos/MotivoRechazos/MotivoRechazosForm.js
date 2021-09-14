@@ -19,6 +19,7 @@ export const MotivoRechazosForm = () => {
         validationSchema: Yup.object({
             dsmotivorechazo: Yup.string()
                 .required('El modulo  es obligatorio')
+                .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/,"No debe contener caracteres especiales")
 
         }),
         onSubmit: async valores => {
@@ -46,13 +47,14 @@ export const MotivoRechazosForm = () => {
             <DialogContent>
                 <TextField
                     id="dsmotivorechazo"
-                    label="Desc. Motivo de Rechazo"
+                    label="Descripción Motivo de Rechazo"
                     variant="outlined"
                     name="dsmotivorechazo"
                     fullWidth
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsmotivorechazo}
+                    inputProps={{maxLength:"50"}}
                 />
                 {formik.touched.dsmotivorechazo && formik.errors.dsmotivorechazo ? (
                     <FormHelperText error={formik.errors.dsmotivorechazo}>{formik.errors.dsmotivorechazo}</FormHelperText>
