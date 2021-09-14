@@ -13,6 +13,7 @@ export const ContinuidadActividadesEdit = ({ continuidadActividadesSeleccionada 
     const schemaValidacion = Yup.object({
         dsactividadcontinuidad: Yup.string()
             .required('La descripción de la actividad  es obligatorio')
+            .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/,"No debe contener caracteres especiales")
     });
 
     const actualizarActividad = async valores => {            

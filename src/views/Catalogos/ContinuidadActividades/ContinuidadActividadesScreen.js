@@ -5,7 +5,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 
@@ -37,7 +37,7 @@ export const ContinuidadActividadesScreen = () => {
     const [idEliminar, setIdEliminar] = useState(0);
     const [continuidadActividadesSeleccionada, setContinuidadActividadesSeleccionada] = useState();
 
-    const { actividadescontinuarList, getActividadesContinuar, eliminarActividadesContinuar } = useContext(ActividadesContinuarContext);
+    const { actividadescontinuarList, getActividadesContinuar, eliminarActividadesContinuar, actualizarActividadesContinuar } = useContext(ActividadesContinuarContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
@@ -69,6 +69,24 @@ export const ContinuidadActividadesScreen = () => {
         setShowModalDelete(false);
     }
 
+    const handleChangeCheck = (event) => {
+        console.log("funciona re bien espero ---->", event.target);
+        console.log("funciona re bien espero ---->", event.target.checked);
+        console.log("funciona re bien espero ---->", event.target.name);
+        const activo = event.target.checked;
+        const lista = actividadescontinuarList.map((r) => {
+            if (r.id === event.target.name) {
+                console.log("antiguo r", r)
+                const nuevaR = {...r,activo};
+                console.log("nuevo r", nuevaR);
+                actualizarActividadesContinuar(nuevaR);
+                return { ...r, activo };
+            }
+            return r;
+        });
+        console.log("actividades ---> ",lista);
+    }
+
     return (
         <GridItem xs={12} sm={12} md={12}>
 
@@ -76,7 +94,7 @@ export const ContinuidadActividadesScreen = () => {
                 <CardHeader color="primary">
                     <h4 className={classes.cardTitleWhite}>Actividades por realizar para continuar con el beneficio</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Pantalla que permite configurar las actividades por realizar para continuar con el beneficio 
+                        Pantalla que permite configurar las actividades por realizar para continuar con el beneficio
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -123,13 +141,15 @@ export const ContinuidadActividadesScreen = () => {
                                         < TableRow key={row.id}>
                                             <TableCell>
                                                 <Checkbox
+                                                    name={row.id}
                                                     checked={row.activo}
                                                     color="primary"
                                                     inputProps={{ 'aria-label': 'Checkbox A' }}
+                                                    onChange={handleChangeCheck}
                                                 />
                                             </TableCell>
                                             <TableCell>{row.id}</TableCell>
-                                            <TableCell>{row.dsactividadcontinuidad}</TableCell >                                            
+                                            <TableCell>{row.dsactividadcontinuidad}</TableCell >
                                             <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>

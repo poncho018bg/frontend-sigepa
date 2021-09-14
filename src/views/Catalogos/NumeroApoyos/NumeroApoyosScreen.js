@@ -86,7 +86,7 @@ export const NumeroApoyosScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Numero de Apoyos</h4>
+                    <h4 className={classes.cardTitleWhite}>Número de Apoyos</h4>
                     <p className={classes.cardCategoryWhite}>
                         Esta pantalla permite agregar la cantidad de apoyos
                     </p>

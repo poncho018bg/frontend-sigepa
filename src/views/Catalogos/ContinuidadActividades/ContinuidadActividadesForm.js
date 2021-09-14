@@ -18,6 +18,7 @@ export const ContinuidadActividadesForm = () => {
         validationSchema: Yup.object({
             dsactividadcontinuidad: Yup.string()
                 .required('La descripción de la actividad  es obligatorio')
+                .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/,"No debe contener caracteres especiales")
         }),
         onSubmit: async valores => {
             const { dsactividadcontinuidad } = valores
@@ -29,7 +30,8 @@ export const ContinuidadActividadesForm = () => {
             }
             registrarActividadesContinuar(actividadcontinuidad);
             setShowModal(false);
-        }
+        },
+
     })
 
     return (
@@ -46,6 +48,7 @@ export const ContinuidadActividadesForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsactividadcontinuidad}
+                    inputProps={{maxLength:"50"}}
                 />
                 {formik.touched.dsactividadcontinuidad && formik.errors.dsactividadcontinuidad ? (
                     <FormHelperText error={formik.errors.dsactividadcontinuidad}>{formik.errors.dsactividadcontinuidad}</FormHelperText>

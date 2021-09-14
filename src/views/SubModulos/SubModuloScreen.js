@@ -116,7 +116,7 @@ export const SubModuloScreen = () => {
                                 < TableCell > ID</TableCell >
                                 < TableCell> Desc. Submódulo</TableCell >
                                 < TableCell> Fecha Registro</TableCell >
-                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                < TableCell colSpan={1} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
@@ -145,11 +145,13 @@ export const SubModuloScreen = () => {
                                                     <CreateIcon />
                                                 </IconButton>
                                             </TableCell>
+                                            {/*
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
                                                     {(row.activo) ? <DeleteIcon /> : <RefreshIcon />}
                                                 </IconButton>
                                             </TableCell>
+                                            */}
                                         </TableRow >
                                     );
                                 })

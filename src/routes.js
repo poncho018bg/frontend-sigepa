@@ -317,7 +317,7 @@ const dashboardRoutes = [
       },
       {
         path: "/bitacoraActividades",
-        name: "Bitacora Actividades",
+        name: "Bitácora Actividades",
         rtlName: "BitacoradActividades",
         mini: "BA",
         rtlMini: "BA",
