@@ -60,6 +60,8 @@ import { ApoyoContextProvider } from "contexts/catalogos/ApoyoContext";
 import { ClasificacionServiciosContextProvider } from "contexts/catalogos/clasificacionServiciosContext";
 import { LocalidadesContextProvider } from "contexts/catalogos/Localidades/localidadesContext";
 
+import { ModalContextConfirmacionProvider } from "contexts/modalContextConfirmacion";
+
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
@@ -69,14 +71,14 @@ const theme = createMuiTheme({
 const renderApp = () => ReactDOM.render(
 
   <ThemeProvider theme={theme}>
-   
+
 
     <Router history={hist}>
       <Provider store={store}>
         <AppState>
           <Switch>
             <Route path="/admin" component={Admin} />
-            <Redirect from="/" to="/admin/dashboard" />          
+            <Redirect from="/" to="/admin/dashboard" />
           </Switch>
         </AppState>
       </Provider>
@@ -90,62 +92,64 @@ UserService.initKeycloak(renderApp);
 
 const AppState = ({ children }) => {
   return (
-    <ModalContextProvider>
-      <ModalContextDeleteProvider>
-        <ModalContextUpdateProvider>
-          <PersonContextProvider>
-            <ModuloContextProvider>
-              <SubModuloContextProvider>
-                <ModuloSubContextProvider>
-                  <SubmodulosByPerfilContexProvider>
-                    <TiposApoyosContextProvider>
-                      <TiposBeneficiariosContextProvider>
-                        <ComiteSecretariasContextProvider>
-                          <EdadesBeneficiariosContextProvider>
-                            <MotivoRechazosContextProvider>
-                              <NumeroApoyosContextProvider>
-                                <PeriodicidadApoyosContextProvider>
-                                  <CursosCapacitacionesContextProvider>
-                                    <ActividadesContinuarContextProvider>
-                                      <BtActividadesContextProvider>
-                                        <ApoyoServicioContextProvider>
-                                          <DocumentosContextProvider>
-                                            <EstadosContextProvider>
-                                              <MunicipiosContextProvider>
-                                                <FirmasContextProvider>
-                                                  <RegionMunicipiosContextProvider>
-                                                    <ProgramasContextProvider>
-                                                      <ApoyoContextProvider>
-                                                        <ClasificacionServiciosContextProvider>
-                                                          <LocalidadesContextProvider>
-                                                          {children}
-                                                          </LocalidadesContextProvider>
-                                                        </ClasificacionServiciosContextProvider>
-                                                      </ApoyoContextProvider>
-                                                    </ProgramasContextProvider>
-                                                  </RegionMunicipiosContextProvider>
-                                                </FirmasContextProvider>
-                                              </MunicipiosContextProvider>
-                                            </EstadosContextProvider>
-                                          </DocumentosContextProvider>
-                                        </ApoyoServicioContextProvider>
-                                      </BtActividadesContextProvider>
-                                    </ActividadesContinuarContextProvider>
-                                  </CursosCapacitacionesContextProvider>
-                                </PeriodicidadApoyosContextProvider>
-                              </NumeroApoyosContextProvider>
-                            </MotivoRechazosContextProvider>
-                          </EdadesBeneficiariosContextProvider>
-                        </ComiteSecretariasContextProvider>
-                      </TiposBeneficiariosContextProvider>
-                    </TiposApoyosContextProvider>
-                  </SubmodulosByPerfilContexProvider>
-                </ModuloSubContextProvider>
-              </SubModuloContextProvider>
-            </ModuloContextProvider>
-          </PersonContextProvider>
-        </ModalContextUpdateProvider>
-      </ModalContextDeleteProvider>
-    </ModalContextProvider>
+    <ModalContextConfirmacionProvider>
+      <ModalContextProvider>
+        <ModalContextDeleteProvider>
+          <ModalContextUpdateProvider>
+            <PersonContextProvider>
+              <ModuloContextProvider>
+                <SubModuloContextProvider>
+                  <ModuloSubContextProvider>
+                    <SubmodulosByPerfilContexProvider>
+                      <TiposApoyosContextProvider>
+                        <TiposBeneficiariosContextProvider>
+                          <ComiteSecretariasContextProvider>
+                            <EdadesBeneficiariosContextProvider>
+                              <MotivoRechazosContextProvider>
+                                <NumeroApoyosContextProvider>
+                                  <PeriodicidadApoyosContextProvider>
+                                    <CursosCapacitacionesContextProvider>
+                                      <ActividadesContinuarContextProvider>
+                                        <BtActividadesContextProvider>
+                                          <ApoyoServicioContextProvider>
+                                            <DocumentosContextProvider>
+                                              <EstadosContextProvider>
+                                                <MunicipiosContextProvider>
+                                                  <FirmasContextProvider>
+                                                    <RegionMunicipiosContextProvider>
+                                                      <ProgramasContextProvider>
+                                                        <ApoyoContextProvider>
+                                                          <ClasificacionServiciosContextProvider>
+                                                            <LocalidadesContextProvider>
+                                                              {children}
+                                                            </LocalidadesContextProvider>
+                                                          </ClasificacionServiciosContextProvider>
+                                                        </ApoyoContextProvider>
+                                                      </ProgramasContextProvider>
+                                                    </RegionMunicipiosContextProvider>
+                                                  </FirmasContextProvider>
+                                                </MunicipiosContextProvider>
+                                              </EstadosContextProvider>
+                                            </DocumentosContextProvider>
+                                          </ApoyoServicioContextProvider>
+                                        </BtActividadesContextProvider>
+                                      </ActividadesContinuarContextProvider>
+                                    </CursosCapacitacionesContextProvider>
+                                  </PeriodicidadApoyosContextProvider>
+                                </NumeroApoyosContextProvider>
+                              </MotivoRechazosContextProvider>
+                            </EdadesBeneficiariosContextProvider>
+                          </ComiteSecretariasContextProvider>
+                        </TiposBeneficiariosContextProvider>
+                      </TiposApoyosContextProvider>
+                    </SubmodulosByPerfilContexProvider>
+                  </ModuloSubContextProvider>
+                </SubModuloContextProvider>
+              </ModuloContextProvider>
+            </PersonContextProvider>
+          </ModalContextUpdateProvider>
+        </ModalContextDeleteProvider>
+      </ModalContextProvider>
+    </ModalContextConfirmacionProvider>
   )
 }
