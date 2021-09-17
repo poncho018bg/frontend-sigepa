@@ -1,6 +1,6 @@
 
-import { REGISTRAR_PROGRAMAS ,MODIFICAR_CURSOS_CAPACITACIONES
-    ,ELIMINAR_PROGRAMAS,GET_PROGRAMAS,AGREGAR_PROGRAMA_ERROR} from 'types/actionTypes';
+import { REGISTRAR_PROGRAMAS ,MODIFICAR_PROGRAMAS
+    ,ELIMINAR_PROGRAMAS,GET_PROGRAMAS,AGREGAR_PROGRAMA_ERROR,GET_PROGRAMAS_BY_ID} from 'types/actionTypes';
 
 
 export default (state, action) => {
@@ -29,13 +29,18 @@ export default (state, action) => {
                   programasList: state.programasList.filter( 
                       programa => programa.id !== action.payload )
                 };
-        case MODIFICAR_CURSOS_CAPACITACIONES:
+        case MODIFICAR_PROGRAMAS:
             return {
                 ...state,
-                cursosCapacitacionesList: state.cursosCapacitacionesList.map(
-                    cursosCapacitaciones =>cursosCapacitaciones.id === action.payload.id ? action.payload : cursosCapacitaciones
+                programasList: state.programasList.map(
+                    p =>p.id === action.payload.id ? action.payload : p
                 )
               };
+        case GET_PROGRAMAS_BY_ID:
+                return {
+                    ...state,
+                    programa: action.payload
+                };
         default:
             return state;
     }

@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Button,  DialogContent, FormHelperText, Grid, makeStyles, TextField } from '@material-ui/core'
-
-import { ModalContextUpdate } from 'contexts/modalContexUpdate';
-import { CursosCapacitacionesContext } from 'contexts/catalogos/CursosCapacitaciones/cursosCapacitacionesContext';
+import React, { useContext, useEffect } from 'react';
+import { Button, makeStyles, TextField } from '@material-ui/core'
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
 import Card from 'components/Card/Card';
@@ -16,41 +17,48 @@ import * as Yup from 'yup';
 import Clearfix from 'components/Clearfix/Clearfix';
 const useStyles = makeStyles(styles);
 import {  useLocation } from "react-router-dom";
-import moment from 'moment';
-
-export const ProgramasEdit = (props) => {
-    const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    const [objetoActualizar, setObjetoActualizar] = useState();
-
-    //console.log(props);
-    const { actualizar} = useContext(CursosCapacitacionesContext);
+import { useHistory } from "react-router";
+import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
+import DateFnsUtils from '@date-io/date-fns';
+import deLocale from "date-fns/locale/es";
+export const ProgramasEdit = () => {
+  
+  
+    const { actualizar, programa, getByID} = useContext(ProgramasContext);
     const classes = useStyles();
     let query = useLocation();
+    let history = useHistory();
 
     useEffect(() => {
-        setObjetoActualizar(query.state?.mobNo);
+      if(query.state?.mobNo){
+        getByID(query.state.mobNo);
+      }
+        
     }, [location]);
+
+    let data = programa;
 
     // Schema de validación
     const schemaValidacion = Yup.object({
-        dsestado: Yup.string()
-            .required('El curso  es obligatorio')
+      dsprograma: Yup.string()
+            .required('El nombre del programa es obligatorio')
     });
 
     const actualizarInfo= async valores => {
         actualizar(valores);
-        setShowModalUpdate(false);
+        history.push("/admin/programas")
     }
 
    
-
     return (
-
+      
         <Formik
             enableReinitialize
-            initialValues={objetoActualizar}
+            initialValues={data}
             validationSchema={schemaValidacion}
             onSubmit={(valores) => {
+              console.log(valores);
+              console.log('elex');
                 actualizarInfo(valores)
             }}
         >
@@ -78,23 +86,23 @@ export const ProgramasEdit = (props) => {
                   <GridItem xs={12} sm={12} md={12}>
                       <TextField
                         style={{marginBottom: '20px'}}
-                        id="nombrePrograma"
+                        id="dsprograma"
                      
                         label="Nombre del Programa de apoyo"
                         variant="outlined"
-                        name="nombrePrograma"
+                        name="dsprograma"
                         fullWidth
                         onChange={props.handleChange}
-                        onBlur={props.handleBlur}
-                        value={props.values?.dsprograma}
+                                onBlur={props.handleBlur}
+                                value={props.values?.dsprograma}
                     />
                    
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                    <TextField
-                        id="clavePrograma"
+                        id="dsclaveprograma"
                         label="Clave del Programa"
-                        name="clavePrograma"
+                        name="dsclaveprograma"
                         variant="outlined"
                         style={{marginBottom: '20px'}}
                         fullWidth
@@ -105,35 +113,41 @@ export const ProgramasEdit = (props) => {
                   </GridItem>
                   
                 </GridContainer>
+
+              
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                  <TextField
-                        id="vigenciaDesde"
-                        style={{marginBottom: '20px'}}
-                        label="Vigencia del Programa Desde"
-                        name="vigenciaDesde"
-                        type="date"
-                        fullWidth
-                        onChange={props.handleChange}
-                        onBlur={props.handleBlur}
-                     
-                        value={moment(props.values?.fcvigenciainicio).format("MM/DD/YYYY")}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                    />
-                  </GridItem>
+                <GridItem xs={12} sm={12} md={6}>
+                  <MuiPickersUtilsProvider  locale={deLocale} utils={DateFnsUtils}>
+                            <KeyboardDatePicker
+                            id="fcvigenciainicio"
+                            name="fcvigenciainicio"
+                            fullWidth
+                            label="Vigencia del Programa Inicio"
+                            inputVariant="outlined"
+                            format="MM/dd/yyyy"
+                            clearable
+                            value={props.values?.fcvigenciainicio}
+                            onChange={value => props.setFieldValue("fcvigenciainicio", value)}
+                            KeyboardButtonProps={{
+                              "aria-label": "change date"
+                            }}
+                          />
+                            </MuiPickersUtilsProvider>
+                    </GridItem>
 
                   <GridItem xs={12} sm={12} md={6}>
                   <TextField
-                        id="vigenciaHasta"
+                        id="fcvigenciafin"
+                        name="fcvigenciafin"
                         label="Vigencia del Programa Hasta"
                         style={{marginBottom: '20px'}}
-                        name="vigenciaHasta"
                         type="date"
                         fullWidth
                         onChange={props.handleChange}
                         onBlur={props.handleBlur}
+                        value={props.values?.fcvigenciafin}
+                     //   onChange={props.handleChange}
+                     //   onBlur={props.handleBlur}
                         InputLabelProps={{
                           shrink: true,
                         }}
@@ -163,8 +177,8 @@ export const ProgramasEdit = (props) => {
                           name="periodoRegistroWebHasta"
                           type="date"
                           fullWidth
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
+                        //  onChange={props.handleChange}
+                        //  onBlur={props.handleBlur}
                           InputLabelProps={{
                             shrink: true,
                           }}
@@ -179,8 +193,8 @@ export const ProgramasEdit = (props) => {
                           name="periodoRegistroPresencialDesde"
                           type="date"
                           fullWidth
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
+                          //onChange={props.handleChange}
+                          //onBlur={props.handleBlur}
                           InputLabelProps={{
                             shrink: true,
                           }}
@@ -195,8 +209,8 @@ export const ProgramasEdit = (props) => {
                           name="periodoRegistroPresencialHasta"
                           type="date"
                           fullWidth
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
+                         // onChange={props.handleChange}
+                        //  onBlur={props.handleBlur}
                           InputLabelProps={{
                             shrink: true,
                           }}
@@ -205,13 +219,16 @@ export const ProgramasEdit = (props) => {
 
                   <GridItem xs={12} sm={12} md={12}>
                       <TextField
-                              id="outlined-multiline-static"
+                              id="dsdescripcion"
+                              name="dsdescripcion"
                               label="Descripción del Programa de Apoyo"
                               style={{marginBottom: '20px'}}
                               fullWidth
                               multiline
                               rows={4}
                               variant="outlined"
+                              onChange={props.handleChange}
+                              onBlur={props.handleBlur}
                               value={props.values?.dsdescripcion}
                     />
                   </GridItem>
@@ -219,37 +236,47 @@ export const ProgramasEdit = (props) => {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                   <TextField
-                              id="outlined-multiline-static"
+                              id="dscriterioelegibilidad"
+                              name="dscriterioelegibilidad"
                               label="Criterios de Elegibilidad del Programa (opcional)"
                               style={{marginBottom: '20px'}}
                               fullWidth
                               multiline
                               rows={4}
                               variant="outlined"
+                              onChange={props.handleChange}
+                              onBlur={props.handleBlur}
                               value={props.values?.dscriterioelegibilidad}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                     <TextField
-                                id="outlined-multiline-static"
+                                id="dscontinuidad"
+                                name="dscontinuidad"
                                 label="Actividades por realizar para continuar con el programa (opcional)"
                                 style={{marginBottom: '20px'}}
                                 fullWidth
                                 multiline
                                 rows={4}
                                 variant="outlined"
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
                                 value={props.values?.dscontinuidad}
+
                       />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                   <TextField
-                                id="outlined-multiline-static"
+                                id="dsobservaciones"
+                                name="dsobservaciones"
                                 label="Observaciones (opcional)"
                                 style={{marginBottom: '20px'}}
                                 fullWidth
                                 multiline
                                 rows={4}
                                 variant="outlined"
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
                                 value={props.values?.dsobservaciones}
                       />
                   </GridItem>
@@ -270,7 +297,7 @@ export const ProgramasEdit = (props) => {
                 )
             }}
         </Formik>
-
+      
     )
 
 }

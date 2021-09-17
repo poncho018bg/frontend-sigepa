@@ -4,11 +4,12 @@ import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/a
 import { 
         REGISTRAR_PROGRAMAS,
         AGREGAR_PROGRAMA_ERROR,
-        MODIFICAR_CURSOS_CAPACITACIONES,
+        MODIFICAR_PROGRAMAS,
         ELIMINAR_PROGRAMAS,
         GET_PROGRAMAS } 
 from 'types/actionTypes';
 import ProgramasReducer from 'reducers/Catalogos/Programas/ProgramasReducer';
+import { GET_PROGRAMAS_BY_ID } from 'types/actionTypes';
 
 
 
@@ -17,6 +18,7 @@ export const ProgramasContext = createContext();
 export const ProgramasContextProvider = props => {
     const initialState = {
         programasList: [],
+        programa:null,
         error: false,
     }
 
@@ -63,17 +65,43 @@ export const ProgramasContextProvider = props => {
      * @param {motivoRechazos} motivoRechazos 
      */
     const actualizar= async objetoActualizar => {
-        const {  dsestado, boactivo, _links: { cursosCapacitaciones: { href } } } = objetoActualizar;
+
+        const {  _links: { programas: { href } } } = objetoActualizar;
+
+            let { dsprograma,
+                    dsclaveprograma,
+                    fcvigenciainicio,
+                    fcvigenciafin,
+                    fcregistrowebinicio,
+                    fcregistrowebfin,
+                    fcregistropresencialinicio,
+                    fcregistropresencialfin,
+                    dsdescripcion,
+                    dscriterioelegibilidad,
+                    dscontinuidad,
+                    dsobservaciones,
+                    boactivo} = objetoActualizar
+
 
         let objetoEnviar = {
-            dsestado,
-            boactivo
-        };
-
+                    dsprograma,
+                    dsclaveprograma,
+                    fcvigenciainicio,
+                    fcvigenciafin,
+                    fcregistrowebinicio,
+                    fcregistrowebfin,
+                    fcregistropresencialinicio,
+                    fcregistropresencialfin,
+                    dsdescripcion,
+                    dscriterioelegibilidad,
+                    dscontinuidad,
+                    dsobservaciones,
+                    boactivo
+        }
         try {
             const result = await axiosPostHetoas(href, objetoEnviar, 'PUT');
             dispatch({
-                type: MODIFICAR_CURSOS_CAPACITACIONES,
+                type: MODIFICAR_PROGRAMAS,
                 payload: result,
             })
         } catch (error) {
@@ -93,7 +121,20 @@ export const ProgramasContextProvider = props => {
         }
     }
 
-
+     /**
+     * obtener tipos de apoyo
+     */
+      const getByID= async id => {
+        try {
+            const result = await axiosGet(`programas/${id}`);
+            dispatch({
+                type: GET_PROGRAMAS_BY_ID,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
           
 
 
@@ -101,11 +142,13 @@ export const ProgramasContextProvider = props => {
         <ProgramasContext.Provider
             value={{
                 programasList: state.programasList,
+                programa: state.programa,
                 error:state.error,
                 get,
                 registrar,
                 actualizar,
-                eliminar
+                eliminar,
+                getByID
             }}
         >
             {props.children}

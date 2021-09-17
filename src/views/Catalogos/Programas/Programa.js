@@ -47,7 +47,7 @@ export const Programa = ( {programa}) => {
         setObjetoActualizar(e);
 
         //history.push(`/admin/editarPrograma/${e.id}`)
-       history.push("/admin/editarPrograma",{mobNo:e})
+       history.push("/admin/editarPrograma",{mobNo:e.id})
     }   
 
 

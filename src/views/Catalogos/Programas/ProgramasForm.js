@@ -26,14 +26,19 @@ import { ProgramasContext } from "contexts/catalogos/Programas/programasContext"
 
 import { Mensaje } from "components/Personalizados/Mensaje";
 import CardIcon from "components/Card/CardIcon";
+import { useHistory } from "react-router";
+
 
 const useStyles = makeStyles(styles);
+
+
 
 export const ProgramasForm = () => {
     const { registrar, error} = useContext(ProgramasContext);
     const [open, setOpen] = useState(false);
     const classes = useStyles();
-    
+    let history = useHistory();
+
     useEffect(() => {
       if(error){
         setOpen(true);
@@ -98,7 +103,7 @@ export const ProgramasForm = () => {
           }
           
             registrar(programas);
-          console.log(error);
+            history.push("/admin/programas")
          
         
       }
@@ -151,6 +156,7 @@ export const ProgramasForm = () => {
                   </GridItem>
                   
                 </GridContainer>
+                
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                   <TextField
