@@ -1,5 +1,5 @@
-import { Button,  DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
-import React, { useContext } from 'react';
+import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
+import React, { useContext, useState } from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -7,12 +7,40 @@ import * as Yup from 'yup'
 import { ModalContext } from 'contexts/modalContex';
 import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
 
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+
 export const ApoyoServicioForm = () => {
 
     const { registrarApoyoSevicio } = useContext(ApoyoServicioContext);
 
     const { setShowModal } = useContext(ModalContext);
 
+    //dialog confirmacion
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    /**
+     * abre el dialogo de confirmación
+     * @param {valores} e 
+     */
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    const handleRegistrar = () => {
+        const { dsservicio } = valores
+
+        let apoyoSevicio = {
+            dsservicio: dsservicio,
+            activo: true,
+            crcProgramastipoapoyos: []
+        }
+        registrarApoyoSevicio(apoyoSevicio);
+        setShowModalConfirmacion(false);
+        setShowModal(false);
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -24,15 +52,8 @@ export const ApoyoServicioForm = () => {
         }),
         onSubmit: async valores => {
 
-            const { dsservicio } = valores
+            confirmacionDialog(valores);
 
-            let apoyoSevicio = {
-                dsservicio: dsservicio,
-                activo: true,
-                crcProgramastipoapoyos:[]
-            }
-            registrarApoyoSevicio(apoyoSevicio);
-            setShowModal(false);
 
         }
     })
@@ -65,6 +86,9 @@ export const ApoyoServicioForm = () => {
                     </Button>
                 </Grid>
             </DialogContent>
+            <ModalConfirmacion
+                handleRegistrar={handleRegistrar} evento="Registrar"
+            />
         </form>
 
     )
