@@ -1,15 +1,40 @@
-import React, { useContext } from 'react';
+import React, { useContext, useSate } from 'react';
 import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import {TiposApoyosContext} from 'contexts/catalogos/tiposApoyosContext';
+import { TiposApoyosContext } from 'contexts/catalogos/tiposApoyosContext';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
+
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 
 
 export const TipoApoyoEdit = ({ tipoApoyoSeleccionado }) => {
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    const { actualizarTiposApoyos} = useContext(TiposApoyosContext);
+    const { actualizarTiposApoyos } = useContext(TiposApoyosContext);
+
+    //dialog confirmacion
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    /**
+     * abre el dialogo de confirmación
+     * @param {valores} e 
+     */
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    /**
+     * Edita el elemento
+     */
+    const handleRegistrar = () => {
+        actualizarTiposApoyos(valores);
+        setShowModalConfirmacion(false);
+        setShowModalUpdate(false);
+    }
 
 
     // Schema de validación
@@ -19,8 +44,7 @@ export const TipoApoyoEdit = ({ tipoApoyoSeleccionado }) => {
     });
 
     const actualizarInfoTipoApoyo = async valores => {
-        actualizarTiposApoyos(valores);
-        setShowModalUpdate(false);
+        confirmacionDialog(valores);
     }
 
 
@@ -66,6 +90,9 @@ export const TipoApoyoEdit = ({ tipoApoyoSeleccionado }) => {
                                 </Button>
                             </Grid>
                         </DialogContent>
+                        <ModalConfirmacion
+                            handleRegistrar={handleRegistrar} evento="Editar"
+                        />
                     </form>
                 )
             }}

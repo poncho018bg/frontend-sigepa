@@ -1,15 +1,40 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { PeriodicidadApoyosContext } from 'contexts/catalogos/periodicidadApoyosContext';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+
 
 export const PeriodicidadApoyosEdit = ({ periodicidadApoyosSeleccionado }) => {
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    const { actualizarPeriodicidadApoyos} = useContext(PeriodicidadApoyosContext);
+    const { actualizarPeriodicidadApoyos } = useContext(PeriodicidadApoyosContext);
+
+    //dialog confirmacion
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    /**
+     * abre el dialogo de confirmación
+     * @param {valores} e 
+     */
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    /**
+     * Edita el elemento
+     */
+    const handleRegistrar = () => {
+        actualizarPeriodicidadApoyos(valores);
+        setShowModalConfirmacion(false);
+        setShowModalUpdate(false);
+    }
 
 
     // Schema de validación
@@ -18,9 +43,8 @@ export const PeriodicidadApoyosEdit = ({ periodicidadApoyosSeleccionado }) => {
             .required('La periodicidad es obligatoria'),
     });
 
-    const actualizarInfoPeriodicidadApoyos= async valores => {
-        actualizarPeriodicidadApoyos(valores);
-        setShowModalUpdate(false);
+    const actualizarInfoPeriodicidadApoyos = async valores => {
+        confirmacionDialog(valores);
     }
 
 
@@ -66,6 +90,9 @@ export const PeriodicidadApoyosEdit = ({ periodicidadApoyosSeleccionado }) => {
                                 </Button>
                             </Grid>
                         </DialogContent>
+                        <ModalConfirmacion
+                            handleRegistrar={handleRegistrar} evento="Editar"
+                        />
                     </form>
                 )
             }}

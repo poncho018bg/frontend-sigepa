@@ -1,15 +1,42 @@
 import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { TiposBeneficiariosContext } from 'contexts/catalogos/tiposBeneficiariosContext';
 import { ModalContext } from 'contexts/modalContex';
 
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 export const TipoBeneficiarioForm = () => {
 
     const { registrarTiposBeneficiarios } = useContext(TiposBeneficiariosContext);
     const { setShowModal } = useContext(ModalContext);
+    //dialog confirmar
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    const handleRegistrar = () => {
+        const { dstipobeneficiario } = valores
+
+        console.log(dstipobeneficiario);
+
+
+        let tiposBeneficiario = {
+            dstipobeneficiario: dstipobeneficiario,
+            boactivo: true
+        }
+        registrarTiposBeneficiarios(tiposBeneficiario);
+        setShowModalConfirmacion(false);
+        setShowModal(false);
+    }
 
 
     const formik = useFormik({
@@ -22,18 +49,7 @@ export const TipoBeneficiarioForm = () => {
 
         }),
         onSubmit: async valores => {
-
-            const { dstipobeneficiario } = valores
-
-            console.log(dstipobeneficiario);
-
-
-            let tiposBeneficiario = {
-                dstipobeneficiario: dstipobeneficiario,
-                boactivo: true
-            }
-            registrarTiposBeneficiarios(tiposBeneficiario);
-            setShowModal(false);
+            confirmacionDialog(valores);
 
         }
     })
@@ -66,6 +82,9 @@ export const TipoBeneficiarioForm = () => {
                     </Button>
                 </Grid>
             </DialogContent>
+            <ModalConfirmacion
+                handleRegistrar={handleRegistrar} evento="Registrar"
+            />
         </form>
 
     )
