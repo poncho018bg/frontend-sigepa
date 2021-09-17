@@ -16,6 +16,7 @@ import Add from "@material-ui/icons/Add";
 import { ModalContext } from 'contexts/modalContex';
 import { LocalidadForm } from './LocalidadForm';
 import { Modal } from 'commons/Modal';
+import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 const useStyles = makeStyles(stylesArchivo);
 
 export const LocalidadesScreen = () => {
@@ -25,6 +26,8 @@ export const LocalidadesScreen = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const { get,localidadesList } = useContext(LocalidadesContext);
     const {  setShowModal  } = useContext(ModalContext);
+
+    const { municipiosList, getMunicipios } = useContext(MunicipiosContext);
   
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -41,8 +44,14 @@ export const LocalidadesScreen = () => {
     }
  
     useEffect(() => {
-      get();
-  }, []);
+          get();
+      }, []);
+
+    useEffect(() => {
+        getMunicipios();
+
+    }, []);
+
     return (
         <GridItem xs={12} sm={12} md={12}>
         <Card>

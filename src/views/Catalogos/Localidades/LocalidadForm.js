@@ -1,17 +1,16 @@
 import { Button,  DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { ModalContext } from 'contexts/modalContex';
-import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
+import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 
 export const LocalidadForm = () => {
 
     const { registrar} = useContext(LocalidadesContext);
     const { setShowModal } = useContext(ModalContext);
-    const { municipiosList, getMunicipios } = useContext(MunicipiosContext);
-
+    const { municipiosList } = useContext(MunicipiosContext);
 
     const formik = useFormik({
         initialValues: {
@@ -57,10 +56,6 @@ export const LocalidadForm = () => {
         }
     });
 
-    useEffect(() => {
-        getMunicipios();
-
-    }, []);
 
 
     return (

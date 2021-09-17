@@ -63,7 +63,6 @@ export const ProgramasContextProvider = props => {
      * @param {motivoRechazos} motivoRechazos 
      */
     const actualizar= async objetoActualizar => {
-        console.log(objetoActualizar);
         const {  dsestado, boactivo, _links: { cursosCapacitaciones: { href } } } = objetoActualizar;
 
         let objetoEnviar = {
@@ -83,8 +82,6 @@ export const ProgramasContextProvider = props => {
     }
 
     const eliminar= async id => {
-     console.log('eliminar por a');
-     console.log(id);
         try {
             await axiosDeleteTipo(`programas/${id}`);
             dispatch({

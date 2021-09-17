@@ -12,21 +12,27 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ModalDelete } from 'commons/ModalDelete';
+import { ModalUpdate } from 'commons/ModalUpdate';
+import { LocalidadEdit } from './LocalidadEdit';
+import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 
 export const Localidad = ( {localidad}) => {
 
    const { 
              dsclavelocalidad, dslocalidad, dscodigopostal,fechaRegistro,activo 
     } = localidad;
-    const [idEliminar, setIdEliminar] = useState(0);
+    const [idEliminar] = useState(0);
     const {  setShowModalDelete } = useContext(ModalContextDelete);
     const {  eliminar } = useContext(LocalidadesContext);
+    const [objetoActualizar, setObjetoActualizar] = useState();
 
+    const {  setShowModalUpdate } = useContext(ModalContextUpdate);
 
     const onSelect = (e) => {
-        dispatch(obtenerPaginaEditar(e));
-        setShowDialogForm(true);
+        setShowModalUpdate(true);
+        setObjetoActualizar(e);
     }
+    
    
     const handleClickOpen = (e) => {
         setShowModalDelete(true);
@@ -66,6 +72,9 @@ export const Localidad = ( {localidad}) => {
         <ModalDelete
                 handleDeshabilitar={handleDeshabilitar}
             />
+        <ModalUpdate>
+             <LocalidadEdit objetoActualizar={objetoActualizar} />
+        </ModalUpdate>
         </>
     )
 }

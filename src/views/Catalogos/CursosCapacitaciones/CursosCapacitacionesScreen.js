@@ -45,10 +45,10 @@ export const CursosCapacitacionesScreen = () => {
     const [idEliminar, setIdEliminar] = useState(0);
     const [objetoActualizar, setObjetoActualizar] = useState();
     const { get, eliminar, cursosCapacitacionesList } = useContext(CursosCapacitacionesContext);
-    const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
-    const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
+    const { setShowModal } = useContext(ModalContext);
+    const { setShowModalDelete } = useContext(ModalContextDelete);
 
-    const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
+    const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
 
     useEffect(() => {

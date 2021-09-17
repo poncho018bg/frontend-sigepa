@@ -255,9 +255,13 @@ export const ProgramasForm = () => {
 
                   <GridItem xs={12} sm={12} md={12}>
                       <TextField
-                              id="outlined-multiline-static"
+                              id="desripcionPrograma"
+                              name="desripcionPrograma"
                               label="Descripción del Programa de Apoyo"
                               style={{marginBottom: '20px'}}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              value={formik.values.desripcionPrograma}
                               fullWidth
                               multiline
                               rows={4}
@@ -268,35 +272,47 @@ export const ProgramasForm = () => {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                   <TextField
-                              id="outlined-multiline-static"
+                              id="criterioPrograma"
+                              name="criterioPrograma"
+                              value={formik.values.criterioPrograma}
                               label="Criterios de Elegibilidad del Programa (opcional)"
                               style={{marginBottom: '20px'}}
                               fullWidth
                               multiline
                               rows={4}
                               variant="outlined"
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                     <TextField
-                                id="outlined-multiline-static"
+                                id="actividadesPrograma,,"
+                                name="actividadesPrograma"
+                                value={formik.values.actividadesPrograma}
                                 label="Actividades por realizar para continuar con el programa (opcional)"
                                 style={{marginBottom: '20px'}}
                                 fullWidth
                                 multiline
                                 rows={4}
                                 variant="outlined"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
                       />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                   <TextField
-                                id="outlined-multiline-static"
+                                id="obervacionesPrograma"
+                                name="obervacionesPrograma"
+                                value={formik.values.obervacionesPrograma}
                                 label="Observaciones (opcional)"
                                 style={{marginBottom: '20px'}}
                                 fullWidth
                                 multiline
                                 rows={4}
                                 variant="outlined"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
                       />
                   </GridItem>
                 </GridContainer>

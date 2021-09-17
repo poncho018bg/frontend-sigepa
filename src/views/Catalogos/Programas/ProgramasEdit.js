@@ -212,6 +212,7 @@ export const ProgramasEdit = (props) => {
                               multiline
                               rows={4}
                               variant="outlined"
+                              value={props.values?.dsdescripcion}
                     />
                   </GridItem>
                 </GridContainer>
@@ -225,6 +226,7 @@ export const ProgramasEdit = (props) => {
                               multiline
                               rows={4}
                               variant="outlined"
+                              value={props.values?.dscriterioelegibilidad}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
@@ -236,6 +238,7 @@ export const ProgramasEdit = (props) => {
                                 multiline
                                 rows={4}
                                 variant="outlined"
+                                value={props.values?.dscontinuidad}
                       />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
@@ -247,6 +250,7 @@ export const ProgramasEdit = (props) => {
                                 multiline
                                 rows={4}
                                 variant="outlined"
+                                value={props.values?.dsobservaciones}
                       />
                   </GridItem>
                 </GridContainer>
