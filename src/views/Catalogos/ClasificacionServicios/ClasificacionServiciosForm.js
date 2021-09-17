@@ -1,15 +1,49 @@
 import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { ClasificacionServiciosContext } from 'contexts/catalogos/clasificacionServiciosContext';
 import { ModalContext } from 'contexts/modalContex';
 
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+
 export const ClasificacionServiciosForm = () => {
 
     const { registrarClasificacionServicios } = useContext(ClasificacionServiciosContext);
     const { setShowModal } = useContext(ModalContext);
+
+    //dialog confirmacion
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    /**
+     * abre el dialogo de confirmación
+     * @param {valores} e 
+     */
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    const handleRegistrar = () => {
+        const { dsclasificacionservicio, dsabreviatura } = valores
+
+        console.log(dsclasificacionservicio, dsabreviatura);
+
+
+        let clasificacionServicios = {
+            dsclasificacionservicio: dsclasificacionservicio,
+            dsabreviatura: dsabreviatura,
+            boactivo: true,
+            'crcApoyoServicios': []
+        }
+        registrarClasificacionServicios(clasificacionServicios);
+        setShowModalConfirmacion(false);
+        setShowModal(false);
+
+    }
 
 
     const formik = useFormik({
@@ -25,21 +59,7 @@ export const ClasificacionServiciosForm = () => {
 
         }),
         onSubmit: async valores => {
-
-            const { dsclasificacionservicio, dsabreviatura } = valores
-
-            console.log(dsclasificacionservicio, dsabreviatura);
-
-
-            let clasificacionServicios = {
-                dsclasificacionservicio: dsclasificacionservicio,
-                dsabreviatura: dsabreviatura,
-                boactivo: true,
-                'crcApoyoServicios':[]
-            }
-            registrarClasificacionServicios(clasificacionServicios);
-            setShowModal(false);
-
+            confirmacionDialog(valores);
         }
     })
 
@@ -84,6 +104,9 @@ export const ClasificacionServiciosForm = () => {
                     </Button>
                 </Grid>
             </DialogContent>
+            <ModalConfirmacion
+                handleRegistrar={handleRegistrar} evento="Registrar"
+            />
         </form>
 
     )

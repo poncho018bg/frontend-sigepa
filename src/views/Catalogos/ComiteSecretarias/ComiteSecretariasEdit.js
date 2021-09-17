@@ -1,15 +1,37 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ComiteSecretariasContext } from 'contexts/catalogos/comiteSecretariasContext';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+
 
 export const ComiteSecretariasEdit = ({ comiteSecretariasSeleccionado }) => {
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { actualizarComiteSecretarias } = useContext(ComiteSecretariasContext);
+
+    //dialog confirmacion
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    /**
+     * abre el dialogo de confirmación
+     * @param {valores} e 
+     */
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    const handleRegistrar = () => {
+        actualizarComiteSecretarias(valores);
+        setShowModalConfirmacion(false);
+        setShowModalUpdate(false);
+    }
 
 
     // Schema de validación
@@ -19,8 +41,7 @@ export const ComiteSecretariasEdit = ({ comiteSecretariasSeleccionado }) => {
     });
 
     const actualizarInfoComiteSecretarias = async valores => {
-        actualizarComiteSecretarias(valores);
-        setShowModalUpdate(false);
+        confirmacionDialog(valores);
     }
 
 
@@ -66,6 +87,9 @@ export const ComiteSecretariasEdit = ({ comiteSecretariasSeleccionado }) => {
                                 </Button>
                             </Grid>
                         </DialogContent>
+                        <ModalConfirmacion
+                            handleRegistrar={handleRegistrar} evento="Editar"
+                        />
                     </form>
                 )
             }}

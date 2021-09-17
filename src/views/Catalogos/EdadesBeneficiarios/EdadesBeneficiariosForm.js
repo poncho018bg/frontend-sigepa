@@ -1,16 +1,43 @@
 import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { EdadesBeneficiariosContext } from 'contexts/catalogos/edadesBeneficiariosContext';
 import { ModalContext } from 'contexts/modalContex';
 
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+
 export const EdadesBeneficiariosForm = () => {
 
     const { registrarEdadesBeneficiarios } = useContext(EdadesBeneficiariosContext);
     const { setShowModal } = useContext(ModalContext);
+    //dialog confirmar
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
 
+
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    const handleRegistrar = () => {
+        const { dsedadbeneficiario } = valores
+
+        console.log(dsedadbeneficiario);
+
+
+        let edadesBeneficiarios = {
+            dsedadbeneficiario: dsedadbeneficiario,
+            boactivo: true
+        }
+        registrarEdadesBeneficiarios(edadesBeneficiarios);
+        setShowModalConfirmacion(false);
+        setShowModal(false);
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -22,19 +49,7 @@ export const EdadesBeneficiariosForm = () => {
 
         }),
         onSubmit: async valores => {
-
-            const { dsedadbeneficiario } = valores
-
-            console.log(dsedadbeneficiario);
-
-
-            let edadesBeneficiarios = {
-                dsedadbeneficiario: dsedadbeneficiario,
-                boactivo: true
-            }
-            registrarEdadesBeneficiarios(edadesBeneficiarios);
-            setShowModal(false);
-
+            confirmacionDialog(valores);
         }
     })
 
@@ -66,6 +81,9 @@ export const EdadesBeneficiariosForm = () => {
                     </Button>
                 </Grid>
             </DialogContent>
+            <ModalConfirmacion
+                handleRegistrar={handleRegistrar} evento="Registrar"
+            />
         </form>
 
     )

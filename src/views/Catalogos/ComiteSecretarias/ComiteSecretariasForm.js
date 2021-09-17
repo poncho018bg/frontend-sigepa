@@ -1,16 +1,47 @@
 import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { ComiteSecretariasContext } from 'contexts/catalogos/comiteSecretariasContext';
 import { ModalContext } from 'contexts/modalContex';
 
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+
 export const ComiteSecretariasForm = () => {
 
     const { registrarComiteSecretarias } = useContext(ComiteSecretariasContext);
     const { setShowModal } = useContext(ModalContext);
 
+    //dialog confirmacion
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    /**
+     * abre el dialogo de confirmación
+     * @param {valores} e 
+     */
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    const handleRegistrar = () => {
+        const { dssecretaria } = valores
+
+        console.log(dssecretaria);
+
+
+        let comitesSecretaria = {
+            dssecretaria: dssecretaria,
+            boactivo: true
+        }
+        registrarComiteSecretarias(comitesSecretaria);
+        setShowModalConfirmacion(false);
+        setShowModal(false);
+
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -22,19 +53,7 @@ export const ComiteSecretariasForm = () => {
 
         }),
         onSubmit: async valores => {
-
-            const { dssecretaria } = valores
-
-            console.log(dssecretaria);
-
-
-            let comitesSecretaria = {
-                dssecretaria: dssecretaria,
-                boactivo: true
-            }
-            registrarComiteSecretarias(comitesSecretaria);
-            setShowModal(false);
-
+            confirmacionDialog(valores);
         }
     })
 
@@ -66,6 +85,9 @@ export const ComiteSecretariasForm = () => {
                     </Button>
                 </Grid>
             </DialogContent>
+            <ModalConfirmacion
+                handleRegistrar={handleRegistrar} evento="Editar"
+            />
         </form>
 
     )

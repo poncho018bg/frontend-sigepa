@@ -1,14 +1,17 @@
 import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
 import NativeSelect from '@material-ui/core/NativeSelect';
-import {  withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { ModalContext } from 'contexts/modalContex';
 
 import { DocumentosContext } from 'contexts/catalogos/documentosContext';
+
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 
 
 const BootstrapInput = withStyles((theme) => ({
@@ -52,6 +55,36 @@ export const DocumentosForm = () => {
 
     const { getVigencias, todasVigencias, registrarDocumento } = useContext(DocumentosContext);
 
+
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    const handleRegistrar = () => {
+        console.log("aqui hace el registro no deshabilita nada");
+        const { idVigencia, dsdocumento, dsdescripcion } = valores
+
+        console.log("vemos que llega ---> ", idVigencia, dsdocumento, dsdescripcion);
+
+
+        let documentosRequisitos = {
+            dsdocumento: dsdocumento,
+            dsdescripcion: dsdescripcion,
+            vigencias: `${process.env.REACT_APP_API_URL}vigencias/${idVigencia}`,
+            boactivo: true,
+            'apoyos': []
+        }
+        registrarDocumento(documentosRequisitos);
+        setShowModalConfirmacion(false);
+        setShowModal(false);
+    }
+
     useEffect(() => {
         getVigencias();
         // eslint-disable-next-line
@@ -72,22 +105,7 @@ export const DocumentosForm = () => {
 
         }),
         onSubmit: async valores => {
-
-            const { idVigencia, dsdocumento, dsdescripcion } = valores
-
-            console.log("vemos que llega ---> ", idVigencia, dsdocumento, dsdescripcion);
-
-
-            let documentosRequisitos = {
-                dsdocumento: dsdocumento,
-                dsdescripcion: dsdescripcion,
-                vigencias: `${ process.env.REACT_APP_API_URL}vigencias/${idVigencia}`,
-                boactivo: true,
-                'apoyos':[]
-            }
-            registrarDocumento(documentosRequisitos);
-            setShowModal(false);
-
+            confirmacionDialog(valores);
         }
     })
     return (
@@ -152,6 +170,9 @@ export const DocumentosForm = () => {
                     </Button>
                 </Grid>
             </DialogContent>
+            <ModalConfirmacion
+                handleRegistrar={handleRegistrar} evento="Registrar"
+            />
         </form>
 
     )

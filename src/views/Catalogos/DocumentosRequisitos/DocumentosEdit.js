@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -8,6 +8,9 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
+
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 
 const BootstrapInput = withStyles((theme) => ({
     root: {
@@ -50,6 +53,28 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { getVigencias, todasVigencias, actualizarDocumento } = useContext(DocumentosContext);
 
+    //dialog confirmacion
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    /**
+     * abre el dialogo de confirmación
+     * @param {valores} e 
+     */
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    /**
+     * Edita el elemento
+     */
+    const handleRegistrar = () => {
+        actualizarDocumento(valores);
+        setShowModalConfirmacion(false);
+        setShowModalUpdate(false);
+    }
+
 
     // Schema de validación
     const schemaValidacion = Yup.object({
@@ -58,8 +83,7 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
     });
 
     const actualizarInfoDocumentos = async valores => {
-        actualizarDocumento(valores);
-        setShowModalUpdate(false);
+        confirmacionDialog(valores);
     }
 
 
@@ -79,7 +103,7 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
                 actualizarInfoDocumentos(valores)
             }}
         >
-            
+
 
             {props => {
                 return (
@@ -144,6 +168,9 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
                                 </Button>
                             </Grid>
                         </DialogContent>
+                        <ModalConfirmacion
+                            handleRegistrar={handleRegistrar} evento="Editar"
+                        />
                     </form>
                 )
             }}

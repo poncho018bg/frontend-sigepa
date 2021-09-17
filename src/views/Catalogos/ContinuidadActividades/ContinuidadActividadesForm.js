@@ -49,17 +49,6 @@ export const ContinuidadActividadesForm = () => {
                 .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, "No debe contener caracteres especiales")
         }),
         onSubmit: async valores => {
-            /**
-            const { dsactividadcontinuidad } = valores
-            let actividadcontinuidad = {
-                dsactividadcontinuidad: dsactividadcontinuidad,
-                activo: true,
-                apoyos: [],
-                continuidadActividades: {}
-            }
-            registrarActividadesContinuar(actividadcontinuidad);
-            setShowModal(false);
-            **/
             confirmacionDialog(valores);
         },
 
