@@ -1,15 +1,44 @@
 import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { NumeroApoyosContext } from 'contexts/catalogos/numeroApoyosContext';
 import { ModalContext } from 'contexts/modalContex';
 
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+
 export const NumeroApoyosForm = () => {
 
-    const { registrarNumeroApoyos} = useContext(NumeroApoyosContext);
+    const { registrarNumeroApoyos } = useContext(NumeroApoyosContext);
     const { setShowModal } = useContext(ModalContext);
+
+    //dialog confirmar
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    const handleRegistrar = () => {
+        const { noapoyo } = valores;
+
+        console.log(noapoyo);
+
+
+        let numeroApoyos = {
+            noapoyo: noapoyo,
+            boactivo: true
+        }
+        registrarNumeroApoyos(numeroApoyos);
+        setShowModalConfirmacion(false);
+        setShowModal(false);
+    }
 
 
     const formik = useFormik({
@@ -22,18 +51,7 @@ export const NumeroApoyosForm = () => {
 
         }),
         onSubmit: async valores => {
-
-            const { noapoyo } = valores;
-
-            console.log(noapoyo);
-
-
-            let numeroApoyos = {
-                noapoyo: noapoyo,
-                boactivo: true
-            }
-            registrarNumeroApoyos(numeroApoyos);
-            setShowModal(false);
+            confirmacionDialog(valores);
 
         }
     })
@@ -66,6 +84,9 @@ export const NumeroApoyosForm = () => {
                     </Button>
                 </Grid>
             </DialogContent>
+            <ModalConfirmacion
+                handleRegistrar={handleRegistrar} evento="Registrar"
+            />
         </form>
 
     )

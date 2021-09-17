@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -6,13 +6,35 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 import { EstadosContext } from 'contexts/catalogos/EstadosContext';
 
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+
 export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
-
-
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-
     const { actualizarMunicipios } = useContext(MunicipiosContext);
+
     const { getEstados, estadosList, getEstadoByIdHetoas, estado } = useContext(EstadosContext);
+    //dialog confirmacion
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    /**
+     * abre el dialogo de confirmación
+     * @param {valores} e 
+     */
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    /**
+     * Edita el elemento
+     */
+    const handleRegistrar = () => {
+        actualizarMunicipios(valores);
+        setShowModalConfirmacion(false);
+        setShowModalUpdate(false);
+    }
 
     // Schema de validación
     const schemaValidacion = Yup.object({
@@ -25,9 +47,9 @@ export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
     });
 
     const actualizarInfoMunicipio = async valores => {
-        actualizarMunicipios(valores);
-        setShowModalUpdate(false);
+        confirmacionDialog(valores);
     }
+
     useEffect(() => {
         const { _links: { estadoId: { href } } } = municipioSeleccionada
         getEstadoByIdHetoas(href);
@@ -63,7 +85,7 @@ export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
 
                     <form
                         className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
-                        onSubmit={props.handleSubmit}>                       
+                        onSubmit={props.handleSubmit}>
                         <DialogContent>
                             <TextField
                                 id="estadoId"
@@ -71,7 +93,7 @@ export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
                                 label="Selecciona un estado"
                                 select
                                 fullWidth
-                                name="estadoId"                                
+                                name="estadoId"
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.estadoId}
@@ -133,9 +155,10 @@ export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
                                     Editar
                                 </Button>
                             </Grid>
-
-
                         </DialogContent>
+                        <ModalConfirmacion
+                            handleRegistrar={handleRegistrar} evento="Editar"
+                        />
                     </form>
                 )
             }}

@@ -1,16 +1,47 @@
 import { Button, DialogContent, FormHelperText, Grid, TextField, MenuItem } from '@material-ui/core';
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { FirmasContext } from 'contexts/catalogos/firmasContext';
 import { ModalContext } from 'contexts/modalContex';
 
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+
 
 export const FirmasForm = () => {
 
     const { registrarFirmas, getProgramas, programaList } = useContext(FirmasContext);
     const { setShowModal } = useContext(ModalContext);
+
+
+    //dialog confirmar
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    const handleRegistrar = () => {
+        const { idPrograma, dsautoriza, dspuesto, dscomentario } = valores
+        console.log("datos ---> ", idPrograma, dsautoriza, dspuesto, dscomentario);
+        let Firmas = {
+            dsautoriza: dsautoriza,
+            dspuesto: dspuesto,
+            dscomentario: dscomentario,
+            programas: `${process.env.REACT_APP_API_URL}programas/${idPrograma}`,
+            boactivo: true
+        }
+        registrarFirmas(Firmas);
+        setShowModalConfirmacion(false);
+        setShowModal(false);
+    }
+
 
     useEffect(() => {
         getProgramas();
@@ -33,21 +64,7 @@ export const FirmasForm = () => {
 
         }),
         onSubmit: async valores => {
-
-            const { idPrograma, dsautoriza, dspuesto, dscomentario } = valores
-
-            console.log("datos ---> ", idPrograma, dsautoriza, dspuesto, dscomentario);
-
-
-            let Firmas = {
-                dsautoriza: dsautoriza,
-                dspuesto: dspuesto,
-                dscomentario: dscomentario,
-                programas: `${process.env.REACT_APP_API_URL}programas/${idPrograma}`,
-                boactivo: true
-            }
-            registrarFirmas(Firmas);
-            setShowModal(false);
+            confirmacionDialog(valores);
         }
     })
 
@@ -133,6 +150,9 @@ export const FirmasForm = () => {
                     </Button>
                 </Grid>
             </DialogContent>
+            <ModalConfirmacion
+                handleRegistrar={handleRegistrar} evento="Registrar"
+            />
         </form>
 
     )

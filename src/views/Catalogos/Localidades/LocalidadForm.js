@@ -1,26 +1,60 @@
-import { Button,  DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
-import React, { useContext } from 'react';
+import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
+import React, { useContext, useState } from 'react';
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { ModalContext } from 'contexts/modalContex';
 import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
 import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+
 export const LocalidadForm = () => {
 
-    const { registrar} = useContext(LocalidadesContext);
+    const { registrar } = useContext(LocalidadesContext);
     const { setShowModal } = useContext(ModalContext);
     const { municipiosList } = useContext(MunicipiosContext);
+
+
+    //dialog confirmar
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    const handleRegistrar = () => {
+        const { dsidlocalidad, dsclavelocalidad, idMunicipio, dscodigopostal, dslocalidad } = valores;
+        let localidad = {
+            dsidlocalidad,
+            dsclavelocalidad,
+
+            dslocalidad,
+            dscodigopostal,
+            dsestado: true,
+            municipios: {
+                dsclavemunicipio: idMunicipio
+            },
+        }
+        console.log(localidad)
+        registrar(localidad);
+        setShowModalConfirmacion(false);
+        setShowModal(false);
+    }
 
     const formik = useFormik({
         initialValues: {
             dsidlocalidad: '',
-            dsclavelocalidad:'',
-            idMunicipio:0,
-            dslocalidad:'',
-            dscodigopostal:'',
-            dslocalidad:''
-            
+            dsclavelocalidad: '',
+            idMunicipio: 0,
+            dslocalidad: '',
+            dscodigopostal: '',
+            dslocalidad: ''
+
         },
         validationSchema: Yup.object({
             dsidlocalidad: Yup.string()
@@ -36,28 +70,9 @@ export const LocalidadForm = () => {
 
         }),
         onSubmit: async valores => {
-
-            const { dsidlocalidad,dsclavelocalidad,idMunicipio,dscodigopostal,dslocalidad } = valores;
-            let localidad = {
-                dsidlocalidad,
-                dsclavelocalidad,
-             
-                dslocalidad,
-                dscodigopostal,
-                dsestado: true,
-                municipios:{
-                    dsclavemunicipio: idMunicipio
-                },
-            }
-            console.log(localidad)
-          registrar(localidad);
-           setShowModal(false);
-
+            confirmacionDialog(valores);
         }
     });
-
-
-
     return (
         <form
             onSubmit={formik.handleSubmit}
@@ -159,11 +174,6 @@ export const LocalidadForm = () => {
                     <FormHelperText error={formik.errors.dscodigopostal}>{formik.errors.dscodigopostal}</FormHelperText>
                 ) : null}
             </DialogContent>
-
-
-
-
-
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
@@ -171,6 +181,9 @@ export const LocalidadForm = () => {
                     </Button>
                 </Grid>
             </DialogContent>
+            <ModalConfirmacion
+                handleRegistrar={handleRegistrar} evento="Registrar"
+            />
         </form>
 
     )
