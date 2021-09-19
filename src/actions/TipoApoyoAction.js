@@ -1,11 +1,13 @@
 import { typesTipoApoyo } from "types/types";
+import { axiosGet, axiosPost,axiosPostHetoas } from "helpers/axios";
+const baseUrl = process.env.REACT_APP_API_URL;
 
-
-export function obtenerTipoApoyoAction() {
+export const obtenerTipoApoyoAction = ( idTipoApoyo, idPeriodicidad) => {
     return async (dispatch) => {
         dispatch( descargarTipoApoyo() );
         try {
-            const data = await axiosGetEtiquetas(`/idiomas/idiomasActivos/` );
+            console.log('consultar apoyos')
+            const data = await axiosGet(`tipoApoyoOverride/${idTipoApoyo}/${idPeriodicidad}` );
             console.log(data);
             dispatch( descargaTipoApoyoExitosa( data ) );
         } catch (error) {
@@ -96,10 +98,11 @@ export const tipoApoyoEliminar = (tipoApoyo) =>({
 })
 
 
-export const borrarModuloAction = () => {
+export const borrarModuloAction = (tipoApoyo) => {
+    console.log('borrarModuloAction',tipoApoyo)
     return async (dispatch) => {
         try {
-            const data = await axiosDeleteTipoEtiquetas(`/idiomas/deshabilitarIdioma/${idiomaEliminar.idIdioma}`,'DELETE' );
+            const data = await axiosPostHetoas(`${baseUrl}tipoApoyoOverride`,tipoApoyo,'DELETE' );
             dispatch( tipoApoyoEliminado( data ) );
         } catch (error) {
             console.log(error);

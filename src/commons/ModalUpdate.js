@@ -24,6 +24,8 @@ export const ModalUpdate = (props) => {
                 onClose={setShowModalUpdate}
                 aria-labelledby="customized-dialog-title"
                 open={showModalUpdate}
+                fullWidth
+                maxWidth="lg"
         >   
         <Grid container justify="flex-end">
             <IconButton aria-label="close"  onClick={handleClose}>
