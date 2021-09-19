@@ -5,7 +5,7 @@ import ApoyoReducer from 'reducers/Catalogos/ApoyoReducer';
 import { GET_APOYOS, REGISTRAR_APOYOS, ELIMINAR_APOYOS, MODIFICAR_APOYOS } from 'types/actionTypes';
 import { axiosGet,axiosPost,axiosDeleteTipo ,axiosPostHetoas} from 'helpers/axios';
 
-
+const baseUrl = process.env.REACT_APP_API_URL;
 
 export const ApoyoContext = createContext();
 
@@ -51,8 +51,9 @@ export const ApoyoContextProvider = props => {
 
     const actualizarApoyo = async apoyo => {
         console.log(apoyo);
+        console.log(`${baseUrl}tipoApoyoOverride`)
         try {
-            const resultado = await axiosPostHetoas('tipoApoyoOverride', apoyo, 'PUT');
+            const resultado = await axiosPostHetoas(`${baseUrl}tipoApoyoOverride`, apoyo, 'PUT');
             dispatch({
                 type: MODIFICAR_APOYOS,
                 payload: resultado,
@@ -64,8 +65,9 @@ export const ApoyoContextProvider = props => {
 
     const eliminarApoyo = async idApoyo => {
         try {
-
-            await axiosDeleteTipo(`tipoApoyoOverride/${idApoyo}`);
+            console.log('x=>',idApoyo)
+            // axiosDeleteTipo(`tipoApoyoOverride/${idApoyo}`);
+             await axiosPostHetoas(`${baseUrl}tipoApoyoOverride`, idApoyo, 'DELETE')
             dispatch({
                 type: ELIMINAR_APOYOS,
                 payload: idApoyo

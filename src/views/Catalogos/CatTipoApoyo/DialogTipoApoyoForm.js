@@ -23,6 +23,9 @@ import { NumeroApoyosContext } from 'contexts/catalogos/numeroApoyosContext';
 import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
 import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 import { MultiSelect } from "react-multi-select-component";
+import { RegionMunicipiosContext } from 'contexts/catalogos/RegionMunicipiosContext';
+import { ActividadesContinuarContext } from 'contexts/catalogos/ActividadesContinuarContext';
+import { ApoyoContext } from 'contexts/catalogos/ApoyoContext';
 const useStyles = makeStyles(stylesArchivo);
 
 
@@ -63,9 +66,15 @@ export const DialogTipoApoyoForm = (props) => {
     const { apoyoservicioList, getApoyoServicio } = useContext(ApoyoServicioContext);
     const { numeroApoyosList, getNumeroApoyos } = useContext(NumeroApoyosContext);
     const { municipiosList, getMunicipios } = useContext(MunicipiosContext);
+    const { regionList, getRegionMunicipios } = useContext(RegionMunicipiosContext)
+    const { actividadescontinuarList, getActividadesContinuar } = useContext(ActividadesContinuarContext)
+    const { registrarApoyo } = useContext(ApoyoContext)
 
-    
+
     const [municipiosSelect, setMunicipiosSelect] = React.useState([]);
+    const [tipoApoyoSelect, setTipoApoyoSelect] = React.useState([]);
+    const [actividadesContinuarSelect, setActividadesContinuarSelect] = React.useState([]);
+    const [documentslst, setDocumentslst] = React.useState([]);
 
 
 
@@ -81,9 +90,12 @@ export const DialogTipoApoyoForm = (props) => {
 
 
     const [selected, setSelected] = useState([]);
+    const [selectedTipApoy, setSelectedTipApoy] = useState([]);
+    const [selectedActividadesContinuar, setSelectedActividadesContinuar] = useState([]);
 
     useEffect(() => {
         getTiposApoyos();
+        getActividadesContinuar();
         getEdadesBeneficiarios();
         getTipoBeneficiarios();
         getPeriodicidadApoyos();
@@ -92,6 +104,7 @@ export const DialogTipoApoyoForm = (props) => {
         getNumeroApoyos();
         getApoyoServicio();
         getMunicipios();
+        getRegionMunicipios('a3de85a7-6c23-46a4-847b-d79b3a90963d')
         setLeft(documentosList)
     }, []);
 
@@ -100,16 +113,36 @@ export const DialogTipoApoyoForm = (props) => {
     }, [documentosList]);
 
     useEffect(() => {
+      var   docslst =[]
+        right.map((mp)=>{
+            docslst.push(mp.id)
+        })
+        setDocumentslst(docslst)
+    }, [right]);
+
+    useEffect(() => {
         const lstmun = []
-        municipiosList.map((mn)=>{
-            mn
-            lstmun.push({ label: mn.dsmunicipio, value: mn.id })
-            
-            
+        regionList.map((mn) => {
+            lstmun.push({ label: mn.dsMunicipio, value: mn.idMunicipio })
         })
         setMunicipiosSelect(lstmun)
-        
-    }, [municipiosList]);
+    }, [regionList]);
+
+    useEffect(() => {
+        const lsttipAp = []
+        tiposApoyosList.map((mn) => {
+            lsttipAp.push({ label: mn.dstipoapoyo, value: mn.id })
+        })
+        setTipoApoyoSelect(lsttipAp)
+    }, [tiposApoyosList]);
+
+    useEffect(() => {
+        const lstActividades = []
+        actividadescontinuarList.map((mn) => {
+            lstActividades.push({ label: mn.dsactividadcontinuidad, value: mn.id })
+        })
+        setActividadesContinuarSelect(lstActividades)
+    }, [actividadescontinuarList]);
 
     function parseSelect(params) {
         const nombrs = []
@@ -159,9 +192,10 @@ export const DialogTipoApoyoForm = (props) => {
             numEntregas: '',
             documentosRequisitos: [],
             idActividadContinuidadApoyo: '',
-            cobertura: '',
+
             coberturaMunicipal: [],
-            idEstado: ''
+            idEstado: '',
+            numApoyos:''
         },
         validationSchema: Yup.object({
             dsapoyo: Yup.string()
@@ -194,8 +228,8 @@ export const DialogTipoApoyoForm = (props) => {
                 .required('El tipo de beneficiario es obligatorio'),
             cantidadPesos: Yup.string()
                 .required('La cantidad es obligatorio'),
-            enServicio: Yup.string()
-                .required('EL servicio es obligatorio'),
+            // enServicio: Yup.string()
+            //     .required('EL servicio es obligatorio'),
             descApoyoEspecie: Yup.string()
                 .required('El apoyo en especie es obligatorio'),
             idPeriodicidad: Yup.string()
@@ -206,18 +240,51 @@ export const DialogTipoApoyoForm = (props) => {
                 .required('El número de entrega es obligatorio'),
             // documentosRequisitos: Yup.string()
             //     .required('La documentación es obligatorio'),
-            idActividadContinuidadApoyo: Yup.string()
-                .required('La actividad es obligatorio'),
-            cobertura: Yup.string()
-                .required('La cobertura es obligatorio'),
+            // idActividadContinuidadApoyo: Yup.string()
+            //     .required('La actividad es obligatorio'),
+
             // coberturaMunicipal: Yup.string()
             //     .required('La cobertura es obligatorio'),
         }),
 
         onSubmit: async valores => {
+            { console.log('ERRORES=>', formik.errors) }
             console.log('VALORES=>', valores)
-            console.log('VALORES mun=>', selected)
 
+            const { dsapoyo, idPrograma, dsdescripcion, estatus, visita, fcvigenciainicio, fcvigenciafin, fcregistrowebinicio,
+                fcregistrowebfin, fcregistropresencialinicio, fcregistropresencialfin, idRangoEdadBeneficiario, idBeneficiario, cantidadPesos, enServicio,
+                descApoyoEspecie, idPeriodicidad, observaciones, formaEntrega, numEntregas,numApoyos
+            } = valores
+            let nuevoApoyo = {
+                dsapoyo: dsapoyo,
+                idPrograma: idPrograma,
+                dsdescripcion: dsdescripcion,
+                estatus: estatus,
+                visita: visita,
+                idTipoApoyo: selectedTipApoy,
+                fcvigenciainicio: fcvigenciainicio,
+                fcvigenciafin: fcvigenciafin,
+                fcregistrowebinicio: fcregistrowebinicio,
+                fcregistrowebfin: fcregistrowebfin,
+                fcregistropresencialinicio: fcregistropresencialinicio,
+                fcregistropresencialfin: fcregistropresencialfin,
+                idRangoEdadBeneficiario: idRangoEdadBeneficiario,
+                idBeneficiario: idBeneficiario,
+                cantidadPesos: cantidadPesos,
+                enServicio: enServicio,
+                descApoyoEspecie: descApoyoEspecie,
+                idPeriodicidad: idPeriodicidad,
+                observaciones: observaciones,
+                formaEntrega: formaEntrega,
+                numEntregas: numEntregas,
+                documentosRequisitos: documentslst,
+                idActividadContinuidadApoyo: selectedActividadesContinuar,
+                coberturaMunicipal: selected,
+                idEstado: 'a3de85a7-6c23-46a4-847b-d79b3a90963d',
+                numApoyos:numApoyos
+
+            }
+            registrarApoyo(nuevoApoyo)
             setShowModal(false);
 
         }
@@ -286,7 +353,6 @@ export const DialogTipoApoyoForm = (props) => {
             <DialogTitle id="form-dialog-title">{(tipoApoyoEditar) ? 'Editar Tipo de Apoyo' : 'Alta Tipo de Apoyo'} </DialogTitle>
             {console.log('ERRORES=>', formik.errors)}
             <DialogContent>
-
                 <TextField
                     id="dsapoyo"
                     label="Nombre del Tipo de Apoyo"
@@ -357,7 +423,7 @@ export const DialogTipoApoyoForm = (props) => {
 
             <DialogContent>
                 <FormLabel component="legend">Estatus </FormLabel>
-                <RadioGroup row aria-label="position" defaultValue="top" value={formik.values.valueStatus} onChange={formik.handleChange} >
+                <RadioGroup row aria-label="position" defaultValue="top" value={formik.values.estatus} onChange={formik.handleChange} >
                     <FormControlLabel name="estatus" value="true" control={<Radio color="primary" />} label="Activo" />
                     <FormControlLabel name="estatus" value="false" control={<Radio color="primary" />} label="Inactivo" />
                 </RadioGroup>
@@ -543,39 +609,23 @@ export const DialogTipoApoyoForm = (props) => {
                 ) : null}
             </DialogContent>
 
-            <DialogContent>
+            <DialogContent style={{ overflowY: 'visible' }}>
 
                 <FormLabel component="legend">Selecciona un tipo de apoyo</FormLabel>
-                <Select
-                    labelId="demo-mutiple-checkbox-label"
-                    id="demo-mutiple-checkbox"
-                    multiple
-                    value={formik.values.idTipoApoyo}
-                    name="idTipoApoyo"
-                    fullWidth
-                    variant="outlined"
-                    onChange={formik.handleChange}
-                    input={<Input />}
-                    //renderValue={(selected) => selected.join(', ')}
-                    renderValue={() => parseSelect(selected).join(', ')}
-                    MenuProps={MenuProps}
-                >
-                    {tiposApoyosList.map((name) => (
-                        <MenuItem key={name.id} value={name.id} >
-                            <Checkbox checked={formik.values.idTipoApoyo.indexOf(name.id) > -1} />
-                            <ListItemText primary={name.dstipoapoyo} />
-                        </MenuItem>
-                    ))}
-                </Select>
-                {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
+
+                <MultiSelect
+                    options={tipoApoyoSelect}
+                    value={selectedTipApoy}
+                    onChange={setSelectedTipApoy}
+                    labelledBy="Select"
+                />
+
+                {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
                     <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
-                ) : null}
+                ) : null} */}
             </DialogContent>
 
             <DialogContent>
-
-
-
                 <CurrencyTextField
                     label="Cantidad en pesos"
                     name="cantidadPesos"
@@ -776,7 +826,6 @@ export const DialogTipoApoyoForm = (props) => {
             </DialogContent>
 
             <DialogContent>
-
                 <TextField
                     variant="outlined"
                     label="Número de entrega de Apoyos"
@@ -808,7 +857,24 @@ export const DialogTipoApoyoForm = (props) => {
                 ) : null}
             </DialogContent>
 
-            <DialogContent  style={{ overflowY: 'visible' }}>
+            <DialogContent>
+                <TextField
+                    id="numApoyos"
+                    label="Número de entrega de Apoyos"
+                    variant="outlined"
+                    name="numApoyos"
+                    value={formik.values.numApoyos}
+                    onChange={formik.handleChange}
+                    fullWidth
+                    inputProps={{ maxLength: 500 }} />
+
+                {formik.touched.numApoyos && formik.errors.numApoyos ? (
+                    <FormHelperText error={formik.errors.numApoyos}>{formik.errors.numApoyos}</FormHelperText>
+                ) : null}
+            </DialogContent>
+
+            <DialogContent style={{ overflowY: 'visible' }}>
+                <FormLabel component="legend">Cobertura municipal </FormLabel>
                 <MultiSelect
                     options={municipiosSelect}
                     value={selected}
@@ -817,9 +883,22 @@ export const DialogTipoApoyoForm = (props) => {
                 />
             </DialogContent>
 
+            <DialogContent style={{ overflowY: 'visible' }}>
+                <FormLabel component="legend">Selecciona actividades por realizar para continuar con el apoyo </FormLabel>
+
+                <MultiSelect
+                    options={actividadesContinuarSelect}
+                    value={selectedActividadesContinuar}
+                    onChange={setSelectedActividadesContinuar}
+                    labelledBy="Select"
+                />
+
+                {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
+                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
+                ) : null} */}
+            </DialogContent>
+
             <DialogContent>
-
-
                 <TextField
                     id="outlined-multiline-static"
                     label="Observaciones"
