@@ -7,7 +7,7 @@ function Alert(props) {
   }
 
 export const Mensaje = (props) => {
-
+    console.log(props);
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
           return;
