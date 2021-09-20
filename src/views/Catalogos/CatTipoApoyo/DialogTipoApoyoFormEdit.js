@@ -88,6 +88,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     const [selected, setSelected] = useState([]);
     const [selectedTipApoy, setSelectedTipApoy] = useState([]);
     const [selectedActividadesContinuar, setSelectedActividadesContinuar] = useState([]);
+    const [expanded, setExpanded] = React.useState(true)
 
     useEffect(() => {
         getTiposApoyos();
@@ -122,8 +123,8 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
             })
         })
 
-        console.log('lstDocsRg',lstDocsRg)
-        console.log('lstDocsLf',lstDocsLf)
+        console.log('lstDocsRg', lstDocsRg)
+        console.log('lstDocsLf', lstDocsLf)
 
         setChecked(lstDocsRg)
         // handleCheckedRight();
@@ -132,18 +133,18 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
         setLeft(lstDocsLf);
         setLeft(not(lstDocsLf, leftChecked))
         setChecked(not(checked, leftChecked))
-  
-        
+
+
 
     }, [documentosList]);
 
     useEffect(() => {
-        var   docslst =[]
-          right.map((mp)=>{
-              docslst.push(mp.id)
-          })
-          setDocumentslst(docslst)
-      }, [right]);
+        var docslst = []
+        right.map((mp) => {
+            docslst.push(mp.id)
+        })
+        setDocumentslst(docslst)
+    }, [right]);
 
 
     useEffect(() => {
@@ -193,19 +194,21 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
         console.log('agregarServicioFormik 1=>', props.values.enServicio)
     }
 
-    const checkServicio = (apyo, props,index) => () => {
-        personaSeleccionada.enServicio.map((ens)=>{
-            if(apyo.id === ens.id ){
-                props.values.enServicio[index] = ens
-                return true
-            }
-        })
-        
+    const checkServicio = (apyo, props, index) => () => {
+        // personaSeleccionada.enServicio.map((ens) => {
+        //     console.log(` validate => ${apyo.id} === ${ens.id} ${apyo.id === ens.id}`)
+        //     if (apyo.id === ens.id) {
+        //         props.values.enServicio[index] = ens
+        //         return false
+        //     }
+            
+        // })
+        return false
     }
 
-    const agregarTipoApoy=(props)=>()=>{
-        props.values.idTipoApoyo= selectedTipApoy
-        console.log('TIPOAPOYO=>',props.values.idTipoApoyo)
+    const agregarTipoApoy = (props) => () => {
+        props.values.idTipoApoyo = selectedTipApoy
+        console.log('TIPOAPOYO=>', props.values.idTipoApoyo)
     }
 
     const schemaValidacion = Yup.object({
@@ -249,10 +252,10 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     });
 
     const actualizarTipoApoyo = async valores => {
-        valores.idTipoApoyo= selectedTipApoy
-        valores.coberturaMunicipal= selected
-        valores.idActividadContinuidadApoyo= selectedActividadesContinuar
-        valores.documentosRequisitos= documentslst
+        valores.idTipoApoyo = selectedTipApoy
+        valores.coberturaMunicipal = selected
+        valores.idActividadContinuidadApoyo = selectedActividadesContinuar
+        valores.documentosRequisitos = documentslst
         actualizarApoyo(valores);
         setShowModalUpdate(false);
     }
@@ -275,7 +278,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
         setLeft(not(left, leftChecked));
         setChecked(not(checked, leftChecked));
 
-        
+
 
     };
 
@@ -311,12 +314,12 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     );
 
     return (
-      
-            
+
+
         <Formik
             enableReinitialize
             initialValues={personaSeleccionada}
-            validationSchema={schemaValidacion}            
+            validationSchema={schemaValidacion}
             onSubmit={(valores) => {
                 actualizarTipoApoyo(valores)
             }}
@@ -326,9 +329,9 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
             {props => {
 
                 return (
-                    <form 
-                        onSubmit={props.handleSubmit}                        
-                        >
+                    <form
+                        onSubmit={props.handleSubmit}
+                    >
                         {console.log('EDIT =>', props.values)}
                         {console.log('Error =>', props.errors)}
                         <DialogContent >
@@ -584,9 +587,9 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                 value={selectedTipApoy}
                                 onChange={setSelectedTipApoy}
                                 labelledBy="Select"
-                                
+
                             />
-                           
+
                             {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
                     <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
                 ) : null} */}
@@ -646,7 +649,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                     })
 
                                     return (
-                                        <Accordion expanded={checkServicio(apyo,props,i)}>
+                                        <Accordion expanded={expanded === props.values.enServicio.expanded} >
                                             <AccordionSummary
                                                 expandIcon={<ExpandMoreIcon />}
                                                 aria-label="Expand"
@@ -657,7 +660,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                                 <FormControlLabel
                                                     aria-label="Acknowledge"
                                                     onClick={agregarServicioFormik(apyo, i, props)}
-                                                    control={<Checkbox checked={checkServicio(apyo,props,i)} />}
+                                                    control={<Checkbox checked={expanded === props.values.enServicio.expanded} />}
                                                     label={apyo.dsservicio}
                                                 />
                                             </AccordionSummary>
@@ -801,46 +804,54 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         </DialogContent>
 
                         <DialogContent>
-                            <TextField
-                                variant="outlined"
-                                label="Número de entrega de Apoyos"
-                                select
-                                fullWidth
-                                name="numEntregas"
-                                value={props.values.numEntregas}
-                                onChange={props.handleChange}
-                            >
-                                <MenuItem value="0">
-                                    <em>Ninguno</em>
-                                </MenuItem>
-                                {
-                                    numeroApoyosList.map(
-                                        item => (
-                                            <MenuItem
-                                                key={item.id}
-                                                value={item.id}>
-                                                {item.noapoyo}
-                                            </MenuItem>
+                            {
+                                props.values.formaEntrega ? (<TextField
+                                    variant="outlined"
+                                    label="Número de entrega de Apoyos"
+                                    select
+                                    fullWidth
+                                    name="numEntregas"
+                                    value={props.values.numEntregas}
+                                    onChange={props.handleChange}
+                                >
+                                    <MenuItem value="0">
+                                        <em>Ninguno</em>
+                                    </MenuItem>
+                                    {
+                                        numeroApoyosList.map(
+                                            item => (
+                                                <MenuItem
+                                                    key={item.id}
+                                                    value={item.id}>
+                                                    {item.noapoyo}
+                                                </MenuItem>
+                                            )
                                         )
-                                    )
-                                }
+                                    }
 
-                            </TextField>
+                                </TextField>) : (<></>)
+                            }
+
                             {props.touched.numEntregas && props.errors.numEntregas ? (
                                 <FormHelperText error={props.errors.numEntregas}>{props.errors.numEntregas}</FormHelperText>
                             ) : null}
                         </DialogContent>
 
                         <DialogContent>
-                            <TextField
-                                id="numApoyos"
-                                label="Número de entrega de Apoyos"
-                                variant="outlined"
-                                name="numApoyos"
-                                value={props.values.numApoyos}
-                                onChange={props.handleChange}
-                                fullWidth
-                                inputProps={{ maxLength: 500 }} />
+                            {
+                                props.values.numEntregas === '0e050dbc-a937-4a47-90b4-2b1403712359' ? (
+                                    <TextField
+                                        id="numApoyos"
+                                        label="Número de entrega de Apoyos"
+                                        variant="outlined"
+                                        name="numApoyos"
+                                        value={props.values.numApoyos}
+                                        onChange={props.handleChange}
+                                        fullWidth
+                                        inputProps={{ maxLength: 500 }} />
+                                ) : (<></>)
+                            }
+
 
                             {props.touched.numApoyos && props.errors.numApoyos ? (
                                 <FormHelperText error={props.errors.numApoyos}>{props.errors.numApoyos}</FormHelperText>
@@ -926,11 +937,11 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
             }}
         </Formik>
 
-    
 
 
-      
-    
-)
+
+
+
+    )
 
 }
