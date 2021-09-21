@@ -143,7 +143,7 @@ export const CatTipoApoyoScreen = () => {
                         <CardBody>
                             <Grid container spacing={3}>
 
-                                <Grid item xs={2}>
+                                <Grid item xs={3}>
                                     <TextField
                                         variant="outlined"
                                         label="Selecciona un tipo de apoyo"
@@ -170,7 +170,7 @@ export const CatTipoApoyoScreen = () => {
 
                                     </TextField>
                                 </Grid>
-                                <Grid item xs={2}>
+                                <Grid item xs={3}>
                                     <TextField
                                         variant="outlined"
                                         label="Selecciona una periodicidad"
