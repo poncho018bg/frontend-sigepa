@@ -295,7 +295,7 @@ export const DialogTipoApoyoForm = (props) => {
 
             console.log('ERRORS=>', formik.errors)
             registrarApoyo(nuevoApoyo)
-            setShowModal(false);
+            //setShowModal(false);
 
             setOpenSnackbar(true);
             setError(false);
