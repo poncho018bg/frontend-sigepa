@@ -184,18 +184,18 @@ export const RolesScreen = () => {
     }
 
     const handleSavePerfiles = () => {
-        setErrors({});
+        const errores = {};
         console.log('entro handleSavePerfiles =>');
         /**
          * Aqui estaba la constante de errors
          */
 
         if (idPerfil === '') {
-            errors.idPerfil = "El campo perfil es obligatorio";
+            errores.idPerfil = "El campo perfil es obligatorio";
         }
 
-        if (!isObjEmpty(errors)) {
-            setErrors(errors);
+        if (!isObjEmpty(errores)) {
+            setErrors(errores);
             return;
         }
 
@@ -253,14 +253,14 @@ export const RolesScreen = () => {
 
     return (
         <>
-
+  
             <DialogContent>
                 <TextField
                     variant="outlined"
                     label="Selecciona un perfil"
                     select
                     fullWidth
-                    error={errors.idPerfil !== null && errors.idPerfil !== undefined}
+                    error={errors.idPerfil}
                     name="idPerfil"
                     value={idPerfil}
                     onChange={handleInputChange}
@@ -268,7 +268,9 @@ export const RolesScreen = () => {
                     <MenuItem value="0">
                         <em>Ninguno</em>
                     </MenuItem>
+                    {console.log('ROLES=>',roles)}
                     {
+                        
                         roles.map(
                             item => (
                                 <MenuItem
@@ -280,7 +282,8 @@ export const RolesScreen = () => {
                         )
                     }
                 </TextField>
-                {errors.idPerfil && <FormHelperText error={errors.idPerfil}>{errors.idPerfil}</FormHelperText>}
+                
+                {errors.idPerfil && <FormHelperText error={errors.idPerfil !== null && errors.idPerfil !== undefined}>{errors.idPerfil}</FormHelperText>}
             </DialogContent>
 
             <List
