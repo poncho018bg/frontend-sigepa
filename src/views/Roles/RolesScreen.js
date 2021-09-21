@@ -43,6 +43,7 @@ export const RolesScreen = () => {
     const [checkedSub, setCheckedSub] = React.useState([0]);
     const [modulosChecked, setModulosChecked] = React.useState([]);
     const [subModulosChecked, setSubModulosChecked] = React.useState([]);
+    const [idPerfilSelected, setIdPerfilSelected] = React.useState('');
 
     useEffect(() => {
 
@@ -190,7 +191,7 @@ export const RolesScreen = () => {
          * Aqui estaba la constante de errors
          */
 
-        if (idPerfil === '') {
+        if (idPerfilSelected === '') {
             errores.idPerfil = "El campo perfil es obligatorio";
         }
 
@@ -205,7 +206,7 @@ export const RolesScreen = () => {
         })
 
         var data = {
-            'iPerfil': idPerfil,
+            'iPerfil': idPerfilSelected,
             'idUsuario': UserService.getIdUSuario(),
             'submodulos': submodulos
 
@@ -223,9 +224,9 @@ export const RolesScreen = () => {
         setCheckedSub([])
         setModulosChecked([])
         setSubModulosChecked([])
-        getSubmodulosByperfil(idPerfil)
+        getSubmodulosByperfil(idPerfilSelected)
 
-    }, [idPerfil]);
+    }, [idPerfilSelected]);
 
     useEffect(() => {
 
@@ -261,9 +262,9 @@ export const RolesScreen = () => {
                     select
                     fullWidth
                     error={errors.idPerfil}
-                    name="idPerfil"
-                    value={idPerfil}
-                    onChange={handleInputChange}
+                    name="idPerfilSelected"
+                    value={idPerfilSelected}
+                    onChange={(e)=> setIdPerfilSelected(e.target.value)}
                 >
                     <MenuItem value="0">
                         <em>Ninguno</em>
