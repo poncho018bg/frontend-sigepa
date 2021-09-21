@@ -126,7 +126,6 @@ export const MunicipiosScreen = () => {
                         < TableHead >
                             < TableRow key="898as" >
                                 < TableCell > Estado</TableCell >
-                                < TableCell > ID</TableCell >
                                 < TableCell> Clave municipio</TableCell >
                                 < TableCell> Municipio</TableCell >
                                 < TableCell> Fecha Registro</TableCell >
@@ -150,7 +149,6 @@ export const MunicipiosScreen = () => {
                                                     inputProps={{ 'aria-label': 'Checkbox A' }}
                                                 />
                                             </TableCell>
-                                            <TableCell>{row.id}</TableCell>
                                             <TableCell>{row.dsclavemunicipio}</TableCell >
                                             <TableCell>{row.dsmunicipio}</TableCell >
                                             <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>

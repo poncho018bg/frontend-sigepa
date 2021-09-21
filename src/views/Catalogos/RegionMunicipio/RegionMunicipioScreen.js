@@ -108,7 +108,6 @@ export const RegionMunicipioScreen = () => {
           < TableHead >
             < TableRow key="898as" >
               < TableCell > Estado</TableCell >
-              < TableCell > ID</TableCell >
               < TableCell> Clave</TableCell >
               < TableCell> Región</TableCell >
               < TableCell> Fecha Registro</TableCell >
@@ -132,7 +131,6 @@ export const RegionMunicipioScreen = () => {
                         inputProps={{ 'aria-label': 'Checkbox A' }}
                       />
                     </TableCell>
-                    <TableCell>{row.id}</TableCell>
                     <TableCell>{row.noclaveregion}</TableCell >
                     <TableCell>{row.dsRegion}</TableCell >
                     <TableCell >{moment(row.fcfecharegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>

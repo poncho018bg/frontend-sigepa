@@ -124,7 +124,6 @@ export const ContinuidadActividadesScreen = () => {
                         < TableHead >
                             < TableRow key="898as" >
                                 < TableCell > Estado</TableCell >
-                                < TableCell > Id</TableCell >
                                 < TableCell> Descripción de actividad </TableCell>
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
@@ -148,7 +147,6 @@ export const ContinuidadActividadesScreen = () => {
                                                     onChange={handleChangeCheck}
                                                 />
                                             </TableCell>
-                                            <TableCell>{row.id}</TableCell>
                                             <TableCell>{row.dsactividadcontinuidad}</TableCell >
                                             <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">

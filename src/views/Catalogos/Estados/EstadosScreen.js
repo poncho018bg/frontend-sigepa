@@ -114,9 +114,8 @@ export const EstadosScreen = () => {
           < TableHead >
             < TableRow key="898as" >
               < TableCell > Estado</TableCell >
-              < TableCell > ID</TableCell >
-              < TableCell> Num. estado</TableCell >
-              < TableCell> Desc. Estado </TableCell >
+              < TableCell> Numero estado</TableCell >
+              < TableCell> Descripcion estado </TableCell >
               < TableCell> Fecha Registro</TableCell >
               < TableCell colSpan={2} align="center"> Acciones</TableCell >
             </TableRow >
@@ -138,7 +137,6 @@ export const EstadosScreen = () => {
                         inputProps={{ 'aria-label': 'Checkbox A' }}
                       />
                     </TableCell>
-                    <TableCell>{row.id}</TableCell>
                     <TableCell>{row.noestado}</TableCell >
                     <TableCell>{row.dsestado}</TableCell >
                     <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
