@@ -1,5 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 
+const baseUrl = process.env.REACT_APP_API_URL;
+import axios from "axios";
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 import { 
         REGISTRAR_PROGRAMAS,
@@ -18,8 +20,7 @@ export const ProgramasContext = createContext();
 export const ProgramasContextProvider = props => {
     const initialState = {
         programasList: [],
-        programa:null,
-        error: false,
+        programa:null
     }
 
     const [state, dispatch] = useReducer(ProgramasReducer, initialState);
@@ -44,20 +45,25 @@ export const ProgramasContextProvider = props => {
      * @param {motivoRechazos} motivoRechazos 
      */
     const registrar = async programas => {
-        try {
-            const resultado = await axiosPost('programas', programas);
-            dispatch({
-                type: REGISTRAR_PROGRAMAS,
-                payload: resultado
-            })
-        } catch (error) {
-            console.log('ocurrio un error en el context');
-            console.log(error);
-            dispatch({
-                type: AGREGAR_PROGRAMA_ERROR,
-                payload: true
-            })
-        }
+     
+           // const resultado = await axiosPost('programas', programas);
+            const url = `${ baseUrl }programas`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, programas, {
+                    headers: {'Accept': 'application/json', 'Content-type': 'application/json'}
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_PROGRAMAS,
+                        payload: response
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
+            
+      
     }
 
     /**
@@ -143,7 +149,8 @@ export const ProgramasContextProvider = props => {
             value={{
                 programasList: state.programasList,
                 programa: state.programa,
-                error:state.error,
+                errorInsert:state.errorInsert,
+                mensajeError:state.mensajeError,
                 get,
                 registrar,
                 actualizar,

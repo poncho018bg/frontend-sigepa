@@ -3,6 +3,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+
 import CardActions from '@material-ui/core/CardActions';
 import Button from "components/CustomButtons/Button.js";
 import { makeStyles, Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
@@ -12,6 +13,7 @@ import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext'
 import { Programa } from './Programa';
 import Add from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
+import { Loading } from "components/Personalizados/Loading";
 const useStyles = makeStyles(stylesArchivo);
 
 export const ProgramasScreen = () => {
@@ -19,7 +21,7 @@ export const ProgramasScreen = () => {
   const [searched, setSearched] = useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
+  const [loading, setLoading] = useState(true);
 
 
 
@@ -37,8 +39,11 @@ export const ProgramasScreen = () => {
 
 
   useEffect(() => {
-   
-    get();
+    
+    get().then (data => {
+      setTimeout(() => setLoading(false), 500);
+    
+    });;
 }, []);
 
   const showForm=()=>{
@@ -46,6 +51,12 @@ export const ProgramasScreen = () => {
   }
 
   return (
+    <>        
+    {loading === true ? (
+      <Loading
+        loading={loading} 
+      />
+    ) : (
       <GridItem xs={12} sm={12} md={12}>
       <Card>
         <CardHeader color="primary">
@@ -118,6 +129,10 @@ export const ProgramasScreen = () => {
             />
         </CardBody>
       </Card>
-    </GridItem>
+    
+    </GridItem>  )}
+    </>
+     
+     
   )
 }

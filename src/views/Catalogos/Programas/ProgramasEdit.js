@@ -42,12 +42,12 @@ export const ProgramasEdit = () => {
     }, [location]);
 
     let data = programa;
-
+    console.log(data);
     // Schema de validación
     const schemaValidacion = Yup.object({
-        dsprograma: Yup.string()
+        dsprograma: Yup.string().nullable()
             .required('El nombre del programa  es obligatorio'),
-        dsclaveprograma: Yup.string()
+        dsclaveprograma: Yup.string().nullable()
             .required('La clave del programa es obligatoria'),
       /*  vigenciaDesde: Yup.string()
             .required('La vigencia desde es obligatorio'),
@@ -61,11 +61,11 @@ export const ProgramasEdit = () => {
           .required('El periodo del registro presencial desde es obligatorio'),
         periodoRegistroPresencialHasta: Yup.string()
           .required('El periodo del registro presencial hasta es obligatorio'),*/
-        dsdescripcion: Yup.string()
+        dsdescripcion: Yup.string().nullable()
           .required('La descripcion del pograma de apoyo  es obligatorio'),
-        dscriterioelegibilidad: Yup.string()
+        dscriterioelegibilidad: Yup.string().nullable()
           .required('Los criterios de elegibilidad son obligatorios'),
-        dscontinuidad: Yup.string()
+        dscontinuidad: Yup.string().nullable()
           .required('Las actividades por realizar son obligatorios')
     
     });
@@ -203,15 +203,15 @@ export const ProgramasEdit = () => {
                           
                               <MuiPickersUtilsProvider  locale={deLocale} utils={DateFnsUtils}>
                                     <KeyboardDatePicker
-                                    id="periodoRegistroWebDesde"
-                                    name="periodoRegistroWebDesde"
+                                    id="fcregistrowebinicio"
+                                    name="fcregistrowebinicio"
                                     fullWidth
                                     style={{marginBottom: '20px'}}
                                     label="Periodo Registro Web Desde"
                                     inputVariant="outlined"
                                     format="MM/dd/yyyy"
                                     clearable
-                                    value={props.values?.periodoRegistroWebDesde}
+                                    value={props.values?.fcregistrowebinicio}
                                     onChange={value => props.setFieldValue("periodoRegistroWebDesde", value)}
                                     KeyboardButtonProps={{
                                       "aria-label": "change date"
@@ -224,16 +224,16 @@ export const ProgramasEdit = () => {
 
                           <MuiPickersUtilsProvider  locale={deLocale} utils={DateFnsUtils}>
                                     <KeyboardDatePicker
-                                    id="periodoRegistroWebHasta"
-                                    name="periodoRegistroWebHasta"
+                                    id="fcregistrowebfin"
+                                    name="fcregistrowebfin"
                                     fullWidth
                                     label="Periodo Registro web Hasta"
                                     inputVariant="outlined"
                                     format="MM/dd/yyyy"
                                     style={{marginBottom: '20px'}}
                                     clearable
-                                    value={props.values?.periodoRegistroWebHasta}
-                                    onChange={value => props.setFieldValue("periodoRegistroWebHasta", value)}
+                                    value={props.values?.fcregistrowebfin}
+                                    onChange={value => props.setFieldValue("fcregistrowebfin", value)}
                                     KeyboardButtonProps={{
                                       "aria-label": "change date"
                                     }}
@@ -247,16 +247,16 @@ export const ProgramasEdit = () => {
 
                             <MuiPickersUtilsProvider  locale={deLocale} utils={DateFnsUtils}>
                                     <KeyboardDatePicker
-                                    id="periodoRegistroPresencialDesde"
-                                    name="periodoRegistroPresencialDesde"
+                                    id="fcregistropresencialinicio"
+                                    name="fcregistropresencialinicio"
                                     fullWidth
                                     label="Periodo Registro Presencial Desde"
                                     inputVariant="outlined"
                                     format="MM/dd/yyyy"
                                     style={{marginBottom: '20px'}}
                                     clearable
-                                    value={props.values?.periodoRegistroPresencialDesde}
-                                    onChange={value => props.setFieldValue("periodoRegistroPresencialDesde", value)}
+                                    value={props.values?.fcregistropresencialinicio}
+                                    onChange={value => props.setFieldValue("fcregistropresencialinicio", value)}
                                     KeyboardButtonProps={{
                                       "aria-label": "change date"
                                     }}
@@ -268,16 +268,16 @@ export const ProgramasEdit = () => {
                           
                             <MuiPickersUtilsProvider  locale={deLocale} utils={DateFnsUtils}>
                                     <KeyboardDatePicker
-                                    id="periodoRegistroPresencialHasta"
-                                    name="periodoRegistroPresencialHasta"
+                                    id="fcregistropresencialfin"
+                                    name="fcregistropresencialfin"
                                     fullWidth
                                     label="Periodo Registro Presencial Hasta"
                                     inputVariant="outlined"
                                     format="MM/dd/yyyy"
                                     style={{marginBottom: '20px'}}
                                     clearable
-                                    value={props.values?.periodoRegistroPresencialHasta}
-                                    onChange={value => props.setFieldValue("periodoRegistroPresencialHasta", value)}
+                                    value={props.values?.fcregistropresencialfin}
+                                    onChange={value => props.setFieldValue("fcregistropresencialfin", value)}
                                     KeyboardButtonProps={{
                                       "aria-label": "change date"
                                     }}
