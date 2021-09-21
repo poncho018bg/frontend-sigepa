@@ -43,6 +43,7 @@ export const RolesScreen = () => {
     const [checkedSub, setCheckedSub] = React.useState([0]);
     const [modulosChecked, setModulosChecked] = React.useState([]);
     const [subModulosChecked, setSubModulosChecked] = React.useState([]);
+    const [idPerfilSelected, setIdPerfilSelected] = React.useState('');
 
     useEffect(() => {
 
@@ -184,18 +185,18 @@ export const RolesScreen = () => {
     }
 
     const handleSavePerfiles = () => {
-        setErrors({});
+        const errores = {};
         console.log('entro handleSavePerfiles =>');
         /**
          * Aqui estaba la constante de errors
          */
 
-        if (idPerfil === '') {
-            errors.idPerfil = "El campo perfil es obligatorio";
+        if (idPerfilSelected === '') {
+            errores.idPerfil = "El campo perfil es obligatorio";
         }
 
-        if (!isObjEmpty(errors)) {
-            setErrors(errors);
+        if (!isObjEmpty(errores)) {
+            setErrors(errores);
             return;
         }
 
@@ -205,7 +206,7 @@ export const RolesScreen = () => {
         })
 
         var data = {
-            'iPerfil': idPerfil,
+            'iPerfil': idPerfilSelected,
             'idUsuario': UserService.getIdUSuario(),
             'submodulos': submodulos
 
@@ -223,9 +224,9 @@ export const RolesScreen = () => {
         setCheckedSub([])
         setModulosChecked([])
         setSubModulosChecked([])
-        getSubmodulosByperfil(idPerfil)
+        getSubmodulosByperfil(idPerfilSelected)
 
-    }, [idPerfil]);
+    }, [idPerfilSelected]);
 
     useEffect(() => {
 
@@ -253,22 +254,24 @@ export const RolesScreen = () => {
 
     return (
         <>
-
+  
             <DialogContent>
                 <TextField
                     variant="outlined"
                     label="Selecciona un perfil"
                     select
                     fullWidth
-                    error={errors.idPerfil !== null && errors.idPerfil !== undefined}
-                    name="idPerfil"
-                    value={idPerfil}
-                    onChange={handleInputChange}
+                    error={errors.idPerfil}
+                    name="idPerfilSelected"
+                    value={idPerfilSelected}
+                    onChange={(e)=> setIdPerfilSelected(e.target.value)}
                 >
                     <MenuItem value="0">
                         <em>Ninguno</em>
                     </MenuItem>
+                    {console.log('ROLES=>',roles)}
                     {
+                        
                         roles.map(
                             item => (
                                 <MenuItem
@@ -280,7 +283,8 @@ export const RolesScreen = () => {
                         )
                     }
                 </TextField>
-                {errors.idPerfil && <FormHelperText error={errors.idPerfil}>{errors.idPerfil}</FormHelperText>}
+                
+                {errors.idPerfil && <FormHelperText error={errors.idPerfil !== null && errors.idPerfil !== undefined}>{errors.idPerfil}</FormHelperText>}
             </DialogContent>
 
             <List

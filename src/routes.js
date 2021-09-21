@@ -57,6 +57,7 @@ import { DialogTipoApoyoForm } from "views/Catalogos/CatTipoApoyo/DialogTipoApoy
 import { LocalidadesScreen } from "views/Catalogos/Localidades/LocalidadesScreen";
 import { ProgramasForm } from "views/Catalogos/Programas/ProgramasForm";
 import { ProgramasEdit } from "views/Catalogos/Programas/ProgramasEdit";
+import { DialogTipoApoyoFormEdit } from "views/Catalogos/CatTipoApoyo/DialogTipoApoyoFormEdit";
 
 
 
@@ -432,6 +433,15 @@ const dashboardRoutes = [
         mini: "CF",
         rtlMini: "CF",
         component: LocalidadesScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/editarTipoApoyo",
+        name: "Tipo Apoyo",
+        rtlName: "Tipo Apoyo",
+        mini: "TAPY",
+        rtlMini: "TAPY",
+        component: DialogTipoApoyoFormEdit,
         layout: "/admin"
       },
 

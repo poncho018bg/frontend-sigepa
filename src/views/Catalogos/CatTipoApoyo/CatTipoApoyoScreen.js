@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow ,Grid} from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid, TextField, MenuItem } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,7 +20,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 import { Loading } from 'views/Loading/Loading';
 import { DialogDelete } from 'views/Dialogs/DialogDelete';
-import { tipoApoyoEditar,tipoApoyoEliminar,borrarModuloAction,obtenerTipoApoyoAction } from 'actions/TipoApoyoAction';
+import { tipoApoyoEditar, tipoApoyoEliminar, borrarModuloAction, obtenerTipoApoyoAction } from 'actions/TipoApoyoAction';
+import { Link } from 'react-router-dom';
+import { DialogTipoApoyoFormEdit } from './DialogTipoApoyoFormEdit';
+import { ModalUpdate } from 'commons/ModalUpdate';
+import { ModalContextUpdate } from 'contexts/modalContexUpdate';
+import { PeriodicidadApoyosContext } from 'contexts/catalogos/periodicidadApoyosContext';
+import { TiposApoyosContext } from 'contexts/catalogos/tiposApoyosContext';
+import { ApoyoContext } from 'contexts/catalogos/ApoyoContext';
 
 
 const useStyles = makeStyles(stylesArchivo);
@@ -39,12 +46,21 @@ export const CatTipoApoyoScreen = () => {
     const [message, setMessage] = useState('mensaje');
     const [idSelect, setIdSelect] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
+    const [personaSeleccionada, setPersonaSeleccionada] = useState();
+    const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
+        = useContext(ModalContextUpdate);
+    const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
+    const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);
+    const [idApoyosl, setIdApoyosl] = useState('');
+    const [idPeriodicidadsl, setIdPeriodicidadsl] = useState('');
+    const { eliminarApoyo } = useContext(ApoyoContext)
 
 
     useEffect(() => {
-
-        const cargarTiposApoyo = () => dispatch(obtenerTipoApoyoAction());
-        cargarTiposApoyo()
+       
+        
+        getPeriodicidadApoyos()
+        getTiposApoyos()
     }, []);
 
     const { loading } = useSelector(state => state.tipoApoyo);
@@ -60,8 +76,10 @@ export const CatTipoApoyoScreen = () => {
     };
 
     const onSelect = (e) => {
-        dispatch(tipoApoyoEditar(e));
-        setShowDialogForm(true);
+        //dispatch(tipoApoyoEditar(e));
+        //setShowDialogForm(true);
+        setShowModalUpdate(true);
+        setPersonaSeleccionada(e);
     }
 
     const addDialog = () => {
@@ -70,13 +88,23 @@ export const CatTipoApoyoScreen = () => {
     }
 
     const deleteDialog = (e) => {
-        dispatch(tipoApoyoEliminar(e))
-        setOpenDialog(true);
+        console.log('delete dialog =>',e)
+        const cargarTiposApoyo = () => dispatch(obtenerTipoApoyoAction(idApoyosl,idPeriodicidadsl));
+        eliminarApoyo(e)
+        setOpenDialog(true);        
+        cargarTiposApoyo()
     }
 
     const handleDeshabilitar = () => {
         dispatch(borrarModuloAction());
         setOpenDialog(false);
+    }
+
+    const buscarTiposApoyos = () => {
+        console.log('idApoyosl',idApoyosl)
+        console.log('idPeriodicidadsl',idPeriodicidadsl)
+        const cargarTiposApoyo = () => dispatch(obtenerTipoApoyoAction(idApoyosl,idPeriodicidadsl));
+        cargarTiposApoyo()
     }
 
     return (
@@ -92,71 +120,133 @@ export const CatTipoApoyoScreen = () => {
                         <CardHeader color="primary">
                             <h4 className={classes.cardTitleWhite}>Tipo Apoyo</h4>
                             <p className={classes.cardCategoryWhite}>
-                               
+
                             </p>
                             <CardActions>
                                 <Grid container spacing={3}>
-                                    <Grid item xs={6}>
-                                        <Button
-                                            color="white"
-                                            aria-label="edit"
-                                            justIcon round
-                                            onClick={addDialog}
-                                        >
-                                            <Add />
-                                        </Button>
+                                    <Grid item xs={2}>
+                                        <Link to="../admin/nuevoApoyo">
+                                            <Button
+                                                color="white"
+                                                aria-label="edit"
+                                                justIcon round
+                                                onClick={addDialog}
+                                            >
+                                                <Add />
+                                            </Button>
+                                        </Link>
                                     </Grid>
-                                    <Grid item xs={6}>
-                                        <SearchBar
-                                            placeholder="Buscar"
-                                            value={searched}
-                                            onChange={(searchVal) => setSearched(searchVal)}
-                                            onCancelSearch={() => setSearched('')}
-                                        />
-                                    </Grid>
+
                                 </Grid>
                             </CardActions>
                         </CardHeader>
                         <CardBody>
+                            <Grid container spacing={3}>
+
+                                <Grid item xs={2}>
+                                    <TextField
+                                        variant="outlined"
+                                        label="Selecciona un tipo de apoyo"
+                                        select
+                                        fullWidth
+                                        name={idApoyosl}
+                                        value={idApoyosl}
+                                        onChange={(e) => setIdApoyosl(e.target.value)}
+                                    >
+                                        <MenuItem value="0">
+                                            <em>Ninguno</em>
+                                        </MenuItem>
+                                        {
+                                            tiposApoyosList.map(
+                                                item => (
+                                                    <MenuItem
+                                                        key={item.id}
+                                                        value={item.id}>
+                                                        {item.dstipoapoyo}
+                                                    </MenuItem>
+                                                )
+                                            )
+                                        }
+
+                                    </TextField>
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <TextField
+                                        variant="outlined"
+                                        label="Selecciona una periodicidad"
+                                        select
+                                        fullWidth
+                                        name={idPeriodicidadsl}
+                                        value={idPeriodicidadsl}
+                                        onChange={(e) => setIdPeriodicidadsl(e.target.value)}
+                                    >
+                                        <MenuItem value="0">
+                                            <em>Ninguno</em>
+                                        </MenuItem>
+                                        {
+                                            periodicidadApoyosList.map(
+                                                item => (
+                                                    <MenuItem
+                                                        key={item.id}
+                                                        value={item.id}>
+                                                        {item.dsperiodicidad}
+                                                    </MenuItem>
+                                                )
+                                            )
+                                        }
+
+                                    </TextField>
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <Button variant="contained" color="primary" fullWidth onClick={buscarTiposApoyos}>
+                                        Buscar
+                                    </Button>
+                                </Grid>
+                            </Grid>
+
                             < Table stickyHeader aria-label="sticky table" >
                                 < TableHead >
                                     < TableRow key="898as" >
                                         < TableCell > Estado</TableCell >
-                                        < TableCell > ID</TableCell >
-                                        < TableCell> Clave</TableCell >
-                                        < TableCell> Idioma</TableCell >
-                                        < TableCell> Fecha Registro</TableCell >
+                                        < TableCell > Tipo apoyo</TableCell >
+                                        < TableCell> Apoyo</TableCell >
+                                        < TableCell> Programa de apoyo en el que se otorga</TableCell >
+                                        < TableCell> Periodicidad</TableCell >
+                                        < TableCell> Número de entregas</TableCell >
+                                        < TableCell> Vigencia</TableCell >
+                                        < TableCell> Fecha de alta</TableCell >
                                         < TableCell colSpan={2} align="center"> Acciones</TableCell >
                                     </TableRow >
                                 </TableHead >
                                 < TableBody >
                                     {
                                         (searched ?
-                                            tipoApoyo.filter(row => row.dstipoapoyo ?
-                                                row.dstipoapoyo.toLowerCase().includes(searched.toLowerCase()) : null)
+                                            tipoApoyo.filter(row => row.descTiposApoyos ?
+                                                row.descTiposApoyos.toLowerCase().includes(searched.toLowerCase()) : null)
                                             : tipoApoyo
                                         ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                                             return (
-                                                < TableRow key={row.idIdioma}>
+                                                < TableRow key={row.id}>
                                                     <TableCell>
                                                         <Checkbox
-                                                            checked={row.activo}
+                                                            checked={row.estatus === 'true'}
                                                             color="primary"
                                                             inputProps={{ 'aria-label': 'Checkbox A' }}
                                                         />
                                                     </TableCell>
-                                                    <TableCell>{row.dstipoapoyo}</TableCell>
-                                                    <TableCell>{row.dsdescripcion}</TableCell >
-                                                    <TableCell>{row.dsprograma}</TableCell >
-                                                    <TableCell>{row.dsperiodicidad}</TableCell >
-                                                    <TableCell>{row.noapoyo}</TableCell >
-                                                    <TableCell >{moment(row.fcvigenciainicio).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                                    <TableCell>{row.descTiposApoyos}</TableCell>
+                                                    <TableCell>{row.dsapoyo}</TableCell >
+                                                    <TableCell>{row.desPrograma}</TableCell >
+                                                    <TableCell>{row.descPeriodicidad}</TableCell >
+                                                    <TableCell>{row.descNumApoyo}</TableCell >
+                                                    <TableCell >{moment(row.fcvigenciafin).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                                     <TableCell >{moment(row.fcfecharegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                                     <TableCell align="center">
 
                                                         <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                             <CreateIcon />
                                                         </IconButton>
+
                                                     </TableCell>
                                                     <TableCell align="center">
                                                         <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
@@ -189,6 +279,10 @@ export const CatTipoApoyoScreen = () => {
                 setOpenDialog={setOpenDialog}
                 handleDeshabilitar={handleDeshabilitar}
             />
+
+            <ModalUpdate>
+                <DialogTipoApoyoFormEdit personaSeleccionada={personaSeleccionada} />
+            </ModalUpdate>
 
         </>
     )

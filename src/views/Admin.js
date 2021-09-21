@@ -32,7 +32,7 @@ export default function Dashboard(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [miniActive, setMiniActive] = React.useState(false);
   const [image, setImage] = React.useState(
-    require("assets/img/sidebar-2.jpg").default
+    require("assets/img/sidebar-6.jpg").default
   );
   const dispatch = useDispatch();
   const  rolesall  = useSelector(state => state.roles);
@@ -45,7 +45,7 @@ export default function Dashboard(props) {
   // const [hasImage, setHasImage] = React.useState(true);
   const [fixedClasses, setFixedClasses] = React.useState("dropdown");
   const [logo, setLogo] = React.useState(
-    require("assets/img/reactlogo.png").default
+    require("assets/img/m_logo.png").default
   );
   // styles
   const classes = useStyles();
@@ -88,10 +88,10 @@ export default function Dashboard(props) {
   const handleBgColorClick = (bgColor) => {
     switch (bgColor) {
       case "white":
-        setLogo(require("assets/img/reactlogo.png").default);
+        setLogo(require("assets/img/m_logo.png").default);
         break;
       default:
-        setLogo(require("assets/img/reactlogo.png").default);
+        setLogo(require("assets/img/m_logo.png").default);
         break;
     }
     setBgColor(bgColor);
@@ -177,7 +177,7 @@ export default function Dashboard(props) {
   }, [rolesall]);
 
   React.useEffect(() => {      
-    console.log('entro a getSubmodulosByPerfilId 123')
+    console.log('entro a getSubmodulosByPerfilId')
      const cargarPerfilesActivos = () => dispatch(getSubmodulosByPerfilId(rolUser)); 
      cargarPerfilesActivos();
 

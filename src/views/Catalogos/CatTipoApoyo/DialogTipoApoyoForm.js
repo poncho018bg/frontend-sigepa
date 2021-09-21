@@ -23,6 +23,11 @@ import { NumeroApoyosContext } from 'contexts/catalogos/numeroApoyosContext';
 import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
 import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 import { MultiSelect } from "react-multi-select-component";
+import { RegionMunicipiosContext } from 'contexts/catalogos/RegionMunicipiosContext';
+import { ActividadesContinuarContext } from 'contexts/catalogos/ActividadesContinuarContext';
+import { ApoyoContext } from 'contexts/catalogos/ApoyoContext';
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { useHistory } from "react-router";
 const useStyles = makeStyles(stylesArchivo);
 
 /**
@@ -70,11 +75,15 @@ export const DialogTipoApoyoForm = (props) => {
     const { apoyoservicioList, getApoyoServicio } = useContext(ApoyoServicioContext);
     const { numeroApoyosList, getNumeroApoyos } = useContext(NumeroApoyosContext);
     const { municipiosList, getMunicipios } = useContext(MunicipiosContext);
-
-
+    const { regionList, getRegionMunicipios } = useContext(RegionMunicipiosContext);
+    const { actividadescontinuarList, getActividadesContinuar } = useContext(ActividadesContinuarContext);
+    const { registrarApoyo } = useContext(ApoyoContext);
     const [municipiosSelect, setMunicipiosSelect] = React.useState([]);
+    const [tipoApoyoSelect, setTipoApoyoSelect] = React.useState([]);
+    const [actividadesContinuarSelect, setActividadesContinuarSelect] = React.useState([]);
+    const [documentslst, setDocumentslst] = React.useState([]);
 
-
+    let history = useHistory();
 
     const [checked, setChecked] = React.useState([]);
     const [left, setLeft] = React.useState([]);
@@ -88,9 +97,18 @@ export const DialogTipoApoyoForm = (props) => {
 
 
     const [selected, setSelected] = useState([]);
+    const [selectedTipApoy, setSelectedTipApoy] = useState([]);
+    const [selectedActividadesContinuar, setSelectedActividadesContinuar] = useState([]);
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [invisible, setInvisible] = React.useState(true);
+
 
     useEffect(() => {
         getTiposApoyos();
+        getActividadesContinuar();
         getEdadesBeneficiarios();
         getTipoBeneficiarios();
         getPeriodicidadApoyos();
@@ -99,6 +117,7 @@ export const DialogTipoApoyoForm = (props) => {
         getNumeroApoyos();
         getApoyoServicio();
         getMunicipios();
+        getRegionMunicipios('a3de85a7-6c23-46a4-847b-d79b3a90963d')
         setLeft(documentosList)
     }, []);
 
@@ -107,16 +126,36 @@ export const DialogTipoApoyoForm = (props) => {
     }, [documentosList]);
 
     useEffect(() => {
+        var docslst = []
+        right.map((mp) => {
+            docslst.push(mp.id)
+        })
+        setDocumentslst(docslst)
+    }, [right]);
+
+    useEffect(() => {
         const lstmun = []
-        municipiosList.map((mn) => {
-            mn
-            lstmun.push({ label: mn.dsmunicipio, value: mn.id })
-
-
+        regionList.map((mn) => {
+            lstmun.push({ label: mn.dsMunicipio, value: mn.idMunicipio })
         })
         setMunicipiosSelect(lstmun)
+    }, [regionList]);
 
-    }, [municipiosList]);
+    useEffect(() => {
+        const lsttipAp = []
+        tiposApoyosList.map((mn) => {
+            lsttipAp.push({ label: mn.dstipoapoyo, value: mn.id })
+        })
+        setTipoApoyoSelect(lsttipAp)
+    }, [tiposApoyosList]);
+
+    useEffect(() => {
+        const lstActividades = []
+        actividadescontinuarList.map((mn) => {
+            lstActividades.push({ label: mn.dsactividadcontinuidad, value: mn.id })
+        })
+        setActividadesContinuarSelect(lstActividades)
+    }, [actividadescontinuarList]);
 
     function parseSelect(params) {
         const nombrs = []
@@ -166,9 +205,10 @@ export const DialogTipoApoyoForm = (props) => {
             numEntregas: '',
             documentosRequisitos: [],
             idActividadContinuidadApoyo: '',
-            cobertura: '',
+
             coberturaMunicipal: [],
-            idEstado: ''
+            idEstado: '',
+            numApoyos: ''
         },
         validationSchema: Yup.object({
             dsapoyo: Yup.string()
@@ -199,10 +239,10 @@ export const DialogTipoApoyoForm = (props) => {
                 .required('El rango de edad es obligatorio'),
             idBeneficiario: Yup.string()
                 .required('El tipo de beneficiario es obligatorio'),
-            cantidadPesos: Yup.string()
-                .required('La cantidad es obligatorio'),
-            enServicio: Yup.string()
-                .required('EL servicio es obligatorio'),
+            // cantidadPesos: Yup.string()
+            //     .required('La cantidad es obligatorio'),
+            // enServicio: Yup.string()
+            //     .required('EL servicio es obligatorio'),
             descApoyoEspecie: Yup.string()
                 .required('El apoyo en especie es obligatorio'),
             idPeriodicidad: Yup.string()
@@ -213,19 +253,64 @@ export const DialogTipoApoyoForm = (props) => {
                 .required('El número de entrega es obligatorio'),
             // documentosRequisitos: Yup.string()
             //     .required('La documentación es obligatorio'),
-            idActividadContinuidadApoyo: Yup.string()
-                .required('La actividad es obligatorio'),
-            cobertura: Yup.string()
-                .required('La cobertura es obligatorio'),
+            // idActividadContinuidadApoyo: Yup.string()
+            //     .required('La actividad es obligatorio'),
+
             // coberturaMunicipal: Yup.string()
             //     .required('La cobertura es obligatorio'),
         }),
 
         onSubmit: async valores => {
+            { console.log('ERRORES=>', formik.errors) }
             console.log('VALORES=>', valores)
-            console.log('VALORES mun=>', selected)
 
-            setShowModal(false);
+            const { dsapoyo, idPrograma, dsdescripcion, estatus, visita, fcvigenciainicio, fcvigenciafin, fcregistrowebinicio,
+                fcregistrowebfin, fcregistropresencialinicio, fcregistropresencialfin, idRangoEdadBeneficiario, idBeneficiario, cantidadPesos, enServicio,
+                descApoyoEspecie, idPeriodicidad, observaciones, formaEntrega, numEntregas, numApoyos
+            } = valores
+            let nuevoApoyo = {
+                dsapoyo: dsapoyo,
+                idPrograma: idPrograma,
+                dsdescripcion: dsdescripcion,
+                estatus: estatus,
+                visita: visita,
+                idTipoApoyo: selectedTipApoy,
+                fcvigenciainicio: fcvigenciainicio,
+                fcvigenciafin: fcvigenciafin,
+                fcregistrowebinicio: fcregistrowebinicio,
+                fcregistrowebfin: fcregistrowebfin,
+                fcregistropresencialinicio: fcregistropresencialinicio,
+                fcregistropresencialfin: fcregistropresencialfin,
+                idRangoEdadBeneficiario: idRangoEdadBeneficiario,
+                idBeneficiario: idBeneficiario,
+                cantidadPesos: cantidadPesos,
+                enServicio: enServicio,
+                descApoyoEspecie: descApoyoEspecie,
+                idPeriodicidad: idPeriodicidad,
+                observaciones: observaciones,
+                formaEntrega: formaEntrega,
+                numEntregas: numEntregas,
+                documentosRequisitos: documentslst,
+                idActividadContinuidadApoyo: selectedActividadesContinuar,
+                coberturaMunicipal: selected,
+                idEstado: 'a3de85a7-6c23-46a4-847b-d79b3a90963d',
+                numApoyos: numApoyos
+
+            }
+
+            console.log('ERRORS=>', formik.errors)
+            registrarApoyo(nuevoApoyo)
+            //setShowModal(false);
+
+            setOpenSnackbar(true);
+            setError(false);
+            setMsjConfirmacion(`El apoyo fue registrado correctamente `);
+
+
+            const timer = setTimeout(() => {
+                history.push("/admin/catapoyoservicio")
+            }, 1000);
+            return () => clearTimeout(timer);
 
         }
     })

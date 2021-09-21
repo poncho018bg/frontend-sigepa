@@ -12,6 +12,10 @@ RUN npm -v
 
 RUN node -v
 
+RUN apk add tzdata
+
+RUN cp /usr/share/zoneinfo/America/Mexico_City /etc/localtime
+
 RUN npm install -g serve
 
 RUN npm install

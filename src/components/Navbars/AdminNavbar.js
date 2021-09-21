@@ -25,6 +25,12 @@ const useStyles = makeStyles(styles);
 export default function AdminNavbar(props) {
   const classes = useStyles();
   const { color, rtlActive, brandText } = props;
+  const [logo, setLogo] = React.useState(
+    require("assets/img/Edomex_logo_escudo.png").default
+  );
+  const [logosigepa, setLogosigepa] = React.useState(
+    require("assets/img/logo_full_3.png").default
+  );
   const appBarClasses = cx({
     [" " + classes[color]]: color,
   });
@@ -40,22 +46,19 @@ export default function AdminNavbar(props) {
         <div className={classes.flex}>
           {/* Here we create navbar brand, based on route name */}
           <Button href="#" className={classes.title} color="transparent">
-            {brandText}
+            {/* {brandText} */}
+            {/* <img src={logo} alt="EDOMEX" style={{width:'100px', height:'100px'}} /> */}
           </Button>
         </div>
-        <Hidden smDown implementation="css">
+        <div style={{marginLeft:"10%", marginRight:"22%", paddingTop:"1%"}}>
+         <img src={logosigepa} alt="EDOMEX"  /> 
+        </div>
+        {/* <Hidden smDown implementation="css">
           <AdminNavbarLinks rtlActive={rtlActive} />
-        </Hidden>
+        </Hidden> */}
+        
         <Hidden mdUp implementation="css">
-          <Button
-            className={classes.appResponsive}
-            color="transparent"
-            justIcon
-            aria-label="open drawer"
-            onClick={props.handleDrawerToggle}
-          >
-            <Menu />
-          </Button>
+          
         </Hidden>
       </Toolbar>
     </AppBar>

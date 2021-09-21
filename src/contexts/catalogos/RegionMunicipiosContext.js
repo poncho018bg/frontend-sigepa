@@ -31,6 +31,20 @@ export const RegionMunicipiosContextProvider = props => {
         }
     }
 
+    const getMunicipiosEstados = async idEstado => {
+
+        try {
+            const resultado = await axiosGet(`municipiosRegion/municipiosEstado/${idEstado}`);
+            console.log(resultado);
+            dispatch({
+                type: GET_REGIONMUNICIPIOS,
+                payload: resultado
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     const registrarRegionMunicipios = async regionMunicipio => {
         try {
