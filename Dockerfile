@@ -12,6 +12,10 @@ RUN npm -v
 
 RUN node -v
 
+RUN ln -fs /usr/share/zoneinfo/America/Mexico_City /etc/localtime
+
+RUN dpkg-reconfigure -f noninteractive tzdata
+
 RUN npm install -g serve
 
 RUN npm install
