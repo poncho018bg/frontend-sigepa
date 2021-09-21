@@ -25,6 +25,13 @@ import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 import { MultiSelect } from "react-multi-select-component";
 const useStyles = makeStyles(stylesArchivo);
 
+/**
+ * Nuevo look
+ */
+import Card from "components/Card/Card.js";
+import CardHeader from "components/Card/CardHeader.js";
+import CardBody from "components/Card/CardBody.js";
+
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -64,7 +71,7 @@ export const DialogTipoApoyoForm = (props) => {
     const { numeroApoyosList, getNumeroApoyos } = useContext(NumeroApoyosContext);
     const { municipiosList, getMunicipios } = useContext(MunicipiosContext);
 
-    
+
     const [municipiosSelect, setMunicipiosSelect] = React.useState([]);
 
 
@@ -101,14 +108,14 @@ export const DialogTipoApoyoForm = (props) => {
 
     useEffect(() => {
         const lstmun = []
-        municipiosList.map((mn)=>{
+        municipiosList.map((mn) => {
             mn
             lstmun.push({ label: mn.dsmunicipio, value: mn.id })
-            
-            
+
+
         })
         setMunicipiosSelect(lstmun)
-        
+
     }, [municipiosList]);
 
     function parseSelect(params) {
@@ -252,6 +259,13 @@ export const DialogTipoApoyoForm = (props) => {
         setChecked(not(checked, rightChecked));
     };
 
+    const selectStyles = {
+        menu: base => ({
+          ...base,
+          zIndex: 100
+        })
+      };
+
 
     const customList = (items) => (
         <Paper className={classes.paper}>
@@ -282,568 +296,599 @@ export const DialogTipoApoyoForm = (props) => {
 
     return (
 
-        <form onSubmit={formik.handleSubmit}>
-            <DialogTitle id="form-dialog-title">{(tipoApoyoEditar) ? 'Editar Tipo de Apoyo' : 'Alta Tipo de Apoyo'} </DialogTitle>
-            {console.log('ERRORES=>', formik.errors)}
-            <DialogContent>
+        <GridItem xs={12} sm={12} md={12}>
+            <form onSubmit={formik.handleSubmit}>
+                <Card>
+                    <DialogTitle id="form-dialog-title">{(tipoApoyoEditar) ? 'Editar Tipo de Apoyo' : 'Alta Tipo de Apoyo'} </DialogTitle>
+                    {console.log('ERRORES=>', formik.errors)}
+                    <DialogContent>
 
-                <TextField
-                    id="dsapoyo"
-                    label="Nombre del Tipo de Apoyo"
-                    variant="outlined"
-                    name="dsapoyo"
-                    value={formik.values.dsapoyo}
-                    onChange={formik.handleChange}
-                    fullWidth
-                    inputProps={{ maxLength: 500 }} />
+                        <TextField
+                            id="dsapoyo"
+                            label="Nombre del Tipo de Apoyo"
+                            variant="outlined"
+                            name="dsapoyo"
+                            value={formik.values.dsapoyo}
+                            onChange={formik.handleChange}
+                            fullWidth
+                            inputProps={{ maxLength: 500 }} />
 
-                {formik.touched.dsapoyo && formik.errors.dsapoyo ? (
-                    <FormHelperText error={formik.errors.dsapoyo}>{formik.errors.dsapoyo}</FormHelperText>
-                ) : null}
-            </DialogContent>
+                        {formik.touched.dsapoyo && formik.errors.dsapoyo ? (
+                            <FormHelperText error={formik.errors.dsapoyo}>{formik.errors.dsapoyo}</FormHelperText>
+                        ) : null}
+                    </DialogContent>
 
-            <DialogContent>
-                <TextField
-                    variant="outlined"
-                    label="Selecciona un programa"
-                    select
-                    fullWidth
-                    name="idPrograma"
-                    value={formik.values.idPrograma}
-                    onChange={formik.handleChange}
-                >
-                    <MenuItem value="0">
-                        <em>Ninguno</em>
-                    </MenuItem>
-                    {
-                        programasList.map(
-                            item => (
-                                <MenuItem
-                                    key={item.id}
-                                    value={item.id}>
-                                    {item.dsclaveprograma} - {item.dsprograma}
+                    <DialogContent>
+                        <TextField
+                            variant="outlined"
+                            label="Selecciona un programa"
+                            select
+                            fullWidth
+                            name="idPrograma"
+                            value={formik.values.idPrograma}
+                            onChange={formik.handleChange}
+                        >
+                            <MenuItem value="0">
+                                <em>Ninguno</em>
+                            </MenuItem>
+                            {
+                                programasList.map(
+                                    item => (
+                                        <MenuItem
+                                            key={item.id}
+                                            value={item.id}>
+                                            {item.dsclaveprograma} - {item.dsprograma}
+                                        </MenuItem>
+                                    )
+                                )
+                            }
+
+                        </TextField>
+                        {formik.touched.idPrograma && formik.errors.idPrograma ? (
+                            <FormHelperText error={formik.errors.idPrograma}>{formik.errors.idPrograma}</FormHelperText>
+                        ) : null}
+                    </DialogContent>
+
+
+
+
+
+                    <DialogContent>
+
+                        <TextField
+                            id="dsdescripcion"
+                            label="Descripción del Tipo de Apoyo"
+                            variant="outlined"
+                            name="dsdescripcion"
+                            value={formik.values.dsdescripcion}
+                            onChange={formik.handleChange}
+                            fullWidth
+                            inputProps={{ maxLength: 300 }}
+                        />
+
+                        {formik.touched.dsdescripcion && formik.errors.dsdescripcion ? (
+                            <FormHelperText error={formik.errors.dsdescripcion}>{formik.errors.dsdescripcion}</FormHelperText>
+                        ) : null}
+                    </DialogContent>
+
+                    <DialogContent>
+                        <FormLabel component="legend">Estatus </FormLabel>
+                        <RadioGroup row aria-label="position" defaultValue="top" value={formik.values.valueStatus} onChange={formik.handleChange} >
+                            <FormControlLabel name="estatus" value="true" control={<Radio color="primary" />} label="Activo" />
+                            <FormControlLabel name="estatus" value="false" control={<Radio color="primary" />} label="Inactivo" />
+                        </RadioGroup>
+                    </DialogContent>
+
+
+                    {/* FECHA VIGENCIA */}
+                    <DialogContent>
+                        <div><FormLabel component="legend">Vigencia del tipo apoyo </FormLabel></div>
+                        <GridContainer>
+                            <GridItem xs={12} sm={12} md={6}>
+                                <TextField
+                                    id="fcvigenciainicio"
+                                    label="Desde"
+                                    type="date"
+                                    fullWidth
+                                    className={classes.textField}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    value={formik.values.fcvigenciainicio}
+                                    name="fcvigenciainicio"
+                                    onChange={formik.handleChange}
+                                    InputProps={{
+                                        inputProps: {
+                                            max: formik.values.fcvigenciafin
+                                        }
+                                    }}
+                                />
+                            </GridItem>
+                            <GridItem xs={12} sm={12} md={6}>
+                                <TextField
+                                    id="fcvigenciafin"
+                                    label="Hasta"
+                                    type="date"
+                                    fullWidth
+                                    className={classes.textField}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    value={formik.values.fcvigenciafin}
+                                    name="fcvigenciafin"
+                                    onChange={formik.handleChange}
+                                    InputProps={{
+                                        inputProps: {
+                                            min: formik.values.fcvigenciainicio
+                                        }
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+                    </DialogContent>
+                    {/* FECHA VIGENCIA WEB */}
+                    <DialogContent>
+                        <div><FormLabel component="legend">Periodo de registro WEB </FormLabel></div>
+
+                        <GridContainer>
+                            <GridItem xs={12} sm={12} md={6}>
+                                <TextField
+                                    id="fcregistrowebinicio"
+                                    label="Desde"
+                                    type="date"
+                                    fullWidth
+                                    className={classes.textField}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    value={formik.values.fcregistrowebinicio}
+                                    name="fcregistrowebinicio"
+                                    onChange={formik.handleChange}
+                                    InputProps={{
+                                        inputProps: {
+                                            max: formik.values.fcregistrowebfin
+                                        }
+                                    }}
+                                />
+                            </GridItem>
+                            <GridItem xs={12} sm={12} md={6}>
+                                <TextField
+                                    id="fcregistrowebfin"
+                                    label="Hasta"
+                                    type="date"
+                                    fullWidth
+                                    className={classes.textField}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    value={formik.values.fcregistrowebfin}
+                                    name="fcregistrowebfin"
+                                    onChange={formik.handleChange}
+                                    InputProps={{
+                                        inputProps: {
+                                            min: formik.values.fcregistrowebinicio
+                                        }
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+                    </DialogContent>
+
+
+                    {/* FECHA VIGENCIA PRESENCIAL */}
+                    <DialogContent>
+                        <div><FormLabel component="legend">Periodo de registro Presencial </FormLabel></div>
+
+                        <GridContainer>
+                            <GridItem xs={12} sm={12} md={6}>
+                                <TextField
+                                    id="fcregistropresencialinicio"
+                                    label="Desde"
+                                    type="date"
+                                    fullWidth
+                                    className={classes.textField}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    value={formik.values.fcregistropresencialinicio}
+                                    name="fcregistropresencialinicio"
+                                    onChange={formik.handleChange}
+                                    InputProps={{
+                                        inputProps: {
+                                            max: formik.values.fcregistropresencialfin
+                                        }
+                                    }}
+                                />
+                            </GridItem>
+                            <GridItem xs={12} sm={12} md={6}>
+                                <TextField
+                                    id="fcregistropresencialfin"
+                                    label="Hasta"
+                                    type="date"
+                                    fullWidth
+                                    className={classes.textField}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    value={formik.values.fcregistropresencialfin}
+                                    name="fcregistropresencialfin"
+                                    onChange={formik.handleChange}
+                                    InputProps={{
+                                        inputProps: {
+                                            min: formik.values.fcregistropresencialinicio
+                                        }
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+
+                    </DialogContent>
+
+
+                    <DialogContent>
+                        <TextField
+                            variant="outlined"
+                            label="Selecciona un rango de edad"
+                            select
+                            fullWidth
+                            name="idRangoEdadBeneficiario"
+                            value={formik.values.idRangoEdadBeneficiario}
+                            onChange={formik.handleChange}
+                        >
+                            <MenuItem value="0">
+                                <em>Ninguno</em>
+                            </MenuItem>
+                            {
+                                edadesBeneficiariosList.map(
+                                    item => (
+                                        <MenuItem
+                                            key={item.id}
+                                            value={item.id}>
+                                            {item.dsedadbeneficiario}
+                                        </MenuItem>
+                                    )
+                                )
+                            }
+
+                        </TextField>
+                        {formik.touched.idRangoEdadBeneficiario && formik.errors.idRangoEdadBeneficiario ? (
+                            <FormHelperText error={formik.errors.idRangoEdadBeneficiario}>{formik.errors.idRangoEdadBeneficiario}</FormHelperText>
+                        ) : null}
+                    </DialogContent>
+
+                    <DialogContent>
+                        <TextField
+                            variant="outlined"
+                            label="Selecciona un tipo de beneficiario"
+                            select
+                            fullWidth
+                            name="idBeneficiario"
+                            value={formik.values.idBeneficiario}
+                            onChange={formik.handleChange}
+                        >
+                            <MenuItem value="0">
+                                <em>Ninguno</em>
+                            </MenuItem>
+                            {
+                                tiposBeneficiariosList.map(
+                                    item => (
+                                        <MenuItem
+                                            key={item.id}
+                                            value={item.id}>
+                                            {item.dstipobeneficiario}
+                                        </MenuItem>
+                                    )
+                                )
+                            }
+
+                        </TextField>
+                        {formik.touched.idBeneficiario && formik.errors.idBeneficiario ? (
+                            <FormHelperText error={formik.errors.idBeneficiario}>{formik.errors.idBeneficiario}</FormHelperText>
+                        ) : null}
+                    </DialogContent>
+
+                    <DialogContent>
+
+                        <FormLabel component="legend">Selecciona un tipo de apoyo</FormLabel>
+                        <Select
+                            labelId="demo-mutiple-checkbox-label"
+                            id="demo-mutiple-checkbox"
+                            multiple
+                            value={formik.values.idTipoApoyo}
+                            name="idTipoApoyo"
+                            fullWidth
+                            variant="outlined"
+                            onChange={formik.handleChange}
+                            input={<Input />}
+                            //renderValue={(selected) => selected.join(', ')}
+                            renderValue={() => parseSelect(selected).join(', ')}
+                            MenuProps={MenuProps}
+                        >
+                            {tiposApoyosList.map((name) => (
+                                <MenuItem key={name.id} value={name.id} >
+                                    <Checkbox checked={formik.values.idTipoApoyo.indexOf(name.id) > -1} />
+                                    <ListItemText primary={name.dstipoapoyo} />
                                 </MenuItem>
-                            )
-                        )
-                    }
+                            ))}
+                        </Select>
+                        {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
+                            <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
+                        ) : null}
+                    </DialogContent>
 
-                </TextField>
-                {formik.touched.idPrograma && formik.errors.idPrograma ? (
-                    <FormHelperText error={formik.errors.idPrograma}>{formik.errors.idPrograma}</FormHelperText>
-                ) : null}
-            </DialogContent>
-
+                    <DialogContent>
 
 
 
-
-            <DialogContent>
-
-                <TextField
-                    id="dsdescripcion"
-                    label="Descripción del Tipo de Apoyo"
-                    variant="outlined"
-                    name="dsdescripcion"
-                    value={formik.values.dsdescripcion}
-                    onChange={formik.handleChange}
-                    fullWidth
-                    inputProps={{ maxLength: 300 }}
-                />
-
-                {formik.touched.dsdescripcion && formik.errors.dsdescripcion ? (
-                    <FormHelperText error={formik.errors.dsdescripcion}>{formik.errors.dsdescripcion}</FormHelperText>
-                ) : null}
-            </DialogContent>
-
-            <DialogContent>
-                <FormLabel component="legend">Estatus </FormLabel>
-                <RadioGroup row aria-label="position" defaultValue="top" value={formik.values.valueStatus} onChange={formik.handleChange} >
-                    <FormControlLabel name="estatus" value="true" control={<Radio color="primary" />} label="Activo" />
-                    <FormControlLabel name="estatus" value="false" control={<Radio color="primary" />} label="Inactivo" />
-                </RadioGroup>
-            </DialogContent>
-
-
-            {/* FECHA VIGENCIA */}
-            <DialogContent>
-                <div><FormLabel component="legend">Vigencia del tipo apoyo </FormLabel></div>
-                <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
-                        <TextField
-                            id="fcvigenciainicio"
-                            label="Desde"
-                            type="date"
+                        <CurrencyTextField
+                            label="Cantidad en pesos"
+                            name="cantidadPesos"
                             fullWidth
-                            className={classes.textField}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            value={formik.values.fcvigenciainicio}
-                            name="fcvigenciainicio"
+                            variant="standard"
+                            value={formik.values.cantidadPesos}
+                            currencySymbol="$"
+                            minimumValue="0"
+                            outputFormat="string"
+                            decimalCharacter="."
+                            digitGroupSeparator=","
+                            maximumValue="10000000000000"
                             onChange={formik.handleChange}
                         />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
+                        {formik.touched.cantidadPesos && formik.errors.cantidadPesos ? (
+                            <FormHelperText error={formik.errors.cantidadPesos}>{formik.errors.cantidadPesos}</FormHelperText>
+                        ) : null}
+
+                    </DialogContent>
+                    <DialogContent>
+
                         <TextField
-                            id="fcvigenciafin"
-                            label="Hasta"
-                            type="date"
-                            fullWidth
-                            className={classes.textField}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            value={formik.values.fcvigenciafin}
-                            name="fcvigenciafin"
+                            id="descApoyoEspecie"
+                            label=" Descripción del apoyo en especie"
+                            variant="outlined"
+                            name="descApoyoEspecie"
+                            value={formik.values.descApoyoEspecie}
                             onChange={formik.handleChange}
-                        />
-                    </GridItem>
-                </GridContainer>
-            </DialogContent>
-            {/* FECHA VIGENCIA WEB */}
-            <DialogContent>
-                <div><FormLabel component="legend">Periodo de registro WEB </FormLabel></div>
-
-                <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
-                        <TextField
-                            id="fcregistrowebinicio"
-                            label="Desde"
-                            type="date"
                             fullWidth
-                            className={classes.textField}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            value={formik.values.fcregistrowebinicio}
-                            name="fcregistrowebinicio"
-                            onChange={formik.handleChange}
+                            inputProps={{ maxLength: 100 }}
                         />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                        <TextField
-                            id="fcregistrowebfin"
-                            label="Hasta"
-                            type="date"
+
+                        {formik.touched.descApoyoEspecie && formik.errors.descApoyoEspecie ? (
+                            <FormHelperText error={formik.errors.descApoyoEspecie}>{formik.errors.descApoyoEspecie}</FormHelperText>
+                        ) : null}
+                    </DialogContent>
+
+                    <DialogContent>
+                        {
+                            apoyoservicioList.map((apyo, i) => {
+                                const fechaInicioq = `enServicio[${i}].fechaInicio`;
+                                const fechaFinq = `enServicio[${i}].fechaFin`;
+
+                                return (
+                                    <Accordion>
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-label="Expand"
+                                            aria-controls="additional-actions1-content"
+                                            id="additional-actions1-header"
+                                        >
+                                            <FormControlLabel
+                                                aria-label="Acknowledge"
+                                                onClick={agregarServicioFormik(apyo, i)}
+                                                control={<Checkbox />}
+                                                label={apyo.dsservicio}
+                                            />
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+
+                                            <DialogContent>
+                                                <div><FormLabel component="legend">Vigencia</FormLabel></div>
+                                                <GridContainer>
+                                                    <GridItem xs={12} sm={12} md={6}>
+
+                                                        <TextField
+                                                            label="Desde"
+                                                            type="date"
+                                                            fullWidth
+                                                            className={classes.textField}
+                                                            InputLabelProps={{
+                                                                shrink: true,
+                                                            }}
+                                                            name={fechaInicioq}
+                                                            value={formik.values.enServicio.fechaInicio}
+                                                            onChange={formik.handleChange}
+
+                                                        />
+                                                    </GridItem>
+                                                    <GridItem xs={12} sm={12} md={6}>
+                                                        <TextField
+                                                            label="Hasta"
+                                                            type="date"
+                                                            fullWidth
+                                                            className={classes.textField}
+                                                            InputLabelProps={{
+                                                                shrink: true,
+                                                            }}
+                                                            name={fechaFinq}
+                                                            value={formik.values.enServicio.fechaFin}
+                                                            onChange={formik.handleChange}
+
+                                                        />
+                                                    </GridItem>
+                                                </GridContainer>
+                                            </DialogContent>
+
+                                        </AccordionDetails>
+                                    </Accordion>
+                                )
+
+
+                            })
+                        }
+
+
+
+
+                    </DialogContent>
+
+                    <DialogContent>
+                        <FormLabel component="legend">Requiere Visita Obligatoria</FormLabel>
+                        <RadioGroup row aria-label="position" defaultValue="top" value={formik.values.visita} onChange={formik.handleChange} >
+                            <FormControlLabel name="visita" value="true" control={<Radio color="primary" />} label="SÍ" />
+                            <FormControlLabel name="visita" value="false" control={<Radio color="primary" />} label="NO" />
+                        </RadioGroup>
+                    </DialogContent>
+
+
+                    <DialogContent>
+                        <FormLabel component="legend">Documentación y formatos requeridos para el tipo de apoyo</FormLabel>
+                        <Grid
+                            container
+                            spacing={2}
+                            justifyContent="center"
+                            alignItems="center"
+                            className={classes.root}
                             fullWidth
-                            className={classes.textField}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            value={formik.values.fcregistrowebfin}
-                            name="fcregistrowebfin"
-                            onChange={formik.handleChange}
-                        />
-                    </GridItem>
-                </GridContainer>
+                        >
+                            <Grid item>{customList(left)}</Grid>
+                            <Grid item>
+                                <Grid container direction="column" alignItems="center">
 
-            </DialogContent>
+                                    <Button
+                                        variant="outlined"
+                                        size="small"
+                                        className={classes.button}
+                                        onClick={handleCheckedRight}
+                                        disabled={leftChecked.length === 0}
+                                        aria-label="move selected right"
+                                    >
+                                        &gt;
+                                    </Button>
+                                    <Button
+                                        variant="outlined"
+                                        size="small"
+                                        className={classes.button}
+                                        onClick={handleCheckedLeft}
+                                        disabled={rightChecked.length === 0}
+                                        aria-label="move selected left"
+                                    >
+                                        &lt;
+                                    </Button>
 
-
-            {/* FECHA VIGENCIA PRESENCIAL */}
-            <DialogContent>
-                <div><FormLabel component="legend">Periodo de registro Presencial </FormLabel></div>
-
-                <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
-                        <TextField
-                            id="fcregistropresencialinicio"
-                            label="Desde"
-                            type="date"
-                            fullWidth
-                            className={classes.textField}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            value={formik.values.fcregistropresencialinicio}
-                            name="fcregistropresencialinicio"
-                            onChange={formik.handleChange}
-                        />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                        <TextField
-                            id="fcregistropresencialfin"
-                            label="Hasta"
-                            type="date"
-                            fullWidth
-                            className={classes.textField}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            value={formik.values.fcregistropresencialfin}
-                            name="fcregistropresencialfin"
-                            onChange={formik.handleChange}
-                        />
-                    </GridItem>
-                </GridContainer>
-
-
-            </DialogContent>
-
-
-            <DialogContent>
-                <TextField
-                    variant="outlined"
-                    label="Selecciona un rango de edad"
-                    select
-                    fullWidth
-                    name="idRangoEdadBeneficiario"
-                    value={formik.values.idRangoEdadBeneficiario}
-                    onChange={formik.handleChange}
-                >
-                    <MenuItem value="0">
-                        <em>Ninguno</em>
-                    </MenuItem>
-                    {
-                        edadesBeneficiariosList.map(
-                            item => (
-                                <MenuItem
-                                    key={item.id}
-                                    value={item.id}>
-                                    {item.dsedadbeneficiario}
-                                </MenuItem>
-                            )
-                        )
-                    }
-
-                </TextField>
-                {formik.touched.idRangoEdadBeneficiario && formik.errors.idRangoEdadBeneficiario ? (
-                    <FormHelperText error={formik.errors.idRangoEdadBeneficiario}>{formik.errors.idRangoEdadBeneficiario}</FormHelperText>
-                ) : null}
-            </DialogContent>
-
-            <DialogContent>
-                <TextField
-                    variant="outlined"
-                    label="Selecciona un tipo de beneficiario"
-                    select
-                    fullWidth
-                    name="idBeneficiario"
-                    value={formik.values.idBeneficiario}
-                    onChange={formik.handleChange}
-                >
-                    <MenuItem value="0">
-                        <em>Ninguno</em>
-                    </MenuItem>
-                    {
-                        tiposBeneficiariosList.map(
-                            item => (
-                                <MenuItem
-                                    key={item.id}
-                                    value={item.id}>
-                                    {item.dstipobeneficiario}
-                                </MenuItem>
-                            )
-                        )
-                    }
-
-                </TextField>
-                {formik.touched.idBeneficiario && formik.errors.idBeneficiario ? (
-                    <FormHelperText error={formik.errors.idBeneficiario}>{formik.errors.idBeneficiario}</FormHelperText>
-                ) : null}
-            </DialogContent>
-
-            <DialogContent>
-
-                <FormLabel component="legend">Selecciona un tipo de apoyo</FormLabel>
-                <Select
-                    labelId="demo-mutiple-checkbox-label"
-                    id="demo-mutiple-checkbox"
-                    multiple
-                    value={formik.values.idTipoApoyo}
-                    name="idTipoApoyo"
-                    fullWidth
-                    variant="outlined"
-                    onChange={formik.handleChange}
-                    input={<Input />}
-                    //renderValue={(selected) => selected.join(', ')}
-                    renderValue={() => parseSelect(selected).join(', ')}
-                    MenuProps={MenuProps}
-                >
-                    {tiposApoyosList.map((name) => (
-                        <MenuItem key={name.id} value={name.id} >
-                            <Checkbox checked={formik.values.idTipoApoyo.indexOf(name.id) > -1} />
-                            <ListItemText primary={name.dstipoapoyo} />
-                        </MenuItem>
-                    ))}
-                </Select>
-                {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
-                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
-                ) : null}
-            </DialogContent>
-
-            <DialogContent>
-
-
-
-                <CurrencyTextField
-                    label="Cantidad en pesos"
-                    name="cantidadPesos"
-                    fullWidth
-                    variant="standard"
-                    value={formik.values.cantidadPesos}
-                    currencySymbol="$"
-                    minimumValue="0"
-                    outputFormat="string"
-                    decimalCharacter="."
-                    digitGroupSeparator=","
-                    maximumValue="10000000000000"
-                    onChange={formik.handleChange}
-                />
-                {formik.touched.cantidadPesos && formik.errors.cantidadPesos ? (
-                    <FormHelperText error={formik.errors.cantidadPesos}>{formik.errors.cantidadPesos}</FormHelperText>
-                ) : null}
-
-            </DialogContent>
-            <DialogContent>
-
-                <TextField
-                    id="descApoyoEspecie"
-                    label=" Descripción del apoyo en especie"
-                    variant="outlined"
-                    name="descApoyoEspecie"
-                    value={formik.values.descApoyoEspecie}
-                    onChange={formik.handleChange}
-                    fullWidth
-                    inputProps={{ maxLength: 100 }}
-                />
-
-                {formik.touched.descApoyoEspecie && formik.errors.descApoyoEspecie ? (
-                    <FormHelperText error={formik.errors.descApoyoEspecie}>{formik.errors.descApoyoEspecie}</FormHelperText>
-                ) : null}
-            </DialogContent>
-
-            <DialogContent>
-                {
-                    apoyoservicioList.map((apyo, i) => {
-                        const fechaInicioq = `enServicio[${i}].fechaInicio`;
-                        const fechaFinq = `enServicio[${i}].fechaFin`;
-
-                        return (
-                            <Accordion>
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-label="Expand"
-                                    aria-controls="additional-actions1-content"
-                                    id="additional-actions1-header"
-                                >
-                                    <FormControlLabel
-                                        aria-label="Acknowledge"
-                                        onClick={agregarServicioFormik(apyo, i)}
-                                        control={<Checkbox />}
-                                        label={apyo.dsservicio}
-                                    />
-                                </AccordionSummary>
-                                <AccordionDetails>
-
-                                    <DialogContent>
-                                        <div><FormLabel component="legend">Vigencia</FormLabel></div>
-                                        <GridContainer>
-                                            <GridItem xs={12} sm={12} md={6}>
-
-                                                <TextField
-                                                    label="Desde"
-                                                    type="date"
-                                                    fullWidth
-                                                    className={classes.textField}
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                    name={fechaInicioq}
-                                                    value={formik.values.enServicio.fechaInicio}
-                                                    onChange={formik.handleChange}
-
-                                                />
-                                            </GridItem>
-                                            <GridItem xs={12} sm={12} md={6}>
-                                                <TextField
-                                                    label="Hasta"
-                                                    type="date"
-                                                    fullWidth
-                                                    className={classes.textField}
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                    name={fechaFinq}
-                                                    value={formik.values.enServicio.fechaFin}
-                                                    onChange={formik.handleChange}
-
-                                                />
-                                            </GridItem>
-                                        </GridContainer>
-                                    </DialogContent>
-
-                                </AccordionDetails>
-                            </Accordion>
-                        )
-
-
-                    })
-                }
-
-
-
-
-            </DialogContent>
-
-            <DialogContent>
-                <FormLabel component="legend">Requiere Visita Obligatoria</FormLabel>
-                <RadioGroup row aria-label="position" defaultValue="top" value={formik.values.visita} onChange={formik.handleChange} >
-                    <FormControlLabel name="visita" value="true" control={<Radio color="primary" />} label="SÍ" />
-                    <FormControlLabel name="visita" value="false" control={<Radio color="primary" />} label="NO" />
-                </RadioGroup>
-            </DialogContent>
-
-
-            <DialogContent>
-                <FormLabel component="legend">Documentación y formatos requeridos para el tipo de apoyo</FormLabel>
-                <Grid
-                    container
-                    spacing={2}
-                    justifyContent="center"
-                    alignItems="center"
-                    className={classes.root}
-                    fullWidth
-                >
-                    <Grid item>{customList(left)}</Grid>
-                    <Grid item>
-                        <Grid container direction="column" alignItems="center">
-
-                            <Button
-                                variant="outlined"
-                                size="small"
-                                className={classes.button}
-                                onClick={handleCheckedRight}
-                                disabled={leftChecked.length === 0}
-                                aria-label="move selected right"
-                            >
-                                &gt;
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                size="small"
-                                className={classes.button}
-                                onClick={handleCheckedLeft}
-                                disabled={rightChecked.length === 0}
-                                aria-label="move selected left"
-                            >
-                                &lt;
-                            </Button>
-
+                                </Grid>
+                            </Grid>
+                            <Grid item>{customList(right)}</Grid>
                         </Grid>
-                    </Grid>
-                    <Grid item>{customList(right)}</Grid>
-                </Grid>
-            </DialogContent>
+                    </DialogContent>
 
-            <DialogContent>
-                <TextField
-                    variant="outlined"
-                    label="Entregar el apoyo"
-                    select
-                    fullWidth
-                    name="idPeriodicidad"
-                    value={formik.values.idPeriodicidad}
-                    onChange={formik.handleChange}
-                >
-                    <MenuItem value="0">
-                        <em>Ninguno</em>
-                    </MenuItem>
-                    {
-                        periodicidadApoyosList.map(
-                            item => (
-                                <MenuItem
-                                    key={item.id}
-                                    value={item.id}>
-                                    {item.dsperiodicidad}
-                                </MenuItem>
-                            )
-                        )
-                    }
+                    <DialogContent>
+                        <TextField
+                            variant="outlined"
+                            label="Entregar el apoyo"
+                            select
+                            fullWidth
+                            name="idPeriodicidad"
+                            value={formik.values.idPeriodicidad}
+                            onChange={formik.handleChange}
+                        >
+                            <MenuItem value="0">
+                                <em>Ninguno</em>
+                            </MenuItem>
+                            {
+                                periodicidadApoyosList.map(
+                                    item => (
+                                        <MenuItem
+                                            key={item.id}
+                                            value={item.id}>
+                                            {item.dsperiodicidad}
+                                        </MenuItem>
+                                    )
+                                )
+                            }
 
-                </TextField>
-                {formik.touched.idPeriodicidad && formik.errors.idPeriodicidad ? (
-                    <FormHelperText error={formik.errors.idPeriodicidad}>{formik.errors.idPeriodicidad}</FormHelperText>
-                ) : null}
-            </DialogContent>
+                        </TextField>
+                        {formik.touched.idPeriodicidad && formik.errors.idPeriodicidad ? (
+                            <FormHelperText error={formik.errors.idPeriodicidad}>{formik.errors.idPeriodicidad}</FormHelperText>
+                        ) : null}
+                    </DialogContent>
 
-            <DialogContent>
+                    <DialogContent>
 
-                <FormControlLabel
-                    control={<Checkbox value={true} onChange={formik.handleChange} name="formaEntrega" />}
-                    label="Forma de entrega de apoyo por exhibición"
-                />
-            </DialogContent>
+                        <FormControlLabel
+                            control={<Checkbox value={true} onChange={formik.handleChange} name="formaEntrega" />}
+                            label="Forma de entrega de apoyo por exhibición"
+                        />
+                    </DialogContent>
 
-            <DialogContent>
+                    <DialogContent>
 
-                <TextField
-                    variant="outlined"
-                    label="Número de entrega de Apoyos"
-                    select
-                    fullWidth
-                    name="numEntregas"
-                    value={formik.values.numEntregas}
-                    onChange={formik.handleChange}
-                >
-                    <MenuItem value="0">
-                        <em>Ninguno</em>
-                    </MenuItem>
-                    {
-                        numeroApoyosList.map(
-                            item => (
-                                <MenuItem
-                                    key={item.id}
-                                    value={item.id}>
-                                    {item.noapoyo}
-                                </MenuItem>
-                            )
-                        )
-                    }
+                        <TextField
+                            variant="outlined"
+                            label="Número de entrega de Apoyos"
+                            select
+                            fullWidth
+                            name="numEntregas"
+                            value={formik.values.numEntregas}
+                            onChange={formik.handleChange}
+                        >
+                            <MenuItem value="0">
+                                <em>Ninguno</em>
+                            </MenuItem>
+                            {
+                                numeroApoyosList.map(
+                                    item => (
+                                        <MenuItem
+                                            key={item.id}
+                                            value={item.id}>
+                                            {item.noapoyo}
+                                        </MenuItem>
+                                    )
+                                )
+                            }
 
-                </TextField>
+                        </TextField>
 
-                {formik.touched.numEntregas && formik.errors.numEntregas ? (
-                    <FormHelperText error={formik.errors.numEntregas}>{formik.errors.numEntregas}</FormHelperText>
-                ) : null}
-            </DialogContent>
+                        {formik.touched.numEntregas && formik.errors.numEntregas ? (
+                            <FormHelperText error={formik.errors.numEntregas}>{formik.errors.numEntregas}</FormHelperText>
+                        ) : null}
+                    </DialogContent>
 
-            <DialogContent  style={{ overflowY: 'visible' }}>
-                <MultiSelect
-                    options={municipiosSelect}
-                    value={selected}
-                    onChange={setSelected}
-                    labelledBy="Select"
-                />
-            </DialogContent>
+                    <DialogContent style={{ overflowY: 'visible' }}>
+                        <MultiSelect
+                            options={municipiosSelect}
+                            value={selected}
+                            onChange={setSelected}
+                            label="Seleccionar Municipios"
+                        >
+                        </MultiSelect>
+                    </DialogContent>
 
-            <DialogContent>
+                    <DialogContent>
+                        <TextField
+                            id="outlined-multiline-static"
+                            label="Observaciones"
+                            multiline
+                            rows={4}
+                            variant="outlined"
+                            name="observaciones"
+                            value={formik.values.observaciones}
+                            fullWidth
+                            inputProps={{ maxLength: 500 }}
+                        />
 
+                    </DialogContent>
 
-                <TextField
-                    id="outlined-multiline-static"
-                    label="Observaciones"
-                    multiline
-                    rows={4}
-                    variant="outlined"
-                    name="observaciones"
-                    value={formik.values.observaciones}
-                    fullWidth
-                    inputProps={{ maxLength: 500 }}
-                />
-
-            </DialogContent>
-
-            <DialogContent >
-                <Grid container justify="flex-end">
-                    <Button variant="contained" color="primary" type='submit'>
-                        Enviar
-                    </Button>
-                </Grid>
-            </DialogContent>
-
-        </form>
-
+                    <DialogContent >
+                        <Grid container justify="flex-end">
+                            <Button variant="contained" color="primary" type='submit'>
+                                Registrar
+                            </Button>
+                        </Grid>
+                    </DialogContent>
+                </Card>
+            </form>
+        </GridItem>
     )
 
 }
