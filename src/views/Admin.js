@@ -178,6 +178,7 @@ export default function Dashboard(props) {
 
   React.useEffect(() => {      
     console.log('entro a getSubmodulosByPerfilId 123')
+    console.log(rolUser)
      const cargarPerfilesActivos = () => dispatch(getSubmodulosByPerfilId(rolUser)); 
      cargarPerfilesActivos();
 
