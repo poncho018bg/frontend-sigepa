@@ -89,8 +89,10 @@ export const CatTipoApoyoScreen = () => {
 
     const deleteDialog = (e) => {
         console.log('delete dialog =>',e)
+        const cargarTiposApoyo = () => dispatch(obtenerTipoApoyoAction(idApoyosl,idPeriodicidadsl));
         eliminarApoyo(e)
-        setOpenDialog(true);
+        setOpenDialog(true);        
+        cargarTiposApoyo()
     }
 
     const handleDeshabilitar = () => {

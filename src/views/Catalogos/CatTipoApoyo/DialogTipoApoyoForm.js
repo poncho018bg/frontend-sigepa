@@ -26,6 +26,8 @@ import { MultiSelect } from "react-multi-select-component";
 import { RegionMunicipiosContext } from 'contexts/catalogos/RegionMunicipiosContext';
 import { ActividadesContinuarContext } from 'contexts/catalogos/ActividadesContinuarContext';
 import { ApoyoContext } from 'contexts/catalogos/ApoyoContext';
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { useHistory } from "react-router";
 const useStyles = makeStyles(stylesArchivo);
 
 
@@ -76,7 +78,7 @@ export const DialogTipoApoyoForm = (props) => {
     const [actividadesContinuarSelect, setActividadesContinuarSelect] = React.useState([]);
     const [documentslst, setDocumentslst] = React.useState([]);
 
-
+    let history = useHistory();
 
     const [checked, setChecked] = React.useState([]);
     const [left, setLeft] = React.useState([]);
@@ -92,6 +94,12 @@ export const DialogTipoApoyoForm = (props) => {
     const [selected, setSelected] = useState([]);
     const [selectedTipApoy, setSelectedTipApoy] = useState([]);
     const [selectedActividadesContinuar, setSelectedActividadesContinuar] = useState([]);
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [invisible, setInvisible] = React.useState(true);
+
 
     useEffect(() => {
         getTiposApoyos();
@@ -113,8 +121,8 @@ export const DialogTipoApoyoForm = (props) => {
     }, [documentosList]);
 
     useEffect(() => {
-      var   docslst =[]
-        right.map((mp)=>{
+        var docslst = []
+        right.map((mp) => {
             docslst.push(mp.id)
         })
         setDocumentslst(docslst)
@@ -195,7 +203,7 @@ export const DialogTipoApoyoForm = (props) => {
 
             coberturaMunicipal: [],
             idEstado: '',
-            numApoyos:''
+            numApoyos: ''
         },
         validationSchema: Yup.object({
             dsapoyo: Yup.string()
@@ -226,8 +234,8 @@ export const DialogTipoApoyoForm = (props) => {
                 .required('El rango de edad es obligatorio'),
             idBeneficiario: Yup.string()
                 .required('El tipo de beneficiario es obligatorio'),
-            cantidadPesos: Yup.string()
-                .required('La cantidad es obligatorio'),
+            // cantidadPesos: Yup.string()
+            //     .required('La cantidad es obligatorio'),
             // enServicio: Yup.string()
             //     .required('EL servicio es obligatorio'),
             descApoyoEspecie: Yup.string()
@@ -253,7 +261,7 @@ export const DialogTipoApoyoForm = (props) => {
 
             const { dsapoyo, idPrograma, dsdescripcion, estatus, visita, fcvigenciainicio, fcvigenciafin, fcregistrowebinicio,
                 fcregistrowebfin, fcregistropresencialinicio, fcregistropresencialfin, idRangoEdadBeneficiario, idBeneficiario, cantidadPesos, enServicio,
-                descApoyoEspecie, idPeriodicidad, observaciones, formaEntrega, numEntregas,numApoyos
+                descApoyoEspecie, idPeriodicidad, observaciones, formaEntrega, numEntregas, numApoyos
             } = valores
             let nuevoApoyo = {
                 dsapoyo: dsapoyo,
@@ -281,11 +289,23 @@ export const DialogTipoApoyoForm = (props) => {
                 idActividadContinuidadApoyo: selectedActividadesContinuar,
                 coberturaMunicipal: selected,
                 idEstado: 'a3de85a7-6c23-46a4-847b-d79b3a90963d',
-                numApoyos:numApoyos
+                numApoyos: numApoyos
 
             }
+
+            console.log('ERRORS=>', formik.errors)
             registrarApoyo(nuevoApoyo)
             setShowModal(false);
+
+            setOpenSnackbar(true);
+            setError(false);
+            setMsjConfirmacion(`El apoyo fue registrado correctamente `);
+
+
+            const timer = setTimeout(() => {
+                history.push("/admin/catapoyoservicio")
+            }, 1000);
+            return () => clearTimeout(timer);
 
         }
     })
@@ -825,48 +845,62 @@ export const DialogTipoApoyoForm = (props) => {
                 />
             </DialogContent>
 
-            <DialogContent>
-                <TextField
-                    variant="outlined"
-                    label="Número de entrega de Apoyos"
-                    select
-                    fullWidth
-                    name="numEntregas"
-                    value={formik.values.numEntregas}
-                    onChange={formik.handleChange}
-                >
-                    <MenuItem value="0">
-                        <em>Ninguno</em>
-                    </MenuItem>
-                    {
-                        numeroApoyosList.map(
-                            item => (
-                                <MenuItem
-                                    key={item.id}
-                                    value={item.id}>
-                                    {item.noapoyo}
-                                </MenuItem>
-                            )
-                        )
-                    }
 
-                </TextField>
+
+            <DialogContent >
+                
+                {
+
+                    formik.values.formaEntrega ? (<TextField
+                        variant="outlined"
+                        label="Número de entrega de Apoyos"
+                        select
+
+                        fullWidth
+                        name="numEntregas"
+                        value={formik.values.numEntregas}
+                        onChange={formik.handleChange}
+                    >
+                        <MenuItem value="0">
+                            <em>Ninguno</em>
+                        </MenuItem>
+                        {
+                            numeroApoyosList.map(
+                                item => (
+                                    <MenuItem
+                                        key={item.id}
+                                        value={item.id}>
+                                        {item.noapoyo}
+                                    </MenuItem>
+                                )
+                            )
+                        }
+
+                    </TextField>) : (<></>)
+                }
+
+
 
                 {formik.touched.numEntregas && formik.errors.numEntregas ? (
                     <FormHelperText error={formik.errors.numEntregas}>{formik.errors.numEntregas}</FormHelperText>
                 ) : null}
             </DialogContent>
 
+
             <DialogContent>
-                <TextField
-                    id="numApoyos"
-                    label="Número de entrega de Apoyos"
-                    variant="outlined"
-                    name="numApoyos"
-                    value={formik.values.numApoyos}
-                    onChange={formik.handleChange}
-                    fullWidth
-                    inputProps={{ maxLength: 500 }} />
+                {console.log()}
+                {
+                    (formik.values.numEntregas === '0e050dbc-a937-4a47-90b4-2b1403712359') ? (<TextField
+                        id="numApoyos"
+                        label="Número de entrega de Apoyos"
+                        variant="outlined"
+                        name="numApoyos"
+                        value={formik.values.numApoyos}
+                        onChange={formik.handleChange}
+                        fullWidth
+                        inputProps={{ maxLength: 500 }} />) : (<></>)
+                }
+
 
                 {formik.touched.numApoyos && formik.errors.numApoyos ? (
                     <FormHelperText error={formik.errors.numApoyos}>{formik.errors.numApoyos}</FormHelperText>
@@ -916,10 +950,17 @@ export const DialogTipoApoyoForm = (props) => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                        Enviar
+                        Registrar
                     </Button>
                 </Grid>
             </DialogContent>
+
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
 
         </form>
 
