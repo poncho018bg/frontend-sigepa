@@ -29,7 +29,7 @@ export default function AdminNavbar(props) {
     require("assets/img/Edomex_logo_escudo.png").default
   );
   const [logosigepa, setLogosigepa] = React.useState(
-    require("assets/img/logo_sigepa.png").default
+    require("assets/img/logo_full_3.png").default
   );
   const appBarClasses = cx({
     [" " + classes[color]]: color,
@@ -47,15 +47,15 @@ export default function AdminNavbar(props) {
           {/* Here we create navbar brand, based on route name */}
           <Button href="#" className={classes.title} color="transparent">
             {/* {brandText} */}
-            <img src={logo} alt="EDOMEX" style={{width:'100px', height:'100px'}} />
+            {/* <img src={logo} alt="EDOMEX" style={{width:'100px', height:'100px'}} /> */}
           </Button>
         </div>
-        <div style={{margin:"auto"}}>
-        {/* <img src={logosigepa} alt="EDOMEX" style={{width:'100px', height:'100px'}} /> */}
+        <div style={{marginLeft:"10%", marginRight:"22%", paddingTop:"1%"}}>
+         <img src={logosigepa} alt="EDOMEX"  /> 
         </div>
-        <Hidden smDown implementation="css">
+        {/* <Hidden smDown implementation="css">
           <AdminNavbarLinks rtlActive={rtlActive} />
-        </Hidden>
+        </Hidden> */}
         
         <Hidden mdUp implementation="css">
           
