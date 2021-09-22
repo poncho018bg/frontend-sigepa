@@ -22,16 +22,38 @@ const useStyles = makeStyles(stylesArchivo);
 export const LocalidadesScreen = () => {
   const classes = useStyles();
   const [searched, setSearched] = useState('');
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const { get, localidadesList } = useContext(LocalidadesContext);
+
+  const {
+    get,
+    localidadesList,
+    size,
+    page,
+    total,
+    changePageSize,
+    changePage
+  } = useContext(LocalidadesContext);
+
+
   const { setShowModal } = useContext(ModalContext);
 
-  const { municipiosList, getMunicipios } = useContext(MunicipiosContext);
+  const { getMunicipios } = useContext(MunicipiosContext);
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    changePage(newPage)
   };
+
+  const handleChangeRowsPerPage = event => {
+    changePageSize(+event.target.value);
+    changePage(0)
+  };
+
+  const addDialog = () => {
+    setShowModal(true);
+  }
+
+  useEffect(() => {
+    get();
+  }, []);
 
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(+event.target.value);
@@ -99,7 +121,7 @@ export const LocalidadesScreen = () => {
                   localidadesList.filter(row => row.dsPagina ?
                     row.dsPagina.toLowerCase().includes(searched.toLowerCase()) : null)
                   : localidadesList
-                ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+                ).map(row => {
                   return (
                     <Localidad
                       key={row.id}
@@ -114,8 +136,8 @@ export const LocalidadesScreen = () => {
             rowsPerPageOptions={[5, 10, 15]}
             component="div"
             labelRowsPerPage="Registros por página"
-            count={localidadesList.length}
-            rowsPerPage={rowsPerPage}
+            count={total}
+            rowsPerPage={size}
             page={page}
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}

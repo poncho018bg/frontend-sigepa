@@ -10,17 +10,21 @@ export default (state, action) => {
         case GET_PROGRAMAS:
             return {
                 ...state,
-                programasList: action.payload
+                programasList: action.payload,
+                errorInsert:null
             };
         case AGREGAR_PROGRAMA_ERROR:
             console.log(action.type);
                 return {
                     ...state,
-                    error: action.payload
+                    errorInsert: action.payload,
+                    mensajeError:'Ocurrio un error'
         }
         case REGISTRAR_PROGRAMAS:
             return {
                 ...state,
+                errorInsert: false,
+                mensajeError:null,
                 programasList: [...state.programasList, action.payload]
             };
         case ELIMINAR_PROGRAMAS:

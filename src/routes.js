@@ -58,6 +58,8 @@ import { LocalidadesScreen } from "views/Catalogos/Localidades/LocalidadesScreen
 import { ProgramasForm } from "views/Catalogos/Programas/ProgramasForm";
 import { ProgramasEdit } from "views/Catalogos/Programas/ProgramasEdit";
 import { DialogTipoApoyoFormEdit } from "views/Catalogos/CatTipoApoyo/DialogTipoApoyoFormEdit";
+import { SubCatalogsBaseScreen } from "views/Catalogos/SubCatalogsBaseScreen";
+import { TipoBeneficiarioScreen } from "views/Catalogos/TiposBeneficiarios/TipoBeneficiarioScreen";
 
 
 
@@ -72,11 +74,20 @@ const dashboardRoutes = [
     views: [
       {
         path: "/catalogos",
-        name: "Catálogos",
+        name: "Catálogos administrables",
         rtlName: "cat",
         mini: "M",
         rtlMini: "m",
         component: CatalogosScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/subcatalogosbase",
+        name: "Subcatálogos base",
+        rtlName: "scat",
+        mini: "sM",
+        rtlMini: "sm",
+        component: SubCatalogsBaseScreen,
         layout: "/admin"
       },
       {
@@ -125,7 +136,7 @@ const dashboardRoutes = [
         component: TipoApoyoScreen,
         layout: "/admin"
       },
-      /*
+      
       {
         path: "/tiposBeneficiario",
         name: "Tipos de Beneficiarios",
@@ -135,6 +146,7 @@ const dashboardRoutes = [
         component: TipoBeneficiarioScreen,
         layout: "/admin"
       },
+      /*
       {
         path: "/comitessecretarias",
         name: "Comites Secretarías",

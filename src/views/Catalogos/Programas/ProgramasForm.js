@@ -35,6 +35,7 @@ import {
 
 import DateFnsUtils from '@date-io/date-fns';
 import deLocale from "date-fns/locale/es";
+import { Loading } from "components/Personalizados/Loading";
 
 const useStyles = makeStyles(styles);
 
@@ -42,6 +43,7 @@ const useStyles = makeStyles(styles);
 
 export const ProgramasForm = () => {
     const { registrar} = useContext(ProgramasContext);
+    const [loading, setLoading] = useState(false);
     const classes = useStyles();
     let history = useHistory();
 
@@ -52,45 +54,46 @@ export const ProgramasForm = () => {
 
     const formik = useFormik({
       initialValues: {
-          nombrePrograma: '',
-          clavePrograma:'',
-          vigenciaDesde:'',
-          vigenciaHasta:'',
-          periodoRegistroWebDesde:'',
-          periodoRegistroWebHasta:'',
-          periodoRegistroPresencialDesde:'',
-          periodoRegistroPresencialHasta:'',
-          desripcionPrograma: '',
-          criterioPrograma: '',
-          actividadesPrograma: '',
-          obervacionesPrograma: '',
+          nombrePrograma: null,
+          clavePrograma:null,
+          vigenciaDesde:null,
+          vigenciaHasta:null,
+          periodoRegistroWebDesde:null,
+          periodoRegistroWebHasta:null,
+          periodoRegistroPresencialDesde:null,
+          periodoRegistroPresencialHasta:null,
+          desripcionPrograma: null,
+          criterioPrograma: null,
+          actividadesPrograma: null,
+          obervacionesPrograma: null,
       },
       validationSchema: Yup.object({
-        nombrePrograma: Yup.string()
+        nombrePrograma: Yup.string().nullable()
             .required('El nombre del programa  es obligatorio'),
-        clavePrograma: Yup.string()
+        clavePrograma: Yup.string().nullable()
             .required('La clave del programa es obligatoria'),
-        vigenciaDesde: Yup.string()
+        vigenciaDesde: Yup.string().nullable()
             .required('La vigencia desde es obligatorio'),
-        vigenciaHasta: Yup.string()
+        vigenciaHasta: Yup.date().nullable()
             .required('La vigencia hasta es obligatorio'),
-        periodoRegistroWebDesde: Yup.string()
+        periodoRegistroWebDesde:Yup.date().nullable()
             .required('El periodo del registro web desde es obligatorio'),
-        periodoRegistroWebHasta: Yup.string()
+        periodoRegistroWebHasta:Yup.date().nullable()
           .required('El periodo del registro web hasta es obligatorio'),
-        periodoRegistroPresencialDesde: Yup.string()
+        periodoRegistroPresencialDesde: Yup.date().nullable()
           .required('El periodo del registro presencial desde es obligatorio'),
-        periodoRegistroPresencialHasta: Yup.string()
+        periodoRegistroPresencialHasta: Yup.date()
+        .nullable()
           .required('El periodo del registro presencial hasta es obligatorio'),
-        desripcionPrograma: Yup.string()
+        desripcionPrograma: Yup.string().nullable()
           .required('La descripcion del pograma de apoyo  es obligatorio'),
-        criterioPrograma: Yup.string()
+        criterioPrograma: Yup.string().nullable()
           .required('Los criterios de elegibilidad son obligatorios'),
-        actividadesPrograma: Yup.string()
+        actividadesPrograma: Yup.string().nullable()
           .required('Las actividades por realizar son obligatorios'),
     }),
       onSubmit: async valores => {
-
+        setLoading(true);
           const {
                nombrePrograma,
                clavePrograma,
@@ -123,19 +126,26 @@ export const ProgramasForm = () => {
             dsobservaciones: obervacionesPrograma,
             boactivo: true
           }
-          
-            registrar(programas);
-           
-            setOpenSnackbar(true);
-            setError(false);
-            setMsjConfirmacion(`El programa fue registrado correctamente `  );
-         
-
-            const timer = setTimeout(() => {
-              history.push("/admin/programas")
-            }, 1000);
-            return () => clearTimeout(timer);
         
+            registrar(programas).then(response => {
+              console.log(response);
+              setOpenSnackbar(true);
+             
+              setMsjConfirmacion(`El programa ${response.data.dsprograma}  fue registrado correctamente `  );
+             
+             const timer = setTimeout(() => {
+              setLoading(false);
+              setError(false);
+                history.push("/admin/programas")
+
+              }, 5000);
+              return () => clearTimeout(timer);
+            })
+            .catch(err => {   
+              setOpenSnackbar(true);
+              setError(true);
+              setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            });;        
       }
   })
 
@@ -208,7 +218,7 @@ export const ProgramasForm = () => {
                             inputVariant="outlined"
                             format="MM/dd/yyyy"
                             clearable
-                            value={formik.vigenciaDesde}
+                            value={formik.values.vigenciaDesde}
                             onChange={value => formik.setFieldValue("vigenciaDesde", value)}
                             onBlur={formik.handleBlur}
                             KeyboardButtonProps={{
@@ -234,7 +244,7 @@ export const ProgramasForm = () => {
                               inputVariant="outlined"
                               format="MM/dd/yyyy"
                               clearable
-                              value={formik.vigenciaHasta}
+                              value={formik.values.vigenciaHasta}
                               onChange={value => formik.setFieldValue("vigenciaHasta", value)}
                               onBlur={formik.handleBlur}
                               KeyboardButtonProps={{
@@ -262,7 +272,7 @@ export const ProgramasForm = () => {
                               inputVariant="outlined"
                               format="MM/dd/yyyy"
                               clearable
-                              value={formik.periodoRegistroWebDesde}
+                              value={formik.values.periodoRegistroWebDesde}
                               onChange={value => formik.setFieldValue("periodoRegistroWebDesde", value)}
                               onBlur={formik.handleBlur}
                               KeyboardButtonProps={{
@@ -290,7 +300,7 @@ export const ProgramasForm = () => {
                               inputVariant="outlined"
                               format="MM/dd/yyyy"
                               clearable
-                              value={formik.periodoRegistroWebHasta}
+                              value={formik.values.periodoRegistroWebHasta}
                               onChange={value => formik.setFieldValue("periodoRegistroWebHasta", value)}
                               onBlur={formik.handleBlur}
                               KeyboardButtonProps={{
@@ -316,7 +326,7 @@ export const ProgramasForm = () => {
                               inputVariant="outlined"
                               format="MM/dd/yyyy"
                               clearable
-                              value={formik.periodoRegistroPresencialDesde}
+                              value={formik.values.periodoRegistroPresencialDesde}
                               onChange={value => formik.setFieldValue("periodoRegistroPresencialDesde", value)}
                               onBlur={formik.handleBlur}
                               KeyboardButtonProps={{
@@ -346,7 +356,7 @@ export const ProgramasForm = () => {
                               inputVariant="outlined"
                               format="MM/dd/yyyy"
                               clearable
-                              value={formik.periodoRegistroPresencialHasta}
+                              value={formik.values.periodoRegistroPresencialHasta}
                               onChange={value => formik.setFieldValue("periodoRegistroPresencialHasta", value)}
                               onBlur={formik.handleBlur}
                               KeyboardButtonProps={{
@@ -459,6 +469,9 @@ export const ProgramasForm = () => {
                 severity={error?"error":"success"}
                 message={msjConfirmacion}
             />
+            <Loading
+                  loading={loading} 
+                />
       </form>
 
     );

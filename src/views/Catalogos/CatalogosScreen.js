@@ -67,7 +67,7 @@ export const CatalogosScreen = () => {
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                       
+
                             <CardHeader color="info" stats icon>
                                 <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Usuarios/Roles</p>
                             </CardHeader>
@@ -76,10 +76,10 @@ export const CatalogosScreen = () => {
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                        <Link to="../admin/padronBeneficiarios">
-                            <CardHeader color="info" stats icon>
-                                <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Padrón de beneficiarios</p>
-                            </CardHeader>
+                            <Link to="../admin/padronBeneficiarios">
+                                <CardHeader color="info" stats icon>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Padrón de beneficiarios</p>
+                                </CardHeader>
                             </Link>
                         </Card>
                     </GridItem>
@@ -95,9 +95,11 @@ export const CatalogosScreen = () => {
                     </GridItem>
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
-                            <CardHeader color="info" stats icon>
-                                <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Firmas de autorización de solicitudes</p>
-                            </CardHeader>
+                            <Link to="../admin/firmas">
+                                <CardHeader color="info" stats icon>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Firmas de autorización de solicitudes</p>
+                                </CardHeader>
+                            </Link>
                         </Card>
                     </GridItem>
 
@@ -123,9 +125,9 @@ export const CatalogosScreen = () => {
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <Link to="../admin/localidades">
-                                    <CardHeader color="warning" stats icon>
-                                        <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Localidades</p>
-                                    </CardHeader>
+                                <CardHeader color="warning" stats icon>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Localidades</p>
+                                </CardHeader>
                             </Link>
                         </Card>
                     </GridItem>

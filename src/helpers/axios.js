@@ -46,7 +46,7 @@ const baseUrlExpediente = process.env.REACT_APP_API_EXPEDIENTE_URL;
             return promise;
         } catch (error) {
         console.error('There was an error!', error);
-        return Promise.reject(error);
+        return promise;
         }
 }
 

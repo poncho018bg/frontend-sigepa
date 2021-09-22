@@ -5,7 +5,9 @@ import { GET_LOCALIDADES,
         REGISTRAR_LOCALIDADES,
         ELIMINAR_LOCALIDADES,
         MODIFICAR_LOCALIDADES,
-        AGREGAR_PROGRAMA_ERROR
+        AGREGAR_PROGRAMA_ERROR,
+        CAMBIAR_PAGINA,
+        CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
 
 import LocalidadesReducer from 'reducers/Catalogos/Localidades/LocalidadesReducer';
@@ -19,6 +21,9 @@ export const LocalidadesContextProvider = props => {
     const initialState = {
         localidadesList: [],
         error: false,
+        page: 0,
+        size: 10,
+        total: 0
     }
 
     const [state, dispatch] = useReducer(LocalidadesReducer, initialState);
@@ -28,10 +33,11 @@ export const LocalidadesContextProvider = props => {
      */
     const get= async () => {
         try {
-            const result = await axiosGet('localidades');
+            const {page, size}= state;
+            const result = await axiosGet(`localidades?page=${page}&size=${size}`);
             dispatch({
                 type: GET_LOCALIDADES,
-                payload: result._embedded.localidades
+                payload: result
             })
         } catch (error) {
             console.log(error);
@@ -65,16 +71,28 @@ export const LocalidadesContextProvider = props => {
      * @param {motivoRechazos} motivoRechazos 
      */
     const actualizar= async objetoActualizar => {
+        console.log('actualizando objeto');
         console.log(objetoActualizar);
-        const { dsestado, boactivo, _links: { cursosCapacitaciones: { href } } } = objetoActualizar;
+        const { 
+            dsidlocalidad, dsclavelocalidad,
+             idMunicipio, dscodigopostal, 
+             dslocalidad,id , _links: { localidades: { href } }
+        } = objetoActualizar;
 
-        let objetoEnviar = {
-            dsestado,
-            boactivo
-        };
 
+        let localidad = {
+            dsidlocalidad,
+            dsclavelocalidad,
+            id ,
+            dslocalidad,
+            dscodigopostal,
+            dsestado: true,
+            municipios: `/d5978fec-24d2-4527-b1d3-1aa1b641b471`
+        }
+
+  
         try {
-            const result = await axiosPostHetoas(href, objetoEnviar, 'PUT');
+            const result = await axiosPostHetoas(href, localidad, 'PUT');
             dispatch({
                 type: MODIFICAR_LOCALIDADES,
                 payload: result,
@@ -98,7 +116,31 @@ export const LocalidadesContextProvider = props => {
     }
 
 
-          
+    //Paginacion
+
+ const changePage = async (page) => {
+     console.log(page);
+
+        dispatch(changePageNumber(page))
+        try {
+            get();
+        } catch (error) {
+           // console.log(error);
+            //dispatch( idiomaAddedError() )
+            throw error;
+        }
+    
+}
+
+    const changePageNumber = (page) => ({
+        type: CAMBIAR_PAGINA, 
+        payload: page
+    })
+    
+     const changePageSize = (size) => ({
+        type: CAMBIAR_TAMANIO_PAGINA, 
+        payload: size
+    })      
 
 
     return (
@@ -106,10 +148,16 @@ export const LocalidadesContextProvider = props => {
             value={{
                 localidadesList: state.localidadesList,
                 error:state.error,
+                page:state.page,
+                size:state.size,
+                total:state.total,
                 get,
                 registrar,
                 actualizar,
-                eliminar
+                eliminar,
+                changePageNumber,
+                changePageSize,
+                changePage
             }}
         >
             {props.children}
