@@ -36,9 +36,7 @@ export const LocalidadForm = () => {
             dslocalidad,
             dscodigopostal,
             dsestado: true,
-            municipios: {
-                dsclavemunicipio: idMunicipio
-            },
+            municipios: `/${idMunicipio}`
         }
         console.log(localidad)
         registrar(localidad);

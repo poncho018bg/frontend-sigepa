@@ -3,17 +3,17 @@ import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
-import { CursosCapacitacionesContext } from 'contexts/catalogos/CursosCapacitaciones/cursosCapacitacionesContext';
 import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
 
 
 export const LocalidadEdit = ({ objetoActualizar }) => {
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-
-    const { actualizar } = useContext(CursosCapacitacionesContext);
+    console.log(objetoActualizar);
+    const { actualizar } = useContext(LocalidadesContext);LocalidadesContext
     const { municipiosList } = useContext(MunicipiosContext);
     //dialog confirmacion
     const [valores, setValores] = useState();
@@ -32,15 +32,16 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
      * Edita el elemento
      */
     const handleRegistrar = () => {
-        actualizar(valores);
+        
+        actualizar(objetoActualizar);
         setShowModalConfirmacion(false);
         setShowModalUpdate(false);
     }
 
     // Schema de validación
     const schemaValidacion = Yup.object({
-        dsestado: Yup.string()
-            .required('El curso  es obligatorio')
+        dsidlocalidad: Yup.string()
+            .required('El id de localidad  es obligatorio')
     });
 
     const actualizarInfo = async valores => {
