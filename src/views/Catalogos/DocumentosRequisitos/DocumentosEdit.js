@@ -164,7 +164,7 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                    Editar
+                                Guardar
                                 </Button>
                             </Grid>
                         </DialogContent>

@@ -983,7 +983,7 @@ export const DialogTipoApoyoForm = (props) => {
                 <DialogContent >
                     <Grid container justify="flex-end">
                         <Button variant="contained" color="primary" type='submit'>
-                            Registrar
+                        Guardar
                         </Button>
                     </Grid>
                 </DialogContent>

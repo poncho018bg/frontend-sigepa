@@ -1,4 +1,4 @@
-import React, { useContext, useSate } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -86,7 +86,7 @@ export const TipoApoyoEdit = ({ tipoApoyoSeleccionado }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                    Editar
+                                Guardar
                                 </Button>
                             </Grid>
                         </DialogContent>
