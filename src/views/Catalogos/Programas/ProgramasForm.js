@@ -224,6 +224,7 @@ export const ProgramasForm = () => {
                             KeyboardButtonProps={{
                               "aria-label": "change date"
                             }}
+                            maxDate= {formik.values.vigenciaHasta}
                           />
                     </MuiPickersUtilsProvider>
                      {formik.touched.vigenciaDesde && formik.errors.vigenciaDesde ? (
@@ -250,6 +251,7 @@ export const ProgramasForm = () => {
                               KeyboardButtonProps={{
                                 "aria-label": "change date"
                               }}
+                              minDate={formik.values.vigenciaDesde}
                             />
                       </MuiPickersUtilsProvider>
                      {formik.touched.vigenciaHasta && formik.errors.vigenciaHasta ? (
@@ -278,6 +280,7 @@ export const ProgramasForm = () => {
                               KeyboardButtonProps={{
                                 "aria-label": "change date"
                               }}
+                              maxDate={formik.values.periodoRegistroWebHasta}
                             />
                       </MuiPickersUtilsProvider>
                       {formik.touched.periodoRegistroWebDesde && formik.errors.periodoRegistroWebDesde ? (
@@ -306,6 +309,7 @@ export const ProgramasForm = () => {
                               KeyboardButtonProps={{
                                 "aria-label": "change date"
                               }}
+                              minDate={formik.values.periodoRegistroWebDesde}
                             />
                       </MuiPickersUtilsProvider>
                       {formik.touched.periodoRegistroWebHasta && formik.errors.periodoRegistroWebHasta ? (
@@ -332,6 +336,7 @@ export const ProgramasForm = () => {
                               KeyboardButtonProps={{
                                 "aria-label": "change date"
                               }}
+                              maxDate={formik.values.periodoRegistroPresencialHasta}
                             />
                       </MuiPickersUtilsProvider>
 
@@ -362,6 +367,7 @@ export const ProgramasForm = () => {
                               KeyboardButtonProps={{
                                 "aria-label": "change date"
                               }}
+                              minDate={formik.values.periodoRegistroPresencialDesde}
                             />
                       </MuiPickersUtilsProvider>
                       {formik.touched.periodoRegistroPresencialHasta && formik.errors.periodoRegistroPresencialHasta ? (
