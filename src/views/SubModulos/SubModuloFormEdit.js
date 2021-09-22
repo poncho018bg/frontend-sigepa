@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect,useState } from 'react';
 import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -6,6 +6,8 @@ import { SubModuloContext } from 'contexts/subModuloContext';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModuloContext } from 'contexts/moduloContext';
 
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 
 export const SubModuloFormEdit = ({ subModuloSeleccionado }) => {
 
@@ -13,6 +15,24 @@ export const SubModuloFormEdit = ({ subModuloSeleccionado }) => {
     const { actualizarSubModulo } = useContext(SubModuloContext);
     const { getModulos, moduloList } = useContext(ModuloContext);
 
+    //dialog confirmacion
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    /**
+     * abre el dialogo de confirmación
+     * @param {valores} e 
+     */
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    const handleRegistrar = () => {
+        actualizarSubModulo(valores);
+        setShowModalConfirmacion(false);
+        setShowModalUpdate(false);
+    }
 
     // Schema de validación
     const schemaValidacion = Yup.object({
@@ -24,9 +44,7 @@ export const SubModuloFormEdit = ({ subModuloSeleccionado }) => {
     });
 
     const actualizarInfoSubModulo = async valores => {
-        console.log('1.->',valores)
-        actualizarSubModulo(valores);
-        setShowModalUpdate(false);
+        confirmacionDialog(valores);
     }
 
     useEffect(() => {
@@ -113,6 +131,9 @@ export const SubModuloFormEdit = ({ subModuloSeleccionado }) => {
 
 
                         </DialogContent>
+                        <ModalConfirmacion
+                            handleRegistrar={handleRegistrar} evento="Editar"
+                        />
                     </form>
                 )
 
