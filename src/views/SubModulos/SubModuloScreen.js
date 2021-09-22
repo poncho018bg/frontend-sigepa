@@ -112,10 +112,10 @@ export const SubModuloScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell > Estado</TableCell >
-                                < TableCell > ID</TableCell >
-                                < TableCell> Desc. Submódulo</TableCell >
-                                < TableCell> Fecha Registro</TableCell >
+                                < TableCell align="center"> Estado</TableCell >
+                                < TableCell align="center"> ID</TableCell >
+                                < TableCell align="center"> Submódulo</TableCell >
+                                < TableCell align="center"> Fecha registro</TableCell >
                                 < TableCell colSpan={1} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
