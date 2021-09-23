@@ -119,7 +119,6 @@ export const MotivoRechazosScreen = () => {
                         < TableHead >
                             < TableRow key="ta1" >
                                 < TableCell > Estado</TableCell >
-                                < TableCell > Id</TableCell >
                                 < TableCell> Descripción del motivo de rechazo</TableCell >
                                 < TableCell> Fecha registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
@@ -142,7 +141,6 @@ export const MotivoRechazosScreen = () => {
                                                     inputProps={{ 'aria-label': 'Checkbox A' }}
                                                 />
                                             </TableCell>
-                                            <TableCell>{row.id}</TableCell>
                                             <TableCell>{row.dsmotivorechazo}</TableCell >
                                             <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">

@@ -116,7 +116,6 @@ export const ClasificacionServiciosScreen = () => {
                         < TableHead >
                             < TableRow key="ta1" >
                                 < TableCell > Estado</TableCell >
-                                < TableCell > ID</TableCell >
                                 < TableCell> Clasificacion de los servicios</TableCell >
                                 <TableCell> Abreviatura</TableCell>
                                 < TableCell> Fecha Registro</TableCell >
@@ -140,7 +139,6 @@ export const ClasificacionServiciosScreen = () => {
                                                     inputProps={{ 'aria-label': 'Checkbox A' }}
                                                 />
                                             </TableCell>
-                                            <TableCell>{row.id}</TableCell>
                                             <TableCell>{row.dsclasificacionservicio}</TableCell>
                                             <TableCell>{row.dsabreviatura}</TableCell>
                                             <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>

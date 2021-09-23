@@ -100,7 +100,7 @@ export const ClasificacionServiciosForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                        Enviar
+                    Guardar
                     </Button>
                 </Grid>
             </DialogContent>

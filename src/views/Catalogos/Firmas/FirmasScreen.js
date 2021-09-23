@@ -5,7 +5,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 
@@ -46,7 +46,7 @@ export const FirmasScreen = () => {
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
-    const {setShowModalUpdate }
+    const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
 
     useEffect(() => {
@@ -128,7 +128,7 @@ export const FirmasScreen = () => {
                                         < TableRow key={row.id}>
 
                                             <TableCell>
-                                                <FirmaPrograma Firma={row} actualiza={row.fechaRegistro}/>
+                                                <FirmaPrograma Firma={row} actualiza={row.fechaRegistro} />
                                             </TableCell>
                                             <TableCell>{row.dsautoriza}</TableCell >
                                             <TableCell >{row.dspuesto}</TableCell>

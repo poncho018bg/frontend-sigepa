@@ -126,7 +126,6 @@ export const CursosCapacitacionesScreen = () => {
                         < TableHead >
                             < TableRow key="ta1" >
                                 < TableCell > Estado</TableCell >
-                                < TableCell > ID</TableCell >
                                 < TableCell> Curso</TableCell >
                                 < TableCell> Fecha Registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
@@ -149,7 +148,6 @@ export const CursosCapacitacionesScreen = () => {
                                                     inputProps={{ 'aria-label': 'Checkbox A' }}
                                                 />
                                             </TableCell>
-                                            <TableCell>{row.id}</TableCell>
                                             <TableCell>{row.dsestado}</TableCell >
                                             <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">

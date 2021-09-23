@@ -1,5 +1,5 @@
 import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect ,useState} from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -8,6 +8,9 @@ import { ModalContext } from 'contexts/modalContex';
 import UserService from 'servicios/UserService';
 import { ModuloContext } from 'contexts/moduloContext';
 
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+
 export const SubModuloForm = () => {
 
     const { registrarSubModulos } = useContext(SubModuloContext);
@@ -15,6 +18,15 @@ export const SubModuloForm = () => {
     const { getModulos, moduloList } = useContext(ModuloContext);
 
 
+    //dialog confirmacion
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
 
 
     const formik = useFormik({
@@ -31,25 +43,26 @@ export const SubModuloForm = () => {
 
         }),
         onSubmit: async valores => {
-
-            const { dssubmodulo, crcModulosCollection } = valores
-
-            console.log(dssubmodulo);
-
-
-            let module = {
-                dssubmodulo: dssubmodulo,
-                usuarioCreacionId: `${process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}`,
-                boactivo: true,
-                crcModulosCollection: crcModulosCollection
-            }
-
-            console.log('REG=>', registrarSubModulos(module));
-
-            setShowModal(false);
-
+            confirmacionDialog(valores);
         }
     })
+
+
+    const handleRegistrar = () => {
+        const { dssubmodulo, crcModulosCollection } = valores
+        console.log(dssubmodulo);
+        let module = {
+            dssubmodulo: dssubmodulo,
+            usuarioCreacionId: `${process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}`,
+            boactivo: true,
+            crcModulosCollection: crcModulosCollection
+        }
+
+        console.log('REG=>', registrarSubModulos(module));
+        setShowModalConfirmacion(false);
+        setShowModal(false);
+
+    }
 
     useEffect(() => {
         getModulos()
@@ -112,10 +125,14 @@ export const SubModuloForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                        Enviar
+                        Guardar
                     </Button>
                 </Grid>
             </DialogContent>
+
+            <ModalConfirmacion
+                handleRegistrar={handleRegistrar} evento="Registrar"
+            />
         </form>
 
     )

@@ -5,7 +5,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 
@@ -46,7 +46,7 @@ export const TipoBeneficiarioScreen = () => {
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
-    const {  setShowModalUpdate }
+    const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
 
     useEffect(() => {
@@ -116,8 +116,7 @@ export const TipoBeneficiarioScreen = () => {
                         < TableHead >
                             < TableRow key="ta1" >
                                 < TableCell > Estado</TableCell >
-                                < TableCell > ID</TableCell >
-                                < TableCell> Desc. Tipo Beneficiario</TableCell >
+                                < TableCell> Tipo de Beneficiario</TableCell >
                                 < TableCell> Fecha Registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
@@ -139,7 +138,6 @@ export const TipoBeneficiarioScreen = () => {
                                                     inputProps={{ 'aria-label': 'Checkbox A' }}
                                                 />
                                             </TableCell>
-                                            <TableCell>{row.id}</TableCell>
                                             <TableCell>{row.dstipobeneficiario}</TableCell >
                                             <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">

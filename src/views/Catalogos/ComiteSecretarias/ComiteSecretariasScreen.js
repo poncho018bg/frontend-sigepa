@@ -116,8 +116,7 @@ export const ComiteSecretariasScreen = () => {
                         < TableHead >
                             < TableRow key="ta1" >
                                 < TableCell > Estado</TableCell >
-                                < TableCell > ID</TableCell >
-                                < TableCell> Desc. Tipo Beneficiario</TableCell >
+                                < TableCell> Descripcion Tipo Beneficiario</TableCell >
                                 < TableCell> Fecha Registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
@@ -139,7 +138,6 @@ export const ComiteSecretariasScreen = () => {
                                                     inputProps={{ 'aria-label': 'Checkbox A' }}
                                                 />
                                             </TableCell>
-                                            <TableCell>{row.id}</TableCell>
                                             <TableCell>{row.dssecretaria}</TableCell >
                                             <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
