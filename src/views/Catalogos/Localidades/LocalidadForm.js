@@ -8,18 +8,26 @@ import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { useHistory } from 'react-router';
 
 export const LocalidadForm = () => {
 
     const { registrar } = useContext(LocalidadesContext);
     const { setShowModal } = useContext(ModalContext);
-    const { municipiosList } = useContext(MunicipiosContext);
+    const { municipiosListId } = useContext(MunicipiosContext);
 
 
     //dialog confirmar
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
 
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+
+    let history = useHistory();
 
     const confirmacionDialog = (e) => {
         console.log("Aqui hace el llamado al dialog", e);
@@ -39,9 +47,26 @@ export const LocalidadForm = () => {
             municipios: `/${idMunicipio}`
         }
         console.log(localidad)
-        registrar(localidad);
-        setShowModalConfirmacion(false);
-        setShowModal(false);
+        registrar(localidad).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`La localidad ${response.data.dslocalidad}  fue registrada correctamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModal(false);
+        
+            }, 1000);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+        });;        ;
+      
     }
 
     const formik = useFormik({
@@ -82,6 +107,7 @@ export const LocalidadForm = () => {
                     variant="outlined"
                     name="dsidlocalidad"
                     fullWidth
+                    inputProps={{ maxLength: "6" }}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsidlocalidad}
@@ -98,6 +124,7 @@ export const LocalidadForm = () => {
                     variant="outlined"
                     name="dsclavelocalidad"
                     fullWidth
+                    inputProps={{ maxLength: "4" }}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsclavelocalidad}
@@ -123,12 +150,12 @@ export const LocalidadForm = () => {
                         <em>Ninguno</em>
                     </MenuItem>
                     {
-                        municipiosList.map(
+                        municipiosListId.map(
                             item => (
                                 <MenuItem
-                                    key={item.id}
-                                    value={item.id}>
-                                    {item.dsmunicipio}
+                                    key={item.idMunicipio}
+                                    value={item.idMunicipio}>
+                                    {item.dsMunicipio}
                                 </MenuItem>
                             )
                         )
@@ -164,6 +191,7 @@ export const LocalidadForm = () => {
                     variant="outlined"
                     name="dscodigopostal"
                     fullWidth
+                    inputProps={{ maxLength: "5" }}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dscodigopostal}
@@ -181,6 +209,12 @@ export const LocalidadForm = () => {
             </DialogContent>
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
+            />
+             <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error?"error":"success"}
+                message={msjConfirmacion}
             />
         </form>
 

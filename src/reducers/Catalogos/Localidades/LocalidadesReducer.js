@@ -5,7 +5,8 @@ import { GET_LOCALIDADES,
     MODIFICAR_LOCALIDADES,
     CAMBIAR_PAGINA,
     AGREGAR_LOCALIDADES_ERROR,
-    CAMBIAR_TAMANIO_PAGINA
+    CAMBIAR_TAMANIO_PAGINA,
+    GET_LOCALIDADES_BY_ID
 } from 'types/actionTypes';
 
 export default (state, action) => {
@@ -53,6 +54,11 @@ export default (state, action) => {
                     ...state,
                     size: action.payload
                 }
+        case GET_LOCALIDADES_BY_ID:
+                    return {
+                        ...state,
+                        localidad: action.payload
+                    };
         default:
             return state;
     }

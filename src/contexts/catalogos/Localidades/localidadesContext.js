@@ -7,11 +7,13 @@ import { GET_LOCALIDADES,
         MODIFICAR_LOCALIDADES,
         AGREGAR_PROGRAMA_ERROR,
         CAMBIAR_PAGINA,
-        CAMBIAR_TAMANIO_PAGINA
+        CAMBIAR_TAMANIO_PAGINA,
+        GET_LOCALIDADES_BY_ID
 } from 'types/actionTypes';
 
 import LocalidadesReducer from 'reducers/Catalogos/Localidades/LocalidadesReducer';
-
+import axios from "axios";
+const baseUrl = process.env.REACT_APP_API_URL;
 
 
 
@@ -20,6 +22,7 @@ export const LocalidadesContext = createContext();
 export const LocalidadesContextProvider = props => {
     const initialState = {
         localidadesList: [],
+        localidad:null,
         error: false,
         page: 0,
         size: 10,
@@ -51,11 +54,27 @@ export const LocalidadesContextProvider = props => {
     const registrar = async localidades => {
 
         try {
-            const resultado = await axiosPost('localidades', localidades);
-            dispatch({
+            //const resultado = await axiosPost('localidades', localidades);
+
+            const url = `${ baseUrl }localidades`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, localidades, {
+                    headers: {'Accept': 'application/json', 'Content-type': 'application/json'}
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_LOCALIDADES,
+                        payload: response
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
+           /* dispatch({
                 type: REGISTRAR_LOCALIDADES,
                 payload: resultado
-            })
+            })*/
         } catch (error) {
             console.log('ocurrio un error en el context');
             console.log(error);
@@ -70,15 +89,18 @@ export const LocalidadesContextProvider = props => {
      * Se actualizan los tipos de apoyos
      * @param {motivoRechazos} motivoRechazos 
      */
-    const actualizar= async objetoActualizar => {
+    const actualizar= async (valores,objetoActualizar,municipio) => {
         console.log('actualizando objeto');
-        console.log(objetoActualizar);
+        console.log(municipio);
         const { 
-            dsidlocalidad, dsclavelocalidad,
-             idMunicipio, dscodigopostal, 
-             dslocalidad,id , _links: { localidades: { href } }
+             _links: { localidades: { href } }
         } = objetoActualizar;
 
+        const {
+            dsidlocalidad, dsclavelocalidad,
+                 dscodigopostal, 
+             dslocalidad,id ,
+        }= valores;
 
         let localidad = {
             dsidlocalidad,
@@ -87,12 +109,14 @@ export const LocalidadesContextProvider = props => {
             dslocalidad,
             dscodigopostal,
             dsestado: true,
-            municipios: `/d5978fec-24d2-4527-b1d3-1aa1b641b471`
+            municipios: `/${municipio.id}`
         }
 
   
         try {
             const result = await axiosPostHetoas(href, localidad, 'PUT');
+            console.log(result);
+            console.log('mir mira');
             dispatch({
                 type: MODIFICAR_LOCALIDADES,
                 payload: result,
@@ -143,10 +167,25 @@ export const LocalidadesContextProvider = props => {
     })      
 
 
+    const getByID= async id => {
+        try {
+            const result = await axiosGet(`localidades/${id}`);
+            dispatch({
+                type: GET_LOCALIDADES_BY_ID,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+       
+
+
     return (
         <LocalidadesContext.Provider
             value={{
                 localidadesList: state.localidadesList,
+                localidad: state.localidad,
                 error:state.error,
                 page:state.page,
                 size:state.size,
@@ -157,7 +196,8 @@ export const LocalidadesContextProvider = props => {
                 eliminar,
                 changePageNumber,
                 changePageSize,
-                changePage
+                changePage,
+                getByID
             }}
         >
             {props.children}

@@ -19,31 +19,44 @@ const useStyles = makeStyles(stylesArchivo);
 export const ProgramasScreen = () => {
   const classes = useStyles();
   const [searched, setSearched] = useState('');
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  //const [page, setPage] = useState(0);
+  //const [rowsPerPage, setRowsPerPage] = useState(10);
   const [loading, setLoading] = useState(true);
+
+  const [pagina, setPagina] = useState(0);
+
+  const { programasList, get ,
+    sizeP,
+    pageP,
+    totalP,
+    changePageSize,
+    changePage,changePageNumber} = useContext(ProgramasContext);
 
 
 
   const handleChangePage = (event, newPage) => {
-      setPage(newPage);
+    console.log('la pagin es');
+    console.log(newPage);
+    changePage(newPage)
+    setPagina(newPage);
+    //get();
   };
+
+  useEffect(() => {
+    console.log('se ejecuta el get');
+   get();
+  }, [pagina])
 
   const handleChangeRowsPerPage = event => {
-      setRowsPerPage(+event.target.value);
-      setPage(0);
+    changePageSize(+event.target.value);
+   // changePage(0)
   };
-
-  const { programasList, get } = useContext(ProgramasContext);
 
 
 
   useEffect(() => {
     
-    get().then (data => {
-      setTimeout(() => setLoading(false), 500);
-    
-    });;
+    get();
 }, []);
 
   const showForm=()=>{
@@ -52,11 +65,7 @@ export const ProgramasScreen = () => {
 
   return (
     <>        
-    {loading === true ? (
-      <Loading
-        loading={loading} 
-      />
-    ) : (
+   (
       <GridItem xs={12} sm={12} md={12}>
       <Card>
         <CardHeader color="primary">
@@ -106,7 +115,7 @@ export const ProgramasScreen = () => {
                       programasList.filter(row => row.dsprograma ?
                         row.dsprograma.toLowerCase().includes(searched.toLowerCase()) : null)
                       : programasList
-                    ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+                    ).map(row => {
                       return (
                         <Programa 
                            key={row.id}
@@ -118,19 +127,19 @@ export const ProgramasScreen = () => {
             </TableBody >
           </ Table>
           < TablePagination
-              rowsPerPageOptions={[5, 10, 15]}
-              component="div"
-              labelRowsPerPage="Registros por página"
-              count={programasList.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
+                rowsPerPageOptions={[5, 10, 15]}
+                component="div"
+                labelRowsPerPage="Registros por página"
+                count={totalP}
+                rowsPerPage={sizeP}
+                page={pageP}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+              />
         </CardBody>
       </Card>
     
-    </GridItem>  )}
+    </GridItem> 
     </>
      
      

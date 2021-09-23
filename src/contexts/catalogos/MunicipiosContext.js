@@ -1,8 +1,10 @@
 import React, { createContext, useReducer } from 'react';
 import MunicipiosReducer from 'reducers/Catalogos/MunicipiosReducer';
 
-import { GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO } from 'types/actionTypes';
+import { GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, 
+    ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO,GET_MUNICIPIOS_ID } from 'types/actionTypes';
 import { axiosGet,axiosPost ,axiosDeleteTipo,axiosPostHetoas,axiosGetHetoas} from 'helpers/axios';
+
 
 
 
@@ -13,7 +15,8 @@ export const MunicipiosContextProvider = props => {
     const initialState = {
         municipiosList: [],
         municipio: null,
-        clienteActual: null
+        clienteActual: null,
+        municipiosListId: [],
     }
 
     const [state, dispatch] = useReducer(MunicipiosReducer, initialState);
@@ -114,16 +117,33 @@ export const MunicipiosContextProvider = props => {
         }
     }
 
+    
+    const getMunicipiosId = async () => {
+
+        try {
+            const resultado = await axiosGet('municipiosRegion/municipiosEstado/a3de85a7-6c23-46a4-847b-d79b3a90963d');
+            dispatch({
+                type: GET_MUNICIPIOS_ID,
+                payload: resultado
+            })
+        } catch (error) {
+
+            console.log(error);
+        }
+    }
+
     return (
         <MunicipiosContext.Provider
             value={{
                 municipiosList: state.municipiosList,
                 municipio: state.municipio,
+                municipiosListId: state.municipiosListId,
                 getMunicipios,
                 getMunicipioByIdHetoas,
                 registrarMunicipios,
                 eliminarMunicipio,
-                actualizarMunicipios
+                actualizarMunicipios,
+                getMunicipiosId
 
             }}
         >

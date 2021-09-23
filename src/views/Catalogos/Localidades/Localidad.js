@@ -21,7 +21,7 @@ export const Localidad = ( {localidad}) => {
    const { 
              dsclavelocalidad, dslocalidad, dscodigopostal,fechaRegistro,activo 
     } = localidad;
-    const [idEliminar] = useState(0);
+    const [idEliminar, setIdEliminar] = useState(0);
     const {  setShowModalDelete } = useContext(ModalContextDelete);
     const {  eliminar } = useContext(LocalidadesContext);
     const [objetoActualizar, setObjetoActualizar] = useState();
@@ -29,6 +29,7 @@ export const Localidad = ( {localidad}) => {
     const {  setShowModalUpdate } = useContext(ModalContextUpdate);
 
     const onSelect = (e) => {
+        console.log(e);
         setShowModalUpdate(true);
         setObjetoActualizar(e);
     }

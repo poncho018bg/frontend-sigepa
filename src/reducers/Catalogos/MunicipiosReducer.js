@@ -1,6 +1,8 @@
 
 
-import { GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS,GET_MUNICIPIO } from 'types/actionTypes';
+import { GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS,
+   ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS,
+   GET_MUNICIPIO,GET_MUNICIPIOS_ID } from 'types/actionTypes';
 
 
 export default (state, action) => {
@@ -33,6 +35,11 @@ export default (state, action) => {
         ...state,
         municipiosList: state.municipiosList.filter(municipio => municipio.id !== action.payload)
       };
+    case GET_MUNICIPIOS_ID:
+        return {
+          ...state,
+          municipiosListId: action.payload
+    };
     default:
       return state;
   }

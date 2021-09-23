@@ -36,7 +36,7 @@ export const LocalidadesScreen = () => {
 
     const {  setShowModal  } = useContext(ModalContext);
 
-    const {getMunicipios } = useContext(MunicipiosContext);
+    const {getMunicipiosId } = useContext(MunicipiosContext);
   
     const handleChangePage = (event, newPage) => {
       changePage(newPage)
@@ -56,7 +56,7 @@ export const LocalidadesScreen = () => {
       }, []);
 
     useEffect(() => {
-        getMunicipios();
+      getMunicipiosId();
 
     }, []);
 
@@ -104,8 +104,8 @@ export const LocalidadesScreen = () => {
                 < TableBody >
                   {
                        (searched ?
-                        localidadesList.filter(row => row.dsPagina ?
-                          row.dsPagina.toLowerCase().includes(searched.toLowerCase()) : null)
+                        localidadesList.filter(row => row.dslocalidad ?
+                          row.dslocalidad.toLowerCase().includes(searched.toLowerCase()) : null)
                         : localidadesList
                       ).map(row => {
                         return (
