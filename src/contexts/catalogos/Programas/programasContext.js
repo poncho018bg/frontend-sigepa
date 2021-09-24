@@ -138,7 +138,8 @@ export const ProgramasContextProvider = props => {
                     dsobservaciones,
                     boactivo
         }
-        try {
+      /*  try {
+
             const result = await axiosPostHetoas(href, objetoEnviar, 'PUT');
             dispatch({
                 type: MODIFICAR_PROGRAMAS,
@@ -146,7 +147,21 @@ export const ProgramasContextProvider = props => {
             })
         } catch (error) {
             console.log(error);
-        }
+        }*/
+        const url = `${ baseUrl }programas`;
+        return new Promise((resolve, reject) => {
+            axios.put(href, objetoEnviar, {
+                headers: {'Accept': 'application/json', 'Content-type': 'application/json'}
+            }).then(response => {
+                resolve(response);
+                dispatch({
+                    type: MODIFICAR_PROGRAMAS,
+                    payload: response
+                })
+            }).catch(error => {
+                reject(error);
+            });
+        });
     }
 
     const eliminar= async id => {
@@ -179,23 +194,15 @@ export const ProgramasContextProvider = props => {
      //Paginacion
 
  const changePage =  (page) => {
-     console.log('aqui en el change de proramas');
-    console.log(page);
-
       dispatch({
         type: CAMBIAR_PAGINA_PROGRAMAS, 
         payload: page
       })
        try {
-        const {pageP, sizeP}= state;
-        console.log('state--------------------');
-        console.log(state);
-        console.log('page ', pageP, ' size ', sizeP);
+
            get();
          
        } catch (error) {
-          // console.log(error);
-           //dispatch( idiomaAddedError() )
            throw error;
        }
    

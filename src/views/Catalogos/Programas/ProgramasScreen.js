@@ -19,10 +19,7 @@ const useStyles = makeStyles(stylesArchivo);
 export const ProgramasScreen = () => {
   const classes = useStyles();
   const [searched, setSearched] = useState('');
-  //const [page, setPage] = useState(0);
-  //const [rowsPerPage, setRowsPerPage] = useState(10);
   const [loading, setLoading] = useState(true);
-
   const [pagina, setPagina] = useState(0);
 
   const { programasList, get ,
@@ -35,28 +32,32 @@ export const ProgramasScreen = () => {
 
 
   const handleChangePage = (event, newPage) => {
-    console.log('la pagin es');
-    console.log(newPage);
+    setLoading(true);
     changePage(newPage)
     setPagina(newPage);
-    //get();
   };
 
   useEffect(() => {
-    console.log('se ejecuta el get');
-   get();
+    get().then (data => {
+      setTimeout(() => setLoading(false), 500);
+    
+    });;
+
   }, [pagina])
 
   const handleChangeRowsPerPage = event => {
     changePageSize(+event.target.value);
-   // changePage(0)
+     changePage(0)
   };
-
 
 
   useEffect(() => {
     
-    get();
+    get().then (data => {
+      setTimeout(() => setLoading(false), 500);
+    
+    });;
+
 }, []);
 
   const showForm=()=>{
@@ -65,7 +66,11 @@ export const ProgramasScreen = () => {
 
   return (
     <>        
-   (
+     {loading ? (
+        <Loading
+          loading={loading}
+        />
+      ) : (
       <GridItem xs={12} sm={12} md={12}>
       <Card>
         <CardHeader color="primary">
@@ -140,6 +145,7 @@ export const ProgramasScreen = () => {
       </Card>
     
     </GridItem> 
+       )}
     </>
      
      
