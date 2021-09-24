@@ -1,4 +1,9 @@
-import { GET_TIPOS_APOYOS, REGISTRAR_TIPOS_APOYOS, ELIMINAR_TIPOS_APOYOS, MODIFICAR_TIPOS_APOYOS } from '../../types/actionTypes';
+import {
+    GET_TIPOS_APOYOS, REGISTRAR_TIPOS_APOYOS, ELIMINAR_TIPOS_APOYOS, MODIFICAR_TIPOS_APOYOS,
+    CAMBIAR_PAGINA,
+    AGREGAR_LOCALIDADES_ERROR,
+    CAMBIAR_TAMANIO_PAGINA
+} from '../../types/actionTypes';
 
 export default (state, action) => {
 
@@ -6,7 +11,8 @@ export default (state, action) => {
         case GET_TIPOS_APOYOS:
             return {
                 ...state,
-                tiposApoyosList: action.payload
+                tiposApoyosList: action.payload._embedded.tiposApoyos,
+                total: action.payload.page.totalElements
             };
         case REGISTRAR_TIPOS_APOYOS:
             return {
@@ -25,6 +31,16 @@ export default (state, action) => {
                 ...state,
                 tiposApoyosList: state.tiposApoyosList.filter(tipoApoyo => tipoApoyo.id !== action.payload)
             };
+        case CAMBIAR_PAGINA:
+            return {
+                ...state,
+                page: action.payload
+            }
+        case CAMBIAR_TAMANIO_PAGINA:
+            return {
+                ...state,
+                size: action.payload
+            }
         default:
             return state;
     }

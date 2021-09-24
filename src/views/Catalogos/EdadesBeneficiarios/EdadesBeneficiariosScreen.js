@@ -43,7 +43,7 @@ export const EdadesBeneficiariosScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [edadesBeneficiariosSeleccionado, setEdadesBeneficiariosSeleccionado] = useState();
-    const { getEdadesBeneficiarios, eliminarEdadesBeneficiarios, edadesBeneficiariosList } = useContext(EdadesBeneficiariosContext);
+    const { getEdadesBeneficiarios, eliminarEdadesBeneficiarios, edadesBeneficiariosList, size, page, total, changePageSize, changePage } = useContext(EdadesBeneficiariosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -56,9 +56,6 @@ export const EdadesBeneficiariosScreen = () => {
         console.log("tipo de apoyo", edadesBeneficiariosList);
     }, []);
 
-    const total = 0;
-    const size = 0;
-    const page = 0;
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -79,6 +76,15 @@ export const EdadesBeneficiariosScreen = () => {
         eliminarEdadesBeneficiarios(idEliminar)
         setShowModalDelete(false);
     }
+
+    const handleChangePage = (event, newPage) => {
+        changePage(newPage)
+    };
+
+    const handleChangeRowsPerPage = event => {
+        changePageSize(+event.target.value);
+        changePage(0)
+    };
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -164,6 +170,8 @@ export const EdadesBeneficiariosScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

@@ -43,7 +43,7 @@ export const PeriodicidadApoyosScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [periodicidadApoyosSeleccionado, setPeriodicidadApoyosSeleccionado] = useState();
-    const { getPeriodicidadApoyos, eliminarPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
+    const { getPeriodicidadApoyos, eliminarPeriodicidadApoyos, periodicidadApoyosList , size, page, total, changePageSize, changePage} = useContext(PeriodicidadApoyosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -56,9 +56,6 @@ export const PeriodicidadApoyosScreen = () => {
         console.log("tipo de apoyo", periodicidadApoyosList);
     }, []);
 
-    const total = 0;
-    const size = 0;
-    const page = 0;
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -79,6 +76,15 @@ export const PeriodicidadApoyosScreen = () => {
         eliminarPeriodicidadApoyos(idEliminar)
         setShowModalDelete(false);
     }
+
+    const handleChangePage = (event, newPage) => {
+        changePage(newPage)
+    };
+
+    const handleChangeRowsPerPage = event => {
+        changePageSize(+event.target.value);
+        changePage(0)
+    };
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -164,6 +170,8 @@ export const PeriodicidadApoyosScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

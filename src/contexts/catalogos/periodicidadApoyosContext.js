@@ -1,7 +1,10 @@
 import React, { createContext, useReducer } from 'react';
 import PeriodicidadApoyosReducer from 'reducers/Catalogos/PeriodicidadApoyosReducer';
 
-import { GET_PERIODICIDAD_APOYOS, REGISTRAR_PERIODICIDAD_APOYOS, MODIFICAR_PERIODICIDAD_APOYOS, ELIMINAR_PERIODICIDAD_APOYOS } from "../../types/actionTypes";
+import { GET_PERIODICIDAD_APOYOS, REGISTRAR_PERIODICIDAD_APOYOS, MODIFICAR_PERIODICIDAD_APOYOS, ELIMINAR_PERIODICIDAD_APOYOS,
+    AGREGAR_PERIODICIDAD_APOYOS_ERROR,
+    CAMBIAR_PAGINA,
+    CAMBIAR_TAMANIO_PAGINA } from "../../types/actionTypes";
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
@@ -11,7 +14,11 @@ export const PeriodicidadApoyosContext = createContext();
 export const PeriodicidadApoyosContextProvider = props => {
     const initialState = {
         periodicidadApoyosList: [],
-        clienteActual: null
+        clienteActual: null,
+        error: false,
+        page: 0,
+        size: 10,
+        total: 0
     }
 
     const [state, dispatch] = useReducer(PeriodicidadApoyosReducer, initialState);
@@ -21,12 +28,13 @@ export const PeriodicidadApoyosContextProvider = props => {
      */
     const getPeriodicidadApoyos = async () => {
         try {
-            const result = await axiosGet('periodicidadApoyos');
+            const { page, size } = state;
+            const result = await axiosGet(`periodicidadApoyos?page=${page}&size=${size}`);
             console.log(result._embedded);
             console.log(result._embedded.periodicidadApoyos);
             dispatch({
                 type: GET_PERIODICIDAD_APOYOS,
-                payload: result._embedded.periodicidadApoyos
+                payload: result
             })
         } catch (error) {
             console.log(error);
@@ -48,6 +56,10 @@ export const PeriodicidadApoyosContextProvider = props => {
             })
         } catch (error) {
             console.log(error);
+            dispatch({
+                type: AGREGAR_PERIODICIDAD_APOYOS_ERROR,
+                payload: true
+            })
         }
     }
 
@@ -87,14 +99,44 @@ export const PeriodicidadApoyosContextProvider = props => {
         }
     }
 
+      //Paginacion
+      const changePage = async (page) => {
+        console.log(page);
+
+        dispatch(changePageNumber(page))
+        try {
+            getPeriodicidadApoyos();
+        } catch (error) {            
+            throw error;
+        }
+
+    }
+
+    const changePageNumber = (page) => ({
+        type: CAMBIAR_PAGINA,
+        payload: page
+    })
+
+    const changePageSize = (size) => ({
+        type: CAMBIAR_TAMANIO_PAGINA,
+        payload: size
+    })
+
     return (
         <PeriodicidadApoyosContext.Provider
             value={{
                 periodicidadApoyosList: state.periodicidadApoyosList,
+                error: state.error,
+                page: state.page,
+                size: state.size,
+                total: state.total,
                 getPeriodicidadApoyos,
                 registrarPeriodicidadApoyos,
                 actualizarPeriodicidadApoyos,
-                eliminarPeriodicidadApoyos
+                eliminarPeriodicidadApoyos,
+                changePageNumber,
+                changePageSize,
+                changePage
             }}
         >
             {props.children}

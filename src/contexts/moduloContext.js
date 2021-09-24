@@ -1,8 +1,13 @@
 import React, { createContext, useReducer } from 'react';
 import ModuloReducer from '../reducers/ModuloReducer';
 
-import { GET_MODULOS, REGISTRAR_MODULO, ELIMINAR_MODULO, MODIFICAR_MODULO } from '../types/actionTypes';
-import { axiosGet,axiosPost,axiosDeleteTipo,axiosPostHetoas } from 'helpers/axios';
+import {
+    GET_MODULOS, REGISTRAR_MODULO, ELIMINAR_MODULO, MODIFICAR_MODULO,
+    AGREGAR_MODULO_ERROR,
+    CAMBIAR_PAGINA,
+    CAMBIAR_TAMANIO_PAGINA
+} from '../types/actionTypes';
+import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 import UserService from 'servicios/UserService';
 
 
@@ -12,7 +17,11 @@ export const ModuloContextProvider = props => {
 
     const initialState = {
         moduloList: [],
-        clienteActual: null
+        clienteActual: null,
+        error: false,
+        page: 0,
+        size: 10,
+        total: 0
     }
 
     const [state, dispatch] = useReducer(ModuloReducer, initialState);
@@ -20,11 +29,12 @@ export const ModuloContextProvider = props => {
     const getModulos = async () => {
 
         try {
-            const resultado = await axiosGet('modulos');
+            const { page, size } = state;
+            const resultado = await axiosGet(`modulos?page=${page}&size=${size}`);
             console.log(resultado._embedded.modulos);
             dispatch({
                 type: GET_MODULOS,
-                payload: resultado._embedded.modulos
+                payload: resultado
             })
         } catch (error) {
             console.log(error);
@@ -42,18 +52,22 @@ export const ModuloContextProvider = props => {
             })
         } catch (error) {
             console.log(error);
+            dispatch({
+                type: AGREGAR_MODULO_ERROR,
+                payload: true
+            })
         }
     }
 
     const actualizarModulo = async modulo => {
-        
-        const {  dsmodulo,  boactivo, _links: { modulos: { href } } } = modulo;       
-       
+
+        const { dsmodulo, boactivo, _links: { modulos: { href } } } = modulo;
+
         let moduloEnviar = {
             dsmodulo,
-            'usuarioCreacionId':  `${ process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}` ,
+            'usuarioCreacionId': `${process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}`,
             boactivo,
-            'SubModulos':[]
+            'SubModulos': []
         }
         console.log(moduloEnviar);
         try {
@@ -82,14 +96,44 @@ export const ModuloContextProvider = props => {
         }
     }
 
+    //Paginacion
+    const changePage = async (page) => {
+        console.log(page);
+
+        dispatch(changePageNumber(page))
+        try {
+            getModulos();
+        } catch (error) {
+            throw error;
+        }
+
+    }
+
+    const changePageNumber = (page) => ({
+        type: CAMBIAR_PAGINA,
+        payload: page
+    })
+
+    const changePageSize = (size) => ({
+        type: CAMBIAR_TAMANIO_PAGINA,
+        payload: size
+    })
+
     return (
         <ModuloContext.Provider
             value={{
                 moduloList: state.moduloList,
+                error: state.error,
+                page: state.page,
+                size: state.size,
+                total: state.total,
                 getModulos,
                 registrarModulos,
                 actualizarModulo,
-                eliminarModulo
+                eliminarModulo,
+                changePageNumber,
+                changePageSize,
+                changePage
 
             }}
         >

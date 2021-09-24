@@ -1,7 +1,10 @@
 import React, { createContext, useReducer } from 'react';
 import TiposApoyosReducer from 'reducers/Catalogos/TiposApoyosReducer';
 
-import { GET_TIPOS_APOYOS, REGISTRAR_TIPOS_APOYOS, ELIMINAR_TIPOS_APOYOS, MODIFICAR_TIPOS_APOYOS } from "../../types/actionTypes";
+import { GET_TIPOS_APOYOS, REGISTRAR_TIPOS_APOYOS, ELIMINAR_TIPOS_APOYOS, MODIFICAR_TIPOS_APOYOS,
+    AGREGAR_PROGRAMA_ERROR,
+    CAMBIAR_PAGINA,
+    CAMBIAR_TAMANIO_PAGINA } from "../../types/actionTypes";
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
@@ -10,7 +13,11 @@ export const TiposApoyosContext = createContext();
 export const TiposApoyosContextProvider = props => {
     const initialState = {
         tiposApoyosList: [],
-        clienteActual: null
+        clienteActual: null,
+        error: false,
+        page: 0,
+        size: 10,
+        total: 0
     }
 
     const [state, dispatch] = useReducer(TiposApoyosReducer, initialState);
@@ -20,12 +27,13 @@ export const TiposApoyosContextProvider = props => {
      */
     const getTiposApoyos = async () => {
         try {
-            const result = await axiosGet('tiposApoyos');
+            const { page, size } = state;
+            const result = await axiosGet(`tiposApoyos?page=${page}&size=${size}`);
             console.log(result._embedded);
             console.log(result._embedded.tiposApoyos);
             dispatch({
                 type: GET_TIPOS_APOYOS,
-                payload: result._embedded.tiposApoyos
+                payload: result
             })
         } catch (error) {
             console.log(error);
@@ -86,14 +94,47 @@ export const TiposApoyosContextProvider = props => {
         }
     }
 
+    //Paginacion
+
+    const changePage = async (page) => {
+        console.log(page);
+
+        dispatch(changePageNumber(page))
+        try {
+            getTiposApoyos();
+        } catch (error) {
+            // console.log(error);
+            //dispatch( idiomaAddedError() )
+            throw error;
+        }
+
+    }
+
+    const changePageNumber = (page) => ({
+        type: CAMBIAR_PAGINA,
+        payload: page
+    })
+
+    const changePageSize = (size) => ({
+        type: CAMBIAR_TAMANIO_PAGINA,
+        payload: size
+    })
+
     return (
         <TiposApoyosContext.Provider
             value={{
                 tiposApoyosList: state.tiposApoyosList,
+                error: state.error,
+                page: state.page,
+                size: state.size,
+                total: state.total,
                 getTiposApoyos,
                 registrarTiposApoyos,
                 actualizarTiposApoyos,
-                eliminarTiposApoyos
+                eliminarTiposApoyos,
+                changePageNumber,
+                changePageSize,
+                changePage
             }}
         >
             {props.children}
