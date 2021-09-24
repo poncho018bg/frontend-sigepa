@@ -3,7 +3,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { MenuItem, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, TextField,Grid } from '@material-ui/core';
+import { MenuItem, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, TextField, Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import moment from 'moment';
 import 'moment/locale/es';
@@ -18,6 +18,7 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { BtActividadesContext } from 'contexts/catalogos/BtActividadesContext';
 import { obtenerRolesAction } from 'actions/rolesKeycloakAction';
 import { useDispatch, useSelector } from 'react-redux';
+import { BitacoraActividades } from './BitacoraActividades';
 
 
 const useStyles = makeStyles(stylesArchivo);
@@ -26,11 +27,10 @@ export const BitacoraActividadesScreen = () => {
 
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [rowsPerPage, setRowsPerPage] = useState(1);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [page, setPage] = useState(0);
     const [searched, setSearched] = useState('');
-    const [idEliminar, setIdEliminar] = useState(0);
-    const [bitacoraActividadSeleccionada, setBitacoraActividadSeleccionada] = useState();
-
+    
     const { btActividadesList, getBtActividadesby } = useContext(BtActividadesContext);
     const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
     const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
@@ -54,10 +54,7 @@ export const BitacoraActividadesScreen = () => {
 
     }, []);
 
-    const total = 0;
-    
-    const size = 0;
-    const page = 0;
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -65,7 +62,7 @@ export const BitacoraActividadesScreen = () => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    
+
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -93,9 +90,7 @@ export const BitacoraActividadesScreen = () => {
     };
 
     const buscarMovimientos = () => {
-
         console.log('rol', puesto.length)
-
         getBtActividadesby(nombre, apellidopaterno, apellidoMaterno, puesto, rol, fecha, "");
     }
     return (
@@ -169,12 +164,12 @@ export const BitacoraActividadesScreen = () => {
                             />
                         </Grid>
                         <Grid item xs={2}>
-                            
+
                             <TextField
                                 variant="outlined"
                                 label="Selecciona un rol"
                                 select
-                                fullWidth                                
+                                fullWidth
                                 name="rol"
                                 value={rol}
                                 onChange={(e) => setRol(e.target.value)}
@@ -196,7 +191,7 @@ export const BitacoraActividadesScreen = () => {
                             </TextField>
                         </Grid>
                         <Grid item xs={2}>
-                           
+
                         </Grid>
                         <Grid item xs={2}>
                             <Button variant="contained" color="primary" fullWidth onClick={buscarMovimientos}>
@@ -218,13 +213,12 @@ export const BitacoraActividadesScreen = () => {
                                     btActividadesList.filter(row => row.dsaccion ?
                                         row.dsaccion.toLowerCase().includes(searched.toLowerCase()) : null)
                                     : btActividadesList
-                                ).map(row => {
-                                    console.log("page:" + page + " size:" + size)
+                                ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+
                                     return (
-                                        < TableRow key={row.id}>
-                                            <TableCell >{moment(row.fcfecharegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
-                                            <TableCell>{row.dsaccion}</TableCell >
-                                        </TableRow >
+                                        <BitacoraActividades
+                                            key={row.id}
+                                            bitacoraActividades={row} />
                                     );
                                 })
                             }
@@ -234,8 +228,8 @@ export const BitacoraActividadesScreen = () => {
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
                         labelRowsPerPage="Registros por página"
-                        count={total}
-                        rowsPerPage={size}
+                        count={btActividadesList.length}
+                        rowsPerPage={rowsPerPage}
                         page={page}
                         onChangePage={handleChangePage}
                         onChangeRowsPerPage={handleChangeRowsPerPage}
@@ -248,4 +242,4 @@ export const BitacoraActividadesScreen = () => {
         </GridItem>
 
     )
-                        }
+}
