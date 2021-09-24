@@ -1,8 +1,7 @@
 
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox, DialogTitle, FormControlLabel, FormHelperText, FormLabel, Grid, Input, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, Radio, RadioGroup, Select, TextField } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, DialogTitle, FormControlLabel, FormelperText, FormLabel, Grid, Input, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, Radio, RadioGroup, Select, TextField } from '@material-ui/core'
 import React, { useEffect, useState, useContext } from 'react';
 import Button from "components/CustomButtons/Button.js";
-import DialogContent from '@material-ui/core/DialogContent';
 import { useSelector } from 'react-redux';
 import { stylesArchivo } from 'css/stylesArchivo';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -31,6 +30,8 @@ import { useHistory } from "react-router";
 const useStyles = makeStyles(stylesArchivo);
 
 import Card from "components/Card/Card.js";
+import CardHeader from "components/Card/CardHeader.js";
+import CardBody from "components/Card/CardBody.js";
 
 
 const ITEM_HEIGHT = 48;
@@ -370,12 +371,11 @@ export const DialogTipoApoyoForm = (props) => {
 
 
     return (
-
         <Card>
             <form onSubmit={formik.handleSubmit}>
-                <DialogTitle id="form-dialog-title">{(tipoApoyoEditar) ? 'Editar Tipo de Apoyo' : 'Alta Tipo de Apoyo'} </DialogTitle>
+                <CardHeader color="primary">{(tipoApoyoEditar) ? 'Editar Tipo de Apoyo' : 'Alta Tipo de Apoyo'} </CardHeader>
                 {console.log('ERRORES=>', formik.errors)}
-                <DialogContent>
+                <CardBody>
                     <TextField
                         id="dsapoyo"
                         label="Nombre del Tipo de Apoyo"
@@ -389,9 +389,8 @@ export const DialogTipoApoyoForm = (props) => {
                     {formik.touched.dsapoyo && formik.errors.dsapoyo ? (
                         <FormHelperText error={formik.errors.dsapoyo}>{formik.errors.dsapoyo}</FormHelperText>
                     ) : null}
-                </DialogContent>
-
-                <DialogContent>
+                </CardBody>
+                <CardBody>
                     <TextField
                         variant="outlined"
                         label="Selecciona un programa"
@@ -420,13 +419,8 @@ export const DialogTipoApoyoForm = (props) => {
                     {formik.touched.idPrograma && formik.errors.idPrograma ? (
                         <FormHelperText error={formik.errors.idPrograma}>{formik.errors.idPrograma}</FormHelperText>
                     ) : null}
-                </DialogContent>
-
-
-
-
-
-                <DialogContent>
+                </CardBody>
+                <CardBody>
 
                     <TextField
                         id="dsdescripcion"
@@ -442,19 +436,19 @@ export const DialogTipoApoyoForm = (props) => {
                     {formik.touched.dsdescripcion && formik.errors.dsdescripcion ? (
                         <FormHelperText error={formik.errors.dsdescripcion}>{formik.errors.dsdescripcion}</FormHelperText>
                     ) : null}
-                </DialogContent>
+                </CardBody>
 
-                <DialogContent>
+                <CardBody>
                     <FormLabel component="legend">Estatus </FormLabel>
                     <RadioGroup row aria-label="position" defaultValue="top" value={formik.values.estatus} onChange={formik.handleChange} >
                         <FormControlLabel name="estatus" value="true" control={<Radio color="primary" />} label="Activo" />
                         <FormControlLabel name="estatus" value="false" control={<Radio color="primary" />} label="Inactivo" />
                     </RadioGroup>
-                </DialogContent>
+                </CardBody>
 
 
                 {/* FECHA VIGENCIA */}
-                <DialogContent>
+                <CardBody>
                     <div><FormLabel component="legend">Vigencia del tipo apoyo </FormLabel></div>
                     <GridContainer>
                         <GridItem xs={12} sm={12} md={6}>
@@ -498,11 +492,10 @@ export const DialogTipoApoyoForm = (props) => {
                             />
                         </GridItem>
                     </GridContainer>
-                </DialogContent>
+                </CardBody>
                 {/* FECHA VIGENCIA WEB */}
-                <DialogContent>
+                <CardBody>
                     <div><FormLabel component="legend">Periodo de registro WEB </FormLabel></div>
-
                     <GridContainer>
                         <GridItem xs={12} sm={12} md={6}>
                             <TextField
@@ -545,14 +538,10 @@ export const DialogTipoApoyoForm = (props) => {
                             />
                         </GridItem>
                     </GridContainer>
-
-                </DialogContent>
-
-
+                </CardBody>
                 {/* FECHA VIGENCIA PRESENCIAL */}
-                <DialogContent>
+                <CardBody>
                     <div><FormLabel component="legend">Periodo de registro Presencial </FormLabel></div>
-
                     <GridContainer>
                         <GridItem xs={12} sm={12} md={6}>
                             <TextField
@@ -595,12 +584,8 @@ export const DialogTipoApoyoForm = (props) => {
                             />
                         </GridItem>
                     </GridContainer>
-
-
-                </DialogContent>
-
-
-                <DialogContent>
+                </CardBody>
+                <CardBody>
                     <TextField
                         variant="outlined"
                         label="Selecciona un rango de edad"
@@ -629,9 +614,8 @@ export const DialogTipoApoyoForm = (props) => {
                     {formik.touched.idRangoEdadBeneficiario && formik.errors.idRangoEdadBeneficiario ? (
                         <FormHelperText error={formik.errors.idRangoEdadBeneficiario}>{formik.errors.idRangoEdadBeneficiario}</FormHelperText>
                     ) : null}
-                </DialogContent>
-
-                <DialogContent>
+                </CardBody>
+                <CardBody>
                     <TextField
                         variant="outlined"
                         label="Selecciona un tipo de beneficiario"
@@ -655,30 +639,26 @@ export const DialogTipoApoyoForm = (props) => {
                                 )
                             )
                         }
-
                     </TextField>
                     {formik.touched.idBeneficiario && formik.errors.idBeneficiario ? (
                         <FormHelperText error={formik.errors.idBeneficiario}>{formik.errors.idBeneficiario}</FormHelperText>
                     ) : null}
-                </DialogContent>
-
-                <DialogContent style={{ overflowY: 'visible' }}>
-
+                </CardBody>
+                <CardBody>
                     <FormLabel component="legend">Selecciona un tipo de apoyo</FormLabel>
-
                     <MultiSelect
+                        className={classes.SelectContainer}
                         options={tipoApoyoSelect}
                         value={selectedTipApoy}
                         onChange={setSelectedTipApoy}
-                        labelledBy="Select"
+                        labelledBy="SELECCIONAR"
+                        style={{width:500}}
                     />
-
                     {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
                     <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
                 ) : null} */}
-                </DialogContent>
-
-                <DialogContent>
+                </CardBody>
+                <CardBody>
                     <CurrencyTextField
                         label="Cantidad en pesos"
                         name="cantidadPesos"
@@ -697,9 +677,8 @@ export const DialogTipoApoyoForm = (props) => {
                         <FormHelperText error={formik.errors.cantidadPesos}>{formik.errors.cantidadPesos}</FormHelperText>
                     ) : null}
 
-                </DialogContent>
-                <DialogContent>
-
+                </CardBody>
+                <CardBody>
                     <TextField
                         id="descApoyoEspecie"
                         label=" Descripción del apoyo en especie"
@@ -714,9 +693,9 @@ export const DialogTipoApoyoForm = (props) => {
                     {formik.touched.descApoyoEspecie && formik.errors.descApoyoEspecie ? (
                         <FormHelperText error={formik.errors.descApoyoEspecie}>{formik.errors.descApoyoEspecie}</FormHelperText>
                     ) : null}
-                </DialogContent>
+                </CardBody>
 
-                <DialogContent>
+                <CardBody>
                     {
                         apoyoservicioList.map((apyo, i) => {
                             const fechaInicioq = `enServicio[${i}].fechaInicio`;
@@ -739,7 +718,7 @@ export const DialogTipoApoyoForm = (props) => {
                                     </AccordionSummary>
                                     <AccordionDetails>
 
-                                        <DialogContent>
+                                        <CardBody>
                                             <div><FormLabel component="legend">Vigencia</FormLabel></div>
                                             <GridContainer>
                                                 <GridItem xs={12} sm={12} md={6}>
@@ -774,7 +753,7 @@ export const DialogTipoApoyoForm = (props) => {
                                                     />
                                                 </GridItem>
                                             </GridContainer>
-                                        </DialogContent>
+                                        </CardBody>
 
                                     </AccordionDetails>
                                 </Accordion>
@@ -783,22 +762,17 @@ export const DialogTipoApoyoForm = (props) => {
 
                         })
                     }
-
-
-
-
-                </DialogContent>
-
-                <DialogContent>
+                </CardBody>
+                <CardBody>
                     <FormLabel component="legend">Requiere Visita Obligatoria</FormLabel>
                     <RadioGroup row aria-label="position" defaultValue="top" value={formik.values.visita} onChange={formik.handleChange} >
                         <FormControlLabel name="visita" value="true" control={<Radio color="primary" />} label="SÍ" />
                         <FormControlLabel name="visita" value="false" control={<Radio color="primary" />} label="NO" />
                     </RadioGroup>
-                </DialogContent>
+                </CardBody>
 
 
-                <DialogContent>
+                <CardBody>
                     <FormLabel component="legend">Documentación y formatos requeridos para el tipo de apoyo</FormLabel>
                     <Grid
                         container
@@ -837,9 +811,9 @@ export const DialogTipoApoyoForm = (props) => {
                         </Grid>
                         <Grid item>{customList(right)}</Grid>
                     </Grid>
-                </DialogContent>
+                </CardBody>
 
-                <DialogContent>
+                <CardBody>
                     <TextField
                         variant="outlined"
                         label="Entregar el apoyo"
@@ -868,19 +842,19 @@ export const DialogTipoApoyoForm = (props) => {
                     {formik.touched.idPeriodicidad && formik.errors.idPeriodicidad ? (
                         <FormHelperText error={formik.errors.idPeriodicidad}>{formik.errors.idPeriodicidad}</FormHelperText>
                     ) : null}
-                </DialogContent>
+                </CardBody>
 
-                <DialogContent>
+                <CardBody>
 
                     <FormControlLabel
                         control={<Checkbox value={true} onChange={formik.handleChange} name="formaEntrega" />}
                         label="Forma de entrega de apoyo por exhibición"
                     />
-                </DialogContent>
+                </CardBody>
 
 
 
-                <DialogContent >
+                <CardBody >
 
                     {
 
@@ -917,10 +891,10 @@ export const DialogTipoApoyoForm = (props) => {
                     {formik.touched.numEntregas && formik.errors.numEntregas ? (
                         <FormHelperText error={formik.errors.numEntregas}>{formik.errors.numEntregas}</FormHelperText>
                     ) : null}
-                </DialogContent>
+                </CardBody>
 
 
-                <DialogContent>
+                <CardBody>
                     {console.log()}
                     {
                         (formik.values.numEntregas === '0e050dbc-a937-4a47-90b4-2b1403712359') ? (<TextField
@@ -938,22 +912,23 @@ export const DialogTipoApoyoForm = (props) => {
                     {formik.touched.numApoyos && formik.errors.numApoyos ? (
                         <FormHelperText error={formik.errors.numApoyos}>{formik.errors.numApoyos}</FormHelperText>
                     ) : null}
-                </DialogContent>
+                </CardBody>
 
-                <DialogContent style={{ overflowY: 'visible' }}>
+                <CardBody>
                     <FormLabel component="legend">Cobertura municipal </FormLabel>
                     <MultiSelect
+                        className={classes.SelectContainer}
                         options={municipiosSelect}
                         value={selected}
                         onChange={setSelected}
                         labelledBy="Select"
                     />
-                </DialogContent>
+                </CardBody>
 
-                <DialogContent style={{ overflowY: 'visible' }}>
+                <CardBody >
                     <FormLabel component="legend">Selecciona actividades por realizar para continuar con el apoyo </FormLabel>
-
                     <MultiSelect
+                        className={classes.SelectContainer}
                         options={actividadesContinuarSelect}
                         value={selectedActividadesContinuar}
                         onChange={setSelectedActividadesContinuar}
@@ -963,9 +938,9 @@ export const DialogTipoApoyoForm = (props) => {
                     {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
                     <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
                 ) : null} */}
-                </DialogContent>
+                </CardBody>
 
-                <DialogContent>
+                <CardBody>
                     <TextField
                         id="outlined-multiline-static"
                         label="Observaciones"
@@ -978,15 +953,15 @@ export const DialogTipoApoyoForm = (props) => {
                         inputProps={{ maxLength: 500 }}
                     />
 
-                </DialogContent>
+                </CardBody>
 
-                <DialogContent >
+                <CardBody >
                     <Grid container justify="flex-end">
                         <Button variant="contained" color="primary" type='submit'>
-                        Guardar
+                            Guardar
                         </Button>
                     </Grid>
-                </DialogContent>
+                </CardBody>
 
                 <Mensaje
                     setOpen={setOpenSnackbar}
