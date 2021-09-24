@@ -5,7 +5,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 
@@ -37,7 +37,7 @@ export const SubModuloScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [subModuloSeleccionado, setSubModuloSeleccionado] = useState();
-    const { getSubModulos, eliminarSubModulo, submoduloList } = useContext(SubModuloContext);
+    const { getSubModulos, eliminarSubModulo, submoduloList, size, page, total, changePageSize, changePage } = useContext(SubModuloContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -47,16 +47,11 @@ export const SubModuloScreen = () => {
     useEffect(() => {
         getSubModulos();
         // eslint-disable-next-line
-        console.log('Mod =>>',submoduloList);
+        console.log('Mod =>>', submoduloList);
     }, []);
 
-    const total = 0;
-    const size = 0;
-    const page = 0;
-
-
     const onSelect = (e) => {
-       
+
         setShowModalUpdate(true);
         setSubModuloSeleccionado(e);
     }
@@ -76,14 +71,23 @@ export const SubModuloScreen = () => {
         setShowModalDelete(false);
     }
 
+    const handleChangePage = (event, newPage) => {
+        changePage(newPage)
+    };
+
+    const handleChangeRowsPerPage = event => {
+        changePageSize(+event.target.value);
+        changePage(0)
+    };
+
     return (
         <GridItem xs={12} sm={12} md={12}>
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Modulos</h4>
+                    <h4 className={classes.cardTitleWhite}>Submodulos</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Pantalla que permite configurar los Submodulos  {total}
+                        Pantalla que permite configurar los Submodulos
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -165,6 +169,8 @@ export const SubModuloScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

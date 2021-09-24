@@ -1,8 +1,9 @@
 
 
 import {
-  GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO, CAMBIAR_PAGINA,
-  AGREGAR_LOCALIDADES_ERROR,
+  GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO,
+  CAMBIAR_PAGINA,
+  AGREGAR_MUNICIPIOS_ERROR,
   CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
 
@@ -16,7 +17,7 @@ export default (state, action) => {
         municipiosList: action.payload._embedded.municipios,
         total: action.payload.page.totalElements
       };
-    case AGREGAR_LOCALIDADES_ERROR:
+    case AGREGAR_MUNICIPIOS_ERROR:
       console.log(action.type);
       return {
         ...state,

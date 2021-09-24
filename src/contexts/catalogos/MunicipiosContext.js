@@ -2,7 +2,8 @@ import React, { createContext, useReducer } from 'react';
 import MunicipiosReducer from 'reducers/Catalogos/MunicipiosReducer';
 
 import {
-    GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO, AGREGAR_PROGRAMA_ERROR,
+    GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO,     
+    AGREGAR_MUNICIPIOS_ERROR,
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
@@ -37,7 +38,6 @@ export const MunicipiosContextProvider = props => {
                 payload: resultado
             })
         } catch (error) {
-
             console.log(error);
         }
     }
@@ -52,8 +52,8 @@ export const MunicipiosContextProvider = props => {
                 payload: resultado
             })
         } catch (error) {
-
             console.log(error);
+           
         }
     }
 
@@ -72,8 +72,11 @@ export const MunicipiosContextProvider = props => {
                 payload: resultado
             })
         } catch (error) {
-
             console.log(error);
+            dispatch({
+                type: AGREGAR_MUNICIPIOS_ERROR,
+                payload: true
+            })
         }
     }
 
@@ -122,16 +125,13 @@ export const MunicipiosContextProvider = props => {
         }
     }
     //Paginacion
-
     const changePage = async (page) => {
         console.log(page);
 
         dispatch(changePageNumber(page))
         try {
             getMunicipios();
-        } catch (error) {
-            // console.log(error);
-            //dispatch( idiomaAddedError() )
+        } catch (error) {            
             throw error;
         }
 

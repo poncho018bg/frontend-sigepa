@@ -1,7 +1,10 @@
 import React, { createContext, useReducer } from 'react';
 import SubModuloReducer from '../reducers/SubModuloReducer';
 
-import { GET_SUBMODULOS, REGISTRAR_SUBMODULO, ELIMINAR_SUBMODULO, MODIFICAR_SUBMODULO, GET_MODULO_SUBMODULOS } from '../types/actionTypes';
+import { GET_SUBMODULOS, REGISTRAR_SUBMODULO, ELIMINAR_SUBMODULO, MODIFICAR_SUBMODULO, GET_MODULO_SUBMODULOS,
+    AGREGAR_SUBMODULOS_ERROR,
+    CAMBIAR_PAGINA,
+    CAMBIAR_TAMANIO_PAGINA } from '../types/actionTypes';
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 import UserService from 'servicios/UserService';
 
@@ -12,7 +15,11 @@ export const SubModuloContextProvider = props => {
 
     const initialState = {
         submoduloList: [],
-        clienteActual: null
+        clienteActual: null,
+        error: false,
+        page: 0,
+        size: 10,
+        total: 0
     }
 
     const [state, dispatch] = useReducer(SubModuloReducer, initialState);
@@ -35,7 +42,7 @@ export const SubModuloContextProvider = props => {
 
         try {
             console.log('mod. buscar =>', subModulo)
-            const resultado = await axiosGet(`subModulos/${subModulo.id}/crcModulosCollection`);
+            const resultado = await axiosGet(`subModulos/${subModulo.id}/crcModulosCollection?page=${page}&size=${size}`);
             console.log('RES=>', resultado._embedded.modulos);
             dispatch({
                 type: GET_MODULO_SUBMODULOS,

@@ -39,11 +39,7 @@ export const MunicipiosScreen = () => {
     const [idEliminar, setIdEliminar] = useState(0);
     const [municipioSeleccionada, setMunicipioSeleccionada] = useState();
 
-    const { municipiosList, getMunicipios, eliminarMunicipio, size,
-        page,
-        total,
-        changePageSize,
-        changePage } = useContext(MunicipiosContext);
+    const { municipiosList, getMunicipios, eliminarMunicipio, size, page, total, changePageSize, changePage } = useContext(MunicipiosContext);
     const { getEstadoByIdHetoas, estado } = useContext(EstadosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
