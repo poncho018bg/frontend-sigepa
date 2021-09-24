@@ -1,7 +1,9 @@
 import React, { createContext, useReducer } from 'react';
 import TiposBeneficiariosReducer from 'reducers/Catalogos/TiposBeneficiariosReducer';
 
-import { GET_TIPOS_BENEFICIARIOS, REGISTRAR_TIPOS_BENEFICIARIOS, ELIMINAR_TIPOS_BENEFICIARIOS, MODIFICAR_TIPOS_BENEFICIARIOS } from "../../types/actionTypes";
+import { GET_TIPOS_BENEFICIARIOS, REGISTRAR_TIPOS_BENEFICIARIOS, ELIMINAR_TIPOS_BENEFICIARIOS, MODIFICAR_TIPOS_BENEFICIARIOS,
+    CAMBIAR_PAGINA,
+    CAMBIAR_TAMANIO_PAGINA } from "../../types/actionTypes";
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
@@ -10,7 +12,10 @@ export const TiposBeneficiariosContext = createContext();
 export const TiposBeneficiariosContextProvider = props => {
     const initialState = {
         tiposBeneficiariosList: [],
-        clienteActual: null
+        error: false,
+        page: 0,
+        size: 10,
+        total: 0
     }
 
     const [state, dispatch] = useReducer(TiposBeneficiariosReducer, initialState);
@@ -20,12 +25,14 @@ export const TiposBeneficiariosContextProvider = props => {
      */
     const getTipoBeneficiarios = async () => {
         try {
-            const result = await axiosGet('tiposBeneficiarios');
-            console.log(result._embedded);
-            console.log(result._embedded.tiposBeneficiarios);
+            console.log("page size ---> ",page,size);
+            const {page, size}= state;
+            const result = await axiosGet(`tiposBeneficiarios?page=${page}&size=${size}`);
+            console.log(result);
+            console.log("tipoBeneficiarios --->",result._embedded.tiposBeneficiarios);
             dispatch({
                 type: GET_TIPOS_BENEFICIARIOS,
-                payload: result._embedded.tiposBeneficiarios
+                payload: result
             })
         } catch (error) {
             console.log(error);
@@ -86,14 +93,45 @@ export const TiposBeneficiariosContextProvider = props => {
         }
     }
 
+    const changePage = async (page) => {
+        console.log("llego al page --->",page);
+   
+           dispatch(changePageNumber(page))
+           try {
+            getTipoBeneficiarios();
+           } catch (error) {
+              // console.log(error);
+               //dispatch( idiomaAddedError() )
+               throw error;
+           }
+       
+   }
+   
+       const changePageNumber = (page) => ({
+           type: CAMBIAR_PAGINA, 
+           payload: page
+       })
+       
+        const changePageSize = (size) => ({
+           type: CAMBIAR_TAMANIO_PAGINA, 
+           payload: size
+       })    
+
     return (
         <TiposBeneficiariosContext.Provider
             value={{
                 tiposBeneficiariosList: state.tiposBeneficiariosList,
+                error:state.error,
+                page:state.page,
+                size:state.size,
+                total:state.total,
                 getTipoBeneficiarios,
                 registrarTiposBeneficiarios,
                 actualizarTiposBeneficiarios,
-                eliminarTiposBeneficiarios
+                eliminarTiposBeneficiarios,
+                changePageNumber,
+                changePageSize,
+                changePage
             }}
         >
             {props.children}

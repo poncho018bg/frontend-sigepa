@@ -1,7 +1,10 @@
 import React, { createContext, useReducer } from 'react';
 import EdadesBeneficiariosReducer from 'reducers/Catalogos/EdadesBeneficiariosReducer';
 
-import { GET_EDADES_BENEFICIARIOS, REGISTRAR_EDADES_BENEFICIARIOS, MODIFICAR_EDADES_BENEFICIARIOS, ELIMINAR_EDADES_BENEFICIARIOS } from "../../types/actionTypes";
+import { GET_EDADES_BENEFICIARIOS, REGISTRAR_EDADES_BENEFICIARIOS, MODIFICAR_EDADES_BENEFICIARIOS, ELIMINAR_EDADES_BENEFICIARIOS,
+    AGREGAR_PROGRAMA_ERROR,
+    CAMBIAR_PAGINA,
+    CAMBIAR_TAMANIO_PAGINA } from "../../types/actionTypes";
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
@@ -10,7 +13,11 @@ export const EdadesBeneficiariosContext = createContext();
 export const EdadesBeneficiariosContextProvider = props => {
     const initialState = {
         edadesBeneficiariosList: [],
-        clienteActual: null
+        clienteActual: null,
+        error: false,
+        page: 0,
+        size: 10,
+        total: 0
     }
 
     const [state, dispatch] = useReducer(EdadesBeneficiariosReducer, initialState);
@@ -20,12 +27,13 @@ export const EdadesBeneficiariosContextProvider = props => {
      */
     const getEdadesBeneficiarios = async () => {
         try {
-            const result = await axiosGet('edadesBeneficiarios');
+            const { page, size } = state;
+            const result = await axiosGet(`edadesBeneficiarios?page=${page}&size=${size}`);
             console.log(result._embedded);
             console.log(result._embedded.edadesBeneficiarios);
             dispatch({
                 type: GET_EDADES_BENEFICIARIOS,
-                payload: result._embedded.edadesBeneficiarios
+                payload: result
             })
         } catch (error) {
             console.log(error);
@@ -86,14 +94,44 @@ export const EdadesBeneficiariosContextProvider = props => {
         }
     }
 
+     //Paginacion
+     const changePage = async (page) => {
+        console.log(page);
+
+        dispatch(changePageNumber(page))
+        try {
+            getEdadesBeneficiarios();
+        } catch (error) {         
+            throw error;
+        }
+
+    }
+
+    const changePageNumber = (page) => ({
+        type: CAMBIAR_PAGINA,
+        payload: page
+    })
+
+    const changePageSize = (size) => ({
+        type: CAMBIAR_TAMANIO_PAGINA,
+        payload: size
+    })
+
     return (
         <EdadesBeneficiariosContext.Provider
             value={{
                 edadesBeneficiariosList: state.edadesBeneficiariosList,
+                error: state.error,
+                page: state.page,
+                size: state.size,
+                total: state.total,
                 getEdadesBeneficiarios,
                 registrarEdadesBeneficiarios,
                 actualizarEdadesBeneficiarios,
-                eliminarEdadesBeneficiarios
+                eliminarEdadesBeneficiarios,
+                changePageNumber,
+                changePageSize,
+                changePage
             }}
         >
             {props.children}

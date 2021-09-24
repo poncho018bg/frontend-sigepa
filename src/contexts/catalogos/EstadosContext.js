@@ -2,8 +2,13 @@ import React, { createContext, useReducer } from 'react';
 import EstadosReducer from 'reducers/Catalogos/EstadosReducer';
 
 
-import { GET_ESTADOS, REGISTRAR_ESTADOS, ELIMINAR_ESTADOS, MODIFICAR_ESTADOS ,GET_ESTADO} from 'types/actionTypes';
-import { axiosGet ,axiosPost,axiosDeleteTipo,axiosPostHetoas,axiosGetHetoas} from 'helpers/axios';
+import {
+    GET_ESTADOS, REGISTRAR_ESTADOS, ELIMINAR_ESTADOS, MODIFICAR_ESTADOS, GET_ESTADO,
+    AGREGAR_ESTADOS_ERROR,
+    CAMBIAR_PAGINA,
+    CAMBIAR_TAMANIO_PAGINA
+} from 'types/actionTypes';
+import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
 
 
 
@@ -15,8 +20,12 @@ export const EstadosContextProvider = props => {
 
     const initialState = {
         estadosList: [],
-        estado:null,
-        clienteActual: null
+        estado: null,
+        clienteActual: null,
+        error: false,
+        page: 0,
+        size: 10,
+        total: 0
     }
 
     const [state, dispatch] = useReducer(EstadosReducer, initialState);
@@ -25,11 +34,13 @@ export const EstadosContextProvider = props => {
     const getEstados = async () => {
 
         try {
-            const resultado = await axiosGet('estados');
+
+            const { page, size } = state;
+            const resultado = await axiosGet(`estados?page=${page}&size=${size}`);
             console.log(resultado._embedded.estados);
             dispatch({
                 type: GET_ESTADOS,
-                payload: resultado._embedded.estados
+                payload: resultado
             })
         } catch (error) {
 
@@ -63,21 +74,24 @@ export const EstadosContextProvider = props => {
                 payload: resultado
             })
         } catch (error) {
-
             console.log(error);
+            dispatch({
+                type: AGREGAR_ESTADOS_ERROR,
+                payload: true
+            })
         }
     }
 
 
     const actualizarEstados = async estado => {
         console.log(estado);
-        const {  noestado, dsestado,  _links: { estados: { href } } } = estado;
+        const { noestado, dsestado, _links: { estados: { href } } } = estado;
         let estadosEnviar = {
             noestado,
             dsestado,
-            municipiosCollection:[]            
+            municipiosCollection: []
 
-      }
+        }
         try {
             const resultado = await axiosPostHetoas(href, estadosEnviar, 'PUT');
 
@@ -95,34 +109,64 @@ export const EstadosContextProvider = props => {
 
     const eliminarEstados = async idEstado => {
         try {
-    
-              await axiosDeleteTipo(`estados/${idEstado}`);
-              dispatch({
+
+            await axiosDeleteTipo(`estados/${idEstado}`);
+            dispatch({
                 type: ELIMINAR_ESTADOS,
                 payload: idEstado
-              })
-    
-        } catch (error) {
-          
-          console.log(error);
-        }
-      }
+            })
 
-      return (
+        } catch (error) {
+
+            console.log(error);
+        }
+    }
+
+    //Paginacion
+    const changePage = async (page) => {
+        console.log(page);
+
+        dispatch(changePageNumber(page))
+        try {
+            getEstados();
+        } catch (error) {
+            throw error;
+        }
+
+    }
+
+    const changePageNumber = (page) => ({
+        type: CAMBIAR_PAGINA,
+        payload: page
+    })
+
+    const changePageSize = (size) => ({
+        type: CAMBIAR_TAMANIO_PAGINA,
+        payload: size
+    })
+
+    return (
         <EstadosContext.Provider
-          value={{
-            estadosList: state.estadosList,
-            estado:state.estado,
-            getEstados,
-            getEstadoByIdHetoas,
-            registrarEstados,
-            eliminarEstados,
-            actualizarEstados
-           
-          }}
+            value={{
+                estadosList: state.estadosList,
+                estado: state.estado,
+                error: state.error,
+                page: state.page,
+                size: state.size,
+                total: state.total,
+                getEstados,
+                getEstadoByIdHetoas,
+                registrarEstados,
+                eliminarEstados,
+                actualizarEstados,
+                changePageNumber,
+                changePageSize,
+                changePage
+
+            }}
         >
-          {props.children}
+            {props.children}
         </EstadosContext.Provider>
-      )
+    )
 
 }

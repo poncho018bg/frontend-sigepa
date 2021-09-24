@@ -37,7 +37,7 @@ export const ModuloScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [moduloSeleccionado, setModuloSeleccionado] = useState();
-    const {  getModulos, eliminarModulo ,moduloList} = useContext(ModuloContext);
+    const {  getModulos, eliminarModulo ,moduloList, size, page, total, changePageSize, changePage} = useContext(ModuloContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -50,9 +50,6 @@ export const ModuloScreen = () => {
         console.log(moduloList);
     }, []);
 
-    const total = 0;
-    const size = 0;
-    const page = 0;
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -74,6 +71,14 @@ export const ModuloScreen = () => {
         setShowModalDelete(false);
     }
 
+    const handleChangePage = (event, newPage) => {
+        changePage(newPage)
+    };
+
+    const handleChangeRowsPerPage = event => {
+        changePageSize(+event.target.value);
+        changePage(0)
+    };
     return (
         <GridItem xs={12} sm={12} md={12}>
 
@@ -81,7 +86,7 @@ export const ModuloScreen = () => {
                 <CardHeader color="primary">
                     <h4 className={classes.cardTitleWhite}>Modulos</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Pantalla que permite configurar los Modulos  {total}
+                        Pantalla que permite configurar los Modulos  
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -161,6 +166,8 @@ export const ModuloScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

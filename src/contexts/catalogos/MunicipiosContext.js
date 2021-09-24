@@ -1,10 +1,13 @@
 import React, { createContext, useReducer } from 'react';
 import MunicipiosReducer from 'reducers/Catalogos/MunicipiosReducer';
 
-import { GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, 
-    ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO,GET_MUNICIPIOS_ID } from 'types/actionTypes';
 import { axiosGet,axiosPost ,axiosDeleteTipo,axiosPostHetoas,axiosGetHetoas} from 'helpers/axios';
-
+import {
+    GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO,     
+    AGREGAR_MUNICIPIOS_ERROR,
+    CAMBIAR_PAGINA,
+    CAMBIAR_TAMANIO_PAGINA,GET_MUNICIPIOS_ID
+} from 'types/actionTypes';
 
 
 
@@ -17,6 +20,10 @@ export const MunicipiosContextProvider = props => {
         municipio: null,
         clienteActual: null,
         municipiosListId: [],
+        error: false,
+        page: 0,
+        size: 10,
+        total: 0
     }
 
     const [state, dispatch] = useReducer(MunicipiosReducer, initialState);
@@ -25,14 +32,14 @@ export const MunicipiosContextProvider = props => {
     const getMunicipios = async () => {
 
         try {
-            const resultado = await axiosGet('municipios');
+            const { page, size } = state;
+            const resultado = await axiosGet(`municipios?page=${page}&size=${size}`);
             console.log(resultado._embedded.municipios);
             dispatch({
                 type: GET_MUNICIPIOS,
-                payload: resultado._embedded.municipios
+                payload: resultado
             })
         } catch (error) {
-
             console.log(error);
         }
     }
@@ -47,8 +54,8 @@ export const MunicipiosContextProvider = props => {
                 payload: resultado
             })
         } catch (error) {
-
             console.log(error);
+           
         }
     }
 
@@ -67,15 +74,18 @@ export const MunicipiosContextProvider = props => {
                 payload: resultado
             })
         } catch (error) {
-
             console.log(error);
+            dispatch({
+                type: AGREGAR_MUNICIPIOS_ERROR,
+                payload: true
+            })
         }
     }
 
 
     const actualizarMunicipios = async municipio => {
         console.log(municipio);
-        const {  dsclavemunicipio, dsmunicipio, activo, estadoId, _links: { municipios: { href } } } = municipio;
+        const { dsclavemunicipio, dsmunicipio, activo, estadoId, _links: { municipios: { href } } } = municipio;
         let municipioEnviar = {
             dsclavemunicipio,
             dsmunicipio,
@@ -116,6 +126,28 @@ export const MunicipiosContextProvider = props => {
             console.log(error);
         }
     }
+    //Paginacion
+    const changePage = async (page) => {
+        console.log(page);
+
+        dispatch(changePageNumber(page))
+        try {
+            getMunicipios();
+        } catch (error) {            
+            throw error;
+        }
+
+    }
+
+    const changePageNumber = (page) => ({
+        type: CAMBIAR_PAGINA,
+        payload: page
+    })
+
+    const changePageSize = (size) => ({
+        type: CAMBIAR_TAMANIO_PAGINA,
+        payload: size
+    })
 
     
     const getMunicipiosId = async () => {
@@ -138,12 +170,19 @@ export const MunicipiosContextProvider = props => {
                 municipiosList: state.municipiosList,
                 municipio: state.municipio,
                 municipiosListId: state.municipiosListId,
+                error: state.error,
+                page: state.page,
+                size: state.size,
+                total: state.total,
                 getMunicipios,
                 getMunicipioByIdHetoas,
                 registrarMunicipios,
                 eliminarMunicipio,
                 actualizarMunicipios,
-                getMunicipiosId
+                getMunicipiosId,
+                changePageNumber,
+                changePageSize,
+                changePage
 
             }}
         >

@@ -1,4 +1,9 @@
-import { GET_EDADES_BENEFICIARIOS, REGISTRAR_EDADES_BENEFICIARIOS, MODIFICAR_EDADES_BENEFICIARIOS, ELIMINAR_EDADES_BENEFICIARIOS } from "../../types/actionTypes";
+import {
+    GET_EDADES_BENEFICIARIOS, REGISTRAR_EDADES_BENEFICIARIOS, MODIFICAR_EDADES_BENEFICIARIOS, ELIMINAR_EDADES_BENEFICIARIOS,
+    CAMBIAR_PAGINA,
+    AGREGAR_LOCALIDADES_ERROR,
+    CAMBIAR_TAMANIO_PAGINA
+} from "../../types/actionTypes";
 
 export default (state, action) => {
 
@@ -6,7 +11,8 @@ export default (state, action) => {
         case GET_EDADES_BENEFICIARIOS:
             return {
                 ...state,
-                edadesBeneficiariosList: action.payload
+                edadesBeneficiariosList: action.payload._embedded.edadesBeneficiarios,
+                total: action.payload.page.totalElements
             };
         case REGISTRAR_EDADES_BENEFICIARIOS:
             return {
@@ -25,6 +31,16 @@ export default (state, action) => {
                 ...state,
                 edadesBeneficiariosList: state.edadesBeneficiariosList.filter(edadBeneficiario => edadBeneficiario.id !== action.payload)
             };
+        case CAMBIAR_PAGINA:
+            return {
+                ...state,
+                page: action.payload
+            }
+        case CAMBIAR_TAMANIO_PAGINA:
+            return {
+                ...state,
+                size: action.payload
+            }
         default:
             return state;
     }

@@ -1,7 +1,12 @@
 import React, { createContext, useReducer } from 'react';
 import ClasificacionServiciosReducer from 'reducers/Catalogos/ClasificacionServiciosReducer';
 
-import { GET_CLASIFICACION_SERVICIOS, REGISTRAR_CLASIFICACION_SERVICIOS, MODIFICAR_CLASIFICACION_SERVICIOS, ELIMINAR_CLASIFICACION_SERVICIOS } from "../../types/actionTypes";
+import {
+    GET_CLASIFICACION_SERVICIOS, REGISTRAR_CLASIFICACION_SERVICIOS, MODIFICAR_CLASIFICACION_SERVICIOS, ELIMINAR_CLASIFICACION_SERVICIOS,
+    AGREGAR_CLASIFICACION_SERVICIOS_ERROR,
+    CAMBIAR_PAGINA,
+    CAMBIAR_TAMANIO_PAGINA
+} from "../../types/actionTypes";
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
@@ -10,6 +15,10 @@ export const ClasificacionServiciosContext = createContext();
 export const ClasificacionServiciosContextProvider = props => {
     const initialState = {
         clasificacionServiciosList: [],
+        error: false,
+        page: 0,
+        size: 10,
+        total: 0
     }
 
     const [state, dispatch] = useReducer(ClasificacionServiciosReducer, initialState);
@@ -19,12 +28,13 @@ export const ClasificacionServiciosContextProvider = props => {
      */
     const getClasificacionServicios = async () => {
         try {
-            const result = await axiosGet('clasificacionServicios');
+            const { page, size } = state;
+            const result = await axiosGet(`clasificacionServicios?page=${page}&size=${size}`);
             console.log(result._embedded);
             console.log(result._embedded.clasificacionServicios);
             dispatch({
                 type: GET_CLASIFICACION_SERVICIOS,
-                payload: result._embedded.clasificacionServicios
+                payload: result
             })
         } catch (error) {
             console.log(error);
@@ -46,6 +56,10 @@ export const ClasificacionServiciosContextProvider = props => {
             })
         } catch (error) {
             console.log(error);
+            dispatch({
+                type: AGREGAR_CLASIFICACION_SERVICIOS_ERROR,
+                payload: true
+            })
         }
     }
 
@@ -53,15 +67,15 @@ export const ClasificacionServiciosContextProvider = props => {
      * Se actualizan los tipos de apoyos
      * @param {ClasificacionServicios} clasificacionServicios 
      */
-    const actualizarClasificacionServicios= async clasificacionServicios => {
-        const { id, dsclasificacionservicio,dsabreviatura, activo, _links: { clasificacionServicios: { href } } } = clasificacionServicios;
+    const actualizarClasificacionServicios = async clasificacionServicios => {
+        const { id, dsclasificacionservicio, dsabreviatura, activo, _links: { clasificacionServicios: { href } } } = clasificacionServicios;
 
         let ClasificacionServiciosEnviar = {
             id,
             dsclasificacionservicio,
             dsabreviatura,
             activo,
-            'crcApoyoServicios':[]
+            'crcApoyoServicios': []
         };
 
         console.log(ClasificacionServiciosEnviar);
@@ -89,14 +103,44 @@ export const ClasificacionServiciosContextProvider = props => {
         }
     }
 
+    //Paginacion
+    const changePage = async (page) => {
+        console.log(page);
+
+        dispatch(changePageNumber(page))
+        try {
+            getClasificacionServicios();
+        } catch (error) {
+            throw error;
+        }
+
+    }
+
+    const changePageNumber = (page) => ({
+        type: CAMBIAR_PAGINA,
+        payload: page
+    })
+
+    const changePageSize = (size) => ({
+        type: CAMBIAR_TAMANIO_PAGINA,
+        payload: size
+    })
+
     return (
         <ClasificacionServiciosContext.Provider
             value={{
                 clasificacionServiciosList: state.clasificacionServiciosList,
+                error: state.error,
+                page: state.page,
+                size: state.size,
+                total: state.total,
                 getClasificacionServicios,
                 registrarClasificacionServicios,
                 actualizarClasificacionServicios,
-                eliminarClasificacionServicios
+                eliminarClasificacionServicios,
+                changePageNumber,
+                changePageSize,
+                changePage
             }}
         >
             {props.children}

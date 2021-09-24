@@ -42,7 +42,7 @@ export const TipoApoyoScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [tipoApoyoSeleccionado, setTipoApoyoSeleccionado] = useState();
-    const { getTiposApoyos, eliminarTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);
+    const { getTiposApoyos, eliminarTiposApoyos, tiposApoyosList, size, page, total, changePageSize, changePage } = useContext(TiposApoyosContext);
     const { setShowModal } = useContext(ModalContext);
     const {  setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -55,10 +55,7 @@ export const TipoApoyoScreen = () => {
         console.log("tipo de apoyo",tiposApoyosList);
     }, []);
 
-    const total = 0;
-    const size = 0;
-    const page = 0;
-
+    
     const onSelect = (e) => {
         setShowModalUpdate(true);
         setTipoApoyoSeleccionado(e);
@@ -79,6 +76,15 @@ export const TipoApoyoScreen = () => {
         setShowModalDelete(false);
     }
 
+    const handleChangePage = (event, newPage) => {
+        changePage(newPage)
+    };
+
+    const handleChangeRowsPerPage = event => {
+        changePageSize(+event.target.value);
+        changePage(0)
+    };
+
     return (
         <GridItem xs={12} sm={12} md={12}>
 
@@ -86,7 +92,7 @@ export const TipoApoyoScreen = () => {
                 <CardHeader color="primary">
                     <h4 className={classes.cardTitleWhite}>Tipo de Apoyo</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Esta pantalla permite agregar tipos de apoyo  {total}
+                        Esta pantalla permite agregar tipos de apoyo  
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -163,6 +169,8 @@ export const TipoApoyoScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

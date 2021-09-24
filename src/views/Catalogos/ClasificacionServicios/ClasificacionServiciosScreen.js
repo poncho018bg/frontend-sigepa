@@ -5,7 +5,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow ,Grid} from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 
@@ -42,7 +42,7 @@ export const ClasificacionServiciosScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [clasificacionServiciosSeleccionado, setClasificacionServiciosSeleccionado] = useState();
-    const { getClasificacionServicios, eliminarClasificacionServicios, clasificacionServiciosList } = useContext(ClasificacionServiciosContext);
+    const { getClasificacionServicios, eliminarClasificacionServicios, clasificacionServiciosList, size, page, total, changePageSize, changePage } = useContext(ClasificacionServiciosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -53,10 +53,6 @@ export const ClasificacionServiciosScreen = () => {
         // eslint-disable-next-line
         console.log("tipo de apoyo", clasificacionServiciosList);
     }, []);
-
-    const total = 0;
-    const size = 0;
-    const page = 0;
 
 
     const onSelect = (e) => {
@@ -78,6 +74,15 @@ export const ClasificacionServiciosScreen = () => {
         eliminarClasificacionServicios(idEliminar)
         setShowModalDelete(false);
     }
+
+    const handleChangePage = (event, newPage) => {
+        changePage(newPage)
+    };
+
+    const handleChangeRowsPerPage = event => {
+        changePageSize(+event.target.value);
+        changePage(0)
+    };
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -165,6 +170,8 @@ export const ClasificacionServiciosScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

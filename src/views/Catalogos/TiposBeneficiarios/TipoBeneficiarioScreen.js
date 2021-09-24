@@ -42,7 +42,12 @@ export const TipoBeneficiarioScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [tipoBeneficiarioSeleccionado, setTipoBeneficiarioSeleccionado] = useState();
-    const { getTipoBeneficiarios, eliminarTiposBeneficiarios, tiposBeneficiariosList } = useContext(TiposBeneficiariosContext);
+    const { getTipoBeneficiarios, eliminarTiposBeneficiarios, tiposBeneficiariosList,
+        size,
+        page,
+        total,
+        changePageSize,
+        changePage } = useContext(TiposBeneficiariosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -52,12 +57,19 @@ export const TipoBeneficiarioScreen = () => {
     useEffect(() => {
         getTipoBeneficiarios();
         // eslint-disable-next-line
-        console.log("tipo de apoyo", tiposBeneficiariosList);
+        console.log("tipo de apoyo ---", tiposBeneficiariosList);
     }, []);
 
-    const total = 0;
-    const size = 0;
-    const page = 0;
+    const handleChangePage = (event, newPage) => {
+        console.log("evente change page --->",event);
+        console.log("event new page -----> ", newPage);
+        changePage(newPage)
+    };
+
+    const handleChangeRowsPerPage = event => {
+        changePageSize(+event.target.value);
+        changePage(0)
+    };
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -125,7 +137,7 @@ export const TipoBeneficiarioScreen = () => {
                             {
                                 (searched ?
                                     tiposBeneficiariosList.filter(row => row.dstipobeneficiario ?
-                                        row.dstipoapoyo.toLowerCase().includes(searched.toLowerCase()) : null)
+                                        row.dstipobeneficiario.toLowerCase().includes(searched.toLowerCase()) : null)
                                     : tiposBeneficiariosList
                                 ).map(row => {
                                     console.log("page:" + page + " size:" + size)
@@ -163,6 +175,8 @@ export const TipoBeneficiarioScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

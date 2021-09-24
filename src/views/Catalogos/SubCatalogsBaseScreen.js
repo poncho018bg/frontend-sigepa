@@ -102,7 +102,7 @@ export const SubCatalogsBaseScreen = () => {
                         </Card>
                     </GridItem>
 
-                    <GridItem xs={12} sm={6} md={3}>
+                    {/* <GridItem xs={12} sm={6} md={3}>
                         <Card>
                         <Link to="../admin/">
                                 <CardHeader color="info" stats icon>
@@ -130,7 +130,7 @@ export const SubCatalogsBaseScreen = () => {
                                 </CardHeader>
                             </Link>
                         </Card>
-                    </GridItem>
+                    </GridItem> */}
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
