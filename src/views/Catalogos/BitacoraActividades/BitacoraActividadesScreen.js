@@ -30,7 +30,7 @@ export const BitacoraActividadesScreen = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [page, setPage] = useState(0);
     const [searched, setSearched] = useState('');
-    
+
     const { btActividadesList, getBtActividadesby } = useContext(BtActividadesContext);
     const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
     const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);

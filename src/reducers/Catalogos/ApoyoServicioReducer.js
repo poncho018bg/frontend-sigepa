@@ -1,4 +1,9 @@
-import { GET_APOYOSERVICIO,REGISTRAR_APOYOSERVICIO,ELIMINAR_APOYOSERVICIO,MODIFICAR_APOYOSERVICIO} from 'types/actionTypes';
+import {
+  GET_APOYOSERVICIO, REGISTRAR_APOYOSERVICIO, ELIMINAR_APOYOSERVICIO, MODIFICAR_APOYOSERVICIO,
+  AGREGAR_APOYOSERVICIO_ERROR,
+  CAMBIAR_PAGINA,
+  CAMBIAR_TAMANIO_PAGINA
+} from 'types/actionTypes';
 
 
 
@@ -8,25 +13,42 @@ export default (state, action) => {
     case GET_APOYOSERVICIO:
       return {
         ...state,
-        apoyoservicioList: action.payload
+        apoyoservicioList: action.payload._embedded.apoyosServicios,
+        total: action.payload.page.totalElements
       };
+    case AGREGAR_APOYOSERVICIO_ERROR:
+      console.log(action.type);
+      return {
+        ...state,
+        error: action.payload
+      }
     case REGISTRAR_APOYOSERVICIO:
-        return {
-          ...state,
-          apoyoservicioList: [...state.apoyoservicioList, action.payload]
-    };
+      return {
+        ...state,
+        apoyoservicioList: [...state.apoyoservicioList, action.payload]
+      };
     case MODIFICAR_APOYOSERVICIO:
       return {
         ...state,
         apoyoservicioList: state.apoyoservicioList.map(
-          apoyoservicio =>apoyoservicio.id === action.payload.id ? action.payload : apoyoservicio
+          apoyoservicio => apoyoservicio.id === action.payload.id ? action.payload : apoyoservicio
         )
       };
     case ELIMINAR_APOYOSERVICIO:
       return {
         ...state,
-        apoyoservicioList: state.apoyoservicioList.filter( apoyoservicio => apoyoservicio.id !== action.payload )
+        apoyoservicioList: state.apoyoservicioList.filter(apoyoservicio => apoyoservicio.id !== action.payload)
       };
+    case CAMBIAR_PAGINA:
+      return {
+        ...state,
+        page: action.payload
+      }
+    case CAMBIAR_TAMANIO_PAGINA:
+      return {
+        ...state,
+        size: action.payload
+      }
     default:
       return state;
   }

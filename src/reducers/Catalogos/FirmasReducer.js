@@ -6,7 +6,7 @@ export default (state, action) => {
         case GET_FIRMAS:
             return {
                 ...state,
-                firmasList: action.payload
+                firmasList: action.payload._embedded.firmas,
             };
         case REGISTRAR_FIRMAS:
             return {

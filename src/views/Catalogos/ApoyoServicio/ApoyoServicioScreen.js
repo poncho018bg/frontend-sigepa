@@ -42,7 +42,7 @@ export const ApoyoServicioScreen = () => {
     const [idEliminar, setIdEliminar] = useState(0);
     const [ApoyoServicioSeleccionada, setApoyoServicioSeleccionada] = useState();
 
-    const { apoyoservicioList, getApoyoServicio, eliminarApoyoServicio } = useContext(ApoyoServicioContext);
+    const { apoyoservicioList, getApoyoServicio, eliminarApoyoServicio , size, page, total, changePageSize, changePage} = useContext(ApoyoServicioContext);
     const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
     const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
     const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
@@ -53,17 +53,6 @@ export const ApoyoServicioScreen = () => {
     
     }, []);
 
-    const total = 0;
-    const size = 0;
-    const page = 0;
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = event => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -84,6 +73,14 @@ export const ApoyoServicioScreen = () => {
         eliminarApoyoServicio(idEliminar)
         setShowModalDelete(false);
     }
+    const handleChangePage = (event, newPage) => {
+        changePage(newPage)
+    };
+
+    const handleChangeRowsPerPage = event => {
+        changePageSize(+event.target.value);
+        changePage(0)
+    };
 
 
 

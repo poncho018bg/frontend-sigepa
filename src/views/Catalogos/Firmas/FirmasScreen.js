@@ -42,7 +42,7 @@ export const FirmasScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar] = useState(0);
     const [firmasSeleccionado, setfirmasSeleccionado] = useState();
-    const { getFirmas, eliminarFirmas, firmasList } = useContext(FirmasContext);
+    const { getFirmas, eliminarFirmas, firmasList, size, page, total, changePageSize, changePage  } = useContext(FirmasContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -54,11 +54,6 @@ export const FirmasScreen = () => {
         // eslint-disable-next-line
         console.log("tipo de apoyo", firmasList);
     }, []);
-
-    const total = 0;
-    const size = 0;
-    const page = 0;
-
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -74,6 +69,14 @@ export const FirmasScreen = () => {
         eliminarFirmas(idEliminar)
         setShowModalDelete(false);
     }
+    const handleChangePage = (event, newPage) => {
+        changePage(newPage)
+    };
+
+    const handleChangeRowsPerPage = event => {
+        changePageSize(+event.target.value);
+        changePage(0)
+    };
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -160,6 +163,8 @@ export const FirmasScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

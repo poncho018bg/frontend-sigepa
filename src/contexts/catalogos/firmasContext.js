@@ -1,6 +1,11 @@
 import React, { createContext, useReducer } from 'react';
 import FirmasReducer from 'reducers/Catalogos/FirmasReducer';
-import { GET_FIRMAS, REGISTRAR_FIRMAS, MODIFICAR_FIRMAS, ELIMINAR_FIRMAS, GET_PROGRAMAS } from "../../types/actionTypes";
+import {
+    GET_FIRMAS, REGISTRAR_FIRMAS, MODIFICAR_FIRMAS, ELIMINAR_FIRMAS, GET_PROGRAMAS,
+    AGREGAR_FIRMAS_ERROR,
+    CAMBIAR_PAGINA,
+    CAMBIAR_TAMANIO_PAGINA
+} from "../../types/actionTypes";
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
 const baseUrl = process.env.REACT_APP_API_URL;
@@ -10,19 +15,24 @@ export const FirmasContext = createContext();
 export const FirmasContextProvider = props => {
     const initialState = {
         firmasList: [],
-        programaList: []
+        programaList: [],
+        error: false,
+        page: 0,
+        size: 10,
+        total: 0
     }
 
     const [state, dispatch] = useReducer(FirmasReducer, initialState);
 
     const getFirmas = async () => {
         try {
-            const result = await axiosGet('firmas');
+            const { page, size } = state;
+            const result = await axiosGet(`firmas?page=${page}&size=${size}`);
             console.log(result._embedded);
             console.log(result._embedded.firmas);
             dispatch({
                 type: GET_FIRMAS,
-                payload: result._embedded.firmas
+                payload: result
             })
         } catch (error) {
             console.log(error);
@@ -58,6 +68,10 @@ export const FirmasContextProvider = props => {
             })
         } catch (error) {
             console.log(error);
+            dispatch({
+                type: AGREGAR_MUNICIPIOS_ERROR,
+                payload: true
+            })
         }
     }
 
@@ -106,6 +120,29 @@ export const FirmasContextProvider = props => {
         }
     }
 
+    //Paginacion
+    const changePage = async (page) => {
+        console.log(page);
+
+        dispatch(changePageNumber(page))
+        try {
+            getFirmas();
+        } catch (error) {
+            throw error;
+        }
+
+    }
+
+    const changePageNumber = (page) => ({
+        type: CAMBIAR_PAGINA,
+        payload: page
+    })
+
+    const changePageSize = (size) => ({
+        type: CAMBIAR_TAMANIO_PAGINA,
+        payload: size
+    })
+
 
 
     return (
@@ -113,11 +150,18 @@ export const FirmasContextProvider = props => {
             value={{
                 firmasList: state.firmasList,
                 programaList: state.programaList,
+                error: state.error,
+                page: state.page,
+                size: state.size,
+                total: state.total,
                 getFirmas,
                 getProgramas,
                 registrarFirmas,
                 actualizarFirmas,
-                eliminarFirmas
+                eliminarFirmas,
+                changePageNumber,
+                changePageSize,
+                changePage
             }}
         >
             {props.children}
