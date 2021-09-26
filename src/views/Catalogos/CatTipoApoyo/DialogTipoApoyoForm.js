@@ -32,7 +32,7 @@ const useStyles = makeStyles(stylesArchivo);
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-
+import "./styles.css";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -647,12 +647,12 @@ export const DialogTipoApoyoForm = (props) => {
                 <CardBody>
                     <FormLabel component="legend">Selecciona un tipo de apoyo</FormLabel>
                     <MultiSelect
-                        className={classes.SelectContainer}
+                        
                         options={tipoApoyoSelect}
                         value={selectedTipApoy}
                         onChange={setSelectedTipApoy}
-                        labelledBy="SELECCIONAR"
-                        style={{width:500}}
+                        labelledBy="Seleccionar"
+                        
                     />
                     {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
                     <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
@@ -917,22 +917,22 @@ export const DialogTipoApoyoForm = (props) => {
                 <CardBody>
                     <FormLabel component="legend">Cobertura municipal </FormLabel>
                     <MultiSelect
-                        className={classes.SelectContainer}
+                       
                         options={municipiosSelect}
                         value={selected}
                         onChange={setSelected}
-                        labelledBy="Select"
+                        labelledBy="Seleccionar"
                     />
                 </CardBody>
 
                 <CardBody >
                     <FormLabel component="legend">Selecciona actividades por realizar para continuar con el apoyo </FormLabel>
                     <MultiSelect
-                        className={classes.SelectContainer}
+                        
                         options={actividadesContinuarSelect}
                         value={selectedActividadesContinuar}
                         onChange={setSelectedActividadesContinuar}
-                        labelledBy="Select"
+                        labelledBy="Seleccionar"
                     />
 
                     {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
