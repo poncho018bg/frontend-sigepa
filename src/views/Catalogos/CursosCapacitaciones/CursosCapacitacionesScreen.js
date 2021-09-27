@@ -44,7 +44,7 @@ export const CursosCapacitacionesScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [objetoActualizar, setObjetoActualizar] = useState();
-    const { get, eliminar, cursosCapacitacionesList } = useContext(CursosCapacitacionesContext);
+    const { get, eliminar, cursosCapacitacionesList, size, page, total, changePageSize, changePage } = useContext(CursosCapacitacionesContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -54,10 +54,6 @@ export const CursosCapacitacionesScreen = () => {
     useEffect(() => {
         get();
     }, []);
-
-    const total = 0;
-    const size = 0;
-    const page = 0;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);

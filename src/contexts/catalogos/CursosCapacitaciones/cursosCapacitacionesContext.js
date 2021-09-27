@@ -3,7 +3,10 @@ import React, { createContext, useReducer } from 'react';
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 import CursosCapacitacionesReducer from 'reducers/Catalogos/CursosCapacitacionesReducer';
-import { REGISTRAR_CURSOS_CAPACITACIONES,GET_CURSOS_CAPACITACIONES ,ELIMINAR_CURSOS_CAPACITACIONES,MODIFICAR_CURSOS_CAPACITACIONES} from 'types/actionTypes';
+import { REGISTRAR_CURSOS_CAPACITACIONES,GET_CURSOS_CAPACITACIONES ,ELIMINAR_CURSOS_CAPACITACIONES,MODIFICAR_CURSOS_CAPACITACIONES,
+    AGREGAR_CURSOS_CAPACITACIONES_ERROR,
+    CAMBIAR_PAGINA,
+    CAMBIAR_TAMANIO_PAGINA} from 'types/actionTypes';
 
 
 
@@ -12,7 +15,11 @@ export const CursosCapacitacionesContext = createContext();
 export const CursosCapacitacionesContextProvider = props => {
     const initialState = {
         cursosCapacitacionesList: [],
-        clienteActual: null
+        clienteActual: null,
+        error: false,
+        page: 0,
+        size: 10,
+        total: 0
     }
 
     const [state, dispatch] = useReducer(CursosCapacitacionesReducer, initialState);
@@ -22,12 +29,13 @@ export const CursosCapacitacionesContextProvider = props => {
      */
     const get= async () => {
         try {
-            const result = await axiosGet('cursosCapacitaciones');
+            const { page, size } = state;
+            const result = await axiosGet(`cursosCapacitaciones`);
             console.log(result._embedded);
             console.log(result._embedded.cursosCapacitaciones);
             dispatch({
                 type: GET_CURSOS_CAPACITACIONES,
-                payload: result._embedded.cursosCapacitaciones
+                payload: result
             })
         } catch (error) {
             console.log(error);
@@ -49,6 +57,10 @@ export const CursosCapacitacionesContextProvider = props => {
             })
         } catch (error) {
             console.log(error);
+            dispatch({
+                type: AGREGAR_CURSOS_CAPACITACIONES_ERROR,
+                payload: true
+            })
         }
     }
 
@@ -89,14 +101,44 @@ export const CursosCapacitacionesContextProvider = props => {
         }
     }
 
+    //Paginacion
+    const changePage = async (page) => {
+        console.log(page);
+
+        dispatch(changePageNumber(page))
+        try {
+            get();
+        } catch (error) {            
+            throw error;
+        }
+
+    }
+
+    const changePageNumber = (page) => ({
+        type: CAMBIAR_PAGINA,
+        payload: page
+    })
+
+    const changePageSize = (size) => ({
+        type: CAMBIAR_TAMANIO_PAGINA,
+        payload: size
+    })
+
     return (
         <CursosCapacitacionesContext.Provider
             value={{
                 cursosCapacitacionesList: state.cursosCapacitacionesList,
+                error: state.error,
+                page: state.page,
+                size: state.size,
+                total: state.total,
                 get,
                 registrar,
                 actualizar,
-                eliminar
+                eliminar,
+                changePageNumber,
+                changePageSize,
+                changePage
             }}
         >
             {props.children}

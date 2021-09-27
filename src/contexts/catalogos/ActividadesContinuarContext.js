@@ -1,6 +1,11 @@
 import React, { createContext, useReducer } from 'react';
 import ActividadesContinuarReducer from 'reducers/Catalogos/ActividadesContinuarReducer';
-import { GET_ACTIVIDADESCONTINUAR, REGISTRAR_ACTIVIDADESCONTINUAR, ELIMINAR_ACTIVIDADESCONTINUAR, MODIFICAR_ACTIVIDADESCONTINUAR } from 'types/actionTypes';
+import {
+    GET_ACTIVIDADESCONTINUAR, REGISTRAR_ACTIVIDADESCONTINUAR, ELIMINAR_ACTIVIDADESCONTINUAR, MODIFICAR_ACTIVIDADESCONTINUAR,
+    AGREGAR_ACTIVIDADESCONTINUAR_ERROR,
+    CAMBIAR_PAGINA,
+    CAMBIAR_TAMANIO_PAGINA
+} from 'types/actionTypes';
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
 
@@ -12,7 +17,11 @@ export const ActividadesContinuarContextProvider = props => {
 
     const initialState = {
         actividadescontinuarList: [],
-        clienteActual: null
+        clienteActual: null,
+        error: false,
+        page: 0,
+        size: 10,
+        total: 0
     }
 
 
@@ -20,11 +29,12 @@ export const ActividadesContinuarContextProvider = props => {
 
     const getActividadesContinuar = async () => {
         try {
-            const resultado = await axiosGet('continuidadActividades');
+            const { page, size } = state;
+            const resultado = await axiosGet(`continuidadActividades?page=${page}&size=${size}`);
             console.log(resultado._embedded.continuidadActividades);
             dispatch({
                 type: GET_ACTIVIDADESCONTINUAR,
-                payload: resultado._embedded.continuidadActividades
+                payload: resultado
             })
         } catch (error) {
 
@@ -43,6 +53,10 @@ export const ActividadesContinuarContextProvider = props => {
             })
         } catch (error) {
             console.log(error);
+            dispatch({
+                type: AGREGAR_ACTIVIDADESCONTINUAR_ERROR,
+                payload: true
+            })
         }
     }
 
@@ -83,14 +97,44 @@ export const ActividadesContinuarContextProvider = props => {
         }
     }
 
+    //Paginacion
+    const changePage = async (page) => {
+        console.log(page);
+
+        dispatch(changePageNumber(page))
+        try {
+            getActividadesContinuar();
+        } catch (error) {            
+            throw error;
+        }
+
+    }
+
+    const changePageNumber = (page) => ({
+        type: CAMBIAR_PAGINA,
+        payload: page
+    })
+
+    const changePageSize = (size) => ({
+        type: CAMBIAR_TAMANIO_PAGINA,
+        payload: size
+    })
+
     return (
         <ActividadesContinuarContext.Provider
             value={{
                 actividadescontinuarList: state.actividadescontinuarList,
+                error: state.error,
+                page: state.page,
+                size: state.size,
+                total: state.total,
                 getActividadesContinuar,
                 registrarActividadesContinuar,
                 eliminarActividadesContinuar,
-                actualizarActividadesContinuar
+                actualizarActividadesContinuar,
+                changePageNumber,
+                changePageSize,
+                changePage
             }}
         >
 

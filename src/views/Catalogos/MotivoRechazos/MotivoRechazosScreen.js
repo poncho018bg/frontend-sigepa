@@ -43,7 +43,7 @@ export const MotivoRechazosScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [motivoRechazosSeleccionado, setMotivoRechazosSeleccionado] = useState();
-    const { getMotivoRechazos, eliminarMotivoRechazos, motivoRechazosList } = useContext(MotivoRechazosContext);
+    const { getMotivoRechazos, eliminarMotivoRechazos, motivoRechazosList, size, page, total, changePageSize, changePage  } = useContext(MotivoRechazosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -56,11 +56,7 @@ export const MotivoRechazosScreen = () => {
         console.log("tipo de apoyo", motivoRechazosList);
     }, []);
 
-    const total = 0;
-    const size = 0;
-    const page = 0;
-
-
+   
     const onSelect = (e) => {
         setShowModalUpdate(true);
         setMotivoRechazosSeleccionado(e);
@@ -81,6 +77,15 @@ export const MotivoRechazosScreen = () => {
         eliminarMotivoRechazos(idEliminar)
         setShowModalDelete(false);
     }
+
+    const handleChangePage = (event, newPage) => {
+        changePage(newPage)
+    };
+
+    const handleChangeRowsPerPage = event => {
+        changePageSize(+event.target.value);
+        changePage(0)
+    };
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -166,6 +171,8 @@ export const MotivoRechazosScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

@@ -37,7 +37,7 @@ export const ContinuidadActividadesScreen = () => {
     const [idEliminar, setIdEliminar] = useState(0);
     const [continuidadActividadesSeleccionada, setContinuidadActividadesSeleccionada] = useState();
 
-    const { actividadescontinuarList, getActividadesContinuar, eliminarActividadesContinuar, actualizarActividadesContinuar } = useContext(ActividadesContinuarContext);
+    const { actividadescontinuarList, getActividadesContinuar, eliminarActividadesContinuar, actualizarActividadesContinuar, size, page, total, changePageSize, changePage  } = useContext(ActividadesContinuarContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
@@ -46,9 +46,7 @@ export const ContinuidadActividadesScreen = () => {
         getActividadesContinuar();
     }, []);
 
-    const total = 0;
-    const size = 0;
-    const page = 0;
+
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -86,6 +84,15 @@ export const ContinuidadActividadesScreen = () => {
         });
         console.log("actividades ---> ",lista);
     }
+
+    const handleChangePage = (event, newPage) => {
+        changePage(newPage)
+    };
+
+    const handleChangeRowsPerPage = event => {
+        changePageSize(+event.target.value);
+        changePage(0)
+    };
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -172,6 +179,8 @@ export const ContinuidadActividadesScreen = () => {
                         count={total}
                         rowsPerPage={size}
                         page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

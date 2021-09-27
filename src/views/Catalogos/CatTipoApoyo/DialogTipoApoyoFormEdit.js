@@ -26,6 +26,7 @@ import { RegionMunicipiosContext } from 'contexts/catalogos/RegionMunicipiosCont
 import { ActividadesContinuarContext } from 'contexts/catalogos/ActividadesContinuarContext';
 import { ApoyoContext } from 'contexts/catalogos/ApoyoContext';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
+import "./styles.css";
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -586,7 +587,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                 options={tipoApoyoSelect}
                                 value={selectedTipApoy}
                                 onChange={setSelectedTipApoy}
-                                labelledBy="Select"
+                                labelledBy="Seleccionar"
 
                             />
 
@@ -865,7 +866,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                 options={municipiosSelect}
                                 value={selected}
                                 onChange={setSelected}
-                                labelledBy="Select"
+                                labelledBy="Seleccionar"
                             />
                         </DialogContent>
 
@@ -877,7 +878,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                 options={actividadesContinuarSelect}
                                 value={selectedActividadesContinuar}
                                 onChange={setSelectedActividadesContinuar}
-                                labelledBy="Select"
+                                labelledBy="Seleccionar"
                             />
 
                             {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
