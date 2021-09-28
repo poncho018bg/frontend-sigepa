@@ -19,7 +19,8 @@ import { SubmodulosByPerfilContex } from 'contexts/submodulosByPerfilContex';
 import { useHistory } from "react-router";
 import { Mensaje } from "components/Personalizados/Mensaje";
 import { Loading } from "components/Personalizados/Loading";
-
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 
 
 const useStyles = makeStyles(stylesArchivo);
@@ -64,6 +65,20 @@ export const RolesScreen = () => {
 
     const { roles } = useSelector(state => state.roles);
     const [open] = React.useState(true);
+
+    //dialog confirmacion
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    /**
+     * abre el dialogo de confirmación
+     * @param {valores} e 
+     */
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
 
 
     const compareModSub = (mod, sub, indxS, indxM, labelId) => {
@@ -220,8 +235,14 @@ export const RolesScreen = () => {
 
         }
         console.log('Nuevo sent =>', data)
-        //dispatch(PerfilSubmoduloStartAddNew(data))
-        PerfilSubmoduloStartAddNew(data).then(response => {
+        confirmacionDialog(data);
+
+    }
+
+    const handleRegistrar = () => {
+
+
+        PerfilSubmoduloStartAddNew(valores).then(response => {
             setOpenSnackbar(true);
 
             setMsjConfirmacion(`El regisstro fue registrado correctamente`);
@@ -231,13 +252,14 @@ export const RolesScreen = () => {
                 setError(false);
                 history.push("/admin/")
 
-            }, 5000);
+            }, 1000);
             return () => clearTimeout(timer);
         })
 
-
+        setShowModalConfirmacion(false);
 
     }
+
 
 
 
@@ -373,6 +395,10 @@ export const RolesScreen = () => {
 
             <Loading
                 loading={loading}
+            />
+
+            <ModalConfirmacion
+                handleRegistrar={handleRegistrar} evento="Registrar"
             />
 
 
