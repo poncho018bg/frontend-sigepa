@@ -60,7 +60,8 @@ import { ProgramasEdit } from "views/Catalogos/Programas/ProgramasEdit";
 import { DialogTipoApoyoFormEdit } from "views/Catalogos/CatTipoApoyo/DialogTipoApoyoFormEdit";
 import { SubCatalogsBaseScreen } from "views/Catalogos/SubCatalogsBaseScreen";
 import { TipoBeneficiarioScreen } from "views/Catalogos/TiposBeneficiarios/TipoBeneficiarioScreen";
-
+import WidgetsIcon from "@material-ui/icons/Widgets";
+import { RegistroProgramasApoyoScreen } from "views/RegistroProgramasApoyo/RegistroProgramasApoyoScreen";
 
 
 const dashboardRoutes = [
@@ -98,6 +99,14 @@ const dashboardRoutes = [
         rtlMini: "r",
         component: RolesScreen,
         layout: "/admin"
+      },
+      {
+        path: "/registroProgramasApoyo",
+        name: "Widgets",
+        rtlName: "الحاجيات",
+        icon: WidgetsIcon,
+        component: RegistroProgramasApoyoScreen,
+        layout: "/admin",
       },
     ]
   },
