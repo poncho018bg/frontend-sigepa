@@ -16,6 +16,9 @@ import { SubModuloContext } from 'contexts/subModuloContext';
 import { PerfilSubmoduloStartAddNew } from 'actions/perfilSubmoduloAction';
 import UserService from 'servicios/UserService';
 import { SubmodulosByPerfilContex } from 'contexts/submodulosByPerfilContex';
+import { useHistory } from "react-router";
+import { Mensaje } from "components/Personalizados/Mensaje";
+import { Loading } from "components/Personalizados/Loading";
 
 
 
@@ -44,6 +47,11 @@ export const RolesScreen = () => {
     const [modulosChecked, setModulosChecked] = React.useState([]);
     const [subModulosChecked, setSubModulosChecked] = React.useState([]);
     const [idPerfilSelected, setIdPerfilSelected] = React.useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    let history = useHistory();
 
     useEffect(() => {
 
@@ -107,7 +115,7 @@ export const RolesScreen = () => {
         } else {
             newChecked.splice(currentIndex, 1);
         }
-       
+
         setChecked(newChecked);
 
         //selecciona todos los submodulos couando este activo
@@ -212,7 +220,22 @@ export const RolesScreen = () => {
 
         }
         console.log('Nuevo sent =>', data)
-        dispatch(PerfilSubmoduloStartAddNew(data))
+        //dispatch(PerfilSubmoduloStartAddNew(data))
+        PerfilSubmoduloStartAddNew(data).then(response => {
+            setOpenSnackbar(true);
+
+            setMsjConfirmacion(`El regisstro fue registrado correctamente`);
+
+            const timer = setTimeout(() => {
+                setLoading(false);
+                setError(false);
+                history.push("/admin/")
+
+            }, 5000);
+            return () => clearTimeout(timer);
+        })
+
+
 
     }
 
@@ -254,7 +277,7 @@ export const RolesScreen = () => {
 
     return (
         <>
-  
+
             <DialogContent>
                 <TextField
                     variant="outlined"
@@ -264,14 +287,14 @@ export const RolesScreen = () => {
                     error={errors.idPerfil}
                     name="idPerfilSelected"
                     value={idPerfilSelected}
-                    onChange={(e)=> setIdPerfilSelected(e.target.value)}
+                    onChange={(e) => setIdPerfilSelected(e.target.value)}
                 >
                     <MenuItem value="0">
                         <em>Ninguno</em>
                     </MenuItem>
-                    {console.log('ROLES=>',roles)}
+                    {console.log('ROLES=>', roles)}
                     {
-                        
+
                         roles.map(
                             item => (
                                 <MenuItem
@@ -283,7 +306,7 @@ export const RolesScreen = () => {
                         )
                     }
                 </TextField>
-                
+
                 {errors.idPerfil && <FormHelperText error={errors.idPerfil !== null && errors.idPerfil !== undefined}>{errors.idPerfil}</FormHelperText>}
             </DialogContent>
 
@@ -341,6 +364,16 @@ export const RolesScreen = () => {
             </Button>
 
 
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
+
+            <Loading
+                loading={loading}
+            />
 
 
         </>
