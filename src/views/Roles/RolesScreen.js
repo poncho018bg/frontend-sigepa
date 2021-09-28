@@ -16,7 +16,11 @@ import { SubModuloContext } from 'contexts/subModuloContext';
 import { PerfilSubmoduloStartAddNew } from 'actions/perfilSubmoduloAction';
 import UserService from 'servicios/UserService';
 import { SubmodulosByPerfilContex } from 'contexts/submodulosByPerfilContex';
-
+import { useHistory } from "react-router";
+import { Mensaje } from "components/Personalizados/Mensaje";
+import { Loading } from "components/Personalizados/Loading";
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 
 
 const useStyles = makeStyles(stylesArchivo);
@@ -44,6 +48,11 @@ export const RolesScreen = () => {
     const [modulosChecked, setModulosChecked] = React.useState([]);
     const [subModulosChecked, setSubModulosChecked] = React.useState([]);
     const [idPerfilSelected, setIdPerfilSelected] = React.useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    let history = useHistory();
 
     useEffect(() => {
 
@@ -56,6 +65,20 @@ export const RolesScreen = () => {
 
     const { roles } = useSelector(state => state.roles);
     const [open] = React.useState(true);
+
+    //dialog confirmacion
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    /**
+     * abre el dialogo de confirmación
+     * @param {valores} e 
+     */
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
 
 
     const compareModSub = (mod, sub, indxS, indxM, labelId) => {
@@ -107,7 +130,7 @@ export const RolesScreen = () => {
         } else {
             newChecked.splice(currentIndex, 1);
         }
-       
+
         setChecked(newChecked);
 
         //selecciona todos los submodulos couando este activo
@@ -212,9 +235,31 @@ export const RolesScreen = () => {
 
         }
         console.log('Nuevo sent =>', data)
-        dispatch(PerfilSubmoduloStartAddNew(data))
+        confirmacionDialog(data);
 
     }
+
+    const handleRegistrar = () => {
+
+
+        PerfilSubmoduloStartAddNew(valores).then(response => {
+            setOpenSnackbar(true);
+
+            setMsjConfirmacion(`El regisstro fue registrado correctamente`);
+
+            const timer = setTimeout(() => {
+                setLoading(false);
+                setError(false);
+                history.push("/admin/")
+
+            }, 1000);
+            return () => clearTimeout(timer);
+        })
+
+        setShowModalConfirmacion(false);
+
+    }
+
 
 
 
@@ -254,7 +299,7 @@ export const RolesScreen = () => {
 
     return (
         <>
-  
+
             <DialogContent>
                 <TextField
                     variant="outlined"
@@ -264,14 +309,14 @@ export const RolesScreen = () => {
                     error={errors.idPerfil}
                     name="idPerfilSelected"
                     value={idPerfilSelected}
-                    onChange={(e)=> setIdPerfilSelected(e.target.value)}
+                    onChange={(e) => setIdPerfilSelected(e.target.value)}
                 >
                     <MenuItem value="0">
                         <em>Ninguno</em>
                     </MenuItem>
-                    {console.log('ROLES=>',roles)}
+                    {console.log('ROLES=>', roles)}
                     {
-                        
+
                         roles.map(
                             item => (
                                 <MenuItem
@@ -283,7 +328,7 @@ export const RolesScreen = () => {
                         )
                     }
                 </TextField>
-                
+
                 {errors.idPerfil && <FormHelperText error={errors.idPerfil !== null && errors.idPerfil !== undefined}>{errors.idPerfil}</FormHelperText>}
             </DialogContent>
 
@@ -341,6 +386,20 @@ export const RolesScreen = () => {
             </Button>
 
 
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
+
+            <Loading
+                loading={loading}
+            />
+
+            <ModalConfirmacion
+                handleRegistrar={handleRegistrar} evento="Registrar"
+            />
 
 
         </>

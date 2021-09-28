@@ -2,6 +2,8 @@
 
 import { axiosGet, axiosPost } from "helpers/axios";
 import { typesPerfilSubmodulo } from "../types/types";
+import axios from "axios";
+const baseUrl = process.env.REACT_APP_API_URL;
 
 // Función que descarga los sistemas de la base de datos
 export function obtenerPerfilSubmoduloAction() {
@@ -18,8 +20,8 @@ export function obtenerPerfilSubmoduloAction() {
     }
 }
 
-export const getSubmodulosByperfil = ( idPerfil) => {
-    console.log('entro al metodo getSubmodulosByperfil',idPerfil)
+export const getSubmodulosByperfil = (idPerfil) => {
+    console.log('entro al metodo getSubmodulosByperfil', idPerfil)
     return async (dispatch) => {
         dispatch(descargarPerfilSubmodulo());
         try {
@@ -33,8 +35,8 @@ export const getSubmodulosByperfil = ( idPerfil) => {
     }
 }
 
-export const getSubmodulosByPerfilId = ( idPerfil) => {
-    console.log('entro al metodo getSubmodulosByperfilID',idPerfil)
+export const getSubmodulosByPerfilId = (idPerfil) => {
+    console.log('entro al metodo getSubmodulosByperfilID', idPerfil)
     return async (dispatch) => {
         dispatch(descargarPerfilSubmodulo());
         try {
@@ -62,22 +64,23 @@ const descargaPerfilSubmoduloError = () => ({
     payload: true
 });
 
+export const PerfilSubmoduloStartAddNew = async perfilsubmodulo => {
 
-export const PerfilSubmoduloStartAddNew = (perfilsubmodulo) => {
-    return async (dispatch) => {
-        console.log('SAVE=>',perfilsubmodulo)
-        dispatch(descargarPerfilSubmodulo());
-        try {
-            const data = await axiosPost(`perfilessubmodulosOverride`, perfilsubmodulo, 'POST');
-            dispatch(perfilSubmodulosAdded(data));
-            
-            
-        } catch (error) {
-            console.log(error);
-            dispatch(perfilSubmodulosAddedError())
-            throw error;
-        }
-    }
+    const url = `${baseUrl}perfilessubmodulosOverride`;
+    return new Promise((resolve, reject) => {
+        axios.post(url, perfilsubmodulo, {
+            headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+        }).then(response => {
+            resolve(response);
+            dispatch({
+                type: AGREGAR_PERFILSUBMODULO_EXITO,
+                payload: response
+            })
+        }).catch(error => {
+            reject(error);
+        });
+    });
+
 }
 
 

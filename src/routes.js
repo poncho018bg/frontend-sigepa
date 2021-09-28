@@ -74,6 +74,15 @@ const dashboardRoutes = [
     state: "pageCollapse",
     views: [
       {
+        path: "/roles",
+        name: "Administración de perfiles",
+        rtlName: "roles",
+        mini: "R",
+        rtlMini: "r",
+        component: RolesScreen,
+        layout: "/admin"
+      },
+      {
         path: "/catalogos",
         name: "Catálogos administrables",
         rtlName: "cat",
@@ -108,6 +117,7 @@ const dashboardRoutes = [
         component: RegistroProgramasApoyoScreen,
         layout: "/admin",
       },
+      
     ]
   },
   {
