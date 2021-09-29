@@ -12,6 +12,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 
 import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle.js";
+import { TextField } from "@material-ui/core";
 
 const styles = {
   infoText: {
@@ -52,85 +53,144 @@ const Step3 = React.forwardRef((props, ref) => {
         <h4 className={classes.infoText}>Are you living in a nice area?</h4>
       </GridItem>
       <GridItem xs={12} sm={7}>
-        <CustomInput
-          labelText="Street Name"
-          id="streetname"
-          formControlProps={{
-            fullWidth: true,
-          }}
-        />
+        <TextField
+                style={{marginBottom: '20px'}}
+                id="calle"
+                label="Calle"
+                variant="outlined"
+                name="calle"
+                fullWidth
+          />
       </GridItem>
       <GridItem xs={12} sm={3}>
-        <CustomInput
-          labelText="Street No."
-          id="streetno"
-          formControlProps={{
-            fullWidth: true,
-          }}
-        />
+        <TextField
+                  style={{marginBottom: '20px'}}
+                  id="numeroExterior"
+                  label="Número Exterior"
+                  variant="outlined"
+                  name="numeroExterior"
+                  fullWidth
+            />
+      </GridItem>
+      <GridItem xs={12} sm={3}>
+        <TextField
+                  style={{marginBottom: '20px'}}
+                  id="numeroInterior"
+                  label="Número Interior"
+                  variant="outlined"
+                  name="numeroInterior"
+                  fullWidth
+            />
+      </GridItem>
+      <GridItem xs={12} sm={7}>
+        <TextField
+                  style={{marginBottom: '20px'}}
+                  id="colonia"
+                  label="Colonia"
+                  variant="outlined"
+                  name="colonia"
+                  fullWidth
+            />
+      </GridItem>
+
+
+      <GridItem xs={12} sm={5}>
+        <TextField
+                style={{marginBottom: '20px'}}
+                id="entreCalle"
+                label="Entre Calle"
+                variant="outlined"
+                name="entreCalle"
+                fullWidth
+          />
       </GridItem>
       <GridItem xs={12} sm={5}>
-        <CustomInput
-          labelText="City"
-          id="city"
-          formControlProps={{
-            fullWidth: true,
-          }}
-        />
+        <TextField
+                  style={{marginBottom: '20px'}}
+                  id="yCalle"
+                  label="Y calle"
+                  variant="outlined"
+                  name="yCalle"
+                  fullWidth
+            />
       </GridItem>
-      <GridItem xs={12} sm={5}>
-        <FormControl fullWidth className={classes.selectFormControl}>
-          <InputLabel
-            htmlFor="simple-select-step-3"
-            className={classes.selectLabel}
-          >
-            Choose City
-          </InputLabel>
-          <Select
-            MenuProps={{
-              className: classes.selectMenu,
-            }}
-            classes={{
-              select: classes.select,
-            }}
-            value={simpleSelect}
-            onChange={(value) => {
-              setsimpleSelect(value.target.value);
-            }}
-            inputProps={{
-              name: "simpleSelect",
-              id: "simple-select-step-3",
-            }}
-          >
-            <MenuItem
-              disabled
-              classes={{
-                root: classes.selectMenuItem,
-              }}
-            >
-              Country
-            </MenuItem>
-            <MenuItem
-              classes={{
-                root: classes.selectMenuItem,
-                selected: classes.selectMenuItemSelected,
-              }}
-              value="2"
-            >
-              France
-            </MenuItem>
-            <MenuItem
-              classes={{
-                root: classes.selectMenuItem,
-                selected: classes.selectMenuItemSelected,
-              }}
-              value="3"
-            >
-              Romania
-            </MenuItem>
-          </Select>
-        </FormControl>
+      <GridItem xs={12} sm={3}>
+        <TextField
+                  style={{marginBottom: '20px'}}
+                  id="entidadFederativa"
+                  label="Entidad Federativa"
+                  variant="outlined"
+                  name="entidadFederativa"
+                  fullWidth
+            />
       </GridItem>
+      <GridItem xs={12} sm={7}>
+        <TextField
+                  style={{marginBottom: '20px'}}
+                  id="codigoPostal"
+                  label="Código Postal"
+                  variant="outlined"
+                  name="codigoPostal"
+                  fullWidth
+            />
+      </GridItem>
+
+      <GridItem xs={12} sm={7}>
+        <TextField
+                style={{marginBottom: '20px'}}
+                id="municipio"
+                label="Municipio"
+                variant="outlined"
+                name="municipio"
+                fullWidth
+          />
+      </GridItem>
+      <GridItem xs={12} sm={3}>
+        <TextField
+                  style={{marginBottom: '20px'}}
+                  id="ctLocalidad"
+                  label="CT Localidad"
+                  variant="outlined"
+                  name="ctLocalidad"
+                  fullWidth
+            />
+      </GridItem>
+
+
+      <GridItem xs={12} sm={3}>
+        <TextField
+                  style={{marginBottom: '20px'}}
+                  id="nombreMunicipio"
+                  label="Nombre del Municipio"
+                  variant="outlined"
+                  name="nombreMunicipio"
+                  fullWidth
+            />
+      </GridItem>
+      <GridItem xs={12} sm={7}>
+        <TextField
+                  style={{marginBottom: '20px'}}
+                  id="nombreLocalidad"
+                  label="Nombre Localidad"
+                  variant="outlined"
+                  name="nombreLocalidad"
+                  fullWidth
+            />
+      </GridItem>
+
+
+      <GridItem xs={12} sm={10}>
+        <TextField
+                style={{marginBottom: '20px'}}
+                id="otraReferencia"
+                label="Otra referencia"
+                variant="outlined"
+                name="otraReferencia"
+                fullWidth
+          />
+      </GridItem>
+     
+      
     </GridContainer>
   );
 });
