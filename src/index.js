@@ -62,6 +62,8 @@ import { LocalidadesContextProvider } from "contexts/catalogos/Localidades/local
 
 import { ModalContextConfirmacionProvider } from "contexts/modalContextConfirmacion";
 
+import { RegistroCargaDocumentosContextProvider } from "contexts/registroCargaDocumentosContext"
+
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
@@ -121,7 +123,9 @@ const AppState = ({ children }) => {
                                                         <ApoyoContextProvider>
                                                           <ClasificacionServiciosContextProvider>
                                                             <LocalidadesContextProvider>
-                                                              {children}
+                                                              <RegistroCargaDocumentosContextProvider>
+                                                                {children}
+                                                              </RegistroCargaDocumentosContextProvider>
                                                             </LocalidadesContextProvider>
                                                           </ClasificacionServiciosContextProvider>
                                                         </ApoyoContextProvider>
