@@ -64,6 +64,7 @@ import WidgetsIcon from "@material-ui/icons/Widgets";
 import { RegistroProgramasApoyoScreen } from "views/RegistroProgramasApoyo/RegistroProgramasApoyoScreen";
 import Roles from "config/Roles";
 import { CarouselProgramas } from "views/CarouselProgramas/CarouselProgramas";
+import { RegistroSolicitud } from "views/RegistroSolicitudContacto/RegistroSolicitud";
 
 
 
