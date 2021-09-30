@@ -63,6 +63,7 @@ import { TipoBeneficiarioScreen } from "views/Catalogos/TiposBeneficiarios/TipoB
 import WidgetsIcon from "@material-ui/icons/Widgets";
 import { RegistroProgramasApoyoScreen } from "views/RegistroProgramasApoyo/RegistroProgramasApoyoScreen";
 
+import {RegistroSolicitud} from "views/RegistroSolicitudContacto/RegistroSolicitud"
 
 const dashboardRoutes = [
 
@@ -475,7 +476,15 @@ const dashboardRoutes = [
         component: DialogTipoApoyoFormEdit,
         layout: "/admin"
       },
-
+      {
+        path: "/registroSolicitud",
+        name: "Registro de Solicitud",
+        rtlName: "Registro de Solicitud",
+        mini: "TAPY",
+        rtlMini: "TAPY",
+        component: RegistroSolicitud,
+        layout: "/admin"
+      },
     ]
   }
 ];
