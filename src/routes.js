@@ -62,8 +62,10 @@ import { SubCatalogsBaseScreen } from "views/Catalogos/SubCatalogsBaseScreen";
 import { TipoBeneficiarioScreen } from "views/Catalogos/TiposBeneficiarios/TipoBeneficiarioScreen";
 import WidgetsIcon from "@material-ui/icons/Widgets";
 import { RegistroProgramasApoyoScreen } from "views/RegistroProgramasApoyo/RegistroProgramasApoyoScreen";
+import Roles from "config/Roles";
+import { CarouselProgramas } from "views/CarouselProgramas/CarouselProgramas";
 
-import {RegistroSolicitud} from "views/RegistroSolicitudContacto/RegistroSolicitud"
+
 
 const dashboardRoutes = [
 
@@ -81,7 +83,10 @@ const dashboardRoutes = [
         mini: "R",
         rtlMini: "r",
         component: RolesScreen,
-        layout: "/admin"
+        layout: "/admin",
+        permission:[
+          Roles.SUPER_ADMIN
+        ]
       },
       {
         path: "/catalogos",
@@ -118,7 +123,7 @@ const dashboardRoutes = [
         component: RegistroProgramasApoyoScreen,
         layout: "/admin",
       },
-      
+
     ]
   },
   {
@@ -319,6 +324,27 @@ const dashboardRoutes = [
     views: [
       {
       }
+    ]
+  },
+
+  {
+    collapse: true,
+    name: "Módulo de atención",
+    rtlName: "mda",
+    icon: MarkunreadMailboxIcon,
+    state: "pageCollapse",
+    views: [
+
+        {
+          path: "/consultaProgramas",
+          name: "Consulta de programas",
+          rtlName: "scat",
+          mini: "sM",
+          rtlMini: "sm",
+          component: CarouselProgramas,
+          layout: "/admin"
+        },
+
     ]
   },
 
