@@ -13,8 +13,7 @@ import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
 import { ProgramasEdit } from './ProgramasEdit';
-import { ModalContextUpdate } from 'contexts/modalContexUpdate';
-import { ModalUpdate } from 'commons/ModalUpdate';
+
 import { useHistory } from 'react-router';
 
 export const Programa = ( {programa}) => {

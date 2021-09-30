@@ -1,10 +1,11 @@
 
 
+
 import {
   GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO,
   CAMBIAR_PAGINA,
   AGREGAR_MUNICIPIOS_ERROR,
-  CAMBIAR_TAMANIO_PAGINA
+  CAMBIAR_TAMANIO_PAGINA,GET_MUNICIPIOS_ID
 } from 'types/actionTypes';
 
 
@@ -45,6 +46,11 @@ export default (state, action) => {
         ...state,
         municipiosList: state.municipiosList.filter(municipio => municipio.id !== action.payload)
       };
+    case GET_MUNICIPIOS_ID:
+        return {
+          ...state,
+          municipiosListId: action.payload
+    };
     case CAMBIAR_PAGINA:
       return {
         ...state,

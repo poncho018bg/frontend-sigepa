@@ -1,13 +1,13 @@
 import React, { createContext, useReducer } from 'react';
 import MunicipiosReducer from 'reducers/Catalogos/MunicipiosReducer';
 
+import { axiosGet,axiosPost ,axiosDeleteTipo,axiosPostHetoas,axiosGetHetoas} from 'helpers/axios';
 import {
     GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO,     
     AGREGAR_MUNICIPIOS_ERROR,
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA
+    CAMBIAR_TAMANIO_PAGINA,GET_MUNICIPIOS_ID
 } from 'types/actionTypes';
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
 
 
 
@@ -18,6 +18,8 @@ export const MunicipiosContextProvider = props => {
     const initialState = {
         municipiosList: [],
         municipio: null,
+        clienteActual: null,
+        municipiosListId: [],
         error: false,
         page: 0,
         size: 10,
@@ -147,11 +149,27 @@ export const MunicipiosContextProvider = props => {
         payload: size
     })
 
+    
+    const getMunicipiosId = async () => {
+
+        try {
+            const resultado = await axiosGet('municipiosRegion/municipiosEstado/a3de85a7-6c23-46a4-847b-d79b3a90963d');
+            dispatch({
+                type: GET_MUNICIPIOS_ID,
+                payload: resultado
+            })
+        } catch (error) {
+
+            console.log(error);
+        }
+    }
+
     return (
         <MunicipiosContext.Provider
             value={{
                 municipiosList: state.municipiosList,
                 municipio: state.municipio,
+                municipiosListId: state.municipiosListId,
                 error: state.error,
                 page: state.page,
                 size: state.size,
@@ -161,6 +179,7 @@ export const MunicipiosContextProvider = props => {
                 registrarMunicipios,
                 eliminarMunicipio,
                 actualizarMunicipios,
+                getMunicipiosId,
                 changePageNumber,
                 changePageSize,
                 changePage

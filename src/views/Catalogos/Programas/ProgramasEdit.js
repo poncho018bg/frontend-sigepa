@@ -71,16 +71,22 @@ export const ProgramasEdit = () => {
   });
 
   const actualizarInfo = async valores => {
-    actualizar(valores);
-    setOpenSnackbar(true);
-    setError(false);
-    setMsjConfirmacion(`El programa fue actualizado correctamente `);
+    actualizar(valores).then(response => {
 
+      setOpenSnackbar(true);
+      setMsjConfirmacion(`El programa ${response.data.dsprograma}  fue actualizado correctamente `  );
+     const timer = setTimeout(() => {
+      setError(false);
+        history.push("/admin/programas")
 
-    const timer = setTimeout(() => {
-      history.push("/admin/programas")
-    }, 1000);
-    return () => clearTimeout(timer);
+      }, 1000);
+      return () => clearTimeout(timer);
+    })
+    .catch(err => {   
+      setOpenSnackbar(true);
+      setError(true);
+      setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+    });;        
   }
 
 

@@ -6,7 +6,7 @@ import CardBody from "components/Card/CardBody.js";
 
 import CardActions from '@material-ui/core/CardActions';
 import Button from "components/CustomButtons/Button.js";
-import { makeStyles, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid } from '@material-ui/core';
+import { makeStyles, Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
 import { stylesArchivo } from 'css/stylesArchivo';
 import SearchBar from 'material-ui-search-bar';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
@@ -19,23 +19,36 @@ const useStyles = makeStyles(stylesArchivo);
 export const ProgramasScreen = () => {
   const classes = useStyles();
   const [searched, setSearched] = useState('');
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [loading, setLoading] = useState(true);
+  const [pagina, setPagina] = useState(0);
+
+  const { programasList, get ,
+    sizeP,
+    pageP,
+    totalP,
+    changePageSize,
+    changePage,changePageNumber} = useContext(ProgramasContext);
 
 
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    setLoading(true);
+    changePage(newPage)
+    setPagina(newPage);
   };
+
+  useEffect(() => {
+    get().then (data => {
+      setTimeout(() => setLoading(false), 500);
+    
+    });;
+
+  }, [pagina])
 
   const handleChangeRowsPerPage = event => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+    changePageSize(+event.target.value);
+     changePage(0)
   };
-
-  const { programasList, get } = useContext(ProgramasContext);
-
 
 
   useEffect(() => {
@@ -44,95 +57,95 @@ export const ProgramasScreen = () => {
       setTimeout(() => setLoading(false), 500);
     
     });;
+
 }, []);
 
-  const showForm = () => {
+  const showForm=()=>{
 
   }
 
   return (
     <>        
-    {loading === true ? (
-      <Loading
-        loading={loading} 
-      />
-    ) : (
+     {loading ? (
+        <Loading
+          loading={loading}
+        />
+      ) : (
       <GridItem xs={12} sm={12} md={12}>
       <Card>
         <CardHeader color="primary">
           <h4 className={classes.cardTitleWhite}>Programas</h4>
-
+          
           <CardActions>
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <Link to="../admin/nuevoPrograma">
-                  <Button
-                    color="white"
-                    aria-label="edit"
-                    justIcon round
-                    onClick={showForm}
-                  >
-
-                    <Add style={{ color: "gray" }} />
-
-                  </Button>
-                </Link>
-              </Grid>
-              <Grid item xs={6}>
-                <SearchBar
-                  placeholder="Buscar"
-                  value={searched}
-                  onChange={(searchVal) => setSearched(searchVal)}
-                  onCancelSearch={() => setSearched('')}
-                />
-              </Grid>
+          <Grid container spacing={3}>
+            <Grid item xs={6}>
+                                  <Button
+                                      color="white"
+                                      aria-label="edit"
+                                      justIcon round
+                                      onClick={showForm}
+                                  >
+                                     <Link to="../admin/nuevoPrograma">
+                                        <Add />
+                                      </Link>
+                                  </Button>
+                </Grid>
+            <Grid item xs={6}>
+              <SearchBar
+                placeholder="Buscar"
+                value={searched}
+                onChange={(searchVal) => setSearched(searchVal)}
+                onCancelSearch={() => setSearched('')}
+              />
             </Grid>
+          </Grid>
           </CardActions>
         </CardHeader>
         <CardBody>
-          < Table stickyHeader aria-label="sticky table" >
-            < TableHead >
-              < TableRow key="898as" >
-                < TableCell > Activo</TableCell >
-                < TableCell > Programa  </TableCell >
-                < TableCell > Clave  </TableCell >
-                < TableCell> Vigencia Inicial</TableCell >
-                <TableCell>Vigencia Final</TableCell>
-                < TableCell> Descripción</TableCell >
-                < TableCell colSpan={2} align="center"> Acciones</TableCell >
-              </TableRow >
-            </TableHead >
-            < TableBody >
-              {
-                (searched ?
-                  programasList.filter(row => row.dsprograma ?
-                    row.dsprograma.toLowerCase().includes(searched.toLowerCase()) : null)
-                  : programasList
-                ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-                  return (
-                    <Programa
-                      key={row.id}
-                      programa={row}
-                    />
-                  );
-                })
-              }
+            < Table stickyHeader aria-label="sticky table" >
+              < TableHead >
+                < TableRow key="898as" >
+                  < TableCell > Activo</TableCell >
+                  < TableCell > Programa  </TableCell >
+                  < TableCell > Clave  </TableCell >
+                  < TableCell> Vigencia I</TableCell >
+                  <TableCell>Vigencia F</TableCell>
+                  < TableCell> Descripción</TableCell >
+                  < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                </TableRow >
+              </TableHead >
+              < TableBody >
+                {
+                     (searched ?
+                      programasList.filter(row => row.dsprograma ?
+                        row.dsprograma.toLowerCase().includes(searched.toLowerCase()) : null)
+                      : programasList
+                    ).map(row => {
+                      return (
+                        <Programa 
+                           key={row.id}
+                           programa={row}
+                        />
+                      );
+                    })
+                  }
             </TableBody >
           </ Table>
           < TablePagination
-            rowsPerPageOptions={[5, 10, 15]}
-            component="div"
-            labelRowsPerPage="Registros por página"
-            count={programasList.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
+                rowsPerPageOptions={[5, 10, 15]}
+                component="div"
+                labelRowsPerPage="Registros por página"
+                count={totalP}
+                rowsPerPage={sizeP}
+                page={pageP}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+              />
         </CardBody>
       </Card>
     
-    </GridItem>  )}
+    </GridItem> 
+       )}
     </>
      
      

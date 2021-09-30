@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -11,19 +11,26 @@ import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesCo
 
 
 export const LocalidadEdit = ({ objetoActualizar }) => {
-    const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    console.log(objetoActualizar);
-    const { actualizar } = useContext(LocalidadesContext);LocalidadesContext
-    const { municipiosList } = useContext(MunicipiosContext);
-    //dialog confirmacion
+    const { setShowModalUpdate,showModalUpdate } = useContext(ModalContextUpdate);
+    const { actualizar,getByID,localidad } = useContext(LocalidadesContext);
+    const { getMunicipioByIdHetoas,municipio } = useContext(MunicipiosContext);
+
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    
+    useEffect(() => {
+        if(objetoActualizar){
+            getByID(objetoActualizar.id);
+            getMunicipioByIdHetoas(objetoActualizar._links.municipios.href);
+        }
+    }, [showModalUpdate])
+
+
     /**
      * abre el dialogo de confirmación
      * @param {valores} e 
      */
     const confirmacionDialog = (e) => {
-        console.log("Aqui hace el llamado al dialog", e);
         setShowModalConfirmacion(true);
         setValores(e)
     }
@@ -32,16 +39,23 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
      * Edita el elemento
      */
     const handleRegistrar = () => {
-        
-        actualizar(objetoActualizar);
+        actualizar(valores, localidad,municipio);
         setShowModalConfirmacion(false);
         setShowModalUpdate(false);
     }
 
     // Schema de validación
     const schemaValidacion = Yup.object({
-        dsidlocalidad: Yup.string()
-            .required('El id de localidad  es obligatorio')
+            dsidlocalidad: Yup.string()
+                .required('El id de localidad es obligatorio'),
+            dsclavelocalidad: Yup.string()
+                .required('La clave localidad es obligatoria'),
+            idMunicipio: Yup.string()
+                .required('El municipio es obligatorio'),
+            dslocalidad: Yup.string()
+                .required('La localidad es obligatoria'),
+            dscodigopostal: Yup.string()
+                .required('El código postal es obligatorio')
     });
 
     const actualizarInfo = async valores => {
@@ -53,9 +67,11 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
 
         <Formik
             enableReinitialize
-            initialValues={objetoActualizar}
+            initialValues={localidad}
             validationSchema={schemaValidacion}
             onSubmit={(valores) => {
+                console.log('valores');   
+                console.log(valores);
                 actualizarInfo(valores)
             }}
         >
@@ -71,21 +87,6 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                         <DialogContent>
                             <TextField
                                 id="dsidlocalidad"
-                                label="Curso"
-                                variant="outlined"
-                                name="dsidlocalidad"
-                                fullWidth
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values?.dsidlocalidad}
-                            />
-
-                        </DialogContent>
-
-
-                        <DialogContent>
-                            <TextField
-                                id="dsidlocalidad"
                                 label="Id Localidad"
                                 variant="outlined"
                                 name="dsidlocalidad"
@@ -94,10 +95,11 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                                 onBlur={props.handleBlur}
                                 value={props.values?.dsidlocalidad}
                             />
-                            {props.touched.dsidlocalidad && props.errors.dsidlocalidad ? (
+                              {props.touched.dsidlocalidad && props.errors.dsidlocalidad ? (
                                 <FormHelperText error={props.errors.dsidlocalidad}>{props.errors.dsidlocalidad}</FormHelperText>
                             ) : null}
                         </DialogContent>
+
 
                         <DialogContent>
                             <TextField
@@ -115,15 +117,17 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                             ) : null}
                         </DialogContent>
 
+                       
 
-                        <DialogContent>
+                        {/* <DialogContent>
                             <TextField
                                 variant="outlined"
                                 label="Selecciona un municipio"
                                 select
                                 fullWidth
+                                id="idMunicipio"
                                 name="idMunicipio"
-                                value={props.values?.idMunicipio}
+                                value={props.values.idMunicipio}
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                             >
@@ -131,12 +135,12 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                                     <em>Ninguno</em>
                                 </MenuItem>
                                 {
-                                    municipiosList.map(
+                                    municipiosListId.map(
                                         item => (
                                             <MenuItem
                                                 key={item.id}
                                                 value={item.id}>
-                                                {item.dsmunicipio}
+                                                {item.dsMunicipio}
                                             </MenuItem>
                                         )
                                     )
@@ -146,7 +150,7 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                             {props.touched.idMunicipio && props.errors.idMunicipio ? (
                                 <FormHelperText error={props.errors.idMunicipio}>{props.errors.idMunicipio}</FormHelperText>
                             ) : null}
-                        </DialogContent>
+                        </DialogContent> */}
 
                         <DialogContent>
                             <TextField

@@ -5,10 +5,9 @@ import axios from "axios";
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 import { 
         REGISTRAR_PROGRAMAS,
-        AGREGAR_PROGRAMA_ERROR,
         MODIFICAR_PROGRAMAS,
         ELIMINAR_PROGRAMAS,
-        GET_PROGRAMAS } 
+        GET_PROGRAMAS ,  CAMBIAR_TAMANIO_PAGINA_PROGRAMAS,CAMBIAR_PAGINA_PROGRAMAS} 
 from 'types/actionTypes';
 import ProgramasReducer from 'reducers/Catalogos/Programas/ProgramasReducer';
 import { GET_PROGRAMAS_BY_ID } from 'types/actionTypes';
@@ -20,25 +19,60 @@ export const ProgramasContext = createContext();
 export const ProgramasContextProvider = props => {
     const initialState = {
         programasList: [],
-        programa:null
+        programa:null,
+        pageP: 0,
+        sizeP: 5,
+        totalP: 0
     }
 
     const [state, dispatch] = useReducer(ProgramasReducer, initialState);
 
-    /**
-     * obtener tipos de apoyo
-     */
+
     const get= async () => {
         try {
-            const result = await axiosGet('programas');
+            const {pageP, sizeP}= state;
+            console.log(state);
+            const result = await axiosGet(`programas?page=${state.pageP}&size=${state.sizeP}`);
             dispatch({
                 type: GET_PROGRAMAS,
-                payload: result._embedded.programas
+                payload: result
             })
         } catch (error) {
             console.log(error);
         }
     }
+
+    /**
+     * obtener tipos de apoyo
+     */
+  /*  const get=  () => {
+        try {
+            //const result = await axiosGet('programas');
+            const {pageP, sizeP}= state;
+            console.log(state);
+            console.log('page ', pageP, ' size ', sizeP);
+           // const result = await axiosGet(`programas?page=${pageP}&size=${sizeP}`);
+
+           const url = `${ baseUrl }programas?page=${pageP}&size=${sizeP}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: {'Accept': 'application/json', 'Content-type': 'application/json'}
+                }).then(response => {
+                    dispatch({
+                        type: GET_PROGRAMAS,
+                        payload: response.data
+                    })
+                    resolve(response);
+                   
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }*/
 
     /**
      * Se registran los tipos de apoyos
@@ -104,7 +138,8 @@ export const ProgramasContextProvider = props => {
                     dsobservaciones,
                     boactivo
         }
-        try {
+      /*  try {
+
             const result = await axiosPostHetoas(href, objetoEnviar, 'PUT');
             dispatch({
                 type: MODIFICAR_PROGRAMAS,
@@ -112,7 +147,21 @@ export const ProgramasContextProvider = props => {
             })
         } catch (error) {
             console.log(error);
-        }
+        }*/
+        const url = `${ baseUrl }programas`;
+        return new Promise((resolve, reject) => {
+            axios.put(href, objetoEnviar, {
+                headers: {'Accept': 'application/json', 'Content-type': 'application/json'}
+            }).then(response => {
+                resolve(response);
+                dispatch({
+                    type: MODIFICAR_PROGRAMAS,
+                    payload: response
+                })
+            }).catch(error => {
+                reject(error);
+            });
+        });
     }
 
     const eliminar= async id => {
@@ -142,7 +191,32 @@ export const ProgramasContextProvider = props => {
         }
     }
           
+     //Paginacion
 
+ const changePage =  (page) => {
+      dispatch({
+        type: CAMBIAR_PAGINA_PROGRAMAS, 
+        payload: page
+      })
+       try {
+
+           get();
+         
+       } catch (error) {
+           throw error;
+       }
+   
+}
+
+   const changePageNumber = (page) => ({
+       type: CAMBIAR_PAGINA_PROGRAMAS, 
+       payload: page
+   })
+   
+    const changePageSize = (size) => ({
+       type: CAMBIAR_TAMANIO_PAGINA_PROGRAMAS, 
+       payload: size
+   })      
 
     return (
         <ProgramasContext.Provider
@@ -151,11 +225,17 @@ export const ProgramasContextProvider = props => {
                 programa: state.programa,
                 errorInsert:state.errorInsert,
                 mensajeError:state.mensajeError,
+                pageP:state.pageP,
+                sizeP:state.sizeP,
+                totalP:state.totalP,
                 get,
                 registrar,
                 actualizar,
                 eliminar,
-                getByID
+                getByID,
+                changePageNumber,
+                changePageSize,
+                changePage,
             }}
         >
             {props.children}

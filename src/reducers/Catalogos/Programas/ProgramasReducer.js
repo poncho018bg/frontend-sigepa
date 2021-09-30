@@ -1,6 +1,7 @@
 
 import { REGISTRAR_PROGRAMAS ,MODIFICAR_PROGRAMAS
-    ,ELIMINAR_PROGRAMAS,GET_PROGRAMAS,AGREGAR_PROGRAMA_ERROR,GET_PROGRAMAS_BY_ID} from 'types/actionTypes';
+    ,ELIMINAR_PROGRAMAS,GET_PROGRAMAS,AGREGAR_PROGRAMA_ERROR,GET_PROGRAMAS_BY_ID,
+    CAMBIAR_PAGINA_PROGRAMAS,CAMBIAR_TAMANIO_PAGINA_PROGRAMAS} from 'types/actionTypes';
 
 
 export default (state, action) => {
@@ -8,10 +9,12 @@ export default (state, action) => {
     switch (action.type) {
        
         case GET_PROGRAMAS:
+            console.log('en programas');
+            console.log(action.payload);
             return {
                 ...state,
-                programasList: action.payload,
-                errorInsert:null
+                programasList: action.payload._embedded.programas,
+                totalP: action.payload.page.totalElements
             };
         case AGREGAR_PROGRAMA_ERROR:
             console.log(action.type);
@@ -45,6 +48,20 @@ export default (state, action) => {
                     ...state,
                     programa: action.payload
                 };
+   
+                    case CAMBIAR_PAGINA_PROGRAMAS:
+                        console.log('en el reducer de cambio de pagina');
+                        console.log(action.payload);
+                        return {
+                            ...state,
+                       
+                            pageP: action.payload,
+                        };
+        case CAMBIAR_TAMANIO_PAGINA_PROGRAMAS:
+                    return {
+                        ...state,
+                        sizeP: action.payload
+                    }
         default:
             return state;
     }
