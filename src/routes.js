@@ -60,6 +60,8 @@ import { ProgramasEdit } from "views/Catalogos/Programas/ProgramasEdit";
 import { DialogTipoApoyoFormEdit } from "views/Catalogos/CatTipoApoyo/DialogTipoApoyoFormEdit";
 import { SubCatalogsBaseScreen } from "views/Catalogos/SubCatalogsBaseScreen";
 import { TipoBeneficiarioScreen } from "views/Catalogos/TiposBeneficiarios/TipoBeneficiarioScreen";
+import Roles from "config/Roles";
+import { CarouselProgramas } from "views/CarouselProgramas/CarouselProgramas";
 
 
 
@@ -79,7 +81,10 @@ const dashboardRoutes = [
         mini: "R",
         rtlMini: "r",
         component: RolesScreen,
-        layout: "/admin"
+        layout: "/admin",
+        permission:[
+          Roles.SUPER_ADMIN
+        ]
       },
       {
         path: "/catalogos",
@@ -99,6 +104,8 @@ const dashboardRoutes = [
         component: SubCatalogsBaseScreen,
         layout: "/admin"
       },
+
+     
       
     ]
   },
@@ -300,6 +307,27 @@ const dashboardRoutes = [
     views: [
       {
       }
+    ]
+  },
+
+  {
+    collapse: true,
+    name: "Módulo de atención",
+    rtlName: "mda",
+    icon: MarkunreadMailboxIcon,
+    state: "pageCollapse",
+    views: [
+      
+        {
+          path: "/consultaProgramas",
+          name: "Consulta de programas",
+          rtlName: "scat",
+          mini: "sM",
+          rtlMini: "sm",
+          component: CarouselProgramas,
+          layout: "/admin"
+        },
+    
     ]
   },
 
