@@ -62,7 +62,7 @@ import { SubCatalogsBaseScreen } from "views/Catalogos/SubCatalogsBaseScreen";
 import { TipoBeneficiarioScreen } from "views/Catalogos/TiposBeneficiarios/TipoBeneficiarioScreen";
 import WidgetsIcon from "@material-ui/icons/Widgets";
 import { RegistroProgramasApoyoScreen } from "views/RegistroProgramasApoyo/RegistroProgramasApoyoScreen";
-import Roles from "config/Roles";
+
 import { CarouselProgramas } from "views/CarouselProgramas/CarouselProgramas";
 import { RegistroSolicitud } from "views/RegistroSolicitudContacto/RegistroSolicitud";
 
@@ -85,9 +85,7 @@ const dashboardRoutes = [
         rtlMini: "r",
         component: RolesScreen,
         layout: "/admin",
-        permission:[
-          Roles.SUPER_ADMIN
-        ]
+    
       },
       {
         path: "/catalogos",
