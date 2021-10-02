@@ -8,10 +8,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Formik } from 'formik';
 import * as Yup from 'yup'
 import { TiposApoyosContext } from 'contexts/catalogos/tiposApoyosContext';
-import { EdadesBeneficiariosContext } from 'contexts/catalogos/edadesBeneficiariosContext';
-import { TiposBeneficiariosContext } from 'contexts/catalogos/tiposBeneficiariosContext';
 import { PeriodicidadApoyosContext } from 'contexts/catalogos/periodicidadApoyosContext';
-import { DocumentosContext } from 'contexts/catalogos/documentosContext';
+
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import moment from 'moment';
@@ -20,9 +18,7 @@ import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext'
 import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 import { NumeroApoyosContext } from 'contexts/catalogos/numeroApoyosContext';
 import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
-import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 import { MultiSelect } from "react-multi-select-component";
-import { RegionMunicipiosContext } from 'contexts/catalogos/RegionMunicipiosContext';
 import { ActividadesContinuarContext } from 'contexts/catalogos/ActividadesContinuarContext';
 import { ApoyoContext } from 'contexts/catalogos/ApoyoContext';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
@@ -56,34 +52,19 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
     const classes = useStyles();
     const { tipoApoyoEditar } = useSelector(state => state.tipoApoyo);
-    const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);
-    const { getEdadesBeneficiarios, edadesBeneficiariosList } = useContext(EdadesBeneficiariosContext);
-    const { getTipoBeneficiarios, tiposBeneficiariosList } = useContext(TiposBeneficiariosContext);
-    const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
-    const { getDocumentos, documentosList } = useContext(DocumentosContext);
+    const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);    
+    const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);    
     const { programasList, get } = useContext(ProgramasContext);
     const { apoyoservicioList, getApoyoServicio } = useContext(ApoyoServicioContext);
     const { numeroApoyosList, getNumeroApoyos } = useContext(NumeroApoyosContext);
-    const { municipiosList, getMunicipios } = useContext(MunicipiosContext);
-    const { regionList, getRegionMunicipios } = useContext(RegionMunicipiosContext)
     const { actividadescontinuarList, getActividadesContinuar } = useContext(ActividadesContinuarContext)
     const { actualizarApoyo } = useContext(ApoyoContext)
 
 
-    const [municipiosSelect, setMunicipiosSelect] = React.useState([]);
+    
     const [tipoApoyoSelect, setTipoApoyoSelect] = React.useState([]);
     const [actividadesContinuarSelect, setActividadesContinuarSelect] = React.useState([]);
-    const [documentslst, setDocumentslst] = React.useState([]);
-
-    const [checked, setChecked] = React.useState([]);
-    const [left, setLeft] = React.useState([]);
-    const [right, setRight] = React.useState([]);
-
-    const leftChecked = intersection(checked, left);
-    const rightChecked = intersection(checked, right);
-    const [state, setState] = React.useState({
-        checkedA: false
-    });
+    
 
 
     const [selected, setSelected] = useState([]);
@@ -93,17 +74,11 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
     useEffect(() => {
         getTiposApoyos();
-        getActividadesContinuar();
-        getEdadesBeneficiarios();
-        getTipoBeneficiarios();
-        getPeriodicidadApoyos();
-        getDocumentos();
+        getActividadesContinuar();      
+        getPeriodicidadApoyos();        
         get();
         getNumeroApoyos();
-        getApoyoServicio();
-        getMunicipios();
-        getRegionMunicipios('a3de85a7-6c23-46a4-847b-d79b3a90963d')
-        //setLeft(documentosList)
+        getApoyoServicio();       
 
         setSelectedTipApoy(personaSeleccionada.idTipoApoyo)
         setSelected(personaSeleccionada.coberturaMunicipal)
@@ -111,54 +86,10 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
     }, []);
 
-    useEffect(() => {
-        const lstDocsRg = []
-        const lstDocsLf = []
-        personaSeleccionada.documentosRequisitos.map((dcs) => {
-            documentosList.map((lstdcs) => {
-                if (lstdcs.id === dcs) {
-                    lstDocsRg.push(lstdcs)
-                } else {
-                    lstDocsLf.push(lstdcs)
-                }
-            })
-        })
-
-        console.log('lstDocsRg', lstDocsRg)
-        console.log('lstDocsLf', lstDocsLf)
-
-        setChecked(lstDocsRg)
-        // handleCheckedRight();
-
-        setRight(lstDocsRg);
-        setLeft(lstDocsLf);
-        setLeft(not(lstDocsLf, leftChecked))
-        setChecked(not(checked, leftChecked))
+  
 
 
 
-    }, [documentosList]);
-
-    useEffect(() => {
-        var docslst = []
-        right.map((mp) => {
-            docslst.push(mp.id)
-        })
-        setDocumentslst(docslst)
-    }, [right]);
-
-
-    useEffect(() => {
-        //setLeft(documentosList)
-    }, [documentosList]);
-
-    useEffect(() => {
-        const lstmun = []
-        regionList.map((mn) => {
-            lstmun.push({ label: mn.dsMunicipio, value: mn.idMunicipio })
-        })
-        setMunicipiosSelect(lstmun)
-    }, [regionList]);
 
     useEffect(() => {
         const lsttipAp = []
@@ -195,22 +126,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
         console.log('agregarServicioFormik 1=>', props.values.enServicio)
     }
 
-    const checkServicio = (apyo, props, index) => () => {
-        // personaSeleccionada.enServicio.map((ens) => {
-        //     console.log(` validate => ${apyo.id} === ${ens.id} ${apyo.id === ens.id}`)
-        //     if (apyo.id === ens.id) {
-        //         props.values.enServicio[index] = ens
-        //         return false
-        //     }
-            
-        // })
-        return false
-    }
 
-    const agregarTipoApoy = (props) => () => {
-        props.values.idTipoApoyo = selectedTipApoy
-        console.log('TIPOAPOYO=>', props.values.idTipoApoyo)
-    }
 
     const schemaValidacion = Yup.object({
 
@@ -228,18 +144,8 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
             .required('La vigencia desde obligatorio'),
         fcvigenciafin: Yup.string()
             .required('La vigencia hasta es obligatorio'),
-        fcregistrowebinicio: Yup.string()
-            .required('La vigencia desde obligatorio'),
-        fcregistrowebfin: Yup.string()
-            .required('La vigencia hasta es obligatorio'),
-        fcregistropresencialinicio: Yup.string()
-            .required('La vigencia desde obligatorio'),
-        fcregistropresencialfin: Yup.string()
-            .required('La vigencia hasta es obligatorio'),
-        idRangoEdadBeneficiario: Yup.string()
-            .required('El rango de edad es obligatorio'),
-        idBeneficiario: Yup.string()
-            .required('El tipo de beneficiario es obligatorio'),
+
+
         cantidadPesos: Yup.string()
             .required('La cantidad es obligatorio'),
         // descApoyoEspecie: Yup.string()
@@ -254,65 +160,12 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
     const actualizarTipoApoyo = async valores => {
         valores.idTipoApoyo = selectedTipApoy
-        valores.coberturaMunicipal = selected
         valores.idActividadContinuidadApoyo = selectedActividadesContinuar
-        valores.documentosRequisitos = documentslst
         actualizarApoyo(valores);
         setShowModalUpdate(false);
     }
 
-    const handleToggle = (value) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
 
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        setChecked(newChecked);
-    };
-
-    const handleCheckedRight = () => {
-        setRight(right.concat(leftChecked));
-        setLeft(not(left, leftChecked));
-        setChecked(not(checked, leftChecked));
-
-
-
-    };
-
-    const handleCheckedLeft = () => {
-        setLeft(left.concat(rightChecked));
-        setRight(not(right, rightChecked));
-        setChecked(not(checked, rightChecked));
-    };
-
-    const customList = (items) => (
-        <Paper className={classes.paper}>
-            <List dense component="div" role="list">
-                {items.map((value) => {
-                    const labelId = `transfer-list-item-${value}-label`;
-
-                    return (
-                        <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
-                            <ListItemIcon>
-                                <Checkbox
-                                    checked={checked.indexOf(value) !== -1}
-                                    tabIndex={-1}
-                                    disableRipple
-                                    inputProps={{ 'aria-labelledby': labelId }}
-                                />
-                            </ListItemIcon>
-                            <ListItemText id={labelId} primary={`${value.dsdocumento}`} />
-                        </ListItem>
-                    );
-                })}
-                <ListItem />
-            </List>
-        </Paper>
-    );
 
     return (
 
@@ -444,142 +297,6 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                             </GridContainer>
                         </DialogContent>
 
-                        {/* FECHA VIGENCIA WEB */}
-                        <DialogContent>
-                            <div><FormLabel component="legend">Periodo de registro WEB </FormLabel></div>
-                            <GridContainer>
-                                <GridItem xs={12} sm={12} md={6}>
-                                    <TextField
-                                        id="fcregistrowebinicio"
-                                        label="Desde"
-                                        type="date"
-                                        fullWidth
-                                        className={classes.textField}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        value={props.values.fcregistrowebinicio}
-                                        name="fcregistrowebinicio"
-                                        onChange={props.handleChange}
-                                    />
-                                </GridItem>
-                                <GridItem xs={12} sm={12} md={6}>
-                                    <TextField
-                                        id="fcregistrowebfin"
-                                        label="Hasta"
-                                        type="date"
-                                        fullWidth
-                                        className={classes.textField}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        value={props.values.fcregistrowebfin}
-                                        name="fcregistrowebfin"
-                                        onChange={props.handleChange}
-                                    />
-                                </GridItem>
-                            </GridContainer>
-                        </DialogContent>
-
-                        {/* FECHA VIGENCIA PRESENCIAL */}
-                        <DialogContent>
-                            <div><FormLabel component="legend">Periodo de registro Presencial </FormLabel></div>
-
-                            <GridContainer>
-                                <GridItem xs={12} sm={12} md={6}>
-                                    <TextField
-                                        id="fcregistropresencialinicio"
-                                        label="Desde"
-                                        type="date"
-                                        fullWidth
-                                        className={classes.textField}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        value={props.values.fcregistropresencialinicio}
-                                        name="fcregistropresencialinicio"
-                                        onChange={props.handleChange}
-                                    />
-                                </GridItem>
-                                <GridItem xs={12} sm={12} md={6}>
-                                    <TextField
-                                        id="fcregistropresencialfin"
-                                        label="Hasta"
-                                        type="date"
-                                        fullWidth
-                                        className={classes.textField}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        value={props.values.fcregistropresencialfin}
-                                        name="fcregistropresencialfin"
-                                        onChange={props.handleChange}
-                                    />
-                                </GridItem>
-                            </GridContainer>
-                        </DialogContent>
-
-                        <DialogContent>
-                            <TextField
-                                variant="outlined"
-                                label="Selecciona un rango de edad"
-                                select
-                                fullWidth
-                                name="idRangoEdadBeneficiario"
-                                value={props.values.idRangoEdadBeneficiario}
-                                onChange={props.handleChange}
-                            >
-                                <MenuItem value="0">
-                                    <em>Ninguno</em>
-                                </MenuItem>
-                                {
-                                    edadesBeneficiariosList.map(
-                                        item => (
-                                            <MenuItem
-                                                key={item.id}
-                                                value={item.id}>
-                                                {item.dsedadbeneficiario}
-                                            </MenuItem>
-                                        )
-                                    )
-                                }
-
-                            </TextField>
-                            {props.touched.idRangoEdadBeneficiario && props.errors.idRangoEdadBeneficiario ? (
-                                <FormHelperText error={props.errors.idRangoEdadBeneficiario}>{props.errors.idRangoEdadBeneficiario}</FormHelperText>
-                            ) : null}
-                        </DialogContent>
-
-                        <DialogContent>
-                            <TextField
-                                variant="outlined"
-                                label="Selecciona un tipo de beneficiario"
-                                select
-                                fullWidth
-                                name="idBeneficiario"
-                                value={props.values.idBeneficiario}
-                                onChange={props.handleChange}
-                            >
-                                <MenuItem value="0">
-                                    <em>Ninguno</em>
-                                </MenuItem>
-                                {
-                                    tiposBeneficiariosList.map(
-                                        item => (
-                                            <MenuItem
-                                                key={item.id}
-                                                value={item.id}>
-                                                {item.dstipobeneficiario}
-                                            </MenuItem>
-                                        )
-                                    )
-                                }
-
-                            </TextField>
-                            {props.touched.idBeneficiario && props.errors.idBeneficiario ? (
-                                <FormHelperText error={props.errors.idBeneficiario}>{props.errors.idBeneficiario}</FormHelperText>
-                            ) : null}
-                        </DialogContent>
 
                         <DialogContent style={{ overflowY: 'visible' }}>
                             <FormLabel component="legend">Selecciona un tipo de apoyo</FormLabel>
@@ -619,7 +336,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         <DialogContent>
                             <TextField
                                 id="descApoyoEspecie"
-                                label=" Descripción del apoyo en especie"
+                                label="Descripción del apoyo en especie"
                                 variant="outlined"
                                 name="descApoyoEspecie"
                                 value={props.values.descApoyoEspecie}
@@ -726,48 +443,6 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
 
                         <DialogContent>
-                            <FormLabel component="legend">Documentación y formatos requeridos para el tipo de apoyo</FormLabel>
-                            <Grid
-                                container
-                                spacing={2}
-                                justifyContent="center"
-                                alignItems="center"
-                                className={classes.root}
-                                fullWidth
-                            >
-                                <Grid item>{customList(left)}</Grid>
-                                <Grid item>
-                                    <Grid container direction="column" alignItems="center">
-
-                                        <Button
-                                            variant="outlined"
-                                            size="small"
-                                            className={classes.button}
-                                            onClick={handleCheckedRight}
-                                            disabled={leftChecked.length === 0}
-                                            aria-label="move selected right"
-                                        >
-                                            &gt;
-                                        </Button>
-                                        <Button
-                                            variant="outlined"
-                                            size="small"
-                                            className={classes.button}
-                                            onClick={handleCheckedLeft}
-                                            disabled={rightChecked.length === 0}
-                                            aria-label="move selected left"
-                                        >
-                                            &lt;
-                                        </Button>
-
-                                    </Grid>
-                                </Grid>
-                                <Grid item>{customList(right)}</Grid>
-                            </Grid>
-                        </DialogContent>
-
-
-                        <DialogContent>
                             <TextField
                                 variant="outlined"
                                 label="Entregar el apoyo"
@@ -799,14 +474,14 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
                         <DialogContent>
                             <FormControlLabel
-                                control={<Checkbox value={true} onChange={props.handleChange} name="formaEntrega" />}
+                                control={<Checkbox value={props.values.formaEntrega} onChange={props.handleChange} name="formaEntrega" />}
                                 label="Forma de entrega de apoyo por exhibición"
                             />
                         </DialogContent>
 
                         <DialogContent>
                             {
-                                props.values.formaEntrega ? (<TextField
+                                props.values.formaEntrega === 'true' ? (<TextField
                                     variant="outlined"
                                     label="Número de entrega de Apoyos"
                                     select
@@ -838,37 +513,6 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                             ) : null}
                         </DialogContent>
 
-                        <DialogContent>
-                            {
-                                props.values.numEntregas === '0e050dbc-a937-4a47-90b4-2b1403712359' ? (
-                                    <TextField
-                                        id="numApoyos"
-                                        label="Número de entrega de Apoyos"
-                                        variant="outlined"
-                                        name="numApoyos"
-                                        value={props.values.numApoyos}
-                                        onChange={props.handleChange}
-                                        fullWidth
-                                        inputProps={{ maxLength: 500 }} />
-                                ) : (<></>)
-                            }
-
-
-                            {props.touched.numApoyos && props.errors.numApoyos ? (
-                                <FormHelperText error={props.errors.numApoyos}>{props.errors.numApoyos}</FormHelperText>
-                            ) : null}
-                        </DialogContent>
-
-
-                        <DialogContent style={{ overflowY: 'visible' }}>
-                            <FormLabel component="legend">Cobertura municipal </FormLabel>
-                            <MultiSelect
-                                options={municipiosSelect}
-                                value={selected}
-                                onChange={setSelected}
-                                labelledBy="Seleccionar"
-                            />
-                        </DialogContent>
 
 
                         <DialogContent style={{ overflowY: 'visible' }}>
@@ -902,18 +546,10 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         </DialogContent>
 
 
-
-
-
-
-
-
-
-
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                Guardar
+                                    Guardar
                                 </Button>
                             </Grid>
 

@@ -8,10 +8,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { TiposApoyosContext } from 'contexts/catalogos/tiposApoyosContext';
-import { EdadesBeneficiariosContext } from 'contexts/catalogos/edadesBeneficiariosContext';
-import { TiposBeneficiariosContext } from 'contexts/catalogos/tiposBeneficiariosContext';
 import { PeriodicidadApoyosContext } from 'contexts/catalogos/periodicidadApoyosContext';
-import { DocumentosContext } from 'contexts/catalogos/documentosContext';
+
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import moment from 'moment';
@@ -20,9 +18,7 @@ import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext'
 import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 import { NumeroApoyosContext } from 'contexts/catalogos/numeroApoyosContext';
 import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
-import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 import { MultiSelect } from "react-multi-select-component";
-import { RegionMunicipiosContext } from 'contexts/catalogos/RegionMunicipiosContext';
 import { ActividadesContinuarContext } from 'contexts/catalogos/ActividadesContinuarContext';
 import { ApoyoContext } from 'contexts/catalogos/ApoyoContext';
 import { Mensaje } from 'components/Personalizados/Mensaje';
@@ -184,18 +180,10 @@ export const DialogTipoApoyoForm = (props) => {
                 .required('El estatus es obligatorio'),
             visita: Yup.string()
                 .required('la visita es obligatorio'),
-            // idTipoApoyo: Yup.string()
-            //     .required('El tipo apoyo  es obligatorio'),
             fcvigenciainicio: Yup.string()
                 .required('La vigencia desde obligatorio'),
             fcvigenciafin: Yup.string()
                 .required('La vigencia hasta es obligatorio'),
-
-
-            // cantidadPesos: Yup.string()
-            //     .required('La cantidad es obligatorio'),
-            // enServicio: Yup.string()
-            //     .required('EL servicio es obligatorio'),
             descApoyoEspecie: Yup.string()
                 .required('El apoyo en especie es obligatorio'),
             idPeriodicidad: Yup.string()
@@ -204,10 +192,6 @@ export const DialogTipoApoyoForm = (props) => {
                 .required('La forma de entrega es obligatorio'),
             numEntregas: Yup.string()
                 .required('El número de entrega es obligatorio'),
-
-            // idActividadContinuidadApoyo: Yup.string()
-            //     .required('La actividad es obligatorio'),
-
 
         }),
 
@@ -243,13 +227,9 @@ export const DialogTipoApoyoForm = (props) => {
 
             console.log('ERRORS=>', formik.errors)
             registrarApoyo(nuevoApoyo)
-            //setShowModal(false);
-
             setOpenSnackbar(true);
             setError(false);
             setMsjConfirmacion(`El apoyo fue registrado correctamente `);
-
-
             const timer = setTimeout(() => {
                 history.push("/admin/catapoyoservicio")
             }, 1000);
@@ -260,25 +240,7 @@ export const DialogTipoApoyoForm = (props) => {
 
 
 
-    const handleToggle = (value) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        setChecked(newChecked);
-    };
-
-
-
-
-
-
-
+ 
     return (
         <Card>
             <form onSubmit={formik.handleSubmit}>

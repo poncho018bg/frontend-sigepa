@@ -1,11 +1,12 @@
-import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
-import React, { useContext, useState } from 'react';
+import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
+import React, { useContext, useState,useEffect } from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
 import { ModalContext } from 'contexts/modalContex';
 import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
+import { ClasificacionServiciosContext } from 'contexts/catalogos/clasificacionServiciosContext';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
@@ -13,6 +14,7 @@ import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 export const ApoyoServicioForm = () => {
 
     const { registrarApoyoSevicio } = useContext(ApoyoServicioContext);
+    const {getClasificacionServicios,clasificacionServiciosList}= useContext(ClasificacionServiciosContext);
 
     const { setShowModal } = useContext(ModalContext);
 
@@ -28,14 +30,18 @@ export const ApoyoServicioForm = () => {
         setShowModalConfirmacion(true);
         setValores(e)
     }
+    useEffect(() => {
+        getClasificacionServicios();
+    }, []);
 
     const handleRegistrar = () => {
-        const { dsservicio } = valores
+        const { dsservicio ,clasificacionServicio} = valores
 
         let apoyoSevicio = {
             dsservicio: dsservicio,
-            activo: true,
-            crcProgramastipoapoyos: []
+            activo: true,           
+            clasificacionServicio:`/${clasificacionServicio}`,
+            serviciosApoyos:[{}]
         }
         registrarApoyoSevicio(apoyoSevicio);
         setShowModalConfirmacion(false);
@@ -44,7 +50,8 @@ export const ApoyoServicioForm = () => {
 
     const formik = useFormik({
         initialValues: {
-            dsservicio: ''
+            dsservicio: '',
+            clasificacionServicio:''
         },
         validationSchema: Yup.object({
             dsservicio: Yup.string()
@@ -63,6 +70,38 @@ export const ApoyoServicioForm = () => {
         <form
             onSubmit={formik.handleSubmit}
         >
+            <DialogContent>
+                <TextField
+                    variant="outlined"
+                    label="Selecciona una clasificación"
+                    select
+                    fullWidth
+                    name="clasificacionServicio"
+                    value={formik.values.clasificacionServicio}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                >
+                    <MenuItem value="0">
+                        <em>Ninguno</em>
+                    </MenuItem>
+                    {
+                        clasificacionServiciosList.map(
+                            item => (
+                                <MenuItem
+                                    key={item.id}
+                                    value={item.id}>
+                                    {item.dsclasificacionservicio}
+                                </MenuItem>
+                            )
+                        )
+                    }
+
+                </TextField>
+                {formik.touched.estadoId && formik.errors.estadoId ? (
+                    <FormHelperText error={formik.errors.estadoId}>{formik.errors.estadoId}</FormHelperText>
+                ) : null}
+            </DialogContent>
+
             <DialogContent>
                 <TextField
                     id="dsservicio"
