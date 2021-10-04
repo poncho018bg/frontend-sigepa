@@ -55,7 +55,7 @@ export const ApoyoServicioScreen = () => {
 
 
     const onSelect = (e) => {
-        setShowModalUpdate(true);
+        setShowModalUpdate(true);        
         setApoyoServicioSeleccionada(e);
     }
 

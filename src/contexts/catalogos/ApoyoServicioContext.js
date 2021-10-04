@@ -57,7 +57,7 @@ export const ApoyoServicioContextProvider = props => {
         } catch (error) {
             console.log(error);
             dispatch({
-                type: AGREGAR_MUNICIPIOS_ERROR,
+                type: AGREGAR_APOYOSERVICIO_ERROR,
                 payload: true
             })
         }

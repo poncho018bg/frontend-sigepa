@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
-import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
+import React, { useContext, useState,useEffect } from 'react';
+import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
+import { ClasificacionServiciosContext } from 'contexts/catalogos/clasificacionServiciosContext';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
@@ -16,7 +17,7 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
 
 
     const { actualizarApoyoServicio } = useContext(ApoyoServicioContext);
-
+    const { getClasificacionServicios, clasificacionServiciosList } = useContext(ClasificacionServiciosContext);
     //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
@@ -36,6 +37,9 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
         setShowModalUpdate(false);
     }
 
+    useEffect(() => {
+        getClasificacionServicios();
+    }, []);
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsservicio: Yup.string()
@@ -64,6 +68,38 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
                     <form
                         className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
                         onSubmit={props.handleSubmit}>
+
+                        <DialogContent>
+                            <TextField
+                                variant="outlined"
+                                label="Selecciona una clasificación"
+                                select
+                                fullWidth
+                                name="clasificacionServicio"
+                                value={props.values.clasificacionServicio}
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
+                            >
+                                <MenuItem value="0">
+                                    <em>Ninguno</em>
+                                </MenuItem>
+                                {
+                                    clasificacionServiciosList.map(
+                                        item => (
+                                            <MenuItem
+                                                key={item.id}
+                                                value={item.id}>
+                                                {item.dsclasificacionservicio}
+                                            </MenuItem>
+                                        )
+                                    )
+                                }
+
+                            </TextField>
+                            {props.touched.estadoId && props.errors.estadoId ? (
+                                <FormHelperText error={props.errors.estadoId}>{props.errors.estadoId}</FormHelperText>
+                            ) : null}
+                        </DialogContent>
 
                         <DialogContent>
                             <TextField
