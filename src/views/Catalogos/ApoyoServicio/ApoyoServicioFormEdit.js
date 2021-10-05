@@ -1,4 +1,4 @@
-import React, { useContext, useState,useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -47,6 +47,8 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
     });
 
     const actualizarInfoApoyoServicio = async valores => {
+        valores.clasificacionServicio = `/${valores.clasificacion_id}`
+        valores.serviciosApoyos = [{}]
         confirmacionDialog(valores);
     }
 
@@ -75,8 +77,8 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
                                 label="Selecciona una clasificación"
                                 select
                                 fullWidth
-                                name="clasificacionServicio"
-                                value={props.values.clasificacionServicio}
+                                name="clasificacion_id"
+                                value={props.values.clasificacion_id}
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                             >

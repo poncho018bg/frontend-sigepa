@@ -66,11 +66,13 @@ export const ApoyoServicioContextProvider = props => {
 
     const actualizarApoyoServicio = async apoyosServicios => {
         console.log(apoyosServicios);
-        const { dsservicio, activo, _links: { apoyosServicios: { href } } } = apoyosServicios;
+        const { dsservicio, activo, clasificacion_id, clasificacionServicio, serviciosApoyos, _links: { apoyosServicios: { href } } } = apoyosServicios;
         let apoyosServiciosEnviar = {
             dsservicio,
             activo,
-            crcProgramastipoapoyos: []
+            crcProgramastipoapoyos: [],
+            clasificacionServicio : `/${clasificacion_id}`,
+            serviciosApoyos  : [{}]
         }
         try {
             const resultado = await axiosPostHetoas(href, apoyosServiciosEnviar, 'PUT');
