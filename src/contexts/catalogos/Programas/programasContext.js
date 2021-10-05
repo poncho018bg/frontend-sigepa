@@ -81,7 +81,7 @@ export const ProgramasContextProvider = props => {
     const registrar = async programas => {
      
            // const resultado = await axiosPost('programas', programas);
-            const url = `${ baseUrl }programas`;
+            const url = `${ baseUrl }programasOverride`;
             return new Promise((resolve, reject) => {
                 axios.post(url, programas, {
                     headers: {'Accept': 'application/json', 'Content-type': 'application/json'}
@@ -148,7 +148,7 @@ export const ProgramasContextProvider = props => {
         } catch (error) {
             console.log(error);
         }*/
-        const url = `${ baseUrl }programas`;
+        const url = `${ baseUrl }programasOverride`;
         return new Promise((resolve, reject) => {
             axios.put(href, objetoEnviar, {
                 headers: {'Accept': 'application/json', 'Content-type': 'application/json'}

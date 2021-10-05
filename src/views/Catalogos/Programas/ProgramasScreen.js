@@ -14,6 +14,8 @@ import { Programa } from './Programa';
 import Add from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
 import { Loading } from "components/Personalizados/Loading";
+import { TiposBeneficiariosContext } from 'contexts/catalogos/tiposBeneficiariosContext';
+import { EdadesBeneficiariosContext } from 'contexts/catalogos/edadesBeneficiariosContext';
 const useStyles = makeStyles(stylesArchivo);
 
 export const ProgramasScreen = () => {
@@ -29,6 +31,9 @@ export const ProgramasScreen = () => {
     changePageSize,
     changePage,changePageNumber} = useContext(ProgramasContext);
 
+  const { getTipoBeneficiarios } = useContext(TiposBeneficiariosContext);
+  const { getEdadesBeneficiarios } = useContext(EdadesBeneficiariosContext);
+
 
 
   const handleChangePage = (event, newPage) => {
@@ -38,10 +43,13 @@ export const ProgramasScreen = () => {
   };
 
   useEffect(() => {
+
     get().then (data => {
       setTimeout(() => setLoading(false), 500);
-    
-    });;
+      
+    });
+    getTipoBeneficiarios();
+    getEdadesBeneficiarios();
 
   }, [pagina])
 
