@@ -105,15 +105,7 @@ const dashboardRoutes = [
         component: SubCatalogsBaseScreen,
         layout: "/admin"
       },
-      {
-        path: "/roles",
-        name: "Administración de perfiles",
-        rtlName: "roles",
-        mini: "R",
-        rtlMini: "r",
-        component: RolesScreen,
-        layout: "/admin"
-      },
+
       {
         path: "/registroProgramasApoyo",
         name: "Widgets",
