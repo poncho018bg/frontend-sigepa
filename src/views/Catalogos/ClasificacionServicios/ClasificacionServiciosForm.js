@@ -82,6 +82,9 @@ export const ClasificacionServiciosForm = () => {
                 {formik.touched.dsclasificacionservicio && formik.errors.dsclasificacionservicio ? (
                     <FormHelperText error={formik.errors.dsclasificacionservicio}>{formik.errors.dsclasificacionservicio}</FormHelperText>
                 ) : null}
+
+            </DialogContent>
+            <DialogContent>
                 <TextField
                     id="dsabreviatura"
                     label="Abreviatura"
@@ -100,7 +103,7 @@ export const ClasificacionServiciosForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    Guardar
+                        Guardar
                     </Button>
                 </Grid>
             </DialogContent>

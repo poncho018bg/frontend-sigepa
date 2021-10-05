@@ -1,4 +1,4 @@
-import React, { useContext,useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -80,6 +80,9 @@ export const ClasificacionServiciosEdit = ({ clasificacionServiciosSeleccionado 
                             {props.touched.dsclasificacionservicio && props.errors.dsclasificacionservicio ? (
                                 <FormHelperText error={props.errors.dsclasificacionservicio}>{props.errors.dsclasificacionservicio}</FormHelperText>
                             ) : null}
+
+                        </DialogContent>
+                        <DialogContent>
                             <TextField
                                 id="dsabreviatura"
                                 label="Abreviatura"
@@ -94,11 +97,10 @@ export const ClasificacionServiciosEdit = ({ clasificacionServiciosSeleccionado 
                                 <FormHelperText error={props.errors.dsabreviatura}>{props.errors.dsabreviatura}</FormHelperText>
                             ) : null}
                         </DialogContent>
-
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                Guardar
+                                    Guardar
                                 </Button>
                             </Grid>
                         </DialogContent>

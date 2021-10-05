@@ -29,6 +29,7 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import "./styles.css";
+import { boolean } from 'yup';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -150,7 +151,7 @@ export const DialogTipoApoyoForm = (props) => {
             idPrograma: '',
             dsdescripcion: '',
             estatus: '',
-            visita: '',
+            visita: false,
             idTipoApoyo: [],
             fcvigenciainicio: moment(new Date()).format("yyyy-MM-dd"),
             fcvigenciafin: moment(new Date()).format("yyyy-MM-dd"),
@@ -162,7 +163,7 @@ export const DialogTipoApoyoForm = (props) => {
             }],
             descApoyoEspecie: '',
             idPeriodicidad: '',
-            observaciones: null,
+            observaciones: '',
             formaEntrega: false,
             numEntregas: '',
             idActividadContinuidadApoyo: '',
@@ -177,9 +178,7 @@ export const DialogTipoApoyoForm = (props) => {
             dsdescripcion: Yup.string()
                 .required('La descripción obligatorio'),
             estatus: Yup.string()
-                .required('El estatus es obligatorio'),
-            visita: Yup.string()
-                .required('la visita es obligatorio'),
+                .required('El estatus es obligatorio'),           
             fcvigenciainicio: Yup.string()
                 .required('La vigencia desde obligatorio'),
             fcvigenciafin: Yup.string()
@@ -607,6 +606,7 @@ export const DialogTipoApoyoForm = (props) => {
                         variant="outlined"
                         name="observaciones"
                         value={formik.values.observaciones}
+                        onChange={formik.handleChange}
                         fullWidth
                         inputProps={{ maxLength: 500 }}
                     />

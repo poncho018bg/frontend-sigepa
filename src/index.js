@@ -26,6 +26,7 @@ import { store } from "store/store";
 
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { esES } from '@material-ui/core/locale';
+import './i18n';
 import { PersonContextProvider } from "contexts/personContext";
 import { ModalContextProvider } from "contexts/modalContex";
 import { ModalContextDeleteProvider } from "contexts/modalContexDelete";
@@ -63,6 +64,8 @@ import { LocalidadesContextProvider } from "contexts/catalogos/Localidades/local
 import { ModalContextConfirmacionProvider } from "contexts/modalContextConfirmacion";
 
 import { RegistroCargaDocumentosContextProvider } from "contexts/registroCargaDocumentosContext"
+
+
 
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
