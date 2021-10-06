@@ -49,12 +49,6 @@ export const ApoyoServicioForm = () => {
         }
 
 
-
-
-
-
-
-
         registrarApoyoSevicio(apoyoSevicio).then(response => {
             setOpenSnackbar(true);
             setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
@@ -66,12 +60,11 @@ export const ApoyoServicioForm = () => {
 
             }, 1000);
             return () => clearTimeout(timer);
-        })
-            .catch(err => {
-                setOpenSnackbar(true);
-                setError(true);
-                setMsjConfirmacion(`Ocurrio un error, ${err}`);
-            });;
+        }).catch(err => {
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`);
+        });;
 
 
 
