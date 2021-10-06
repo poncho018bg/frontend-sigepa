@@ -8,6 +8,7 @@ import { ModalContext } from 'contexts/modalContex';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 export const NumeroApoyosForm = () => {
 
@@ -17,6 +18,10 @@ export const NumeroApoyosForm = () => {
     //dialog confirmar
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
 
     const confirmacionDialog = (e) => {
@@ -28,16 +33,29 @@ export const NumeroApoyosForm = () => {
     const handleRegistrar = () => {
         const { noapoyo } = valores;
 
-        console.log(noapoyo);
-
-
         let numeroApoyos = {
             noapoyo: noapoyo,
             boactivo: true
         }
-        registrarNumeroApoyos(numeroApoyos);
-        setShowModalConfirmacion(false);
-        setShowModal(false);
+        registrarNumeroApoyos(numeroApoyos).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModal(false);
+        
+            }, 2000);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+        });
     }
 
 
@@ -86,6 +104,12 @@ export const NumeroApoyosForm = () => {
             </DialogContent>
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
+            />
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error?"error":"success"}
+                message={msjConfirmacion}
             />
         </form>
 

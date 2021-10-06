@@ -8,6 +8,7 @@ import { ModalContext } from 'contexts/modalContex';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 export const PeriodicidadApoyosForm = () => {
 
@@ -19,6 +20,11 @@ export const PeriodicidadApoyosForm = () => {
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
 
 
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+
+
     const confirmacionDialog = (e) => {
         console.log("Aqui hace el llamado al dialog", e);
         setShowModalConfirmacion(true);
@@ -27,17 +33,29 @@ export const PeriodicidadApoyosForm = () => {
 
     const handleRegistrar = () => {
         const { dsperiodicidad } = valores;
-
-        console.log(dsperiodicidad);
-
-
         let periodicidadApoyos = {
             dsperiodicidad: dsperiodicidad,
             boactivo: true
         }
-        registrarPeriodicidadApoyos(periodicidadApoyos);
-        setShowModalConfirmacion(false);
-        setShowModal(false);
+        registrarPeriodicidadApoyos(periodicidadApoyos).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModal(false);
+        
+            }, 2000);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+        });
     }
 
 
@@ -85,6 +103,12 @@ export const PeriodicidadApoyosForm = () => {
             </DialogContent>
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
+            />
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error?"error":"success"}
+                message={msjConfirmacion}
             />
         </form>
 

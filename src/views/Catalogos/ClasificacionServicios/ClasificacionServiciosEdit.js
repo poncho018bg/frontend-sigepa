@@ -7,6 +7,7 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 
 export const ClasificacionServiciosEdit = ({ clasificacionServiciosSeleccionado }) => {
@@ -17,20 +18,43 @@ export const ClasificacionServiciosEdit = ({ clasificacionServiciosSeleccionado 
     //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+
     /**
      * abre el dialogo de confirmación
      * @param {valores} e 
      */
     const confirmacionDialog = (e) => {
-        console.log("Aqui hace el llamado al dialog", e);
         setShowModalConfirmacion(true);
         setValores(e)
     }
 
     const handleRegistrar = () => {
-        actualizarClasificacionServicios(valores);
-        setShowModalConfirmacion(false);
-        setShowModalUpdate(false);
+        actualizarClasificacionServicios(valores).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        
+            }, 1500);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        });
     }
 
 
@@ -106,6 +130,12 @@ export const ClasificacionServiciosEdit = ({ clasificacionServiciosSeleccionado 
                         </DialogContent>
                         <ModalConfirmacion
                             handleRegistrar={handleRegistrar} evento="Editar"
+                        />
+                        <Mensaje
+                            setOpen={setOpenSnackbar}
+                            open={openSnackbar}
+                            severity={error?"error":"success"}
+                            message={msjConfirmacion}
                         />
                     </form>
                 )

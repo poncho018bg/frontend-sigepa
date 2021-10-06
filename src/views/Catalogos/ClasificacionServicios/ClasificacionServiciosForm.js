@@ -8,6 +8,7 @@ import { ModalContext } from 'contexts/modalContex';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 export const ClasificacionServiciosForm = () => {
 
@@ -17,6 +18,12 @@ export const ClasificacionServiciosForm = () => {
     //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+
     /**
      * abre el dialogo de confirmación
      * @param {valores} e 
@@ -30,18 +37,31 @@ export const ClasificacionServiciosForm = () => {
     const handleRegistrar = () => {
         const { dsclasificacionservicio, dsabreviatura } = valores
 
-        console.log(dsclasificacionservicio, dsabreviatura);
-
-
         let clasificacionServicios = {
             dsclasificacionservicio: dsclasificacionservicio,
             dsabreviatura: dsabreviatura,
             boactivo: true,
             'crcApoyoServicios': []
         }
-        registrarClasificacionServicios(clasificacionServicios);
-        setShowModalConfirmacion(false);
-        setShowModal(false);
+        registrarClasificacionServicios(clasificacionServicios).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModal(false);
+        
+            }, 1500);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+        });
 
     }
 
@@ -109,6 +129,12 @@ export const ClasificacionServiciosForm = () => {
             </DialogContent>
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
+            />
+              <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error?"error":"success"}
+                message={msjConfirmacion}
             />
         </form>
 

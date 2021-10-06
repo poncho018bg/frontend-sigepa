@@ -63,7 +63,7 @@ export const EdadesBeneficiariosContextProvider = props => {
      * @param {edadesBeneficiarios} edadesBeneficiarios 
      */
     const actualizarEdadesBeneficiarios= async edadesBeneficiarios => {
-        const { dsedadbeneficiario, boactivo, _links: { ct_EdadesBeneficiarios: { href } } } = edadesBeneficiarios;
+        const { dsedadbeneficiario, boactivo, _links: { edadesBeneficiarios: { href } } } = edadesBeneficiarios;
 
         let edadesBeneficiariosEnviar = {
             dsedadbeneficiario,

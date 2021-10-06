@@ -7,6 +7,7 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 
 export const PeriodicidadApoyosEdit = ({ periodicidadApoyosSeleccionado }) => {
@@ -17,12 +18,16 @@ export const PeriodicidadApoyosEdit = ({ periodicidadApoyosSeleccionado }) => {
     //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+
     /**
      * abre el dialogo de confirmación
      * @param {valores} e 
      */
     const confirmacionDialog = (e) => {
-        console.log("Aqui hace el llamado al dialog", e);
         setShowModalConfirmacion(true);
         setValores(e)
     }
@@ -31,9 +36,28 @@ export const PeriodicidadApoyosEdit = ({ periodicidadApoyosSeleccionado }) => {
      * Edita el elemento
      */
     const handleRegistrar = () => {
-        actualizarPeriodicidadApoyos(valores);
-        setShowModalConfirmacion(false);
-        setShowModalUpdate(false);
+        actualizarPeriodicidadApoyos(valores).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        
+            }, 2000);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        });
     }
 
 
@@ -92,6 +116,12 @@ export const PeriodicidadApoyosEdit = ({ periodicidadApoyosSeleccionado }) => {
                         </DialogContent>
                         <ModalConfirmacion
                             handleRegistrar={handleRegistrar} evento="Editar"
+                        />
+                         <Mensaje
+                            setOpen={setOpenSnackbar}
+                            open={openSnackbar}
+                            severity={error?"error":"success"}
+                            message={msjConfirmacion}
                         />
                     </form>
                 )
