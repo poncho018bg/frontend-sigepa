@@ -9,6 +9,7 @@ import { EstadosContext } from 'contexts/catalogos/EstadosContext';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 export const EstadosForm = () => {
 
@@ -18,6 +19,10 @@ export const EstadosForm = () => {
     //dialog confirmar
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
 
     const confirmacionDialog = (e) => {
@@ -33,9 +38,25 @@ export const EstadosForm = () => {
             dsestado: dsestado,
             activo: true
         }
-        registrarEstados(estado);
-        setShowModalConfirmacion(false);
-        setShowModal(false);
+        registrarEstados(estado).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModal(false);
+        
+            }, 1500);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+        });
     }
 
 
@@ -67,6 +88,7 @@ export const EstadosForm = () => {
                     variant="outlined"
                     name="noestado"
                     fullWidth
+                    inputProps={{ maxLength: "2" }}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.noestado}
@@ -100,6 +122,12 @@ export const EstadosForm = () => {
             </DialogContent>
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
+            />
+             <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error?"error":"success"}
+                message={msjConfirmacion}
             />
         </form>
 

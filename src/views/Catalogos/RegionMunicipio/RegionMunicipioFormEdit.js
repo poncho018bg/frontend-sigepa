@@ -1,10 +1,13 @@
-import React, { useContext,useEffect } from 'react';
+import React, { useContext,useEffect, useState } from 'react';
 import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { RegionMunicipiosContext } from 'contexts/catalogos/RegionMunicipiosContext';
 import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 
 export const RegionMunicipioFormEdit = ({ regionMunicipioSeleccionada }) => {
 
@@ -12,6 +15,44 @@ export const RegionMunicipioFormEdit = ({ regionMunicipioSeleccionada }) => {
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { actualizarRegionMunicipios } = useContext(RegionMunicipiosContext);
     const { municipiosList, getMunicipios } = useContext(MunicipiosContext);
+
+     //dialog confirmacion
+     const [valores, setValores] = useState();
+     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+
+    const confirmacionDialog = (e) => {
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+
+
+    const handleRegistrar = () => {
+        actualizarRegionMunicipios(valores).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        
+            }, 1500);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+        });
+    }
+
 
     // Schema de validación
     const schemaValidacion = Yup.object({
@@ -24,8 +65,7 @@ export const RegionMunicipioFormEdit = ({ regionMunicipioSeleccionada }) => {
     });
 
     const actualizarInfoRegionMunicipio = async valores => {
-        actualizarRegionMunicipios(valores);
-        setShowModalUpdate(false);
+        confirmacionDialog(valores);
     }
 
     
@@ -120,6 +160,15 @@ export const RegionMunicipioFormEdit = ({ regionMunicipioSeleccionada }) => {
 
 
                         </DialogContent>
+                        <ModalConfirmacion
+                            handleRegistrar={handleRegistrar} evento="Editar"
+                        />
+                        <Mensaje
+                            setOpen={setOpenSnackbar}
+                            open={openSnackbar}
+                            severity={error?"error":"success"}
+                            message={msjConfirmacion}
+                        />
                     </form>
                 )
             }}

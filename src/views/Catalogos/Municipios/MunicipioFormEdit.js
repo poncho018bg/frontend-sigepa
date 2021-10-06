@@ -8,6 +8,7 @@ import { EstadosContext } from 'contexts/catalogos/EstadosContext';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
@@ -17,12 +18,17 @@ export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
     //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+
     /**
      * abre el dialogo de confirmación
      * @param {valores} e 
      */
     const confirmacionDialog = (e) => {
-        console.log("Aqui hace el llamado al dialog", e);
         setShowModalConfirmacion(true);
         setValores(e)
     }
@@ -31,9 +37,28 @@ export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
      * Edita el elemento
      */
     const handleRegistrar = () => {
-        actualizarMunicipios(valores);
-        setShowModalConfirmacion(false);
-        setShowModalUpdate(false);
+        actualizarMunicipios(valores).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        
+            }, 2000);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        });
     }
 
     // Schema de validación
@@ -158,6 +183,12 @@ export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
                         </DialogContent>
                         <ModalConfirmacion
                             handleRegistrar={handleRegistrar} evento="Editar"
+                        />
+                        <Mensaje
+                            setOpen={setOpenSnackbar}
+                            open={openSnackbar}
+                            severity={error?"error":"success"}
+                            message={msjConfirmacion}
                         />
                     </form>
                 )

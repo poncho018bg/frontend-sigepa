@@ -50,14 +50,14 @@ export const TipoApoyoForm = () => {
                 setShowModalConfirmacion(false);
                 setShowModal(false);
             
-                }, 2000);
+                }, 1500);
                 return () => clearTimeout(timer);
             })
             .catch(err => {   
                 setOpenSnackbar(true);
                 setError(true);
                 setMsjConfirmacion(`Ocurrio un error, ${err}`  );
-            });;        ;
+            });
     }
 
 
