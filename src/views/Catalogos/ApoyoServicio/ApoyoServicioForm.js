@@ -1,5 +1,5 @@
 import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
-import React, { useContext, useState,useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -10,17 +10,21 @@ import { ClasificacionServiciosContext } from 'contexts/catalogos/clasificacionS
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 export const ApoyoServicioForm = () => {
 
     const { registrarApoyoSevicio } = useContext(ApoyoServicioContext);
-    const {getClasificacionServicios,clasificacionServiciosList}= useContext(ClasificacionServiciosContext);
+    const { getClasificacionServicios, clasificacionServiciosList } = useContext(ClasificacionServiciosContext);
 
     const { setShowModal } = useContext(ModalContext);
 
     //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
     /**
      * abre el dialogo de confirmación
      * @param {valores} e 
@@ -35,23 +39,49 @@ export const ApoyoServicioForm = () => {
     }, []);
 
     const handleRegistrar = () => {
-        const { dsservicio ,clasificacionServicio} = valores
+        const { dsservicio, clasificacionServicio } = valores
 
         let apoyoSevicio = {
             dsservicio: dsservicio,
-            activo: true,           
-            clasificacionServicio:`/${clasificacionServicio}`,
-            serviciosApoyos:[{}]
+            activo: true,
+            clasificacionServicio: `/${clasificacionServicio}`,
+            serviciosApoyos: [{}]
         }
-        registrarApoyoSevicio(apoyoSevicio);
-        setShowModalConfirmacion(false);
-        setShowModal(false);
+
+
+
+
+
+
+
+
+        registrarApoyoSevicio(apoyoSevicio).then(response => {
+            setOpenSnackbar(true);
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+
+            const timer = setTimeout(() => {
+                setError(false);
+                setShowModalConfirmacion(false);
+                setShowModal(false);
+
+            }, 1000);
+            return () => clearTimeout(timer);
+        })
+            .catch(err => {
+                setOpenSnackbar(true);
+                setError(true);
+                setMsjConfirmacion(`Ocurrio un error, ${err}`);
+            });;
+
+
+
+
     }
 
     const formik = useFormik({
         initialValues: {
             dsservicio: '',
-            clasificacionServicio:''
+            clasificacionServicio: ''
         },
         validationSchema: Yup.object({
             dsservicio: Yup.string()
@@ -121,12 +151,19 @@ export const ApoyoServicioForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    Guardar
+                        Guardar
                     </Button>
                 </Grid>
             </DialogContent>
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
+            />
+
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
             />
         </form>
 

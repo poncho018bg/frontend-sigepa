@@ -50,7 +50,7 @@ export const LocalidadForm = () => {
         registrar(localidad).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`La localidad ${response.data.dslocalidad}  fue registrada correctamente `  );
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente`  );
            
            const timer = setTimeout(() => {
         

@@ -7,13 +7,19 @@ import { CursosCapacitacionesContext } from 'contexts/catalogos/CursosCapacitaci
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { useHistory } from "react-router";
 
 
 export const CursosCapacitacionesEdit = ({ objetoActualizar }) => {
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
 
     const { actualizar } = useContext(CursosCapacitacionesContext);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
+    let history = useHistory();
     //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
@@ -31,9 +37,28 @@ export const CursosCapacitacionesEdit = ({ objetoActualizar }) => {
      * Edita el elemento
      */
     const handleRegistrar = () => {
-        actualizar(valores);
-        setShowModalConfirmacion(false);
-        setShowModalUpdate(false);
+
+
+        actualizar(valores).then(response => {
+
+            setOpenSnackbar(true);
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+            const timer = setTimeout(() => {
+                setError(false);
+                history.push("/admin/cursosCapacitaciones")
+                setShowModalConfirmacion(false);
+                setShowModalUpdate(false);
+
+            }, 1000);
+
+
+            return () => clearTimeout(timer);
+        }).catch(err => {
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`);
+        });;
+
     }
 
 
@@ -86,12 +111,19 @@ export const CursosCapacitacionesEdit = ({ objetoActualizar }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                Guardar
+                                    Guardar
                                 </Button>
                             </Grid>
                         </DialogContent>
                         <ModalConfirmacion
                             handleRegistrar={handleRegistrar} evento="Editar"
+                        />
+
+                        <Mensaje
+                            setOpen={setOpenSnackbar}
+                            open={openSnackbar}
+                            severity={error ? "error" : "success"}
+                            message={msjConfirmacion}
                         />
                     </form>
                 )

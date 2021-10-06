@@ -1,14 +1,15 @@
 import React, { createContext, useReducer } from 'react';
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
-import { GET_LOCALIDADES,
-        REGISTRAR_LOCALIDADES,
-        ELIMINAR_LOCALIDADES,
-        MODIFICAR_LOCALIDADES,
-        AGREGAR_PROGRAMA_ERROR,
-        CAMBIAR_PAGINA,
-        CAMBIAR_TAMANIO_PAGINA,
-        GET_LOCALIDADES_BY_ID
+import {
+    GET_LOCALIDADES,
+    REGISTRAR_LOCALIDADES,
+    ELIMINAR_LOCALIDADES,
+    MODIFICAR_LOCALIDADES,
+    AGREGAR_PROGRAMA_ERROR,
+    CAMBIAR_PAGINA,
+    CAMBIAR_TAMANIO_PAGINA,
+    GET_LOCALIDADES_BY_ID
 } from 'types/actionTypes';
 
 import LocalidadesReducer from 'reducers/Catalogos/Localidades/LocalidadesReducer';
@@ -22,7 +23,7 @@ export const LocalidadesContext = createContext();
 export const LocalidadesContextProvider = props => {
     const initialState = {
         localidadesList: [],
-        localidad:null,
+        localidad: null,
         error: false,
         page: 0,
         size: 10,
@@ -34,9 +35,9 @@ export const LocalidadesContextProvider = props => {
     /**
      * obtener tipos de apoyo
      */
-    const get= async () => {
+    const get = async () => {
         try {
-            const {page, size}= state;
+            const { page, size } = state;
             const result = await axiosGet(`localidades?page=${page}&size=${size}`);
             dispatch({
                 type: GET_LOCALIDADES,
@@ -56,10 +57,10 @@ export const LocalidadesContextProvider = props => {
         try {
             //const resultado = await axiosPost('localidades', localidades);
 
-            const url = `${ baseUrl }localidades`;
+            const url = `${baseUrl}localidades`;
             return new Promise((resolve, reject) => {
                 axios.post(url, localidades, {
-                    headers: {'Accept': 'application/json', 'Content-type': 'application/json'}
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
                     resolve(response);
                     dispatch({
@@ -71,10 +72,10 @@ export const LocalidadesContextProvider = props => {
                 });
             });
 
-           /* dispatch({
-                type: REGISTRAR_LOCALIDADES,
-                payload: resultado
-            })*/
+            /* dispatch({
+                 type: REGISTRAR_LOCALIDADES,
+                 payload: resultado
+             })*/
         } catch (error) {
             console.log('ocurrio un error en el context');
             console.log(error);
@@ -89,30 +90,30 @@ export const LocalidadesContextProvider = props => {
      * Se actualizan los tipos de apoyos
      * @param {motivoRechazos} motivoRechazos 
      */
-    const actualizar= async (valores,objetoActualizar,municipio) => {
+    const actualizar = async (valores, objetoActualizar, municipio) => {
         console.log('actualizando objeto');
         console.log(municipio);
-        const { 
-             _links: { localidades: { href } }
+        const {
+            _links: { localidades: { href } }
         } = objetoActualizar;
 
         const {
             dsidlocalidad, dsclavelocalidad,
-                 dscodigopostal, 
-             dslocalidad,id ,
-        }= valores;
+            dscodigopostal,
+            dslocalidad, id,
+        } = valores;
 
         let localidad = {
             dsidlocalidad,
             dsclavelocalidad,
-            id ,
+            id,
             dslocalidad,
             dscodigopostal,
             dsestado: true,
             municipios: `/${municipio.id}`
         }
 
-  
+
         try {
             const result = await axiosPostHetoas(href, localidad, 'PUT');
             console.log(result);
@@ -126,13 +127,42 @@ export const LocalidadesContextProvider = props => {
         }
     }
 
-    const eliminar= async id => {
-     
+    const eliminar = async (valores) => {
+
+        const {
+            activo,
+            dsclavelocalidad,
+            dscodigopostal,
+            dsidlocalidad,
+            dslocalidad,            
+            id,
+            municipio_id,
+            
+            _links: { localidades: { href } },
+            _links: { municipios: { hrefm } }
+        } = valores;
+        const act = activo === true ? false : true;
+
+
+        let localidad = {
+            dsidlocalidad,
+            dsclavelocalidad,
+            id,
+            dslocalidad,
+            dscodigopostal,
+            activo:act,
+            municipios:`/${municipio_id}`
+
+        }
+
+
         try {
-            await axiosDeleteTipo(`localidades/${id}`);
+            const result = await axiosPostHetoas(href, localidad, 'PUT');
+            console.log(result);
+            console.log('mir mira');
             dispatch({
-                type: ELIMINAR_LOCALIDADES,
-                payload: id,
+                type: MODIFICAR_LOCALIDADES,
+                payload: result,
             })
         } catch (error) {
             console.log(error);
@@ -142,32 +172,32 @@ export const LocalidadesContextProvider = props => {
 
     //Paginacion
 
- const changePage = async (page) => {
-     console.log(page);
+    const changePage = async (page) => {
+        console.log(page);
 
         dispatch(changePageNumber(page))
         try {
             get();
         } catch (error) {
-           // console.log(error);
+            // console.log(error);
             //dispatch( idiomaAddedError() )
             throw error;
         }
-    
-}
+
+    }
 
     const changePageNumber = (page) => ({
-        type: CAMBIAR_PAGINA, 
+        type: CAMBIAR_PAGINA,
         payload: page
     })
-    
-     const changePageSize = (size) => ({
-        type: CAMBIAR_TAMANIO_PAGINA, 
+
+    const changePageSize = (size) => ({
+        type: CAMBIAR_TAMANIO_PAGINA,
         payload: size
-    })      
+    })
 
 
-    const getByID= async id => {
+    const getByID = async id => {
         try {
             const result = await axiosGet(`localidades/${id}`);
             dispatch({
@@ -178,7 +208,7 @@ export const LocalidadesContextProvider = props => {
             console.log(error);
         }
     }
-       
+
 
 
     return (
@@ -186,10 +216,10 @@ export const LocalidadesContextProvider = props => {
             value={{
                 localidadesList: state.localidadesList,
                 localidad: state.localidad,
-                error:state.error,
-                page:state.page,
-                size:state.size,
-                total:state.total,
+                error: state.error,
+                page: state.page,
+                size: state.size,
+                total: state.total,
                 get,
                 registrar,
                 actualizar,

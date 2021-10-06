@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import ApoyoServicioReducer from 'reducers/Catalogos/ApoyoServicioReducer';
-
+import axios from "axios";
 
 import {
     GET_APOYOSERVICIO, REGISTRAR_APOYOSERVICIO, ELIMINAR_APOYOSERVICIO, MODIFICAR_APOYOSERVICIO,
@@ -11,7 +11,7 @@ import {
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
 
-
+const baseUrl = process.env.REACT_APP_API_URL;
 export const ApoyoServicioContext = createContext();
 
 export const ApoyoServicioContextProvider = props => {
@@ -46,21 +46,33 @@ export const ApoyoServicioContextProvider = props => {
 
 
     const registrarApoyoSevicio = async apoyosServicios => {
+
         try {
-            console.log(apoyosServicios);
-            const resultado = await axiosPost('apoyosServicios', apoyosServicios);
-            console.log(resultado);
-            dispatch({
-                type: REGISTRAR_APOYOSERVICIO,
-                payload: resultado
-            })
+            const url = `${baseUrl}apoyosServicios`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, apoyosServicios, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_APOYOSERVICIO,
+                        payload: response
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
         } catch (error) {
+            console.log('ocurrio un error en el context');
             console.log(error);
             dispatch({
                 type: AGREGAR_APOYOSERVICIO_ERROR,
                 payload: true
             })
         }
+
+
     }
 
 
@@ -71,33 +83,49 @@ export const ApoyoServicioContextProvider = props => {
             dsservicio,
             activo,
             crcProgramastipoapoyos: [],
-            clasificacionServicio : `/${clasificacion_id}`,
-            serviciosApoyos  : [{}]
+            clasificacionServicio: `/${clasificacion_id}`,
+            serviciosApoyos: [{}]
         }
-        try {
-            const resultado = await axiosPostHetoas(href, apoyosServiciosEnviar, 'PUT');
 
-            dispatch({
-                type: MODIFICAR_APOYOSERVICIO,
-                payload: resultado,
-            })
-
-        } catch (error) {
-            console.log(error);
-        }
+        return new Promise((resolve, reject) => {
+            axios.put(href, apoyosServicios, {
+                headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+            }).then(response => {
+                resolve(response);
+                dispatch({
+                    type: MODIFICAR_APOYOSERVICIO,
+                    payload: response
+                })
+            }).catch(error => {
+                reject(error);
+            });
+        });
     }
 
-    const eliminarApoyoServicio = async idApoyoServicio => {
+    const eliminarApoyoServicio = async apoyosServicios => {
+        const { dsservicio, activo, clasificacion_id, clasificacionServicio, serviciosApoyos, _links: { apoyosServicios: { href } } } = apoyosServicios;
+        const act = activo === true ? false : true;
+        let apoyosServiciosEnviar = {
+            dsservicio,
+            activo: act,
+            crcProgramastipoapoyos: [],
+            clasificacionServicio: `/${clasificacion_id}`,
+            serviciosApoyos: [{}]
+        }
+
+
         try {
-            await axiosDeleteTipo(`apoyosServicios/${idApoyoServicio}`);
+            const result = await axiosPostHetoas(href, apoyosServiciosEnviar, 'PUT');
+            console.log(result);
+            console.log('mir mira');
             dispatch({
                 type: ELIMINAR_APOYOSERVICIO,
-                payload: idApoyoServicio
+                payload: result,
             })
-
         } catch (error) {
             console.log(error);
         }
+
     }
 
     //Paginacion

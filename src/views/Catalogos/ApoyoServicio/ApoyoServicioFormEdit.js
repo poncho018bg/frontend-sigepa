@@ -9,10 +9,13 @@ import { ClasificacionServiciosContext } from 'contexts/catalogos/clasificacionS
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { useHistory } from "react-router";
+
 
 export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
 
-
+    let history = useHistory();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
 
 
@@ -21,6 +24,10 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
     //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+
     /**
      * abre el dialogo de confirmación
      * @param {valores} e 
@@ -32,9 +39,28 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
     }
 
     const handleRegistrar = () => {
-        actualizarApoyoServicio(valores);
-        setShowModalConfirmacion(false);
-        setShowModalUpdate(false);
+
+        actualizarApoyoServicio(valores).then(response => {
+
+            setOpenSnackbar(true);
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+            const timer = setTimeout(() => {
+                setError(false);
+                history.push("/admin/apoyoservicio")
+                setShowModalConfirmacion(false);
+                setShowModalUpdate(false);
+
+            }, 1000);
+
+
+            return () => clearTimeout(timer);
+        }).catch(err => {
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`);
+        });;
+
+
     }
 
     useEffect(() => {
@@ -130,6 +156,13 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
                         </DialogContent>
                         <ModalConfirmacion
                             handleRegistrar={handleRegistrar} evento="Editar"
+                        />
+
+                        <Mensaje
+                            setOpen={setOpenSnackbar}
+                            open={openSnackbar}
+                            severity={error ? "error" : "success"}
+                            message={msjConfirmacion}
                         />
                     </form>
                 )

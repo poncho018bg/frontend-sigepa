@@ -29,7 +29,7 @@ export const DialogDelete = (props) => {
         <DialogTitle id="alert-dialog-title">{"Confirmación"}</DialogTitle>
         <DialogContent>
             <DialogContentText id="alert-dialog-description">
-                ¿Deseas eliminar el elemento?
+            ¿Esta seguro que desea guardar la información?
             </DialogContentText>
         </DialogContent>
         <DialogActions>

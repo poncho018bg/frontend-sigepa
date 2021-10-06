@@ -33,6 +33,7 @@ import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModalUpdate } from 'commons/ModalUpdate';
 import { CursosCapacitacionesContext } from 'contexts/catalogos/CursosCapacitaciones/cursosCapacitacionesContext';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -47,6 +48,10 @@ export const CursosCapacitacionesScreen = () => {
     const { get, eliminar, cursosCapacitacionesList, size, page, total, changePageSize, changePage } = useContext(CursosCapacitacionesContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [openDialog, setOpenDialog] = useState(false);
 
     const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
@@ -75,7 +80,7 @@ export const CursosCapacitacionesScreen = () => {
 
     const deleteDialog = (e) => {
         setShowModalDelete(true);
-        setIdEliminar(e.id);
+        setIdEliminar(e);
 
     }
 
@@ -83,6 +88,9 @@ export const CursosCapacitacionesScreen = () => {
     const handleDeshabilitar = () => {
         eliminar(idEliminar)
         setShowModalDelete(false);
+        setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
     }
 
     return (
@@ -121,7 +129,7 @@ export const CursosCapacitacionesScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estado</TableCell >
+                                < TableCell > Estatus</TableCell >
                                 < TableCell> Curso</TableCell >
                                 < TableCell> Fecha Registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
@@ -138,11 +146,7 @@ export const CursosCapacitacionesScreen = () => {
                                     return (
                                         < TableRow key={row.id}>
                                             <TableCell>
-                                                <Checkbox
-                                                    checked={row.boactivo}
-                                                    color="primary"
-                                                    inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                />
+                                              {row.activo === true ? 'Activo':'Inactivo'}
                                             </TableCell>
                                             <TableCell>{row.dsestado}</TableCell >
                                             <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
@@ -183,6 +187,13 @@ export const CursosCapacitacionesScreen = () => {
             <ModalUpdate>
                 <CursosCapacitacionesEdit objetoActualizar={objetoActualizar} />
             </ModalUpdate>
+
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
         </GridItem>
 
     )

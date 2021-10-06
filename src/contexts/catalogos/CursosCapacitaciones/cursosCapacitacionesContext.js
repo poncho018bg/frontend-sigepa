@@ -1,15 +1,17 @@
 import React, { createContext, useReducer } from 'react';
-
+import axios from "axios";
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 import CursosCapacitacionesReducer from 'reducers/Catalogos/CursosCapacitacionesReducer';
-import { REGISTRAR_CURSOS_CAPACITACIONES,GET_CURSOS_CAPACITACIONES ,ELIMINAR_CURSOS_CAPACITACIONES,MODIFICAR_CURSOS_CAPACITACIONES,
+import {
+    REGISTRAR_CURSOS_CAPACITACIONES, GET_CURSOS_CAPACITACIONES, ELIMINAR_CURSOS_CAPACITACIONES, MODIFICAR_CURSOS_CAPACITACIONES,
     AGREGAR_CURSOS_CAPACITACIONES_ERROR,
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA} from 'types/actionTypes';
+    CAMBIAR_TAMANIO_PAGINA
+} from 'types/actionTypes';
 
 
-
+const baseUrl = process.env.REACT_APP_API_URL;
 export const CursosCapacitacionesContext = createContext();
 
 export const CursosCapacitacionesContextProvider = props => {
@@ -27,7 +29,7 @@ export const CursosCapacitacionesContextProvider = props => {
     /**
      * obtener tipos de apoyo
      */
-    const get= async () => {
+    const get = async () => {
         try {
             const { page, size } = state;
             const result = await axiosGet(`cursosCapacitaciones`);
@@ -47,28 +49,39 @@ export const CursosCapacitacionesContextProvider = props => {
      * @param {motivoRechazos} motivoRechazos 
      */
     const registrar = async cursosCapacitaciones => {
+
         try {
-            console.log(cursosCapacitaciones);
-            const resultado = await axiosPost('cursosCapacitaciones', cursosCapacitaciones);
-            console.log(resultado);
-            dispatch({
-                type: REGISTRAR_CURSOS_CAPACITACIONES,
-                payload: resultado
-            })
+            const url = `${baseUrl}cursosCapacitaciones`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, cursosCapacitaciones, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_CURSOS_CAPACITACIONES,
+                        payload: response
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
         } catch (error) {
+            console.log('ocurrio un error en el context');
             console.log(error);
             dispatch({
                 type: AGREGAR_CURSOS_CAPACITACIONES_ERROR,
                 payload: true
             })
         }
+
     }
 
     /**
      * Se actualizan los tipos de apoyos
      * @param {motivoRechazos} motivoRechazos 
      */
-    const actualizar= async objetoActualizar => {
+    const actualizar = async objetoActualizar => {
         console.log(objetoActualizar);
         const { dsestado, boactivo, _links: { cursosCapacitaciones: { href } } } = objetoActualizar;
 
@@ -77,28 +90,56 @@ export const CursosCapacitacionesContextProvider = props => {
             boactivo
         };
 
+        return new Promise((resolve, reject) => {
+            axios.put(href, objetoEnviar, {
+                headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+            }).then(response => {
+                resolve(response);
+                dispatch({
+                    type: MODIFICAR_CURSOS_CAPACITACIONES,
+                    payload: response
+                })
+            }).catch(error => {
+                reject(error);
+            });
+        });
+
+    }
+
+    const eliminar = async cursosCapacitacionesw => {
+
+        const {
+            dsestado,
+            id,
+            fechaRegistro,
+            activo,            
+            _links: { self: { href } },
+        } = cursosCapacitacionesw;
+        const act = activo === true ? false : true;
+
+
+        let localidad = {
+            dsestado,
+            id,
+            fechaRegistro,
+            activo: act
+        }
+        console.log(cursosCapacitacionesw)
+
+
         try {
-            const result = await axiosPostHetoas(href, objetoEnviar, 'PUT');
+            const result = await axiosPostHetoas(href, localidad, 'PUT');
+            console.log(result);
+            console.log('mir mira');
             dispatch({
-                type: MODIFICAR_CURSOS_CAPACITACIONES,
+                type: ELIMINAR_CURSOS_CAPACITACIONES,
                 payload: result,
             })
         } catch (error) {
             console.log(error);
         }
-    }
 
-    const eliminar= async id => {
-     
-        try {
-            await axiosDeleteTipo(`cursosCapacitaciones/${id}`);
-            dispatch({
-                type: ELIMINAR_CURSOS_CAPACITACIONES,
-                payload: id,
-            })
-        } catch (error) {
-            console.log(error);
-        }
+
     }
 
     //Paginacion
@@ -108,7 +149,7 @@ export const CursosCapacitacionesContextProvider = props => {
         dispatch(changePageNumber(page))
         try {
             get();
-        } catch (error) {            
+        } catch (error) {
             throw error;
         }
 

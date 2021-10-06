@@ -5,7 +5,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 
@@ -30,6 +30,7 @@ import { ModalUpdate } from 'commons/ModalUpdate';
 import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
 import { ApoyoServicioFormEdit } from './ApoyoServicioFormEdit';
 import { ApoyoServicioForm } from './ApoyoServicioForm';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -42,20 +43,24 @@ export const ApoyoServicioScreen = () => {
     const [idEliminar, setIdEliminar] = useState(0);
     const [ApoyoServicioSeleccionada, setApoyoServicioSeleccionada] = useState();
 
-    const { apoyoservicioList, getApoyoServicio, eliminarApoyoServicio , size, page, total, changePageSize, changePage} = useContext(ApoyoServicioContext);
+    const { apoyoservicioList, getApoyoServicio, eliminarApoyoServicio, size, page, total, changePageSize, changePage } = useContext(ApoyoServicioContext);
     const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
     const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
     const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
         = useContext(ModalContextUpdate);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(() => {
         getApoyoServicio();
-    
+
     }, []);
 
 
     const onSelect = (e) => {
-        setShowModalUpdate(true);        
+        setShowModalUpdate(true);
         setApoyoServicioSeleccionada(e);
     }
 
@@ -65,13 +70,16 @@ export const ApoyoServicioScreen = () => {
 
     const deleteDialog = (e) => {
         setShowModalDelete(true);
-        setIdEliminar(e.id);
+        setIdEliminar(e);
     }
 
 
     const handleDeshabilitar = () => {
         eliminarApoyoServicio(idEliminar)
         setShowModalDelete(false);
+        setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
     }
     const handleChangePage = (event, newPage) => {
         changePage(newPage)
@@ -121,6 +129,7 @@ export const ApoyoServicioScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
+                                < TableCell > Estatus </TableCell >
                                 < TableCell > TIPO DE SERVICIO </TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
@@ -136,11 +145,7 @@ export const ApoyoServicioScreen = () => {
                                     return (
                                         < TableRow key={row.id}>
                                             <TableCell>
-                                                <Checkbox
-                                                    checked={row.activo}
-                                                    color="primary"
-                                                    inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                />
+                                                {row.activo === true ? 'Activo' : 'Inactivo'}
                                             </TableCell>
                                             <TableCell>{row.dsservicio}</TableCell >
                                             <TableCell align="center">
@@ -180,6 +185,13 @@ export const ApoyoServicioScreen = () => {
             <ModalUpdate>
                 <ApoyoServicioFormEdit ApoyoServicioSeleccionada={ApoyoServicioSeleccionada} />
             </ModalUpdate>
+
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
         </GridItem>
 
     )

@@ -78,7 +78,7 @@ export const DocumentosForm = () => {
             dsdescripcion: dsdescripcion,
             vigencias: `${process.env.REACT_APP_API_URL}vigencias/${idVigencia}`,
             boactivo: true,
-            'apoyos': []
+            'programas': []
         }
         registrarDocumento(documentosRequisitos);
         setShowModalConfirmacion(false);

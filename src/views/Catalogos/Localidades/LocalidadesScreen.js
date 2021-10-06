@@ -93,7 +93,7 @@ export const LocalidadesScreen = () => {
               < Table stickyHeader aria-label="sticky table" >
                 < TableHead >
                   < TableRow key="898as" >
-                    < TableCell > Activo</TableCell >
+                    < TableCell > Estatus</TableCell >
                     < TableCell > Clave</TableCell >
                     < TableCell > Localidad  </TableCell >
                     < TableCell> CP</TableCell >
