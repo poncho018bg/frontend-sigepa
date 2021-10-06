@@ -5,7 +5,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 
@@ -34,6 +34,7 @@ import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModalUpdate } from 'commons/ModalUpdate';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -43,12 +44,17 @@ export const MotivoRechazosScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [motivoRechazosSeleccionado, setMotivoRechazosSeleccionado] = useState();
-    const { getMotivoRechazos, eliminarMotivoRechazos, motivoRechazosList, size, page, total, changePageSize, changePage  } = useContext(MotivoRechazosContext);
+    const { getMotivoRechazos, eliminarMotivoRechazos, motivoRechazosList, size, page, total, changePageSize, changePage } = useContext(MotivoRechazosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
     const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(() => {
         getMotivoRechazos();
@@ -56,7 +62,7 @@ export const MotivoRechazosScreen = () => {
         console.log("tipo de apoyo", motivoRechazosList);
     }, []);
 
-   
+
     const onSelect = (e) => {
         setShowModalUpdate(true);
         setMotivoRechazosSeleccionado(e);
@@ -68,7 +74,7 @@ export const MotivoRechazosScreen = () => {
 
     const deleteDialog = (e) => {
         setShowModalDelete(true);
-        setIdEliminar(e.id);
+        setIdEliminar(e);
 
     }
 
@@ -76,6 +82,9 @@ export const MotivoRechazosScreen = () => {
     const handleDeshabilitar = () => {
         eliminarMotivoRechazos(idEliminar)
         setShowModalDelete(false);
+        setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -94,7 +103,7 @@ export const MotivoRechazosScreen = () => {
                 <CardHeader color="primary">
                     <h4 className={classes.cardTitleWhite}>CAUSAS DE BAJA</h4>
                     <p className={classes.cardCategoryWhite}>
-                        
+
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -123,7 +132,7 @@ export const MotivoRechazosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estado</TableCell >
+                                < TableCell > Estatus</TableCell >
                                 < TableCell> Descripción del motivo de rechazo</TableCell >
                                 < TableCell> Fecha registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
@@ -140,11 +149,7 @@ export const MotivoRechazosScreen = () => {
                                     return (
                                         < TableRow key={row.id}>
                                             <TableCell>
-                                                <Checkbox
-                                                    checked={row.boactivo}
-                                                    color="primary"
-                                                    inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                />
+                                                {row.activo === true ? 'Activo':'Inactivo'}
                                             </TableCell>
                                             <TableCell>{row.dsmotivorechazo}</TableCell >
                                             <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
@@ -185,6 +190,13 @@ export const MotivoRechazosScreen = () => {
             <ModalUpdate>
                 <MotivoRechazosEdit motivoRechazosSeleccionado={motivoRechazosSeleccionado} />
             </ModalUpdate>
+
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
         </GridItem>
 
     )

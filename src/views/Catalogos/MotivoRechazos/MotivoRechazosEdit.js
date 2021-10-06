@@ -7,16 +7,20 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
-
+import { useHistory } from "react-router";
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
-
+    let history = useHistory();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { actualizarMotivoRechazos } = useContext(MotivoRechazosContext);
 
     //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
     /**
      * abre el dialogo de confirmación
      * @param {valores} e 
@@ -31,9 +35,23 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
  * Registra el elemento
  */
     const handleRegistrar = () => {
-        actualizarMotivoRechazos(valores);
-        setShowModalConfirmacion(false);
-        setShowModalUpdate(false);
+
+        actualizarMotivoRechazos(valores).then(response => {
+            setOpenSnackbar(true);
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+            const timer = setTimeout(() => {
+                setError(false);
+                history.push("/admin/motivosRechazos")
+                setShowModalConfirmacion(false);
+                setShowModalUpdate(false);
+
+            }, 1000);
+            return () => clearTimeout(timer);
+        }).catch(err => {
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`);
+        });;
     }
 
     // Schema de validación
@@ -93,6 +111,13 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
                         </DialogContent>
                         <ModalConfirmacion
                             handleRegistrar={handleRegistrar} evento="Editar"
+                        />
+
+                        <Mensaje
+                            setOpen={setOpenSnackbar}
+                            open={openSnackbar}
+                            severity={error ? "error" : "success"}
+                            message={msjConfirmacion}
                         />
                     </form>
                 )

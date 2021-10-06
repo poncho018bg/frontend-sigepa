@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import MotivoRechazosReducer from 'reducers/Catalogos/MotivoRechazosReducer';
-
+import axios from "axios";
 import {
     GET_MOTIVO_RECHAZOS, REGISTRAR_MOTIVO_RECHAZOS, MODIFICAR_MOTIVO_RECHAZOS, ELIMINAR_MOTIVO_RECHAZOS,
     AGREGAR_MOTIVO_RECHAZOS_ERROR,
@@ -10,6 +10,7 @@ import {
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
+const baseUrl = process.env.REACT_APP_API_URL;
 export const MotivoRechazosContext = createContext();
 
 export const MotivoRechazosContextProvider = props => {
@@ -47,21 +48,32 @@ export const MotivoRechazosContextProvider = props => {
      * @param {motivoRechazos} motivoRechazos 
      */
     const registrarMotivoRechazos = async motivoRechazos => {
+
         try {
-            console.log(motivoRechazos);
-            const resultado = await axiosPost('motivoRechazos', motivoRechazos);
-            console.log(resultado);
-            dispatch({
-                type: REGISTRAR_MOTIVO_RECHAZOS,
-                payload: resultado
-            })
+            const url = `${baseUrl}motivoRechazos`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, motivoRechazos, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_MOTIVO_RECHAZOS,
+                        payload: response
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
         } catch (error) {
+            console.log('ocurrio un error en el context');
             console.log(error);
             dispatch({
                 type: AGREGAR_MOTIVO_RECHAZOS_ERROR,
                 payload: true
             })
         }
+
     }
 
     /**
@@ -76,29 +88,48 @@ export const MotivoRechazosContextProvider = props => {
             boactivo
         };
 
-        console.log(motivoRechazosEnviar);
+
+
+        return new Promise((resolve, reject) => {
+            axios.put(href, motivoRechazos, {
+                headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+            }).then(response => {
+                resolve(response);
+                dispatch({
+                    type: MODIFICAR_MOTIVO_RECHAZOS,
+                    payload: response
+                })
+            }).catch(error => {
+                reject(error);
+            });
+        });
+    }
+
+    const eliminarMotivoRechazos = async motivoRechazos => {
+
+
+        const { id, dsmotivorechazo, activo, _links: { ct_MotivoRechazos: { href } } } = motivoRechazos;
+        const act = activo === true ? false : true;
+
+        let motivoRechazosEnviar = {
+            id,
+            dsmotivorechazo,
+            activo: act,
+        };
+
+
         try {
-            const result = await axiosPostHetoas(href, motivoRechazos, 'PUT');
+            const result = await axiosPostHetoas(href, motivoRechazosEnviar, 'PUT');
+            console.log(result);
+            console.log('mir mira');
             dispatch({
-                type: MODIFICAR_MOTIVO_RECHAZOS,
+                type: ELIMINAR_APOYOSERVICIO,
                 payload: result,
             })
         } catch (error) {
             console.log(error);
         }
-    }
 
-    const eliminarMotivoRechazos = async idMotivoRechazos => {
-
-        try {
-            await axiosDeleteTipo(`motivoRechazos/${idMotivoRechazos}`);
-            dispatch({
-                type: ELIMINAR_MOTIVO_RECHAZOS,
-                payload: idMotivoRechazos,
-            })
-        } catch (error) {
-            console.log(error);
-        }
     }
 
     //Paginacion
