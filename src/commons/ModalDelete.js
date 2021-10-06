@@ -33,7 +33,7 @@ export const ModalDelete = (props) => {
             <DialogTitle id="alert-dialog-title">{"Confirmación"}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                ¿Esta seguro que desea guardar la información?
+                ¿Esta seguro que desea eliminar la información?
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

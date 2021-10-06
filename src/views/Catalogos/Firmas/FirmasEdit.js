@@ -7,6 +7,7 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 
 export const FirmasEdit = ({ firmasSeleccionado }) => {
@@ -17,6 +18,11 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
     //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+
     /**
      * abre el dialogo de confirmación
      * @param {valores} e 
@@ -31,9 +37,28 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
      * Edita el elemento
      */
     const handleRegistrar = () => {
-        actualizarFirmas(valores);
-        setShowModalConfirmacion(false);
-        setShowModalUpdate(false);
+        actualizarFirmas(valores).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        
+            }, 2000);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        });
     }
     // Schema de validación
     const schemaValidacion = Yup.object({
@@ -148,6 +173,12 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
                         </DialogContent>
                         <ModalConfirmacion
                             handleRegistrar={handleRegistrar} evento="Editar"
+                        />
+                        <Mensaje
+                            setOpen={setOpenSnackbar}
+                            open={openSnackbar}
+                            severity={error?"error":"success"}
+                            message={msjConfirmacion}
                         />
                     </form>
                 )

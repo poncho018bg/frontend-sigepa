@@ -8,6 +8,7 @@ import { ModalContext } from 'contexts/modalContex';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 
 export const FirmasForm = () => {
@@ -20,6 +21,9 @@ export const FirmasForm = () => {
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
 
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
     const confirmacionDialog = (e) => {
         console.log("Aqui hace el llamado al dialog", e);
@@ -37,9 +41,25 @@ export const FirmasForm = () => {
             programas: `${process.env.REACT_APP_API_URL}programas/${idPrograma}`,
             boactivo: true
         }
-        registrarFirmas(Firmas);
-        setShowModalConfirmacion(false);
-        setShowModal(false);
+        registrarFirmas(Firmas).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModal(false);
+        
+            }, 1500);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+        });
     }
 
 
@@ -152,6 +172,12 @@ export const FirmasForm = () => {
             </DialogContent>
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
+            />
+             <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error?"error":"success"}
+                message={msjConfirmacion}
             />
         </form>
 

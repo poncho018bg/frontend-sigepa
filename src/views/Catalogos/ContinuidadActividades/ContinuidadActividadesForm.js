@@ -8,6 +8,7 @@ import { ModalContext } from 'contexts/modalContex';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 export const ContinuidadActividadesForm = () => {
 
@@ -18,6 +19,9 @@ export const ContinuidadActividadesForm = () => {
 
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
 
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
     const confirmacionDialog = (e) => {
         console.log("Aqui hace el llamado al dialog", e);
@@ -34,9 +38,25 @@ export const ContinuidadActividadesForm = () => {
             apoyos: [],
             continuidadActividades: {}
         }
-        registrarActividadesContinuar(actividadcontinuidad);
-        setShowModalConfirmacion(false);
-        setShowModal(false);
+        registrarActividadesContinuar(actividadcontinuidad).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModal(false);
+        
+            }, 1500);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+        });
     }
 
     const formik = useFormik({
@@ -83,6 +103,12 @@ export const ContinuidadActividadesForm = () => {
             </DialogContent>
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
+            />
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error?"error":"success"}
+                message={msjConfirmacion}
             />
         </form>
 

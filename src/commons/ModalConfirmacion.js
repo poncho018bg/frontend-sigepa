@@ -33,7 +33,7 @@ export const ModalConfirmacion = (props) => {
             <DialogTitle id="alert-dialog-title">{"Confirmación"}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                ¿Esta seguro que desea guardar la información?
+                ¿El sistema guardará el alta registrada?
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

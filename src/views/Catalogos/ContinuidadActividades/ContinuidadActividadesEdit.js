@@ -7,6 +7,7 @@ import { ActividadesContinuarContext } from 'contexts/catalogos/ActividadesConti
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 export const ContinuidadActividadesEdit = ({ continuidadActividadesSeleccionada }) => {
 
@@ -16,6 +17,12 @@ export const ContinuidadActividadesEdit = ({ continuidadActividadesSeleccionada 
     //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+
+
     /**
      * abre el dialogo de confirmación
      * @param {valores} e 
@@ -30,9 +37,28 @@ export const ContinuidadActividadesEdit = ({ continuidadActividadesSeleccionada 
      * Edita el elemento
      */
     const handleRegistrar = () => {
-        actualizarActividadesContinuar(valores);
-        setShowModalConfirmacion(false);
-        setShowModalUpdate(false);
+        actualizarActividadesContinuar(valores).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        
+            }, 2000);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        });
     }
 
     const schemaValidacion = Yup.object({
@@ -90,6 +116,12 @@ export const ContinuidadActividadesEdit = ({ continuidadActividadesSeleccionada 
                         </DialogContent>
                         <ModalConfirmacion
                             handleRegistrar={handleRegistrar} evento="Editar"
+                        />
+                         <Mensaje
+                            setOpen={setOpenSnackbar}
+                            open={openSnackbar}
+                            severity={error?"error":"success"}
+                            message={msjConfirmacion}
                         />
                     </form>
                 )
