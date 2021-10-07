@@ -89,7 +89,7 @@ export const PeriodicidadApoyosContextProvider = props => {
 
     const eliminarPeriodicidadApoyos = async idPeriodicidadApoyos => {
         try {
-            await axiosDeleteTipo(`/periodicidadApoyos/${idPeriodicidadApoyos}`);
+            await axiosDeleteTipo(`periodicidadApoyos/${idPeriodicidadApoyos}`);
             dispatch({
                 type: ELIMINAR_PERIODICIDAD_APOYOS,
                 payload: idPeriodicidadApoyos,

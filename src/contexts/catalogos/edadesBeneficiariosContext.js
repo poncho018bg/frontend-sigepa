@@ -84,7 +84,7 @@ export const EdadesBeneficiariosContextProvider = props => {
 
     const eliminarEdadesBeneficiarios = async idEdadesBeneficiarios => {
         try {
-            await axiosDeleteTipo(`/edadesBeneficiarios/${idEdadesBeneficiarios}`);
+            await axiosDeleteTipo(`edadesBeneficiarios/${idEdadesBeneficiarios}`);
             dispatch({
                 type: ELIMINAR_EDADES_BENEFICIARIOS,
                 payload: idEdadesBeneficiarios,

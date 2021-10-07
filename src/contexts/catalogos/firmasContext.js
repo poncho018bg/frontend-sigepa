@@ -116,7 +116,7 @@ export const FirmasContextProvider = props => {
 
     const eliminarFirmas = async idfirmas => {
         try {
-            await axiosDeleteTipo(`/firmas/${idfirmas}`);
+            await axiosDeleteTipo(`firmas/${idfirmas}`);
             dispatch({
                 type: ELIMINAR_FIRMAS,
                 payload: idfirmas,

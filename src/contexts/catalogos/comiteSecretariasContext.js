@@ -76,7 +76,7 @@ export const ComiteSecretariasContextProvider = props => {
 
     const eliminarComiteSecretarias = async idComiteSecretarias => {
         try {
-            await axiosDeleteTipo(`/comiteSecretarias/${idComiteSecretarias}`);
+            await axiosDeleteTipo(`comiteSecretarias/${idComiteSecretarias}`);
             dispatch({
                 type: ELIMINAR_COMITE_SECRETARIAS,
                 payload: idComiteSecretarias,

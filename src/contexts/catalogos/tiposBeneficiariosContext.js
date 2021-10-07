@@ -83,7 +83,7 @@ export const TiposBeneficiariosContextProvider = props => {
 
     const eliminarTiposBeneficiarios = async idTiposBeneficiarios => {
         try {
-            await axiosDeleteTipo(`/tiposBeneficiarios/${idTiposBeneficiarios}`);
+            await axiosDeleteTipo(`tiposBeneficiarios/${idTiposBeneficiarios}`);
             dispatch({
                 type: ELIMINAR_TIPOS_BENEFICIARIOS,
                 payload: idTiposBeneficiarios,
