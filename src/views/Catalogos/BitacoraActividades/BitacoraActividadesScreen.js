@@ -133,7 +133,7 @@ export const BitacoraActividadesScreen = () => {
                         <Grid item xs={2}>
                             <TextField
                                 id="apellidopaterno"
-                                label="Apellido Paterno"
+                                label="Apellidos"
                                 variant="outlined"
                                 name={apellidopaterno}
                                 fullWidth
@@ -141,28 +141,8 @@ export const BitacoraActividadesScreen = () => {
                                 onChange={(e) => setApellidopaterno(e.target.value)}
                             />
                         </Grid>
-                        <Grid item xs={2}>
-                            <TextField
-                                id="apellidoMaterno"
-                                label="Apellido Materno"
-                                variant="outlined"
-                                name={apellidoMaterno}
-                                fullWidth
-                                value={apellidoMaterno}
-                                onChange={(e) => setApellidoMaterno(e.target.value)}
-                            />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <TextField
-                                id="puesto"
-                                label="Puesto"
-                                variant="outlined"
-                                name={puesto}
-                                fullWidth
-                                value={puesto}
-                                onChange={(e) => setPuesto(e.target.value)}
-                            />
-                        </Grid>
+                        
+                        
                         <Grid item xs={2}>
 
                             <TextField
@@ -190,8 +170,26 @@ export const BitacoraActividadesScreen = () => {
                                 }
                             </TextField>
                         </Grid>
-                        <Grid item xs={2}>
 
+                        <Grid item xs={2}>
+                        <TextField
+                                id="fcvigenciainicio"
+                                label="Desde"
+                                type="date"
+                                fullWidth
+                                className={classes.textField}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={fecha}
+                                name={fecha}
+                                onChange={(e) => setFecha(e.target.value)}
+                                InputProps={{
+                                    inputProps: {
+                                       
+                                    }
+                                }}
+                            />
                         </Grid>
                         <Grid item xs={2}>
                             <Button variant="contained" color="primary" fullWidth onClick={buscarMovimientos}>
