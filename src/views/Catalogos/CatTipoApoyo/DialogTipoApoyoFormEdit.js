@@ -1,0 +1,584 @@
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, Dialog, DialogTitle, FormControlLabel, FormHelperText, FormLabel, Grid, Input, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, Radio, RadioGroup, Select, TextField } from '@material-ui/core'
+import React, { useEffect, useState, useContext } from 'react';
+import Button from "components/CustomButtons/Button.js";
+import DialogContent from '@material-ui/core/DialogContent';
+import { useSelector } from 'react-redux';
+import { stylesArchivo } from 'css/stylesArchivo';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Formik } from 'formik';
+import * as Yup from 'yup'
+import { TiposApoyosContext } from 'contexts/catalogos/tiposApoyosContext';
+import { PeriodicidadApoyosContext } from 'contexts/catalogos/periodicidadApoyosContext';
+
+import GridContainer from "components/Grid/GridContainer.js";
+import GridItem from "components/Grid/GridItem.js";
+import moment from 'moment';
+import 'moment/locale/es';
+import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
+import CurrencyTextField from '@unicef/material-ui-currency-textfield'
+import { NumeroApoyosContext } from 'contexts/catalogos/numeroApoyosContext';
+import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
+import { MultiSelect } from "react-multi-select-component";
+import { ActividadesContinuarContext } from 'contexts/catalogos/ActividadesContinuarContext';
+import { ApoyoContext } from 'contexts/catalogos/ApoyoContext';
+import { ModalContextUpdate } from 'contexts/modalContexUpdate';
+import "./styles.css";
+
+const useStyles = makeStyles(stylesArchivo);
+
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
+
+function not(a, b) {
+    return a.filter((value) => b.indexOf(value) === -1);
+}
+
+function intersection(a, b) {
+    return a.filter((value) => b.indexOf(value) !== -1);
+}
+
+export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
+
+    const { setShowModalUpdate } = useContext(ModalContextUpdate);
+
+    const classes = useStyles();
+    const { tipoApoyoEditar } = useSelector(state => state.tipoApoyo);
+    const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);    
+    const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);    
+    const { programasList, get } = useContext(ProgramasContext);
+    const { apoyoservicioList, getApoyoServicio } = useContext(ApoyoServicioContext);
+    const { numeroApoyosList, getNumeroApoyos } = useContext(NumeroApoyosContext);
+    const { actividadescontinuarList, getActividadesContinuar } = useContext(ActividadesContinuarContext)
+    const { actualizarApoyo } = useContext(ApoyoContext)
+
+
+    
+    const [tipoApoyoSelect, setTipoApoyoSelect] = React.useState([]);
+    const [actividadesContinuarSelect, setActividadesContinuarSelect] = React.useState([]);
+    
+
+
+    const [selected, setSelected] = useState([]);
+    const [selectedTipApoy, setSelectedTipApoy] = useState([]);
+    const [selectedActividadesContinuar, setSelectedActividadesContinuar] = useState([]);
+    const [expanded, setExpanded] = React.useState(true)
+
+    useEffect(() => {
+        getTiposApoyos();
+        getActividadesContinuar();      
+        getPeriodicidadApoyos();        
+        get();
+        getNumeroApoyos();
+        getApoyoServicio();       
+
+        setSelectedTipApoy(personaSeleccionada.idTipoApoyo)
+        setSelected(personaSeleccionada.coberturaMunicipal)
+        setSelectedActividadesContinuar(personaSeleccionada.idActividadContinuidadApoyo)
+
+    }, []);
+
+  
+
+
+
+
+    useEffect(() => {
+        const lsttipAp = []
+        tiposApoyosList.map((mn) => {
+            lsttipAp.push({ label: mn.dstipoapoyo, value: mn.id })
+        })
+        setTipoApoyoSelect(lsttipAp)
+    }, [tiposApoyosList]);
+
+    useEffect(() => {
+        const lstActividades = []
+        actividadescontinuarList.map((mn) => {
+            lstActividades.push({ label: mn.dsactividadcontinuidad, value: mn.id })
+        })
+        setActividadesContinuarSelect(lstActividades)
+    }, [actividadescontinuarList]);
+
+    function parseSelect(params) {
+        const nombrs = []
+        params.map((mp) => {
+            var modules2 = tiposApoyosList.filter(word => word.id === mp);
+            nombrs.push(modules2[0].dstipoapoyo)
+        })
+        return nombrs
+    }
+
+    const agregarServicioFormik = (value, index, props) => () => {
+        const serv = {
+            id: value.id,
+            fechaInicio: '',
+            fechaFin: ''
+        }
+        props.values.enServicio[index] = serv
+        console.log('agregarServicioFormik 1=>', props.values.enServicio)
+    }
+
+
+
+    const schemaValidacion = Yup.object({
+
+        dsapoyo: Yup.string()
+            .required('El nombre del apoyo es obligatorio'),
+        idPrograma: Yup.string()
+            .required('El programa es obligatorio'),
+        dsdescripcion: Yup.string()
+            .required('La descripción obligatorio'),
+        estatus: Yup.string()
+            .required('El estatus es obligatorio'),
+        visita: Yup.string()
+            .required('la visita es obligatorio'),
+        fcvigenciainicio: Yup.string()
+            .required('La vigencia desde obligatorio'),
+        fcvigenciafin: Yup.string()
+            .required('La vigencia hasta es obligatorio'),
+
+
+        cantidadPesos: Yup.string()
+            .required('La cantidad es obligatorio'),
+        // descApoyoEspecie: Yup.string()
+        //     .required('El apoyo en especie es obligatorio'),
+        idPeriodicidad: Yup.string()
+            .required('La periodicidad es obligatorio'),
+        formaEntrega: Yup.string()
+            .required('La forma de entrega es obligatorio'),
+        numEntregas: Yup.string()
+            .required('El número de entrega es obligatorio'),
+    });
+
+    const actualizarTipoApoyo = async valores => {
+        valores.idTipoApoyo = selectedTipApoy
+        valores.idActividadContinuidadApoyo = selectedActividadesContinuar
+        actualizarApoyo(valores);
+        setShowModalUpdate(false);
+    }
+
+
+
+    return (
+
+
+        <Formik
+            enableReinitialize
+            initialValues={personaSeleccionada}
+            validationSchema={schemaValidacion}
+            onSubmit={(valores) => {
+                actualizarTipoApoyo(valores)
+            }}
+
+        >
+
+            {props => {
+
+                return (
+                    <form
+                        onSubmit={props.handleSubmit}
+                    >
+                        {console.log('EDIT =>', props.values)}
+                        {console.log('Error =>', props.errors)}
+                        <DialogContent >
+                            <TextField
+                                id="dsapoyo"
+                                label="Nombre del Tipo de Apoyo"
+                                variant="outlined"
+                                name="dsapoyo"
+                                fullWidth
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
+                                value={props.values.dsapoyo}
+                            />
+                            {props.touched.dsapoyo && props.errors.dsapoyo ? (
+                                <FormHelperText error={props.errors.dsapoyo}>{props.errors.dsapoyo}</FormHelperText>
+                            ) : null}
+                        </DialogContent>
+                        <DialogContent>
+                            <TextField
+                                variant="outlined"
+                                label="Selecciona un programa"
+                                select
+                                fullWidth
+                                name="idPrograma"
+                                value={props.values.idPrograma}
+                                onChange={props.handleChange}
+                            >
+                                <MenuItem value="0">
+                                    <em>Ninguno</em>
+                                </MenuItem>
+                                {
+                                    programasList.map(
+                                        item => (
+                                            <MenuItem
+                                                key={item.id}
+                                                value={item.id}>
+                                                {item.dsclaveprograma} - {item.dsprograma}
+                                            </MenuItem>
+                                        )
+                                    )
+                                }
+
+                            </TextField>
+
+                            {props.touched.idPrograma && props.errors.idPrograma ? (
+                                <FormHelperText error={props.errors.idPrograma}>{props.errors.idPrograma}</FormHelperText>
+                            ) : null}
+                        </DialogContent>
+
+                        <DialogContent>
+                            <TextField
+                                id="dsdescripcion"
+                                label="Descripción del Tipo de Apoyo"
+                                variant="outlined"
+                                name="dsdescripcion"
+                                value={props.values.dsdescripcion}
+                                onChange={props.handleChange}
+                                fullWidth
+                                inputProps={{ maxLength: 300 }}
+                            />
+
+                            {props.touched.dsdescripcion && props.errors.dsdescripcion ? (
+                                <FormHelperText error={props.errors.dsdescripcion}>{props.errors.dsdescripcion}</FormHelperText>
+                            ) : null}
+                        </DialogContent>
+
+                        <DialogContent>
+                            <FormLabel component="legend">Estatus </FormLabel>
+                            <RadioGroup row aria-label="position" defaultValue="top" value={props.values.estatus} onChange={props.handleChange} >
+                                <FormControlLabel name="estatus" value="true" control={<Radio color="primary" />} label="Activo" />
+                                <FormControlLabel name="estatus" value="false" control={<Radio color="primary" />} label="Inactivo" />
+                            </RadioGroup>
+                        </DialogContent>
+
+                        {/* FECHA VIGENCIA */}
+                        <DialogContent>
+                            <div><FormLabel component="legend">Vigencia del tipo apoyo </FormLabel></div>
+                            <GridContainer>
+                                <GridItem xs={12} sm={12} md={6}>
+                                    <TextField
+                                        id="fcvigenciainicio"
+                                        label="Desde"
+                                        type="date"
+                                        fullWidth
+                                        className={classes.textField}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        value={props.values.fcvigenciainicio}
+                                        name="fcvigenciainicio"
+                                        onChange={props.handleChange}
+                                    />
+                                </GridItem>
+                                <GridItem xs={12} sm={12} md={6}>
+                                    <TextField
+                                        id="fcvigenciafin"
+                                        label="Hasta"
+                                        type="date"
+                                        fullWidth
+                                        className={classes.textField}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        value={props.values.fcvigenciafin}
+                                        name="fcvigenciafin"
+                                        onChange={props.handleChange}
+                                    />
+                                </GridItem>
+                            </GridContainer>
+                        </DialogContent>
+
+
+                        <DialogContent style={{ overflowY: 'visible' }}>
+                            <FormLabel component="legend">Selecciona un tipo de apoyo</FormLabel>
+                            <MultiSelect
+                                options={tipoApoyoSelect}
+                                value={selectedTipApoy}
+                                onChange={setSelectedTipApoy}
+                                labelledBy="Seleccionar"
+
+                            />
+
+                            {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
+                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
+                ) : null} */}
+                        </DialogContent>
+
+                        <DialogContent>
+                            <CurrencyTextField
+                                label="Cantidad en pesos"
+                                name="cantidadPesos"
+                                fullWidth
+                                variant="standard"
+                                value={props.values.cantidadPesos}
+                                currencySymbol="$"
+                                minimumValue="0"
+                                outputFormat="string"
+                                decimalCharacter="."
+                                digitGroupSeparator=","
+                                maximumValue="10000000000000"
+                                onChange={props.handleChange}
+                            />
+                            {props.touched.cantidadPesos && props.errors.cantidadPesos ? (
+                                <FormHelperText error={props.errors.cantidadPesos}>{props.errors.cantidadPesos}</FormHelperText>
+                            ) : null}
+                        </DialogContent>
+
+                        <DialogContent>
+                            <TextField
+                                id="descApoyoEspecie"
+                                label="Descripción del apoyo en especie"
+                                variant="outlined"
+                                name="descApoyoEspecie"
+                                value={props.values.descApoyoEspecie}
+                                onChange={props.handleChange}
+                                fullWidth
+                                inputProps={{ maxLength: 100 }}
+                            />
+                            {props.touched.descApoyoEspecie && props.errors.descApoyoEspecie ? (
+                                <FormHelperText error={props.errors.descApoyoEspecie}>{props.errors.descApoyoEspecie}</FormHelperText>
+                            ) : null}
+                        </DialogContent>
+
+
+                        <DialogContent>
+
+                            {
+
+                                apoyoservicioList.map((apyo, i) => {
+                                    const fechaInicioq = `enServicio[${i}].fechaInicio`;
+                                    const fechaFinq = `enServicio[${i}].fechaFin`;
+                                    // ESTE CODIGO AGREGA LOS DATOS DE LOS SERVICOS                                  
+                                    personaSeleccionada.enServicio.map((ns) => {
+                                        apoyoservicioList.map((mp, i) => {
+                                            if (ns.id === mp.id) {
+                                                props.values.enServicio[i] = ns
+                                            }
+                                        })
+                                    })
+
+                                    return (
+                                        <Accordion expanded={expanded === props.values.enServicio.expanded} >
+                                            <AccordionSummary
+                                                expandIcon={<ExpandMoreIcon />}
+                                                aria-label="Expand"
+                                                aria-controls="additional-actions1-content"
+                                                id="additional-actions1-header"
+
+                                            >
+                                                <FormControlLabel
+                                                    aria-label="Acknowledge"
+                                                    onClick={agregarServicioFormik(apyo, i, props)}
+                                                    control={<Checkbox checked={expanded === props.values.enServicio.expanded} />}
+                                                    label={apyo.dsservicio}
+                                                />
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+
+                                                <DialogContent>
+                                                    <div><FormLabel component="legend">Vigencia</FormLabel></div>
+                                                    <GridContainer>
+                                                        <GridItem xs={12} sm={12} md={6}>
+
+                                                            <TextField
+                                                                label="Desde"
+                                                                type="date"
+                                                                fullWidth
+                                                                className={classes.textField}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                name={fechaInicioq}
+                                                                value={props.values.enServicio.fechaInicio}
+                                                                onChange={props.handleChange}
+
+                                                            />
+                                                        </GridItem>
+                                                        <GridItem xs={12} sm={12} md={6}>
+                                                            <TextField
+                                                                label="Hasta"
+                                                                type="date"
+                                                                fullWidth
+                                                                className={classes.textField}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                name={fechaFinq}
+                                                                value={props.values.enServicio.fechaFin}
+                                                                onChange={props.handleChange}
+
+                                                            />
+                                                        </GridItem>
+                                                    </GridContainer>
+                                                </DialogContent>
+
+                                            </AccordionDetails>
+                                        </Accordion>
+                                    )
+
+
+                                })
+                            }
+                        </DialogContent>
+
+
+
+                        <DialogContent>
+                            <FormLabel component="legend">Requiere Visita Obligatoria</FormLabel>
+                            <RadioGroup row aria-label="position" defaultValue="top" value={props.values.visita} onChange={props.handleChange} >
+                                <FormControlLabel name="visita" value="true" control={<Radio color="primary" />} label="SÍ" />
+                                <FormControlLabel name="visita" value="false" control={<Radio color="primary" />} label="NO" />
+                            </RadioGroup>
+                        </DialogContent>
+
+
+
+                        <DialogContent>
+                            <TextField
+                                variant="outlined"
+                                label="Entregar el apoyo"
+                                select
+                                fullWidth
+                                name="idPeriodicidad"
+                                value={props.values.idPeriodicidad}
+                                onChange={props.handleChange}
+                            >
+                                <MenuItem value="0">
+                                    <em>Ninguno</em>
+                                </MenuItem>
+                                {
+                                    periodicidadApoyosList.map(
+                                        item => (
+                                            <MenuItem
+                                                key={item.id}
+                                                value={item.id}>
+                                                {item.dsperiodicidad}
+                                            </MenuItem>
+                                        )
+                                    )
+                                }
+                            </TextField>
+                            {props.touched.idPeriodicidad && props.errors.idPeriodicidad ? (
+                                <FormHelperText error={props.errors.idPeriodicidad}>{props.errors.idPeriodicidad}</FormHelperText>
+                            ) : null}
+                        </DialogContent>
+
+                        <DialogContent>
+                            <FormControlLabel
+                                control={<Checkbox value={props.values.formaEntrega} onChange={props.handleChange} name="formaEntrega" />}
+                                label="Forma de entrega de apoyo por exhibición"
+                            />
+                        </DialogContent>
+
+                        <DialogContent>
+                            {
+                                props.values.formaEntrega === 'true' ? (<TextField
+                                    variant="outlined"
+                                    label="Número de entrega de Apoyos"
+                                    select
+                                    fullWidth
+                                    name="numEntregas"
+                                    value={props.values.numEntregas}
+                                    onChange={props.handleChange}
+                                >
+                                    <MenuItem value="0">
+                                        <em>Ninguno</em>
+                                    </MenuItem>
+                                    {
+                                        numeroApoyosList.map(
+                                            item => (
+                                                <MenuItem
+                                                    key={item.id}
+                                                    value={item.id}>
+                                                    {item.noapoyo}
+                                                </MenuItem>
+                                            )
+                                        )
+                                    }
+
+                                </TextField>) : (<></>)
+                            }
+
+                            {props.touched.numEntregas && props.errors.numEntregas ? (
+                                <FormHelperText error={props.errors.numEntregas}>{props.errors.numEntregas}</FormHelperText>
+                            ) : null}
+                        </DialogContent>
+
+
+
+                        <DialogContent style={{ overflowY: 'visible' }}>
+                            <FormLabel component="legend">Selecciona actividades por realizar para continuar con el apoyo </FormLabel>
+
+                            <MultiSelect
+                                options={actividadesContinuarSelect}
+                                value={selectedActividadesContinuar}
+                                onChange={setSelectedActividadesContinuar}
+                                labelledBy="Seleccionar"
+                            />
+
+                            {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
+                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
+                ) : null} */}
+                        </DialogContent>
+
+
+                        <DialogContent>
+                            <TextField
+                                id="outlined-multiline-static"
+                                label="Observaciones"
+                                multiline
+                                rows={4}
+                                variant="outlined"
+                                name="observaciones"
+                                value={props.values.observaciones}
+                                fullWidth
+                                inputProps={{ maxLength: 500 }}
+                            />
+                        </DialogContent>
+
+
+                        <DialogContent >
+                            <Grid container justify="flex-end">
+                                <Button variant="contained" color="primary" type='submit'>
+                                    Guardar
+                                </Button>
+                            </Grid>
+
+
+                        </DialogContent>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </form>
+                )
+            }}
+        </Formik>
+
+
+
+
+
+
+    )
+
+}

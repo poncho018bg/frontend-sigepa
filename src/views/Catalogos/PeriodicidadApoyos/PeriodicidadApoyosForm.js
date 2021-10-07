@@ -1,0 +1,116 @@
+import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
+import React, { useContext, useState } from 'react';
+
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { PeriodicidadApoyosContext } from 'contexts/catalogos/periodicidadApoyosContext';
+import { ModalContext } from 'contexts/modalContex';
+
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
+
+export const PeriodicidadApoyosForm = () => {
+
+    const { registrarPeriodicidadApoyos } = useContext(PeriodicidadApoyosContext);
+    const { setShowModal } = useContext(ModalContext);
+
+    //dialog confirmar
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+
+
+    const confirmacionDialog = (e) => {
+        console.log("Aqui hace el llamado al dialog", e);
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
+
+    const handleRegistrar = () => {
+        const { dsperiodicidad } = valores;
+        let periodicidadApoyos = {
+            dsperiodicidad: dsperiodicidad,
+            boactivo: true
+        }
+        registrarPeriodicidadApoyos(periodicidadApoyos).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModal(false);
+        
+            }, 2000);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+        });
+    }
+
+
+    const formik = useFormik({
+        initialValues: {
+            dsperiodicidad: ''
+        },
+        validationSchema: Yup.object({
+            dsperiodicidad: Yup.string()
+                .required('La periodicidad es obligatoria')
+
+        }),
+        onSubmit: async valores => {
+            confirmacionDialog(valores);
+        }
+    })
+
+
+    return (
+        <form
+            onSubmit={formik.handleSubmit}
+        >
+            <DialogContent>
+                <TextField
+                    id="dsperiodicidad"
+                    label="Desc. Periodicidad"
+                    variant="outlined"
+                    name="dsperiodicidad"
+                    fullWidth
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.dsperiodicidad}
+                />
+                {formik.touched.dsperiodicidad && formik.errors.dsperiodicidad ? (
+                    <FormHelperText error={formik.errors.dsperiodicidad}>{formik.errors.dsperiodicidad}</FormHelperText>
+                ) : null}
+            </DialogContent>
+
+            <DialogContent >
+                <Grid container justify="flex-end">
+                    <Button variant="contained" color="primary" type='submit'>
+                    Guardar
+                    </Button>
+                </Grid>
+            </DialogContent>
+            <ModalConfirmacion
+                handleRegistrar={handleRegistrar} evento="Registrar"
+            />
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error?"error":"success"}
+                message={msjConfirmacion}
+            />
+        </form>
+
+    )
+}
