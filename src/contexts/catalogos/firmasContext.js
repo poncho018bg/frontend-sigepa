@@ -58,15 +58,27 @@ export const FirmasContextProvider = props => {
      * @param {firmas} firmas 
      */
     const registrarFirmas = async firmas => {
+       
+
+
         try {
-            console.log("registro de firmas --->", firmas);
-            const resultado = await axiosPost('firmas', firmas);
-            console.log(resultado);
-            dispatch({
-                type: REGISTRAR_FIRMAS,
-                payload: resultado
-            })
+            const url = `${baseUrl}firmas`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, firmas, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_FIRMAS,
+                        payload: response
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
         } catch (error) {
+            console.log('ocurrio un error en el context');
             console.log(error);
             dispatch({
                 type: AGREGAR_MUNICIPIOS_ERROR,
@@ -86,18 +98,12 @@ export const FirmasContextProvider = props => {
             id: id,
             dsautoriza: dsautoriza,
             dspuesto: dspuesto,
-            dscomentario: dscomentario,
-            programas: `${process.env.REACT_APP_API_URL}programas/${idPrograma}`,
+            dscomentario: dscomentario,           
             activo: activo
         };
-        console.log("que llega aqui ---> ", FirmasEnviar);
-        let actualizarPrograma = {
-            "_links": { "1": { "href": `/${idPrograma}` } },
-        }
-        console.log("nuevo programa ---> ", actualizarPrograma);
-        const urPrograma = `${baseUrl}firmas/${id}/programas`;
+        
         try {
-            await axiosPostHetoas(urPrograma, actualizarPrograma, 'PUT');
+            await axiosPostHetoas(href, FirmasEnviar, 'PUT');
             const result = await axiosPostHetoas(href, FirmasEnviar, 'PUT');
             dispatch({
                 type: MODIFICAR_FIRMAS,
@@ -118,6 +124,7 @@ export const FirmasContextProvider = props => {
         } catch (error) {
             console.log(error);
         }
+        
     }
 
     //Paginacion

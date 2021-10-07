@@ -43,23 +43,23 @@ export const FirmasForm = () => {
         }
         registrarFirmas(Firmas).then(response => {
             setOpenSnackbar(true);
-             
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente `  );
-           
-           const timer = setTimeout(() => {
-        
-            setError(false);
-            setShowModalConfirmacion(false);
-            setShowModal(false);
-        
+
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente `);
+
+            const timer = setTimeout(() => {
+
+                setError(false);
+                setShowModalConfirmacion(false);
+                setShowModal(false);
+
             }, 1500);
             return () => clearTimeout(timer);
         })
-        .catch(err => {   
-            setOpenSnackbar(true);
-            setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
-        });
+            .catch(err => {
+                setOpenSnackbar(true);
+                setError(true);
+                setMsjConfirmacion(`Ocurrio un error, ${err}`);
+            });
     }
 
 
@@ -71,14 +71,11 @@ export const FirmasForm = () => {
         initialValues: {
             dscomentario: '',
             dsautoriza: '',
-            idPrograma: '',
             dspuesto: '',
         },
         validationSchema: Yup.object({
             dsautoriza: Yup.string()
                 .required('Es obligatorio poner la persona que autoriza'),
-            idPrograma: Yup.string()
-                .required('El programa de apoyo es obligatorio'),
             dspuesto: Yup.string()
                 .required('Es obligatorio poner el puesto'),
 
@@ -95,34 +92,6 @@ export const FirmasForm = () => {
         >
             <DialogContent>
                 <TextField
-                    id="idPrograma"
-                    variant="outlined"
-                    label="Programa de Apoyo"
-                    select
-                    fullWidth
-                    name="idPrograma"
-                    onChange={formik.handleChange}
-                    value={formik.values.idPrograma}
-                >
-                    <MenuItem value="0">
-                        <em>Ninguno</em>
-                    </MenuItem>
-                    {
-                        programaList.map(
-                            item => (
-                                <MenuItem
-                                    key={item.id}
-                                    value={item.id}>
-                                    {item.dsprograma}
-                                </MenuItem>
-                            )
-                        )
-                    }
-                </TextField>
-                {formik.touched.idPrograma && formik.errors.idPrograma ? (
-                    <FormHelperText error={formik.errors.idPrograma}>{formik.errors.idPrograma}</FormHelperText>
-                ) : null}
-                <TextField
                     id="dsautoriza"
                     label="Nombre del funcionario que autoriza"
                     variant="outlined"
@@ -135,6 +104,8 @@ export const FirmasForm = () => {
                 {formik.touched.dsautoriza && formik.errors.dsautoriza ? (
                     <FormHelperText error={formik.errors.dsautoriza}>{formik.errors.dsautoriza}</FormHelperText>
                 ) : null}
+            </DialogContent>
+            <DialogContent>
                 <TextField
                     id="dspuesto"
                     label="Puesto"
@@ -148,6 +119,9 @@ export const FirmasForm = () => {
                 {formik.touched.dspuesto && formik.errors.dspuesto ? (
                     <FormHelperText error={formik.errors.dspuesto}>{formik.errors.dspuesto}</FormHelperText>
                 ) : null}
+            </DialogContent>
+            <DialogContent>
+
                 <TextField
                     id="dscomentario"
                     label="Comentarios (opcional)"
@@ -166,17 +140,17 @@ export const FirmasForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    Guardar
+                        Guardar
                     </Button>
                 </Grid>
             </DialogContent>
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
             />
-             <Mensaje
+            <Mensaje
                 setOpen={setOpenSnackbar}
                 open={openSnackbar}
-                severity={error?"error":"success"}
+                severity={error ? "error" : "success"}
                 message={msjConfirmacion}
             />
         </form>

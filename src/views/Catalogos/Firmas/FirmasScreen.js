@@ -42,7 +42,7 @@ export const FirmasScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar] = useState(0);
     const [firmasSeleccionado, setfirmasSeleccionado] = useState();
-    const { getFirmas, eliminarFirmas, firmasList, size, page, total, changePageSize, changePage  } = useContext(FirmasContext);
+    const { getFirmas, eliminarFirmas, firmasList, size, page, total, changePageSize, changePage } = useContext(FirmasContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -111,7 +111,6 @@ export const FirmasScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Programa de Apoyo</TableCell >
                                 < TableCell > Nombre de quien autoriza</TableCell >
                                 < TableCell> Puesto</TableCell >
                                 < TableCell> Fecha de Alta</TableCell >
@@ -130,20 +129,13 @@ export const FirmasScreen = () => {
                                     return (
                                         < TableRow key={row.id}>
 
-                                            <TableCell>
-                                                <FirmaPrograma Firma={row} actualiza={row.fechaRegistro} />
-                                            </TableCell>
+
                                             <TableCell>{row.dsautoriza}</TableCell >
                                             <TableCell >{row.dspuesto}</TableCell>
                                             <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell >{row.dscomentario}</TableCell>
                                             <TableCell>
-                                                <Checkbox
-                                                    disabled="true"
-                                                    checked={row.activo}
-                                                    color="primary"
-                                                    inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                />
+                                                {row.activo === true ? 'Activo' : 'Inactivo'}
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>

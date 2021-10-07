@@ -67,14 +67,7 @@ export const CatalogosScreen = () => {
                 <GridContainer>
 
 
-                    <GridItem xs={12} sm={6} md={3}>
-                        <Card>
-
-                            <CardHeader color="info" stats icon>
-                                <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Usuarios/Roles</p>
-                            </CardHeader>
-                        </Card>
-                    </GridItem>
+                    
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>

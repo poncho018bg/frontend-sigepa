@@ -11,16 +11,6 @@ export const FirmaPrograma = ({ Firma, actualiza }) => {
 
     const [programa, setPrograma] = useState([]);
 
-    const { _links: { programas: { href } } } = Firma;
-
-    useEffect(() => {
-        const GetPrograma = async () => {
-            const result = await axiosGetHetoas(href);
-            setPrograma(result);
-        }
-        GetPrograma();
-    }, [actualiza]);
-
     return (
         <span>
             {programa.dsprograma}
