@@ -8,6 +8,7 @@ import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import BlockIcon from '@mui/icons-material/Block';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
@@ -73,7 +74,7 @@ export const Localidad = ({ localidad }) => {
                 </TableCell>
                 <TableCell align="center">
                     <IconButton aria-label="create" onClick={() => handleClickOpen(localidad)}>
-                        {(localidad.activo) ? <DeleteIcon /> : <RefreshIcon />}
+                        {(localidad.activo) ? <BlockIcon /> : <BlockIcon />}
                     </IconButton>
                 </TableCell>
             </TableRow >

@@ -13,6 +13,7 @@ import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import BlockIcon from '@mui/icons-material/Block';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
@@ -250,7 +251,7 @@ export const CatTipoApoyoScreen = () => {
                                                     </TableCell>
                                                     <TableCell align="center">
                                                         <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                            {(row.activo) ? <DeleteIcon /> : <RefreshIcon />}
+                                                            {(row.activo) ? <BlockIcon /> : <BlockIcon />}
                                                         </IconButton>
                                                     </TableCell>
                                                 </TableRow >

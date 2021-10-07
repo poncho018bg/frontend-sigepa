@@ -8,6 +8,7 @@ import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import BlockIcon from '@mui/icons-material/Block';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
@@ -74,7 +75,7 @@ export const Programa = ( {programa}) => {
              </TableCell>
             <TableCell align="center">                                 
                 <IconButton aria-label="create"  onClick={() => handleClickOpen(programa)}>
-                     {(programa.activo)? <DeleteIcon/>:<RefreshIcon/>} 
+                     {(programa.activo)? <BlockIcon/>:<BlockIcon/>} 
                 </IconButton>
             </TableCell> 
         </TableRow >
