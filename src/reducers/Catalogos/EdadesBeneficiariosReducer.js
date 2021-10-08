@@ -2,7 +2,8 @@ import {
     GET_EDADES_BENEFICIARIOS, REGISTRAR_EDADES_BENEFICIARIOS, MODIFICAR_EDADES_BENEFICIARIOS, ELIMINAR_EDADES_BENEFICIARIOS,
     CAMBIAR_PAGINA,
     AGREGAR_LOCALIDADES_ERROR,
-    CAMBIAR_TAMANIO_PAGINA
+    CAMBIAR_TAMANIO_PAGINA,
+    GET_EDADES_BENEFICIARIOS_BY_ID
 } from "../../types/actionTypes";
 
 export default (state, action) => {
@@ -41,6 +42,11 @@ export default (state, action) => {
                 ...state,
                 size: action.payload
             }
+        case GET_EDADES_BENEFICIARIOS_BY_ID:
+                return {
+                    ...state,
+                    edadesBeneficiario: action.payload
+                };
         default:
             return state;
     }

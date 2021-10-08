@@ -1,19 +1,23 @@
 import React, { createContext, useReducer } from 'react';
 import EdadesBeneficiariosReducer from 'reducers/Catalogos/EdadesBeneficiariosReducer';
 
-import { GET_EDADES_BENEFICIARIOS, REGISTRAR_EDADES_BENEFICIARIOS, MODIFICAR_EDADES_BENEFICIARIOS, ELIMINAR_EDADES_BENEFICIARIOS,
+import { GET_EDADES_BENEFICIARIOS,
+     REGISTRAR_EDADES_BENEFICIARIOS, 
+     MODIFICAR_EDADES_BENEFICIARIOS, ELIMINAR_EDADES_BENEFICIARIOS,
+     GET_EDADES_BENEFICIARIOS_BY_ID,
     AGREGAR_PROGRAMA_ERROR,
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA } from "../../types/actionTypes";
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGetHetoas } from 'helpers/axios';
 
 export const EdadesBeneficiariosContext = createContext();
 
 export const EdadesBeneficiariosContextProvider = props => {
     const initialState = {
         edadesBeneficiariosList: [],
-        clienteActual: null,
+        edadesBeneficiario: null,
         error: false,
         page: 0,
         size: 10,
@@ -117,10 +121,26 @@ export const EdadesBeneficiariosContextProvider = props => {
         payload: size
     })
 
+     /**
+     * obtener tipos de apoyo
+     */
+      const getByIDBeneficiarios= async url => {
+        try {
+            const result = await axiosGetHetoas(url);
+            dispatch({
+                type: GET_EDADES_BENEFICIARIOS_BY_ID,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <EdadesBeneficiariosContext.Provider
             value={{
                 edadesBeneficiariosList: state.edadesBeneficiariosList,
+                edadesBeneficiario:state.edadesBeneficiario,
                 error: state.error,
                 page: state.page,
                 size: state.size,
@@ -131,7 +151,8 @@ export const EdadesBeneficiariosContextProvider = props => {
                 eliminarEdadesBeneficiarios,
                 changePageNumber,
                 changePageSize,
-                changePage
+                changePage,
+                getByIDBeneficiarios
             }}
         >
             {props.children}

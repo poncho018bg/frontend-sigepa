@@ -80,7 +80,7 @@ export const ProgramasForm = () => {
     const [selected, setSelected] = useState([]);
 
     const [documentslst, setDocumentslst] = React.useState([]);
-    setDocumentslst
+    
 
     useEffect(() => {
       getRegionMunicipios('a3de85a7-6c23-46a4-847b-d79b3a90963d')
