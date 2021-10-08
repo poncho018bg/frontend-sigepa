@@ -2,10 +2,11 @@ import React, { createContext, useReducer } from 'react';
 import RegionMunicipiosReducer from 'reducers/Catalogos/RegionMunicipiosReducer';
 
 import { GET_REGIONMUNICIPIOS, REGISTRAR_REGIONMUNICIPIOS, ELIMINAR_REGIONMUNICIPIOS, MODIFICAR_REGIONMUNICIPIOS } from 'types/actionTypes';
-import { axiosGet,axiosPost,axiosDeleteTipo} from 'helpers/axios';
+import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
 
 
+const baseUrl = process.env.REACT_APP_API_URL;
 export const RegionMunicipiosContext = createContext();
 
 export const RegionMunicipiosContextProvider = props => {
@@ -63,8 +64,8 @@ export const RegionMunicipiosContextProvider = props => {
 
 
     const actualizarRegionMunicipios = async regionMunicipio => {
-        console.log(regionMunicipio);  
-        try {          
+        console.log(regionMunicipio);
+        try {
             const resultado = await axiosPost('municipiosRegion', regionMunicipio);
             dispatch({
                 type: MODIFICAR_REGIONMUNICIPIOS,
@@ -76,17 +77,27 @@ export const RegionMunicipiosContextProvider = props => {
 
             console.log(error);
         }
+
+
     }
 
-    const eliminarRegionMunicipios = async idRegionMunicipio => {
-        try {
+    const eliminarRegionMunicipios = async regionMunicipio => {
+        const { idRegion, activo } = regionMunicipio
+        const act = activo === true ? false : true;
+        let regionMunicipioEnviar = {
+            id: idRegion,
+            activo: act,
+        };
+        regionMunicipio.activo = act
 
-            await axiosDeleteTipo(`regiones/${idRegionMunicipio}`);
+        const url = `${baseUrl}municipiosRegion/${idRegion}`;
+        console.log(url)
+        try {
+            const result = await axiosPostHetoas(url, regionMunicipioEnviar, 'PUT');
             dispatch({
                 type: ELIMINAR_REGIONMUNICIPIOS,
-                payload: idRegionMunicipio
+                payload: result,
             })
-
         } catch (error) {
             console.log(error);
         }

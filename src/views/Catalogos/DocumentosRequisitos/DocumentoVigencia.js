@@ -9,7 +9,7 @@ import { axiosGetHetoas } from 'helpers/axios';
  */
 export const DocumentoVigencia = ({ documentosRequisitos, actualiza }) => {
     const [vigencia, setVigencia] = useState([]);
-
+    console.log('documentosRequisitos=>',documentosRequisitos)
     const { _links: { vigencias: { href } } } = documentosRequisitos;
 
 
