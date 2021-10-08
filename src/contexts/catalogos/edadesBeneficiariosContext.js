@@ -87,11 +87,16 @@ export const EdadesBeneficiariosContextProvider = props => {
     }
 
     const eliminarEdadesBeneficiarios = async idEdadesBeneficiarios => {
+        const {activo, _links:{edadesBeneficiarios:{href}}}=idEdadesBeneficiarios
+        const act = !activo
+        idEdadesBeneficiarios.activo = act
         try {
-            await axiosDeleteTipo(`edadesBeneficiarios/${idEdadesBeneficiarios}`);
+            const result = await axiosPostHetoas(href, idEdadesBeneficiarios, 'PUT');
+            console.log(result);
+            console.log('mir mira');
             dispatch({
                 type: ELIMINAR_EDADES_BENEFICIARIOS,
-                payload: idEdadesBeneficiarios,
+                payload: result,
             })
         } catch (error) {
             console.log(error);

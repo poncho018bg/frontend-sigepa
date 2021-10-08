@@ -1,4 +1,4 @@
-import React, { useContext,  useState} from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -7,6 +7,7 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 
 export const TipoBeneficiarioEdit = ({ tipoBeneficiarioSeleccionado }) => {
@@ -16,6 +17,9 @@ export const TipoBeneficiarioEdit = ({ tipoBeneficiarioSeleccionado }) => {
     //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
     /**
      * abre el dialogo de confirmación
      * @param {valores} e 
@@ -29,10 +33,30 @@ export const TipoBeneficiarioEdit = ({ tipoBeneficiarioSeleccionado }) => {
     /**
      * Edita el elemento
      */
-    const handleRegistrar = () => {
-        actualizarTiposBeneficiarios(valores);
-        setShowModalConfirmacion(false);
-        setShowModalUpdate(false);
+    const handleRegistrar = () => {   
+
+        actualizarTiposBeneficiarios(valores).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        
+            }, 2000);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        });
     }
 
 
@@ -85,12 +109,19 @@ export const TipoBeneficiarioEdit = ({ tipoBeneficiarioSeleccionado }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                Guardar
+                                    Guardar
                                 </Button>
                             </Grid>
                         </DialogContent>
                         <ModalConfirmacion
                             handleRegistrar={handleRegistrar} evento="Editar"
+                        />
+
+                        <Mensaje
+                            setOpen={setOpenSnackbar}
+                            open={openSnackbar}
+                            severity={error ? "error" : "success"}
+                            message={msjConfirmacion}
                         />
                     </form>
                 )
