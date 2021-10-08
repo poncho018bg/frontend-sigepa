@@ -1,25 +1,23 @@
 import React, { createContext, useReducer } from 'react';
 import SubModuloReducer from '../reducers/SubModuloReducer';
-
-import { GET_SUBMODULOS, REGISTRAR_SUBMODULO, ELIMINAR_SUBMODULO, MODIFICAR_SUBMODULO, GET_MODULO_SUBMODULOS,
+import axios from "axios";
+import {
+    GET_SUBMODULOS, REGISTRAR_SUBMODULO, ELIMINAR_SUBMODULO, MODIFICAR_SUBMODULO, GET_MODULO_SUBMODULOS,
     AGREGAR_SUBMODULOS_ERROR,
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA } from '../types/actionTypes';
+    CAMBIAR_TAMANIO_PAGINA
+} from '../types/actionTypes';
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 import UserService from 'servicios/UserService';
 
-
+const baseUrl = process.env.REACT_APP_API_URL;
 export const SubModuloContext = createContext();
 
 export const SubModuloContextProvider = props => {
 
     const initialState = {
         submoduloList: [],
-        clienteActual: null,
-        error: false,
-        page: 0,
-        size: 10,
-        total: 0
+        clienteActual: null
     }
 
     const [state, dispatch] = useReducer(SubModuloReducer, initialState);
@@ -27,6 +25,7 @@ export const SubModuloContextProvider = props => {
     const getSubModulos = async () => {
 
         try {
+
             const resultado = await axiosGet('submodulosOverride/');
             console.log(resultado);
             dispatch({
@@ -51,132 +50,127 @@ export const SubModuloContextProvider = props => {
         } catch (error) {
             console.log(error);
         }
+
     }
 
     const registrarSubModulos = async subModulo => {
+        console.log('ddd=>', subModulo);
+        const moduloEnviar = {
+            dssubmodulo: subModulo.dssubmodulo,
+            usuarioCreacionId: subModulo.usuarioCreacionId,
+            boactivo: true,
+            crcModulosCollection: [`/${subModulo.crcModulosCollection}`],
+            perfiles: []
+        }
+
         try {
-            console.log(subModulo);
-            const crcModulosCollection = subModulo.crcModulosCollection
-            subModulo.crcModulosCollection = [{}]
-            subModulo.perfiles = []
-            console.log('POST SubModulos', subModulo)
-            const resultado = await axiosPost('subModulos', subModulo);
-            console.log(resultado);
-
-
-
-            const { id,  _links: { crcModulosCollection: { href } } } = resultado;
-            let moduloEnviar = {
-
-                '_links': {
-
-                    '1': {
-                        'href': `${process.env.REACT_APP_API_URL}/modulos/${crcModulosCollection}`,
-                        'submodulo_id': `${process.env.REACT_APP_API_URL}/subModulos/${id}`
-
-
-                    }
-                }
-            }
-
-            console.log(moduloEnviar);
-            try {
-                const resultado2 = await axiosPostHetoas(href, moduloEnviar, 'PUT');
-
-                dispatch({
-                    type: MODIFICAR_SUBMODULO,
-                    payload: resultado2,
-                })
-
-            } catch (error) {
-                console.log(error);
-            }
-
-            dispatch({
-                type: REGISTRAR_SUBMODULO,
-                payload: resultado
-            })
-
-
+            const url = `${baseUrl}subModulos`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, moduloEnviar, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_SUBMODULO,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
 
         } catch (error) {
+            console.log('ocurrio un error en el context');
             console.log(error);
+            dispatch({
+                type: AGREGAR_SUBMODULOS_ERROR,
+                payload: true
+            })
         }
+
+
     }
 
     const actualizarSubModulo = async submodulo => {
 
         console.log('x=>>', submodulo)
-        const { id, dssubmodulo,  boactivo, crcModulosCollection } = submodulo;
+
+        const { id, crcModulosCollection } = submodulo;
 
 
-        let moduloEnviar = {
-            dssubmodulo,
-            'usuarioCreacionId': `${process.env.REACT_APP_API_URL}msubModulosodulos/${UserService.getIdUSuario()}`,
-            boactivo,
-            'crcModulosCollection': [{}],
-            "perfiles": []
+        const url = `${baseUrl}subModulos/${id}`;
 
+        const moduloEnviar = {
+            dssubmodulo: submodulo.dssubmodulo,
+            usuarioCreacionId: `${process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}`,
+            boactivo: true,
+            crcModulosCollection: [`/${crcModulosCollection}`],
+            perfiles: []
         }
-        console.log(moduloEnviar);
-        try {
-            const resultado = await axiosPostHetoas(`${process.env.REACT_APP_API_URL}subModulos/${id}`, moduloEnviar, 'PUT');
+        let moduloEnviarm = {
 
-            dispatch({
-                type: MODIFICAR_SUBMODULO,
-                payload: resultado,
-            })
-            console.log('Res 1.- =>', resultado)
-            let moduloEnviarm = {
+            '_links': {
 
-                '_links': {
-
-                    '1': {
-                        'href': `${process.env.REACT_APP_API_URL}modulos/${crcModulosCollection}`,
-                        'submodulo_id': `${process.env.REACT_APP_API_URL}subModulos/${id}`
+                '1': {
+                    'href': `${process.env.REACT_APP_API_URL}modulos/${submodulo.crcModulosCollection}`,
+                    'submodulo_id': `${process.env.REACT_APP_API_URL}subModulos/${id}`
 
 
-                    }
                 }
             }
-            console.log('MD 1.- =>', moduloEnviarm)
-            const resultado2 = await axiosPostHetoas(`${process.env.REACT_APP_API_URL}subModulos/${id}/crcModulosCollection`, moduloEnviarm, 'PUT');
-            console.log('Res 2.- =>', resultado)
-            dispatch({
-                type: MODIFICAR_SUBMODULO,
-                payload: resultado2,
-            })
-
-        } catch (error) {
-            console.log(error);
         }
+        const resultado2 = await axiosPostHetoas(`${process.env.REACT_APP_API_URL}subModulos/${id}/crcModulosCollection`, moduloEnviarm, 'PUT');
+        console.log('Res 2.- =>', resultado2)
+
+        return new Promise((resolve, reject) => {
+            axios.put(url, moduloEnviar, {
+                headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+            }).then(response => {
+                resolve(response);
+                dispatch({
+                    type: MODIFICAR_SUBMODULO,
+                    payload: response.data
+                })
+            }).catch(error => {
+                reject(error);
+            });
+        });
     }
 
     const eliminarSubModulo = async idModulo => {
+
+        const { id, activoval } = idModulo
+        const act = !activoval;
+        const url = `${baseUrl}subModulos/${id}`;
+        idModulo.activo = act
+        idModulo.activoval = act
+        idModulo.usuarioCreacionId = `${process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}`
+        idModulo.crcModulosCollection = []
+        idModulo.perfiles = []
         try {
-            await axiosDeleteTipo(`subModulos/${idModulo}`);
+            const result = await axiosPostHetoas(url, idModulo, 'PUT');
+            console.log(result);
+            console.log('mir mira');
             dispatch({
                 type: ELIMINAR_SUBMODULO,
-                payload: idModulo
+                payload: result,
             })
-
         } catch (error) {
             console.log(error);
         }
     }
+
+
 
     return (
         <SubModuloContext.Provider
             value={{
                 submoduloList: state.submoduloList,
-
                 getSubModulos,
                 getModulosBySubModulos,
                 registrarSubModulos,
                 actualizarSubModulo,
                 eliminarSubModulo,
-
-
             }}
         >
             {props.children}

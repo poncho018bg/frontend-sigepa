@@ -15,7 +15,6 @@ import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
@@ -29,6 +28,7 @@ import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { SubModuloFormEdit } from './SubModuloFormEdit';
 import { ModalUpdate } from 'commons/ModalUpdate';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -38,10 +38,15 @@ export const SubModuloScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [subModuloSeleccionado, setSubModuloSeleccionado] = useState();
-    const { getSubModulos, eliminarSubModulo, submoduloList, size, page, total, changePageSize, changePage } = useContext(SubModuloContext);
+    const { getSubModulos, eliminarSubModulo, submoduloList } = useContext(SubModuloContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
-
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [openDialog, setOpenDialog] = useState(false);
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
 
@@ -63,22 +68,25 @@ export const SubModuloScreen = () => {
 
     const deleteDialog = (e) => {
         setShowModalDelete(true);
-        setIdEliminar(e.id);
+        setIdEliminar(e);
     }
 
 
     const handleDeshabilitar = () => {
         eliminarSubModulo(idEliminar)
         setShowModalDelete(false);
+        setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
     }
 
     const handleChangePage = (event, newPage) => {
-        changePage(newPage)
+        setPage(newPage);
     };
 
     const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
-        changePage(0)
+        setRowsPerPage(+event.target.value);
+        setPage(0);
     };
 
     return (
@@ -130,12 +138,12 @@ export const SubModuloScreen = () => {
                                     submoduloList.filter(row => row.dssubmodulo ?
                                         row.dssubmodulo.toLowerCase().includes(searched.toLowerCase()) : null)
                                     : submoduloList
-                                ).map(row => {
-                                    console.log("page:" + page + " size:" + size)
+                                ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>                                           
-                                                {row.activoval ? 'Activo':'Inactivo'}
+                                            <TableCell>
+                                                {row.activoval ? 'Activo' : 'Inactivo'}
                                             </TableCell>
                                             <TableCell>{row.id}</TableCell>
                                             <TableCell>{row.dssubmodulo}</TableCell >
@@ -146,13 +154,13 @@ export const SubModuloScreen = () => {
                                                     <CreateIcon />
                                                 </IconButton>
                                             </TableCell>
-                                            {/*
+
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <DeleteIcon /> : <RefreshIcon />}
+                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
                                                 </IconButton>
                                             </TableCell>
-                                            */}
+
                                         </TableRow >
                                     );
                                 })
@@ -163,8 +171,8 @@ export const SubModuloScreen = () => {
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
                         labelRowsPerPage="Registros por página"
-                        count={total}
-                        rowsPerPage={size}
+                        count={submoduloList.length}
+                        rowsPerPage={rowsPerPage}
                         page={page}
                         onChangePage={handleChangePage}
                         onChangeRowsPerPage={handleChangeRowsPerPage}
@@ -180,6 +188,13 @@ export const SubModuloScreen = () => {
             <ModalUpdate>
                 <SubModuloFormEdit subModuloSeleccionado={subModuloSeleccionado} />
             </ModalUpdate>
+
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
         </GridItem>
 
     )

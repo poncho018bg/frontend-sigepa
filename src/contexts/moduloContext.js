@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import ModuloReducer from '../reducers/ModuloReducer';
-
+import axios from "axios";
 import {
     GET_MODULOS, REGISTRAR_MODULO, ELIMINAR_MODULO, MODIFICAR_MODULO,
     AGREGAR_MODULO_ERROR,
@@ -43,14 +43,23 @@ export const ModuloContextProvider = props => {
 
     const registrarModulos = async modulo => {
         try {
-            console.log(modulo);
-            const resultado = await axiosPost('modulos', modulo);
-            console.log(resultado);
-            dispatch({
-                type: REGISTRAR_MODULO,
-                payload: resultado
-            })
+            const url = `${baseUrl}modulos`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, modulo, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_MODULO,
+                        payload: response
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
         } catch (error) {
+            console.log('ocurrio un error en el context');
             console.log(error);
             dispatch({
                 type: AGREGAR_MODULO_ERROR,
@@ -69,26 +78,35 @@ export const ModuloContextProvider = props => {
             boactivo,
             'SubModulos': []
         }
-        console.log(moduloEnviar);
-        try {
-            const resultado = await axiosPostHetoas(href, moduloEnviar, 'PUT');
-
-            dispatch({
-                type: MODIFICAR_MODULO,
-                payload: resultado,
-            })
-
-        } catch (error) {
-            console.log(error);
-        }
+        return new Promise((resolve, reject) => {
+            axios.put(href, moduloEnviar, {
+                headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+            }).then(response => {
+                resolve(response);
+                dispatch({
+                    type: MODIFICAR_MODULO,
+                    payload: response.data
+                })
+            }).catch(error => {
+                reject(error);
+            });
+        });
     }
 
-    const eliminarModulo = async idModulo => {
+    const eliminarModulo = async modulo => {
+        const { activo, _links: { modulos: { href } } } = modulo;
+        console.log('modulomodulo', modulo)
+        const act = !activo
+        modulo.activo = act
+        modulo.subModulos = []
+        modulo.usuarioCreacionId = `${process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}`
+
         try {
-            await axiosDeleteTipo(`modulos/${idModulo}`);
+            const resultado = await axiosPostHetoas(href, modulo, 'PUT');
+
             dispatch({
                 type: ELIMINAR_MODULO,
-                payload: idModulo
+                payload: resultado,
             })
 
         } catch (error) {

@@ -1,5 +1,5 @@
 import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
-import React, { useContext, useEffect ,useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -10,13 +10,16 @@ import { ModuloContext } from 'contexts/moduloContext';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 export const SubModuloForm = () => {
 
     const { registrarSubModulos } = useContext(SubModuloContext);
     const { setShowModal } = useContext(ModalContext);
     const { getModulos, moduloList } = useContext(ModuloContext);
-
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
     //dialog confirmacion
     const [valores, setValores] = useState();
@@ -58,9 +61,23 @@ export const SubModuloForm = () => {
             crcModulosCollection: crcModulosCollection
         }
 
-        console.log('REG=>', registrarSubModulos(module));
-        setShowModalConfirmacion(false);
-        setShowModal(false);
+
+        registrarSubModulos(module).then(response => {
+            setOpenSnackbar(true);
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+
+            const timer = setTimeout(() => {
+                setError(false);
+                setShowModalConfirmacion(false);
+                setShowModal(false);
+
+            }, 1000);
+            return () => clearTimeout(timer);
+        }).catch(err => {
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`);
+        });;
 
     }
 
@@ -132,6 +149,12 @@ export const SubModuloForm = () => {
 
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
+            />
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
             />
         </form>
 
