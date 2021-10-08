@@ -2,7 +2,8 @@ import {
     GET_GENEROS,
     GET_GRADO_ESTUDIOS,
     GET_ESTADO_CIVIL,
-    GET_IDENTIFICACIONES_OFICIALES
+    GET_IDENTIFICACIONES_OFICIALES,
+    REGISTRAR_BENEFICIARIO
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -31,6 +32,11 @@ export default (state, action) => {
                 ...state,
                 identificacionesList: action.payload._embedded.identificacionesOficiales,
                 total: action.payload.page.totalElements
+            };
+        case REGISTRAR_BENEFICIARIO:
+            return {
+                ...state,
+                beneficiario: [...state.beneficiario, action.payload]
             };
         default:
             return state;

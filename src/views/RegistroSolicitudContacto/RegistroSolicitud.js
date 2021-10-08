@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 
 import Box from '@material-ui/core/Box';
 import Stepper from '@material-ui/core/Stepper';
@@ -14,6 +14,8 @@ import { RegistroDireccion } from './RegistroDireccion';
 import { RegistroSolicitudContacto } from './RegistroSolicitudContacto';
 import { RegistroCargaDocumentos } from './RegistroCargaDocumentos';
 import { RegistroFinalizado } from './RegistroFinalizado';
+
+import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 
 import Button from "components/CustomButtons/Button.js";
 
@@ -35,20 +37,41 @@ export const RegistroSolicitud = () => {
     const [activar, setActivar] = useState();
     const [curp, setCurp] = useState();
 
-    let datosEnviar;
-    const llenarDatos = (nombre, apellidoPaterno, apellidoMaterno) => {
+    const { beneficiario, registrarBeneficiario } = useContext(RegistroSolicitudContext);
+    const child = useRef();
+    //let datosEnviar;
+    const llenarDatosBeneficiario = (nombre, apellidoPaterno, apellidoMaterno, curp, genero, fechaNacimientoReal, edad, estudios, estadoCivil, identificacion) => {
         /**
          * se guarda al ejecutar esta función
          */
-        console.log("funcion llenar datos", nombre, apellidoPaterno, apellidoMaterno)
-        datosEnviar = {
-            nombre, apellidoPaterno, apellidoMaterno
+        console.log("funcion llenar datos", nombre,
+            apellidoPaterno,
+            apellidoMaterno,
+            curp,
+            genero,
+            fechaNacimientoReal,
+            edad,
+            estudios,
+            estadoCivil,
+            identificacion);
+
+        let datosEnviar = {
+            dsnombre: nombre,
+            dsapellido1: apellidoPaterno,
+            dsapellido2: apellidoMaterno,
+            dscurp: curp,
+            fcfechanacimiento: fechaNacimientoReal,
+            idgenero: genero,
+            //edad,
+            idestadocivil: estadoCivil,
+            idgradoestudios: estudios,
+            ididentificacionoficial: identificacion
         }
         console.log("datos enviados ---> ", datosEnviar);
         /**
          * al llegar aqui se inicia el guardado en la BD
          */
-        
+        registrarBeneficiario(datosEnviar);
         /**
          * Se inicializa el nextbutton para asegurar que va a llegar a la siguiente pantalla los datos a enviar
          */
@@ -64,12 +87,14 @@ export const RegistroSolicitud = () => {
     };
 
     const handleNext = () => {
+        if (activeStep == 1) {
+            child.current.registroBeneficiario();
+        }
         let newSkipped = skipped;
         if (isStepSkipped(activeStep)) {
             newSkipped = new Set(newSkipped.values());
             newSkipped.delete(activeStep);
         }
-
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         setSkipped(newSkipped);
     };
@@ -99,7 +124,7 @@ export const RegistroSolicitud = () => {
 
     const NextButton = () => {
         console.log("aqio esta el activar ---->>", activar, curp);
-        console.log("state --->", datosEnviar);
+        console.log("BENEFICIARIO --->", beneficiario);
         if (activar && curp != undefined && curp != '') {
             return (
                 <Button onClick={handleNext}>
@@ -138,7 +163,7 @@ export const RegistroSolicitud = () => {
                     {activeStep === 0 ?
                         <RegistroCurp setActivar={setActivar} setCurp={setCurp} />
                         : activeStep === 1 ?
-                            <RegistroDatosSolicitante curpR={curp} llenarDatos={llenarDatos} />
+                            <RegistroDatosSolicitante curpR={curp} llenarDatosBeneficiario={llenarDatosBeneficiario} ref={child} />
                             : activeStep === 2 ?
                                 <RegistroDireccion />
                                 : activeStep === 3 ?

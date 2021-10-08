@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, forwardRef, useImperativeHandle } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -13,6 +13,9 @@ import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSel
 import customCheckboxRadioSwitch from "assets/jss/material-dashboard-pro-react/customCheckboxRadioSwitch.js";
 import axios from "axios";
 import { TextField, MenuItem } from "@material-ui/core";
+
+import moment from 'moment';
+import 'moment/locale/es';
 
 
 //
@@ -37,9 +40,10 @@ const styles = {
 };
 
 const useStyles = makeStyles(styles);
-export const RegistroDatosSolicitante = ({ curpR, llenarDatos }) => {
+export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     console.log('aqui');
-    console.log(curp);
+    console.log(props);
+    const { curpR, llenarDatosBeneficiario } = props;
     //console.log(props.allStates.about);
     const classes = useStyles();
     const [simpleSelect, setsimpleSelect] = React.useState("");
@@ -52,14 +56,21 @@ export const RegistroDatosSolicitante = ({ curpR, llenarDatos }) => {
     const [apellidoMaterno, setapellidoMaterno] = useState("");
     const [genero, setGenero] = useState("");
     const [fechaNacimientoAxu, setFechaNacimientoAxu] = useState("");
+    const [fechaNacimientoReal, setFechaNacimientoReal] = useState("");
     const [edad, setEdad] = useState("");
 
+    const [estudios, setEstudios] = useState("");
+    const [estadoCivil, setEstadoCivil] = useState("");
+    const [identificacion, setIdentificacion] = useState("");
+
     const { getGeneros, generosList,
-        estudiosList, getEstudios, 
+        estudiosList, getEstudios,
         estadoCivilList, getEstadoCivil,
-        getIdentificaciones, identificacionesList} = useContext(RegistroSolicitudContext);
+        getIdentificaciones, identificacionesList } = useContext(RegistroSolicitudContext);
 
     useEffect(() => {
+        console.log("curp que llega --> ", curpR)
+
         axios.get(`http://localhost:9080/v1/curp/consultaCurp/${curpR}`)
             .then(response => {
                 console.log(response);
@@ -67,24 +78,75 @@ export const RegistroDatosSolicitante = ({ curpR, llenarDatos }) => {
                 setCurp(response.data.response[0].curp);
                 setApellidoPaterno(response.data.response[0].apellidoPaterno);
                 setapellidoMaterno(response.data.response[0].apellidoMaterno);
-                setGenero(response.data.response[0].sexo)
+                //setGenero(response.data.response[0].sexo)
+                console.log("fecha --->", response.data.response[0].fechaNacimientoAxu)
+                var dateParts = response.data.response[0].fechaNacimientoAxu.split("/");
+                console.log("date parts ", +dateParts[2], dateParts[1] - 1, dateParts[0])
+                var date = new Date(+dateParts[2], dateParts[1] - 1, dateParts[0]);
+                console.log("chale -->", date);
+                console.log("fomateada fecha ---> ", moment(date).format("YYYY-MM-DD"))
+                setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
                 setFechaNacimientoAxu(response.data.response[0].fechaNacimientoAxu);
                 setEdad(response.data.response[0].edad);
-            })
+            });
+
         getGeneros();
         getEstudios();
         getEstadoCivil();
         getIdentificaciones();
     }, [curpR]);
 
+    const llenado = () => {
+        console.log("entro al momento de cargar --->",
+            nombre, apellidoPaterno, apellidoMaterno, genero, estudios, estadoCivil, identificacion);
+
+        llenarDatosBeneficiario(nombre,
+            apellidoPaterno,
+            apellidoMaterno,
+            curp,
+            genero,
+            fechaNacimientoReal,
+            edad,
+            estudios,
+            estadoCivil,
+            identificacion);
+    }
+    useImperativeHandle(ref, () => ({
+        registroBeneficiario() {
+            llenado();
+        }
+    })
+    );
+
+    const onChange = event => {
+        console.log("evento onchange", event);
+        console.log("evento onchange", event.target);
+        switch (event.target.name) {
+            case 'genero':
+                //idGenero
+                setGenero(event.target.value);
+                console.log("genero onchange", genero);
+            case 'estudios':
+                //idEstudios
+                setEstudios(event.target.value);
+                console.log("estudios onchange", estudios);
+            case 'estadoCivil':
+                //idEstadoCivil
+                setEstadoCivil(event.target.value);
+                console.log("civil ", estadoCivil);
+            case 'identificacion':
+                //idIdentificacion oficial
+                setIdentificacion(event.target.value);
+                console.log("identificacion ", identificacion);
+        }
+
+    }
+
     const isValidated = () => {
         return true;
     };
 
-    const llenado = () => {
-        console.log("entro al momento de cargar", nombre, apellidoPaterno, apellidoMaterno);
-        llenarDatos(nombre, apellidoPaterno, apellidoMaterno);
-    }
+
     return (
         <div>
             <h4 className={classes.infoText}></h4>
@@ -106,7 +168,6 @@ export const RegistroDatosSolicitante = ({ curpR, llenarDatos }) => {
                                             name="curp"
                                             fullWidth
                                             value={curp}
-                                            onChange={llenado()}
                                         />
                                     </GridItem>
                                     <GridItem xs={12} sm={12}>
@@ -172,9 +233,10 @@ export const RegistroDatosSolicitante = ({ curpR, llenarDatos }) => {
                                             id="genero"
                                             label="Genero"
                                             variant="outlined"
-                                            nombre="genero"
+                                            name="genero"
                                             fullWidth
                                             select
+                                            onChange={onChange}
                                         >
                                             <MenuItem value="0">
                                                 <em>Seleccionar</em>
@@ -222,9 +284,10 @@ export const RegistroDatosSolicitante = ({ curpR, llenarDatos }) => {
                                             id="estudios"
                                             label="Grado de estudios"
                                             variant="outlined"
-                                            nombre="estudios"
+                                            name="estudios"
                                             fullWidth
                                             select
+                                            onChange={onChange}
                                         >
                                             <MenuItem value="0">
                                                 <em>Seleccionar</em>
@@ -247,35 +310,37 @@ export const RegistroDatosSolicitante = ({ curpR, llenarDatos }) => {
                         </GridContainer>
                         <GridContainer justify="center">
                             <GridItem xs={12} sm={12} md={12} lg={10}>
-                            <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="estadoCivil"
-                                            label="Estado Civil"
-                                            variant="outlined"
-                                            nombre="estadoCivil"
-                                            fullWidth
-                                            select
-                                        >
-                                            <MenuItem value="0">
-                                                <em>Seleccionar</em>
-                                            </MenuItem>
-                                            {
-                                                estadoCivilList.map(
-                                                    (g, i) => (
-                                                        <MenuItem
-                                                            key={i}
-                                                            value={g.id}>
-                                                            {g.dsgrado}
-                                                        </MenuItem>
-                                                    )
-                                                )
-                                            }
-                                        </TextField>
+                                <TextField
+                                    style={{ marginBottom: '20px' }}
+                                    id="estadoCivil"
+                                    label="Estado Civil"
+                                    variant="outlined"
+                                    name="estadoCivil"
+                                    fullWidth
+                                    select
+                                    onChange={onChange}
+                                >
+                                    <MenuItem value="0">
+                                        <em>Seleccionar</em>
+                                    </MenuItem>
+                                    {
+                                        estadoCivilList.map(
+                                            (g, i) => (
+                                                <MenuItem
+                                                    key={i}
+                                                    value={g.id}>
+                                                    {g.dsestadocivil}
+                                                </MenuItem>
+                                            )
+                                        )
+                                    }
+                                </TextField>
                             </GridItem>
                         </GridContainer>
                         <GridContainer justify="center">
                             <GridItem xs={12} sm={12} md={12} lg={10}>
                                 <GridContainer>
+                                    {/*
                                     <GridItem xs={12} sm={4}>
                                         <TextField
                                             style={{ marginBottom: '20px' }}
@@ -285,7 +350,9 @@ export const RegistroDatosSolicitante = ({ curpR, llenarDatos }) => {
                                             name="tipoIdentificacion"
                                             fullWidth
                                         />
+                                    
                                     </GridItem>
+                                    */}
                                     <GridItem xs={12} sm={4}>
                                         {/*
                                         <TextField
@@ -304,9 +371,10 @@ export const RegistroDatosSolicitante = ({ curpR, llenarDatos }) => {
                                             id="ine"
                                             label="Identificación Oficial"
                                             variant="outlined"
-                                            nombre="ine"
+                                            name="identificacion"
                                             fullWidth
                                             select
+                                            onChange={onChange}
                                         >
                                             <MenuItem value="0">
                                                 <em>Seleccionar</em>
@@ -342,4 +410,4 @@ export const RegistroDatosSolicitante = ({ curpR, llenarDatos }) => {
             </GridItem>
         </div>
     );
-}
+});
