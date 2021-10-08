@@ -23,6 +23,10 @@ import { ActividadesContinuarContext } from 'contexts/catalogos/ActividadesConti
 import { ApoyoContext } from 'contexts/catalogos/ApoyoContext';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import "./styles.css";
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -47,38 +51,41 @@ function intersection(a, b) {
 }
 
 export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
-
+    let history = useHistory();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
 
     const classes = useStyles();
     const { tipoApoyoEditar } = useSelector(state => state.tipoApoyo);
-    const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);    
-    const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);    
+    const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);
+    const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
     const { programasList, get } = useContext(ProgramasContext);
     const { apoyoservicioList, getApoyoServicio } = useContext(ApoyoServicioContext);
     const { numeroApoyosList, getNumeroApoyos } = useContext(NumeroApoyosContext);
     const { actividadescontinuarList, getActividadesContinuar } = useContext(ActividadesContinuarContext)
     const { actualizarApoyo } = useContext(ApoyoContext)
 
-
-    
     const [tipoApoyoSelect, setTipoApoyoSelect] = React.useState([]);
     const [actividadesContinuarSelect, setActividadesContinuarSelect] = React.useState([]);
-    
-
 
     const [selected, setSelected] = useState([]);
     const [selectedTipApoy, setSelectedTipApoy] = useState([]);
     const [selectedActividadesContinuar, setSelectedActividadesContinuar] = useState([]);
     const [expanded, setExpanded] = React.useState(true)
 
+    //dialog confirmacion
+    const [valores, setValores] = useState();
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+
     useEffect(() => {
         getTiposApoyos();
-        getActividadesContinuar();      
-        getPeriodicidadApoyos();        
+        getActividadesContinuar();
+        getPeriodicidadApoyos();
         get();
         getNumeroApoyos();
-        getApoyoServicio();       
+        getApoyoServicio();
 
         setSelectedTipApoy(personaSeleccionada.idTipoApoyo)
         setSelected(personaSeleccionada.coberturaMunicipal)
@@ -86,8 +93,16 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
     }, []);
 
-  
 
+        /**
+     * abre el dialogo de confirmación
+     * @param {valores} e 
+     */
+         const confirmacionDialog = (e) => {
+            console.log("Aqui hace el llamado al dialog", e);
+            setShowModalConfirmacion(true);
+            setValores(e)
+        }
 
 
 
@@ -161,8 +176,29 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     const actualizarTipoApoyo = async valores => {
         valores.idTipoApoyo = selectedTipApoy
         valores.idActividadContinuidadApoyo = selectedActividadesContinuar
-        actualizarApoyo(valores);
-        setShowModalUpdate(false);
+        // actualizarApoyo(valores);
+        // setShowModalUpdate(false);
+        confirmacionDialog(valores);
+    }
+
+    const handleRegistrar = () => {
+
+        actualizarApoyo(valores).then(response => {
+            setOpenSnackbar(true);
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+            const timer = setTimeout(() => {
+                setError(false);
+                history.push("/admin/catapoyoservicio")
+                setShowModalConfirmacion(false);
+                setShowModalUpdate(false);
+
+            }, 1000);
+            return () => clearTimeout(timer);
+        }).catch(err => {
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`);
+        });;
     }
 
 
@@ -552,11 +588,19 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                     Guardar
                                 </Button>
                             </Grid>
-
-
                         </DialogContent>
 
 
+                        <ModalConfirmacion
+                            handleRegistrar={handleRegistrar} evento="Editar"
+                        />
+
+                        <Mensaje
+                            setOpen={setOpenSnackbar}
+                            open={openSnackbar}
+                            severity={error ? "error" : "success"}
+                            message={msjConfirmacion}
+                        />
 
 
 

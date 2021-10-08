@@ -1,9 +1,9 @@
 import React, { createContext, useReducer } from 'react';
 import ApoyoReducer from 'reducers/Catalogos/ApoyoReducer';
+import axios from "axios";
 
-
-import { GET_APOYOS, REGISTRAR_APOYOS, ELIMINAR_APOYOS, MODIFICAR_APOYOS } from 'types/actionTypes';
-import { axiosGet,axiosPost,axiosDeleteTipo ,axiosPostHetoas} from 'helpers/axios';
+import { GET_APOYOS, REGISTRAR_APOYOS, ELIMINAR_APOYOS, MODIFICAR_APOYOS, AGREGAR_APOYOS_ERROR } from 'types/actionTypes';
+import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -34,40 +34,56 @@ export const ApoyoContextProvider = props => {
 
 
     const registrarApoyo = async apoyo => {
+
         try {
-            console.log(apoyo);
-            const resultado = await axiosPost('tipoApoyoOverride', apoyo);
-            console.log(resultado);
-            dispatch({
-                type: REGISTRAR_APOYOS,
-                payload: resultado
-            })
+            const url = `${baseUrl}tipoApoyoOverride`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, apoyo, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_APOYOS,
+                        payload: response
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
         } catch (error) {
-            console.log(error);
+            dispatch({
+                type: AGREGAR_APOYOS_ERROR,
+                payload: true
+            })
         }
     }
 
 
 
     const actualizarApoyo = async apoyo => {
-        console.log(apoyo);
-        console.log(`${baseUrl}tipoApoyoOverride`)
-        try {
-            const resultado = await axiosPostHetoas(`${baseUrl}tipoApoyoOverride`, apoyo, 'PUT');
-            dispatch({
-                type: MODIFICAR_APOYOS,
-                payload: resultado,
-            })
-        } catch (error) {
-            console.log(error);
-        }
+
+        return new Promise((resolve, reject) => {
+            axios.put(`${baseUrl}tipoApoyoOverride`, apoyo, {
+                headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+            }).then(response => {
+                resolve(response);
+                dispatch({
+                    type: MODIFICAR_APOYOS,
+                    payload: response
+                })
+            }).catch(error => {
+                reject(error);
+            });
+        });
     }
+    
 
     const eliminarApoyo = async idApoyo => {
         try {
-            console.log('x=>',idApoyo)
+            console.log('x=>', idApoyo)
             // axiosDeleteTipo(`tipoApoyoOverride/${idApoyo}`);
-             await axiosPostHetoas(`${baseUrl}tipoApoyoOverride`, idApoyo, 'DELETE')
+            await axiosPostHetoas(`${baseUrl}tipoApoyoOverride`, idApoyo, 'DELETE')
             dispatch({
                 type: ELIMINAR_APOYOS,
                 payload: idApoyo

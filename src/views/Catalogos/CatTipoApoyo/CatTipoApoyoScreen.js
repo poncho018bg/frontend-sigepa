@@ -29,6 +29,8 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { PeriodicidadApoyosContext } from 'contexts/catalogos/periodicidadApoyosContext';
 import { TiposApoyosContext } from 'contexts/catalogos/tiposApoyosContext';
 import { ApoyoContext } from 'contexts/catalogos/ApoyoContext';
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { ModalContextDelete } from 'contexts/modalContexDelete';
 
 
 const useStyles = makeStyles(stylesArchivo);
@@ -55,6 +57,11 @@ export const CatTipoApoyoScreen = () => {
     const [idApoyosl, setIdApoyosl] = useState('');
     const [idPeriodicidadsl, setIdPeriodicidadsl] = useState('');
     const { eliminarApoyo } = useContext(ApoyoContext)
+    const { setShowModalDelete } = useContext(ModalContextDelete);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+
 
 
     useEffect(() => {
@@ -94,11 +101,19 @@ export const CatTipoApoyoScreen = () => {
         eliminarApoyo(e)
         setOpenDialog(true);        
         cargarTiposApoyo()
+
+
+        
+        
     }
 
     const handleDeshabilitar = () => {
-        dispatch(borrarModuloAction());
+        dispatch(borrarModuloAction());       
+
+        setShowModalDelete(false);
         setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
     }
 
     const buscarTiposApoyos = () => {
@@ -208,7 +223,7 @@ export const CatTipoApoyoScreen = () => {
                             < Table stickyHeader aria-label="sticky table" >
                                 < TableHead >
                                     < TableRow key="898as" >
-                                        < TableCell > Estado</TableCell >
+                                        < TableCell > Estatus</TableCell >
                                         < TableCell > Tipo apoyo</TableCell >
                                         < TableCell> Apoyo</TableCell >
                                         < TableCell> Programa de apoyo en el que se otorga</TableCell >
@@ -229,11 +244,8 @@ export const CatTipoApoyoScreen = () => {
                                             return (
                                                 < TableRow key={row.id}>
                                                     <TableCell>
-                                                        <Checkbox
-                                                            checked={row.estatus === 'true'}
-                                                            color="primary"
-                                                            inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                        />
+                                                       
+                                                        {row.estatus === 'true' ? 'Activo':'Inactivo'}
                                                     </TableCell>
                                                     <TableCell>{row.descTiposApoyos}</TableCell>
                                                     <TableCell>{row.dsapoyo}</TableCell >
@@ -284,6 +296,13 @@ export const CatTipoApoyoScreen = () => {
             <ModalUpdate>
                 <DialogTipoApoyoFormEdit personaSeleccionada={personaSeleccionada} />
             </ModalUpdate>
+
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
 
         </>
     )
