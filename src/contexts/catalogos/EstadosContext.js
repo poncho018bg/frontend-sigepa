@@ -111,30 +111,27 @@ export const EstadosContextProvider = props => {
         }
         try {
             const resultado = await axiosPostHetoas(href, estadosEnviar, 'PUT');
-
             dispatch({
                 type: MODIFICAR_ESTADOS,
                 payload: resultado,
             })
-
         } catch (error) {
-
-
             console.log(error);
         }
     }
 
-    const eliminarEstados = async idEstado => {
+    const eliminarEstados = async estado => {
+      
+        const { activo, _links: { estados: { href } } } = estado;
+        const act = !activo
+        estado.activo = act
         try {
-
-            await axiosDeleteTipo(`estados/${idEstado}`);
+            const resultado = await axiosPostHetoas(href, estado, 'PUT');
             dispatch({
                 type: ELIMINAR_ESTADOS,
-                payload: idEstado
+                payload: resultado,
             })
-
         } catch (error) {
-
             console.log(error);
         }
     }

@@ -32,6 +32,7 @@ import { ModalUpdate } from 'commons/ModalUpdate';
 import { EstadosContext } from 'contexts/catalogos/EstadosContext';
 import { EstadosForm } from './EstadosForm';
 import { EstadosFormEdit } from './EstadosFormEdit';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -45,6 +46,10 @@ export const EstadosScreen = () => {
   const { setShowModal } = useContext(ModalContext);
   const { setShowModalDelete } = useContext(ModalContextDelete);
   const { setShowModalUpdate } = useContext(ModalContextUpdate);
+  const [error, setError] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [msjConfirmacion, setMsjConfirmacion] = useState('');
+  const [openDialog, setOpenDialog] = useState(false);
 
 
   useEffect(() => {
@@ -65,13 +70,16 @@ export const EstadosScreen = () => {
 
   const deleteDialog = (e) => {
     setShowModalDelete(true);
-    setIdEliminar(e.id);
+    setIdEliminar(e);
   }
 
 
   const handleDeshabilitar = () => {
     eliminarEstados(idEliminar)
     setShowModalDelete(false);
+    setOpenDialog(false);
+    setOpenSnackbar(true);
+    setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
   }
 
   const handleChangePage = (event, newPage) => {
@@ -118,7 +126,7 @@ export const EstadosScreen = () => {
           < Table stickyHeader aria-label="sticky table" >
             < TableHead >
               < TableRow key="898as" >
-                < TableCell > Estado</TableCell >
+                < TableCell > Estatus</TableCell >
                 < TableCell> Numero estado</TableCell >
                 < TableCell> Descripcion estado </TableCell >
                 < TableCell> Fecha Registro</TableCell >
@@ -136,11 +144,7 @@ export const EstadosScreen = () => {
                   return (
                     < TableRow key={row.id}>
                       <TableCell>
-                        <Checkbox
-                          checked={row.activo}
-                          color="primary"
-                          inputProps={{ 'aria-label': 'Checkbox A' }}
-                        />
+                        {row.activo ? 'Activo' : 'Inactivo'}
                       </TableCell>
                       <TableCell>{row.noestado}</TableCell >
                       <TableCell>{row.dsestado}</TableCell >
@@ -183,6 +187,13 @@ export const EstadosScreen = () => {
       <ModalUpdate>
         <EstadosFormEdit estadoSeleccionada={estadoSeleccionada} />
       </ModalUpdate>
+
+      <Mensaje
+        setOpen={setOpenSnackbar}
+        open={openSnackbar}
+        severity={error ? "error" : "success"}
+        message={msjConfirmacion}
+      />
     </GridItem>
 
   )

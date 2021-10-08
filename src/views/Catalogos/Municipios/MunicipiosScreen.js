@@ -30,6 +30,7 @@ import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 import { MunicipioForm } from './MunicipioForm';
 import { MunicipioFormEdit } from './MunicipioFormEdit';
 import { EstadosContext } from 'contexts/catalogos/EstadosContext';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -46,6 +47,11 @@ export const MunicipiosScreen = () => {
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(() => {
         getMunicipios();
@@ -84,6 +90,9 @@ export const MunicipiosScreen = () => {
     const handleDeshabilitar = () => {
         eliminarMunicipio(idEliminar)
         setShowModalDelete(false);
+        setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -148,8 +157,8 @@ export const MunicipiosScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>                                                
-                                                {row.activo ? 'Activo':'Inactivo'}
+                                            <TableCell>
+                                                {row.activo ? 'Activo' : 'Inactivo'}
                                             </TableCell>
                                             <TableCell>{row.dsclavemunicipio}</TableCell >
                                             <TableCell>{row.dsmunicipio}</TableCell >
@@ -191,6 +200,13 @@ export const MunicipiosScreen = () => {
             <ModalUpdate>
                 <MunicipioFormEdit municipioSeleccionada={municipioSeleccionada} />
             </ModalUpdate>
+
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
         </GridItem>
 
     )
