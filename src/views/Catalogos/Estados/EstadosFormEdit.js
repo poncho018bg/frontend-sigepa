@@ -110,6 +110,7 @@ export const EstadosFormEdit = ({ estadoSeleccionada }) => {
                         <DialogContent>
 
                             <TextField
+                            fullWidth
                                 id="dsestado"
                                 label="Desc. estado"
                                 variant="outlined"

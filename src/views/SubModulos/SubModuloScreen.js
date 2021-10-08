@@ -117,7 +117,7 @@ export const SubModuloScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell align="center"> Estado</TableCell >
+                                < TableCell align="center"> Estatus</TableCell >
                                 < TableCell align="center"> ID</TableCell >
                                 < TableCell align="center"> Submódulo</TableCell >
                                 < TableCell align="center"> Fecha registro</TableCell >
@@ -134,12 +134,8 @@ export const SubModuloScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
-                                                <Checkbox
-                                                    checked={row.boactivo}
-                                                    color="primary"
-                                                    inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                />
+                                            <TableCell>                                           
+                                                {row.activoval ? 'Activo':'Inactivo'}
                                             </TableCell>
                                             <TableCell>{row.id}</TableCell>
                                             <TableCell>{row.dssubmodulo}</TableCell >

@@ -1,4 +1,4 @@
-import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
+import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
@@ -84,7 +84,7 @@ export const DocumentosForm = () => {
             boactivo: true,
             'programas': []
         }
-        
+
 
         registrarDocumento(documentosRequisitos).then(response => {
             setOpenSnackbar(true);
@@ -162,27 +162,34 @@ export const DocumentosForm = () => {
                 ) : null}
             </DialogContent>
             <DialogContent>
-                <NativeSelect
-                    fullWidth
+                <TextField
                     id="idVigencia"
+                    variant="outlined"
+                    label="Selecciona una vigencia"
+                    select
+                    fullWidth
                     name="idVigencia"
-                    label="Vigencia"
-                    value={formik.values.idVigencia}
                     onChange={formik.handleChange}
-                    input={<BootstrapInput />}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.idVigencia}
                 >
-                    <option aria-label="Seleccionar" value="0" />
+                    <MenuItem value="0">
+                        <em>Ninguno</em>
+                    </MenuItem>
                     {
-                        todasVigencias.map((v, i) => (
-                            <option key={i}
-                                value={v.id}>
-                                {v.dsvigencia}
-                            </option>
-                        )
+                        todasVigencias.map(
+                            item => (
+                                <MenuItem
+                                    key={item.id}
+                                    value={item.id}>
+                                    {item.dsvigencia}
+                                </MenuItem>
+                            )
                         )
                     }
+                </TextField>
 
-                </NativeSelect>
+
             </DialogContent>
 
             <DialogContent >
@@ -195,7 +202,7 @@ export const DocumentosForm = () => {
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
             />
-             <Mensaje
+            <Mensaje
                 setOpen={setOpenSnackbar}
                 open={openSnackbar}
                 severity={error ? "error" : "success"}
