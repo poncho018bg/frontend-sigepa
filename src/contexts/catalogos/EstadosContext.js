@@ -48,6 +48,23 @@ export const EstadosContextProvider = props => {
         }
     }
 
+    const getTodosEstados = async () => {
+
+        try {
+
+            const { page, size } = state;
+            const resultado = await axiosGet(`estados?page=0&size=50`);
+            console.log(resultado._embedded.estados);
+            dispatch({
+                type: GET_ESTADOS,
+                payload: resultado
+            })
+        } catch (error) {
+
+            console.log(error);
+        }
+    }
+
     const getEstadoByIdHetoas = async endpoint => {
 
         try {
@@ -161,7 +178,8 @@ export const EstadosContextProvider = props => {
                 actualizarEstados,
                 changePageNumber,
                 changePageSize,
-                changePage
+                changePage,
+                getTodosEstados
 
             }}
         >
