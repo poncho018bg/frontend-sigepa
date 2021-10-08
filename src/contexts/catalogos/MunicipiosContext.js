@@ -1,12 +1,12 @@
 import React, { createContext, useReducer } from 'react';
 import MunicipiosReducer from 'reducers/Catalogos/MunicipiosReducer';
 
-import { axiosGet,axiosPost ,axiosDeleteTipo,axiosPostHetoas,axiosGetHetoas} from 'helpers/axios';
+import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
 import {
-    GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO,     
+    GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO,
     AGREGAR_MUNICIPIOS_ERROR,
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA,GET_MUNICIPIOS_ID
+    CAMBIAR_TAMANIO_PAGINA, GET_MUNICIPIOS_ID
 } from 'types/actionTypes';
 
 
@@ -55,16 +55,17 @@ export const MunicipiosContextProvider = props => {
             })
         } catch (error) {
             console.log(error);
-           
+
         }
     }
 
 
     const registrarMunicipios = async municipio => {
         try {
+
             municipio.regiosnes = [];
             municipio.crcCoberturaapoyos = []
-            const municp = `/${municipio.estadoId}`
+            const municp = `/${municipio.idEstado}`
             municipio.estadoId = municp
             console.log(municipio);
             const resultado = await axiosPost('municipios', municipio);
@@ -85,13 +86,13 @@ export const MunicipiosContextProvider = props => {
 
     const actualizarMunicipios = async municipio => {
         console.log(municipio);
-        const { dsclavemunicipio, dsmunicipio, activo, estadoId, _links: { municipios: { href } } } = municipio;
+        const { dsclavemunicipio, dsmunicipio, activo, estadoId, idEstado, _links: { municipios: { href } } } = municipio;
         let municipioEnviar = {
             dsclavemunicipio,
             dsmunicipio,
             activo,
             Municipios: [],
-            estadoId: `/${estadoId}`,
+            estadoId: `/${idEstado}`,
             regiosnes: [],
             crcCoberturaapoyos: [],
             _links: {
@@ -112,17 +113,23 @@ export const MunicipiosContextProvider = props => {
         }
     }
 
-    const eliminarMunicipio = async idMunicipio => {
-        try {
+    const eliminarMunicipio = async municipio => {
+  
 
-            await axiosDeleteTipo(`municipios/${idMunicipio}`);
+        const { activo,idEstado, _links: { municipios: { href } } } = municipio;
+        const act = activo === true ? false : true;
+        municipio.activo = act
+        municipio.localidadesCollection=[]
+        municipio.estadoId =  `/${idEstado}`
+        municipio.regiosnes=[]
+        municipio.crcCoberturaapoyos=[]
+        try {
+            const resultado = await axiosPostHetoas(href, municipio, 'PUT');
             dispatch({
                 type: ELIMINAR_MUNICIPIOS,
-                payload: idMunicipio
+                payload: resultado,
             })
-
         } catch (error) {
-
             console.log(error);
         }
     }
@@ -133,7 +140,7 @@ export const MunicipiosContextProvider = props => {
         dispatch(changePageNumber(page))
         try {
             getMunicipios();
-        } catch (error) {            
+        } catch (error) {
             throw error;
         }
 
@@ -149,7 +156,7 @@ export const MunicipiosContextProvider = props => {
         payload: size
     })
 
-    
+
     const getMunicipiosId = async () => {
 
         try {

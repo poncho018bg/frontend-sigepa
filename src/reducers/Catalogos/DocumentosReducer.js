@@ -1,4 +1,4 @@
-import { GET_DOCUMENTOS_REQUISITOS, REGISTRAR_DOCUMENTOS_REQUISITOS, MODIFICAR_DOCUMENTOS_REQUISITOS, VIGENCIA_DOCUMENTOS_REQUISITOS, GET_VIGENCIAS, GET_PROGRAMAS_DOCUMENTO } from "../../types/actionTypes";
+import { GET_DOCUMENTOS_REQUISITOS, REGISTRAR_DOCUMENTOS_REQUISITOS, MODIFICAR_DOCUMENTOS_REQUISITOS, VIGENCIA_DOCUMENTOS_REQUISITOS, GET_VIGENCIAS, GET_PROGRAMAS_DOCUMENTO, AGREGAR_DOCUMENTOS_ERROR,ELIMINAR_DOCUMENTOS_REQUISITOS } from "../../types/actionTypes";
 
 export default (state, action) => {
     switch (action.type) {
@@ -7,6 +7,12 @@ export default (state, action) => {
                 ...state,
                 documentosList: action.payload
             };
+        case AGREGAR_DOCUMENTOS_ERROR:
+            console.log(action.type);
+            return {
+                ...state,
+                error: action.payload
+            }
         case VIGENCIA_DOCUMENTOS_REQUISITOS:
             return {
                 ...state,
@@ -33,6 +39,11 @@ export default (state, action) => {
                 documentosList: state.documentosList.map(
                     documentos => documentos.id === action.payload.id ? action.payload : documentos
                 )
+            };
+        case ELIMINAR_DOCUMENTOS_REQUISITOS:
+            return {
+                ...state,
+                documentosList: state.documentosList.filter(documentos => documentos.id !== action.payload)
             };
         default:
             return state;

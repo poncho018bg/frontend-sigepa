@@ -29,6 +29,7 @@ import { ModalUpdate } from 'commons/ModalUpdate';
 import { RegionMunicipiosContext } from 'contexts/catalogos/RegionMunicipiosContext';
 import { RegionMunicipioForm } from './RegionMunicipioForm';
 import { RegionMunicipioFormEdit } from './RegionMunicipioFormEdit';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -44,6 +45,11 @@ export const RegionMunicipioScreen = () => {
   const { setShowModal } = useContext(ModalContext);
   const { setShowModalDelete } = useContext(ModalContextDelete);
   const { setShowModalUpdate } = useContext(ModalContextUpdate);
+
+  const [error, setError] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [msjConfirmacion, setMsjConfirmacion] = useState('');
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     getRegionMunicipios();
@@ -61,13 +67,17 @@ export const RegionMunicipioScreen = () => {
 
   const deleteDialog = (e) => {
     setShowModalDelete(true);
-    setIdEliminar(e.id);
+    setIdEliminar(e);
   }
 
 
   const handleDeshabilitar = () => {
+    console.log('elim=>', idEliminar)
     eliminarRegionMunicipios(idEliminar)
     setShowModalDelete(false);
+    setOpenDialog(false);
+    setOpenSnackbar(true);
+    setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
   }
 
   const handleChangePage = (event, newPage) => {
@@ -114,7 +124,7 @@ export const RegionMunicipioScreen = () => {
           < Table stickyHeader aria-label="sticky table" >
             < TableHead >
               < TableRow key="898as" >
-                < TableCell > Estado</TableCell >
+                < TableCell > Estatus</TableCell >
                 < TableCell> Clave</TableCell >
                 < TableCell> Región</TableCell >
                 < TableCell> Fecha Registro</TableCell >
@@ -128,15 +138,11 @@ export const RegionMunicipioScreen = () => {
                     row.dsRegion.toLowerCase().includes(searched.toLowerCase()) : null)
                   : regionList
                 ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-                  
+
                   return (
                     < TableRow key={row.id}>
                       <TableCell>
-                        <Checkbox
-                          checked={row.activo}
-                          color="primary"
-                          inputProps={{ 'aria-label': 'Checkbox A' }}
-                        />
+                        {row.activo ? 'Activo' : 'Inactivo'}
                       </TableCell>
                       <TableCell>{row.noclaveregion}</TableCell >
                       <TableCell>{row.dsRegion}</TableCell >
@@ -179,6 +185,13 @@ export const RegionMunicipioScreen = () => {
       <ModalUpdate>
         <RegionMunicipioFormEdit regionMunicipioSeleccionada={regionMunicipioSeleccionada} />
       </ModalUpdate>
+
+      <Mensaje
+        setOpen={setOpenSnackbar}
+        open={openSnackbar}
+        severity={error ? "error" : "success"}
+        message={msjConfirmacion}
+      />
     </GridItem>
 
   )

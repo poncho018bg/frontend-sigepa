@@ -79,7 +79,7 @@ export const MunicipiosScreen = () => {
     }
     const deleteDialog = (e) => {
         setShowModalDelete(true);
-        setIdEliminar(e.id);
+        setIdEliminar(e);
     }
     const handleDeshabilitar = () => {
         eliminarMunicipio(idEliminar)
@@ -131,7 +131,7 @@ export const MunicipiosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell > Estado</TableCell >
+                                < TableCell > Estatus</TableCell >
                                 < TableCell> Clave municipio</TableCell >
                                 < TableCell> Municipio</TableCell >
                                 < TableCell> Fecha Registro</TableCell >
@@ -148,12 +148,8 @@ export const MunicipiosScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
-                                                <Checkbox
-                                                    checked={row.activo}
-                                                    color="primary"
-                                                    inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                />
+                                            <TableCell>                                                
+                                                {row.activo ? 'Activo':'Inactivo'}
                                             </TableCell>
                                             <TableCell>{row.dsclavemunicipio}</TableCell >
                                             <TableCell>{row.dsmunicipio}</TableCell >

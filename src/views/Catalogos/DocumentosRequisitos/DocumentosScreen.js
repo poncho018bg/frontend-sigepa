@@ -5,7 +5,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 
@@ -14,7 +14,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
-
+import BlockIcon from '@material-ui/icons/Block';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 
@@ -33,6 +33,7 @@ import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModalUpdate } from 'commons/ModalUpdate';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -40,15 +41,18 @@ export const DocumentosScreen = () => {
 
     const classes = useStyles();
     const [searched, setSearched] = useState('');
-    const [idEliminar] = useState(0);
+   
     const [documentoSeleccionado, setDocumentoSeleccionado] = useState();
-    const { getDocumentos, documentosList } = useContext(DocumentosContext);
+    const { getDocumentos, documentosList,eliminarDocumentos } = useContext(DocumentosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
-
+    const [idEliminar, setIdEliminar] = useState(0);
     const [documentoProgramaSeleccionado, setDocumentoProgramaSeleccionado] = useState();
     const [verProgramasDocumento, setVerProgramasDocumento] = useState();
-
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [openDialog, setOpenDialog] = useState(false);
 
 
     const { setShowModalUpdate }
@@ -74,8 +78,12 @@ export const DocumentosScreen = () => {
         setShowModal(true);
     }
     const handleDeshabilitar = () => {
-        eliminarEdadesBeneficiarios(idEliminar)
+        eliminarDocumentos(idEliminar)
+
         setShowModalDelete(false);
+        setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
     }
 
 
@@ -91,6 +99,10 @@ export const DocumentosScreen = () => {
     }
 
 
+    const deleteDialog = (e) => {
+        setShowModalDelete(true);
+        setIdEliminar(e);
+    }
 
 
     return (
@@ -131,8 +143,9 @@ export const DocumentosScreen = () => {
                             < TableRow key="ta1" >
                                 < TableCell align="center">Documento</TableCell >
                                 < TableCell align="center" >Programa de Apoyo</TableCell >
-                                < TableCell align="center">Vigencia</TableCell >                               
-                                < TableCell colSpan={2} > Activo</TableCell >
+                                < TableCell align="center">Vigencia</TableCell >
+                                < TableCell align="center" > Estatus</TableCell >
+                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
@@ -163,19 +176,18 @@ export const DocumentosScreen = () => {
                                                     actualiza={row.fechaRegistro} />
                                             </TableCell>
 
-                                            <TableCell >
-                                                <Checkbox
-                                                    disabled
-                                                    checked={row.activo}
-                                                    color="primary"
-                                                    inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                />
-                                                {row.boactivo}
+                                            <TableCell align="center">
+                                                {row.activo === true ? 'Activo' : 'Inactivo'}
                                             </TableCell>
 
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />
+                                                </IconButton>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
+                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >
@@ -211,6 +223,13 @@ export const DocumentosScreen = () => {
                     cerrarVistaProgramas={cerrarVistaProgramas}
                 />
             }
+
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
 
         </GridItem>
     )

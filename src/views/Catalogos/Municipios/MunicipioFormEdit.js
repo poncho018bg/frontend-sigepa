@@ -14,7 +14,7 @@ export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { actualizarMunicipios } = useContext(MunicipiosContext);
 
-    const { getEstados, estadosList, getEstadoByIdHetoas, estado } = useContext(EstadosContext);
+    const { getTodosEstados, estadosList, getEstadoByIdHetoas, estado } = useContext(EstadosContext);
     //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
@@ -29,7 +29,7 @@ export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
      * @param {valores} e 
      */
     const confirmacionDialog = (e) => {
-        setShowModalConfirmacion(true);
+        setShowModalConfirmacion(true);       
         setValores(e)
     }
 
@@ -66,9 +66,7 @@ export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
         dsclavemunicipio: Yup.string()
             .required('La clave es obligatorio'),
         dsmunicipio: Yup.string()
-            .required('El municipio es obligatorio'),
-        estadoId: Yup.string()
-            .required('El Estado es obligatorio')
+            .required('El municipio es obligatorio'),        
     });
 
     const actualizarInfoMunicipio = async valores => {
@@ -89,7 +87,7 @@ export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
     }, [estado]);
 
     useEffect(() => {
-        getEstados();
+        getTodosEstados();
 
     }, [municipioSeleccionada]);
 
@@ -106,22 +104,22 @@ export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
 
             {props => {
                 return (
-
+                
 
                     <form
                         className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
-                        onSubmit={props.handleSubmit}>
+                        onSubmit={props.handleSubmit}>                          
                         <DialogContent>
                             <TextField
-                                id="estadoId"
+                                id="idEstado"
                                 variant="outlined"
                                 label="Selecciona un estado"
                                 select
                                 fullWidth
-                                name="estadoId"
+                                name="idEstado"
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
-                                value={props.values.estadoId}
+                                value={props.values.idEstado}
                             >
                                 <MenuItem value="0">
                                     <em>Ninguno</em>
@@ -138,8 +136,8 @@ export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
                                     )
                                 }
                             </TextField>
-                            {props.touched.estadoId && props.errors.estadoId ? (
-                                <FormHelperText error={props.errors.estadoId}>{props.errors.estadoId}</FormHelperText>
+                            {props.touched.idEstado && props.errors.idEstado ? (
+                                <FormHelperText error={props.errors.idEstado}>{props.errors.idEstado}</FormHelperText>
                             ) : null}
                         </DialogContent>
 

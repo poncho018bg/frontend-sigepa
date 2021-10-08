@@ -12,6 +12,7 @@ import { DocumentosContext } from 'contexts/catalogos/documentosContext';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 
 const BootstrapInput = withStyles((theme) => ({
@@ -58,6 +59,9 @@ export const DocumentosForm = () => {
 
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
 
     const confirmacionDialog = (e) => {
@@ -80,9 +84,24 @@ export const DocumentosForm = () => {
             boactivo: true,
             'programas': []
         }
-        registrarDocumento(documentosRequisitos);
-        setShowModalConfirmacion(false);
-        setShowModal(false);
+        
+
+        registrarDocumento(documentosRequisitos).then(response => {
+            setOpenSnackbar(true);
+            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+
+            const timer = setTimeout(() => {
+                setError(false);
+                setShowModalConfirmacion(false);
+                setShowModal(false);
+
+            }, 1000);
+            return () => clearTimeout(timer);
+        }).catch(err => {
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`);
+        });;
     }
 
     useEffect(() => {
@@ -126,6 +145,8 @@ export const DocumentosForm = () => {
                 {formik.touched.dsdocumento && formik.errors.dsdocumento ? (
                     <FormHelperText error={formik.errors.dsdocumento}>{formik.errors.dsdocumento}</FormHelperText>
                 ) : null}
+            </DialogContent>
+            <DialogContent>
                 <TextField
                     id="dsdescripcion"
                     label="Descripcion del documento"
@@ -139,7 +160,8 @@ export const DocumentosForm = () => {
                 {formik.touched.dsdescripcion && formik.errors.dsdescripcion ? (
                     <FormHelperText error={formik.errors.dsdescripcion}>{formik.errors.dsdescripcion}</FormHelperText>
                 ) : null}
-
+            </DialogContent>
+            <DialogContent>
                 <NativeSelect
                     fullWidth
                     id="idVigencia"
@@ -166,12 +188,18 @@ export const DocumentosForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    Guardar
+                        Guardar
                     </Button>
                 </Grid>
             </DialogContent>
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
+            />
+             <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
             />
         </form>
 

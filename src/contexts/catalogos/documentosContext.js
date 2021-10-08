@@ -1,7 +1,8 @@
 import React, { createContext, useReducer } from 'react';
 import DocumentosReducer from 'reducers/Catalogos/DocumentosReducer';
-
-import { GET_DOCUMENTOS_REQUISITOS, REGISTRAR_DOCUMENTOS_REQUISITOS, MODIFICAR_DOCUMENTOS_REQUISITOS, VIGENCIA_DOCUMENTOS_REQUISITOS, GET_VIGENCIAS } from "../../types/actionTypes";
+import axios from "axios";
+import { GET_DOCUMENTOS_REQUISITOS, REGISTRAR_DOCUMENTOS_REQUISITOS, MODIFICAR_DOCUMENTOS_REQUISITOS, VIGENCIA_DOCUMENTOS_REQUISITOS, GET_VIGENCIAS, 
+    AGREGAR_DOCUMENTOS_ERROR,GET_PROGRAMAS_DOCUMENTO } from "../../types/actionTypes";
 
 import { axiosGet, axiosPost, axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
 
@@ -15,6 +16,7 @@ export const DocumentosContextProvider = props => {
         vigenciaList: '',
         todasVigencias: [],
         programasDocumento: [],
+        
     }
 
     const [state, dispatch] = useReducer(DocumentosReducer, initialState);
@@ -79,7 +81,7 @@ export const DocumentosContextProvider = props => {
             const result = await axiosGet(`programasdocument/${idDocumento}`);
             console.log(result);
             dispatch({
-                type: GET_VIGENCIAS,
+                type: GET_PROGRAMAS_DOCUMENTO,
                 payload: result
             })
         } catch (error) {
@@ -88,16 +90,31 @@ export const DocumentosContextProvider = props => {
     }
 
     const registrarDocumento = async documentosRequisitos => {
+
         try {
-            console.log(documentosRequisitos);
-            const resultado = await axiosPost('documentosRequisitos', documentosRequisitos);
-            console.log(resultado);
-            dispatch({
-                type: REGISTRAR_DOCUMENTOS_REQUISITOS,
-                payload: resultado
-            })
+            const url = `${baseUrl}documentosRequisitos`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, documentosRequisitos, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    console.log('RESPONSE DOCS =>', response.data)
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_DOCUMENTOS_REQUISITOS,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
         } catch (error) {
+            console.log('ocurrio un error en el context');
             console.log(error);
+            dispatch({
+                type: AGREGAR_DOCUMENTOS_ERROR,
+                payload: true
+            })
         }
     }
 
@@ -109,6 +126,7 @@ export const DocumentosContextProvider = props => {
             dsdescripcion,
             vigencias: `${process.env.REACT_APP_API_URL}vigencias/${idVigencia}`,
             'apoyos': [],
+            programas: [],
             activo,
         };
         console.log("documento a enviar ---> ", documentosRequisitosEnviar);
@@ -119,15 +137,60 @@ export const DocumentosContextProvider = props => {
         const urVigencia = `${baseUrl}documentosRequisitos/${id}/vigencias`;
         try {
             axiosPostHetoas(urVigencia, actualizarVigencia, 'PUT');
-            const result = await axiosPostHetoas(href, documentosRequisitosEnviar, 'PUT');
-            console.log("retorna esto --> ", result);
-            dispatch({
-                type: MODIFICAR_DOCUMENTOS_REQUISITOS,
-                payload: result,
-            });
         } catch (error) {
             console.log(error);
         }
+
+        return new Promise((resolve, reject) => {
+            axios.put(href, documentosRequisitosEnviar, {
+                headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+            }).then(response => {
+                resolve(response);
+                dispatch({
+                    type: MODIFICAR_DOCUMENTOS_REQUISITOS,
+                    payload: response.data
+                })
+            }).catch(error => {
+                reject(error);
+            });
+        });
+
+
+    }
+
+
+
+    const eliminarDocumentos = async documentos => {
+        const { dsdocumento,
+            dsdescripcion,
+            idVigencia,
+            id,
+            fechaRegistro,
+            activo, _links: { documentosRequisitos: { href } } } = documentos;
+        const act = activo === true ? false : true;
+        let documentosEnviar = {
+            dsdocumento,
+            dsdescripcion,
+            idVigencia,
+            id,
+            fechaRegistro,
+            activo:act,
+            vigencias:[]
+        }
+
+
+        try {
+            const result = await axiosPostHetoas(href, documentosEnviar, 'PUT');
+            console.log(result);
+            console.log('mir mira');
+            dispatch({
+                type: ELIMINAR_DOCUMENTOS_REQUISITOS,
+                payload: result.data,
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 
     return (
@@ -142,7 +205,8 @@ export const DocumentosContextProvider = props => {
                 getVigencias,
                 registrarDocumento,
                 getProgramaDocumentos,
-                actualizarDocumento
+                actualizarDocumento,
+                eliminarDocumentos
             }}
         >
             {props.children}
