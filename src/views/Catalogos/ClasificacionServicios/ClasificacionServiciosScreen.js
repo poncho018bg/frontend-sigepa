@@ -34,6 +34,7 @@ import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModalUpdate } from 'commons/ModalUpdate';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -48,6 +49,10 @@ export const ClasificacionServiciosScreen = () => {
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(() => {
         getClasificacionServicios();
@@ -67,13 +72,16 @@ export const ClasificacionServiciosScreen = () => {
 
     const deleteDialog = (e) => {
         setShowModalDelete(true);
-        setIdEliminar(e.id);
+        setIdEliminar(e);
     }
 
 
     const handleDeshabilitar = () => {
         eliminarClasificacionServicios(idEliminar)
         setShowModalDelete(false);
+        setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -121,7 +129,7 @@ export const ClasificacionServiciosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estado</TableCell >
+                                < TableCell > Estatus</TableCell >
                                 < TableCell> Clasificacion de los servicios</TableCell >
                                 <TableCell> Abreviatura</TableCell>
                                 < TableCell> Fecha Registro</TableCell >
@@ -139,11 +147,8 @@ export const ClasificacionServiciosScreen = () => {
                                     return (
                                         < TableRow key={i}>
                                             <TableCell>
-                                                <Checkbox
-                                                    checked={row.activo}
-                                                    color="primary"
-                                                    inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                />
+                                                
+                                                {row.activo ? 'Activo':'Inactivo'}
                                             </TableCell>
                                             <TableCell>{row.dsclasificacionservicio}</TableCell>
                                             <TableCell>{row.dsabreviatura}</TableCell>
@@ -185,6 +190,12 @@ export const ClasificacionServiciosScreen = () => {
             <ModalUpdate>
                 <ClasificacionServiciosEdit clasificacionServiciosSeleccionado={clasificacionServiciosSeleccionado} />
             </ModalUpdate>
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
         </GridItem>
 
     )

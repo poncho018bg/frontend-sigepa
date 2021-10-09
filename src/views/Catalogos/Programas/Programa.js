@@ -55,11 +55,7 @@ export const Programa = ( {programa}) => {
          <>
         < TableRow >
             <TableCell>
-                <Checkbox
-                    checked={activo}
-                    color="primary"
-                     inputProps={{ 'aria-label': 'Checkbox A' }}
-                />
+                {activo ? 'Activo':'Inactivo'}
             </TableCell>
             <TableCell>{dsprograma}</TableCell>
             <TableCell>{dsclaveprograma}</TableCell >
