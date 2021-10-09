@@ -13,7 +13,7 @@ import { DocumentosContext } from 'contexts/catalogos/documentosContext';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 
 const BootstrapInput = withStyles((theme) => ({
     root: {
@@ -51,7 +51,7 @@ const BootstrapInput = withStyles((theme) => ({
 }))(InputBase);
 
 export const DocumentosForm = () => {
-
+    const { t } = useTranslation();
     const { setShowModal } = useContext(ModalContext);
 
     const { getVigencias, todasVigencias, registrarDocumento } = useContext(DocumentosContext);
@@ -195,7 +195,7 @@ export const DocumentosForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                        Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

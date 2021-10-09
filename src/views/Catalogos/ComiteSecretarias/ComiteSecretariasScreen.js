@@ -8,7 +8,7 @@ import CardBody from "components/Card/CardBody.js";
 import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
-
+import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
@@ -39,7 +39,7 @@ import { ModalUpdate } from 'commons/ModalUpdate';
 const useStyles = makeStyles(stylesArchivo);
 
 export const ComiteSecretariasScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
@@ -103,7 +103,7 @@ export const ComiteSecretariasScreen = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}

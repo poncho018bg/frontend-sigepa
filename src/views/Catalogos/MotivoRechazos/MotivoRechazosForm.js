@@ -9,9 +9,10 @@ import { ModalContext } from 'contexts/modalContex';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
+import { useTranslation } from 'react-i18next';
 
 export const MotivoRechazosForm = () => {
-
+    const { t } = useTranslation();
     const { registrarMotivoRechazos } = useContext(MotivoRechazosContext);
     const { setShowModal } = useContext(ModalContext);
 
@@ -108,7 +109,7 @@ export const MotivoRechazosForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                        Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

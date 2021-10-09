@@ -1,6 +1,6 @@
 import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
 import React, { useContext, useState, useEffect } from 'react';
-
+import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
@@ -13,7 +13,7 @@ import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 
 export const ApoyoServicioForm = () => {
-
+    const { t } = useTranslation();
     const { registrarApoyoSevicio } = useContext(ApoyoServicioContext);
     const { getClasificacionServicios, clasificacionServiciosList } = useContext(ClasificacionServiciosContext);
 
@@ -144,7 +144,7 @@ export const ApoyoServicioForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                        Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

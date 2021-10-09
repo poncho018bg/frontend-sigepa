@@ -9,8 +9,9 @@ import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { useHistory } from "react-router";
-
+import { useTranslation } from 'react-i18next';
 export const ModuloFormEdit = ({ moduloSeleccionado }) => {
+    const { t } = useTranslation();
     let history = useHistory();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { actualizarModulo } = useContext(ModuloContext);
@@ -106,7 +107,7 @@ export const ModuloFormEdit = ({ moduloSeleccionado }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                    Guardar
+                                {t('btn.guardar')}
                                 </Button>
                             </Grid>
                         </DialogContent>

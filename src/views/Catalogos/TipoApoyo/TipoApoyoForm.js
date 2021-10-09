@@ -9,9 +9,9 @@ import { ModalContext } from 'contexts/modalContex';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 export const TipoApoyoForm = () => {
-
+    const { t } = useTranslation();
     const { registrarTiposApoyos } = useContext(TiposApoyosContext);
     const { setShowModal } = useContext(ModalContext);
 
@@ -99,7 +99,7 @@ export const TipoApoyoForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

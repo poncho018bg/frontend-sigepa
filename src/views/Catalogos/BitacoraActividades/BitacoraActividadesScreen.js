@@ -19,12 +19,12 @@ import { BtActividadesContext } from 'contexts/catalogos/BtActividadesContext';
 import { obtenerRolesAction } from 'actions/rolesKeycloakAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { BitacoraActividades } from './BitacoraActividades';
-
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(stylesArchivo);
 
 export const BitacoraActividadesScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
     const dispatch = useDispatch();
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -108,7 +108,7 @@ export const BitacoraActividadesScreen = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}

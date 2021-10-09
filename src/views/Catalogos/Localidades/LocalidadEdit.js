@@ -8,9 +8,10 @@ import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
-
+import { useTranslation } from 'react-i18next';
 
 export const LocalidadEdit = ({ objetoActualizar }) => {
+    const { t } = useTranslation();
     const { setShowModalUpdate,showModalUpdate } = useContext(ModalContextUpdate);
     const { actualizar,getByID,localidad } = useContext(LocalidadesContext);
     const { getMunicipioByIdHetoas,municipio } = useContext(MunicipiosContext);
@@ -47,15 +48,15 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
             dsidlocalidad: Yup.string()
-                .required('El id de localidad es obligatorio'),
+                .required(`${t('msg.idlocalidadobligatorio')}`),
             dsclavelocalidad: Yup.string()
-                .required('La clave localidad es obligatoria'),
+                .required(`${t('msg.clavelocalidadobligatoria')}`),
             idMunicipio: Yup.string()
-                .required('El municipio es obligatorio'),
+                .required(`${t('msg.municipioobligatorio')}`),
             dslocalidad: Yup.string()
-                .required('La localidad es obligatoria'),
+                .required(`${t('msg.localidadobligatoria')}`),
             dscodigopostal: Yup.string()
-                .required('El código postal es obligatorio')
+                .required(`${t('msg.cpobligatorio')}`)
     });
 
     const actualizarInfo = async valores => {
@@ -87,7 +88,7 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                         <DialogContent>
                             <TextField
                                 id="dsidlocalidad"
-                                label="Id Localidad"
+                                label={t('lbl.localidadesid')}
                                 variant="outlined"
                                 name="dsidlocalidad"
                                 fullWidth
@@ -104,7 +105,7 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                         <DialogContent>
                             <TextField
                                 id="dsclavelocalidad"
-                                label="Clave Localidad"
+                                label={t('lbl.clavelocalidad')}
                                 variant="outlined"
                                 name="dsclavelocalidad"
                                 fullWidth
@@ -122,7 +123,7 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                         {/* <DialogContent>
                             <TextField
                                 variant="outlined"
-                                label="Selecciona un municipio"
+                                label={t('cmb.seleccionamunicipio')}
                                 select
                                 fullWidth
                                 id="idMunicipio"
@@ -155,7 +156,7 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                         <DialogContent>
                             <TextField
                                 id="dslocalidad"
-                                label=" Localidad"
+                                label={t('lbl.localidad')}
                                 variant="outlined"
                                 name="dslocalidad"
                                 fullWidth
@@ -172,7 +173,7 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                         <DialogContent>
                             <TextField
                                 id="dscodigopostal"
-                                label=" CP"
+                                label={t('lbl.cp')}
                                 variant="outlined"
                                 name="dscodigopostal"
                                 fullWidth
@@ -187,7 +188,7 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                Guardar
+                                {t('btn.guardar')}
                                 </Button>
                             </Grid>
                         </DialogContent>

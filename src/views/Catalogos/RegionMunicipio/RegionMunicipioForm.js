@@ -9,9 +9,9 @@ import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
-
+import { useTranslation } from 'react-i18next';
 export const RegionMunicipioForm = () => {
-
+    const { t } = useTranslation();
     const { registrarRegionMunicipios } = useContext(RegionMunicipiosContext);
     const { municipiosList, getMunicipios } = useContext(MunicipiosContext);
     const { setShowModal } = useContext(ModalContext);
@@ -159,7 +159,7 @@ export const RegionMunicipioForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

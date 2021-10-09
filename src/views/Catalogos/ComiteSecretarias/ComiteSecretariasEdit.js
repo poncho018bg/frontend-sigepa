@@ -7,10 +7,10 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
-
+import { useTranslation } from 'react-i18next';
 
 export const ComiteSecretariasEdit = ({ comiteSecretariasSeleccionado }) => {
-
+    const { t } = useTranslation();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { actualizarComiteSecretarias } = useContext(ComiteSecretariasContext);
 
@@ -83,7 +83,7 @@ export const ComiteSecretariasEdit = ({ comiteSecretariasSeleccionado }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                Guardar
+                                {t('btn.guardar')}
                                 </Button>
                             </Grid>
                         </DialogContent>

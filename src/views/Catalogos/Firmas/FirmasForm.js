@@ -9,10 +9,10 @@ import { ModalContext } from 'contexts/modalContex';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 
 export const FirmasForm = () => {
-
+    const { t } = useTranslation();
     const { registrarFirmas, getProgramas, programaList } = useContext(FirmasContext);
     const { setShowModal } = useContext(ModalContext);
 
@@ -140,7 +140,7 @@ export const FirmasForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                        Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

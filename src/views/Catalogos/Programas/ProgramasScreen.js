@@ -16,9 +16,11 @@ import { Link } from 'react-router-dom';
 import { Loading } from "components/Personalizados/Loading";
 import { TiposBeneficiariosContext } from 'contexts/catalogos/tiposBeneficiariosContext';
 import { EdadesBeneficiariosContext } from 'contexts/catalogos/edadesBeneficiariosContext';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
 export const ProgramasScreen = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [searched, setSearched] = useState('');
   const [loading, setLoading] = useState(true);
@@ -100,7 +102,7 @@ export const ProgramasScreen = () => {
                 </Grid>
             <Grid item xs={6}>
               <SearchBar
-                placeholder="Buscar"
+                placeholder={t('lbl.buscar')}
                 value={searched}
                 onChange={(searchVal) => setSearched(searchVal)}
                 onCancelSearch={() => setSearched('')}

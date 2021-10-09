@@ -9,9 +9,9 @@ import { ModalContext } from 'contexts/modalContex';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 export const ClasificacionServiciosForm = () => {
-
+    const { t } = useTranslation();
     const { registrarClasificacionServicios } = useContext(ClasificacionServiciosContext);
     const { setShowModal } = useContext(ModalContext);
 
@@ -123,7 +123,7 @@ export const ClasificacionServiciosForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                        Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

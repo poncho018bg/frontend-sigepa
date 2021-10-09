@@ -8,9 +8,9 @@ import { CursosCapacitacionesContext } from 'contexts/catalogos/CursosCapacitaci
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 export const CursosCapacitacionesForm = () => {
-
+    const { t } = useTranslation();
     const { registrar } = useContext(CursosCapacitacionesContext);
     const { setShowModal } = useContext(ModalContext);
 
@@ -101,7 +101,7 @@ export const CursosCapacitacionesForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                        Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

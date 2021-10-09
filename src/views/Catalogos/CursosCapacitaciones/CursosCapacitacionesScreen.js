@@ -24,7 +24,7 @@ import { stylesArchivo } from 'css/stylesArchivo';
 //contexts
 import { ModalContext } from 'contexts/modalContex';
 import { Modal } from 'commons/Modal';
-
+import { useTranslation } from 'react-i18next';
 
 import { CursosCapacitacionesForm } from './CursosCapacitacionesForm';
 import { CursosCapacitacionesEdit } from './CursosCapacitacionesEdit';
@@ -39,7 +39,7 @@ import { Mensaje } from 'components/Personalizados/Mensaje';
 const useStyles = makeStyles(stylesArchivo);
 
 export const CursosCapacitacionesScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
 
     const [rowsPerPage, setRowsPerPage] = useState(1);
@@ -117,7 +117,7 @@ export const CursosCapacitacionesScreen = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}

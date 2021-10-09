@@ -25,7 +25,7 @@ import { stylesArchivo } from 'css/stylesArchivo';
 import { ClasificacionServiciosContext } from 'contexts/catalogos/clasificacionServiciosContext';
 import { ModalContext } from 'contexts/modalContex';
 import { Modal } from 'commons/Modal';
-
+import { useTranslation } from 'react-i18next';
 
 import { ClasificacionServiciosForm } from './ClasificacionServiciosForm';
 import { ClasificacionServiciosEdit } from './ClasificacionServiciosEdit';
@@ -39,7 +39,7 @@ import { Mensaje } from 'components/Personalizados/Mensaje';
 const useStyles = makeStyles(stylesArchivo);
 
 export const ClasificacionServiciosScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
@@ -116,7 +116,7 @@ export const ClasificacionServiciosScreen = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}

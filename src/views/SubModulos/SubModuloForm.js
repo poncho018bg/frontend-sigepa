@@ -11,9 +11,9 @@ import { ModuloContext } from 'contexts/moduloContext';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 export const SubModuloForm = () => {
-
+    const { t } = useTranslation();
     const { registrarSubModulos } = useContext(SubModuloContext);
     const { setShowModal } = useContext(ModalContext);
     const { getModulos, moduloList } = useContext(ModuloContext);
@@ -142,7 +142,7 @@ export const SubModuloForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                        Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

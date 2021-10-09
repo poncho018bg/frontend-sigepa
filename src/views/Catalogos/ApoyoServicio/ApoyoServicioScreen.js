@@ -32,11 +32,11 @@ import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
 import { ApoyoServicioFormEdit } from './ApoyoServicioFormEdit';
 import { ApoyoServicioForm } from './ApoyoServicioForm';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
 export const ApoyoServicioScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
 
     const [rowsPerPage, setRowsPerPage] = useState(1);
@@ -117,7 +117,7 @@ export const ApoyoServicioScreen = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}

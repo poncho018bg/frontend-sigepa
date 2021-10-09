@@ -30,11 +30,11 @@ import { RegionMunicipiosContext } from 'contexts/catalogos/RegionMunicipiosCont
 import { RegionMunicipioForm } from './RegionMunicipioForm';
 import { RegionMunicipioFormEdit } from './RegionMunicipioFormEdit';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
 export const RegionMunicipioScreen = () => {
-
+  const { t } = useTranslation();
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -111,7 +111,7 @@ export const RegionMunicipioScreen = () => {
               </Grid>
               <Grid item xs={6}>
                 <SearchBar
-                  placeholder="Buscar"
+                  placeholder={t('lbl.buscar')}
                   value={searched}
                   onChange={(searchVal) => setSearched(searchVal)}
                   onCancelSearch={() => setSearched('')}

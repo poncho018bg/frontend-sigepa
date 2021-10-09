@@ -8,9 +8,9 @@ import { ModalContext } from 'contexts/modalContex';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
-
+import { useTranslation } from 'react-i18next';
 export const ComiteSecretariasForm = () => {
-
+    const { t } = useTranslation();
     const { registrarComiteSecretarias } = useContext(ComiteSecretariasContext);
     const { setShowModal } = useContext(ModalContext);
 
@@ -81,7 +81,7 @@ export const ComiteSecretariasForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

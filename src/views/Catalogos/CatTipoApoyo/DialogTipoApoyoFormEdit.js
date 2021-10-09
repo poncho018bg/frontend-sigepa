@@ -27,6 +27,7 @@ import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { useHistory } from "react-router";
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -51,6 +52,7 @@ function intersection(a, b) {
 }
 
 export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
+    const { t } = useTranslation();
     let history = useHistory();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
 
@@ -585,7 +587,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                    Guardar
+                                {t('btn.guardar')}
                                 </Button>
                             </Grid>
                         </DialogContent>

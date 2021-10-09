@@ -4,8 +4,9 @@ import { stylesArchivo } from 'css/stylesArchivo';
 import React, { useContext } from 'react'
 const useStyles = makeStyles(stylesArchivo);
 import CloseIcon from '@material-ui/icons/Close';
+import { useTranslation } from 'react-i18next';
 export const Modal = (props) => {
-
+    const { t } = useTranslation();
     const { showModal, setShowModal } = useContext(ModalContext);
     const classes = useStyles();    
 
@@ -29,7 +30,7 @@ export const Modal = (props) => {
         </Grid>
             <Grid container justify="center">
                 <DialogTitle id="customized-dialog-title"  onClose={handleClose}>
-                       Nuevo registro
+                    {t('lbl.nuevoregistro')}
                 </DialogTitle>
             </Grid>
             

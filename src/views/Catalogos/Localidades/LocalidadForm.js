@@ -10,9 +10,9 @@ import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { useHistory } from 'react-router';
-
+import { useTranslation } from 'react-i18next';
 export const LocalidadForm = () => {
-
+    const { t } = useTranslation();
     const { registrar } = useContext(LocalidadesContext);
     const { setShowModal } = useContext(ModalContext);
     const { municipiosListId } = useContext(MunicipiosContext);
@@ -81,15 +81,15 @@ export const LocalidadForm = () => {
         },
         validationSchema: Yup.object({
             dsidlocalidad: Yup.string()
-                .required('El id de localidad es obligatorio'),
+                .required(`${t('msg.idlocalidadobligatorio')}`),
             dsclavelocalidad: Yup.string()
-                .required('La clave localidad es obligatoria'),
+                .required(`${t('msg.clavelocalidadobligatoria')}`),
             idMunicipio: Yup.string()
-                .required('El municipio es obligatorio'),
+                .required(`${t('msg.municipioobligatorio')}`),
             dslocalidad: Yup.string()
-                .required('La localidad es obligatoria'),
+                .required(`${t('msg.localidadobligatoria')}`),
             dscodigopostal: Yup.string()
-                .required('El código postal es obligatorio')
+                .required(`${t('msg.cpobligatorio')}`)
 
         }),
         onSubmit: async valores => {
@@ -103,7 +103,7 @@ export const LocalidadForm = () => {
             <DialogContent>
                 <TextField
                     id="dsidlocalidad"
-                    label="Id Localidad"
+                    label={t('lbl.localidadesid')}
                     variant="outlined"
                     name="dsidlocalidad"
                     fullWidth
@@ -120,7 +120,7 @@ export const LocalidadForm = () => {
             <DialogContent>
                 <TextField
                     id="dsclavelocalidad"
-                    label="Clave Localidad"
+                    label={t('lbl.clavelocalidad')}
                     variant="outlined"
                     name="dsclavelocalidad"
                     fullWidth
@@ -138,7 +138,7 @@ export const LocalidadForm = () => {
             <DialogContent>
                 <TextField
                     variant="outlined"
-                    label="Selecciona un municipio"
+                    label={t('cmb.seleccionamunicipio')}
                     select
                     fullWidth
                     name="idMunicipio"
@@ -170,7 +170,7 @@ export const LocalidadForm = () => {
             <DialogContent>
                 <TextField
                     id="dslocalidad"
-                    label=" Localidad"
+                    label={t('lbl.localidad')}
                     variant="outlined"
                     name="dslocalidad"
                     fullWidth
@@ -187,7 +187,7 @@ export const LocalidadForm = () => {
             <DialogContent>
                 <TextField
                     id="dscodigopostal"
-                    label=" CP"
+                    label={t('lbl.cp')}
                     variant="outlined"
                     name="dscodigopostal"
                     fullWidth
@@ -203,7 +203,7 @@ export const LocalidadForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

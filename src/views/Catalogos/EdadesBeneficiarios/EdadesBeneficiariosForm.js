@@ -9,9 +9,9 @@ import { ModalContext } from 'contexts/modalContex';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 export const EdadesBeneficiariosForm = () => {
-
+    const { t } = useTranslation();
     const { registrarEdadesBeneficiarios } = useContext(EdadesBeneficiariosContext);
     const { setShowModal } = useContext(ModalContext);
     //dialog confirmar
@@ -98,7 +98,7 @@ export const EdadesBeneficiariosForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

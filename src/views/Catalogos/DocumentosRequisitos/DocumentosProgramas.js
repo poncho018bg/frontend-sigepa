@@ -13,11 +13,12 @@ import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid,
 
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
-
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
 
 export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVistaProgramas }) => {
+    const { t } = useTranslation();
     const classes = useStyles();
     const total = 0;
     const size = 0;
@@ -48,7 +49,7 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
                         <Grid container spacing={3}>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}

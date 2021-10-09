@@ -33,7 +33,7 @@ import { boolean } from 'yup';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { ModalContext } from 'contexts/modalContex';
-
+import { useTranslation } from 'react-i18next';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -56,7 +56,7 @@ function intersection(a, b) {
 }
 
 export const DialogTipoApoyoForm = (props) => {
-
+    const { t } = useTranslation();
     /**
      * estaba el dispatch
      */
@@ -641,7 +641,7 @@ export const DialogTipoApoyoForm = (props) => {
                 <CardBody >
                     <Grid container justify="flex-end">
                         <Button variant="contained" color="primary" type='submit'>
-                            Guardar
+                        {t('btn.guardar')}
                         </Button>
                     </Grid>
                 </CardBody>

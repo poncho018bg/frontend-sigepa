@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { DocumentosContext } from 'contexts/catalogos/documentosContext';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
-
+import { useTranslation } from 'react-i18next';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
@@ -14,6 +14,7 @@ import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 
 const BootstrapInput = withStyles((theme) => ({
+
     root: {
         'label + &': {
             marginTop: theme.spacing(3),
@@ -50,7 +51,7 @@ const BootstrapInput = withStyles((theme) => ({
 
 
 export const DocumentosEdit = ({ documentoSeleccionado }) => {
-
+    const { t } = useTranslation();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { getVigencias, todasVigencias, actualizarDocumento } = useContext(DocumentosContext);
 
@@ -198,7 +199,7 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                    Guardar
+                                {t('btn.guardar')}
                                 </Button>
                             </Grid>
                         </DialogContent>
