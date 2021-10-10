@@ -44,7 +44,7 @@ export const FirmasForm = () => {
         registrarFirmas(Firmas).then(response => {
             setOpenSnackbar(true);
 
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente `);
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
 
             const timer = setTimeout(() => {
 
@@ -75,9 +75,9 @@ export const FirmasForm = () => {
         },
         validationSchema: Yup.object({
             dsautoriza: Yup.string()
-                .required('Es obligatorio poner la persona que autoriza'),
+                .required(`${t('msg.obligatoriopersonaautoriza')}`),
             dspuesto: Yup.string()
-                .required('Es obligatorio poner el puesto'),
+                .required(`${t('msg.obligatoriopuesto')}`),
 
         }),
         onSubmit: async valores => {
@@ -93,7 +93,7 @@ export const FirmasForm = () => {
             <DialogContent>
                 <TextField
                     id="dsautoriza"
-                    label="Nombre del funcionario que autoriza"
+                    label={t('lbl.nomfuncionarioautorizan')}
                     variant="outlined"
                     name="dsautoriza"
                     fullWidth
@@ -108,7 +108,7 @@ export const FirmasForm = () => {
             <DialogContent>
                 <TextField
                     id="dspuesto"
-                    label="Puesto"
+                    label={t('lbl.puesto')}
                     variant="outlined"
                     name="dspuesto"
                     fullWidth
@@ -124,7 +124,7 @@ export const FirmasForm = () => {
 
                 <TextField
                     id="dscomentario"
-                    label="Comentarios (opcional)"
+                    label={t('lbl.comentariosopc')}
                     variant="outlined"
                     name="dscomentario"
                     fullWidth

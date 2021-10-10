@@ -43,7 +43,7 @@ export const CursosCapacitacionesEdit = ({ objetoActualizar }) => {
         actualizar(valores).then(response => {
 
             setOpenSnackbar(true);
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
             const timer = setTimeout(() => {
                 setError(false);
                 history.push("/admin/cursosCapacitaciones")
@@ -66,7 +66,7 @@ export const CursosCapacitacionesEdit = ({ objetoActualizar }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsestado: Yup.string()
-            .required('El curso  es obligatorio')
+            .required(`${t('msg.obligatoriocurso')}`)
     });
 
     const actualizarInfo = async valores => {
@@ -96,7 +96,7 @@ export const CursosCapacitacionesEdit = ({ objetoActualizar }) => {
                         <DialogContent>
                             <TextField
                                 id="dsestado"
-                                label="Curso"
+                                label={t('lbl.curso')}
                                 variant="outlined"
                                 name="dsestado"
                                 fullWidth

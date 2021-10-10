@@ -63,10 +63,10 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsautoriza: Yup.string()
-            .required('Es obligatorio poner la persona que autoriza'),
+            .required(`${t('msg.obligatoriopersonaautoriza')}`),
         
         dspuesto: Yup.string()
-            .required('Es obligatorio poner el puesto'),
+            .required(`${t('msg.obligatoriopuesto')}`),
     });
 
     useEffect(() => {
@@ -95,7 +95,7 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dsautoriza"
-                                label="Nombre del funcionario que autoriza"
+                                label={t('lbl.nomfuncionarioautorizan')}
                                 variant="outlined"
                                 name="dsautoriza"
                                 fullWidth
@@ -110,7 +110,7 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dspuesto"
-                                label="Puesto"
+                                label={t('lbl.puesto')}
                                 variant="outlined"
                                 name="dspuesto"
                                 fullWidth
@@ -130,7 +130,7 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
 
                             <TextField
                                 id="dscomentario"
-                                label="Comentarios (opcional)"
+                                label={t('lbl.comentariosopc')}
                                 variant="outlined"
                                 name="dscomentario"
                                 fullWidth

@@ -133,7 +133,7 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                                 onBlur={props.handleBlur}
                             >
                                 <MenuItem value="0">
-                                    <em>Ninguno</em>
+                                    <em>{t('cmb.ninguno')}</em>
                                 </MenuItem>
                                 {
                                     municipiosListId.map(

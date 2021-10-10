@@ -18,9 +18,9 @@ import { LocalidadEdit } from './LocalidadEdit';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { DialogDelete } from 'views/Dialogs/DialogDelete';
-
+import { useTranslation } from 'react-i18next';
 export const Localidad = ({ localidad }) => {
-
+    const { t } = useTranslation();
     const {
         dsclavelocalidad, dslocalidad, dscodigopostal, fechaRegistro, activo
     } = localidad;
@@ -54,7 +54,7 @@ export const Localidad = ({ localidad }) => {
         
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
+        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
     }
 
     return (

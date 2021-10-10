@@ -77,7 +77,7 @@ export const RegionMunicipioScreen = () => {
     setShowModalDelete(false);
     setOpenDialog(false);
     setOpenSnackbar(true);
-    setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
+    setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
   }
 
   const handleChangePage = (event, newPage) => {
@@ -167,7 +167,7 @@ export const RegionMunicipioScreen = () => {
           < TablePagination
             rowsPerPageOptions={[5, 10, 15]}
             component="div"
-            labelRowsPerPage="Registros por página"
+            labelRowsPerPage={t('dgv.registrospaginas')}
             count={regionList.length}
             rowsPerPage={rowsPerPage}
             page={page}

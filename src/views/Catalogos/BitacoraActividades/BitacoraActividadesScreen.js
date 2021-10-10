@@ -155,7 +155,7 @@ export const BitacoraActividadesScreen = () => {
                                 onChange={(e) => setRol(e.target.value)}
                             >
                                 <MenuItem value="0">
-                                    <em>Ninguno</em>
+                                    <em>{t('cmb.ninguno')}</em>
                                 </MenuItem>
                                 {
                                     roles.map(
@@ -225,7 +225,7 @@ export const BitacoraActividadesScreen = () => {
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={btActividadesList.length}
                         rowsPerPage={rowsPerPage}
                         page={page}

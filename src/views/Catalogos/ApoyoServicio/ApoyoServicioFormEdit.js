@@ -43,7 +43,7 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
         actualizarApoyoServicio(valores).then(response => {
 
             setOpenSnackbar(true);
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
             const timer = setTimeout(() => {
                 setError(false);
                 history.push("/admin/apoyoservicio")
@@ -108,7 +108,7 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
                                 onBlur={props.handleBlur}
                             >
                                 <MenuItem value="0">
-                                    <em>Ninguno</em>
+                                    <em>{t('cmb.ninguno')}</em>
                                 </MenuItem>
                                 {
                                     clasificacionServiciosList.map(

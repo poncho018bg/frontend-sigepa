@@ -25,7 +25,7 @@ import { Mensaje } from 'components/Personalizados/Mensaje';
 import { TiposBeneficiariosContext } from 'contexts/catalogos/tiposBeneficiariosContext';
 import { EdadesBeneficiariosContext } from 'contexts/catalogos/edadesBeneficiariosContext';
 import { MultiSelect } from 'react-multi-select-component';
-
+import { useTranslation } from 'react-i18next';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -36,7 +36,7 @@ function intersection(a, b) {
 }
 
 export const ProgramasEdit = () => {
-
+  const { t } = useTranslation();
 
   const { actualizar, programa, getByID } = useContext(ProgramasContext);
   const classes = useStyles();
@@ -410,7 +410,7 @@ const customList = (items) => (
                         onChange={props.handleChange}
                     >
                         <MenuItem value="0">
-                            <em>Ninguno</em>
+                            <em>{t('cmb.ninguno')}</em>
                         </MenuItem>
                         {
                             tiposBeneficiariosList.map(

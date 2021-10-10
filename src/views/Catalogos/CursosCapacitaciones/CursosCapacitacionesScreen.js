@@ -91,7 +91,7 @@ export const CursosCapacitacionesScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
+        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
     }
 
     return (
@@ -99,9 +99,9 @@ export const CursosCapacitacionesScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Cursos Capacitaciones</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.cursoscapacitaciones')}</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Esta pantalla permite agregar los cursos capacitaciones
+                            {t('pnl.permiteagregarcursoscap')}
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -130,10 +130,10 @@ export const CursosCapacitacionesScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estatus</TableCell >
-                                < TableCell> Curso</TableCell >
-                                < TableCell> Fecha Registro</TableCell >
-                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                < TableCell > {t('dgv.estatus')}</TableCell >
+                                < TableCell> {t('dgv.cursos')}</TableCell >
+                                < TableCell> {t('dgv.fecharegistro')}</TableCell >
+                                < TableCell colSpan={2} align="center"> {t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
@@ -170,7 +170,7 @@ export const CursosCapacitacionesScreen = () => {
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={total}
                         rowsPerPage={size}
                         page={page}

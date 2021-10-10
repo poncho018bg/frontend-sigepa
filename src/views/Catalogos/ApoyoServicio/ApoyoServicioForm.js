@@ -51,7 +51,7 @@ export const ApoyoServicioForm = () => {
 
         registrarApoyoSevicio(apoyoSevicio).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
 
             const timer = setTimeout(() => {
                 setError(false);
@@ -78,7 +78,7 @@ export const ApoyoServicioForm = () => {
         },
         validationSchema: Yup.object({
             dsservicio: Yup.string()
-                .required('La descripción del apoyo servicio es obligatorio')
+                .required(`${t('msg.descobligatorioapoyoserv')}`)
         }),
         onSubmit: async valores => {
 
@@ -96,7 +96,7 @@ export const ApoyoServicioForm = () => {
             <DialogContent>
                 <TextField
                     variant="outlined"
-                    label="Selecciona una clasificación"
+                    label={t('lbl.seleccionaclasificacion')}
                     select
                     fullWidth
                     name="clasificacionServicio"
@@ -105,7 +105,7 @@ export const ApoyoServicioForm = () => {
                     onBlur={formik.handleBlur}
                 >
                     <MenuItem value="0">
-                        <em>Ninguno</em>
+                        <em>{t('cmb.ninguno')}</em>
                     </MenuItem>
                     {
                         clasificacionServiciosList.map(
@@ -128,7 +128,7 @@ export const ApoyoServicioForm = () => {
             <DialogContent>
                 <TextField
                     id="dsservicio"
-                    label="Desc. Apoyo servicio"
+                    label={t('lbl.descapoyoservicio')}
                     variant="outlined"
                     name="dsservicio"
                     fullWidth

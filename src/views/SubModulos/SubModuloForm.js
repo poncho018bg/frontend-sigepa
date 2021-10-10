@@ -64,7 +64,7 @@ export const SubModuloForm = () => {
 
         registrarSubModulos(module).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
 
             const timer = setTimeout(() => {
                 setError(false);
@@ -103,7 +103,7 @@ export const SubModuloForm = () => {
                     onChange={formik.handleChange}
                 >
                     <MenuItem value="0">
-                        <em>Ninguno</em>
+                        <em>{t('cmb.ninguno')}</em>
                     </MenuItem>
                     {
                         moduloList.map(

@@ -180,7 +180,7 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
                                 value={props.values.idVigencia}
                             >
                                 <MenuItem value="0">
-                                    <em>Ninguno</em>
+                                    <em>{t('cmb.ninguno')}</em>
                                 </MenuItem>
                                 {
                                     todasVigencias.map(

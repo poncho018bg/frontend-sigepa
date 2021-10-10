@@ -123,7 +123,7 @@ export const MunicipioFormEdit = ({ municipioSeleccionada }) => {
                                 value={props.values.idEstado}
                             >
                                 <MenuItem value="0">
-                                    <em>Ninguno</em>
+                                    <em>{t('cmb.ninguno')}</em>
                                 </MenuItem>
                                 {
                                     estadosList.map(

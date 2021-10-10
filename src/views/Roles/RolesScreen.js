@@ -312,7 +312,7 @@ export const RolesScreen = () => {
                     onChange={(e) => setIdPerfilSelected(e.target.value)}
                 >
                     <MenuItem value="0">
-                        <em>Ninguno</em>
+                        <em>{t('cmb.ninguno')}</em>
                     </MenuItem>
                     {console.log('ROLES=>', roles)}
                     {

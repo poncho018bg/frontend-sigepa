@@ -86,7 +86,7 @@ export const PadronBeneficiariosScreen = () => {
             < TablePagination
                 rowsPerPageOptions={[5, 10, 15]}
                 component="div"
-                labelRowsPerPage="Registros por página"
+                labelRowsPerPage={t('dgv.registrospaginas')}
                 count={paginas.length}
                 rowsPerPage={rowsPerPage}
                 page={page}

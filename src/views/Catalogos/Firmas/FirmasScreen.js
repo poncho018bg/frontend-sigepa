@@ -83,7 +83,7 @@ export const FirmasScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Catalogo de Firmas</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.catalogofirmas')}</h4>
                     <CardActions>
                         <Grid container spacing={3}>
                             <Grid item xs={6}>
@@ -111,11 +111,11 @@ export const FirmasScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Nombre de quien autoriza</TableCell >
-                                < TableCell> Puesto</TableCell >
-                                < TableCell> Fecha de Alta</TableCell >
-                                < TableCell> Comentarios</TableCell >
-                                < TableCell colSpan={2}> Estatus</TableCell >
+                                < TableCell >{t('dgv.nombrequienautoriza')}</TableCell >
+                                < TableCell>{t('dgv.puesto')}</TableCell >
+                                < TableCell>{t('dgv.fechaalta')}</TableCell >
+                                < TableCell>{t('dgv.comentarios')}</TableCell >
+                                < TableCell colSpan={2}> {t('dgv.estatus')}</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
@@ -151,7 +151,7 @@ export const FirmasScreen = () => {
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={total}
                         rowsPerPage={size}
                         page={page}

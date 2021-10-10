@@ -111,7 +111,7 @@ export const ConfiguracionBandejaScreen = () => {
                < TablePagination
                   rowsPerPageOptions={[5, 10, 15]}
                   component="div"
-                  labelRowsPerPage="Registros por página"
+                  labelRowsPerPage={t('dgv.registrospaginas')}
                   count={tipoBandeja.length}
                   rowsPerPage={rowsPerPage}
                   page={page}

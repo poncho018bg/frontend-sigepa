@@ -187,7 +187,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
         actualizarApoyo(valores).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
             const timer = setTimeout(() => {
                 setError(false);
                 history.push("/admin/catapoyoservicio")
@@ -252,7 +252,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                 onChange={props.handleChange}
                             >
                                 <MenuItem value="0">
-                                    <em>Ninguno</em>
+                                    <em>{t('cmb.ninguno')}</em>
                                 </MenuItem>
                                 {
                                     programasList.map(
@@ -491,7 +491,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                 onChange={props.handleChange}
                             >
                                 <MenuItem value="0">
-                                    <em>Ninguno</em>
+                                    <em>{t('cmb.ninguno')}</em>
                                 </MenuItem>
                                 {
                                     periodicidadApoyosList.map(
@@ -529,7 +529,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                     onChange={props.handleChange}
                                 >
                                     <MenuItem value="0">
-                                        <em>Ninguno</em>
+                                        <em>{t('cmb.ninguno')}</em>
                                     </MenuItem>
                                     {
                                         numeroApoyosList.map(

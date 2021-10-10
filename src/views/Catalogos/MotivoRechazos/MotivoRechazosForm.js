@@ -49,7 +49,7 @@ export const MotivoRechazosForm = () => {
 
         registrarMotivoRechazos(motivoRechazos).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
 
             const timer = setTimeout(() => {
                 setError(false);
@@ -73,8 +73,8 @@ export const MotivoRechazosForm = () => {
         },
         validationSchema: Yup.object({
             dsmotivorechazo: Yup.string()
-                .required('El modulo  es obligatorio')
-                .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, "No debe contener caracteres especiales")
+                .required(`${t('msg.moduloobligatorio')}`)
+                .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`)
 
         }),
         onSubmit: async valores => {
@@ -92,7 +92,7 @@ export const MotivoRechazosForm = () => {
             <DialogContent>
                 <TextField
                     id="dsmotivorechazo"
-                    label="Descripción Motivo de Rechazo"
+                    label={t('lbl.descmotivosrechazo')}
                     variant="outlined"
                     name="dsmotivorechazo"
                     fullWidth

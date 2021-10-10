@@ -43,7 +43,7 @@ export const MunicipioForm = () => {
         registrarMunicipios(municipio).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente `  );
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -103,7 +103,7 @@ export const MunicipioForm = () => {
                     onBlur={formik.handleBlur}
                 >
                     <MenuItem value="0">
-                        <em>Ninguno</em>
+                        <em>{t('cmb.ninguno')}</em>
                     </MenuItem>
                     {
                         estadosList.map(

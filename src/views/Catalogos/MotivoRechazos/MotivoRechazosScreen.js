@@ -85,7 +85,7 @@ export const MotivoRechazosScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
+        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -102,7 +102,7 @@ export const MotivoRechazosScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>CAUSAS DE BAJA</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.causasbaja')}</h4>
                     <p className={classes.cardCategoryWhite}>
 
                     </p>
@@ -133,10 +133,10 @@ export const MotivoRechazosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estatus</TableCell >
-                                < TableCell> Descripción del motivo de rechazo</TableCell >
-                                < TableCell> Fecha registro</TableCell >
-                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                < TableCell > {t('dgv.estatus')}</TableCell >
+                                < TableCell> {t('dgv.descmotivorechazo')}</TableCell >
+                                < TableCell> {t('dgv.fechareg')}</TableCell >
+                                < TableCell colSpan={2} align="center"> {t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
@@ -173,7 +173,7 @@ export const MotivoRechazosScreen = () => {
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={total}
                         rowsPerPage={size}
                         page={page}

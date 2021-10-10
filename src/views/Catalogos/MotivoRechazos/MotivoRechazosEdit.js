@@ -39,7 +39,7 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
 
         actualizarMotivoRechazos(valores).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
             const timer = setTimeout(() => {
                 setError(false);
                 history.push("/admin/motivosRechazos")
@@ -58,8 +58,8 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsmotivorechazo: Yup.string()
-            .required('El motivo de rechazo  es obligatorio')
-            .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, "No debe contener caracteres especiales")
+            .required(`${t('msg.moduloobligatorio')}`)
+            .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`)
     });
 
     const actualizarInfoMotivoRechazos = async valores => {
@@ -89,7 +89,7 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dsmotivorechazo"
-                                label="Descripción Motivo de Rechazo"
+                                label={t('lbl.descmotivosrechazo')}
                                 variant="outlined"
                                 name="dsmotivorechazo"
                                 fullWidth

@@ -86,7 +86,7 @@ export const SubModuloFormEdit = ({ subModuloSeleccionado }) => {
                                 onChange={props.handleChange}
                             >
                                 <MenuItem value="0">
-                                    <em>Ninguno</em>
+                                    <em>{t('cmb.ninguno')}</em>
                                 </MenuItem>
                                 {
                                     moduloList.map(

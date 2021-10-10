@@ -31,12 +31,12 @@ import { TiposApoyosContext } from 'contexts/catalogos/tiposApoyosContext';
 import { ApoyoContext } from 'contexts/catalogos/ApoyoContext';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
-
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(stylesArchivo);
 
 export const CatTipoApoyoScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
     const dispatch = useDispatch();
     const [page, setPage] = useState(0);
@@ -113,7 +113,7 @@ export const CatTipoApoyoScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
+        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
     }
 
     const buscarTiposApoyos = () => {
@@ -170,7 +170,7 @@ export const CatTipoApoyoScreen = () => {
                                         onChange={(e) => setIdApoyosl(e.target.value)}
                                     >
                                         <MenuItem value="0">
-                                            <em>Ninguno</em>
+                                            <em>{t('cmb.ninguno')}</em>
                                         </MenuItem>
                                         {
                                             tiposApoyosList.map(
@@ -197,7 +197,7 @@ export const CatTipoApoyoScreen = () => {
                                         onChange={(e) => setIdPeriodicidadsl(e.target.value)}
                                     >
                                         <MenuItem value="0">
-                                            <em>Ninguno</em>
+                                            <em>{t('cmb.ninguno')}</em>
                                         </MenuItem>
                                         {
                                             periodicidadApoyosList.map(
@@ -275,7 +275,7 @@ export const CatTipoApoyoScreen = () => {
                             < TablePagination
                                 rowsPerPageOptions={[5, 10, 15]}
                                 component="div"
-                                labelRowsPerPage="Registros por página"
+                                labelRowsPerPage={t('dgv.registrospaginas')}
                                 count={tipoApoyo.length}
                                 rowsPerPage={rowsPerPage}
                                 page={page}

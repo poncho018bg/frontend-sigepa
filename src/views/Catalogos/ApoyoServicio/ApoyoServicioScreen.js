@@ -80,7 +80,7 @@ export const ApoyoServicioScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
+        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
     }
     const handleChangePage = (event, newPage) => {
         changePage(newPage)
@@ -99,7 +99,7 @@ export const ApoyoServicioScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Apoyo en servicio</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.apoyoservicio')}</h4>
                     <p className={classes.cardCategoryWhite}>
 
                     </p>
@@ -130,9 +130,9 @@ export const ApoyoServicioScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell > Estatus </TableCell >
-                                < TableCell > TIPO DE SERVICIO </TableCell >
-                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                < TableCell > {t('dgv.estatus')} </TableCell >
+                                < TableCell > {t('dgv.tiposervicio')} </TableCell >
+                                < TableCell colSpan={2} align="center"> {t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
@@ -168,7 +168,7 @@ export const ApoyoServicioScreen = () => {
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={total}
                         rowsPerPage={size}
                         page={page}

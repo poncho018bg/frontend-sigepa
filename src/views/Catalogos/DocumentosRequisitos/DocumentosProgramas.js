@@ -118,7 +118,7 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={total}
                         rowsPerPage={size}
                         page={page}

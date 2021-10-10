@@ -101,7 +101,7 @@ export const RegionMunicipioFormEdit = ({ regionMunicipioSeleccionada }) => {
                                 onBlur={props.handleBlur}
                             >
                                 <MenuItem value="0">
-                                    <em>Ninguno</em>
+                                    <em>{t('cmb.ninguno')}</em>
                                 </MenuItem>
                                 {
                                     municipiosList.map(

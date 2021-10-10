@@ -245,7 +245,7 @@ export const DialogTipoApoyoForm = (props) => {
         
         registrarApoyo(nuevoApoyo).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
 
             const timer = setTimeout(() => {
                 setError(false);
@@ -296,7 +296,7 @@ export const DialogTipoApoyoForm = (props) => {
                         onChange={formik.handleChange}
                     >
                         <MenuItem value="0">
-                            <em>Ninguno</em>
+                            <em>{t('cmb.ninguno')}</em>
                         </MenuItem>
                         {
                             programasList.map(
@@ -533,7 +533,7 @@ export const DialogTipoApoyoForm = (props) => {
                         onChange={formik.handleChange}
                     >
                         <MenuItem value="0">
-                            <em>Ninguno</em>
+                            <em>{t('cmb.ninguno')}</em>
                         </MenuItem>
                         {
                             periodicidadApoyosList.map(
@@ -578,7 +578,7 @@ export const DialogTipoApoyoForm = (props) => {
                             onChange={formik.handleChange}
                         >
                             <MenuItem value="0">
-                                <em>Ninguno</em>
+                                <em>{t('cmb.ninguno')}</em>
                             </MenuItem>
                             {
                                 numeroApoyosList.map(
