@@ -54,7 +54,7 @@ import { RegionMunicipioScreen } from "views/Catalogos/RegionMunicipio/RegionMun
 import { FirmasScreen } from "views/Catalogos/Firmas/FirmasScreen";
 import { ClasificacionServiciosScreen } from "views/Catalogos/ClasificacionServicios/ClasificacionServiciosScreen";
 import { DialogTipoApoyoForm } from "views/Catalogos/CatTipoApoyo/DialogTipoApoyoForm";
-import { LocalidadesScreen } from "views/Catalogos/Localidades/LocalidadesScreen";
+
 import { ProgramasForm } from "views/Catalogos/Programas/ProgramasForm";
 import { ProgramasEdit } from "views/Catalogos/Programas/ProgramasEdit";
 import { DialogTipoApoyoFormEdit } from "views/Catalogos/CatTipoApoyo/DialogTipoApoyoFormEdit";
@@ -65,6 +65,7 @@ import { RegistroProgramasApoyoScreen } from "views/RegistroProgramasApoyo/Regis
 
 import { CarouselProgramas } from "views/CarouselProgramas/CarouselProgramas";
 import { RegistroSolicitud } from "views/RegistroSolicitudContacto/RegistroSolicitud";
+import { LocalidadScreen } from "views/Catalogos/Localidad/LocalidadScreen";
 
 
 
@@ -481,7 +482,7 @@ const dashboardRoutes = [
         rtlName: "Localidades",
         mini: "CF",
         rtlMini: "CF",
-        component: LocalidadesScreen,
+        component: LocalidadScreen,
         layout: "/admin"
       },
       {
