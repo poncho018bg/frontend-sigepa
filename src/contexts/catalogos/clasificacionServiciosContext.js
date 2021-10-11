@@ -93,16 +93,11 @@ export const ClasificacionServiciosContextProvider = props => {
 
     const eliminarClasificacionServicios = async idClasificacionServicios => {
 
-        const { activo, _links: { clasificacionServicios: { href } } } = idClasificacionServicios
-        const act = !activo
-        idClasificacionServicios.activo = act
-        idClasificacionServicios.crcApoyoServicios=[]
-
         try {
-            const result = await axiosPostHetoas(href, idClasificacionServicios, 'PUT');
+            await axiosDeleteTipo(`clasificacionServicios/${idClasificacionServicios.id}`);
             dispatch({
                 type: ELIMINAR_CLASIFICACION_SERVICIOS,
-                payload: result,
+                payload: idClasificacionServicios.id,
             })
         } catch (error) {
             console.log(error);

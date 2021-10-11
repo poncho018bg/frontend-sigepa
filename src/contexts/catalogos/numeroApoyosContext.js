@@ -91,16 +91,11 @@ export const NumeroApoyosContextProvider = props => {
 
     const eliminarNumeroApoyos = async idNumeroApoyos => {
 
-        const { activo, _links: { ct_NumeroApoyos: { href } } } = idNumeroApoyos
-        const act = !activo
-        idNumeroApoyos.activo = act
         try {
-            const result = await axiosPostHetoas(href, idNumeroApoyos, 'PUT');
-            console.log(result);
-            console.log('mir mira');
+            await axiosDeleteTipo(`numeroApoyos/${idNumeroApoyos.id}`);
             dispatch({
                 type: ELIMINAR_NUMERO_APOYOS,
-                payload: result,
+                payload: idNumeroApoyos.id,
             })
         } catch (error) {
             console.log(error);
