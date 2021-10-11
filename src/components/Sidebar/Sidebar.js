@@ -174,13 +174,16 @@ function Sidebar(props) {
   };
 
   const validateprofilesModulos = (modulename, lstRoutes) => {
+    console.log('validateprofilesModulos 1',modulename)
+    console.log('validateprofilesModulos 2',lstRoutes)
     if (lstRoutes.filter(md => md.dsModulo === modulename).length !== 0) {
       return true
     }
   };
 
   const validateprofiles = (routeNam, lstRoutes) => {
-
+    console.log('routeNam 1',routeNam)
+    console.log('lstRoutes 2',lstRoutes)
     if (lstRoutes.filter(md => md.dsSubmodulo === routeNam).length !== 0) {
       return true
     }
