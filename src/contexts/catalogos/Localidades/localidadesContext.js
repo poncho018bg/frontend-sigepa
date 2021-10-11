@@ -90,41 +90,32 @@ export const LocalidadesContextProvider = props => {
      * Se actualizan los tipos de apoyos
      * @param {motivoRechazos} motivoRechazos 
      */
-    const actualizar = async (valores, objetoActualizar, municipio) => {
-        console.log('actualizando objeto');
-        console.log(municipio);
+    const actualizar = async (valores) => {
+        console.log('actualizando objeto 1', valores);
+        
+       
         const {
             _links: { localidades: { href } }
-        } = objetoActualizar;
-
-        const {
-            dsidlocalidad, dsclavelocalidad,
-            dscodigopostal,
-            dslocalidad, id,
         } = valores;
 
-        let localidad = {
-            dsidlocalidad,
-            dsclavelocalidad,
-            id,
-            dslocalidad,
-            dscodigopostal,
-            dsestado: true,
-            municipios: `/${municipio.id}`
-        }
+        valores.idMunicipio = `/${valores.municipio_id}`
+        valores.municipios = `/${valores.municipio_id}`
 
+        console.log('actualizando objeto 2', href);
 
-        try {
-            const result = await axiosPostHetoas(href, localidad, 'PUT');
-            console.log(result);
-            console.log('mir mira');
-            dispatch({
-                type: MODIFICAR_LOCALIDADES,
-                payload: result,
-            })
-        } catch (error) {
-            console.log(error);
-        }
+        return new Promise((resolve, reject) => {
+            axios.put(href, valores, {
+                headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+            }).then(response => {
+                resolve(response);
+                dispatch({
+                    type: MODIFICAR_LOCALIDADES,
+                    payload: response
+                })
+            }).catch(error => {
+                reject(error);
+            });
+        });
     }
 
     const eliminar = async (valores) => {
@@ -134,10 +125,10 @@ export const LocalidadesContextProvider = props => {
             dsclavelocalidad,
             dscodigopostal,
             dsidlocalidad,
-            dslocalidad,            
+            dslocalidad,
             id,
             municipio_id,
-            
+
             _links: { localidades: { href } },
             _links: { municipios: { hrefm } }
         } = valores;
@@ -150,8 +141,8 @@ export const LocalidadesContextProvider = props => {
             id,
             dslocalidad,
             dscodigopostal,
-            activo:act,
-            municipios:`/${municipio_id}`
+            activo: act,
+            municipios: `/${municipio_id}`
 
         }
 
