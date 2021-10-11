@@ -1,5 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import FirmasReducer from 'reducers/Catalogos/FirmasReducer';
+import axios from "axios";
 import {
     GET_FIRMAS, REGISTRAR_FIRMAS, MODIFICAR_FIRMAS, ELIMINAR_FIRMAS, GET_PROGRAMAS,
     AGREGAR_FIRMAS_ERROR,
@@ -70,7 +71,7 @@ export const FirmasContextProvider = props => {
                     resolve(response);
                     dispatch({
                         type: REGISTRAR_FIRMAS,
-                        payload: response
+                        payload: response.data
                     })
                 }).catch(error => {
                     reject(error);
