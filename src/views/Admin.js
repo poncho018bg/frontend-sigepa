@@ -177,8 +177,8 @@ export default function Dashboard(props) {
   }, [rolesall]);
 
   React.useEffect(() => {
-
-    if (rolUser !== undefined) {
+    
+    if (rolUser!== '') {
       const cargarPerfilesActivos = () => dispatch(getSubmodulosByPerfilId(rolUser));
       cargarPerfilesActivos();
     }
