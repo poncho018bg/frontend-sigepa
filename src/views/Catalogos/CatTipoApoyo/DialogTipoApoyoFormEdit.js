@@ -405,7 +405,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                     })
 
                                     return (
-                                        <Accordion expanded={expanded === props.values.enServicio.expanded} >
+                                        <Accordion  >
                                             <AccordionSummary
                                                 expandIcon={<ExpandMoreIcon />}
                                                 aria-label="Expand"
@@ -416,7 +416,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                                 <FormControlLabel
                                                     aria-label="Acknowledge"
                                                     onClick={agregarServicioFormik(apyo, i, props)}
-                                                    control={<Checkbox checked={expanded === props.values.enServicio.expanded} />}
+                                                    control={<Checkbox  />}
                                                     label={apyo.dsservicio}
                                                 />
                                             </AccordionSummary>

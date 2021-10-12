@@ -299,6 +299,9 @@ export const RolesScreen = () => {
 
     return (
         <>
+            <Button type="submit" color="primary" onClick={handleSavePerfiles} style={{}}>
+                {t('btn.guardar')}
+            </Button>
 
             <DialogContent>
                 <TextField
@@ -382,7 +385,7 @@ export const RolesScreen = () => {
             </List>
 
             <Button type="submit" color="primary" onClick={handleSavePerfiles}>
-            {t('btn.guardar')}
+                {t('btn.guardar')}
             </Button>
 
 
