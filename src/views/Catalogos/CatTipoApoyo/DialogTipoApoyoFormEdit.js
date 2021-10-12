@@ -92,19 +92,18 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
         setSelectedTipApoy(personaSeleccionada.idTipoApoyo)
         setSelected(personaSeleccionada.coberturaMunicipal)
         setSelectedActividadesContinuar(personaSeleccionada.idActividadContinuidadApoyo)
-
+        console.log('personaSeleccionada',personaSeleccionada)
     }, []);
 
 
-        /**
-     * abre el dialogo de confirmación
-     * @param {valores} e 
-     */
-         const confirmacionDialog = (e) => {
-            console.log("Aqui hace el llamado al dialog", e);
-            setShowModalConfirmacion(true);
-            setValores(e)
-        }
+    /**
+ * abre el dialogo de confirmación
+ * @param {valores} e 
+ */
+    const confirmacionDialog = (e) => {        
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
 
 
 
@@ -140,7 +139,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
             fechaFin: ''
         }
         props.values.enServicio[index] = serv
-        console.log('agregarServicioFormik 1=>', props.values.enServicio)
+        
     }
 
 
@@ -204,6 +203,14 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     }
 
 
+    function isActiveOption(apoyo) {
+        var apy = personaSeleccionada?.enServicio?.filter(ab => ab.id === apoyo.id)
+        if (apy.length > 0) {
+            return true;
+        } else {
+            return false
+        }
+    }
 
     return (
 
@@ -224,8 +231,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                     <form
                         onSubmit={props.handleSubmit}
                     >
-                        {console.log('EDIT =>', props.values)}
-                        {console.log('Error =>', props.errors)}
+                        {console.log('PROPS=>',props)}
                         <DialogContent >
                             <TextField
                                 id="dsapoyo"
@@ -394,18 +400,10 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
                                 apoyoservicioList.map((apyo, i) => {
                                     const fechaInicioq = `enServicio[${i}].fechaInicio`;
-                                    const fechaFinq = `enServicio[${i}].fechaFin`;
-                                    // ESTE CODIGO AGREGA LOS DATOS DE LOS SERVICOS                                  
-                                    personaSeleccionada.enServicio.map((ns) => {
-                                        apoyoservicioList.map((mp, i) => {
-                                            if (ns.id === mp.id) {
-                                                props.values.enServicio[i] = ns
-                                            }
-                                        })
-                                    })
-
+                                    const fechaFinq = `enServicio[${i}].fechaFin`;                                    
+                                   
                                     return (
-                                        <Accordion  >
+                                        <Accordion expanded={isActiveOption(apyo)} >
                                             <AccordionSummary
                                                 expandIcon={<ExpandMoreIcon />}
                                                 aria-label="Expand"
@@ -416,7 +414,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                                 <FormControlLabel
                                                     aria-label="Acknowledge"
                                                     onClick={agregarServicioFormik(apyo, i, props)}
-                                                    control={<Checkbox  />}
+                                                    control={<Checkbox checked={isActiveOption(apyo)}/>}
                                                     label={apyo.dsservicio}
                                                 />
                                             </AccordionSummary>
@@ -436,7 +434,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                                                     shrink: true,
                                                                 }}
                                                                 name={fechaInicioq}
-                                                                value={props.values.enServicio.fechaInicio}
+                                                                value={props.values.enServicio[i]?.fechaInicio}
                                                                 onChange={props.handleChange}
 
                                                             />
@@ -451,7 +449,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                                                     shrink: true,
                                                                 }}
                                                                 name={fechaFinq}
-                                                                value={props.values.enServicio.fechaFin}
+                                                                value={props.values.enServicio[i]?.fechaFin}
                                                                 onChange={props.handleChange}
 
                                                             />
@@ -512,14 +510,14 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
                         <DialogContent>
                             <FormControlLabel
-                                control={<Checkbox value={props.values.formaEntrega} onChange={props.handleChange} name="formaEntrega" />}
+                                control={<Checkbox value={props.values.formaEntrega} defaultChecked={props.values.formaEntrega} onChange={props.handleChange} name="formaEntrega" />}
                                 label="Forma de entrega de apoyo por exhibición"
                             />
                         </DialogContent>
 
                         <DialogContent>
                             {
-                                props.values.formaEntrega === 'true' ? (<TextField
+                                props.values.formaEntrega ? (<TextField
                                     variant="outlined"
                                     label="Número de entrega de Apoyos"
                                     select
@@ -587,7 +585,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                {t('btn.guardar')}
+                                    {t('btn.guardar')}
                                 </Button>
                             </Grid>
                         </DialogContent>
