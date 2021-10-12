@@ -299,7 +299,7 @@ export const RolesScreen = () => {
 
     return (
         <>
-            <Button type="submit" color="primary" onClick={handleSavePerfiles} style={{}}>
+            <Button type="submit" color="primary" onClick={handleSavePerfiles} style={{right:'0px', position:'absolute'}}>
                 {t('btn.guardar')}
             </Button>
 
