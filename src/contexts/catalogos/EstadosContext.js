@@ -144,6 +144,25 @@ export const EstadosContextProvider = props => {
         type: CAMBIAR_TAMANIO_PAGINA,
         payload: size
     })
+    const getEstadosAll = async () => {
+
+        try {
+
+            const { page, size } = state;
+            const resultado = await axiosGet(`estados?page=${0}&size=${50}`);
+            console.log(resultado._embedded.estados);
+            dispatch({
+                type: GET_ESTADOS,
+                payload: resultado
+            })
+        } catch (error) {
+
+            console.log(error);
+        }
+    }
+
+
+
 
     return (
         <EstadosContext.Provider
@@ -161,8 +180,8 @@ export const EstadosContextProvider = props => {
                 actualizarEstados,
                 changePageNumber,
                 changePageSize,
-                changePage
-
+                changePage,
+                getEstadosAll
             }}
         >
             {props.children}

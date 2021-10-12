@@ -50,6 +50,29 @@ const baseUrlExpediente = process.env.REACT_APP_API_EXPEDIENTE_URL;
         }
 }
 
+async function axiosPut(endpoint,data, method ) {
+    const url = `${ baseUrl }${ endpoint }`;
+
+    try{
+            const promise = await axios({
+                method:'PUT',
+                url,
+                data,
+               
+                headers: {
+                    Authorization: 'Bearer ' + UserService.getToken(),
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+            return response.data
+            });
+            return promise;
+        } catch (error) {
+        console.error('There was an error!', error);
+        return promise;
+        }
+}
+
 async function axiosGetSinToken(endpoint) {
     const url = `${ endpoint }`;
     try{
@@ -243,5 +266,6 @@ export {
     axiosDeleteTipo,
     axiosExpedienteToken,
     axiosPostHetoas,
-    axiosGetHetoas
+    axiosGetHetoas,
+    axiosPut
 }

@@ -6,10 +6,11 @@ import {
     GET_GRADO_ESTUDIOS,
     GET_ESTADO_CIVIL,
     GET_IDENTIFICACIONES_OFICIALES,
-    REGISTRAR_BENEFICIARIO
+    REGISTRAR_BENEFICIARIO,
+    REGISTRAR_DIRECCION_BENEFICIARIO
 } from 'types/actionTypes';
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axiosPublico';
+import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas, axiosPut } from 'helpers/axiosPublico';
 
 export const RegistroSolicitudContext = createContext();
 
@@ -20,6 +21,7 @@ export const RegistroSolicitudContextProvider = props => {
         estadoCivilList: [],
         identificacionesList: [],
         beneficiario: [],
+        direccion: []
     }
 
 
@@ -94,6 +96,34 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
+    const registrarDireccionBeneficiario = async direccion =>{
+        try{
+            console.log(direccion);
+            const resultado = await axiosPost('domicilioOverride', direccion);
+            console.log("resultado --->", resultado);
+            dispatch({
+                type: REGISTRAR_DIRECCION_BENEFICIARIO,
+                payload: resultado
+            });
+        }catch (error) {
+            console.log(error);
+        }
+    }
+
+    const actualizarDireccionBeneficiario = async direccion =>{
+        try{
+            console.log(direccion);
+            const resultado = await axiosPut('domicilioOverride', direccion);
+            console.log("resultado --->", resultado);
+            dispatch({
+                type: REGISTRAR_DIRECCION_BENEFICIARIO,
+                payload: resultado
+            });
+        }catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <RegistroSolicitudContext.Provider value={{
             generosList: state.generosList,
@@ -101,11 +131,14 @@ export const RegistroSolicitudContextProvider = props => {
             estadoCivilList: state.estadoCivilList,
             identificacionesList: state.identificacionesList,
             beneficiario: state.beneficiario,
+            direccion: state.direccion,
             getGeneros,
             getEstudios,
             getEstadoCivil,
             getIdentificaciones,
-            registrarBeneficiario
+            registrarBeneficiario,
+            registrarDireccionBeneficiario,
+            actualizarDireccionBeneficiario
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>

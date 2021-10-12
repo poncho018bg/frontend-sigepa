@@ -37,9 +37,25 @@ export const RegistroSolicitud = () => {
     const [activar, setActivar] = useState();
     const [curp, setCurp] = useState();
 
-    const { beneficiario, registrarBeneficiario } = useContext(RegistroSolicitudContext);
+    const { beneficiario, registrarBeneficiario, direccion, registrarDireccionBeneficiario } = useContext(RegistroSolicitudContext);    
+    //
     const child = useRef();
+    const direccionChild = useRef();
+    const contacto = useRef();
     //let datosEnviar;
+    /**
+     * llenado de datos del beneficiario
+     * @param {nombre} nombre 
+     * @param {apellidoPaterno} apellidoPaterno 
+     * @param {apellidoMaterno} apellidoMaterno 
+     * @param {curp} curp 
+     * @param {genero} genero 
+     * @param {fechaNacimientoReal} fechaNacimientoReal 
+     * @param {edad} edad 
+     * @param {estudios} estudios 
+     * @param {estadoCivil} estadoCivil 
+     * @param {identificacion} identificacion 
+     */
     const llenarDatosBeneficiario = (nombre, apellidoPaterno, apellidoMaterno, curp, genero, fechaNacimientoReal, edad, estudios, estadoCivil, identificacion) => {
         /**
          * se guarda al ejecutar esta función
@@ -75,7 +91,15 @@ export const RegistroSolicitud = () => {
         /**
          * Se inicializa el nextbutton para asegurar que va a llegar a la siguiente pantalla los datos a enviar
          */
-        NextButton();
+        //NextButton();
+    }
+
+
+
+    const obtenerDireccion = direccionBeneficiario => {
+        console.log("datos a GUARDAR de la direccion BENEFICIARIO", direccionBeneficiario);
+        registrarDireccionBeneficiario(direccionBeneficiario);
+        console.log("datos que devuelve el guardar direccion primera parte---> ", direccion);
     }
 
     const isStepOptional = (step) => {
@@ -89,6 +113,14 @@ export const RegistroSolicitud = () => {
     const handleNext = () => {
         if (activeStep == 1) {
             child.current.registroBeneficiario();
+        }
+        if (activeStep == 2) {
+            console.log("ACtive STEP 2", beneficiario)
+            direccionChild.current.registroDireccion(beneficiario);
+        }
+        if (activeStep == 3) {
+            console.log("DIRECCION para el paso 3 de contacto --->", direccion);
+            contacto.current.registroContacto();
         }
         let newSkipped = skipped;
         if (isStepSkipped(activeStep)) {
@@ -165,9 +197,9 @@ export const RegistroSolicitud = () => {
                         : activeStep === 1 ?
                             <RegistroDatosSolicitante curpR={curp} llenarDatosBeneficiario={llenarDatosBeneficiario} ref={child} />
                             : activeStep === 2 ?
-                                <RegistroDireccion />
+                                <RegistroDireccion beneficiario={beneficiario} obtenerDireccion={obtenerDireccion} ref={direccionChild} />
                                 : activeStep === 3 ?
-                                    <RegistroSolicitudContacto />
+                                    <RegistroSolicitudContacto direccionB={direccion} beneficiario={beneficiario} ref={contacto} />
                                     : activeStep === 4 ?
                                         <RegistroCargaDocumentos />
                                         :

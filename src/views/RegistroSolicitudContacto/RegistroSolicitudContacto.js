@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext, forwardRef, useImperativeHandle } from "react";
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -10,10 +10,77 @@ import Box from '@material-ui/core/Box';
 
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
+import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 const useStyles = makeStyles(stylesArchivo);
 
-export const RegistroSolicitudContacto = () => {
+export const RegistroSolicitudContacto = forwardRef((props, ref) => {
+    const { direccionB, beneficiario } = props;
+    console.log("direccionB en forward ref--->", direccionB, beneficiario);
     const classes = useStyles();
+    // 
+    const [celular, setCelular] = useState('');
+    const [telefonoCasa, setTelefonoCasa] = useState('');
+    const [telefonoContacto, setTelefonoContato] = useState('');
+    const [email, setEmail] = useState('');
+    const [observaciones, setObservaciones] = useState('');
+
+    const { direccion, registrarDireccionBeneficiario, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
+
+    const llenado = () => {
+        if (direccionB != undefined) {
+            if (beneficiario != undefined) {
+                console.log("LLEGA EL ID DEL BENEFICIARIO AL LLENAR LOS DATOS? ---> ", direccionB[0].id, beneficiario[0].id);
+
+                let datosDireccion = {
+                    id: direccionB[0].id,
+                    idBeneficiario: beneficiario[0].id,
+                    calle: direccionB[0].calle,
+                    noExterior: direccionB[0].noExterior,
+                    noInterior: direccionB[0].noInterior,
+                    colonia: direccionB[0].colonia,
+                    entreCalle: direccionB[0].entreCalle,
+                    yCalle: direccionB[0].ycalle,
+                    codigoPostal: direccionB[0].codigoPostal,
+                    idLocalidad: direccionB[0].idLocalidad,
+                    otraReferencia: direccionB[0].otraReferencia,
+                    telefonoCasa: telefonoCasa,
+                    telefonoCelular: celular,
+                    telefonoContacto: telefonoContacto,
+                    correo: email
+                }
+                console.log("Datos que debe guardar", datosDireccion);
+
+                actualizarDireccionBeneficiario(datosDireccion);
+                console.log("direccion --->", direccion);
+            }
+        } else {
+            console.log("llega direccion ---->", direccionB);
+        }
+    }
+
+    useImperativeHandle(ref, () => ({
+        registroContacto() {
+            console.log(direccionB);
+            llenado();
+        }
+    })
+    );
+
+    const onChange = event => {
+        switch (event.target.name) {
+            case 'celular':
+                setCelular(event.target.value);
+            case 'telefono':
+                setTelefonoCasa(event.target.value);
+            case 'telefonocontacto':
+                setTelefonoContato(event.target.value);
+            case 'email':
+                setEmail(event.target.value);
+            case 'observaciones':
+                setObservaciones(event.target.value);
+        }
+    }
+
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>
@@ -27,8 +94,9 @@ export const RegistroSolicitudContacto = () => {
                             id="dscelular"
                             label="Celular"
                             variant="outlined"
-                            name="dscelular"
+                            name="celular"
                             fullWidth
+                            onChange={onChange}
                         />
                     </CardBody>
                     <CardBody>
@@ -37,8 +105,9 @@ export const RegistroSolicitudContacto = () => {
                             id="dstelefono"
                             label="Teléfono de casa"
                             variant="outlined"
-                            name="dstelefono"
+                            name="telefono"
                             fullWidth
+                            onChange={onChange}
                         />
                     </CardBody>
                     <CardBody>
@@ -46,8 +115,9 @@ export const RegistroSolicitudContacto = () => {
                             id="dstelefonocontacto"
                             label="Teléfono de contacto"
                             variant="outlined"
-                            name="dstelefonocontacto"
+                            name="telefonocontacto"
                             fullWidth
+                            onChange={onChange}
                         />
                     </CardBody>
                     <CardBody>
@@ -55,8 +125,9 @@ export const RegistroSolicitudContacto = () => {
                             id="dsemail"
                             label="Correo Electrónico"
                             variant="outlined"
-                            name="dsemail"
+                            name="email"
                             fullWidth
+                            onChange={onChange}
                         />
                     </CardBody>
                     <CardBody>
@@ -64,12 +135,13 @@ export const RegistroSolicitudContacto = () => {
                             id="dsobservaciones"
                             label="Observaciones"
                             variant="outlined"
-                            name="dsobservaciones"
+                            name="observaciones"
                             fullWidth
+                            onChange={onChange}
                         />
                     </CardBody>
                 </CardBody>
             </Card>
         </GridItem>
     )
-}
+});

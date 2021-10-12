@@ -65,6 +65,8 @@ import { ModalContextConfirmacionProvider } from "contexts/modalContextConfirmac
 
 import { RegistroCargaDocumentosContextProvider } from "contexts/registroCargaDocumentosContext"
 
+import { RegistroSolicitudContextProvider } from "contexts/registroSolicitudContext";
+
 
 
 
@@ -127,7 +129,9 @@ const AppState = ({ children }) => {
                                                           <ClasificacionServiciosContextProvider>
                                                             <LocalidadesContextProvider>
                                                               <RegistroCargaDocumentosContextProvider>
-                                                                {children}
+                                                                <RegistroSolicitudContextProvider>
+                                                                  {children}
+                                                                </RegistroSolicitudContextProvider>
                                                               </RegistroCargaDocumentosContextProvider>
                                                             </LocalidadesContextProvider>
                                                           </ClasificacionServiciosContextProvider>

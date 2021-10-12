@@ -3,7 +3,8 @@ import {
     GET_GRADO_ESTUDIOS,
     GET_ESTADO_CIVIL,
     GET_IDENTIFICACIONES_OFICIALES,
-    REGISTRAR_BENEFICIARIO
+    REGISTRAR_BENEFICIARIO,
+    REGISTRAR_DIRECCION_BENEFICIARIO
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -37,6 +38,11 @@ export default (state, action) => {
             return {
                 ...state,
                 beneficiario: [...state.beneficiario, action.payload]
+            };
+            case REGISTRAR_DIRECCION_BENEFICIARIO:
+            return {
+                ...state,
+                direccion: [...state.direccion, action.payload]
             };
         default:
             return state;

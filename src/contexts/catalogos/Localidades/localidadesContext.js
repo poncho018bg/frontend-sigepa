@@ -9,7 +9,8 @@ import {
     AGREGAR_PROGRAMA_ERROR,
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA,
-    GET_LOCALIDADES_BY_ID
+    GET_LOCALIDADES_BY_ID,
+    GET_LOCALIDADES_MUNICIPIO
 } from 'types/actionTypes';
 
 import LocalidadesReducer from 'reducers/Catalogos/Localidades/LocalidadesReducer';
@@ -210,6 +211,19 @@ export const LocalidadesContextProvider = props => {
     }
 
 
+    const getLocalidadesMunicipio = async idMunicipio => {
+        try {
+            const result = await axiosGet(`localidadMunicipio/municipio/${idMunicipio}`);
+            console.log("localidades municipio_id ",result)
+            dispatch({
+                type: GET_LOCALIDADES_MUNICIPIO,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     return (
         <LocalidadesContext.Provider
@@ -227,7 +241,8 @@ export const LocalidadesContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePage,
-                getByID
+                getByID,
+                getLocalidadesMunicipio
             }}
         >
             {props.children}
