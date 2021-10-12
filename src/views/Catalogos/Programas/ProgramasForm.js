@@ -41,7 +41,7 @@ import { EdadesBeneficiariosContext } from "contexts/catalogos/edadesBeneficiari
 import { RegionMunicipiosContext } from "contexts/catalogos/RegionMunicipiosContext";
 import { MultiSelect } from "react-multi-select-component";
 import { DocumentosContext } from "contexts/catalogos/documentosContext";
-
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(styles);
 
 
@@ -55,6 +55,7 @@ function intersection(a, b) {
 
 
 export const ProgramasForm = () => {
+    const { t } = useTranslation();
     const { registrar} = useContext(ProgramasContext);
     const { tiposBeneficiariosList } = useContext(TiposBeneficiariosContext);
     const { edadesBeneficiariosList } = useContext(EdadesBeneficiariosContext);
@@ -80,7 +81,7 @@ export const ProgramasForm = () => {
     const [selected, setSelected] = useState([]);
 
     const [documentslst, setDocumentslst] = React.useState([]);
-    setDocumentslst
+    
 
     useEffect(() => {
       getRegionMunicipios('a3de85a7-6c23-46a4-847b-d79b3a90963d')
@@ -540,7 +541,7 @@ export const ProgramasForm = () => {
                         onChange={formik.handleChange}
                     >
                         <MenuItem value="0">
-                            <em>Ninguno</em>
+                            <em>{t('cmb.ninguno')}</em>
                         </MenuItem>
                         {
                             tiposBeneficiariosList.map(
@@ -570,7 +571,7 @@ export const ProgramasForm = () => {
                         onChange={formik.handleChange}
                     >
                         <MenuItem value="0">
-                            <em>Ninguno</em>
+                            <em>{t('cmb.ninguno')}</em>
                         </MenuItem>
                         {
                             edadesBeneficiariosList.map(

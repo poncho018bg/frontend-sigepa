@@ -14,6 +14,7 @@ import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import BlockIcon from '@material-ui/icons/Block';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
@@ -34,11 +35,12 @@ import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModalUpdate } from 'commons/ModalUpdate';
-
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
 export const NumeroApoyosScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
@@ -46,6 +48,10 @@ export const NumeroApoyosScreen = () => {
     const { getNumeroApoyos, eliminarNumeroApoyos, numeroApoyosList, size, page, total, changePageSize, changePage  } = useContext(NumeroApoyosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [openDialog, setOpenDialog] = useState(false);
 
     const {  setShowModalUpdate }
         = useContext(ModalContextUpdate);
@@ -69,13 +75,16 @@ export const NumeroApoyosScreen = () => {
 
     const deleteDialog = (e) => {
         setShowModalDelete(true);
-        setIdEliminar(e.id);
+        setIdEliminar(e);
     }
 
 
     const handleDeshabilitar = () => {
         eliminarNumeroApoyos(idEliminar)
         setShowModalDelete(false);
+        setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -110,7 +119,7 @@ export const NumeroApoyosScreen = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}
@@ -123,7 +132,7 @@ export const NumeroApoyosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estado</TableCell >
+                                < TableCell > Estatus</TableCell >
                                 < TableCell> Número de Apoyos</TableCell >
                                 < TableCell> Fecha Registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
@@ -139,12 +148,8 @@ export const NumeroApoyosScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
-                                                <Checkbox
-                                                    checked={row.boactivo}
-                                                    color="primary"
-                                                    inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                />
+                                            <TableCell>                                                
+                                                {row.activo ? 'Activo':'Inactivo'}
                                             </TableCell>
                                             <TableCell>{row.noapoyo}</TableCell >
                                             <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
@@ -155,7 +160,7 @@ export const NumeroApoyosScreen = () => {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <DeleteIcon /> : <RefreshIcon />}
+                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >
@@ -167,7 +172,7 @@ export const NumeroApoyosScreen = () => {
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={total}
                         rowsPerPage={size}
                         page={page}
@@ -185,6 +190,12 @@ export const NumeroApoyosScreen = () => {
             <ModalUpdate>
                 <NumeroApoyosEdit numeroApoyosSeleccionado={numeroApoyosSeleccionado} />
             </ModalUpdate>
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
         </GridItem>
 
     )

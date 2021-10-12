@@ -1,18 +1,20 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
+import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { DocumentosContext } from 'contexts/catalogos/documentosContext';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
-
+import { useTranslation } from 'react-i18next';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 const BootstrapInput = withStyles((theme) => ({
+
     root: {
         'label + &': {
             marginTop: theme.spacing(3),
@@ -49,13 +51,16 @@ const BootstrapInput = withStyles((theme) => ({
 
 
 export const DocumentosEdit = ({ documentoSeleccionado }) => {
-
+    const { t } = useTranslation();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { getVigencias, todasVigencias, actualizarDocumento } = useContext(DocumentosContext);
 
     //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
     /**
      * abre el dialogo de confirmación
      * @param {valores} e 
@@ -70,9 +75,29 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
      * Edita el elemento
      */
     const handleRegistrar = () => {
-        actualizarDocumento(valores);
-        setShowModalConfirmacion(false);
-        setShowModalUpdate(false);
+        
+        actualizarDocumento(valores).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        
+            }, 2000);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        });
     }
 
 
@@ -82,7 +107,7 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
             .required('El nombre del documento es obligatorio')
     });
 
-    const actualizarInfoDocumentos = async valores => {
+    const actualizarInfoDocumentos = async valores => {       
         confirmacionDialog(valores);
     }
 
@@ -124,6 +149,8 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
                             {props.touched.dsdocumento && props.errors.dsdocumento ? (
                                 <FormHelperText error={props.errors.dsdocumento}>{props.errors.dsdocumento}</FormHelperText>
                             ) : null}
+                        </DialogContent>
+                        <DialogContent>
                             <TextField
                                 id="dsdescripcion"
                                 label="Descripcion del documento"
@@ -137,39 +164,53 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
                             {props.touched.dsdescripcion && props.errors.dsdescripcion ? (
                                 <FormHelperText error={props.errors.dsdescripcion}>{props.errors.dsdescripcion}</FormHelperText>
                             ) : null}
+                        </DialogContent>
+                        <DialogContent>
+                     
 
-                            <NativeSelect
-                                fullWidth
+                            <TextField
                                 id="idVigencia"
+                                variant="outlined"
+                                label="Selecciona una vigencia"
+                                select
+                                fullWidth
                                 name="idVigencia"
-                                label="Vigencia"
                                 onChange={props.handleChange}
-                                input={<BootstrapInput />}
-                                value={props.values.vigencias}
+                                onBlur={props.handleBlur}
+                                value={props.values.idVigencia}
                             >
-                                <option aria-label="Seleccionar" value="0" />
+                                <MenuItem value="0">
+                                    <em>{t('cmb.ninguno')}</em>
+                                </MenuItem>
                                 {
-                                    todasVigencias.map((v, i) => (
-                                        <option key={i}
-                                            value={v.id}>
-                                            {v.dsvigencia}
-                                        </option>
-                                    )
+                                    todasVigencias.map(
+                                        item => (
+                                            <MenuItem
+                                                key={item.id}
+                                                value={item.id}>
+                                                {item.dsvigencia}
+                                            </MenuItem>
+                                        )
                                     )
                                 }
-
-                            </NativeSelect>
+                            </TextField>
                         </DialogContent>
 
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                Guardar
+                                {t('btn.guardar')}
                                 </Button>
                             </Grid>
                         </DialogContent>
                         <ModalConfirmacion
                             handleRegistrar={handleRegistrar} evento="Editar"
+                        />
+                        <Mensaje
+                            setOpen={setOpenSnackbar}
+                            open={openSnackbar}
+                            severity={error?"error":"success"}
+                            message={msjConfirmacion}
                         />
                     </form>
                 )

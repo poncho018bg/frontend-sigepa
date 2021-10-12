@@ -8,6 +8,7 @@ import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import BlockIcon from '@material-ui/icons/Block';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
@@ -17,9 +18,9 @@ import { LocalidadEdit } from './LocalidadEdit';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { DialogDelete } from 'views/Dialogs/DialogDelete';
-
+import { useTranslation } from 'react-i18next';
 export const Localidad = ({ localidad }) => {
-
+    const { t } = useTranslation();
     const {
         dsclavelocalidad, dslocalidad, dscodigopostal, fechaRegistro, activo
     } = localidad;
@@ -53,7 +54,7 @@ export const Localidad = ({ localidad }) => {
         
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
+        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
     }
 
     return (
@@ -73,7 +74,7 @@ export const Localidad = ({ localidad }) => {
                 </TableCell>
                 <TableCell align="center">
                     <IconButton aria-label="create" onClick={() => handleClickOpen(localidad)}>
-                        {(localidad.activo) ? <DeleteIcon /> : <RefreshIcon />}
+                        {(localidad.activo) ? <BlockIcon /> : <BlockIcon />}
                     </IconButton>
                 </TableCell>
             </TableRow >

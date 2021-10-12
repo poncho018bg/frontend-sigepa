@@ -92,11 +92,12 @@ export const ClasificacionServiciosContextProvider = props => {
     }
 
     const eliminarClasificacionServicios = async idClasificacionServicios => {
+
         try {
-            await axiosDeleteTipo(`clasificacionServicios/${idClasificacionServicios}`);
+            await axiosDeleteTipo(`clasificacionServicios/${idClasificacionServicios.id}`);
             dispatch({
                 type: ELIMINAR_CLASIFICACION_SERVICIOS,
-                payload: idClasificacionServicios,
+                payload: idClasificacionServicios.id,
             })
         } catch (error) {
             console.log(error);

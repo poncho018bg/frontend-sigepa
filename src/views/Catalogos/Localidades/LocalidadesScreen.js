@@ -17,9 +17,11 @@ import { ModalContext } from 'contexts/modalContex';
 import { LocalidadForm } from './LocalidadForm';
 import { Modal } from 'commons/Modal';
 import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
 export const LocalidadesScreen = () => {
+    const { t } = useTranslation();
     const classes = useStyles();
     const [searched, setSearched] = useState('');
 
@@ -64,7 +66,7 @@ export const LocalidadesScreen = () => {
         <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Localidades</h4>
+            <h4 className={classes.cardTitleWhite}>{t('pnl.localidades')}</h4>
             
             <CardActions>
             <Grid container spacing={3}>
@@ -80,7 +82,7 @@ export const LocalidadesScreen = () => {
                   </Grid>
               <Grid item xs={6}>
                 <SearchBar
-                  placeholder="Buscar"
+                  placeholder={t('lbl.buscar')}
                   value={searched}
                   onChange={(searchVal) => setSearched(searchVal)}
                   onCancelSearch={() => setSearched('')}
@@ -93,12 +95,12 @@ export const LocalidadesScreen = () => {
               < Table stickyHeader aria-label="sticky table" >
                 < TableHead >
                   < TableRow key="898as" >
-                    < TableCell > Estatus</TableCell >
-                    < TableCell > Clave</TableCell >
-                    < TableCell > Localidad  </TableCell >
-                    < TableCell> CP</TableCell >
-                    < TableCell> Registro</TableCell >
-                    < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                    < TableCell >{t('dgv.estatus')}</TableCell >
+                    < TableCell >{t('dgv.clave')} </TableCell >
+                    < TableCell >{t('dgv.localidad')}</TableCell >
+                    < TableCell>{t('dgv.cp')}</TableCell >
+                    < TableCell>{t('dgv.registro')}</TableCell >
+                    < TableCell colSpan={2} align="center">{t('dgv.acciones')}</TableCell >
                   </TableRow >
                 </TableHead >
                 < TableBody >
@@ -121,7 +123,7 @@ export const LocalidadesScreen = () => {
             < TablePagination
                 rowsPerPageOptions={[5, 10, 15]}
                 component="div"
-                labelRowsPerPage="Registros por página"
+                labelRowsPerPage={t('dgv.registrospaginas')}
                 count={total}
                 rowsPerPage={size}
                 page={page}

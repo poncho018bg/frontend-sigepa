@@ -9,8 +9,9 @@ import { ModalContext } from 'contexts/modalContex';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
+import { useTranslation } from 'react-i18next';
 export const TipoBeneficiarioForm = () => {
-
+    const { t } = useTranslation();
     const { registrarTiposBeneficiarios } = useContext(TiposBeneficiariosContext);
     const { setShowModal } = useContext(ModalContext);
     //dialog confirmar
@@ -40,7 +41,7 @@ export const TipoBeneficiarioForm = () => {
         registrarTiposBeneficiarios(tiposBeneficiario).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente `  );
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -98,7 +99,7 @@ export const TipoBeneficiarioForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

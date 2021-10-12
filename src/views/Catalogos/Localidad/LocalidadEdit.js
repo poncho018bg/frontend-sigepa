@@ -1,31 +1,30 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState,useEffect } from 'react';
 import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
-import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
-import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 import { useTranslation } from 'react-i18next';
+import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
+import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 
 export const LocalidadEdit = ({ objetoActualizar }) => {
     const { t } = useTranslation();
-    const { setShowModalUpdate,showModalUpdate } = useContext(ModalContextUpdate);
-    const { actualizar,getByID,localidad } = useContext(LocalidadesContext);
-    const { getMunicipioByIdHetoas,municipio } = useContext(MunicipiosContext);
+    const { setShowModalUpdate } = useContext(ModalContextUpdate);
+    const { actualizar, getByID, localidad } = useContext(LocalidadesContext);
+    
+    const { getMunicipiosId,municipiosListId } = useContext(MunicipiosContext);
 
+    //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
-    
-    useEffect(() => {
-        if(objetoActualizar){
-            getByID(objetoActualizar.id);
-            getMunicipioByIdHetoas(objetoActualizar._links.municipios.href);
-        }
-    }, [showModalUpdate])
 
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
     /**
      * abre el dialogo de confirmación
@@ -36,31 +35,57 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
         setValores(e)
     }
 
+    useEffect(() => {
+        getMunicipiosId()
+    }, [])
+
     /**
-     * Edita el elemento
-     */
+    * Edita el elemento
+    */
     const handleRegistrar = () => {
-        actualizar(valores, localidad,municipio);
-        setShowModalConfirmacion(false);
-        setShowModalUpdate(false);
+        console.log('handleRegistrar')
+
+        actualizar(valores).then(response => {
+            setOpenSnackbar(true);
+             
+            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+           
+           const timer = setTimeout(() => {
+        
+            setError(false);
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        
+            }, 1500);
+            return () => clearTimeout(timer);
+        })
+        .catch(err => {   
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+
+            setShowModalConfirmacion(false);
+            setShowModalUpdate(false);
+        });
     }
 
     // Schema de validación
     const schemaValidacion = Yup.object({
-            dsidlocalidad: Yup.string()
-                .required(`${t('msg.idlocalidadobligatorio')}`),
-            dsclavelocalidad: Yup.string()
-                .required(`${t('msg.clavelocalidadobligatoria')}`),
-            idMunicipio: Yup.string()
-                .required(`${t('msg.municipioobligatorio')}`),
-            dslocalidad: Yup.string()
-                .required(`${t('msg.localidadobligatoria')}`),
-            dscodigopostal: Yup.string()
-                .required(`${t('msg.cpobligatorio')}`)
+        dsidlocalidad: Yup.string()
+            .required(`${t('msg.idlocalidadobligatorio')}`),
+        dsclavelocalidad: Yup.string()
+            .required(`${t('msg.clavelocalidadobligatoria')}`),
+        idMunicipio: Yup.string()
+            .required(`${t('msg.municipioobligatorio')}`),
+        dslocalidad: Yup.string()
+            .required(`${t('msg.localidadobligatoria')}`),
+        dscodigopostal: Yup.string()
+            .required(`${t('msg.cpobligatorio')}`)
     });
 
     const actualizarInfo = async valores => {
         confirmacionDialog(valores);
+        console.log('actualizarInfo')
     }
 
 
@@ -68,11 +93,9 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
 
         <Formik
             enableReinitialize
-            initialValues={localidad}
-            validationSchema={schemaValidacion}
+            initialValues={objetoActualizar}
+            
             onSubmit={(valores) => {
-                console.log('valores');   
-                console.log(valores);
                 actualizarInfo(valores)
             }}
         >
@@ -84,7 +107,7 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                     <form
                         className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
                         onSubmit={props.handleSubmit}>
-
+                           {console.log(schemaValidacion)}
                         <DialogContent>
                             <TextField
                                 id="dsidlocalidad"
@@ -96,7 +119,7 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                                 onBlur={props.handleBlur}
                                 value={props.values?.dsidlocalidad}
                             />
-                              {props.touched.dsidlocalidad && props.errors.dsidlocalidad ? (
+                            {props.touched.dsidlocalidad && props.errors.dsidlocalidad ? (
                                 <FormHelperText error={props.errors.dsidlocalidad}>{props.errors.dsidlocalidad}</FormHelperText>
                             ) : null}
                         </DialogContent>
@@ -118,17 +141,17 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                             ) : null}
                         </DialogContent>
 
-                       
 
-                        {/* <DialogContent>
+
+                         <DialogContent>
                             <TextField
                                 variant="outlined"
                                 label={t('cmb.seleccionamunicipio')}
                                 select
                                 fullWidth
-                                id="idMunicipio"
-                                name="idMunicipio"
-                                value={props.values.idMunicipio}
+                                id="municipio_id"
+                                name="municipio_id"
+                                value={props.values.municipio_id}
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                             >
@@ -139,8 +162,8 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                                     municipiosListId.map(
                                         item => (
                                             <MenuItem
-                                                key={item.id}
-                                                value={item.id}>
+                                                key={item.idMunicipio}
+                                                value={item.idMunicipio}>
                                                 {item.dsMunicipio}
                                             </MenuItem>
                                         )
@@ -148,10 +171,10 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                                 }
 
                             </TextField>
-                            {props.touched.idMunicipio && props.errors.idMunicipio ? (
-                                <FormHelperText error={props.errors.idMunicipio}>{props.errors.idMunicipio}</FormHelperText>
+                            {props.touched.municipio_id && props.errors.municipio_id ? (
+                                <FormHelperText error={props.errors.municipio_id}>{props.errors.municipio_id}</FormHelperText>
                             ) : null}
-                        </DialogContent> */}
+                        </DialogContent> 
 
                         <DialogContent>
                             <TextField
@@ -188,12 +211,18 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                {t('btn.guardar')}
+                                    {t('btn.guardar')}
                                 </Button>
                             </Grid>
                         </DialogContent>
                         <ModalConfirmacion
                             handleRegistrar={handleRegistrar} evento="Editar"
+                        />
+                        <Mensaje
+                            setOpen={setOpenSnackbar}
+                            open={openSnackbar}
+                            severity={error ? "error" : "success"}
+                            message={msjConfirmacion}
                         />
                     </form>
                 )
@@ -201,5 +230,4 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
         </Formik>
 
     )
-
 }

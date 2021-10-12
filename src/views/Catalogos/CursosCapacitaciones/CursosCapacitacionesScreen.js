@@ -14,6 +14,7 @@ import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import BlockIcon from '@material-ui/icons/Block';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
@@ -23,7 +24,7 @@ import { stylesArchivo } from 'css/stylesArchivo';
 //contexts
 import { ModalContext } from 'contexts/modalContex';
 import { Modal } from 'commons/Modal';
-
+import { useTranslation } from 'react-i18next';
 
 import { CursosCapacitacionesForm } from './CursosCapacitacionesForm';
 import { CursosCapacitacionesEdit } from './CursosCapacitacionesEdit';
@@ -38,7 +39,7 @@ import { Mensaje } from 'components/Personalizados/Mensaje';
 const useStyles = makeStyles(stylesArchivo);
 
 export const CursosCapacitacionesScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
 
     const [rowsPerPage, setRowsPerPage] = useState(1);
@@ -90,7 +91,7 @@ export const CursosCapacitacionesScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
+        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
     }
 
     return (
@@ -98,9 +99,9 @@ export const CursosCapacitacionesScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Cursos Capacitaciones</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.cursoscapacitaciones')}</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Esta pantalla permite agregar los cursos capacitaciones
+                            {t('pnl.permiteagregarcursoscap')}
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -116,7 +117,7 @@ export const CursosCapacitacionesScreen = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}
@@ -129,10 +130,10 @@ export const CursosCapacitacionesScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estatus</TableCell >
-                                < TableCell> Curso</TableCell >
-                                < TableCell> Fecha Registro</TableCell >
-                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                < TableCell > {t('dgv.estatus')}</TableCell >
+                                < TableCell> {t('dgv.cursos')}</TableCell >
+                                < TableCell> {t('dgv.fecharegistro')}</TableCell >
+                                < TableCell colSpan={2} align="center"> {t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
@@ -157,7 +158,7 @@ export const CursosCapacitacionesScreen = () => {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <DeleteIcon /> : <RefreshIcon />}
+                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >
@@ -169,7 +170,7 @@ export const CursosCapacitacionesScreen = () => {
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={total}
                         rowsPerPage={size}
                         page={page}

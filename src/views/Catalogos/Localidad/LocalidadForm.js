@@ -1,24 +1,24 @@
 import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
 import React, { useContext, useState } from 'react';
+
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { ModalContext } from 'contexts/modalContex';
-import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
-import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-import { useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
+import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
+
 export const LocalidadForm = () => {
     const { t } = useTranslation();
     const { registrar } = useContext(LocalidadesContext);
     const { setShowModal } = useContext(ModalContext);
     const { municipiosListId } = useContext(MunicipiosContext);
 
-
-    //dialog confirmar
+    //dialog confirmacion
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
 
@@ -27,8 +27,10 @@ export const LocalidadForm = () => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
-    let history = useHistory();
-
+    /**
+     * abre el dialogo de confirmación
+     * @param {valores} e 
+     */
     const confirmacionDialog = (e) => {
         console.log("Aqui hace el llamado al dialog", e);
         setShowModalConfirmacion(true);
@@ -49,24 +51,23 @@ export const LocalidadForm = () => {
         console.log(localidad)
         registrar(localidad).then(response => {
             setOpenSnackbar(true);
-             
+
             setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
-           
-           const timer = setTimeout(() => {
-        
-            setError(false);
-            setShowModalConfirmacion(false);
-            setShowModal(false);
-        
+
+            const timer = setTimeout(() => {
+
+                setError(false);
+                setShowModalConfirmacion(false);
+                setShowModal(false);
+
             }, 1000);
             return () => clearTimeout(timer);
         })
-        .catch(err => {   
-            setOpenSnackbar(true);
-            setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
-        });;        ;
-      
+            .catch(err => {
+                setOpenSnackbar(true);
+                setError(true);
+                setMsjConfirmacion(`Ocurrio un error, ${err}`);
+            });;;
     }
 
     const formik = useFormik({
@@ -96,6 +97,9 @@ export const LocalidadForm = () => {
             confirmacionDialog(valores);
         }
     });
+
+
+
     return (
         <form
             onSubmit={formik.handleSubmit}
@@ -203,17 +207,17 @@ export const LocalidadForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    {t('btn.guardar')}
+                        {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
             />
-             <Mensaje
+            <Mensaje
                 setOpen={setOpenSnackbar}
                 open={openSnackbar}
-                severity={error?"error":"success"}
+                severity={error ? "error" : "success"}
                 message={msjConfirmacion}
             />
         </form>

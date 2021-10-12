@@ -13,6 +13,7 @@ import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import BlockIcon from '@material-ui/icons/Block';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
@@ -31,11 +32,11 @@ import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
 import { ApoyoServicioFormEdit } from './ApoyoServicioFormEdit';
 import { ApoyoServicioForm } from './ApoyoServicioForm';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
 export const ApoyoServicioScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
 
     const [rowsPerPage, setRowsPerPage] = useState(1);
@@ -79,7 +80,7 @@ export const ApoyoServicioScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`El registro ha sido inhabilitado exitosamente`);
+        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
     }
     const handleChangePage = (event, newPage) => {
         changePage(newPage)
@@ -98,7 +99,7 @@ export const ApoyoServicioScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Apoyo en servicio</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.apoyoservicio')}</h4>
                     <p className={classes.cardCategoryWhite}>
 
                     </p>
@@ -116,7 +117,7 @@ export const ApoyoServicioScreen = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}
@@ -129,9 +130,9 @@ export const ApoyoServicioScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell > Estatus </TableCell >
-                                < TableCell > TIPO DE SERVICIO </TableCell >
-                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                < TableCell > {t('dgv.estatus')} </TableCell >
+                                < TableCell > {t('dgv.tiposervicio')} </TableCell >
+                                < TableCell colSpan={2} align="center"> {t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
@@ -155,7 +156,7 @@ export const ApoyoServicioScreen = () => {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <DeleteIcon /> : <RefreshIcon />}
+                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >
@@ -167,7 +168,7 @@ export const ApoyoServicioScreen = () => {
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={total}
                         rowsPerPage={size}
                         page={page}

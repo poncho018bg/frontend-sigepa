@@ -19,12 +19,12 @@ import { BtActividadesContext } from 'contexts/catalogos/BtActividadesContext';
 import { obtenerRolesAction } from 'actions/rolesKeycloakAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { BitacoraActividades } from './BitacoraActividades';
-
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(stylesArchivo);
 
 export const BitacoraActividadesScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
     const dispatch = useDispatch();
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -108,7 +108,7 @@ export const BitacoraActividadesScreen = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}
@@ -133,7 +133,7 @@ export const BitacoraActividadesScreen = () => {
                         <Grid item xs={2}>
                             <TextField
                                 id="apellidopaterno"
-                                label="Apellido Paterno"
+                                label="Apellidos"
                                 variant="outlined"
                                 name={apellidopaterno}
                                 fullWidth
@@ -141,28 +141,8 @@ export const BitacoraActividadesScreen = () => {
                                 onChange={(e) => setApellidopaterno(e.target.value)}
                             />
                         </Grid>
-                        <Grid item xs={2}>
-                            <TextField
-                                id="apellidoMaterno"
-                                label="Apellido Materno"
-                                variant="outlined"
-                                name={apellidoMaterno}
-                                fullWidth
-                                value={apellidoMaterno}
-                                onChange={(e) => setApellidoMaterno(e.target.value)}
-                            />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <TextField
-                                id="puesto"
-                                label="Puesto"
-                                variant="outlined"
-                                name={puesto}
-                                fullWidth
-                                value={puesto}
-                                onChange={(e) => setPuesto(e.target.value)}
-                            />
-                        </Grid>
+                        
+                        
                         <Grid item xs={2}>
 
                             <TextField
@@ -175,7 +155,7 @@ export const BitacoraActividadesScreen = () => {
                                 onChange={(e) => setRol(e.target.value)}
                             >
                                 <MenuItem value="0">
-                                    <em>Ninguno</em>
+                                    <em>{t('cmb.ninguno')}</em>
                                 </MenuItem>
                                 {
                                     roles.map(
@@ -190,8 +170,26 @@ export const BitacoraActividadesScreen = () => {
                                 }
                             </TextField>
                         </Grid>
-                        <Grid item xs={2}>
 
+                        <Grid item xs={2}>
+                        <TextField
+                                id="fcvigenciainicio"
+                                label="Desde"
+                                type="date"
+                                fullWidth
+                                className={classes.textField}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={fecha}
+                                name={fecha}
+                                onChange={(e) => setFecha(e.target.value)}
+                                InputProps={{
+                                    inputProps: {
+                                       
+                                    }
+                                }}
+                            />
                         </Grid>
                         <Grid item xs={2}>
                             <Button variant="contained" color="primary" fullWidth onClick={buscarMovimientos}>
@@ -227,7 +225,7 @@ export const BitacoraActividadesScreen = () => {
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={btActividadesList.length}
                         rowsPerPage={rowsPerPage}
                         page={page}

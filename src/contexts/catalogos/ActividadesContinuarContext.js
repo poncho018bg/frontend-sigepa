@@ -84,17 +84,32 @@ export const ActividadesContinuarContextProvider = props => {
     }
 
 
-    const eliminarActividadesContinuar = async idActividadesContinuar => {
-        try {
-            await axiosDeleteTipo(`continuidadActividades/${idActividadesContinuar}`);
-            dispatch({
-                type: ELIMINAR_ACTIVIDADESCONTINUAR,
-                payload: idActividadesContinuar
-            })
+    const eliminarActividadesContinuar = async continuidadActividades => {
 
+        const { dsactividadcontinuidad,
+            id,
+            fechaRegistro,
+            activo, _links: { continuidadActividades: { href } } } = continuidadActividades;
+        const act = activo === true ? false : true;
+        let continuidadActividadesEnviar = {
+            dsactividadcontinuidad,
+            id,
+            fechaRegistro,
+            activo: act,
+        }
+
+        try {
+            const result = await axiosPostHetoas(href, continuidadActividadesEnviar, 'PUT');
+            console.log(result);
+            console.log('mir mira');
+            dispatch({
+                type: ELIMINAR_APOYOSERVICIO,
+                payload: result,
+            })
         } catch (error) {
             console.log(error);
         }
+
     }
 
     //Paginacion
@@ -104,7 +119,7 @@ export const ActividadesContinuarContextProvider = props => {
         dispatch(changePageNumber(page))
         try {
             getActividadesContinuar();
-        } catch (error) {            
+        } catch (error) {
             throw error;
         }
 

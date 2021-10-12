@@ -21,7 +21,7 @@ import { Mensaje } from "components/Personalizados/Mensaje";
 import { Loading } from "components/Personalizados/Loading";
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
-
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -33,7 +33,7 @@ const initPerfiles = {
 
 
 export const RolesScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
     const dispatch = useDispatch();
 
@@ -299,6 +299,9 @@ export const RolesScreen = () => {
 
     return (
         <>
+            <Button type="submit" color="primary" onClick={handleSavePerfiles} style={{}}>
+                {t('btn.guardar')}
+            </Button>
 
             <DialogContent>
                 <TextField
@@ -312,7 +315,7 @@ export const RolesScreen = () => {
                     onChange={(e) => setIdPerfilSelected(e.target.value)}
                 >
                     <MenuItem value="0">
-                        <em>Ninguno</em>
+                        <em>{t('cmb.ninguno')}</em>
                     </MenuItem>
                     {console.log('ROLES=>', roles)}
                     {
@@ -382,7 +385,7 @@ export const RolesScreen = () => {
             </List>
 
             <Button type="submit" color="primary" onClick={handleSavePerfiles}>
-                Guardar
+                {t('btn.guardar')}
             </Button>
 
 

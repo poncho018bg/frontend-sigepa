@@ -14,6 +14,7 @@ import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import BlockIcon from '@material-ui/icons/Block';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
@@ -29,11 +30,12 @@ import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 import { MunicipioForm } from './MunicipioForm';
 import { MunicipioFormEdit } from './MunicipioFormEdit';
 import { EstadosContext } from 'contexts/catalogos/EstadosContext';
-
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
 export const MunicipiosScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
@@ -45,6 +47,11 @@ export const MunicipiosScreen = () => {
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
+
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(() => {
         getMunicipios();
@@ -78,11 +85,14 @@ export const MunicipiosScreen = () => {
     }
     const deleteDialog = (e) => {
         setShowModalDelete(true);
-        setIdEliminar(e.id);
+        setIdEliminar(e);
     }
     const handleDeshabilitar = () => {
         eliminarMunicipio(idEliminar)
         setShowModalDelete(false);
+        setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -117,7 +127,7 @@ export const MunicipiosScreen = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}
@@ -130,7 +140,7 @@ export const MunicipiosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell > Estado</TableCell >
+                                < TableCell > Estatus</TableCell >
                                 < TableCell> Clave municipio</TableCell >
                                 < TableCell> Municipio</TableCell >
                                 < TableCell> Fecha Registro</TableCell >
@@ -148,11 +158,7 @@ export const MunicipiosScreen = () => {
                                     return (
                                         < TableRow key={row.id}>
                                             <TableCell>
-                                                <Checkbox
-                                                    checked={row.activo}
-                                                    color="primary"
-                                                    inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                />
+                                                {row.activo ? 'Activo' : 'Inactivo'}
                                             </TableCell>
                                             <TableCell>{row.dsclavemunicipio}</TableCell >
                                             <TableCell>{row.dsmunicipio}</TableCell >
@@ -164,7 +170,7 @@ export const MunicipiosScreen = () => {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <DeleteIcon /> : <RefreshIcon />}
+                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >
@@ -176,7 +182,7 @@ export const MunicipiosScreen = () => {
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={total}
                         rowsPerPage={size}
                         page={page}
@@ -194,6 +200,13 @@ export const MunicipiosScreen = () => {
             <ModalUpdate>
                 <MunicipioFormEdit municipioSeleccionada={municipioSeleccionada} />
             </ModalUpdate>
+
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
         </GridItem>
 
     )

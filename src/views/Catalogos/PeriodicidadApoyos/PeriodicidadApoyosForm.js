@@ -9,9 +9,9 @@ import { ModalContext } from 'contexts/modalContex';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 export const PeriodicidadApoyosForm = () => {
-
+    const { t } = useTranslation();
     const { registrarPeriodicidadApoyos } = useContext(PeriodicidadApoyosContext);
     const { setShowModal } = useContext(ModalContext);
 
@@ -40,7 +40,7 @@ export const PeriodicidadApoyosForm = () => {
         registrarPeriodicidadApoyos(periodicidadApoyos).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente `  );
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -97,7 +97,7 @@ export const PeriodicidadApoyosForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

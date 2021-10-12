@@ -13,6 +13,7 @@ import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import BlockIcon from '@material-ui/icons/Block';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
@@ -28,12 +29,14 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { PeriodicidadApoyosContext } from 'contexts/catalogos/periodicidadApoyosContext';
 import { TiposApoyosContext } from 'contexts/catalogos/tiposApoyosContext';
 import { ApoyoContext } from 'contexts/catalogos/ApoyoContext';
-
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { ModalContextDelete } from 'contexts/modalContexDelete';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(stylesArchivo);
 
 export const CatTipoApoyoScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
     const dispatch = useDispatch();
     const [page, setPage] = useState(0);
@@ -54,6 +57,11 @@ export const CatTipoApoyoScreen = () => {
     const [idApoyosl, setIdApoyosl] = useState('');
     const [idPeriodicidadsl, setIdPeriodicidadsl] = useState('');
     const { eliminarApoyo } = useContext(ApoyoContext)
+    const { setShowModalDelete } = useContext(ModalContextDelete);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+
 
 
     useEffect(() => {
@@ -93,11 +101,19 @@ export const CatTipoApoyoScreen = () => {
         eliminarApoyo(e)
         setOpenDialog(true);        
         cargarTiposApoyo()
+
+
+        
+        
     }
 
     const handleDeshabilitar = () => {
-        dispatch(borrarModuloAction());
+        dispatch(borrarModuloAction());       
+
+        setShowModalDelete(false);
         setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
     }
 
     const buscarTiposApoyos = () => {
@@ -154,7 +170,7 @@ export const CatTipoApoyoScreen = () => {
                                         onChange={(e) => setIdApoyosl(e.target.value)}
                                     >
                                         <MenuItem value="0">
-                                            <em>Ninguno</em>
+                                            <em>{t('cmb.ninguno')}</em>
                                         </MenuItem>
                                         {
                                             tiposApoyosList.map(
@@ -181,7 +197,7 @@ export const CatTipoApoyoScreen = () => {
                                         onChange={(e) => setIdPeriodicidadsl(e.target.value)}
                                     >
                                         <MenuItem value="0">
-                                            <em>Ninguno</em>
+                                            <em>{t('cmb.ninguno')}</em>
                                         </MenuItem>
                                         {
                                             periodicidadApoyosList.map(
@@ -207,7 +223,7 @@ export const CatTipoApoyoScreen = () => {
                             < Table stickyHeader aria-label="sticky table" >
                                 < TableHead >
                                     < TableRow key="898as" >
-                                        < TableCell > Estado</TableCell >
+                                        < TableCell > Estatus</TableCell >
                                         < TableCell > Tipo apoyo</TableCell >
                                         < TableCell> Apoyo</TableCell >
                                         < TableCell> Programa de apoyo en el que se otorga</TableCell >
@@ -228,11 +244,8 @@ export const CatTipoApoyoScreen = () => {
                                             return (
                                                 < TableRow key={row.id}>
                                                     <TableCell>
-                                                        <Checkbox
-                                                            checked={row.estatus === 'true'}
-                                                            color="primary"
-                                                            inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                        />
+                                                       
+                                                        {row.estatus === 'true' ? 'Activo':'Inactivo'}
                                                     </TableCell>
                                                     <TableCell>{row.descTiposApoyos}</TableCell>
                                                     <TableCell>{row.dsapoyo}</TableCell >
@@ -250,7 +263,7 @@ export const CatTipoApoyoScreen = () => {
                                                     </TableCell>
                                                     <TableCell align="center">
                                                         <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                            {(row.activo) ? <DeleteIcon /> : <RefreshIcon />}
+                                                            {(row.activo) ? <BlockIcon /> : <BlockIcon />}
                                                         </IconButton>
                                                     </TableCell>
                                                 </TableRow >
@@ -262,7 +275,7 @@ export const CatTipoApoyoScreen = () => {
                             < TablePagination
                                 rowsPerPageOptions={[5, 10, 15]}
                                 component="div"
-                                labelRowsPerPage="Registros por página"
+                                labelRowsPerPage={t('dgv.registrospaginas')}
                                 count={tipoApoyo.length}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
@@ -283,6 +296,13 @@ export const CatTipoApoyoScreen = () => {
             <ModalUpdate>
                 <DialogTipoApoyoFormEdit personaSeleccionada={personaSeleccionada} />
             </ModalUpdate>
+
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
 
         </>
     )

@@ -9,15 +9,16 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardActions from '@material-ui/core/CardActions';
 import SearchBar from "material-ui-search-bar";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid, Checkbox } from '@material-ui/core';
 
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
-
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
 
 export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVistaProgramas }) => {
+    const { t } = useTranslation();
     const classes = useStyles();
     const total = 0;
     const size = 0;
@@ -27,6 +28,7 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
     const [searched, setSearched] = useState('');
 
     useEffect(() => {
+       
         getProgramaDocumentos(documentoProgramaSeleccionado.id);
         console.log("programas del documento ---> ", programasDocumento)
     }, []);
@@ -47,7 +49,7 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
                         <Grid container spacing={3}>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}
@@ -67,6 +69,7 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
                     </CardActions>
                 </CardHeader>
                 <CardBody>
+                    {console.log('programasDocumento=>>=>>',programasDocumento)}
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
@@ -74,7 +77,7 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
                                 < TableCell align="center" >Tipo de Apoyo</TableCell >
                                 < TableCell align="center">Periodicidad</TableCell >
                                 < TableCell align="center"> Vigencia</TableCell >
-                                < TableCell align="center" > Activo</TableCell >
+                                < TableCell align="center" > Estatus</TableCell >
                             </TableRow >
                         </TableHead>
                         < TableBody >
@@ -103,13 +106,8 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
                                             </TableCell>
 
                                             <TableCell align="center">
-                                                <Checkbox
-                                                    disabled="true"
-                                                    checked={row.boactivo}
-                                                    color="primary"
-                                                    inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                />
-                                                {row.boactivo}
+                                                
+                                                {row.boactivo === true ? 'Activo' : 'Inactivo'}
                                             </TableCell>
                                         </TableRow >
                                     );
@@ -120,7 +118,7 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={total}
                         rowsPerPage={size}
                         page={page}

@@ -1,10 +1,12 @@
 import React, { createContext, useReducer } from 'react';
 import NumeroApoyosReducer from 'reducers/Catalogos/NumeroApoyosReducer';
 
-import { GET_NUMERO_APOYOS, REGISTRAR_NUMERO_APOYOS, MODIFICAR_NUMERO_APOYOS, ELIMINAR_NUMERO_APOYOS,
+import {
+    GET_NUMERO_APOYOS, REGISTRAR_NUMERO_APOYOS, MODIFICAR_NUMERO_APOYOS, ELIMINAR_NUMERO_APOYOS,
     AGREGAR_NUMERO_APOYOS_ERROR,
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA } from "../../types/actionTypes";
+    CAMBIAR_TAMANIO_PAGINA
+} from "../../types/actionTypes";
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
@@ -37,7 +39,7 @@ export const NumeroApoyosContextProvider = props => {
                 payload: result
             })
         } catch (error) {
-            console.log(error);            
+            console.log(error);
         }
     }
 
@@ -67,7 +69,7 @@ export const NumeroApoyosContextProvider = props => {
      * Se actualizan los tipos de apoyos
      * @param {numeroApoyos} numeroApoyos 
      */
-    const actualizarNumeroApoyos= async numeroApoyos => {
+    const actualizarNumeroApoyos = async numeroApoyos => {
         const { noapoyo, boactivo, _links: { ct_NumeroApoyos: { href } } } = numeroApoyos;
 
         let numeroApoyosEnviar = {
@@ -88,24 +90,25 @@ export const NumeroApoyosContextProvider = props => {
     }
 
     const eliminarNumeroApoyos = async idNumeroApoyos => {
+
         try {
-            await axiosDeleteTipo(`/numeroApoyos/${idNumeroApoyos}`);
+            await axiosDeleteTipo(`numeroApoyos/${idNumeroApoyos.id}`);
             dispatch({
                 type: ELIMINAR_NUMERO_APOYOS,
-                payload: idNumeroApoyos,
+                payload: idNumeroApoyos.id,
             })
         } catch (error) {
             console.log(error);
         }
     }
-     //Paginacion
-     const changePage = async (page) => {
+    //Paginacion
+    const changePage = async (page) => {
         console.log(page);
 
         dispatch(changePageNumber(page))
         try {
             getNumeroApoyos();
-        } catch (error) {            
+        } catch (error) {
             throw error;
         }
 

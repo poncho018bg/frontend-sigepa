@@ -10,9 +10,9 @@ import { EstadosContext } from 'contexts/catalogos/EstadosContext';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 export const EstadosForm = () => {
-
+    const { t } = useTranslation();
     const { registrarEstados } = useContext(EstadosContext);
     const { setShowModal } = useContext(ModalContext);
 
@@ -41,7 +41,7 @@ export const EstadosForm = () => {
         registrarEstados(estado).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente `  );
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -116,7 +116,7 @@ export const EstadosForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

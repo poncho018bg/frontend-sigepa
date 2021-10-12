@@ -5,7 +5,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 
@@ -14,6 +14,7 @@ import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import BlockIcon from '@material-ui/icons/Block';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
@@ -33,18 +34,24 @@ import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModalUpdate } from 'commons/ModalUpdate';
-
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
 export const TipoApoyoScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [tipoApoyoSeleccionado, setTipoApoyoSeleccionado] = useState();
     const { getTiposApoyos, eliminarTiposApoyos, tiposApoyosList, size, page, total, changePageSize, changePage } = useContext(TiposApoyosContext);
     const { setShowModal } = useContext(ModalContext);
-    const {  setShowModalDelete } = useContext(ModalContextDelete);
+    const { setShowModalDelete } = useContext(ModalContextDelete);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [openDialog, setOpenDialog] = useState(false);
+
 
     const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
@@ -52,10 +59,10 @@ export const TipoApoyoScreen = () => {
     useEffect(() => {
         getTiposApoyos();
         // eslint-disable-next-line
-        console.log("tipo de apoyo",tiposApoyosList);
+        console.log("tipo de apoyo", tiposApoyosList);
     }, []);
 
-    
+
     const onSelect = (e) => {
         setShowModalUpdate(true);
         setTipoApoyoSeleccionado(e);
@@ -67,13 +74,16 @@ export const TipoApoyoScreen = () => {
 
     const deleteDialog = (e) => {
         setShowModalDelete(true);
-        setIdEliminar(e.id);
+        setIdEliminar(e);
     }
 
 
     const handleDeshabilitar = () => {
         eliminarTiposApoyos(idEliminar);
         setShowModalDelete(false);
+        setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -92,7 +102,7 @@ export const TipoApoyoScreen = () => {
                 <CardHeader color="primary">
                     <h4 className={classes.cardTitleWhite}>Tipo de Apoyo</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Esta pantalla permite agregar tipos de apoyo  
+                        Esta pantalla permite agregar tipos de apoyo
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -108,7 +118,7 @@ export const TipoApoyoScreen = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}
@@ -121,7 +131,7 @@ export const TipoApoyoScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estado</TableCell >
+                                < TableCell > Estatus</TableCell >
                                 < TableCell> Tipo Apoyo</TableCell >
                                 < TableCell> Fecha Registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
@@ -138,11 +148,7 @@ export const TipoApoyoScreen = () => {
                                     return (
                                         < TableRow key={row.id}>
                                             <TableCell>
-                                                <Checkbox
-                                                    checked={row.boactivo}
-                                                    color="primary"
-                                                    inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                />
+                                                {row.activo ? 'Activo' : 'Inactivo'}
                                             </TableCell>
                                             <TableCell>{row.dstipoapoyo}</TableCell >
                                             <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
@@ -153,7 +159,7 @@ export const TipoApoyoScreen = () => {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <DeleteIcon /> : <RefreshIcon />}
+                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >
@@ -165,7 +171,7 @@ export const TipoApoyoScreen = () => {
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={total}
                         rowsPerPage={size}
                         page={page}
@@ -183,6 +189,12 @@ export const TipoApoyoScreen = () => {
             <ModalUpdate>
                 <TipoApoyoEdit tipoApoyoSeleccionado={tipoApoyoSeleccionado} />
             </ModalUpdate>
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
         </GridItem>
 
     )

@@ -11,6 +11,7 @@ import {
 from 'types/actionTypes';
 import ProgramasReducer from 'reducers/Catalogos/Programas/ProgramasReducer';
 import { GET_PROGRAMAS_BY_ID } from 'types/actionTypes';
+import { axiosGetHetoas } from 'helpers/axios';
 
 
 
@@ -166,7 +167,7 @@ export const ProgramasContextProvider = props => {
 
     const eliminar= async id => {
         try {
-            await axiosDeleteTipo(`programas/${id}`);
+            await axiosDeleteTipo(`programasOverride/${id}`);
             dispatch({
                 type: ELIMINAR_PROGRAMAS,
                 payload: id,
@@ -181,7 +182,7 @@ export const ProgramasContextProvider = props => {
      */
       const getByID= async id => {
         try {
-            const result = await axiosGet(`programas/${id}`);
+            const result = await axiosGet(`programasOverride/consultaId/${id}`);
             dispatch({
                 type: GET_PROGRAMAS_BY_ID,
                 payload: result

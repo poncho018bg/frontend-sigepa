@@ -1,5 +1,5 @@
 import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
-import React, { useContext, useEffect ,useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -10,13 +10,16 @@ import { ModuloContext } from 'contexts/moduloContext';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
-
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { useTranslation } from 'react-i18next';
 export const SubModuloForm = () => {
-
+    const { t } = useTranslation();
     const { registrarSubModulos } = useContext(SubModuloContext);
     const { setShowModal } = useContext(ModalContext);
     const { getModulos, moduloList } = useContext(ModuloContext);
-
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
     //dialog confirmacion
     const [valores, setValores] = useState();
@@ -58,9 +61,23 @@ export const SubModuloForm = () => {
             crcModulosCollection: crcModulosCollection
         }
 
-        console.log('REG=>', registrarSubModulos(module));
-        setShowModalConfirmacion(false);
-        setShowModal(false);
+
+        registrarSubModulos(module).then(response => {
+            setOpenSnackbar(true);
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+
+            const timer = setTimeout(() => {
+                setError(false);
+                setShowModalConfirmacion(false);
+                setShowModal(false);
+
+            }, 1000);
+            return () => clearTimeout(timer);
+        }).catch(err => {
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`);
+        });;
 
     }
 
@@ -86,7 +103,7 @@ export const SubModuloForm = () => {
                     onChange={formik.handleChange}
                 >
                     <MenuItem value="0">
-                        <em>Ninguno</em>
+                        <em>{t('cmb.ninguno')}</em>
                     </MenuItem>
                     {
                         moduloList.map(
@@ -125,13 +142,19 @@ export const SubModuloForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                        Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>
 
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
+            />
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
             />
         </form>
 

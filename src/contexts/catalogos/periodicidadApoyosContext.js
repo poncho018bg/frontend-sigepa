@@ -1,10 +1,12 @@
 import React, { createContext, useReducer } from 'react';
 import PeriodicidadApoyosReducer from 'reducers/Catalogos/PeriodicidadApoyosReducer';
 
-import { GET_PERIODICIDAD_APOYOS, REGISTRAR_PERIODICIDAD_APOYOS, MODIFICAR_PERIODICIDAD_APOYOS, ELIMINAR_PERIODICIDAD_APOYOS,
+import {
+    GET_PERIODICIDAD_APOYOS, REGISTRAR_PERIODICIDAD_APOYOS, MODIFICAR_PERIODICIDAD_APOYOS, ELIMINAR_PERIODICIDAD_APOYOS,
     AGREGAR_PERIODICIDAD_APOYOS_ERROR,
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA } from "../../types/actionTypes";
+    CAMBIAR_TAMANIO_PAGINA
+} from "../../types/actionTypes";
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
@@ -67,8 +69,8 @@ export const PeriodicidadApoyosContextProvider = props => {
      * Se actualizan los tipos de apoyos
      * @param {periodicidadApoyos} periodicidadApoyos 
      */
-    const actualizarPeriodicidadApoyos= async periodicidadApoyos => {
-        const {dsperiodicidad, boactivo, _links: { ct_PeriodicidadApoyos: { href } } } = periodicidadApoyos;
+    const actualizarPeriodicidadApoyos = async periodicidadApoyos => {
+        const { dsperiodicidad, boactivo, _links: { ct_PeriodicidadApoyos: { href } } } = periodicidadApoyos;
 
         let periodicidadApoyosEnviar = {
             dsperiodicidad,
@@ -88,25 +90,31 @@ export const PeriodicidadApoyosContextProvider = props => {
     }
 
     const eliminarPeriodicidadApoyos = async idPeriodicidadApoyos => {
+
+        const {activo, _links: { ct_PeriodicidadApoyos: { href } } } = idPeriodicidadApoyos;
+        const act = !activo;
+        idPeriodicidadApoyos.activo = act
         try {
-            await axiosDeleteTipo(`/periodicidadApoyos/${idPeriodicidadApoyos}`);
+            const result = await axiosPostHetoas(href, idPeriodicidadApoyos, 'PUT');
+            console.log(result);
+            console.log('mir mira');
             dispatch({
                 type: ELIMINAR_PERIODICIDAD_APOYOS,
-                payload: idPeriodicidadApoyos,
+                payload: result,
             })
         } catch (error) {
             console.log(error);
         }
     }
 
-      //Paginacion
-      const changePage = async (page) => {
+    //Paginacion
+    const changePage = async (page) => {
         console.log(page);
 
         dispatch(changePageNumber(page))
         try {
             getPeriodicidadApoyos();
-        } catch (error) {            
+        } catch (error) {
             throw error;
         }
 

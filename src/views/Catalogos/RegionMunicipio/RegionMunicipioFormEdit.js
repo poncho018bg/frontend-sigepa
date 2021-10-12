@@ -8,9 +8,9 @@ import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
-
+import { useTranslation } from 'react-i18next';
 export const RegionMunicipioFormEdit = ({ regionMunicipioSeleccionada }) => {
-
+    const { t } = useTranslation();
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { actualizarRegionMunicipios } = useContext(RegionMunicipiosContext);
@@ -101,7 +101,7 @@ export const RegionMunicipioFormEdit = ({ regionMunicipioSeleccionada }) => {
                                 onBlur={props.handleBlur}
                             >
                                 <MenuItem value="0">
-                                    <em>Ninguno</em>
+                                    <em>{t('cmb.ninguno')}</em>
                                 </MenuItem>
                                 {
                                     municipiosList.map(
@@ -154,7 +154,7 @@ export const RegionMunicipioFormEdit = ({ regionMunicipioSeleccionada }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                Guardar
+                                {t('btn.guardar')}
                                 </Button>
                             </Grid>
 

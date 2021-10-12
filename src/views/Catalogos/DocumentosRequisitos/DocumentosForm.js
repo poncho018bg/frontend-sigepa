@@ -1,4 +1,4 @@
-import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
+import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
@@ -12,7 +12,8 @@ import { DocumentosContext } from 'contexts/catalogos/documentosContext';
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
-
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { useTranslation } from 'react-i18next';
 
 const BootstrapInput = withStyles((theme) => ({
     root: {
@@ -50,7 +51,7 @@ const BootstrapInput = withStyles((theme) => ({
 }))(InputBase);
 
 export const DocumentosForm = () => {
-
+    const { t } = useTranslation();
     const { setShowModal } = useContext(ModalContext);
 
     const { getVigencias, todasVigencias, registrarDocumento } = useContext(DocumentosContext);
@@ -58,6 +59,9 @@ export const DocumentosForm = () => {
 
     const [valores, setValores] = useState();
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
 
     const confirmacionDialog = (e) => {
@@ -80,9 +84,24 @@ export const DocumentosForm = () => {
             boactivo: true,
             'programas': []
         }
-        registrarDocumento(documentosRequisitos);
-        setShowModalConfirmacion(false);
-        setShowModal(false);
+
+
+        registrarDocumento(documentosRequisitos).then(response => {
+            setOpenSnackbar(true);
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+
+            const timer = setTimeout(() => {
+                setError(false);
+                setShowModalConfirmacion(false);
+                setShowModal(false);
+
+            }, 1000);
+            return () => clearTimeout(timer);
+        }).catch(err => {
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`);
+        });;
     }
 
     useEffect(() => {
@@ -126,6 +145,8 @@ export const DocumentosForm = () => {
                 {formik.touched.dsdocumento && formik.errors.dsdocumento ? (
                     <FormHelperText error={formik.errors.dsdocumento}>{formik.errors.dsdocumento}</FormHelperText>
                 ) : null}
+            </DialogContent>
+            <DialogContent>
                 <TextField
                     id="dsdescripcion"
                     label="Descripcion del documento"
@@ -139,39 +160,53 @@ export const DocumentosForm = () => {
                 {formik.touched.dsdescripcion && formik.errors.dsdescripcion ? (
                     <FormHelperText error={formik.errors.dsdescripcion}>{formik.errors.dsdescripcion}</FormHelperText>
                 ) : null}
-
-                <NativeSelect
-                    fullWidth
+            </DialogContent>
+            <DialogContent>
+                <TextField
                     id="idVigencia"
+                    variant="outlined"
+                    label="Selecciona una vigencia"
+                    select
+                    fullWidth
                     name="idVigencia"
-                    label="Vigencia"
-                    value={formik.values.idVigencia}
                     onChange={formik.handleChange}
-                    input={<BootstrapInput />}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.idVigencia}
                 >
-                    <option aria-label="Seleccionar" value="0" />
+                    <MenuItem value="0">
+                        <em>{t('cmb.ninguno')}</em>
+                    </MenuItem>
                     {
-                        todasVigencias.map((v, i) => (
-                            <option key={i}
-                                value={v.id}>
-                                {v.dsvigencia}
-                            </option>
-                        )
+                        todasVigencias.map(
+                            item => (
+                                <MenuItem
+                                    key={item.id}
+                                    value={item.id}>
+                                    {item.dsvigencia}
+                                </MenuItem>
+                            )
                         )
                     }
+                </TextField>
 
-                </NativeSelect>
+
             </DialogContent>
 
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
+            />
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
             />
         </form>
 

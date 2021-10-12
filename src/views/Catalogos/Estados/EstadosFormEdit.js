@@ -8,9 +8,9 @@ import { EstadosContext } from 'contexts/catalogos/EstadosContext';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 export const EstadosFormEdit = ({ estadoSeleccionada }) => {
-
+    const { t } = useTranslation();
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { actualizarEstados } = useContext(EstadosContext);
@@ -110,6 +110,7 @@ export const EstadosFormEdit = ({ estadoSeleccionada }) => {
                         <DialogContent>
 
                             <TextField
+                            fullWidth
                                 id="dsestado"
                                 label="Desc. estado"
                                 variant="outlined"
@@ -127,7 +128,7 @@ export const EstadosFormEdit = ({ estadoSeleccionada }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                Guardar
+                                {t('btn.guardar')}
                                 </Button>
                             </Grid>
 

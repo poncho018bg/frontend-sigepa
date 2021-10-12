@@ -33,16 +33,16 @@ import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModalUpdate } from 'commons/ModalUpdate';
-
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
 export const FirmasScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
     const [searched, setSearched] = useState('');
     const [idEliminar] = useState(0);
     const [firmasSeleccionado, setfirmasSeleccionado] = useState();
-    const { getFirmas, eliminarFirmas, firmasList, size, page, total, changePageSize, changePage  } = useContext(FirmasContext);
+    const { getFirmas, eliminarFirmas, firmasList, size, page, total, changePageSize, changePage } = useContext(FirmasContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -83,7 +83,7 @@ export const FirmasScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Catalogo de Firmas</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.catalogofirmas')}</h4>
                     <CardActions>
                         <Grid container spacing={3}>
                             <Grid item xs={6}>
@@ -98,7 +98,7 @@ export const FirmasScreen = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}
@@ -111,12 +111,11 @@ export const FirmasScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Programa de Apoyo</TableCell >
-                                < TableCell > Nombre de quien autoriza</TableCell >
-                                < TableCell> Puesto</TableCell >
-                                < TableCell> Fecha de Alta</TableCell >
-                                < TableCell> Comentarios</TableCell >
-                                < TableCell colSpan={2}> Estatus</TableCell >
+                                < TableCell >{t('dgv.nombrequienautoriza')}</TableCell >
+                                < TableCell>{t('dgv.puesto')}</TableCell >
+                                < TableCell>{t('dgv.fechaalta')}</TableCell >
+                                < TableCell>{t('dgv.comentarios')}</TableCell >
+                                < TableCell colSpan={2}> {t('dgv.estatus')}</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
@@ -130,20 +129,13 @@ export const FirmasScreen = () => {
                                     return (
                                         < TableRow key={row.id}>
 
-                                            <TableCell>
-                                                <FirmaPrograma Firma={row} actualiza={row.fechaRegistro} />
-                                            </TableCell>
+
                                             <TableCell>{row.dsautoriza}</TableCell >
                                             <TableCell >{row.dspuesto}</TableCell>
                                             <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell >{row.dscomentario}</TableCell>
                                             <TableCell>
-                                                <Checkbox
-                                                    disabled="true"
-                                                    checked={row.activo}
-                                                    color="primary"
-                                                    inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                />
+                                                {row.activo === true ? 'Activo' : 'Inactivo'}
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
@@ -159,7 +151,7 @@ export const FirmasScreen = () => {
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={total}
                         rowsPerPage={size}
                         page={page}

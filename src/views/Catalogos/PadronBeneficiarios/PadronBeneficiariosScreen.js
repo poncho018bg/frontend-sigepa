@@ -8,9 +8,11 @@ import CardActions from '@material-ui/core/CardActions';
 import { makeStyles, Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
 import { stylesArchivo } from 'css/stylesArchivo';
 import SearchBar from 'material-ui-search-bar';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
 export const PadronBeneficiariosScreen = () => {
+  const { t } = useTranslation();
     const classes = useStyles();
     const [searched, setSearched] = useState('');
     const [page, setPage] = useState(0);
@@ -42,7 +44,7 @@ export const PadronBeneficiariosScreen = () => {
           
             <Grid item xs={6}>
               <SearchBar
-                placeholder="Buscar"
+                placeholder={t('lbl.buscar')}
                 value={searched}
                 onChange={(searchVal) => setSearched(searchVal)}
                 onCancelSearch={() => setSearched('')}
@@ -84,7 +86,7 @@ export const PadronBeneficiariosScreen = () => {
             < TablePagination
                 rowsPerPageOptions={[5, 10, 15]}
                 component="div"
-                labelRowsPerPage="Registros por página"
+                labelRowsPerPage={t('dgv.registrospaginas')}
                 count={paginas.length}
                 rowsPerPage={rowsPerPage}
                 page={page}

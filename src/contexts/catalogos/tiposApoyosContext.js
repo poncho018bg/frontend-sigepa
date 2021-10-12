@@ -1,10 +1,12 @@
 import React, { createContext, useReducer } from 'react';
 import TiposApoyosReducer from 'reducers/Catalogos/TiposApoyosReducer';
 
-import { GET_TIPOS_APOYOS, REGISTRAR_TIPOS_APOYOS, ELIMINAR_TIPOS_APOYOS, MODIFICAR_TIPOS_APOYOS,
+import {
+    GET_TIPOS_APOYOS, REGISTRAR_TIPOS_APOYOS, ELIMINAR_TIPOS_APOYOS, MODIFICAR_TIPOS_APOYOS,
     AGREGAR_PROGRAMA_ERROR,
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA } from "../../types/actionTypes";
+    CAMBIAR_TAMANIO_PAGINA
+} from "../../types/actionTypes";
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 
@@ -83,11 +85,18 @@ export const TiposApoyosContextProvider = props => {
     }
 
     const eliminarTiposApoyos = async idTiposApoyos => {
+
+        const { activo, _links: { ct_TiposApoyos: { href } } } = idTiposApoyos
+        const act = !activo
+        idTiposApoyos.activo = act
+
         try {
-            await axiosDeleteTipo(`/tiposApoyos/${idTiposApoyos}`);
+            const result = await axiosPostHetoas(href, idTiposApoyos, 'PUT');
+            console.log(result);
+            console.log('mir mira');
             dispatch({
                 type: ELIMINAR_TIPOS_APOYOS,
-                payload: idTiposApoyos,
+                payload: result,
             })
         } catch (error) {
             console.log(error);

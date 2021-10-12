@@ -9,9 +9,10 @@ import { ModalContext } from 'contexts/modalContex';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
+import { useTranslation } from 'react-i18next';
 
 export const MotivoRechazosForm = () => {
-
+    const { t } = useTranslation();
     const { registrarMotivoRechazos } = useContext(MotivoRechazosContext);
     const { setShowModal } = useContext(ModalContext);
 
@@ -48,7 +49,7 @@ export const MotivoRechazosForm = () => {
 
         registrarMotivoRechazos(motivoRechazos).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
 
             const timer = setTimeout(() => {
                 setError(false);
@@ -72,8 +73,8 @@ export const MotivoRechazosForm = () => {
         },
         validationSchema: Yup.object({
             dsmotivorechazo: Yup.string()
-                .required('El modulo  es obligatorio')
-                .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, "No debe contener caracteres especiales")
+                .required(`${t('msg.moduloobligatorio')}`)
+                .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`)
 
         }),
         onSubmit: async valores => {
@@ -91,7 +92,7 @@ export const MotivoRechazosForm = () => {
             <DialogContent>
                 <TextField
                     id="dsmotivorechazo"
-                    label="Descripción Motivo de Rechazo"
+                    label={t('lbl.descmotivosrechazo')}
                     variant="outlined"
                     name="dsmotivorechazo"
                     fullWidth
@@ -108,7 +109,7 @@ export const MotivoRechazosForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                        Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

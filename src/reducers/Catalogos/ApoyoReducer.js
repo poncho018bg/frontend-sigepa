@@ -1,4 +1,4 @@
-import { GET_APOYOS, REGISTRAR_APOYOS, ELIMINAR_APOYOS, MODIFICAR_APOYOS } from 'types/actionTypes';
+import { GET_APOYOS, REGISTRAR_APOYOS, ELIMINAR_APOYOS, MODIFICAR_APOYOS, AGREGAR_APOYOS_ERROR } from 'types/actionTypes';
 
 
 
@@ -10,6 +10,12 @@ export default (state, action) => {
                 ...state,
                 apoyosList: action.payload
             };
+        case AGREGAR_APOYOS_ERROR:
+            console.log(action.type);
+            return {
+                ...state,
+                error: action.payload
+            }
         case REGISTRAR_APOYOS:
             return {
                 ...state,

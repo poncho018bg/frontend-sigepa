@@ -8,9 +8,9 @@ import { ActividadesContinuarContext } from 'contexts/catalogos/ActividadesConti
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 export const ContinuidadActividadesEdit = ({ continuidadActividadesSeleccionada }) => {
-
+    const { t } = useTranslation();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { actualizarActividadesContinuar } = useContext(ActividadesContinuarContext);
 
@@ -110,7 +110,7 @@ export const ContinuidadActividadesEdit = ({ continuidadActividadesSeleccionada 
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                    Guardar
+                                {t('btn.guardar')}
                                 </Button>
                             </Grid>
                         </DialogContent>

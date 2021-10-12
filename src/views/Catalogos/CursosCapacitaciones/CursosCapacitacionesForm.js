@@ -8,9 +8,9 @@ import { CursosCapacitacionesContext } from 'contexts/catalogos/CursosCapacitaci
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 export const CursosCapacitacionesForm = () => {
-
+    const { t } = useTranslation();
     const { registrar } = useContext(CursosCapacitacionesContext);
     const { setShowModal } = useContext(ModalContext);
 
@@ -44,7 +44,7 @@ export const CursosCapacitacionesForm = () => {
         registrar(cursoCapacitaciones).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente`  );
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -69,7 +69,7 @@ export const CursosCapacitacionesForm = () => {
         },
         validationSchema: Yup.object({
             dsestado: Yup.string()
-                .required('El curso  es obligatorio')
+                .required(`${t('msg.obligatoriocurso')}`)
 
         }),
         onSubmit: async valores => {
@@ -85,7 +85,7 @@ export const CursosCapacitacionesForm = () => {
             <DialogContent>
                 <TextField
                     id="dsestado"
-                    label="Curso"
+                    label={t('lbl.curso')}
                     variant="outlined"
                     name="dsestado"
                     fullWidth
@@ -101,7 +101,7 @@ export const CursosCapacitacionesForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                        Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

@@ -48,6 +48,23 @@ export const EstadosContextProvider = props => {
         }
     }
 
+    const getTodosEstados = async () => {
+
+        try {
+
+            const { page, size } = state;
+            const resultado = await axiosGet(`estados?page=0&size=50`);
+            console.log(resultado._embedded.estados);
+            dispatch({
+                type: GET_ESTADOS,
+                payload: resultado
+            })
+        } catch (error) {
+
+            console.log(error);
+        }
+    }
+
     const getEstadoByIdHetoas = async endpoint => {
 
         try {
@@ -94,30 +111,27 @@ export const EstadosContextProvider = props => {
         }
         try {
             const resultado = await axiosPostHetoas(href, estadosEnviar, 'PUT');
-
             dispatch({
                 type: MODIFICAR_ESTADOS,
                 payload: resultado,
             })
-
         } catch (error) {
-
-
             console.log(error);
         }
     }
 
-    const eliminarEstados = async idEstado => {
+    const eliminarEstados = async estado => {
+      
+        const { activo, _links: { estados: { href } } } = estado;
+        const act = !activo
+        estado.activo = act
         try {
-
-            await axiosDeleteTipo(`estados/${idEstado}`);
+            const resultado = await axiosPostHetoas(href, estado, 'PUT');
             dispatch({
                 type: ELIMINAR_ESTADOS,
-                payload: idEstado
+                payload: resultado,
             })
-
         } catch (error) {
-
             console.log(error);
         }
     }
@@ -181,7 +195,9 @@ export const EstadosContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePage,
-                getEstadosAll
+                getEstadosAll,
+                getTodosEstados
+
             }}
         >
             {props.children}

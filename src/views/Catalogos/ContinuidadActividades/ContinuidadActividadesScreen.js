@@ -14,6 +14,7 @@ import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import BlockIcon from '@material-ui/icons/Block';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
@@ -28,19 +29,25 @@ import { ModalUpdate } from 'commons/ModalUpdate';
 import { ContinuidadActividadesForm } from './ContinuidadActividadesForm';
 import { ContinuidadActividadesEdit } from './ContinuidadActividadesEdit';
 import { ActividadesContinuarContext } from 'contexts/catalogos/ActividadesContinuarContext';
-
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
 export const ContinuidadActividadesScreen = () => {
+    const { t } = useTranslation();
     const classes = useStyles();
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [continuidadActividadesSeleccionada, setContinuidadActividadesSeleccionada] = useState();
 
-    const { actividadescontinuarList, getActividadesContinuar, eliminarActividadesContinuar, actualizarActividadesContinuar, size, page, total, changePageSize, changePage  } = useContext(ActividadesContinuarContext);
+    const { actividadescontinuarList, getActividadesContinuar, eliminarActividadesContinuar, actualizarActividadesContinuar, size, page, total, changePageSize, changePage } = useContext(ActividadesContinuarContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(() => {
         getActividadesContinuar();
@@ -59,30 +66,34 @@ export const ContinuidadActividadesScreen = () => {
 
     const deleteDialog = (e) => {
         setShowModalDelete(true);
-        setIdEliminar(e.id);
+        setIdEliminar(e);
     }
 
     const handleDeshabilitar = () => {
         eliminarActividadesContinuar(idEliminar)
         setShowModalDelete(false);
+        setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
     }
 
     const handleChangeCheck = (event) => {
         console.log("funciona re bien espero ---->", event.target);
-        console.log("funciona re bien espero ---->", event.target.checked);
+        console.log("funciona re bien espero ---->",
+            event.target.checked);
         console.log("funciona re bien espero ---->", event.target.name);
         const activo = event.target.checked;
         const lista = actividadescontinuarList.map((r) => {
             if (r.id === event.target.name) {
                 console.log("antiguo r", r)
-                const nuevaR = {...r,activo};
+                const nuevaR = { ...r, activo };
                 console.log("nuevo r", nuevaR);
                 actualizarActividadesContinuar(nuevaR);
                 return { ...r, activo };
             }
             return r;
         });
-        console.log("actividades ---> ",lista);
+        console.log("actividades ---> ", lista);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -117,7 +128,7 @@ export const ContinuidadActividadesScreen = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}
@@ -130,7 +141,7 @@ export const ContinuidadActividadesScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell > Estado</TableCell >
+                                < TableCell > Estatus</TableCell >
                                 < TableCell> Descripción de actividad </TableCell>
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
@@ -146,16 +157,10 @@ export const ContinuidadActividadesScreen = () => {
                                     return (
                                         < TableRow key={row.id}>
                                             <TableCell>
-                                                <Checkbox
-                                                    name={row.id}
-                                                    checked={row.activo}
-                                                    color="primary"
-                                                    inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                    onChange={handleChangeCheck}
-                                                />
+                                            {row.activo === true ? 'Activo':'Inactivo'}
                                             </TableCell>
                                             <TableCell>{row.dsactividadcontinuidad}</TableCell >
-                                            <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />
@@ -163,7 +168,7 @@ export const ContinuidadActividadesScreen = () => {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <DeleteIcon /> : <RefreshIcon />}
+                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >
@@ -175,7 +180,7 @@ export const ContinuidadActividadesScreen = () => {
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={total}
                         rowsPerPage={size}
                         page={page}
@@ -193,6 +198,13 @@ export const ContinuidadActividadesScreen = () => {
             <ModalUpdate>
                 <ContinuidadActividadesEdit continuidadActividadesSeleccionada={continuidadActividadesSeleccionada} />
             </ModalUpdate>
+
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
         </GridItem>
 
     )

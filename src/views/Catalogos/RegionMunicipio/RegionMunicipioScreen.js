@@ -14,6 +14,7 @@ import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import BlockIcon from '@material-ui/icons/Block';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
@@ -28,11 +29,12 @@ import { ModalUpdate } from 'commons/ModalUpdate';
 import { RegionMunicipiosContext } from 'contexts/catalogos/RegionMunicipiosContext';
 import { RegionMunicipioForm } from './RegionMunicipioForm';
 import { RegionMunicipioFormEdit } from './RegionMunicipioFormEdit';
-
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
 export const RegionMunicipioScreen = () => {
-
+  const { t } = useTranslation();
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -43,6 +45,11 @@ export const RegionMunicipioScreen = () => {
   const { setShowModal } = useContext(ModalContext);
   const { setShowModalDelete } = useContext(ModalContextDelete);
   const { setShowModalUpdate } = useContext(ModalContextUpdate);
+
+  const [error, setError] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [msjConfirmacion, setMsjConfirmacion] = useState('');
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     getRegionMunicipios();
@@ -60,13 +67,17 @@ export const RegionMunicipioScreen = () => {
 
   const deleteDialog = (e) => {
     setShowModalDelete(true);
-    setIdEliminar(e.id);
+    setIdEliminar(e);
   }
 
 
   const handleDeshabilitar = () => {
+    console.log('elim=>', idEliminar)
     eliminarRegionMunicipios(idEliminar)
     setShowModalDelete(false);
+    setOpenDialog(false);
+    setOpenSnackbar(true);
+    setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
   }
 
   const handleChangePage = (event, newPage) => {
@@ -100,7 +111,7 @@ export const RegionMunicipioScreen = () => {
               </Grid>
               <Grid item xs={6}>
                 <SearchBar
-                  placeholder="Buscar"
+                  placeholder={t('lbl.buscar')}
                   value={searched}
                   onChange={(searchVal) => setSearched(searchVal)}
                   onCancelSearch={() => setSearched('')}
@@ -113,7 +124,7 @@ export const RegionMunicipioScreen = () => {
           < Table stickyHeader aria-label="sticky table" >
             < TableHead >
               < TableRow key="898as" >
-                < TableCell > Estado</TableCell >
+                < TableCell > Estatus</TableCell >
                 < TableCell> Clave</TableCell >
                 < TableCell> Región</TableCell >
                 < TableCell> Fecha Registro</TableCell >
@@ -127,15 +138,11 @@ export const RegionMunicipioScreen = () => {
                     row.dsRegion.toLowerCase().includes(searched.toLowerCase()) : null)
                   : regionList
                 ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-                  
+
                   return (
                     < TableRow key={row.id}>
                       <TableCell>
-                        <Checkbox
-                          checked={row.activo}
-                          color="primary"
-                          inputProps={{ 'aria-label': 'Checkbox A' }}
-                        />
+                        {row.activo ? 'Activo' : 'Inactivo'}
                       </TableCell>
                       <TableCell>{row.noclaveregion}</TableCell >
                       <TableCell>{row.dsRegion}</TableCell >
@@ -148,7 +155,7 @@ export const RegionMunicipioScreen = () => {
                       </TableCell>
                       <TableCell align="center">
                         <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                          {(row.activo) ? <DeleteIcon /> : <RefreshIcon />}
+                          {(row.activo) ? <BlockIcon /> : <BlockIcon />}
                         </IconButton>
                       </TableCell>
                     </TableRow >
@@ -160,7 +167,7 @@ export const RegionMunicipioScreen = () => {
           < TablePagination
             rowsPerPageOptions={[5, 10, 15]}
             component="div"
-            labelRowsPerPage="Registros por página"
+            labelRowsPerPage={t('dgv.registrospaginas')}
             count={regionList.length}
             rowsPerPage={rowsPerPage}
             page={page}
@@ -178,6 +185,13 @@ export const RegionMunicipioScreen = () => {
       <ModalUpdate>
         <RegionMunicipioFormEdit regionMunicipioSeleccionada={regionMunicipioSeleccionada} />
       </ModalUpdate>
+
+      <Mensaje
+        setOpen={setOpenSnackbar}
+        open={openSnackbar}
+        severity={error ? "error" : "success"}
+        message={msjConfirmacion}
+      />
     </GridItem>
 
   )

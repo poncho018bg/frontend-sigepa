@@ -62,9 +62,10 @@ export const MunicipiosContextProvider = props => {
 
     const registrarMunicipios = async municipio => {
         try {
+
             municipio.regiosnes = [];
             municipio.crcCoberturaapoyos = []
-            const municp = `/${municipio.estadoId}`
+            const municp = `/${municipio.idEstado}`
             municipio.estadoId = municp
             console.log(municipio);
             const resultado = await axiosPost('municipios', municipio);
@@ -85,13 +86,13 @@ export const MunicipiosContextProvider = props => {
 
     const actualizarMunicipios = async municipio => {
         console.log(municipio);
-        const { dsclavemunicipio, dsmunicipio, activo, estadoId, _links: { municipios: { href } } } = municipio;
+        const { dsclavemunicipio, dsmunicipio, activo, estadoId, idEstado, _links: { municipios: { href } } } = municipio;
         let municipioEnviar = {
             dsclavemunicipio,
             dsmunicipio,
             activo,
             Municipios: [],
-            estadoId: `/${estadoId}`,
+            estadoId: `/${idEstado}`,
             regiosnes: [],
             crcCoberturaapoyos: [],
             _links: {
@@ -112,17 +113,23 @@ export const MunicipiosContextProvider = props => {
         }
     }
 
-    const eliminarMunicipio = async idMunicipio => {
-        try {
+    const eliminarMunicipio = async municipio => {
+  
 
-            await axiosDeleteTipo(`municipios/${idMunicipio}`);
+        const { activo,idEstado, _links: { municipios: { href } } } = municipio;
+        const act = activo === true ? false : true;
+        municipio.activo = act
+        municipio.localidadesCollection=[]
+        municipio.estadoId =  `/${idEstado}`
+        municipio.regiosnes=[]
+        municipio.crcCoberturaapoyos=[]
+        try {
+            const resultado = await axiosPostHetoas(href, municipio, 'PUT');
             dispatch({
                 type: ELIMINAR_MUNICIPIOS,
-                payload: idMunicipio
+                payload: resultado,
             })
-
         } catch (error) {
-
             console.log(error);
         }
     }

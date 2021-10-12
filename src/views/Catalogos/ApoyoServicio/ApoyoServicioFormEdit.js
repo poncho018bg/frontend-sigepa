@@ -11,10 +11,10 @@ import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { useHistory } from "react-router";
-
+import { useTranslation } from 'react-i18next';
 
 export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
-
+    const { t } = useTranslation();
     let history = useHistory();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
 
@@ -43,7 +43,7 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
         actualizarApoyoServicio(valores).then(response => {
 
             setOpenSnackbar(true);
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
             const timer = setTimeout(() => {
                 setError(false);
                 history.push("/admin/apoyoservicio")
@@ -108,7 +108,7 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
                                 onBlur={props.handleBlur}
                             >
                                 <MenuItem value="0">
-                                    <em>Ninguno</em>
+                                    <em>{t('cmb.ninguno')}</em>
                                 </MenuItem>
                                 {
                                     clasificacionServiciosList.map(
@@ -147,7 +147,7 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                    Guardar
+                                {t('btn.guardar')}
                                 </Button>
                             </Grid>
 

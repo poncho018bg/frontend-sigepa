@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import cx from "classnames";
 import { Switch, Route, Redirect } from "react-router-dom";
 // creates a beautiful scrollbar
@@ -35,11 +35,11 @@ export default function Dashboard(props) {
     require("assets/img/sidebar-6.jpg").default
   );
   const dispatch = useDispatch();
-  const  rolesall  = useSelector(state => state.roles);
-  const  {perfilSubmodulos}  = useSelector(state => state.submodulosbyperfil);
-  const [rolUser,setRolUser] = React.useState('');
-  const [opcionesMenu,setOpcionesMenu] = React.useState('');
- 
+  const rolesall = useSelector(state => state.roles);
+  const { perfilSubmodulos } = useSelector(state => state.submodulosbyperfil);
+  const [rolUser, setRolUser] = React.useState('');
+  const [opcionesMenu, setOpcionesMenu] = React.useState('');
+
   const [color, setColor] = React.useState("blue");
   const [bgColor, setBgColor] = React.useState("black");
   // const [hasImage, setHasImage] = React.useState(true);
@@ -154,40 +154,42 @@ export default function Dashboard(props) {
     }
   };
 
- 
-  React.useEffect(() => {      
-    {console.log("grupos {1}", UserService.getGroups())}   
+
+  React.useEffect(() => {
+    { console.log("grupos {1}", UserService.getGroups()) }
     const cargarRolesActivos = () => dispatch(obtenerRolesAction());
-    cargarRolesActivos();    
+    cargarRolesActivos();
   }, [UserService.getGroups()]);
 
 
-  React.useEffect(() => {    
-    
-    console.log('Todos los roles =>',rolesall.roles)
+  React.useEffect(() => {
+
+    console.log('Todos los roles =>', rolesall.roles)
     rolesall.roles.forEach(element => {
-      console.log('KR',element.path,)
-      console.log('UR',UserService.getGroups())
-       if(element.path === UserService.getGroups()[0]){
-        setRolUser( element.id)
-         console.log('rolUser',rolUser)
-       }
-    });    
+      console.log('KR', element.path,)
+      console.log('UR', UserService.getGroups())
+      if (element.path === UserService.getGroups()[0]) {
+        setRolUser(element?.id)
+        console.log('rolUser', rolUser)
+      }
+    });
 
   }, [rolesall]);
 
-  React.useEffect(() => {      
-    console.log('entro a getSubmodulosByPerfilId 123')
-    console.log(rolUser)
-     const cargarPerfilesActivos = () => dispatch(getSubmodulosByPerfilId(rolUser)); 
-     cargarPerfilesActivos();
+  React.useEffect(() => {
+    
+    if (rolUser!== '') {
+      const cargarPerfilesActivos = () => dispatch(getSubmodulosByPerfilId(rolUser));
+      cargarPerfilesActivos();
+    }
 
-   
+
+
   }, [rolUser]);
 
-  React.useEffect(() => {      
+  React.useEffect(() => {
     setOpcionesMenu(perfilSubmodulos)
-    console.log('Permisosccccc=>',perfilSubmodulos)
+    console.log('Permisosccccc=>', perfilSubmodulos)
   }, [perfilSubmodulos]);
 
 
@@ -196,8 +198,8 @@ export default function Dashboard(props) {
 
   return (
     <div className={classes.wrapper}>
-      {console.log('perfiles1we=>',opcionesMenu)}
-     
+      {console.log('perfiles1we=>', opcionesMenu)}
+
       <Sidebar
         routes={routes}
         logoText={"SIGEPA"}

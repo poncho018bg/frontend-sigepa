@@ -30,7 +30,10 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import "./styles.css";
 import { boolean } from 'yup';
-
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { ModalContext } from 'contexts/modalContex';
+import { useTranslation } from 'react-i18next';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -53,7 +56,7 @@ function intersection(a, b) {
 }
 
 export const DialogTipoApoyoForm = (props) => {
-
+    const { t } = useTranslation();
     /**
      * estaba el dispatch
      */
@@ -83,15 +86,26 @@ export const DialogTipoApoyoForm = (props) => {
         checkedA: false
     });
 
-
-
+    const { setShowModal } = useContext(ModalContext);
+    const [valores, setValores] = useState();
     const [selectedTipApoy, setSelectedTipApoy] = useState([]);
     const [selectedActividadesContinuar, setSelectedActividadesContinuar] = useState([]);
-
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
     const [error, setError] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [invisible, setInvisible] = React.useState(true);
+
+
+
+    /**
+     * abre el dialogo de confirmación
+     * @param {valores} e 
+     */
+    const confirmacionDialog = (e) => {
+        setShowModalConfirmacion(true);
+        setValores(e)
+    }
 
 
     useEffect(() => {
@@ -178,7 +192,7 @@ export const DialogTipoApoyoForm = (props) => {
             dsdescripcion: Yup.string()
                 .required('La descripción obligatorio'),
             estatus: Yup.string()
-                .required('El estatus es obligatorio'),           
+                .required('El estatus es obligatorio'),
             fcvigenciainicio: Yup.string()
                 .required('La vigencia desde obligatorio'),
             fcvigenciafin: Yup.string()
@@ -195,51 +209,62 @@ export const DialogTipoApoyoForm = (props) => {
         }),
 
         onSubmit: async valores => {
-            { console.log('ERRORES=>', formik.errors) }
-            console.log('VALORES=>', valores)
-
-            const { dsapoyo, idPrograma, dsdescripcion, estatus, visita, fcvigenciainicio, fcvigenciafin,
-                cantidadPesos, enServicio,
-                descApoyoEspecie, idPeriodicidad, observaciones, formaEntrega, numEntregas, numApoyos
-            } = valores
-            let nuevoApoyo = {
-                dsapoyo: dsapoyo,
-                idPrograma: idPrograma,
-                dsdescripcion: dsdescripcion,
-                estatus: estatus,
-                visita: visita,
-                idTipoApoyo: selectedTipApoy,
-                fcvigenciainicio: fcvigenciainicio,
-                fcvigenciafin: fcvigenciafin,
-                cantidadPesos: cantidadPesos,
-                enServicio: enServicio,
-                descApoyoEspecie: descApoyoEspecie,
-                idPeriodicidad: idPeriodicidad,
-                observaciones: observaciones,
-                formaEntrega: formaEntrega,
-                numEntregas: numEntregas,
-                idActividadContinuidadApoyo: selectedActividadesContinuar,
-                idEstado: 'a3de85a7-6c23-46a4-847b-d79b3a90963d',
-                numApoyos: numApoyos
-
-            }
-
-            console.log('ERRORS=>', formik.errors)
-            registrarApoyo(nuevoApoyo)
-            setOpenSnackbar(true);
-            setError(false);
-            setMsjConfirmacion(`El apoyo fue registrado correctamente `);
-            const timer = setTimeout(() => {
-                history.push("/admin/catapoyoservicio")
-            }, 1000);
-            return () => clearTimeout(timer);
+            confirmacionDialog(valores);
 
         }
     })
 
+    const handleRegistrar = () => {
+
+        const { dsapoyo, idPrograma, dsdescripcion, estatus, visita, fcvigenciainicio, fcvigenciafin,
+            cantidadPesos, enServicio,
+            descApoyoEspecie, idPeriodicidad, observaciones, formaEntrega, numEntregas, numApoyos
+        } = valores
+        let nuevoApoyo = {
+            dsapoyo: dsapoyo,
+            idPrograma: idPrograma,
+            dsdescripcion: dsdescripcion,
+            estatus: estatus,
+            visita: visita,
+            idTipoApoyo: selectedTipApoy,
+            fcvigenciainicio: fcvigenciainicio,
+            fcvigenciafin: fcvigenciafin,
+            cantidadPesos: cantidadPesos,
+            enServicio: enServicio,
+            descApoyoEspecie: descApoyoEspecie,
+            idPeriodicidad: idPeriodicidad,
+            observaciones: observaciones,
+            formaEntrega: formaEntrega,
+            numEntregas: numEntregas,
+            idActividadContinuidadApoyo: selectedActividadesContinuar,
+            idEstado: 'a3de85a7-6c23-46a4-847b-d79b3a90963d',
+            numApoyos: numApoyos
+
+        }
+
+        
+        registrarApoyo(nuevoApoyo).then(response => {
+            setOpenSnackbar(true);
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+
+            const timer = setTimeout(() => {
+                setError(false);
+                setShowModalConfirmacion(false);
+                setShowModal(false);
+                history.push("/admin/catapoyoservicio")
+
+            }, 1000);
+            return () => clearTimeout(timer);
+        }).catch(err => {
+            setOpenSnackbar(true);
+            setError(true);
+            setMsjConfirmacion(`Ocurrio un error, ${err}`);
+        });;
+
+    }
 
 
- 
+
     return (
         <Card>
             <form onSubmit={formik.handleSubmit}>
@@ -271,7 +296,7 @@ export const DialogTipoApoyoForm = (props) => {
                         onChange={formik.handleChange}
                     >
                         <MenuItem value="0">
-                            <em>Ninguno</em>
+                            <em>{t('cmb.ninguno')}</em>
                         </MenuItem>
                         {
                             programasList.map(
@@ -508,7 +533,7 @@ export const DialogTipoApoyoForm = (props) => {
                         onChange={formik.handleChange}
                     >
                         <MenuItem value="0">
-                            <em>Ninguno</em>
+                            <em>{t('cmb.ninguno')}</em>
                         </MenuItem>
                         {
                             periodicidadApoyosList.map(
@@ -553,7 +578,7 @@ export const DialogTipoApoyoForm = (props) => {
                             onChange={formik.handleChange}
                         >
                             <MenuItem value="0">
-                                <em>Ninguno</em>
+                                <em>{t('cmb.ninguno')}</em>
                             </MenuItem>
                             {
                                 numeroApoyosList.map(
@@ -616,10 +641,14 @@ export const DialogTipoApoyoForm = (props) => {
                 <CardBody >
                     <Grid container justify="flex-end">
                         <Button variant="contained" color="primary" type='submit'>
-                            Guardar
+                        {t('btn.guardar')}
                         </Button>
                     </Grid>
                 </CardBody>
+
+                <ModalConfirmacion
+                    handleRegistrar={handleRegistrar} evento="Registrar"
+                />
 
                 <Mensaje
                     setOpen={setOpenSnackbar}

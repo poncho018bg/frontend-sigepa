@@ -9,8 +9,9 @@ import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { useHistory } from "react-router";
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
+    const { t } = useTranslation();
     let history = useHistory();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { actualizarMotivoRechazos } = useContext(MotivoRechazosContext);
@@ -38,7 +39,7 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
 
         actualizarMotivoRechazos(valores).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente`);
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
             const timer = setTimeout(() => {
                 setError(false);
                 history.push("/admin/motivosRechazos")
@@ -57,8 +58,8 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsmotivorechazo: Yup.string()
-            .required('El motivo de rechazo  es obligatorio')
-            .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, "No debe contener caracteres especiales")
+            .required(`${t('msg.moduloobligatorio')}`)
+            .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`)
     });
 
     const actualizarInfoMotivoRechazos = async valores => {
@@ -88,7 +89,7 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dsmotivorechazo"
-                                label="Descripción Motivo de Rechazo"
+                                label={t('lbl.descmotivosrechazo')}
                                 variant="outlined"
                                 name="dsmotivorechazo"
                                 fullWidth
@@ -105,7 +106,7 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                    Guardar
+                                {t('btn.guardar')}
                                 </Button>
                             </Grid>
                         </DialogContent>

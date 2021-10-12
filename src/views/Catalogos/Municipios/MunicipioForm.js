@@ -10,9 +10,9 @@ import { EstadosContext } from 'contexts/catalogos/EstadosContext';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 export const MunicipioForm = () => {
-
+    const { t } = useTranslation();
     const { registrarMunicipios } = useContext(MunicipiosContext);
     const { getEstados, estadosList } = useContext(EstadosContext);
     const { setShowModal } = useContext(ModalContext);
@@ -43,7 +43,7 @@ export const MunicipioForm = () => {
         registrarMunicipios(municipio).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`El registro ha sido guardado exitosamente `  );
+            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -103,7 +103,7 @@ export const MunicipioForm = () => {
                     onBlur={formik.handleBlur}
                 >
                     <MenuItem value="0">
-                        <em>Ninguno</em>
+                        <em>{t('cmb.ninguno')}</em>
                     </MenuItem>
                     {
                         estadosList.map(
@@ -156,7 +156,7 @@ export const MunicipioForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    Guardar
+                    {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>

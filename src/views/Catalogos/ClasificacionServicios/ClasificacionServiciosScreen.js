@@ -14,6 +14,7 @@ import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import BlockIcon from '@material-ui/icons/Block';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
@@ -24,7 +25,7 @@ import { stylesArchivo } from 'css/stylesArchivo';
 import { ClasificacionServiciosContext } from 'contexts/catalogos/clasificacionServiciosContext';
 import { ModalContext } from 'contexts/modalContex';
 import { Modal } from 'commons/Modal';
-
+import { useTranslation } from 'react-i18next';
 
 import { ClasificacionServiciosForm } from './ClasificacionServiciosForm';
 import { ClasificacionServiciosEdit } from './ClasificacionServiciosEdit';
@@ -33,11 +34,12 @@ import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModalUpdate } from 'commons/ModalUpdate';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 const useStyles = makeStyles(stylesArchivo);
 
 export const ClasificacionServiciosScreen = () => {
-
+    const { t } = useTranslation();
     const classes = useStyles();
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
@@ -47,6 +49,10 @@ export const ClasificacionServiciosScreen = () => {
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(() => {
         getClasificacionServicios();
@@ -66,13 +72,16 @@ export const ClasificacionServiciosScreen = () => {
 
     const deleteDialog = (e) => {
         setShowModalDelete(true);
-        setIdEliminar(e.id);
+        setIdEliminar(e);
     }
 
 
     const handleDeshabilitar = () => {
         eliminarClasificacionServicios(idEliminar)
         setShowModalDelete(false);
+        setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -107,7 +116,7 @@ export const ClasificacionServiciosScreen = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <SearchBar
-                                    placeholder="Buscar"
+                                    placeholder={t('lbl.buscar')}
                                     value={searched}
                                     onChange={(searchVal) => setSearched(searchVal)}
                                     onCancelSearch={() => setSearched('')}
@@ -120,7 +129,7 @@ export const ClasificacionServiciosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estado</TableCell >
+                                < TableCell > Estatus</TableCell >
                                 < TableCell> Clasificacion de los servicios</TableCell >
                                 <TableCell> Abreviatura</TableCell>
                                 < TableCell> Fecha Registro</TableCell >
@@ -138,11 +147,8 @@ export const ClasificacionServiciosScreen = () => {
                                     return (
                                         < TableRow key={i}>
                                             <TableCell>
-                                                <Checkbox
-                                                    checked={row.activo}
-                                                    color="primary"
-                                                    inputProps={{ 'aria-label': 'Checkbox A' }}
-                                                />
+                                                
+                                                {row.activo ? 'Activo':'Inactivo'}
                                             </TableCell>
                                             <TableCell>{row.dsclasificacionservicio}</TableCell>
                                             <TableCell>{row.dsabreviatura}</TableCell>
@@ -154,7 +160,7 @@ export const ClasificacionServiciosScreen = () => {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <DeleteIcon /> : <RefreshIcon />}
+                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >
@@ -166,7 +172,7 @@ export const ClasificacionServiciosScreen = () => {
                     < TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        labelRowsPerPage="Registros por página"
+                        labelRowsPerPage={t('dgv.registrospaginas')}
                         count={total}
                         rowsPerPage={size}
                         page={page}
@@ -184,6 +190,12 @@ export const ClasificacionServiciosScreen = () => {
             <ModalUpdate>
                 <ClasificacionServiciosEdit clasificacionServiciosSeleccionado={clasificacionServiciosSeleccionado} />
             </ModalUpdate>
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
         </GridItem>
 
     )

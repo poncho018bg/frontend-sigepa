@@ -8,10 +8,10 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
-
+import { useTranslation } from 'react-i18next';
 
 export const FirmasEdit = ({ firmasSeleccionado }) => {
-
+    const { t } = useTranslation();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { actualizarFirmas, getProgramas, programaList } = useContext(FirmasContext);
 
@@ -39,35 +39,34 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
     const handleRegistrar = () => {
         actualizarFirmas(valores).then(response => {
             setOpenSnackbar(true);
-             
-            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
-           
-           const timer = setTimeout(() => {
-        
-            setError(false);
-            setShowModalConfirmacion(false);
-            setShowModalUpdate(false);
-        
+
+            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `);
+
+            const timer = setTimeout(() => {
+
+                setError(false);
+                setShowModalConfirmacion(false);
+                setShowModalUpdate(false);
+
             }, 2000);
             return () => clearTimeout(timer);
         })
-        .catch(err => {   
-            setOpenSnackbar(true);
-            setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            .catch(err => {
+                setOpenSnackbar(true);
+                setError(true);
+                setMsjConfirmacion(`Ocurrio un error, ${err}`);
 
-            setShowModalConfirmacion(false);
-            setShowModalUpdate(false);
-        });
+                setShowModalConfirmacion(false);
+                setShowModalUpdate(false);
+            });
     }
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsautoriza: Yup.string()
-            .required('Es obligatorio poner la persona que autoriza'),
-        idPrograma: Yup.string()
-            .required('El programa de apoyo es obligatorio'),
+            .required(`${t('msg.obligatoriopersonaautoriza')}`),
+        
         dspuesto: Yup.string()
-            .required('Es obligatorio poner el puesto'),
+            .required(`${t('msg.obligatoriopuesto')}`),
     });
 
     useEffect(() => {
@@ -93,39 +92,10 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
                     <form
                         className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
                         onSubmit={props.handleSubmit}>
-
                         <DialogContent>
                             <TextField
-                                id="idPrograma"
-                                variant="outlined"
-                                label="Programa de Apoyo"
-                                select
-                                fullWidth
-                                name="idPrograma"
-                                onChange={props.handleChange}
-                                value={props.values.idPrograma}
-                            >
-                                <MenuItem value="0">
-                                    <em>Ninguno</em>
-                                </MenuItem>
-                                {
-                                    programaList.map(
-                                        item => (
-                                            <MenuItem
-                                                key={item.id}
-                                                value={item.id}>
-                                                {item.dsprograma}
-                                            </MenuItem>
-                                        )
-                                    )
-                                }
-                            </TextField>
-                            {props.touched.idPrograma && props.errors.idPrograma ? (
-                                <FormHelperText error={props.errors.idPrograma}>{props.errors.idPrograma}</FormHelperText>
-                            ) : null}
-                            <TextField
                                 id="dsautoriza"
-                                label="Nombre del funcionario que autoriza"
+                                label={t('lbl.nomfuncionarioautorizan')}
                                 variant="outlined"
                                 name="dsautoriza"
                                 fullWidth
@@ -136,9 +106,11 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
                             {props.touched.dsautoriza && props.errors.dsautoriza ? (
                                 <FormHelperText error={props.errors.dsautoriza}>{props.errors.dsautoriza}</FormHelperText>
                             ) : null}
+                        </DialogContent>
+                        <DialogContent>
                             <TextField
                                 id="dspuesto"
-                                label="Puesto"
+                                label={t('lbl.puesto')}
                                 variant="outlined"
                                 name="dspuesto"
                                 fullWidth
@@ -149,9 +121,16 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
                             {props.touched.dspuesto && props.errors.dspuesto ? (
                                 <FormHelperText error={props.errors.dspuesto}>{props.errors.dspuesto}</FormHelperText>
                             ) : null}
+                        </DialogContent>
+                        
+
+                        <DialogContent>
+
+
+
                             <TextField
                                 id="dscomentario"
-                                label="Comentarios (opcional)"
+                                label={t('lbl.comentariosopc')}
                                 variant="outlined"
                                 name="dscomentario"
                                 fullWidth
@@ -167,7 +146,7 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                Guardar
+                                {t('btn.guardar')}
                                 </Button>
                             </Grid>
                         </DialogContent>
@@ -177,7 +156,7 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
                         <Mensaje
                             setOpen={setOpenSnackbar}
                             open={openSnackbar}
-                            severity={error?"error":"success"}
+                            severity={error ? "error" : "success"}
                             message={msjConfirmacion}
                         />
                     </form>
