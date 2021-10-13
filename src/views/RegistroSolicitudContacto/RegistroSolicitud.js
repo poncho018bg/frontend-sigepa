@@ -8,6 +8,8 @@ import StepLabel from '@material-ui/core/StepLabel';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 
+import { axiosGet } from 'helpers/axiosPublico';
+
 import { RegistroCurp } from './RegistroCurp';
 import { RegistroDatosSolicitante } from './RegistroDatosSolicitante';
 import { RegistroDireccion } from './RegistroDireccion';
@@ -37,7 +39,7 @@ export const RegistroSolicitud = () => {
     const [activar, setActivar] = useState();
     const [curp, setCurp] = useState();
 
-    const { beneficiario, registrarBeneficiario, direccion, registrarDireccionBeneficiario } = useContext(RegistroSolicitudContext);    
+    const { beneficiario, registrarBeneficiario, direccion, registrarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
     //
     const child = useRef();
     const direccionChild = useRef();

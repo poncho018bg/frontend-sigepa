@@ -46,10 +46,6 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     const { curpR, llenarDatosBeneficiario } = props;
     //console.log(props.allStates.about);
     const classes = useStyles();
-    const [simpleSelect, setsimpleSelect] = React.useState("");
-    const [design, setdesign] = React.useState(false);
-    const [code, setcode] = React.useState(false);
-    const [develop, setdevelop] = React.useState(false);
     const [nombre, setNombre] = useState("")
     const [curp, setCurp] = useState("");
     const [apellidoPaterno, setApellidoPaterno] = useState("");
@@ -66,10 +62,14 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     const { getGeneros, generosList,
         estudiosList, getEstudios,
         estadoCivilList, getEstadoCivil,
-        getIdentificaciones, identificacionesList } = useContext(RegistroSolicitudContext);
+        getIdentificaciones, identificacionesList,
+        getBeneficiario,
+        beneficiario
+    } = useContext(RegistroSolicitudContext);
 
     useEffect(() => {
-        console.log("curp que llega --> ", curpR)
+
+        console.log("curp que llega --> ", curpR);
 
         axios.get(`http://localhost:9080/v1/curp/consultaCurp/${curpR}`)
             .then(response => {
@@ -89,17 +89,19 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                 setFechaNacimientoAxu(response.data.response[0].fechaNacimientoAxu);
                 setEdad(response.data.response[0].edad);
             });
-
         getGeneros();
         getEstudios();
         getEstadoCivil();
         getIdentificaciones();
+        getBeneficiario(curpR);
+
     }, [curpR]);
 
     const llenado = () => {
         console.log("entro al momento de cargar --->",
             nombre, apellidoPaterno, apellidoMaterno, genero, estudios, estadoCivil, identificacion);
 
+        console.log("beneficiario que consulto si existe o no", beneficiario);
         llenarDatosBeneficiario(nombre,
             apellidoPaterno,
             apellidoMaterno,
@@ -204,29 +206,6 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                         />
                                     </GridItem>
                                     <GridItem xs={12} sm={6}>
-                                        {/*
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="genero"
-                                            label="Genero"
-                                            variant="outlined"
-                                            nombre="genero"
-                                            fullWidth
-                                            value={genero}
-                                        >
-                                            <MenuItem value="0">
-                                                <em>Seleccionar</em>
-                                            </MenuItem>
-                                            {generosList.map((gen, i) => {
-                                                <MenuItem
-                                                    key={i}
-                                                    value={gen.id}>
-                                                    {gen.dsgenero}
-                                                </MenuItem>
-
-                                            })}
-                                        </TextField>
-                                        */}
 
                                         <TextField
                                             style={{ marginBottom: '20px' }}
@@ -340,32 +319,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                         <GridContainer justify="center">
                             <GridItem xs={12} sm={12} md={12} lg={10}>
                                 <GridContainer>
-                                    {/*
                                     <GridItem xs={12} sm={4}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="tipoIdentificacion"
-                                            label="Tipo de Identificación Oficial"
-                                            variant="outlined"
-                                            name="tipoIdentificacion"
-                                            fullWidth
-                                        />
-                                    
-                                    </GridItem>
-                                    */}
-                                    <GridItem xs={12} sm={4}>
-                                        {/*
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="apellidoPaterno"
-                                            label="Identificación Oficial"
-                                            variant="outlined"
-                                            nombre="nombre"
-                                            fullWidth
-                                            value={apellidoPaterno}
-
-                                        />
-                                        */}
                                         <TextField
                                             style={{ marginBottom: '20px' }}
                                             id="ine"

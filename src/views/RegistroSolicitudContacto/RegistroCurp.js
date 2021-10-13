@@ -36,31 +36,6 @@ export const RegistroCurp = ({ setActivar, setCurp }) => {
     const [email, setemail] = React.useState("");
     const [emailState, setemailState] = React.useState("");
 
-    //const [curp, setCurp] = useState('');
-
-    /*
-    React.useImperativeHandle(ref, () => ({
-        isValidated: () => {
-            return isValidated();
-        },
-        sendState: () => {
-            return sendState();
-        },
-        state: {
-            email,
-            emailState,
-            curp
-        },
-    }));
-    const sendState = () => {
-        return {
-            email,
-            emailState,
-            curp
-        };
-    };
-    */
-
     const Next = () => {
         console.log("entro al next");
         setActivar(isValidated());

@@ -7,7 +7,8 @@ import {
     GET_ESTADO_CIVIL,
     GET_IDENTIFICACIONES_OFICIALES,
     REGISTRAR_BENEFICIARIO,
-    REGISTRAR_DIRECCION_BENEFICIARIO
+    REGISTRAR_DIRECCION_BENEFICIARIO,
+    GET_BENEFICIARIO
 } from 'types/actionTypes';
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas, axiosPut } from 'helpers/axiosPublico';
@@ -82,8 +83,8 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
-    const registrarBeneficiario = async beneficiario =>{
-        try{
+    const registrarBeneficiario = async beneficiario => {
+        try {
             console.log(beneficiario);
             const resultado = await axiosPost('beneficiarioOverride', beneficiario);
             console.log("resultado --->", resultado);
@@ -91,13 +92,13 @@ export const RegistroSolicitudContextProvider = props => {
                 type: REGISTRAR_BENEFICIARIO,
                 payload: resultado
             });
-        }catch (error) {
+        } catch (error) {
             console.log(error);
         }
     }
 
-    const registrarDireccionBeneficiario = async direccion =>{
-        try{
+    const registrarDireccionBeneficiario = async direccion => {
+        try {
             console.log(direccion);
             const resultado = await axiosPost('domicilioOverride', direccion);
             console.log("resultado --->", resultado);
@@ -105,13 +106,13 @@ export const RegistroSolicitudContextProvider = props => {
                 type: REGISTRAR_DIRECCION_BENEFICIARIO,
                 payload: resultado
             });
-        }catch (error) {
+        } catch (error) {
             console.log(error);
         }
     }
 
-    const actualizarDireccionBeneficiario = async direccion =>{
-        try{
+    const actualizarDireccionBeneficiario = async direccion => {
+        try {
             console.log(direccion);
             const resultado = await axiosPut('domicilioOverride', direccion);
             console.log("resultado --->", resultado);
@@ -119,7 +120,20 @@ export const RegistroSolicitudContextProvider = props => {
                 type: REGISTRAR_DIRECCION_BENEFICIARIO,
                 payload: resultado
             });
-        }catch (error) {
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const getBeneficiario = async curp => {
+        try {
+            const resultado = await axiosGet(`beneficiarioOverride/curp/${curp}`);
+            dispatch({
+                type: GET_BENEFICIARIO,
+                payload: resultado
+            }
+            );
+        } catch (error) {
             console.log(error);
         }
     }
@@ -138,7 +152,8 @@ export const RegistroSolicitudContextProvider = props => {
             getIdentificaciones,
             registrarBeneficiario,
             registrarDireccionBeneficiario,
-            actualizarDireccionBeneficiario
+            actualizarDireccionBeneficiario,
+            getBeneficiario
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>
