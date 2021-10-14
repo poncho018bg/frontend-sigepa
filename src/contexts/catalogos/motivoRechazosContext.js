@@ -58,7 +58,7 @@ export const MotivoRechazosContextProvider = props => {
                     resolve(response);
                     dispatch({
                         type: REGISTRAR_MOTIVO_RECHAZOS,
-                        payload: response
+                        payload: response.data
                     })
                 }).catch(error => {
                     reject(error);
@@ -97,7 +97,7 @@ export const MotivoRechazosContextProvider = props => {
                 resolve(response);
                 dispatch({
                     type: MODIFICAR_MOTIVO_RECHAZOS,
-                    payload: response
+                    payload: response.data
                 })
             }).catch(error => {
                 reject(error);
@@ -123,7 +123,7 @@ export const MotivoRechazosContextProvider = props => {
             console.log(result);
             console.log('mir mira');
             dispatch({
-                type: ELIMINAR_APOYOSERVICIO,
+                type: ELIMINAR_MOTIVO_RECHAZOS,
                 payload: result,
             })
         } catch (error) {
