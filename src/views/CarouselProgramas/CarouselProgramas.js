@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -20,15 +20,32 @@ import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
-
+import { Loading } from "components/Personalizados/Loading";
+import { useTranslation } from 'react-i18next';
+import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
+import { Link } from 'react-router-dom';
+import { Modal } from 'commons/Modal';
+import { ModalContext } from 'contexts/modalContex';
+import { DialogProgramas } from './DialogProgramas';
+import Dialog from '@material-ui/core/Dialog';
+import { DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import moment from 'moment';
+import 'moment/locale/es';
+import { useHistory } from "react-router";
 const useStyles = makeStyles(styles);
 
 export const CarouselProgramas = () => {
-
+    const { t } = useTranslation();
+    let history = useHistory();
+    const [loading, setLoading] = useState(true);
+    const [programDetail, setProgramDetail] = useState();
+    const { programasList, getProgramasActivos } = useContext(ProgramasContext);
     const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
     const [priceImage1, setPriceImage1] = React.useState(
         require("assets/img/card-1.jpeg").default
-      );
+    );
+
 
     const responsive = {
         superLargeDesktop: {
@@ -50,7 +67,32 @@ export const CarouselProgramas = () => {
         }
     };
 
+    useEffect(() => {
 
+        getProgramasActivos('3').then(data => {
+            setTimeout(() => setLoading(false), 500);
+
+        });;
+
+    }, []);
+
+
+
+    const detallePrograma = (e) => {
+        setOpen(true);
+        setProgramDetail(e)
+        console.log('detallePrograma=>', e)
+    }
+    
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const redirectRegister = () => {
+        setOpen(false);       
+        history.push("/admin/registroSolicitud")
+    };
     return (
         <div style={{ paddingTop: "10%" }}>
             <Carousel
@@ -69,73 +111,70 @@ export const CarouselProgramas = () => {
                 removeArrowOnDeviceType={["tablet", "mobile"]}
                 dotListClass="custom-dot-list-style"
                 itemClass="carousel-item-padding-40-px"
-                style={{ paddingTop: "10%",  }}
+                style={{ paddingTop: "10%", }}
             >
                 <div>
+                    {programasList.map(prog => {
 
-                    <GridContainer>
-                        <GridItem xs={12} sm={12} md={10}>
-                            <Card product className={classes.cardHover}>
-                                <CardHeader image className={classes.cardHeaderHover}>
-                                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                                        <img src={priceImage1} alt="..."  />
-                                    </a>
-                                </CardHeader>
-                                <CardBody>
-                                    <div className={classes.cardHoverUnder}>
-                                        <Tooltip
-                                            id="tooltip-top"
-                                            title="View"
-                                            placement="bottom"
-                                            classes={{ tooltip: classes.tooltip }}
-                                        >
-                                            <Button color="transparent" simple justIcon>
-                                                <ArtTrack className={classes.underChartIcons} />
-                                            </Button>
-                                        </Tooltip>
-                                        <Tooltip
-                                            id="tooltip-top"
-                                            title="Edit"
-                                            placement="bottom"
-                                            classes={{ tooltip: classes.tooltip }}
-                                        >
-                                            <Button color="success" simple justIcon>
-                                                <Refresh className={classes.underChartIcons} />
-                                            </Button>
-                                        </Tooltip>
-                                        <Tooltip
-                                            id="tooltip-top"
-                                            title="Remove"
-                                            placement="bottom"
-                                            classes={{ tooltip: classes.tooltip }}
-                                        >
-                                            <Button color="danger" simple justIcon>
-                                                <Edit className={classes.underChartIcons} />
-                                            </Button>
-                                        </Tooltip>
-                                    </div>
-                                    <h4 className={classes.cardProductTitle}>
-                                        <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                                            Cozy 5 Stars Apartment
-                                        </a>
-                                    </h4>
-                                    <p className={classes.cardProductDesciprion}>
-                                        The place is close to Barceloneta Beach and bus stop just 2 min
-                                        by walk and near to {'"'}Naviglio{'"'} where you can enjoy the
-                                        main night life in Barcelona.
-                                    </p>
-                                </CardBody>
-                                <CardFooter product>
-                                    <div className={classes.price}>
-                                        <h4>$899/night</h4>
-                                    </div>
-                                    <div className={`${classes.stats} ${classes.productStats}`}>
-                                        <Place /> Barcelona, Spain
-                                    </div>
-                                </CardFooter>
-                            </Card>
-                        </GridItem>
-                    </GridContainer>
+                        return (
+                            <>
+                                <GridContainer>
+                                    <GridItem xs={12} sm={12} md={10}>
+                                        <Card product className={classes.cardHover}>
+                                            <CardHeader image className={classes.cardHeaderHover}>
+                                                <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                                                    <img src={priceImage1} alt="..." />
+                                                </a>
+                                            </CardHeader>
+                                            <CardBody>
+                                                <div className={classes.cardHoverUnder}>
+                                                </div>
+                                                <h4 className={classes.cardProductTitle}>
+                                                    {prog.dsclaveprograma} - {prog.dsprograma}
+                                                </h4>
+                                                <p className={classes.cardProductDesciprion}>
+                                                    {prog.dsdescripcion}
+                                                </p>
+                                            </CardBody>
+                                            <CardFooter >
+                                                <div >
+                                                    <Link onClick={() => detallePrograma(prog)} >
+                                                        <h4>Ver más</h4>
+                                                    </Link>
+
+                                                </div>
+                                            </CardFooter>
+                                        </Card>
+                                    </GridItem>
+                                </GridContainer>
+
+                            </>
+                        )
+                    })}
+
+                    <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="lg"  fullWidth={true}>
+                        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+                            <h4> {programDetail?.dsclaveprograma} - {programDetail?.dsprograma}</h4>
+                        </DialogTitle>
+                        <DialogContent >
+
+                            <p>{programDetail?.dsdescripcion}</p>
+                            <p>{programDetail?.dscriterioelegibilidad}</p>
+                            <p>Vigencia del Programa del {moment(programDetail?.fcvigenciainicio).format(" DD [de] MMMM ")} 
+                                al {moment(programDetail?.fcvigenciafin).format(" DD [de] MMMM  YYYY ")}</p>
+                            <p>Periodo de registro presencial del {moment(programDetail?.fcregistropresencialinicio).format(" DD [de] MMMM ")} 
+                                al {moment(programDetail?.fcregistropresencialfin).format(" DD [de] MMMM  YYYY ")}</p>
+                            <p>Periodo de registro Web del {moment(programDetail?.fcregistrowebinicio).format(" DD [de] MMMM ")} 
+                                al  {moment(programDetail?.fcregistrowebfin).format(" DD [de] MMMM  YYYY ")}</p>
+
+                        </DialogContent>
+                        <DialogActions>
+                            <Button autoFocus onClick={redirectRegister} color="primary">
+                                Registro solicitud de apoyo
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+
 
                 </div>
 
