@@ -56,7 +56,7 @@ export const ApoyoServicioContextProvider = props => {
                     resolve(response);
                     dispatch({
                         type: REGISTRAR_APOYOSERVICIO,
-                        payload: response
+                        payload: response.data
                     })
                 }).catch(error => {
                     reject(error);
@@ -94,7 +94,7 @@ export const ApoyoServicioContextProvider = props => {
                 resolve(response);
                 dispatch({
                     type: MODIFICAR_APOYOSERVICIO,
-                    payload: response
+                    payload: response.data
                 })
             }).catch(error => {
                 reject(error);

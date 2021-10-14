@@ -37,7 +37,10 @@ export default (state, action) => {
     case ELIMINAR_APOYOSERVICIO:
       return {
         ...state,
-        apoyoservicioList: state.apoyoservicioList.filter(apoyoservicio => apoyoservicio.id !== action.payload)
+        //apoyoservicioList: state.apoyoservicioList.filter(apoyoservicio => apoyoservicio.id !== action.payload)
+        apoyoservicioList: state.apoyoservicioList.map(
+          apoyoservicio => apoyoservicio.id === action.payload.id ? action.payload : apoyoservicio
+      )
       };
     case CAMBIAR_PAGINA:
       return {
