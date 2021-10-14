@@ -139,13 +139,13 @@ export const CursosCapacitacionesScreen = () => {
                         < TableBody >
                             {
                                 (searched ?
-                                    cursosCapacitacionesList.filter(row => row.dsmotivorechazo ?
-                                        row.dsmotivorechazo.toLowerCase().includes(searched.toLowerCase()) : null)
+                                    cursosCapacitacionesList.filter(row => row.dsestado ?
+                                        row.dsestado.toLowerCase().includes(searched.toLowerCase()) : null)
                                     : cursosCapacitacionesList
-                                ).map(row => {
+                                ).map((row,i) => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
-                                        < TableRow key={row.id}>
+                                        < TableRow key={i}>
                                             <TableCell>
                                               {row.activo === true ? 'Activo':'Inactivo'}
                                             </TableCell>
