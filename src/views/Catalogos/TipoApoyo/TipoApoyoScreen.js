@@ -151,7 +151,7 @@ export const TipoApoyoScreen = () => {
                                                 {row.activo ? 'Activo' : 'Inactivo'}
                                             </TableCell>
                                             <TableCell>{row.dstipoapoyo}</TableCell >
-                                            <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />
