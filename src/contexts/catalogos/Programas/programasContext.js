@@ -7,7 +7,7 @@ import {
         REGISTRAR_PROGRAMAS,
         MODIFICAR_PROGRAMAS,
         ELIMINAR_PROGRAMAS,
-        GET_PROGRAMAS ,  CAMBIAR_TAMANIO_PAGINA_PROGRAMAS,CAMBIAR_PAGINA_PROGRAMAS} 
+        GET_PROGRAMAS ,  CAMBIAR_TAMANIO_PAGINA_PROGRAMAS,CAMBIAR_PAGINA_PROGRAMAS,GET_PROGRAMASACTIVOS} 
 from 'types/actionTypes';
 import ProgramasReducer from 'reducers/Catalogos/Programas/ProgramasReducer';
 import { GET_PROGRAMAS_BY_ID } from 'types/actionTypes';
@@ -43,37 +43,20 @@ export const ProgramasContextProvider = props => {
         }
     }
 
-    /**
-     * obtener tipos de apoyo
-     */
-  /*  const get=  () => {
-        try {
-            //const result = await axiosGet('programas');
-            const {pageP, sizeP}= state;
-            console.log(state);
-            console.log('page ', pageP, ' size ', sizeP);
-           // const result = await axiosGet(`programas?page=${pageP}&size=${sizeP}`);
-
-           const url = `${ baseUrl }programas?page=${pageP}&size=${sizeP}`;
-            return new Promise((resolve, reject) => {
-                axios.get(url, {
-                    headers: {'Accept': 'application/json', 'Content-type': 'application/json'}
-                }).then(response => {
-                    dispatch({
-                        type: GET_PROGRAMAS,
-                        payload: response.data
-                    })
-                    resolve(response);
-                   
-                }).catch(error => {
-                    reject(error);
-                });
-            });
+    const getProgramasActivos= async vigencia => {
+        try {            
             
+            const result = await axiosGet(`programasOverride/consultarProgramasVigentes/${vigencia}`);
+            dispatch({
+                type: GET_PROGRAMASACTIVOS,
+                payload: result
+            })
         } catch (error) {
             console.log(error);
         }
-    }*/
+    }
+
+
 
     /**
      * Se registran los tipos de apoyos
@@ -139,16 +122,7 @@ export const ProgramasContextProvider = props => {
                     dsobservaciones,
                     boactivo
         }
-      /*  try {
 
-            const result = await axiosPostHetoas(href, objetoEnviar, 'PUT');
-            dispatch({
-                type: MODIFICAR_PROGRAMAS,
-                payload: result,
-            })
-        } catch (error) {
-            console.log(error);
-        }*/
         const url = `${ baseUrl }programasOverride`;
         return new Promise((resolve, reject) => {
             axios.put(href, objetoEnviar, {
@@ -237,6 +211,7 @@ export const ProgramasContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePage,
+                getProgramasActivos
             }}
         >
             {props.children}
