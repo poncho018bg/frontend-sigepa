@@ -103,7 +103,7 @@ export const ActividadesContinuarContextProvider = props => {
             console.log(result);
             console.log('mir mira');
             dispatch({
-                type: ELIMINAR_APOYOSERVICIO,
+                type: ELIMINAR_ACTIVIDADESCONTINUAR,
                 payload: result,
             })
         } catch (error) {

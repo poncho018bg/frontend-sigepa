@@ -35,7 +35,10 @@ export default (state, action) => {
     case ELIMINAR_ACTIVIDADESCONTINUAR:
       return {
         ...state,
-        actividadescontinuarList: state.actividadescontinuarList.filter(actividadescontinuar => actividadescontinuar.id !== action.payload)
+        //actividadescontinuarList: state.actividadescontinuarList.filter(actividadescontinuar => actividadescontinuar.id !== action.payload)
+        actividadescontinuarList: state.actividadescontinuarList.map(
+          actividadescontinuar => actividadescontinuar.id === action.payload.id ? action.payload : actividadescontinuar
+      )
       };
     case CAMBIAR_PAGINA:
       return {
