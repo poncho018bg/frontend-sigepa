@@ -56,10 +56,11 @@ export const CursosCapacitacionesContextProvider = props => {
                 axios.post(url, cursosCapacitaciones, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
+                    console.log(response);
                     resolve(response);
                     dispatch({
                         type: REGISTRAR_CURSOS_CAPACITACIONES,
-                        payload: response
+                        payload: response.data
                     })
                 }).catch(error => {
                     reject(error);
@@ -97,7 +98,7 @@ export const CursosCapacitacionesContextProvider = props => {
                 resolve(response);
                 dispatch({
                     type: MODIFICAR_CURSOS_CAPACITACIONES,
-                    payload: response
+                    payload: response.data
                 })
             }).catch(error => {
                 reject(error);
@@ -112,7 +113,7 @@ export const CursosCapacitacionesContextProvider = props => {
             dsestado,
             id,
             fechaRegistro,
-            activo,            
+            activo,
             _links: { self: { href } },
         } = cursosCapacitacionesw;
         const act = activo === true ? false : true;
@@ -129,7 +130,7 @@ export const CursosCapacitacionesContextProvider = props => {
 
         try {
             const result = await axiosPostHetoas(href, localidad, 'PUT');
-            console.log(result);
+            console.log("ELIMINAR -->", result);
             console.log('mir mira');
             dispatch({
                 type: ELIMINAR_CURSOS_CAPACITACIONES,

@@ -32,7 +32,11 @@ export default (state, action) => {
         case ELIMINAR_CURSOS_CAPACITACIONES:
             return {
                 ...state,
-                cursosCapacitacionesList: state.cursosCapacitacionesList.filter(cursosCapacitaciones => cursosCapacitaciones.id !== action.payload)
+                //cursosCapacitacionesList: state.cursosCapacitacionesList.filter(cursosCapacitaciones => cursosCapacitaciones.id !== action.payload.id)
+                //cursosCapacitacionesList: [...state.cursosCapacitacionesList, action.payload]
+                cursosCapacitacionesList: state.cursosCapacitacionesList.map(
+                    cursosCapacitaciones => cursosCapacitaciones.id === action.payload.id ? action.payload : cursosCapacitaciones
+                )
             };
         case MODIFICAR_CURSOS_CAPACITACIONES:
             return {

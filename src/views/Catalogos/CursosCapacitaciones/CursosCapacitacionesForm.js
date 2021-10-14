@@ -38,28 +38,28 @@ export const CursosCapacitacionesForm = () => {
             dsestado,
             boactivo: true
         }
-  
+
 
 
         registrar(cursoCapacitaciones).then(response => {
             setOpenSnackbar(true);
-             
+
             setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
-           
-           const timer = setTimeout(() => {
-        
-            setError(false);
-            setShowModalConfirmacion(false);
-            setShowModal(false);
-        
+
+            const timer = setTimeout(() => {
+
+                setError(false);
+                setShowModalConfirmacion(false);
+                setShowModal(false);
+
             }, 1000);
             return () => clearTimeout(timer);
         })
-        .catch(err => {   
-            setOpenSnackbar(true);
-            setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
-        });;        ;
+            .catch(err => {
+                setOpenSnackbar(true);
+                setError(true);
+                setMsjConfirmacion(`Ocurrio un error, ${err}`);
+            });;;
     }
 
 
@@ -101,7 +101,7 @@ export const CursosCapacitacionesForm = () => {
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    {t('btn.guardar')}
+                        {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>
