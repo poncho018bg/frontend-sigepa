@@ -105,9 +105,9 @@ export const TipoBeneficiarioScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Tipos de Beneficiarios</h4>
+                    <h4 className={classes.cardTitleWhite}>Tipos de beneficiarios</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Esta pantalla permite agregar tipos de Beneficiario
+                        Esta pantalla permite agregar tipos de beneficiario
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>

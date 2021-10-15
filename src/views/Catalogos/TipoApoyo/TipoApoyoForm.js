@@ -42,7 +42,7 @@ export const TipoApoyoForm = () => {
             registrarTiposApoyos(tiposApoyo).then(response => {
                 setOpenSnackbar(true);
                  
-                setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+                setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
                
                const timer = setTimeout(() => {
             

@@ -94,9 +94,9 @@ export const SubModuloScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Submodulos</h4>
+                    <h4 className={classes.cardTitleWhite}>Submódulos</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Pantalla que permite configurar los Submodulos
+                        Pantalla que permite configurar los Submódulos
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>

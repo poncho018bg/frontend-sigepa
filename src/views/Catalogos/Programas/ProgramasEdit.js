@@ -156,7 +156,7 @@ export const ProgramasEdit = () => {
     actualizar(valores).then(response => {
 
       setOpenSnackbar(true);
-      setMsjConfirmacion(`El programa ${response.data.dsprograma}  fue actualizado correctamente `);
+      setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
       const timer = setTimeout(() => {
         setError(false);
         history.push("/admin/programas")
@@ -204,14 +204,7 @@ export const ProgramasEdit = () => {
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <Card>
-                  <CardHeader color="rose" icon>
-                    <CardIcon color="rose">
-                      <PermIdentity />
-                    </CardIcon>
-                    <h4 className={classes.cardIconTitle}>
-                      Programas
-                    </h4>
-                  </CardHeader>
+                <CardHeader color="primary"> Programas </CardHeader>
                   <CardBody>
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
@@ -259,129 +252,117 @@ export const ProgramasEdit = () => {
 
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={6}>
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                          <TextField
                             id="fcvigenciainicio"
-                            name="fcvigenciainicio"
+                            label="Vigencia del programa inicio"
+                            type="date"
                             fullWidth
-                            label="Vigencia del Programa Inicio"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            style={{ marginBottom: '20px' }}
-                            clearable
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
                             value={props.values?.fcvigenciainicio}
-                            onChange={value => props.setFieldValue("fcvigenciainicio", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
-                            }}
+                            name="fcvigenciainicio"
+                            onChange={props.handleChange}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
+                        
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
-
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                        <TextField
                             id="fcvigenciafin"
-                            name="fcvigenciafin"
+                            label="Vigencia del programa hasta"
+                            type="date"
                             fullWidth
-                            style={{ marginBottom: '20px' }}
-                            label="Vigencia del Programa Hasta"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            clearable
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
                             value={props.values?.fcvigenciafin}
-                            onChange={value => props.setFieldValue("fcvigenciafin", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
-                            }}
+                            name="fcvigenciafin"
+                            onChange={props.handleChange}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
+                        
                       </GridItem>
                       <GridItem xs={12} sm={12} md={6}>
-
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                        <TextField
                             id="fcregistrowebinicio"
-                            name="fcregistrowebinicio"
+                            label="Periodo registro web desde"
+                            type="date"
                             fullWidth
-                            style={{ marginBottom: '20px' }}
-                            label="Periodo Registro Web Desde"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            clearable
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
                             value={props.values?.fcregistrowebinicio}
-                            onChange={value => props.setFieldValue("periodoRegistroWebDesde", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
-                            }}
+                            name="fcregistrowebinicio"
+                            onChange={props.handleChange}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
+                        
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
-
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                        <TextField
                             id="fcregistrowebfin"
-                            name="fcregistrowebfin"
+                            label="Periodo registro web hasta"
+                            type="date"
                             fullWidth
-                            label="Periodo Registro web Hasta"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            style={{ marginBottom: '20px' }}
-                            clearable
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
                             value={props.values?.fcregistrowebfin}
-                            onChange={value => props.setFieldValue("fcregistrowebfin", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
-                            }}
+                            name="fcregistrowebfin"
+                            onChange={props.handleChange}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>                       
 
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
 
-
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                        <TextField
                             id="fcregistropresencialinicio"
-                            name="fcregistropresencialinicio"
+                            label="Periodo registro presencial desde"
+                            type="date"
                             fullWidth
-                            label="Periodo Registro Presencial Desde"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            style={{ marginBottom: '20px' }}
-                            clearable
-                            value={props.values?.fcregistropresencialinicio}
-                            onChange={value => props.setFieldValue("fcregistropresencialinicio", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
                             }}
+                            value={props.values?.fcregistropresencialinicio}
+                            name="fcregistropresencialinicio"
+                            onChange={props.handleChange}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
+                        
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
-
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                        <TextField
                             id="fcregistropresencialfin"
-                            name="fcregistropresencialfin"
+                            label="Periodo registro presencial hasta"
+                            type="date"
                             fullWidth
-                            label="Periodo Registro Presencial Hasta"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            style={{ marginBottom: '20px' }}
-                            clearable
-                            value={props.values?.fcregistropresencialfin}
-                            onChange={value => props.setFieldValue("fcregistropresencialfin", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
                             }}
+                            value={props.values?.fcregistropresencialfin}
+                            name="fcregistropresencialfin"
+                            onChange={props.handleChange}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
+                        
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={12}>
@@ -580,7 +561,7 @@ export const ProgramasEdit = () => {
 
                       <GridItem xs={12} sm={12} md={12}>
                         <Grid item xs={12}>
-                          <DropzoneArea 
+                          <DropzoneArea
                             acceptedFiles={['image/png']}
                             filesLimit='1'
                             onChange={handleChangeFile}

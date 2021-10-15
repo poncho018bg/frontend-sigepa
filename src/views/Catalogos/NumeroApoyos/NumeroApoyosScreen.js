@@ -84,7 +84,7 @@ export const NumeroApoyosScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -101,7 +101,7 @@ export const NumeroApoyosScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Número de Apoyos</h4>
+                    <h4 className={classes.cardTitleWhite}>Número de apoyos</h4>
                     <p className={classes.cardCategoryWhite}>
                         Esta pantalla permite agregar la cantidad de apoyos
                     </p>

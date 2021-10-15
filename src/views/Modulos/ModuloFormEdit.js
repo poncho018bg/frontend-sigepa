@@ -38,7 +38,7 @@ export const ModuloFormEdit = ({ moduloSeleccionado }) => {
         actualizarModulo(valores).then(response => {
 
             setOpenSnackbar(true);
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
             const timer = setTimeout(() => {
                 setError(false);
                 history.push("/admin/modulos")

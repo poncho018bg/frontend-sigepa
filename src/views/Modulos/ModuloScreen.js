@@ -93,9 +93,9 @@ export const ModuloScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Modulos</h4>
+                    <h4 className={classes.cardTitleWhite}>Módulos</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Pantalla que permite configurar los Modulos
+                        Pantalla que permite configurar los módulos
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -125,7 +125,7 @@ export const ModuloScreen = () => {
                         < TableHead >
                             < TableRow key="898as" >
                                 < TableCell align="center"> Estatus</TableCell >                                
-                                < TableCell align="center"> Descripción modulo</TableCell >
+                                < TableCell align="center"> Descripción módulo</TableCell >
                                 < TableCell align="center"> Fecha registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >

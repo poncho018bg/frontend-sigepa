@@ -186,7 +186,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
         actualizarApoyo(valores).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
             const timer = setTimeout(() => {
                 setError(false);
                 history.push("/admin/catapoyoservicio")
@@ -235,7 +235,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         <DialogContent >
                             <TextField
                                 id="dsapoyo"
-                                label="Nombre del Tipo de Apoyo"
+                                label="Nombre del Tipo de apoyo"
                                 variant="outlined"
                                 name="dsapoyo"
                                 fullWidth
@@ -282,7 +282,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         <DialogContent>
                             <TextField
                                 id="dsdescripcion"
-                                label="Descripción del Tipo de Apoyo"
+                                label="Descripción del Tipo de apoyo"
                                 variant="outlined"
                                 name="dsdescripcion"
                                 value={props.values.dsdescripcion}

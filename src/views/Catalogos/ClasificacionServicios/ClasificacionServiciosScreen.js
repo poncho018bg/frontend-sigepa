@@ -98,9 +98,9 @@ export const ClasificacionServiciosScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Clasificacion de los Servicios</h4>
+                    <h4 className={classes.cardTitleWhite}>Clasificación de los servicios</h4>
                     <p className={classes.cardCategoryWhite}>
-                        En esta sección podran clasificar los servicios
+                        En esta sección podrán clasificar los servicios
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -130,7 +130,7 @@ export const ClasificacionServiciosScreen = () => {
                         < TableHead >
                             < TableRow key="ta1" >
                                 < TableCell align="center"> Estatus</TableCell >
-                                < TableCell align="center"> Clasificacion de los servicios</TableCell >
+                                < TableCell align="center"> Clasificación de los servicios</TableCell >
                                 < TableCell align="center"> Abreviatura</TableCell>
                                 < TableCell align="center"> Fecha registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >

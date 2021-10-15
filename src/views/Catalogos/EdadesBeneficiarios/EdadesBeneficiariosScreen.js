@@ -99,9 +99,9 @@ export const EdadesBeneficiariosScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Edades Beneficiarios</h4>
+                    <h4 className={classes.cardTitleWhite}>Edades beneficiarios</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Esta pantalla permite agregar las Edades para Beneficiarios
+                        Esta pantalla permite agregar las edades para beneficiarios
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>

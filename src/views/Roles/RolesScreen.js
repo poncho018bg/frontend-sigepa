@@ -245,7 +245,7 @@ export const RolesScreen = () => {
         PerfilSubmoduloStartAddNew(valores).then(response => {
             setOpenSnackbar(true);
 
-            setMsjConfirmacion(`El regisstro fue registrado correctamente`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
 
             const timer = setTimeout(() => {
                 setLoading(false);

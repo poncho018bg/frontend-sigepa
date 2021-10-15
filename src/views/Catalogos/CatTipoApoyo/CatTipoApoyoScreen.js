@@ -134,7 +134,7 @@ export const CatTipoApoyoScreen = () => {
                 <GridItem xs={12} sm={12} md={12}>
                     <Card>
                         <CardHeader color="primary">
-                            <h4 className={classes.cardTitleWhite}>Tipo Apoyo</h4>
+                            <h4 className={classes.cardTitleWhite}>Tipo apoyo</h4>
                             <p className={classes.cardCategoryWhite}>
 
                             </p>

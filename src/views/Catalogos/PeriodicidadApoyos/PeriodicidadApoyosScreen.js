@@ -99,7 +99,7 @@ export const PeriodicidadApoyosScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Periodicidad de Apoyos</h4>
+                    <h4 className={classes.cardTitleWhite}>Periodicidad de apoyos</h4>
                     <p className={classes.cardCategoryWhite}>
                         Esta pantalla permite agregar la periodicidad de los apoyos
                     </p>

@@ -100,7 +100,7 @@ export const TipoApoyoScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Tipo de Apoyo</h4>
+                    <h4 className={classes.cardTitleWhite}>Tipo de apoyo</h4>
                     <p className={classes.cardCategoryWhite}>
                         Esta pantalla permite agregar tipos de apoyo
                     </p>

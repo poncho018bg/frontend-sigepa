@@ -37,7 +37,7 @@ export const PadronBeneficiariosScreen = () => {
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Padrón de beneficiarios</h4>
             <p className={classes.cardCategoryWhite}>
-              Pantalla que permite ver el padron de beneficiarios
+              Pantalla que permite ver el padrón de beneficiarios
             </p>
             <CardActions>
             <Grid container spacing={3}>

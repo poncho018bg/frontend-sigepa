@@ -256,19 +256,19 @@ export const ProgramasForm = () => {
         file: archivo
       }
       console.log(programas);
-      registrar(programas,archivo).then(response => {
+      registrar(programas, archivo).then(response => {
         console.log(response);
         setOpenSnackbar(true);
 
-        setMsjConfirmacion(`El programa ${response.data.dsprograma}  fue registrado correctamente `);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
 
-        /*  const timer = setTimeout(() => {
+          const timer = setTimeout(() => {
            setLoading(false);
            setError(false);
              history.push("/admin/programas")
 
            }, 5000);
-           return () => clearTimeout(timer);*/
+           return () => clearTimeout(timer);
       })
         .catch(err => {
           setOpenSnackbar(true);
@@ -294,14 +294,8 @@ export const ProgramasForm = () => {
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <Card>
-            <CardHeader color="rose" icon>
-              <CardIcon color="rose">
-                <PermIdentity />
-              </CardIcon>
-              <h4 className={classes.cardIconTitle}>
-                Programas
-              </h4>
-            </CardHeader>
+          <CardHeader color="primary"> Programas </CardHeader>
+           
             <CardBody>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
@@ -346,173 +340,184 @@ export const ProgramasForm = () => {
 
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
-                  <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                    <KeyboardDatePicker
+                  <CardBody>
+                    <TextField
                       id="vigenciaDesde"
-                      name="vigenciaDesde"
+                      label="Vigencia del programa desde"
+                      type="date"
                       fullWidth
-                      style={{ marginBottom: '20px' }}
-                      label="Vigencia del Programa Inicio"
-                      inputVariant="outlined"
-                      format="MM/dd/yyyy"
-                      clearable
+                      className={classes.textField}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       value={formik.values.vigenciaDesde}
-                      onChange={value => formik.setFieldValue("vigenciaDesde", value)}
-                      onBlur={formik.handleBlur}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date"
+                      name="vigenciaDesde"
+                      onChange={formik.handleChange}
+                      InputProps={{
+                        inputProps: {
+                         
+                        }
                       }}
-                      maxDate={formik.values.vigenciaHasta}
                     />
-                  </MuiPickersUtilsProvider>
-                  {formik.touched.vigenciaDesde && formik.errors.vigenciaDesde ? (
-                    <FormHelperText
-                      style={{ marginBottom: '20px' }}
-                      error={formik.errors.vigenciaDesde}>{formik.errors.vigenciaDesde}</FormHelperText>
-                  ) : null}
+                    {formik.touched.vigenciaDesde && formik.errors.vigenciaDesde ? (
+                      <FormHelperText
+                        style={{ marginBottom: '20px' }}
+                        error={formik.errors.vigenciaDesde}>{formik.errors.vigenciaDesde}</FormHelperText>
+                    ) : null}
+                  </CardBody>
+
                 </GridItem>
 
                 <GridItem xs={12} sm={12} md={6}>
-                  <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                    <KeyboardDatePicker
+                  <CardBody>
+                    <TextField
                       id="vigenciaHasta"
-                      name="vigenciaHasta"
+                      label="Vigencia del programa hasta"
+                      type="date"
                       fullWidth
-                      style={{ marginBottom: '20px' }}
-                      label="Vigencia del Programa Hasta"
-                      inputVariant="outlined"
-                      format="MM/dd/yyyy"
-                      clearable
+                      className={classes.textField}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       value={formik.values.vigenciaHasta}
-                      onChange={value => formik.setFieldValue("vigenciaHasta", value)}
-                      onBlur={formik.handleBlur}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date"
+                      name="vigenciaHasta"
+                      onChange={formik.handleChange}
+                      InputProps={{
+                        inputProps: {
+                          min: formik.values.vigenciaDesde
+                        }
                       }}
-                      minDate={formik.values.vigenciaDesde}
                     />
-                  </MuiPickersUtilsProvider>
-                  {formik.touched.vigenciaHasta && formik.errors.vigenciaHasta ? (
-                    <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.vigenciaHasta}>
-                      {formik.errors.vigenciaHasta}
-                    </FormHelperText>
-                  ) : null}
+                    {formik.touched.vigenciaHasta && formik.errors.vigenciaHasta ? (
+                      <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.vigenciaHasta}>
+                        {formik.errors.vigenciaHasta}
+                      </FormHelperText>
+                    ) : null}
+                  </CardBody>
+
 
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
-
-
-                  <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                    <KeyboardDatePicker
+                  <CardBody>
+                    <TextField
                       id="periodoRegistroWebDesde"
-                      name="periodoRegistroWebDesde"
+                      label="Periodo registro web desde"
+                      type="date"
                       fullWidth
-                      style={{ marginBottom: '20px' }}
-                      label="Periodo Registro Web Desde"
-                      inputVariant="outlined"
-                      format="MM/dd/yyyy"
-                      clearable
+                      className={classes.textField}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       value={formik.values.periodoRegistroWebDesde}
-                      onChange={value => formik.setFieldValue("periodoRegistroWebDesde", value)}
-                      onBlur={formik.handleBlur}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date"
+                      name="periodoRegistroWebDesde"
+                      onChange={formik.handleChange}
+                      InputProps={{
+                        inputProps: {
+                          
+                        }
                       }}
-                      maxDate={formik.values.periodoRegistroWebHasta}
                     />
-                  </MuiPickersUtilsProvider>
-                  {formik.touched.periodoRegistroWebDesde && formik.errors.periodoRegistroWebDesde ? (
-                    <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.periodoRegistroWebDesde}>
-                      {formik.errors.periodoRegistroWebDesde}
-                    </FormHelperText>
-                  ) : null}
+                    {formik.touched.periodoRegistroWebDesde && formik.errors.periodoRegistroWebDesde ? (
+                      <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.periodoRegistroWebDesde}>
+                        {formik.errors.periodoRegistroWebDesde}
+                      </FormHelperText>
+                    ) : null}
+                  </CardBody>
+
                 </GridItem>
 
                 <GridItem xs={12} sm={12} md={6}>
-
-
-                  <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                    <KeyboardDatePicker
+                  <CardBody>
+                    <TextField
                       id="periodoRegistroWebHasta"
-                      name="periodoRegistroWebHasta"
+                      label="Periodo registro web hasta"
+                      type="date"
                       fullWidth
-                      style={{ marginBottom: '20px' }}
-                      label="Periodo Registro web Hasta"
-                      inputVariant="outlined"
-                      format="MM/dd/yyyy"
-                      clearable
+                      className={classes.textField}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       value={formik.values.periodoRegistroWebHasta}
-                      onChange={value => formik.setFieldValue("periodoRegistroWebHasta", value)}
-                      onBlur={formik.handleBlur}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date"
+                      name="periodoRegistroWebHasta"
+                      onChange={formik.handleChange}
+                      InputProps={{
+                        inputProps: {
+                          min: formik.values.periodoRegistroWebDesde
+                        }
                       }}
-                      minDate={formik.values.periodoRegistroWebDesde}
                     />
-                  </MuiPickersUtilsProvider>
-                  {formik.touched.periodoRegistroWebHasta && formik.errors.periodoRegistroWebHasta ? (
-                    <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.periodoRegistroWebHasta}>
-                      {formik.errors.periodoRegistroWebHasta}
-                    </FormHelperText>
-                  ) : null}
+                    {formik.touched.periodoRegistroWebHasta && formik.errors.periodoRegistroWebHasta ? (
+                      <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.periodoRegistroWebHasta}>
+                        {formik.errors.periodoRegistroWebHasta}
+                      </FormHelperText>
+                    ) : null}
+                  </CardBody>
+
                 </GridItem>
 
                 <GridItem xs={12} sm={12} md={6}>
-                  <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                    <KeyboardDatePicker
+                  <CardBody>
+                    <TextField
                       id="periodoRegistroPresencialDesde"
-                      name="periodoRegistroPresencialDesde"
+                      label="Periodo registro presencial desde"
+                      type="date"
                       fullWidth
-                      style={{ marginBottom: '20px' }}
-                      label="Periodo Registro Presencial Desde"
-                      inputVariant="outlined"
-                      format="MM/dd/yyyy"
-                      clearable
-                      value={formik.values.periodoRegistroPresencialDesde}
-                      onChange={value => formik.setFieldValue("periodoRegistroPresencialDesde", value)}
-                      onBlur={formik.handleBlur}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date"
+                      className={classes.textField}
+                      InputLabelProps={{
+                        shrink: true,
                       }}
-                      maxDate={formik.values.periodoRegistroPresencialHasta}
+                      value={formik.values.periodoRegistroPresencialDesde}
+                      name="periodoRegistroPresencialDesde"
+                      onChange={formik.handleChange}
+                      InputProps={{
+                        inputProps: {
+                          
+                        }
+                      }}
                     />
-                  </MuiPickersUtilsProvider>
 
-                  {formik.touched.periodoRegistroPresencialDesde && formik.errors.periodoRegistroPresencialDesde ? (
-                    <FormHelperText
-                      style={{ marginBottom: '20px' }}
-                      error={formik.errors.periodoRegistroPresencialDesde}>
-                      {formik.errors.periodoRegistroPresencialDesde}
-                    </FormHelperText>
-                  ) : null}
+                    {formik.touched.periodoRegistroPresencialDesde && formik.errors.periodoRegistroPresencialDesde ? (
+                      <FormHelperText
+                        style={{ marginBottom: '20px' }}
+                        error={formik.errors.periodoRegistroPresencialDesde}>
+                        {formik.errors.periodoRegistroPresencialDesde}
+                      </FormHelperText>
+                    ) : null}
+                  </CardBody>
+
                 </GridItem>
 
                 <GridItem xs={12} sm={12} md={6}>
+                  <CardBody>
 
-                  <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                    <KeyboardDatePicker
+                    <TextField
                       id="periodoRegistroPresencialHasta"
-                      name="periodoRegistroPresencialHasta"
+                      label="Periodo registro presencial hasta"
+                      type="date"
                       fullWidth
-                      style={{ marginBottom: '20px' }}
-                      label="Periodo Registro Presencial Hasta"
-                      inputVariant="outlined"
-                      format="MM/dd/yyyy"
-                      clearable
-                      value={formik.values.periodoRegistroPresencialHasta}
-                      onChange={value => formik.setFieldValue("periodoRegistroPresencialHasta", value)}
-                      onBlur={formik.handleBlur}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date"
+                      className={classes.textField}
+                      InputLabelProps={{
+                        shrink: true,
                       }}
-                      minDate={formik.values.periodoRegistroPresencialDesde}
+                      value={formik.values.periodoRegistroPresencialHasta}
+                      name="periodoRegistroPresencialHasta"
+                      onChange={formik.handleChange}
+                      InputProps={{
+                        inputProps: {
+                          min: formik.values.periodoRegistroPresencialDesde
+                        }
+                      }}
                     />
-                  </MuiPickersUtilsProvider>
-                  {formik.touched.periodoRegistroPresencialHasta && formik.errors.periodoRegistroPresencialHasta ? (
-                    <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.periodoRegistroPresencialHasta}>
-                      {formik.errors.periodoRegistroPresencialHasta}
-                    </FormHelperText>
-                  ) : null}
+                    {formik.touched.periodoRegistroPresencialHasta && formik.errors.periodoRegistroPresencialHasta ? (
+                      <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.periodoRegistroPresencialHasta}>
+                        {formik.errors.periodoRegistroPresencialHasta}
+                      </FormHelperText>
+                    ) : null}
+
+                  </CardBody>
+
+
+
 
                 </GridItem>
 

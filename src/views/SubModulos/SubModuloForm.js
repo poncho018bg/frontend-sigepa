@@ -64,7 +64,7 @@ export const SubModuloForm = () => {
 
         registrarSubModulos(module).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
 
             const timer = setTimeout(() => {
                 setError(false);

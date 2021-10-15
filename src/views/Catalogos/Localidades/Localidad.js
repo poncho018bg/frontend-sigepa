@@ -54,7 +54,7 @@ export const Localidad = ({ localidad }) => {
         
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
     return (

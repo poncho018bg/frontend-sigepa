@@ -41,7 +41,7 @@ export const EdadesBeneficiariosEdit = ({ edadesBeneficiariosSeleccionado }) => 
         actualizarEdadesBeneficiarios(valores).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
