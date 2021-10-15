@@ -111,11 +111,12 @@ export const FirmasScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell >{t('dgv.nombrequienautoriza')}</TableCell >
-                                < TableCell>{t('dgv.puesto')}</TableCell >
-                                < TableCell>{t('dgv.fechaalta')}</TableCell >
-                                < TableCell>{t('dgv.comentarios')}</TableCell >
-                                < TableCell colSpan={2}> {t('dgv.estatus')}</TableCell >
+                                < TableCell align="center" >{t('dgv.nombrequienautoriza')}</TableCell >
+                                < TableCell align="center">{t('dgv.puesto')}</TableCell >
+                                < TableCell align="center">{t('dgv.fechaalta')}</TableCell >
+                                < TableCell align="center">{t('dgv.comentarios')}</TableCell >
+                                < TableCell align="center" > {t('dgv.estatus')}</TableCell >
+                                < TableCell align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
@@ -130,11 +131,11 @@ export const FirmasScreen = () => {
                                         < TableRow key={row.id}>
 
 
-                                            <TableCell>{row.dsautoriza}</TableCell >
-                                            <TableCell >{row.dspuesto}</TableCell>
-                                            <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
-                                            <TableCell >{row.dscomentario}</TableCell>
-                                            <TableCell>
+                                            <TableCell align="center">{row.dsautoriza}</TableCell >
+                                            <TableCell align="center" >{row.dspuesto}</TableCell>
+                                            <TableCell align="center">{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell align="center">{row.dscomentario}</TableCell>
+                                            <TableCell align="center">
                                                 {row.activo === true ? 'Activo' : 'Inactivo'}
                                             </TableCell>
                                             <TableCell align="center">

@@ -60,13 +60,13 @@ export const Localidad = ({ localidad }) => {
     return (
         <>
             < TableRow >
-                <TableCell>
+                <TableCell align="center">
                     {activo === true ? 'Activo':'Inactivo'}
                 </TableCell>
-                <TableCell>{dsclavelocalidad}</TableCell >
-                <TableCell>{dslocalidad}</TableCell >
-                <TableCell>{dscodigopostal}</TableCell >
-                <TableCell >{moment(fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                <TableCell align="center">{dsclavelocalidad}</TableCell >
+                <TableCell align="center">{dslocalidad}</TableCell >
+                <TableCell align="center">{dscodigopostal}</TableCell >
+                <TableCell align="center">{moment(fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                 <TableCell align="center">
                     <IconButton aria-label="create" onClick={() => onSelect(localidad)}>
                         <CreateIcon />

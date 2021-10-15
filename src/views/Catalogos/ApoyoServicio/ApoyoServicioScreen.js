@@ -130,8 +130,8 @@ export const ApoyoServicioScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell > {t('dgv.estatus')} </TableCell >
-                                < TableCell > {t('dgv.tiposervicio')} </TableCell >
+                                < TableCell align="center"> {t('dgv.estatus')} </TableCell >
+                                < TableCell align="center"> {t('dgv.tiposervicio')} </TableCell >
                                 < TableCell colSpan={2} align="center"> {t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
@@ -145,10 +145,10 @@ export const ApoyoServicioScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
+                                            <TableCell align="center">
                                                 {row.activo === true ? 'Activo' : 'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.dsservicio}</TableCell >
+                                            <TableCell align="center">{row.dsservicio}</TableCell >
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />

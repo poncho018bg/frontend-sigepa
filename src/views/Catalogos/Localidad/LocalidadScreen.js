@@ -131,11 +131,11 @@ export const LocalidadScreen = () => {
               < Table stickyHeader aria-label="sticky table" >
                 < TableHead >
                   < TableRow key="898as" >
-                    < TableCell >{t('dgv.estatus')}</TableCell >
-                    < TableCell >{t('dgv.clave')} </TableCell >
-                    < TableCell >{t('dgv.localidad')}</TableCell >
-                    < TableCell>{t('dgv.cp')}</TableCell >
-                    < TableCell>{t('dgv.registro')}</TableCell >
+                    < TableCell align="center">{t('dgv.estatus')}</TableCell >
+                    < TableCell align="center">{t('dgv.clave')} </TableCell >
+                    < TableCell align="center">{t('dgv.localidad')}</TableCell >
+                    < TableCell align="center">{t('dgv.cp')}</TableCell >
+                    < TableCell align="center">{t('dgv.registro')}</TableCell >
                     < TableCell colSpan={2} align="center">{t('dgv.acciones')}</TableCell >
                   </TableRow >
                 </TableHead >
@@ -148,14 +148,14 @@ export const LocalidadScreen = () => {
                       ).map((row, i) => {
                         return (
                             < TableRow key={i}>
-                            <TableCell>
+                            <TableCell align="center">
                                 
                                 {row.activo ? 'Activo':'Inactivo'}
                             </TableCell>
-                            <TableCell>{row.dsclavelocalidad}</TableCell>
-                            <TableCell>{row.dslocalidad}</TableCell>
-                            <TableCell>{row.dscodigopostal}</TableCell >
-                            <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                            <TableCell align="center">{row.dsclavelocalidad}</TableCell>
+                            <TableCell align="center">{row.dslocalidad}</TableCell>
+                            <TableCell align="center">{row.dscodigopostal}</TableCell >
+                            <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                             <TableCell align="center">
                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                     <CreateIcon />

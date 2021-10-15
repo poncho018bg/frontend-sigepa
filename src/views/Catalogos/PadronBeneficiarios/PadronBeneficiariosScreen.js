@@ -57,13 +57,13 @@ export const PadronBeneficiariosScreen = () => {
               < Table stickyHeader aria-label="sticky table" >
                 < TableHead >
                   < TableRow key="898as" >
-                    < TableCell > Beneficiario</TableCell >
-                    < TableCell > CURP  </TableCell >
-                    < TableCell> Apoyo Otorgado</TableCell >
-                    <TableCell>Tipo de Apoyo</TableCell>
-                    < TableCell> Año Registro Programa</TableCell >
-                    < TableCell>Periocidad</TableCell >
-                    < TableCell>Nùmero de veces</TableCell >
+                    < TableCell align="center"> Beneficiario</TableCell >
+                    < TableCell align="center"> CURP  </TableCell >
+                    < TableCell align="center"> Apoyo otorgado</TableCell >
+                    <TableCell align="center">Tipo de apoyo</TableCell>
+                    < TableCell align="center"> Año registro programa</TableCell >
+                    < TableCell align="center">Periocidad</TableCell >
+                    < TableCell align="center">Nùmero de veces</TableCell >
                   </TableRow >
                 </TableHead >
                 < TableBody >

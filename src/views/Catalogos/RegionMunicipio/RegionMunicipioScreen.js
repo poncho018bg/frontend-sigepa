@@ -124,10 +124,10 @@ export const RegionMunicipioScreen = () => {
           < Table stickyHeader aria-label="sticky table" >
             < TableHead >
               < TableRow key="898as" >
-                < TableCell > Estatus</TableCell >
-                < TableCell> Clave</TableCell >
-                < TableCell> Región</TableCell >
-                < TableCell> Fecha Registro</TableCell >
+                < TableCell align="center"> Estatus</TableCell >
+                < TableCell align="center"> Clave</TableCell >
+                < TableCell align="center"> Región</TableCell >
+                < TableCell align="center"> Fecha registro</TableCell >
                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
               </TableRow >
             </TableHead >
@@ -141,12 +141,12 @@ export const RegionMunicipioScreen = () => {
 
                   return (
                     < TableRow key={row.id}>
-                      <TableCell>
+                      <TableCell align="center">
                         {row.activo ? 'Activo' : 'Inactivo'}
                       </TableCell>
-                      <TableCell>{row.noclaveregion}</TableCell >
-                      <TableCell>{row.dsRegion}</TableCell >
-                      <TableCell >{moment(row.fcfecharegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                      <TableCell align="center">{row.noclaveregion}</TableCell >
+                      <TableCell align="center">{row.dsRegion}</TableCell >
+                      <TableCell align="center">{moment(row.fcfecharegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                       <TableCell align="center">
 
                         <IconButton aria-label="create" onClick={() => onSelect(row)}>

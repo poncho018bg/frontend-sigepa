@@ -95,11 +95,11 @@ export const LocalidadesScreen = () => {
               < Table stickyHeader aria-label="sticky table" >
                 < TableHead >
                   < TableRow key="898as" >
-                    < TableCell >{t('dgv.estatus')}</TableCell >
-                    < TableCell >{t('dgv.clave')} </TableCell >
-                    < TableCell >{t('dgv.localidad')}</TableCell >
-                    < TableCell>{t('dgv.cp')}</TableCell >
-                    < TableCell>{t('dgv.registro')}</TableCell >
+                    < TableCell align="center">{t('dgv.estatus')}</TableCell >
+                    < TableCell align="center">{t('dgv.clave')} </TableCell >
+                    < TableCell align="center">{t('dgv.localidad')}</TableCell >
+                    < TableCell align="center">{t('dgv.cp')}</TableCell >
+                    < TableCell align="center">{t('dgv.registro')}</TableCell >
                     < TableCell colSpan={2} align="center">{t('dgv.acciones')}</TableCell >
                   </TableRow >
                 </TableHead >

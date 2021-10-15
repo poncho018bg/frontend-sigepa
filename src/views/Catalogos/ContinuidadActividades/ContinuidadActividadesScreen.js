@@ -141,8 +141,8 @@ export const ContinuidadActividadesScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell > Estatus</TableCell >
-                                < TableCell> Descripción de actividad </TableCell>
+                                < TableCell align="center"> Estatus</TableCell >
+                                < TableCell align="center"> Descripción de actividad </TableCell>
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
@@ -156,10 +156,10 @@ export const ContinuidadActividadesScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
+                                            <TableCell align="center">
                                             {row.activo === true ? 'Activo':'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.dsactividadcontinuidad}</TableCell >
+                                            <TableCell align="center">{row.dsactividadcontinuidad}</TableCell >
                                             
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>

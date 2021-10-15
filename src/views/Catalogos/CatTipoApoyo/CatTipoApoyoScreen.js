@@ -223,14 +223,14 @@ export const CatTipoApoyoScreen = () => {
                             < Table stickyHeader aria-label="sticky table" >
                                 < TableHead >
                                     < TableRow key="898as" >
-                                        < TableCell > Estatus</TableCell >
-                                        < TableCell > Tipo apoyo</TableCell >
-                                        < TableCell> Apoyo</TableCell >
-                                        < TableCell> Programa de apoyo en el que se otorga</TableCell >
-                                        < TableCell> Periodicidad</TableCell >
-                                        < TableCell> Número de entregas</TableCell >
-                                        < TableCell> Vigencia</TableCell >
-                                        < TableCell> Fecha de alta</TableCell >
+                                        < TableCell align="center"> Estatus</TableCell >
+                                        < TableCell align="center"> Tipo apoyo</TableCell >
+                                        < TableCell align="center"> Apoyo</TableCell >
+                                        < TableCell align="center"> Programa de apoyo en el que se otorga</TableCell >
+                                        < TableCell align="center"> Periodicidad</TableCell >
+                                        < TableCell align="center"> Número de entregas</TableCell >
+                                        < TableCell align="center"> Vigencia</TableCell >
+                                        < TableCell align="center"> Fecha de alta</TableCell >
                                         < TableCell colSpan={2} align="center"> Acciones</TableCell >
                                     </TableRow >
                                 </TableHead >
@@ -243,17 +243,17 @@ export const CatTipoApoyoScreen = () => {
                                         ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                                             return (
                                                 < TableRow key={row.id}>
-                                                    <TableCell>
+                                                    <TableCell align="center">
                                                        
                                                         {row.estatus === 'true' ? 'Activo':'Inactivo'}
                                                     </TableCell>
-                                                    <TableCell>{row.descTiposApoyos}</TableCell>
-                                                    <TableCell>{row.dsapoyo}</TableCell >
-                                                    <TableCell>{row.desPrograma}</TableCell >
-                                                    <TableCell>{row.descPeriodicidad}</TableCell >
-                                                    <TableCell>{row.descNumApoyo}</TableCell >
-                                                    <TableCell >{moment(row.fcvigenciafin).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
-                                                    <TableCell >{moment(row.fcfecharegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                                    <TableCell align="center">{row.descTiposApoyos}</TableCell>
+                                                    <TableCell align="center">{row.dsapoyo}</TableCell >
+                                                    <TableCell align="center">{row.desPrograma}</TableCell >
+                                                    <TableCell align="center">{row.descPeriodicidad}</TableCell >
+                                                    <TableCell align="center">{row.descNumApoyo}</TableCell >
+                                                    <TableCell align="center">{moment(row.fcvigenciafin).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                                    <TableCell align="center">{moment(row.fcfecharegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                                     <TableCell align="center">
 
                                                         <IconButton aria-label="create" onClick={() => onSelect(row)}>

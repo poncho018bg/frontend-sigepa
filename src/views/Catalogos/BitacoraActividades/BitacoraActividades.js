@@ -19,8 +19,8 @@ export const BitacoraActividades = ({ bitacoraActividades }) => {
     return (
         <>
             < TableRow key={id}>
-                <TableCell >{moment(fcfecharegistro).format("MM/DD/YYYY")}</TableCell>
-                <TableCell>{dsaccion}</TableCell >
+                <TableCell align="center">{moment(fcfecharegistro).format("MM/DD/YYYY")}</TableCell>
+                <TableCell align="center">{dsaccion}</TableCell >
             </TableRow >
         </>
     )

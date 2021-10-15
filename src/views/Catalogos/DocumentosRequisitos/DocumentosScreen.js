@@ -142,7 +142,7 @@ export const DocumentosScreen = () => {
                         < TableHead >
                             < TableRow key="ta1" >
                                 < TableCell align="center">Documento</TableCell >
-                                < TableCell align="center" >Programa de Apoyo</TableCell >
+                                < TableCell align="center" >Programa de apoyo</TableCell >
                                 < TableCell align="center">Vigencia</TableCell >
                                 < TableCell align="center" > Estatus</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >

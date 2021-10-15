@@ -200,8 +200,8 @@ export const BitacoraActividadesScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell > Fecha de registro</TableCell >
-                                < TableCell> Acción</TableCell >
+                                < TableCell align="center"> Fecha de registro</TableCell >
+                                < TableCell align="center"> Acción</TableCell >
 
                             </TableRow >
                         </TableHead >

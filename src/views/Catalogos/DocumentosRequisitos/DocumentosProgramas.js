@@ -73,8 +73,8 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell align="center">Programa de Apoyo</ TableCell>
-                                < TableCell align="center" >Tipo de Apoyo</TableCell >
+                                < TableCell align="center">Programa de apoyo</ TableCell>
+                                < TableCell align="center" >Tipo de apoyo</TableCell >
                                 < TableCell align="center">Periodicidad</TableCell >
                                 < TableCell align="center"> Vigencia</TableCell >
                                 < TableCell align="center" > Estatus</TableCell >

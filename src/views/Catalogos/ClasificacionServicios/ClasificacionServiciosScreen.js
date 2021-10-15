@@ -129,10 +129,10 @@ export const ClasificacionServiciosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estatus</TableCell >
-                                < TableCell> Clasificacion de los servicios</TableCell >
-                                <TableCell> Abreviatura</TableCell>
-                                < TableCell> Fecha Registro</TableCell >
+                                < TableCell align="center"> Estatus</TableCell >
+                                < TableCell align="center"> Clasificacion de los servicios</TableCell >
+                                < TableCell align="center"> Abreviatura</TableCell>
+                                < TableCell align="center"> Fecha registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
@@ -146,13 +146,13 @@ export const ClasificacionServiciosScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={i}>
-                                            <TableCell>
+                                            <TableCell align="center">
                                                 
                                                 {row.activo ? 'Activo':'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.dsclasificacionservicio}</TableCell>
-                                            <TableCell>{row.dsabreviatura}</TableCell>
-                                            <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell align="center">{row.dsclasificacionservicio}</TableCell>
+                                            <TableCell align="center">{row.dsabreviatura}</TableCell>
+                                            <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />

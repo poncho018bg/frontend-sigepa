@@ -116,9 +116,9 @@ export const ComiteSecretariasScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estado</TableCell >
-                                < TableCell> Descripcion Tipo Beneficiario</TableCell >
-                                < TableCell> Fecha Registro</TableCell >
+                                < TableCell align="center"> Estado</TableCell >
+                                < TableCell align="center"> Descripcion tipo beneficiario</TableCell >
+                                < TableCell align="center"> Fecha registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
@@ -132,15 +132,15 @@ export const ComiteSecretariasScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
+                                            <TableCell align="center">
                                                 <Checkbox
                                                     checked={row.boactivo}
                                                     color="primary"
                                                     inputProps={{ 'aria-label': 'Checkbox A' }}
                                                 />
                                             </TableCell>
-                                            <TableCell>{row.dssecretaria}</TableCell >
-                                            <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell align="center">{row.dssecretaria}</TableCell >
+                                            <TableCell align="center">{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />

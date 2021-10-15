@@ -140,10 +140,10 @@ export const MunicipiosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell > Estatus</TableCell >
-                                < TableCell> Clave municipio</TableCell >
-                                < TableCell> Municipio</TableCell >
-                                < TableCell> Fecha Registro</TableCell >
+                                < TableCell align="center"> Estatus</TableCell >
+                                < TableCell align="center"> Clave municipio</TableCell >
+                                < TableCell align="center"> Municipio</TableCell >
+                                < TableCell align="center"> Fecha registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
@@ -157,12 +157,12 @@ export const MunicipiosScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
+                                            <TableCell align="center">
                                                 {row.activo ? 'Activo' : 'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.dsclavemunicipio}</TableCell >
-                                            <TableCell>{row.dsmunicipio}</TableCell >
-                                            <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell align="center">{row.dsclavemunicipio}</TableCell >
+                                            <TableCell align="center">{row.dsmunicipio}</TableCell >
+                                            <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />
