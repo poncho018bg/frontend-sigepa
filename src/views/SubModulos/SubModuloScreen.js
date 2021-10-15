@@ -147,7 +147,7 @@ export const SubModuloScreen = () => {
                                             </TableCell>
                                             <TableCell>{row.id}</TableCell>
                                             <TableCell>{row.dssubmodulo}</TableCell >
-                                            <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell >{moment(row.fcfecharegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
 
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>

@@ -19,7 +19,7 @@ export default (state, action) => {
                 totalP: action.payload.page.totalElements
             };
         case GET_PROGRAMASACTIVOS:
-           
+
             return {
                 ...state,
                 programasList: action.payload
@@ -41,8 +41,10 @@ export default (state, action) => {
         case ELIMINAR_PROGRAMAS:
             return {
                 ...state,
-                programasList: state.programasList.filter(
-                    programa => programa.id !== action.payload)
+                //programasList: state.programasList.filter(programa => programa.id !== action.payload)
+                programasList: state.programasList.map(
+                    programa => programa.id === action.payload.id ? action.payload : programa
+                )
             };
         case MODIFICAR_PROGRAMAS:
             return {

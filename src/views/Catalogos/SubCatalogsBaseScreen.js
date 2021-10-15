@@ -132,7 +132,7 @@ export const SubCatalogsBaseScreen = () => {
                                 </CardHeader>
                             </Link>
                         </Card>
-                    </GridItem> */}
+                    </GridItem> 
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
@@ -163,6 +163,7 @@ export const SubCatalogsBaseScreen = () => {
                             </Link>
                         </Card>
                     </GridItem>
+                    */}
 
                 </GridContainer>
             </div>

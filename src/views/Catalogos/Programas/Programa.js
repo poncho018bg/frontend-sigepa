@@ -27,7 +27,7 @@ export const Programa = ( {programa}) => {
 } = programa;
     const [idEliminar, setIdEliminar] = useState(0);
     const { setShowModalDelete } = useContext(ModalContextDelete);
-    const {  eliminar } = useContext(ProgramasContext);
+    const {  eliminar,get } = useContext(ProgramasContext);
     const [objetoActualizar, setObjetoActualizar] = useState();
 
     const handleClickOpen = (e) => {
@@ -39,6 +39,7 @@ export const Programa = ( {programa}) => {
     const handleDeshabilitar = () => {
 
         eliminar(idEliminar);
+        get();
         setShowModalDelete(false);
       }
 

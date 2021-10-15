@@ -91,7 +91,34 @@ export const ClasificacionServiciosContextProvider = props => {
         }
     }
 
+    
     const eliminarClasificacionServicios = async idClasificacionServicios => {
+
+        const { id, dsclasificacionservicio,dsabreviatura, activo, _links: { clasificacionServicios: { href } } } = idClasificacionServicios;
+        const act = activo === true ? false : true;
+
+        let clasificacionServiciosEnviar = {
+            id,
+            dsclasificacionservicio,
+            dsabreviatura,
+            activo: act,
+            'crcApoyoServicios': []
+        };
+
+        try {
+            const result = await axiosPostHetoas(href, clasificacionServiciosEnviar, 'PUT');
+            console.log(result);
+            console.log('mir mira');
+            dispatch({
+                type: ELIMINAR_CLASIFICACION_SERVICIOS,
+                payload: result,
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const eliminarClasificacionServicios1 = async idClasificacionServicios => {
 
         try {
             await axiosDeleteTipo(`clasificacionServicios/${idClasificacionServicios.id}`);
