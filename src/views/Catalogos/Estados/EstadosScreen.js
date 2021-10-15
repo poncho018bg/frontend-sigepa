@@ -129,6 +129,7 @@ export const EstadosScreen = () => {
                 < TableCell > Estatus</TableCell >
                 < TableCell> Numero estado</TableCell >
                 < TableCell> Descripcion estado </TableCell >
+                < TableCell> Abreviatura </TableCell >
                 < TableCell> Fecha Registro</TableCell >
                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
               </TableRow >
@@ -148,6 +149,7 @@ export const EstadosScreen = () => {
                       </TableCell>
                       <TableCell>{row.noestado}</TableCell >
                       <TableCell>{row.dsestado}</TableCell >
+                      <TableCell>{row.dsabreviatura}</TableCell >
                       <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                       <TableCell align="center">
 

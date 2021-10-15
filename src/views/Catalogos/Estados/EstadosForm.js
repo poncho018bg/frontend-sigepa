@@ -32,44 +32,48 @@ export const EstadosForm = () => {
     }
 
     const handleRegistrar = () => {
-        const { noestado, dsestado } = valores
+        const { noestado, dsestado, dsabreviatura} = valores
         let estado = {
             noestado: noestado,
             dsestado: dsestado,
+            dsabreviatura:dsabreviatura,
             activo: true
         }
         registrarEstados(estado).then(response => {
             setOpenSnackbar(true);
-             
+
             setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
-           
-           const timer = setTimeout(() => {
-        
-            setError(false);
-            setShowModalConfirmacion(false);
-            setShowModal(false);
-        
+
+            const timer = setTimeout(() => {
+
+                setError(false);
+                setShowModalConfirmacion(false);
+                setShowModal(false);
+
             }, 1500);
             return () => clearTimeout(timer);
         })
-        .catch(err => {   
-            setOpenSnackbar(true);
-            setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
-        });
+            .catch(err => {
+                setOpenSnackbar(true);
+                setError(true);
+                setMsjConfirmacion(`Ocurrio un error, ${err}`);
+            });
     }
 
 
     const formik = useFormik({
         initialValues: {
             noestado: '',
-            dsestado: ''
+            dsestado: '',
+            dsabreviatura: ''
         },
         validationSchema: Yup.object({
             noestado: Yup.string()
                 .required('El num. de estado  es obligatorio'),
             dsestado: Yup.string()
-                .required('La desc. del estado es obligatorio')
+                .required('La desc. del estado es obligatorio'),
+            dsabreviatura: Yup.string()
+                .required('La abreviatura del estado es obligatorio')
         }),
         onSubmit: async valores => {
             confirmacionDialog(valores);
@@ -113,20 +117,35 @@ export const EstadosForm = () => {
                     <FormHelperText error={formik.errors.dsestado}>{formik.errors.dsestado}</FormHelperText>
                 ) : null}
             </DialogContent>
+            <DialogContent>
+                <TextField
+                    id="dsabreviatura"
+                    label="Abreviatura"
+                    variant="outlined"
+                    name="dsabreviatura"
+                    fullWidth
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.dsabreviatura}
+                />
+                {formik.touched.dsabreviatura && formik.errors.dsabreviatura ? (
+                    <FormHelperText error={formik.errors.dsabreviatura}>{formik.errors.dsabreviatura}</FormHelperText>
+                ) : null}
+            </DialogContent>
             <DialogContent >
                 <Grid container justify="flex-end">
                     <Button variant="contained" color="primary" type='submit'>
-                    {t('btn.guardar')}
+                        {t('btn.guardar')}
                     </Button>
                 </Grid>
             </DialogContent>
             <ModalConfirmacion
                 handleRegistrar={handleRegistrar} evento="Registrar"
             />
-             <Mensaje
+            <Mensaje
                 setOpen={setOpenSnackbar}
                 open={openSnackbar}
-                severity={error?"error":"success"}
+                severity={error ? "error" : "success"}
                 message={msjConfirmacion}
             />
         </form>
