@@ -63,13 +63,22 @@ export const ProgramasContextProvider = props => {
      * Se registran los tipos de apoyos
      * @param {motivoRechazos} motivoRechazos 
      */
-    const registrar = async programas => {
-
-        // const resultado = await axiosPost('programas', programas);
+    const registrar = async (programas, file) => {
+        const formData = new FormData();
+        const programaDTO = new Blob([JSON.stringify(programas)], {
+            type: 'application/json',
+        });
+        console.log('programas', programaDTO)
+        console.log('file', file)
+        formData.append('programaDTO', programaDTO)
+        formData.append('file', file)
+        console.log('formData', formData)
+        //
         const url = `${baseUrl}programasOverride`;
         return new Promise((resolve, reject) => {
-            axios.post(url, programas, {
-                headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+            axios.post(url, formData, {
+                headers: { 'Content-Type': 'multipart/form-data',
+                'Accept': '*/*'}
             }).then(response => {
                 resolve(response);
                 dispatch({
@@ -81,15 +90,15 @@ export const ProgramasContextProvider = props => {
             });
         });
 
-
-
+            
+      
     }
 
     /**
      * Se actualizan los tipos de apoyos
      * @param {motivoRechazos} motivoRechazos 
      */
-    const actualizar = async objetoActualizar => {
+    const actualizar= async objetoActualizar => {
 
         const { _links: { programas: { href } } } = objetoActualizar;
 
@@ -124,9 +133,17 @@ export const ProgramasContextProvider = props => {
             boactivo
         }
 
+        const formData = new FormData();
+        const programaDTO = new Blob([JSON.stringify(objetoEnviar)], {
+            type: 'application/json',
+        });
+
+        formData.append('programaDTO', programaDTO)
+        formData.append('file', file)
+
         const url = `${baseUrl}programasOverride`;
         return new Promise((resolve, reject) => {
-            axios.put(href, objetoEnviar, {
+            axios.put(href, formData, {
                 headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
             }).then(response => {
                 resolve(response);
@@ -167,44 +184,44 @@ export const ProgramasContextProvider = props => {
             console.log(error);
         }
     }
+          
+     //Paginacion
 
-    //Paginacion
-
-    const changePage = (page) => {
-        dispatch({
-            type: CAMBIAR_PAGINA_PROGRAMAS,
-            payload: page
-        })
-        try {
-
-            get();
-
-        } catch (error) {
-            throw error;
-        }
-
-    }
-
-    const changePageNumber = (page) => ({
-        type: CAMBIAR_PAGINA_PROGRAMAS,
+ const changePage =  (page) => {
+      dispatch({
+        type: CAMBIAR_PAGINA_PROGRAMAS, 
         payload: page
-    })
+      })
+       try {
 
+           get();
+         
+       } catch (error) {
+           throw error;
+       }
+   
+}
+
+   const changePageNumber = (page) => ({
+       type: CAMBIAR_PAGINA_PROGRAMAS, 
+       payload: page
+   })
+   
     const changePageSize = (size) => ({
-        type: CAMBIAR_TAMANIO_PAGINA_PROGRAMAS,
-        payload: size
-    })
+       type: CAMBIAR_TAMANIO_PAGINA_PROGRAMAS, 
+       payload: size
+   })      
 
     return (
         <ProgramasContext.Provider
             value={{
                 programasList: state.programasList,
                 programa: state.programa,
-                errorInsert: state.errorInsert,
-                mensajeError: state.mensajeError,
-                pageP: state.pageP,
-                sizeP: state.sizeP,
-                totalP: state.totalP,
+                errorInsert:state.errorInsert,
+                mensajeError:state.mensajeError,
+                pageP:state.pageP,
+                sizeP:state.sizeP,
+                totalP:state.totalP,
                 get,
                 registrar,
                 actualizar,
