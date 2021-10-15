@@ -77,20 +77,24 @@ export const ApoyoServicioContextProvider = props => {
 
 
     const actualizarApoyoServicio = async apoyosServicios => {
-        console.log(apoyosServicios);
-        const { dsservicio, activo, clasificacion_id, clasificacionServicio, serviciosApoyos, _links: { apoyosServicios: { href } } } = apoyosServicios;
-        let apoyosServiciosEnviar = {
-            dsservicio,
-            activo,
-            crcProgramastipoapoyos: [],
-            clasificacionServicio: `/${clasificacion_id}`,
-            serviciosApoyos: [{}]
+        console.log("apoyos servicios ----> ", apoyosServicios);
+        const { id, dsservicio, activo, clasificacion_id, clasificacionServicio, serviciosApoyos, _links: { apoyosServicios: { href } } } = apoyosServicios;
+
+        let actualizarClasificacion = {
+            "_links": { "1": { "href": `/${clasificacion_id}` } },
+        };
+        const urVigencia = `${baseUrl}apoyosServicios/${id}/clasificacionServicio`;
+        try {
+            axiosPostHetoas(urVigencia, actualizarClasificacion, 'PUT');
+        } catch (error) {
+            console.log(error);
         }
 
         return new Promise((resolve, reject) => {
             axios.put(href, apoyosServicios, {
                 headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
             }).then(response => {
+                console.log("response apoyo--->", response);
                 resolve(response);
                 dispatch({
                     type: MODIFICAR_APOYOSERVICIO,
@@ -100,6 +104,7 @@ export const ApoyoServicioContextProvider = props => {
                 reject(error);
             });
         });
+
     }
 
     const eliminarApoyoServicio = async apoyosServicios => {

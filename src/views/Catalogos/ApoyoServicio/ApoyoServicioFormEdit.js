@@ -40,6 +40,8 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
 
     const handleRegistrar = () => {
 
+        console.log("valores antes de registrar--->",valores)
+
         actualizarApoyoServicio(valores).then(response => {
 
             setOpenSnackbar(true);
@@ -72,6 +74,7 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
     });
 
     const actualizarInfoApoyoServicio = async valores => {
+        console.log("Valores --->",valores);
         valores.clasificacionServicio = `/${valores.clasificacion_id}`
         valores.serviciosApoyos = [{}]
         confirmacionDialog(valores);
@@ -147,7 +150,7 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                {t('btn.guardar')}
+                                    {t('btn.guardar')}
                                 </Button>
                             </Grid>
 

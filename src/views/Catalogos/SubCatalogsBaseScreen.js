@@ -103,7 +103,7 @@ export const SubCatalogsBaseScreen = () => {
                             </Link>
                         </Card>
                     </GridItem>
-
+{/*
                      <GridItem xs={12} sm={6} md={3}>
                         <Card>
                         <Link to="../admin/">
@@ -133,7 +133,7 @@ export const SubCatalogsBaseScreen = () => {
                             </Link>
                         </Card>
                     </GridItem> 
-                    {/*
+                    
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <Link to="../admin/regionmunicip">
