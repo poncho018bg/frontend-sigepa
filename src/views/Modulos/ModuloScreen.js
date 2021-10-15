@@ -125,7 +125,7 @@ export const ModuloScreen = () => {
                         < TableHead >
                             < TableRow key="898as" >
                                 < TableCell > Estatus</TableCell >
-                                < TableCell > ID</TableCell >
+                                {/*< TableCell > ID</TableCell >*/}
                                 < TableCell> Desc. Modulo</TableCell >
                                 < TableCell> Fecha Registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
@@ -144,9 +144,9 @@ export const ModuloScreen = () => {
                                             <TableCell>
                                                 {row.activo ? 'Activo' : 'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.id}</TableCell>
+                                            {/*<TableCell>{row.id}</TableCell>*/}
                                             <TableCell>{row.dsmodulo}</TableCell >
-                                            <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
 
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
