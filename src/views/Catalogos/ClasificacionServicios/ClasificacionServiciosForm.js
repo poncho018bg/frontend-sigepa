@@ -46,7 +46,7 @@ export const ClasificacionServiciosForm = () => {
         registrarClasificacionServicios(clasificacionServicios).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         

@@ -26,6 +26,7 @@ import { TiposBeneficiariosContext } from 'contexts/catalogos/tiposBeneficiarios
 import { EdadesBeneficiariosContext } from 'contexts/catalogos/edadesBeneficiariosContext';
 import { MultiSelect } from 'react-multi-select-component';
 import { useTranslation } from 'react-i18next';
+import { DropzoneArea } from 'material-ui-dropzone';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -48,22 +49,22 @@ export const ProgramasEdit = () => {
   const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
   const { tiposBeneficiariosList } = useContext(TiposBeneficiariosContext);
-  const { edadesBeneficiariosList ,getByIDBeneficiarios,edadesBeneficiario} = useContext(EdadesBeneficiariosContext);
+  const { edadesBeneficiariosList, getByIDBeneficiarios, edadesBeneficiario } = useContext(EdadesBeneficiariosContext);
 
   const [municipiosSelect, setMunicipiosSelect] = useState([]);
 
 
   const [left, setLeft] = React.useState([]);
-    const [right, setRight] = React.useState([]);
-    
-    const [checked, setChecked] = React.useState([]);
-    const leftChecked = intersection(checked, left);
-    const rightChecked = intersection(checked, right);
-    const [selected, setSelected] = useState([]);
+  const [right, setRight] = React.useState([]);
 
-    const [documentslst, setDocumentslst] = React.useState([]);
+  const [checked, setChecked] = React.useState([]);
+  const leftChecked = intersection(checked, left);
+  const rightChecked = intersection(checked, right);
+  const [selected, setSelected] = useState([]);
+  const [archivo, setArchivos] = React.useState();
+  const [documentslst, setDocumentslst] = React.useState([]);
 
-    const [dataEditar, setDataEditar] = useState({});
+  const [dataEditar, setDataEditar] = useState({});
 
   useEffect(() => {
     if (query.state?.mobNo) {
@@ -85,43 +86,43 @@ export const ProgramasEdit = () => {
   }, [data])*/
 
 
-  console.log("data",dataEditar);
+  console.log("data", dataEditar);
   const handleCheckedRight = () => {
     setRight(right.concat(leftChecked));
     setLeft(not(left, leftChecked));
     setChecked(not(checked, leftChecked));
-};
+  };
 
-const handleCheckedLeft = () => {
+  const handleCheckedLeft = () => {
     setLeft(left.concat(rightChecked));
     setRight(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
-};
+  };
 
-const customList = (items) => (
-  <Paper className={classes.paper}>
+  const customList = (items) => (
+    <Paper className={classes.paper}>
       <List dense component="div" role="list">
-          {items.map((value) => {
-              const labelId = `transfer-list-item-${value}-label`;
+        {items.map((value) => {
+          const labelId = `transfer-list-item-${value}-label`;
 
-              return (
-                  <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
-                      <ListItemIcon>
-                          <Checkbox
-                              checked={checked.indexOf(value) !== -1}
-                              tabIndex={-1}
-                              disableRipple
-                              inputProps={{ 'aria-labelledby': labelId }}
-                          />
-                      </ListItemIcon>
-                      <ListItemText id={labelId} primary={`${value.dsdocumento}`} />
-                  </ListItem>
-              );
-          })}
-          <ListItem />
+          return (
+            <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
+              <ListItemIcon>
+                <Checkbox
+                  checked={checked.indexOf(value) !== -1}
+                  tabIndex={-1}
+                  disableRipple
+                  inputProps={{ 'aria-labelledby': labelId }}
+                />
+              </ListItemIcon>
+              <ListItemText id={labelId} primary={`${value.dsdocumento}`} />
+            </ListItem>
+          );
+        })}
+        <ListItem />
       </List>
-  </Paper>
-);
+    </Paper>
+  );
 
 
   // Schema de validación
@@ -155,19 +156,28 @@ const customList = (items) => (
     actualizar(valores).then(response => {
 
       setOpenSnackbar(true);
-      setMsjConfirmacion(`El programa ${response.data.dsprograma}  fue actualizado correctamente `  );
-     const timer = setTimeout(() => {
-      setError(false);
+      setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
+      const timer = setTimeout(() => {
+        setError(false);
         history.push("/admin/programas")
 
       }, 1000);
       return () => clearTimeout(timer);
     })
-    .catch(err => {   
-      setOpenSnackbar(true);
-      setError(true);
-      setMsjConfirmacion(`Ocurrio un error, ${err}`  );
-    });;        
+      .catch(err => {
+        setOpenSnackbar(true);
+        setError(true);
+        setMsjConfirmacion(`Ocurrio un error, ${err}`);
+      });;
+  }
+
+  const handleChangeFile = e => {
+    console.log("files=>>>", e);
+
+    setArchivos(new Blob([JSON.stringify(e)], {
+      type: 'application/json',
+    }));
+    console.log('archivo', archivo)
   }
 
 
@@ -194,14 +204,7 @@ const customList = (items) => (
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <Card>
-                  <CardHeader color="rose" icon>
-                    <CardIcon color="rose">
-                      <PermIdentity />
-                    </CardIcon>
-                    <h4 className={classes.cardIconTitle}>
-                      Programas
-                    </h4>
-                  </CardHeader>
+                <CardHeader color="primary"> Programas </CardHeader>
                   <CardBody>
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
@@ -249,129 +252,117 @@ const customList = (items) => (
 
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={6}>
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                          <TextField
                             id="fcvigenciainicio"
-                            name="fcvigenciainicio"
+                            label="Vigencia del programa inicio"
+                            type="date"
                             fullWidth
-                            label="Vigencia del Programa Inicio"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            style={{ marginBottom: '20px' }}
-                            clearable
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
                             value={props.values?.fcvigenciainicio}
-                            onChange={value => props.setFieldValue("fcvigenciainicio", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
-                            }}
+                            name="fcvigenciainicio"
+                            onChange={props.handleChange}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
+                        
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
-
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                        <TextField
                             id="fcvigenciafin"
-                            name="fcvigenciafin"
+                            label="Vigencia del programa hasta"
+                            type="date"
                             fullWidth
-                            style={{ marginBottom: '20px' }}
-                            label="Vigencia del Programa Hasta"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            clearable
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
                             value={props.values?.fcvigenciafin}
-                            onChange={value => props.setFieldValue("fcvigenciafin", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
-                            }}
+                            name="fcvigenciafin"
+                            onChange={props.handleChange}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
+                        
                       </GridItem>
                       <GridItem xs={12} sm={12} md={6}>
-
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                        <TextField
                             id="fcregistrowebinicio"
-                            name="fcregistrowebinicio"
+                            label="Periodo registro web desde"
+                            type="date"
                             fullWidth
-                            style={{ marginBottom: '20px' }}
-                            label="Periodo Registro Web Desde"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            clearable
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
                             value={props.values?.fcregistrowebinicio}
-                            onChange={value => props.setFieldValue("periodoRegistroWebDesde", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
-                            }}
+                            name="fcregistrowebinicio"
+                            onChange={props.handleChange}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
+                        
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
-
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                        <TextField
                             id="fcregistrowebfin"
-                            name="fcregistrowebfin"
+                            label="Periodo registro web hasta"
+                            type="date"
                             fullWidth
-                            label="Periodo Registro web Hasta"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            style={{ marginBottom: '20px' }}
-                            clearable
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
                             value={props.values?.fcregistrowebfin}
-                            onChange={value => props.setFieldValue("fcregistrowebfin", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
-                            }}
+                            name="fcregistrowebfin"
+                            onChange={props.handleChange}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>                       
 
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
 
-
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                        <TextField
                             id="fcregistropresencialinicio"
-                            name="fcregistropresencialinicio"
+                            label="Periodo registro presencial desde"
+                            type="date"
                             fullWidth
-                            label="Periodo Registro Presencial Desde"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            style={{ marginBottom: '20px' }}
-                            clearable
-                            value={props.values?.fcregistropresencialinicio}
-                            onChange={value => props.setFieldValue("fcregistropresencialinicio", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
                             }}
+                            value={props.values?.fcregistropresencialinicio}
+                            name="fcregistropresencialinicio"
+                            onChange={props.handleChange}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
+                        
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
-
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                        <TextField
                             id="fcregistropresencialfin"
-                            name="fcregistropresencialfin"
+                            label="Periodo registro presencial hasta"
+                            type="date"
                             fullWidth
-                            label="Periodo Registro Presencial Hasta"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            style={{ marginBottom: '20px' }}
-                            clearable
-                            value={props.values?.fcregistropresencialfin}
-                            onChange={value => props.setFieldValue("fcregistropresencialfin", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
                             }}
+                            value={props.values?.fcregistropresencialfin}
+                            name="fcregistropresencialfin"
+                            onChange={props.handleChange}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
+                        
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={12}>
@@ -398,116 +389,116 @@ const customList = (items) => (
                     </GridContainer>
 
                     <GridContainer>
-                  <GridItem xs={12} sm={12} md={12}>
-                  <TextField
-                        variant="outlined"
-                        label="Selecciona un tipo de beneficiario"
-                        select
-                        style={{marginBottom: '20px'}}
-                        fullWidth
-                        name="idBeneficiario"
-                        value={props.values?.idBeneficiario}
-                        onChange={props.handleChange}
-                    >
-                        <MenuItem value="0">
+                      <GridItem xs={12} sm={12} md={12}>
+                        <TextField
+                          variant="outlined"
+                          label="Selecciona un tipo de beneficiario"
+                          select
+                          style={{ marginBottom: '20px' }}
+                          fullWidth
+                          name="idBeneficiario"
+                          value={props.values?.idBeneficiario}
+                          onChange={props.handleChange}
+                        >
+                          <MenuItem value="0">
                             <em>{t('cmb.ninguno')}</em>
-                        </MenuItem>
-                        {
+                          </MenuItem>
+                          {
                             tiposBeneficiariosList.map(
-                                item => (
-                                    <MenuItem
-                                        key={item.id}
-                                        value={item.id}>
-                                        {item.dstipobeneficiario}
-                                    </MenuItem>
-                                )
+                              item => (
+                                <MenuItem
+                                  key={item.id}
+                                  value={item.id}>
+                                  {item.dstipobeneficiario}
+                                </MenuItem>
+                              )
                             )
-                        }
-                    </TextField>
-                 
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
-                  <TextField
-                        variant="outlined"
-                        label="Selecciona un rango de edad"
-                        select
-                        style={{marginBottom: '20px'}}
-                        fullWidth
-                        name="idRangoEdadBeneficiario"
-                        value={props.values?.idRangoEdadBeneficiario}
-                        onChange={props.handleChange}
-                    >
-                       
-                        {
+                          }
+                        </TextField>
+
+                      </GridItem>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <TextField
+                          variant="outlined"
+                          label="Selecciona un rango de edad"
+                          select
+                          style={{ marginBottom: '20px' }}
+                          fullWidth
+                          name="idRangoEdadBeneficiario"
+                          value={props.values?.idRangoEdadBeneficiario}
+                          onChange={props.handleChange}
+                        >
+
+                          {
                             edadesBeneficiariosList.map(
-                                item => (
-                                    <MenuItem
-                                        key={item.id}
-                                        value={item.id}>
-                                        {item.dsedadbeneficiario}
-                                    </MenuItem>
-                                )
+                              item => (
+                                <MenuItem
+                                  key={item.id}
+                                  value={item.id}>
+                                  {item.dsedadbeneficiario}
+                                </MenuItem>
+                              )
                             )
-                        }
+                          }
 
-                    </TextField>
-                    {props.touched.idRangoEdadBeneficiario && props.errors.idRangoEdadBeneficiario ? (
-                        <FormHelperText error={props.errors.idRangoEdadBeneficiario}>{props.errors.idRangoEdadBeneficiario}</FormHelperText>
-                    ) : null}
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
-                  <FormLabel component="legend">Cobertura municipal </FormLabel>
-                    <MultiSelect
-                         style={{marginBottom: '120px'}}
-                        options={municipiosSelect}
-                        value={selected}
-                        onChange={setSelected}
-                        labelledBy="Seleccionar"
-                    />
-                  </GridItem>
+                        </TextField>
+                        {props.touched.idRangoEdadBeneficiario && props.errors.idRangoEdadBeneficiario ? (
+                          <FormHelperText error={props.errors.idRangoEdadBeneficiario}>{props.errors.idRangoEdadBeneficiario}</FormHelperText>
+                        ) : null}
+                      </GridItem>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <FormLabel component="legend">Cobertura municipal </FormLabel>
+                        <MultiSelect
+                          style={{ marginBottom: '120px' }}
+                          options={municipiosSelect}
+                          value={selected}
+                          onChange={setSelected}
+                          labelledBy="Seleccionar"
+                        />
+                      </GridItem>
 
-                  <GridItem xs={12} sm={12} md={12}  style={{marginBottom: '20px'}}>
-                  <FormLabel  style={{marginBottom: '20px'}} component="legend">Documentación y formatos requeridos para el tipo de apoyo</FormLabel>
-                    <Grid
-                        container
-                        spacing={2}
-                        style={{marginBottom: '20px'}}
-                        justifyContent="center"
-                        alignItems="center"
-                        className={classes.root}
-                        fullWidth
-                    >
-                        <Grid item>{customList(left)}</Grid>
-                        <Grid item>
+                      <GridItem xs={12} sm={12} md={12} style={{ marginBottom: '20px' }}>
+                        <FormLabel style={{ marginBottom: '20px' }} component="legend">Documentación y formatos requeridos para el tipo de apoyo</FormLabel>
+                        <Grid
+                          container
+                          spacing={2}
+                          style={{ marginBottom: '20px' }}
+                          justifyContent="center"
+                          alignItems="center"
+                          className={classes.root}
+                          fullWidth
+                        >
+                          <Grid item>{customList(left)}</Grid>
+                          <Grid item>
                             <Grid container direction="column" alignItems="center">
 
-                                <Button
-                                    variant="outlined"
-                                    size="small"
-                                    className={classes.button}
-                                    onClick={handleCheckedRight}
-                                    disabled={leftChecked.length === 0}
-                                    aria-label="move selected right"
-                                >
-                                    &gt;
-                                </Button>
-                                <Button
-                                    variant="outlined"
-                                    size="small"
-                                    className={classes.button}
-                                    onClick={handleCheckedLeft}
-                                    disabled={rightChecked.length === 0}
-                                    aria-label="move selected left"
-                                >
-                                    &lt;
-                                </Button>
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                className={classes.button}
+                                onClick={handleCheckedRight}
+                                disabled={leftChecked.length === 0}
+                                aria-label="move selected right"
+                              >
+                                &gt;
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                className={classes.button}
+                                onClick={handleCheckedLeft}
+                                disabled={rightChecked.length === 0}
+                                aria-label="move selected left"
+                              >
+                                &lt;
+                              </Button>
 
                             </Grid>
+                          </Grid>
+                          <Grid item>{customList(right)}</Grid>
                         </Grid>
-                        <Grid item>{customList(right)}</Grid>
-                    </Grid>
-                  </GridItem>
-                </GridContainer>
+                      </GridItem>
+                    </GridContainer>
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
                         <TextField
@@ -566,6 +557,16 @@ const customList = (items) => (
                           value={props.values?.dsobservaciones}
                           InputLabelProps={{ shrink: true }}
                         />
+                      </GridItem>
+
+                      <GridItem xs={12} sm={12} md={12}>
+                        <Grid item xs={12}>
+                          <DropzoneArea
+                            acceptedFiles={['image/png']}
+                            filesLimit='1'
+                            onChange={handleChangeFile}
+                          />
+                        </Grid>
                       </GridItem>
                     </GridContainer>
 

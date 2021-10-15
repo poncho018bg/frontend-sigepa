@@ -102,10 +102,11 @@ export const EstadosContextProvider = props => {
 
     const actualizarEstados = async estado => {
         console.log(estado);
-        const { noestado, dsestado, _links: { estados: { href } } } = estado;
+        const { noestado, dsestado, dsabreviatura, _links: { estados: { href } } } = estado;
         let estadosEnviar = {
             noestado,
             dsestado,
+            dsabreviatura,
             municipiosCollection: []
 
         }
@@ -121,7 +122,7 @@ export const EstadosContextProvider = props => {
     }
 
     const eliminarEstados = async estado => {
-      
+
         const { activo, _links: { estados: { href } } } = estado;
         const act = !activo
         estado.activo = act

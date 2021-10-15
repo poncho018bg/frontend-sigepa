@@ -38,26 +38,26 @@ export const EstadosFormEdit = ({ estadoSeleccionada }) => {
     const handleRegistrar = () => {
         actualizarEstados(valores).then(response => {
             setOpenSnackbar(true);
-             
-            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
-           
-           const timer = setTimeout(() => {
-        
-            setError(false);
-            setShowModalConfirmacion(false);
-            setShowModalUpdate(false);
-        
+
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
+
+            const timer = setTimeout(() => {
+
+                setError(false);
+                setShowModalConfirmacion(false);
+                setShowModalUpdate(false);
+
             }, 2000);
             return () => clearTimeout(timer);
         })
-        .catch(err => {   
-            setOpenSnackbar(true);
-            setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            .catch(err => {
+                setOpenSnackbar(true);
+                setError(true);
+                setMsjConfirmacion(`Ocurrio un error, ${err}`);
 
-            setShowModalConfirmacion(false);
-            setShowModalUpdate(false);
-        });
+                setShowModalConfirmacion(false);
+                setShowModalUpdate(false);
+            });
     }
 
     // Schema de validación
@@ -65,7 +65,9 @@ export const EstadosFormEdit = ({ estadoSeleccionada }) => {
         noestado: Yup.string()
             .required('El num. de estado  es obligatorio'),
         dsestado: Yup.string()
-            .required('La desc. del estado es obligatorio')
+            .required('La desc. del estado es obligatorio'),
+        dsabreviatura: Yup.string()
+            .required('La abreviatura del estado es obligatorio')
     });
 
     const actualizarInfoEstado = async valores => {
@@ -110,7 +112,7 @@ export const EstadosFormEdit = ({ estadoSeleccionada }) => {
                         <DialogContent>
 
                             <TextField
-                            fullWidth
+                                fullWidth
                                 id="dsestado"
                                 label="Desc. estado"
                                 variant="outlined"
@@ -125,10 +127,29 @@ export const EstadosFormEdit = ({ estadoSeleccionada }) => {
                             ) : null}
 
                         </DialogContent>
+
+                        <DialogContent>
+
+                            <TextField
+                                fullWidth
+                                id="dsabreviatura"
+                                label="Abreviatura"
+                                variant="outlined"
+                                name="dsabreviatura"
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
+                                value={props.values.dsabreviatura}
+                            />
+
+                            {props.touched.dsabreviatura && props.errors.dsabreviatura ? (
+                                <FormHelperText error={props.errors.dsabreviatura}>{props.errors.dsabreviatura}</FormHelperText>
+                            ) : null}
+
+                        </DialogContent>
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                {t('btn.guardar')}
+                                    {t('btn.guardar')}
                                 </Button>
                             </Grid>
 
@@ -137,10 +158,10 @@ export const EstadosFormEdit = ({ estadoSeleccionada }) => {
                         <ModalConfirmacion
                             handleRegistrar={handleRegistrar} evento="Editar"
                         />
-                         <Mensaje
+                        <Mensaje
                             setOpen={setOpenSnackbar}
                             open={openSnackbar}
-                            severity={error?"error":"success"}
+                            severity={error ? "error" : "success"}
                             message={msjConfirmacion}
                         />
                     </form>

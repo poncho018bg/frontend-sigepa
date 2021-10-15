@@ -84,7 +84,7 @@ export const NumeroApoyosScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -101,7 +101,7 @@ export const NumeroApoyosScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Número de Apoyos</h4>
+                    <h4 className={classes.cardTitleWhite}>Número de apoyos</h4>
                     <p className={classes.cardCategoryWhite}>
                         Esta pantalla permite agregar la cantidad de apoyos
                     </p>
@@ -132,9 +132,9 @@ export const NumeroApoyosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estatus</TableCell >
-                                < TableCell> Número de Apoyos</TableCell >
-                                < TableCell> Fecha Registro</TableCell >
+                                < TableCell align="center"> Estatus</TableCell >
+                                < TableCell align="center"> Número de apoyos</TableCell >
+                                < TableCell align="center"> Fecha registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
@@ -148,11 +148,11 @@ export const NumeroApoyosScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>                                                
+                                            <TableCell align="center">                                                
                                                 {row.activo ? 'Activo':'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.noapoyo}</TableCell >
-                                            <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell align="center">{row.noapoyo}</TableCell >
+                                            <TableCell align="center">{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />

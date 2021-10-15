@@ -133,9 +133,9 @@ export const MotivoRechazosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > {t('dgv.estatus')}</TableCell >
-                                < TableCell> {t('dgv.descmotivorechazo')}</TableCell >
-                                < TableCell> {t('dgv.fechareg')}</TableCell >
+                                < TableCell align="center"> {t('dgv.estatus')}</TableCell >
+                                < TableCell align="center"> {t('dgv.descmotivorechazo')}</TableCell >
+                                < TableCell align="center"> {t('dgv.fechareg')}</TableCell >
                                 < TableCell colSpan={2} align="center"> {t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
@@ -149,11 +149,11 @@ export const MotivoRechazosScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
+                                            <TableCell align="center">
                                                 {row.activo === true ? 'Activo':'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.dsmotivorechazo}</TableCell >
-                                            <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell align="center">{row.dsmotivorechazo}</TableCell >
+                                            <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />

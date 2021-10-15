@@ -99,9 +99,9 @@ export const EdadesBeneficiariosScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Edades Beneficiarios</h4>
+                    <h4 className={classes.cardTitleWhite}>Edades beneficiarios</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Esta pantalla permite agregar las Edades para Beneficiarios
+                        Esta pantalla permite agregar las edades para beneficiarios
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -130,9 +130,9 @@ export const EdadesBeneficiariosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estatus</TableCell >
-                                < TableCell> Edad beneficiario</TableCell >
-                                < TableCell> Fecha Registro</TableCell >
+                                < TableCell align="center"> Estatus</TableCell >
+                                < TableCell align="center"> Edad beneficiario</TableCell >
+                                < TableCell align="center"> Fecha registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
@@ -146,11 +146,11 @@ export const EdadesBeneficiariosScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
+                                            <TableCell align="center">
                                                 {row.activo ? 'Activo' : 'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.dsedadbeneficiario}</TableCell >
-                                            <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell align="center">{row.dsedadbeneficiario}</TableCell >
+                                            <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />

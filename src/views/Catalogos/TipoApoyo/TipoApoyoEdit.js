@@ -40,7 +40,7 @@ export const TipoApoyoEdit = ({ tipoApoyoSeleccionado }) => {
         actualizarTiposApoyos(valores).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -92,7 +92,7 @@ export const TipoApoyoEdit = ({ tipoApoyoSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dstipoapoyo"
-                                label="Desc. Tipo de Apoyo"
+                                label="Desc. Tipo de apoyo"
                                 variant="outlined"
                                 name="dstipoapoyo"
                                 fullWidth

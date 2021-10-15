@@ -93,9 +93,9 @@ export const ModuloScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Modulos</h4>
+                    <h4 className={classes.cardTitleWhite}>Módulos</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Pantalla que permite configurar los Modulos
+                        Pantalla que permite configurar los módulos
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -124,10 +124,9 @@ export const ModuloScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell > Estatus</TableCell >
-                                {/*< TableCell > ID</TableCell >*/}
-                                < TableCell> Desc. Modulo</TableCell >
-                                < TableCell> Fecha Registro</TableCell >
+                                < TableCell align="center"> Estatus</TableCell >                                
+                                < TableCell align="center"> Descripción módulo</TableCell >
+                                < TableCell align="center"> Fecha registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
@@ -141,12 +140,12 @@ export const ModuloScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
+                                            <TableCell align="center">
                                                 {row.activo ? 'Activo' : 'Inactivo'}
                                             </TableCell>
-                                            {/*<TableCell>{row.id}</TableCell>*/}
-                                            <TableCell>{row.dsmodulo}</TableCell >
-                                            <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            
+                                            <TableCell align="center">{row.dsmodulo}</TableCell >
+                                            <TableCell align="center">{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
 
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>

@@ -105,9 +105,9 @@ export const TipoBeneficiarioScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Tipos de Beneficiarios</h4>
+                    <h4 className={classes.cardTitleWhite}>Tipos de beneficiarios</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Esta pantalla permite agregar tipos de Beneficiario
+                        Esta pantalla permite agregar tipos de beneficiario
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -136,9 +136,9 @@ export const TipoBeneficiarioScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estatus</TableCell >
-                                < TableCell> Tipo de Beneficiario</TableCell >
-                                < TableCell> Fecha Registro</TableCell >
+                                < TableCell align="center"> Estatus</TableCell >
+                                < TableCell align="center"> Tipo de beneficiario</TableCell >
+                                < TableCell align="center"> Fecha registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
@@ -152,11 +152,11 @@ export const TipoBeneficiarioScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>                                                
+                                            <TableCell align="center">                                                
                                                 {row.activo ? 'Activo':'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.dstipobeneficiario}</TableCell >
-                                            <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell align="center">{row.dstipobeneficiario}</TableCell >
+                                            <TableCell align="center">{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />

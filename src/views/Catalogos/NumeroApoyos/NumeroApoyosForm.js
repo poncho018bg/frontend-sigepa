@@ -41,7 +41,7 @@ export const NumeroApoyosForm = () => {
         registrarNumeroApoyos(numeroApoyos).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         

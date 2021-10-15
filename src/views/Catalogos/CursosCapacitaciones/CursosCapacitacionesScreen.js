@@ -130,9 +130,9 @@ export const CursosCapacitacionesScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > {t('dgv.estatus')}</TableCell >
-                                < TableCell> {t('dgv.cursos')}</TableCell >
-                                < TableCell> {t('dgv.fecharegistro')}</TableCell >
+                                < TableCell align="center"> {t('dgv.estatus')}</TableCell >
+                                < TableCell align="center"> {t('dgv.cursos')}</TableCell >
+                                < TableCell align="center"> {t('dgv.fecharegistro')}</TableCell >
                                 < TableCell colSpan={2} align="center"> {t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
@@ -146,11 +146,11 @@ export const CursosCapacitacionesScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={i}>
-                                            <TableCell>
+                                            <TableCell align="center">
                                               {row.activo === true ? 'Activo':'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.dsestado}</TableCell >
-                                            <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell align="center">{row.dsestado}</TableCell >
+                                            <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />

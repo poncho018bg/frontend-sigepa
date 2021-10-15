@@ -245,7 +245,7 @@ export const DialogTipoApoyoForm = (props) => {
         
         registrarApoyo(nuevoApoyo).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
 
             const timer = setTimeout(() => {
                 setError(false);
@@ -268,12 +268,12 @@ export const DialogTipoApoyoForm = (props) => {
     return (
         <Card>
             <form onSubmit={formik.handleSubmit}>
-                <CardHeader color="primary">{(tipoApoyoEditar) ? 'Editar Tipo de Apoyo' : 'Alta Tipo de Apoyo'} </CardHeader>
+                <CardHeader color="primary">{(tipoApoyoEditar) ? 'Editar Tipo de apoyo' : 'Alta Tipo de apoyo'} </CardHeader>
                 {console.log('ERRORES=>', formik.errors)}
                 <CardBody>
                     <TextField
                         id="dsapoyo"
-                        label="Nombre del Tipo de Apoyo"
+                        label="Nombre del Tipo de apoyo"
                         variant="outlined"
                         name="dsapoyo"
                         value={formik.values.dsapoyo}
@@ -319,7 +319,7 @@ export const DialogTipoApoyoForm = (props) => {
 
                     <TextField
                         id="dsdescripcion"
-                        label="Descripción del Tipo de Apoyo"
+                        label="Descripción del Tipo de apoyo"
                         variant="outlined"
                         name="dsdescripcion"
                         value={formik.values.dsdescripcion}

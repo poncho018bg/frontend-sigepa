@@ -39,7 +39,7 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
 
         actualizarMotivoRechazos(valores).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
             const timer = setTimeout(() => {
                 setError(false);
                 history.push("/admin/motivosRechazos")

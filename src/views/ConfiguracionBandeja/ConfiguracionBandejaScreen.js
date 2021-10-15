@@ -78,11 +78,11 @@ export const ConfiguracionBandejaScreen = () => {
                 < Table stickyHeader aria-label="sticky table" >
                   < TableHead >
                     < TableRow key="898as" >
-                      < TableCell > ID</TableCell >
-                      < TableCell> Endpoint</TableCell >
-                      < TableCell> Descripcion</TableCell >
-                      < TableCell> Fecha Registro</TableCell >
-                      < TableCell> Editar</TableCell >
+                      < TableCell align="center"> ID</TableCell >
+                      < TableCell align="center"> Endpoint</TableCell >
+                      < TableCell align="center"> Descripcion</TableCell >
+                      < TableCell align="center"> Fecha registro</TableCell >
+                      < TableCell align="center"> Editar</TableCell >
                     </TableRow >
                   </TableHead >
                   < TableBody >
@@ -90,10 +90,10 @@ export const ConfiguracionBandejaScreen = () => {
                         tipoBandeja.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                           return (
                             < TableRow key={row.id}>
-                              <TableCell>{row.id}</TableCell>
-                              <TableCell>{row.endPoint}</TableCell >
-                              <TableCell>{row.descripcion}</TableCell>
-                              <TableCell >{moment(row.fechaRegistro).format("MMMM Do YYYY, h:mm:ss a")}</TableCell>
+                              <TableCell align="center">{row.id}</TableCell>
+                              <TableCell align="center">{row.endPoint}</TableCell >
+                              <TableCell align="center">{row.descripcion}</TableCell>
+                              <TableCell align="center">{moment(row.fechaRegistro).format("MMMM Do YYYY, h:mm:ss a")}</TableCell>
                               <TableCell align="center">
                                   <Button color='primary'
                                        onClick={() => onSelectBandeja(row)}

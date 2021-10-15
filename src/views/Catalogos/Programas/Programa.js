@@ -55,14 +55,14 @@ export const Programa = ( {programa}) => {
     return (
          <>
         < TableRow >
-            <TableCell>
+            <TableCell align="center">
                 {activo ? 'Activo':'Inactivo'}
             </TableCell>
-            <TableCell>{dsprograma}</TableCell>
-            <TableCell>{dsclaveprograma}</TableCell >
-            <TableCell >{moment(fcvigenciainicio).format("MM/DD/YYYY")}</TableCell>
-            <TableCell >{moment(fcvigenciafin).format("MM/DD/YYYY")}</TableCell>
-            <TableCell>{dsdescripcion}</TableCell >
+            <TableCell align="center">{dsprograma}</TableCell>
+            <TableCell align="center">{dsclaveprograma}</TableCell >
+            <TableCell align="center">{moment(fcvigenciainicio).format("MM/DD/YYYY")}</TableCell>
+            <TableCell align="center">{moment(fcvigenciafin).format("MM/DD/YYYY")}</TableCell>
+            <TableCell align="center">{dsdescripcion}</TableCell >
             
             <TableCell align="center">                                 
                 <IconButton aria-label="create" onClick={() => onSelect(programa)}>

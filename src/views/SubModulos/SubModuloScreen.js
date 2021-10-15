@@ -94,9 +94,9 @@ export const SubModuloScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Submodulos</h4>
+                    <h4 className={classes.cardTitleWhite}>Submódulos</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Pantalla que permite configurar los Submodulos
+                        Pantalla que permite configurar los Submódulos
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -125,11 +125,10 @@ export const SubModuloScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell align="center"> Estatus</TableCell >
-                                < TableCell align="center"> ID</TableCell >
+                                < TableCell align="center"> Estatus</TableCell >                                
                                 < TableCell align="center"> Submódulo</TableCell >
                                 < TableCell align="center"> Fecha registro</TableCell >
-                                < TableCell colSpan={1} align="center"> Acciones</TableCell >
+                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
@@ -142,12 +141,12 @@ export const SubModuloScreen = () => {
 
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
+                                            <TableCell align="center">
                                                 {row.activoval ? 'Activo' : 'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.id}</TableCell>
-                                            <TableCell>{row.dssubmodulo}</TableCell >
-                                            <TableCell >{moment(row.fcfecharegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            
+                                            <TableCell align="center">{row.dssubmodulo}</TableCell >
+                                            <TableCell align="center">{moment(row.fcfecharegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
 
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>

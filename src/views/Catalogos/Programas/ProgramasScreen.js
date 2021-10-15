@@ -115,12 +115,12 @@ export const ProgramasScreen = () => {
               < Table stickyHeader aria-label="sticky table" >
                 < TableHead >
                   < TableRow key="898as" >
-                    < TableCell > Estatus</TableCell >
-                    < TableCell > Programa  </TableCell >
-                    < TableCell > Clave  </TableCell >
-                    < TableCell> Vigencia I</TableCell >
-                    <TableCell>Vigencia F</TableCell>
-                    < TableCell> Descripción</TableCell >
+                    < TableCell align="center"> Estatus</TableCell >
+                    < TableCell align="center"> Programa  </TableCell >
+                    < TableCell align="center"> Clave  </TableCell >
+                    < TableCell align="center"> Vigencia inicial</TableCell >
+                    < TableCell align="center">Vigencia final</TableCell>
+                    < TableCell align="center"> Descripción</TableCell >
                     < TableCell colSpan={2} align="center"> Acciones</TableCell >
                   </TableRow >
                 </TableHead >

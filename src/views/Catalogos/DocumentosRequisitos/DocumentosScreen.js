@@ -112,7 +112,7 @@ export const DocumentosScreen = () => {
                 <CardHeader color="primary">
                     <h4 className={classes.cardTitleWhite}>Documentos</h4>
                     <p className={classes.cardCategoryWhite}>
-                        En esta zona se consutan los documentos y programas a los que tiene asignados
+                        En esta zona se consultan los documentos y programas a los que tiene asignados
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -142,7 +142,7 @@ export const DocumentosScreen = () => {
                         < TableHead >
                             < TableRow key="ta1" >
                                 < TableCell align="center">Documento</TableCell >
-                                < TableCell align="center" >Programa de Apoyo</TableCell >
+                                < TableCell align="center" >Programa de apoyo</TableCell >
                                 < TableCell align="center">Vigencia</TableCell >
                                 < TableCell align="center" > Estatus</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >

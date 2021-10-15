@@ -41,7 +41,7 @@ export const TipoBeneficiarioForm = () => {
         registrarTiposBeneficiarios(tiposBeneficiario).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
