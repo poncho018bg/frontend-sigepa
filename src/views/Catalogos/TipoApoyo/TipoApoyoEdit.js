@@ -99,6 +99,7 @@ export const TipoApoyoEdit = ({ tipoApoyoSeleccionado }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dstipoapoyo}
+                                inputProps={{ maxLength: 200 }}
                             />
                             {props.touched.dstipoapoyo && props.errors.dstipoapoyo ? (
                                 <FormHelperText error={props.errors.dstipoapoyo}>{props.errors.dstipoapoyo}</FormHelperText>

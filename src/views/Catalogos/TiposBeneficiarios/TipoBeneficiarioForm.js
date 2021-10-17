@@ -90,6 +90,7 @@ export const TipoBeneficiarioForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dstipobeneficiario}
+                    inputProps={{ maxLength: 100 }}
                 />
                 {formik.touched.dstipobeneficiario && formik.errors.dstipobeneficiario ? (
                     <FormHelperText error={formik.errors.dstipobeneficiario}>{formik.errors.dstipobeneficiario}</FormHelperText>

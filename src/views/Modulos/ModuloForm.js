@@ -95,6 +95,7 @@ export const ModuloForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsmodulo}
+                    inputProps={{ maxLength: 200 }}
                 />
                 {formik.touched.dsmodulo && formik.errors.dsmodulo ? (
                     <FormHelperText error={formik.errors.dsmodulo}>{formik.errors.dsmodulo}</FormHelperText>

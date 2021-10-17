@@ -98,6 +98,7 @@ export const ModuloFormEdit = ({ moduloSeleccionado }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dsmodulo}
+                                inputProps={{ maxLength: 200 }}
                             />
                             {props.touched.dsmodulo && props.errors.dsmodulo ? (
                                 <FormHelperText error={props.errors.dsmodulo}>{props.errors.dsmodulo}</FormHelperText>

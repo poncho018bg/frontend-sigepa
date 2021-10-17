@@ -92,6 +92,7 @@ export const CursosCapacitacionesForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsestado}
+                    inputProps={{ maxLength: 300 }}
                 />
                 {formik.touched.dsestado && formik.errors.dsestado ? (
                     <FormHelperText error={formik.errors.dsestado}>{formik.errors.dsestado}</FormHelperText>

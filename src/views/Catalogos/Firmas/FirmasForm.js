@@ -100,6 +100,7 @@ export const FirmasForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsautoriza}
+                    inputProps={{ maxLength: 200 }}
                 />
                 {formik.touched.dsautoriza && formik.errors.dsautoriza ? (
                     <FormHelperText error={formik.errors.dsautoriza}>{formik.errors.dsautoriza}</FormHelperText>
@@ -115,6 +116,7 @@ export const FirmasForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dspuesto}
+                    inputProps={{ maxLength: 200 }}
                 />
                 {formik.touched.dspuesto && formik.errors.dspuesto ? (
                     <FormHelperText error={formik.errors.dspuesto}>{formik.errors.dspuesto}</FormHelperText>
@@ -131,6 +133,7 @@ export const FirmasForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dscomentario}
+                    inputProps={{ maxLength: 200 }}
                 />
                 {formik.touched.dscomentario && formik.errors.dscomentario ? (
                     <FormHelperText error={formik.errors.dscomentario}>{formik.errors.dscomentario}</FormHelperText>

@@ -8,7 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import 'moment/locale/es';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
-
+import GridContainer from "components/Grid/GridContainer.js";
+import GridItem from "components/Grid/GridItem.js";
+import Card from "components/Card/Card.js";
+import CardBody from "components/Card/CardBody.js";
+import CardHeader from "components/Card/CardHeader.js";
 
 import { obtenerRolesAction } from 'actions/rolesKeycloakAction';
 import { ModuloContext } from 'contexts/moduloContext';
@@ -299,111 +303,149 @@ export const RolesScreen = () => {
 
     return (
         <>
-        {/*
+            {/*
             <Button type="submit" color="primary" onClick={handleSavePerfiles} style={{ right: '0px', position: 'absolute' }}>
                 {t('btn.guardar')}
             </Button>
         */}
-            <DialogContent>
-                <TextField
-                    variant="outlined"
-                    label="Selecciona un perfil"
-                    select
-                    fullWidth
-                    error={errors.idPerfil}
-                    name="idPerfilSelected"
-                    value={idPerfilSelected}
-                    onChange={(e) => setIdPerfilSelected(e.target.value)}
-                >
-                    <MenuItem value="0">
-                        <em>{t('cmb.ninguno')}</em>
-                    </MenuItem>
-                    {console.log('ROLES=>', roles)}
-                    {
 
-                        roles.map(
-                            item => (
-                                <MenuItem
-                                    key={item.id}
-                                    value={item.id}>
-                                    {item.name}
-                                </MenuItem>
-                            )
-                        )
-                    }
-                </TextField>
+            <GridContainer>
+                <GridItem xs={12} sm={12} md={12}>
+                    <Card>
+                        <CardHeader color="primary"> Administración de perfiles </CardHeader>
 
-                {errors.idPerfil && <FormHelperText error={errors.idPerfil !== null && errors.idPerfil !== undefined}>{errors.idPerfil}</FormHelperText>}
-            </DialogContent>
+                        <CardBody>
+                            <GridContainer>
+                                <GridItem xs={12} sm={12} md={12} style={{textAlign:'right'}}>
+                                <Button type="submit" color="primary" onClick={handleSavePerfiles} >
+                                            {t('btn.guardar')}
+                                        </Button>
+                                   
+                                </GridItem>
+                                <GridItem xs={12} sm={12} md={12}>
+                                    <DialogContent>
+                                        <TextField
+                                            variant="outlined"
+                                            label="Selecciona un perfil"
+                                            select
+                                            fullWidth
+                                            error={errors.idPerfil}
+                                            name="idPerfilSelected"
+                                            value={idPerfilSelected}
+                                            onChange={(e) => setIdPerfilSelected(e.target.value)}
+                                        >
+                                            <MenuItem value="0">
+                                                <em>{t('cmb.ninguno')}</em>
+                                            </MenuItem>
+                                            {console.log('ROLES=>', roles)}
+                                            {
 
-            <List
-                component="nav"
-                aria-labelledby="nested-list-subheader"
-                subheader={
-                    <ListSubheader component="div" id="nested-list-subheader">
-                        Modulos
-                    </ListSubheader>
-                }
-                className={classes.root}
-            >
-                {
-                    moduloList.map((index, i) => {
-                        const labelId = `checkbox-list-label-${i}`;
-                        return (
-                            <>
+                                                roles.map(
+                                                    item => (
+                                                        <MenuItem
+                                                            key={item.id}
+                                                            value={item.id}>
+                                                            {item.name}
+                                                        </MenuItem>
+                                                    )
+                                                )
+                                            }
+                                        </TextField>
 
-                                <ListItem key={i} role={undefined} dense button onClick={handleToggle(i, index)}>
-                                    <ListItemIcon>
-                                        <Checkbox
-                                            edge="start"
-                                            checked={checked.indexOf(i) !== -1}
-                                            tabIndex={-1}
-                                            disableRipple
-                                            inputProps={{ 'aria-labelledby': labelId }}
-                                        />
-                                    </ListItemIcon>
-                                    <ListItemText id={labelId} primary={` ${index.dsmodulo}`} />
+                                        {errors.idPerfil && <FormHelperText error={errors.idPerfil !== null && errors.idPerfil !== undefined}>{errors.idPerfil}</FormHelperText>}
+                                    </DialogContent>
+                                </GridItem>
 
-                                </ListItem>
-                                {submoduloList.map((indexs, j) => {
-                                    const labelIdS = `checkbox-list-label-${j}`;
-                                    return (
-                                        //(mod, sub,indxS, indxM, labelId)
-                                        compareModSub(index, indexs, j, i, labelIdS)
-                                    )
-                                }
+                                <GridItem xs={12} sm={12} md={12}>
 
-                                )}
-                            </>
+                                    <List
+                                        component="nav"
+                                        aria-labelledby="nested-list-subheader"
+                                        subheader={
+                                            <ListSubheader component="div" id="nested-list-subheader">
+                                                Modulos
+                                            </ListSubheader>
+                                        }
+                                        className={classes.root}
+                                    >
+                                        {
+                                            moduloList.map((index, i) => {
+                                                const labelId = `checkbox-list-label-${i}`;
+                                                return (
+                                                    <>
 
-                        )
+                                                        <ListItem key={i} role={undefined} dense button onClick={handleToggle(i, index)}>
+                                                            <ListItemIcon>
+                                                                <Checkbox
+                                                                    edge="start"
+                                                                    checked={checked.indexOf(i) !== -1}
+                                                                    tabIndex={-1}
+                                                                    disableRipple
+                                                                    inputProps={{ 'aria-labelledby': labelId }}
+                                                                />
+                                                            </ListItemIcon>
+                                                            <ListItemText id={labelId} primary={` ${index.dsmodulo}`} />
 
-                    })
-                }
+                                                        </ListItem>
+                                                        {submoduloList.map((indexs, j) => {
+                                                            const labelIdS = `checkbox-list-label-${j}`;
+                                                            return (
+                                                                //(mod, sub,indxS, indxM, labelId)
+                                                                compareModSub(index, indexs, j, i, labelIdS)
+                                                            )
+                                                        }
+
+                                                        )}
+                                                    </>
+
+                                                )
+
+                                            })
+                                        }
 
 
 
-            </List>
+                                    </List>
 
-            <Button type="submit" color="primary" onClick={handleSavePerfiles}>
-                {t('btn.guardar')}
-            </Button>
+                                </GridItem>
+
+                                <GridItem xs={12} sm={12} md={12}>
+                                    <Button type="submit" color="primary" onClick={handleSavePerfiles}>
+                                        {t('btn.guardar')}
+                                    </Button>
+                                </GridItem>
 
 
-            <Mensaje
-                setOpen={setOpenSnackbar}
-                open={openSnackbar}
-                severity={error ? "error" : "success"}
-                message={msjConfirmacion}
-            />
+                                <GridItem xs={12} sm={12} md={12}>
 
-            <Loading
-                loading={loading}
-            />
+                                    <Mensaje
+                                        setOpen={setOpenSnackbar}
+                                        open={openSnackbar}
+                                        severity={error ? "error" : "success"}
+                                        message={msjConfirmacion}
+                                    />
 
-            <ModalConfirmacion
-                handleRegistrar={handleRegistrar} evento="Registrar"
-            />
+                                    <Loading
+                                        loading={loading}
+                                    />
+
+                                    <ModalConfirmacion
+                                        handleRegistrar={handleRegistrar} evento="Registrar"
+                                    />
+                                </GridItem>
+                            </GridContainer>
+                        </CardBody>
+                    </Card>
+                </GridItem>
+            </GridContainer>
+
+
+
+
+
+
+
+
 
 
         </>
