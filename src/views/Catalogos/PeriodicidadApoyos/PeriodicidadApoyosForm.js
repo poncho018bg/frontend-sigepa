@@ -88,6 +88,7 @@ export const PeriodicidadApoyosForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsperiodicidad}
+                    inputProps={{ maxLength: 200 }}
                 />
                 {formik.touched.dsperiodicidad && formik.errors.dsperiodicidad ? (
                     <FormHelperText error={formik.errors.dsperiodicidad}>{formik.errors.dsperiodicidad}</FormHelperText>

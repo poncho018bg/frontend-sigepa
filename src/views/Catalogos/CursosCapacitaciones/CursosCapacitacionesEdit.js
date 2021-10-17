@@ -103,6 +103,7 @@ export const CursosCapacitacionesEdit = ({ objetoActualizar }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dsestado}
+                                inputProps={{ maxLength: 300 }}
                             />
                             {props.touched.dsestado && props.errors.dsestado ? (
                                 <FormHelperText error={props.errors.dsestado}>{props.errors.dsestado}</FormHelperText>

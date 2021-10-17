@@ -4,7 +4,8 @@ import axios from "axios";
 import {
     GET_TIPOS_BENEFICIARIOS, REGISTRAR_TIPOS_BENEFICIARIOS, ELIMINAR_TIPOS_BENEFICIARIOS, MODIFICAR_TIPOS_BENEFICIARIOS,
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA
+    CAMBIAR_TAMANIO_PAGINA,
+    AGREGAR_TIPOS_BENEFICIARIOS_ERROR
 } from "../../types/actionTypes";
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
@@ -46,16 +47,32 @@ export const TiposBeneficiariosContextProvider = props => {
      * @param {tiposBeneficiarios} tiposBeneficiarios 
      */
     const registrarTiposBeneficiarios = async tiposBeneficiarios => {
+
+
         try {
-            console.log(tiposBeneficiarios);
-            const resultado = await axiosPost('tiposBeneficiarios', tiposBeneficiarios);
-            console.log(resultado);
-            dispatch({
-                type: REGISTRAR_TIPOS_BENEFICIARIOS,
-                payload: resultado
-            })
+            const url = `${baseUrl}tiposBeneficiarios`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, tiposBeneficiarios, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_TIPOS_BENEFICIARIOS,
+                        payload: response
+                    })
+                }).catch(error => {
+                    console.log('ERROR=>', error)
+                    console.log('ERRRO2=>', error.response.data.cause)
+                    console.log('ERRRO2=>', error.response.data.message)
+                    reject(error);
+                });
+            });
+
         } catch (error) {
-            console.log(error);
+            dispatch({
+                type: AGREGAR_TIPOS_BENEFICIARIOS_ERROR,
+                payload: true
+            })
         }
     }
 
@@ -65,19 +82,26 @@ export const TiposBeneficiariosContextProvider = props => {
      */
     const actualizarTiposBeneficiarios = async tiposBeneficiarios => {
         const { _links: { ct_TiposBeneficiarios: { href } } } = tiposBeneficiarios;
-        return new Promise((resolve, reject) => {
-            axios.put(href, tiposBeneficiarios, {
-                headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
-            }).then(response => {
-                resolve(response);
-                dispatch({
-                    type: MODIFICAR_TIPOS_BENEFICIARIOS,
-                    payload: response.data
-                })
-            }).catch(error => {
-                reject(error);
+        try {
+            return new Promise((resolve, reject) => {
+                axios.put(href, tiposBeneficiarios, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: MODIFICAR_TIPOS_BENEFICIARIOS,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
             });
-        });
+        } catch (error) {
+            dispatch({
+                type: AGREGAR_TIPOS_BENEFICIARIOS_ERROR,
+                payload: true
+            })
+        }
     }
 
     const eliminarTiposBeneficiarios = async idTiposBeneficiarios => {

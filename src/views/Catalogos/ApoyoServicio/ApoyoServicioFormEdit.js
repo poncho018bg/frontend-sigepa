@@ -141,6 +141,7 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dsservicio}
+                                inputProps={{ maxLength: 200 }}
                             />
                             {props.touched.dsservicio && props.errors.dsservicio ? (
                                 <FormHelperText error={props.errors.dsservicio}>{props.errors.dsservicio}</FormHelperText>

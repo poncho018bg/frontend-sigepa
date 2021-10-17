@@ -90,6 +90,7 @@ export const TipoApoyoForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dstipoapoyo}
+                    inputProps={{ maxLength: 200 }}
                 />
                 {formik.touched.dstipoapoyo && formik.errors.dstipoapoyo ? (
                     <FormHelperText error={formik.errors.dstipoapoyo}>{formik.errors.dstipoapoyo}</FormHelperText>

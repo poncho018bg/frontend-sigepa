@@ -101,6 +101,7 @@ export const PeriodicidadApoyosEdit = ({ periodicidadApoyosSeleccionado }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dsperiodicidad}
+                                inputProps={{ maxLength: 200 }}
                             />
                             {props.touched.dsperiodicidad && props.errors.dsperiodicidad ? (
                                 <FormHelperText error={props.errors.dsperiodicidad}>{props.errors.dsperiodicidad}</FormHelperText>

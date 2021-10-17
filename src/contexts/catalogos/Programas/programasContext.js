@@ -159,6 +159,7 @@ export const ProgramasContextProvider = props => {
 
     const eliminar = async id => {
         try {
+            console.log("ELIMINAR ", id);
             const result = await axiosDeleteTipo(`programasOverride/${id}`);
             console.log("ELIMINAR ", result);
             dispatch({

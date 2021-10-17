@@ -54,6 +54,7 @@ export const EdadesBeneficiariosForm = () => {
             return () => clearTimeout(timer);
         })
         .catch(err => {   
+            console.log('err',err)
             setOpenSnackbar(true);
             setError(true);
             setMsjConfirmacion(`Ocurrio un error, ${err}`  );
@@ -89,6 +90,7 @@ export const EdadesBeneficiariosForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsedadbeneficiario}
+                    inputProps={{ maxLength: 80 }}
                 />
                 {formik.touched.dssecretaria && formik.errors.dsedadbeneficiario ? (
                     <FormHelperText error={formik.errors.dsedadbeneficiario}>{formik.errors.dsedadbeneficiario}</FormHelperText>

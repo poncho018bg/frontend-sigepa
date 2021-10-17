@@ -14,7 +14,7 @@ import { Mensaje } from 'components/Personalizados/Mensaje';
 import { useTranslation } from 'react-i18next';
 export const SubModuloForm = () => {
     const { t } = useTranslation();
-    const { registrarSubModulos } = useContext(SubModuloContext);
+    const { registrarSubModulos,getSubModulos } = useContext(SubModuloContext);
     const { setShowModal } = useContext(ModalContext);
     const { getModulos, moduloList } = useContext(ModuloContext);
     const [error, setError] = useState(false);
@@ -58,7 +58,8 @@ export const SubModuloForm = () => {
             dssubmodulo: dssubmodulo,
             usuarioCreacionId: `${process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}`,
             boactivo: true,
-            crcModulosCollection: crcModulosCollection
+            crcModulosCollection: crcModulosCollection,
+            activoval:true
         }
 
 
@@ -83,6 +84,7 @@ export const SubModuloForm = () => {
 
     useEffect(() => {
         getModulos()
+        getSubModulos();
     }, [])
 
 
@@ -101,6 +103,7 @@ export const SubModuloForm = () => {
                     name="crcModulosCollection"
                     value={formik.values.crcModulosCollection}
                     onChange={formik.handleChange}
+                    
                 >
                     <MenuItem value="0">
                         <em>{t('cmb.ninguno')}</em>
@@ -133,6 +136,7 @@ export const SubModuloForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dssubmodulo}
+                    inputProps={{ maxLength: 200 }}
                 />
                 {formik.touched.dssubmodulo && formik.errors.dssubmodulo ? (
                     <FormHelperText error={formik.errors.dssubmodulo}>{formik.errors.dssubmodulo}</FormHelperText>

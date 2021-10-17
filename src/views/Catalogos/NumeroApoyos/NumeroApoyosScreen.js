@@ -52,6 +52,7 @@ export const NumeroApoyosScreen = () => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
+    
 
     const {  setShowModalUpdate }
         = useContext(ModalContextUpdate);
@@ -92,6 +93,9 @@ export const NumeroApoyosScreen = () => {
     };
 
     const handleChangeRowsPerPage = event => {
+        console.log('event',event)
+        console.log('event.target.value',event.target.value)
+        
         changePageSize(+event.target.value);
         changePage(0)
     };

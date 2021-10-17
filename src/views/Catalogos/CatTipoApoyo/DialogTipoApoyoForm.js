@@ -1,5 +1,5 @@
 
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox, DialogTitle, FormControlLabel, FormelperText, FormLabel, Grid, Input, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, Radio, RadioGroup, Select, TextField } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, DialogTitle, FormControlLabel, FormelperText, FormHelperText, FormLabel, Grid, Input, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, Radio, RadioGroup, Select, TextField } from '@material-ui/core'
 import React, { useEffect, useState, useContext } from 'react';
 import Button from "components/CustomButtons/Button.js";
 import { useSelector } from 'react-redux';
@@ -34,6 +34,7 @@ import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { ModalContext } from 'contexts/modalContex';
 import { useTranslation } from 'react-i18next';
+import NumberFormat from 'react-number-format';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -54,6 +55,30 @@ function not(a, b) {
 function intersection(a, b) {
     return a.filter((value) => b.indexOf(value) !== -1);
 }
+
+function NumberFormatCustom(props) {
+    const { inputRef, onChange, ...other } = props;
+  
+    return (
+      <NumberFormat
+        {...other}
+        getInputRef={inputRef}
+        onValueChange={(values) => {
+          onChange({
+            target: {
+              name: props.name,
+              value: values.value,
+            },
+          });
+        }}
+        thousandSeparator
+        isNumericString
+        prefix="$"
+      />
+    );
+  }
+  
+
 
 export const DialogTipoApoyoForm = (props) => {
     const { t } = useTranslation();
@@ -95,6 +120,7 @@ export const DialogTipoApoyoForm = (props) => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [invisible, setInvisible] = React.useState(true);
+    const [disabledCalendar, setDisabledCalendar] = useState(true);
 
 
 
@@ -167,14 +193,10 @@ export const DialogTipoApoyoForm = (props) => {
             estatus: '',
             visita: false,
             idTipoApoyo: [],
-            fcvigenciainicio: moment(new Date()).format("yyyy-MM-dd"),
-            fcvigenciafin: moment(new Date()).format("yyyy-MM-dd"),
+            fcvigenciainicio: moment(new Date()).format("yyyy-MM-DD"),
+            fcvigenciafin: moment(new Date()).format("yyyy-MM-DD"),
             cantidadPesos: '',
-            enServicio: [{
-                id: '',
-                fechaInicio: '',
-                fechaFin: ''
-            }],
+            enServicio: [],
             descApoyoEspecie: '',
             idPeriodicidad: '',
             observaciones: '',
@@ -242,7 +264,7 @@ export const DialogTipoApoyoForm = (props) => {
 
         }
 
-        
+
         registrarApoyo(nuevoApoyo).then(response => {
             setOpenSnackbar(true);
             setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
@@ -358,20 +380,23 @@ export const DialogTipoApoyoForm = (props) => {
                                 }}
                                 value={formik.values.fcvigenciainicio}
                                 name="fcvigenciainicio"
+                                onClick={(e)=> setDisabledCalendar(false)}
                                 onChange={formik.handleChange}
                                 InputProps={{
                                     inputProps: {
-                                        max: formik.values.fcvigenciafin
+                                        min: moment(new Date()).format("yyyy-MM-DD")
                                     }
                                 }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={12} md={6}>
+
                             <TextField
                                 id="fcvigenciafin"
                                 label="Hasta"
                                 type="date"
                                 fullWidth
+                                disabled={disabledCalendar}
                                 className={classes.textField}
                                 InputLabelProps={{
                                     shrink: true,
@@ -407,19 +432,19 @@ export const DialogTipoApoyoForm = (props) => {
                 ) : null} */}
                 </CardBody>
                 <CardBody>
-                    <CurrencyTextField
+             
+                    <TextField
                         label="Cantidad en pesos"
-                        name="cantidadPesos"
-                        fullWidth
-                        variant="standard"
                         value={formik.values.cantidadPesos}
-                        currencySymbol="$"
-                        minimumValue="0"
-                        outputFormat="string"
-                        decimalCharacter="."
-                        digitGroupSeparator=","
-                        maximumValue="10000000000000"
                         onChange={formik.handleChange}
+                        name="cantidadPesos"
+                        id="formatted-numberformat-input"
+                        fullWidth
+                        InputProps={{
+                            inputComponent: NumberFormatCustom,
+                            maxLength:7
+                        }}
+                        
                     />
                     {formik.touched.cantidadPesos && formik.errors.cantidadPesos ? (
                         <FormHelperText error={formik.errors.cantidadPesos}>{formik.errors.cantidadPesos}</FormHelperText>
@@ -641,7 +666,7 @@ export const DialogTipoApoyoForm = (props) => {
                 <CardBody >
                     <Grid container justify="flex-end">
                         <Button variant="contained" color="primary" type='submit'>
-                        {t('btn.guardar')}
+                            {t('btn.guardar')}
                         </Button>
                     </Grid>
                 </CardBody>

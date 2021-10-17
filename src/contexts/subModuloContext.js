@@ -60,7 +60,8 @@ export const SubModuloContextProvider = props => {
             usuarioCreacionId: subModulo.usuarioCreacionId,
             boactivo: true,
             crcModulosCollection: [`/${subModulo.crcModulosCollection}`],
-            perfiles: []
+            perfiles: [],
+            activoval:true
         }
 
         try {
@@ -70,10 +71,12 @@ export const SubModuloContextProvider = props => {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
                     resolve(response);
+                    response.data.activoval = true
                     dispatch({
                         type: REGISTRAR_SUBMODULO,
                         payload: response.data
                     })
+                    dispatch(getSubModulos())
                 }).catch(error => {
                     reject(error);
                 });
@@ -131,10 +134,14 @@ export const SubModuloContextProvider = props => {
                     type: MODIFICAR_SUBMODULO,
                     payload: response.data
                 })
+                dispatch(getSubModulos())
             }).catch(error => {
                 reject(error);
             });
         });
+
+    
+        
     }
 
     const eliminarSubModulo = async idModulo => {

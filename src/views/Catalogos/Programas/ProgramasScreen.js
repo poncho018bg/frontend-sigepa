@@ -118,9 +118,10 @@ export const ProgramasScreen = () => {
                     < TableCell align="center"> Estatus</TableCell >
                     < TableCell align="center"> Programa  </TableCell >
                     < TableCell align="center"> Clave  </TableCell >
-                    < TableCell align="center"> Vigencia inicial</TableCell >
-                    < TableCell align="center">Vigencia final</TableCell>
-                    < TableCell align="center"> Descripción</TableCell >
+                    < TableCell align="center"> Vigencia del Programa</TableCell >
+                    < TableCell align="center">Periodo de Registro Web</TableCell>
+                    < TableCell align="center">Periodo de Registro Presencial</TableCell>
+                    
                     < TableCell colSpan={2} align="center"> Acciones</TableCell >
                   </TableRow >
                 </TableHead >

@@ -104,6 +104,7 @@ export const EdadesBeneficiariosEdit = ({ edadesBeneficiariosSeleccionado }) => 
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dsedadbeneficiario}
+                                inputProps={{ maxLength: 80 }}
                             />
                             {props.touched.dsedadbeneficiario && props.errors.dsedadbeneficiario ? (
                                 <FormHelperText error={props.errors.dsedadbeneficiario}>{props.errors.dsedadbeneficiario}</FormHelperText>

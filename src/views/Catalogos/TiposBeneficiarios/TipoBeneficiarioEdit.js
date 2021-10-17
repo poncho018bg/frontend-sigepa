@@ -52,10 +52,9 @@ export const TipoBeneficiarioEdit = ({ tipoBeneficiarioSeleccionado }) => {
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            setMsjConfirmacion(`Ocurrio un error, ${err.response.data.message}`  );
 
-            setShowModalConfirmacion(false);
-            setShowModalUpdate(false);
+           
         });
     }
 
@@ -100,6 +99,7 @@ export const TipoBeneficiarioEdit = ({ tipoBeneficiarioSeleccionado }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dstipobeneficiario}
+                                inputProps={{ maxLength: 100 }}
                             />
                             {props.touched.dstipobeneficiario && props.errors.dstipobeneficiario ? (
                                 <FormHelperText error={props.errors.dstipobeneficiario}>{props.errors.dstipobeneficiario}</FormHelperText>

@@ -23,7 +23,7 @@ export const SubCatalogsBaseScreen = () => {
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <Link to="../admin/tiposApoyos">
-                                <CardHeader color="warning" stats icon>
+                                <CardHeader color="warning" stats icon style={{ height: '9rem' }}>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.tipoapoyosubcat')}</p>
                                 </CardHeader>
                             </Link>
@@ -33,7 +33,7 @@ export const SubCatalogsBaseScreen = () => {
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <Link to="../admin/edadesBeneficiarios">
-                                <CardHeader color="info" stats icon>
+                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.edades')}</p>
                                 </CardHeader>
                             </Link>
@@ -43,7 +43,7 @@ export const SubCatalogsBaseScreen = () => {
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <Link to="../admin/tiposBeneficiario">
-                                <CardHeader color="info" stats icon>
+                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.beneficiarios')}</p>
                                 </CardHeader>
                             </Link>
@@ -54,7 +54,7 @@ export const SubCatalogsBaseScreen = () => {
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <Link to="../admin/periodicidadApoyos">
-                                <CardHeader color="info" stats icon>
+                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.periodicidadentrega')}</p>
                                 </CardHeader>
                             </Link>
@@ -68,7 +68,7 @@ export const SubCatalogsBaseScreen = () => {
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <Link to="../admin/numeroApoyos">
-                                <CardHeader color="info" stats icon>
+                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.numentregaapoyo')}</p>
                                 </CardHeader>
                             </Link>
@@ -78,7 +78,7 @@ export const SubCatalogsBaseScreen = () => {
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <Link to="../admin/clasificacionServicios">
-                                <CardHeader color="info" stats icon>
+                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.tipservicios')}</p>
                                 </CardHeader>
                             </Link>
@@ -88,7 +88,7 @@ export const SubCatalogsBaseScreen = () => {
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <Link to="../admin/modulos">
-                                <CardHeader color="info" stats icon>
+                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.modulosroles')}</p>
                                 </CardHeader>
                             </Link>
@@ -97,7 +97,7 @@ export const SubCatalogsBaseScreen = () => {
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <Link to="../admin/submodulos">
-                                <CardHeader color="info" stats icon>
+                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.submodulosfunciones')}</p>
                                 </CardHeader>
                             </Link>
@@ -107,7 +107,7 @@ export const SubCatalogsBaseScreen = () => {
                      <GridItem xs={12} sm={6} md={3}>
                         <Card>
                         <Link to="../admin/">
-                                <CardHeader color="info" stats icon>
+                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Género</p>
                                 </CardHeader>
                                 </Link>
@@ -117,7 +117,7 @@ export const SubCatalogsBaseScreen = () => {
                         <Card>
 
                             <Link to="../admin/">
-                                <CardHeader color="info" stats icon>
+                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Estado Civil</p>
                                 </CardHeader>
                                 </Link>
@@ -127,7 +127,7 @@ export const SubCatalogsBaseScreen = () => {
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <Link to="../admin/localidades">
-                                <CardHeader color="warning" stats icon>
+                                <CardHeader color="warning" stats icon style={{ height: '9rem' }}>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>Grado de estudios</p>
                                 </CardHeader>
                             </Link>
@@ -137,7 +137,7 @@ export const SubCatalogsBaseScreen = () => {
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <Link to="../admin/regionmunicip">
-                                <CardHeader color="warning" stats icon>
+                                <CardHeader color="warning" stats icon style={{ height: '9rem' }}>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.regiones')}</p>
                                 </CardHeader>
                             </Link>
@@ -147,7 +147,7 @@ export const SubCatalogsBaseScreen = () => {
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <Link to="../admin/municipios">
-                                <CardHeader color="warning" stats icon>
+                                <CardHeader color="warning" stats icon style={{ height: '9rem' }}>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.municipios')}</p>
                                 </CardHeader>
                             </Link>
@@ -157,7 +157,7 @@ export const SubCatalogsBaseScreen = () => {
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <Link to="../admin/estados">
-                                <CardHeader color="warning" stats icon>
+                                <CardHeader color="warning" stats icon style={{ height: '9rem' }}>
                                     <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.estados')}</p>
                                 </CardHeader>
                             </Link>

@@ -113,6 +113,7 @@ export const LocalidadesContextProvider = props => {
                     type: MODIFICAR_LOCALIDADES,
                     payload: response
                 })
+                dispatch(get())
             }).catch(error => {
                 reject(error);
             });

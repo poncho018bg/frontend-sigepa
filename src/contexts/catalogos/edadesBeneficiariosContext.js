@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import EdadesBeneficiariosReducer from 'reducers/Catalogos/EdadesBeneficiariosReducer';
-
+import axios from "axios";
 import { GET_EDADES_BENEFICIARIOS,
      REGISTRAR_EDADES_BENEFICIARIOS, 
      MODIFICAR_EDADES_BENEFICIARIOS, ELIMINAR_EDADES_BENEFICIARIOS,
@@ -12,6 +12,7 @@ import { GET_EDADES_BENEFICIARIOS,
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 import { axiosGetHetoas } from 'helpers/axios';
 
+const baseUrl = process.env.REACT_APP_API_URL;
 export const EdadesBeneficiariosContext = createContext();
 
 export const EdadesBeneficiariosContextProvider = props => {
@@ -49,16 +50,30 @@ export const EdadesBeneficiariosContextProvider = props => {
      * @param {edadesBeneficiarios} edadesBeneficiarios 
      */
     const registrarEdadesBeneficiarios = async edadesBeneficiarios => {
+    
+
         try {
-            console.log(edadesBeneficiarios);
-            const resultado = await axiosPost('edadesBeneficiarios', edadesBeneficiarios);
-            console.log(resultado);
-            dispatch({
-                type: REGISTRAR_EDADES_BENEFICIARIOS,
-                payload: resultado
-            })
+            const url = `${baseUrl}edadesBeneficiarios`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, edadesBeneficiarios, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_EDADES_BENEFICIARIOS,
+                        payload: response
+                    })
+                }).catch(error => {
+                    console.log('ERROR=>',error)
+                    reject(error);
+                });
+            });
+
         } catch (error) {
-            console.log(error);
+            dispatch({
+                type: AGREGAR_APOYOS_ERROR,
+                payload: true
+            })
         }
     }
 

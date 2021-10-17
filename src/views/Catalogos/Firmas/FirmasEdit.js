@@ -102,6 +102,7 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dsautoriza}
+                                inputProps={{ maxLength: 200 }}
                             />
                             {props.touched.dsautoriza && props.errors.dsautoriza ? (
                                 <FormHelperText error={props.errors.dsautoriza}>{props.errors.dsautoriza}</FormHelperText>
@@ -117,6 +118,7 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dspuesto}
+                                inputProps={{ maxLength: 200 }}
                             />
                             {props.touched.dspuesto && props.errors.dspuesto ? (
                                 <FormHelperText error={props.errors.dspuesto}>{props.errors.dspuesto}</FormHelperText>
@@ -137,6 +139,7 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dscomentario}
+                                inputProps={{ maxLength: 200 }}
                             />
                             {props.touched.dscomentario && props.errors.dscomentario ? (
                                 <FormHelperText error={props.errors.dscomentario}>{props.errors.dscomentario}</FormHelperText>

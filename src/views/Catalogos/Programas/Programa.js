@@ -22,24 +22,28 @@ export const Programa = ( {programa}) => {
     const { 
          dsprograma, dsclaveprograma, 
         fcvigenciainicio,fcvigenciafin,
-        dsdescripcion,
+        fcregistrowebinicio, fcregistrowebfin,
+        fcregistropresencialinicio, fcregistropresencialfin,
+        dsdescripcion,dscriterioelegibilidad,
         activo 
 } = programa;
-    const [idEliminar, setIdEliminar] = useState(0);
+    const [idEliminar, setIdEliminar] = useState('');
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const {  eliminar,get } = useContext(ProgramasContext);
     const [objetoActualizar, setObjetoActualizar] = useState();
 
     const handleClickOpen = (e) => {
-
-        setShowModalDelete(true);
         setIdEliminar(e.id);
+        console.log('handleClickOpen=>',e)
+        console.log('handleClickOpen=>',e.id)
+        setShowModalDelete(true);
+        
     }
 
     const handleDeshabilitar = () => {
-
+        console.log('eliminareliminar',idEliminar)
         eliminar(idEliminar);
-        get();
+        
         setShowModalDelete(false);
       }
 
@@ -60,9 +64,10 @@ export const Programa = ( {programa}) => {
             </TableCell>
             <TableCell align="center">{dsprograma}</TableCell>
             <TableCell align="center">{dsclaveprograma}</TableCell >
-            <TableCell align="center">{moment(fcvigenciainicio).format("MM/DD/YYYY")}</TableCell>
-            <TableCell align="center">{moment(fcvigenciafin).format("MM/DD/YYYY")}</TableCell>
-            <TableCell align="center">{dsdescripcion}</TableCell >
+            <TableCell align="center">{moment(fcvigenciainicio).format("DD MMMM")} - {moment(fcvigenciafin).format(" DD MMMM YYYY")}</TableCell>
+            <TableCell align="center">{moment(fcregistrowebinicio).format("DD MMMM")} - {moment(fcregistrowebfin).format(" DD MMMM YYYY")}</TableCell>
+            <TableCell align="center">{moment(fcregistropresencialinicio).format("DD MMMM")} - {moment(fcregistropresencialfin).format(" DD MMMM YYYY")}</TableCell>
+           
             
             <TableCell align="center">                                 
                 <IconButton aria-label="create" onClick={() => onSelect(programa)}>

@@ -10,7 +10,7 @@ import {
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 import UserService from 'servicios/UserService';
 
-
+const baseUrl = process.env.REACT_APP_API_URL;
 export const ModuloContext = createContext();
 
 export const ModuloContextProvider = props => {
@@ -51,7 +51,7 @@ export const ModuloContextProvider = props => {
                     resolve(response);
                     dispatch({
                         type: REGISTRAR_MODULO,
-                        payload: response
+                        payload: response.data
                     })
                 }).catch(error => {
                     reject(error);
@@ -108,7 +108,7 @@ export const ModuloContextProvider = props => {
                 type: ELIMINAR_MODULO,
                 payload: resultado,
             })
-
+           
         } catch (error) {
             console.log(error);
         }
