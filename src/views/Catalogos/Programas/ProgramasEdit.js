@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Checkbox, FormHelperText, FormLabel, Grid, List, ListItem, ListItemIcon, makeStyles, MenuItem, Paper, TextField } from '@material-ui/core'
+import { Button, Checkbox, FormHelperText, FormLabel, Grid, List, ListItem, ListItemIcon,ListItemText, makeStyles, MenuItem, Paper, TextField } from '@material-ui/core'
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -27,6 +27,13 @@ import { EdadesBeneficiariosContext } from 'contexts/catalogos/edadesBeneficiari
 import { MultiSelect } from 'react-multi-select-component';
 import { useTranslation } from 'react-i18next';
 import { DropzoneArea } from 'material-ui-dropzone';
+
+import 'moment/locale/es';
+import moment from 'moment';
+
+//context
+import { RegionMunicipiosContext } from "contexts/catalogos/RegionMunicipiosContext";
+import { DocumentosContext } from "contexts/catalogos/documentosContext";
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -66,6 +73,14 @@ export const ProgramasEdit = () => {
 
   const [dataEditar, setDataEditar] = useState({});
 
+  const { regionList, getRegionMunicipios } = useContext(RegionMunicipiosContext);
+  const { getDocumentos, documentosList } = useContext(DocumentosContext);
+
+  useEffect(() => {
+    getRegionMunicipios('a3de85a7-6c23-46a4-847b-d79b3a90963d')
+    getDocumentos();
+  }, []);
+
   useEffect(() => {
     if (query.state?.mobNo) {
       getByID(query.state.mobNo);
@@ -74,6 +89,41 @@ export const ProgramasEdit = () => {
   }, [location]);
 
   let data = programa;
+
+
+  useEffect(() => {
+    const lstmun = []
+    regionList.map((mn) => {
+      lstmun.push({ label: mn.dsMunicipio, value: mn.idMunicipio })
+    })
+    setMunicipiosSelect(lstmun)
+  }, [regionList]);
+
+  useEffect(() => {
+    setLeft(documentosList)
+  }, [documentosList]);
+
+  useEffect(() => {
+    var docslst = []
+    right.map((mp) => {
+      docslst.push(mp.id)
+    })
+    setDocumentslst(docslst)
+  }, [right]);
+
+
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
+  };
 
   /*useEffect(() => {
     getByIDBeneficiarios(data?._links.edadbeneficiarioid.href);
@@ -153,7 +203,7 @@ export const ProgramasEdit = () => {
   });
 
   const actualizarInfo = async valores => {
-    actualizar(valores).then(response => {
+    actualizar(query.state?.mobNo,valores,archivo,documentslst).then(response => {
 
       setOpenSnackbar(true);
       setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
@@ -181,6 +231,8 @@ export const ProgramasEdit = () => {
   }
 
 
+
+
   return (
 
     <Formik
@@ -188,23 +240,19 @@ export const ProgramasEdit = () => {
       initialValues={data}
       validationSchema={schemaValidacion}
       onSubmit={(valores) => {
-
         actualizarInfo(valores)
-
       }}
     >
 
       {props => {
         return (
-
-
           <form
             className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
             onSubmit={props.handleSubmit}>
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <Card>
-                <CardHeader color="primary"> Programas </CardHeader>
+                  <CardHeader color="primary"> Programas </CardHeader>
                   <CardBody>
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
@@ -262,17 +310,17 @@ export const ProgramasEdit = () => {
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            value={props.values?.fcvigenciainicio}
+                            value={moment(new Date(parseInt(props.values?.fcvigenciainicio))).format("YYYY-MM-DD")}
                             name="fcvigenciainicio"
                             onChange={props.handleChange}
                           />
                         </CardBody>
-                        
+
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
                         <CardBody>
-                        <TextField
+                          <TextField
                             id="fcvigenciafin"
                             label="Vigencia del programa hasta"
                             type="date"
@@ -281,16 +329,16 @@ export const ProgramasEdit = () => {
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            value={props.values?.fcvigenciafin}
+                            value={moment(new Date(parseInt(props.values?.fcvigenciafin))).format("YYYY-MM-DD")}
                             name="fcvigenciafin"
                             onChange={props.handleChange}
                           />
                         </CardBody>
-                        
+
                       </GridItem>
                       <GridItem xs={12} sm={12} md={6}>
                         <CardBody>
-                        <TextField
+                          <TextField
                             id="fcregistrowebinicio"
                             label="Periodo registro web desde"
                             type="date"
@@ -299,17 +347,17 @@ export const ProgramasEdit = () => {
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            value={props.values?.fcregistrowebinicio}
+                            value={moment(new Date(parseInt(props.values?.fcregistrowebinicio))).format("YYYY-MM-DD")}
                             name="fcregistrowebinicio"
                             onChange={props.handleChange}
                           />
                         </CardBody>
-                        
+
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
                         <CardBody>
-                        <TextField
+                          <TextField
                             id="fcregistrowebfin"
                             label="Periodo registro web hasta"
                             type="date"
@@ -318,18 +366,18 @@ export const ProgramasEdit = () => {
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            value={props.values?.fcregistrowebfin}
+                            value={moment(new Date(parseInt(props.values?.fcregistrowebfin))).format("YYYY-MM-DD")}
                             name="fcregistrowebfin"
                             onChange={props.handleChange}
                           />
-                        </CardBody>                       
+                        </CardBody>
 
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
 
                         <CardBody>
-                        <TextField
+                          <TextField
                             id="fcregistropresencialinicio"
                             label="Periodo registro presencial desde"
                             type="date"
@@ -338,17 +386,17 @@ export const ProgramasEdit = () => {
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            value={props.values?.fcregistropresencialinicio}
+                            value={moment(new Date(parseInt(props.values?.fcregistropresencialinicio))).format("YYYY-MM-DD")}
                             name="fcregistropresencialinicio"
                             onChange={props.handleChange}
                           />
                         </CardBody>
-                        
+
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
                         <CardBody>
-                        <TextField
+                          <TextField
                             id="fcregistropresencialfin"
                             label="Periodo registro presencial hasta"
                             type="date"
@@ -357,12 +405,12 @@ export const ProgramasEdit = () => {
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            value={props.values?.fcregistropresencialfin}
+                            value={moment(new Date(parseInt(props.values?.fcregistropresencialfin))).format("YYYY-MM-DD")}
                             name="fcregistropresencialfin"
                             onChange={props.handleChange}
                           />
                         </CardBody>
-                        
+
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={12}>

@@ -77,8 +77,10 @@ export const ProgramasContextProvider = props => {
         const url = `${baseUrl}programasOverride`;
         return new Promise((resolve, reject) => {
             axios.post(url, formData, {
-                headers: { 'Content-Type': 'multipart/form-data',
-                'Accept': '*/*'}
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Accept': '*/*'
+                }
             }).then(response => {
                 resolve(response);
                 dispatch({
@@ -90,17 +92,20 @@ export const ProgramasContextProvider = props => {
             });
         });
 
-            
-      
+
+
     }
 
     /**
      * Se actualizan los tipos de apoyos
      * @param {motivoRechazos} motivoRechazos 
      */
-    const actualizar= async objetoActualizar => {
+    const actualizar = async (id,objetoActualizar,file,documentos) => {
 
-        const { _links: { programas: { href } } } = objetoActualizar;
+        //const { _links: { programas: { href } } } = objetoActualizar;
+
+        console.log("objeto actualizar --->", objetoActualizar);
+        console.log("documentos ----->", documentos);
 
         let { dsprograma,
             dsclaveprograma,
@@ -114,10 +119,12 @@ export const ProgramasContextProvider = props => {
             dscriterioelegibilidad,
             dscontinuidad,
             dsobservaciones,
-            boactivo } = objetoActualizar
+            idBeneficiario,
+            idRangoEdadBeneficiario } = objetoActualizar
 
 
         let objetoEnviar = {
+            id:id,
             dsprograma,
             dsclaveprograma,
             fcvigenciainicio,
@@ -130,7 +137,9 @@ export const ProgramasContextProvider = props => {
             dscriterioelegibilidad,
             dscontinuidad,
             dsobservaciones,
-            boactivo
+            idBeneficiario,
+            idRangoEdadBeneficiario,
+            documentosRequisitos:documentos
         }
 
         const formData = new FormData();
@@ -141,9 +150,9 @@ export const ProgramasContextProvider = props => {
         formData.append('programaDTO', programaDTO)
         formData.append('file', file)
 
-        const url = `${baseUrl}programasOverride`;
+        const url = `${baseUrl}programasOverride/editar`;
         return new Promise((resolve, reject) => {
-            axios.put(href, formData, {
+            axios.put(url, formData, {
                 headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
             }).then(response => {
                 resolve(response);
@@ -185,44 +194,44 @@ export const ProgramasContextProvider = props => {
             console.log(error);
         }
     }
-          
-     //Paginacion
 
- const changePage =  (page) => {
-      dispatch({
-        type: CAMBIAR_PAGINA_PROGRAMAS, 
+    //Paginacion
+
+    const changePage = (page) => {
+        dispatch({
+            type: CAMBIAR_PAGINA_PROGRAMAS,
+            payload: page
+        })
+        try {
+
+            get();
+
+        } catch (error) {
+            throw error;
+        }
+
+    }
+
+    const changePageNumber = (page) => ({
+        type: CAMBIAR_PAGINA_PROGRAMAS,
         payload: page
-      })
-       try {
+    })
 
-           get();
-         
-       } catch (error) {
-           throw error;
-       }
-   
-}
-
-   const changePageNumber = (page) => ({
-       type: CAMBIAR_PAGINA_PROGRAMAS, 
-       payload: page
-   })
-   
     const changePageSize = (size) => ({
-       type: CAMBIAR_TAMANIO_PAGINA_PROGRAMAS, 
-       payload: size
-   })      
+        type: CAMBIAR_TAMANIO_PAGINA_PROGRAMAS,
+        payload: size
+    })
 
     return (
         <ProgramasContext.Provider
             value={{
                 programasList: state.programasList,
                 programa: state.programa,
-                errorInsert:state.errorInsert,
-                mensajeError:state.mensajeError,
-                pageP:state.pageP,
-                sizeP:state.sizeP,
-                totalP:state.totalP,
+                errorInsert: state.errorInsert,
+                mensajeError: state.mensajeError,
+                pageP: state.pageP,
+                sizeP: state.sizeP,
+                totalP: state.totalP,
                 get,
                 registrar,
                 actualizar,
