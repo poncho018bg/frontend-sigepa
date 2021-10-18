@@ -44,7 +44,7 @@ export const TipoApoyoScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [tipoApoyoSeleccionado, setTipoApoyoSeleccionado] = useState();
-    const { getTiposApoyos, eliminarTiposApoyos, tiposApoyosList, size, page, total, changePageSize, changePage } = useContext(TiposApoyosContext);
+    const { getTiposApoyos, eliminarTiposApoyos, tiposApoyosList, size, page, total, changePageSizes, changePage } = useContext(TiposApoyosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [error, setError] = useState(false);
@@ -57,11 +57,12 @@ export const TipoApoyoScreen = () => {
         = useContext(ModalContextUpdate);
 
     useEffect(() => {
-        getTiposApoyos();
-        // eslint-disable-next-line
-        console.log("tipo de apoyo", tiposApoyosList);
+        getTiposApoyos();       
     }, []);
 
+    useEffect(() => {
+        getTiposApoyos();       
+    }, [size,page]);
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -86,13 +87,14 @@ export const TipoApoyoScreen = () => {
         setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
-    const handleChangePage = (event, newPage) => {
-        changePage(newPage)
+    const handleChangePage = (event, newPage) => {        
+        changePage(newPage)       
     };
 
-    const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
-        changePage(0)
+    const handleChangeRowsPerPage = event => {              
+        changePageSizes(+event.target.value);
+        changePage(0)       
+        
     };
 
     return (

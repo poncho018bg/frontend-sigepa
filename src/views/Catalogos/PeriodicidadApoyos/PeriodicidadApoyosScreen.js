@@ -45,7 +45,7 @@ export const PeriodicidadApoyosScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [periodicidadApoyosSeleccionado, setPeriodicidadApoyosSeleccionado] = useState();
-    const { getPeriodicidadApoyos, eliminarPeriodicidadApoyos, periodicidadApoyosList , size, page, total, changePageSize, changePage} = useContext(PeriodicidadApoyosContext);
+    const { getPeriodicidadApoyos, eliminarPeriodicidadApoyos, periodicidadApoyosList , size, page, total, changePageSize,changePageSizes, changePage} = useContext(PeriodicidadApoyosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [error, setError] = useState(false);
@@ -56,10 +56,12 @@ export const PeriodicidadApoyosScreen = () => {
         = useContext(ModalContextUpdate);
 
     useEffect(() => {
-        getPeriodicidadApoyos();
-        // eslint-disable-next-line
-        console.log("tipo de apoyo", periodicidadApoyosList);
+        getPeriodicidadApoyos();       
     }, []);
+
+    useEffect(() => {
+        getPeriodicidadApoyos();       
+    }, [size,page]);
 
 
     const onSelect = (e) => {
@@ -85,13 +87,14 @@ export const PeriodicidadApoyosScreen = () => {
         setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
-    const handleChangePage = (event, newPage) => {
-        changePage(newPage)
+    const handleChangePage = (event, newPage) => {        
+        changePage(newPage)       
     };
 
-    const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
-        changePage(0)
+    const handleChangeRowsPerPage = event => {              
+        changePageSizes(+event.target.value);
+        changePage(0)       
+        
     };
 
     return (

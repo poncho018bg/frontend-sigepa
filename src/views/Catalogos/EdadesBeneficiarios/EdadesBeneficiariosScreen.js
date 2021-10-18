@@ -45,7 +45,7 @@ export const EdadesBeneficiariosScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [edadesBeneficiariosSeleccionado, setEdadesBeneficiariosSeleccionado] = useState();
-    const { getEdadesBeneficiarios, eliminarEdadesBeneficiarios, edadesBeneficiariosList, size, page, total, changePageSize, changePage } = useContext(EdadesBeneficiariosContext);
+    const { getEdadesBeneficiarios, eliminarEdadesBeneficiarios, edadesBeneficiariosList, size, page, total, changePageSizes, changePage } = useContext(EdadesBeneficiariosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [error, setError] = useState(false);
@@ -56,11 +56,12 @@ export const EdadesBeneficiariosScreen = () => {
         = useContext(ModalContextUpdate);
 
     useEffect(() => {
-        getEdadesBeneficiarios();
-        // eslint-disable-next-line
-        console.log("tipo de apoyo", edadesBeneficiariosList);
+        getEdadesBeneficiarios();        
     }, []);
 
+    useEffect(() => {
+        getEdadesBeneficiarios();        
+    }, [size,page]);
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -85,13 +86,14 @@ export const EdadesBeneficiariosScreen = () => {
         setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
-    const handleChangePage = (event, newPage) => {
-        changePage(newPage)
+    const handleChangePage = (event, newPage) => {        
+        changePage(newPage)       
     };
 
-    const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
-        changePage(0)
+    const handleChangeRowsPerPage = event => {              
+        changePageSizes(+event.target.value);
+        changePage(0)       
+        
     };
 
     return (

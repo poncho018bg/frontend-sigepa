@@ -132,16 +132,20 @@ export const ClasificacionServiciosContextProvider = props => {
     }
 
     //Paginacion
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (pages) => {  
         try {
-            getClasificacionServicios();
-        } catch (error) {
+            dispatch(changePageNumber(pages))
+        } catch (error) {            
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))        
+        } catch (error) {            
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -168,6 +172,7 @@ export const ClasificacionServiciosContextProvider = props => {
                 eliminarClasificacionServicios,
                 changePageNumber,
                 changePageSize,
+                changePageSizes,
                 changePage
             }}
         >

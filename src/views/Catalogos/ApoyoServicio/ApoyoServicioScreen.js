@@ -44,7 +44,7 @@ export const ApoyoServicioScreen = () => {
     const [idEliminar, setIdEliminar] = useState(0);
     const [ApoyoServicioSeleccionada, setApoyoServicioSeleccionada] = useState();
 
-    const { apoyoservicioList, getApoyoServicio, eliminarApoyoServicio, size, page, total, changePageSize, changePage } = useContext(ApoyoServicioContext);
+    const { apoyoservicioList, getApoyoServicio, eliminarApoyoServicio, size, page, total, changePageSize, changePage,changePageSizes } = useContext(ApoyoServicioContext);
     const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
     const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
     const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
@@ -58,6 +58,11 @@ export const ApoyoServicioScreen = () => {
         getApoyoServicio();
 
     }, []);
+
+    useEffect(() => {
+        getApoyoServicio();
+
+    }, [size,page]);
 
 
     const onSelect = (e) => {
@@ -81,13 +86,14 @@ export const ApoyoServicioScreen = () => {
         setOpenDialog(false);
         setOpenSnackbar(true);
         setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
+
     }
     const handleChangePage = (event, newPage) => {
         changePage(newPage)
     };
 
     const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
+        changePageSizes(+event.target.value);
         changePage(0)
     };
 

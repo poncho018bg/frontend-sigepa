@@ -82,7 +82,7 @@ export const FirmasContextProvider = props => {
             console.log('ocurrio un error en el context');
             console.log(error);
             dispatch({
-                type: AGREGAR_MUNICIPIOS_ERROR,
+                type: AGREGAR_FIRMAS_ERROR,
                 payload: true
             })
         }
@@ -129,16 +129,20 @@ export const FirmasContextProvider = props => {
     }
 
     //Paginacion
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (pages) => {  
         try {
-            getFirmas();
-        } catch (error) {
+            dispatch(changePageNumber(pages))
+        } catch (error) {            
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))        
+        } catch (error) {            
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -169,6 +173,7 @@ export const FirmasContextProvider = props => {
                 eliminarFirmas,
                 changePageNumber,
                 changePageSize,
+                changePageSizes,
                 changePage
             }}
         >

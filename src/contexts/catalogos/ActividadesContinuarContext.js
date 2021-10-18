@@ -113,16 +113,20 @@ export const ActividadesContinuarContextProvider = props => {
     }
 
     //Paginacion
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (pages) => {  
         try {
-            getActividadesContinuar();
-        } catch (error) {
+            dispatch(changePageNumber(pages))
+        } catch (error) {            
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))        
+        } catch (error) {            
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -149,6 +153,7 @@ export const ActividadesContinuarContextProvider = props => {
                 actualizarActividadesContinuar,
                 changePageNumber,
                 changePageSize,
+                changePageSizes,
                 changePage
             }}
         >

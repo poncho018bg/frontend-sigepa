@@ -122,18 +122,21 @@ export const TiposBeneficiariosContextProvider = props => {
         }
     }
 
-    const changePage = async (page) => {
-        console.log("llego al page --->", page);
-
-        dispatch(changePageNumber(page))
+    //Paginacion
+    const changePage = async (pages) => {
         try {
-            getTipoBeneficiarios();
+            dispatch(changePageNumber(pages))
         } catch (error) {
-            // console.log(error);
-            //dispatch( idiomaAddedError() )
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))
+        } catch (error) {
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -160,6 +163,7 @@ export const TiposBeneficiariosContextProvider = props => {
                 eliminarTiposBeneficiarios,
                 changePageNumber,
                 changePageSize,
+                changePageSizes,
                 changePage
             }}
         >
