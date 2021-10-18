@@ -15,6 +15,7 @@ import {
 
 import LocalidadesReducer from 'reducers/Catalogos/Localidades/LocalidadesReducer';
 import axios from "axios";
+import pagesHeaderStyle from 'assets/jss/material-dashboard-pro-react/components/authNavbarStyle';
 const baseUrl = process.env.REACT_APP_API_URL;
 
 
@@ -39,6 +40,7 @@ export const LocalidadesContextProvider = props => {
     const get = async () => {
         try {
             const { page, size } = state;
+            console.log('state=>',state)
             const result = await axiosGet(`localidades?page=${page}&size=${size}`);
             dispatch({
                 type: GET_LOCALIDADES,
@@ -164,29 +166,32 @@ export const LocalidadesContextProvider = props => {
 
 
     //Paginacion
-
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (pages) => {  
         try {
-            get();
-        } catch (error) {
-            // console.log(error);
-            //dispatch( idiomaAddedError() )
+            dispatch(changePageNumber(pages))
+        } catch (error) {            
             throw error;
         }
-
     }
 
-    const changePageNumber = (page) => ({
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))        
+        } catch (error) {            
+            throw error;
+        }
+    }
+
+    
+
+    const changePageNumber = (pages) => ({
         type: CAMBIAR_PAGINA,
-        payload: page
+        payload: pages
     })
 
-    const changePageSize = (size) => ({
+    const changePageSize = (sizes) => ({
         type: CAMBIAR_TAMANIO_PAGINA,
-        payload: size
+        payload: sizes
     })
 
 
@@ -232,6 +237,7 @@ export const LocalidadesContextProvider = props => {
                 eliminar,
                 changePageNumber,
                 changePageSize,
+                changePageSizes,
                 changePage,
                 getByID,
                 getLocalidadesMunicipio

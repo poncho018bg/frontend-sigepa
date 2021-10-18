@@ -41,9 +41,9 @@ export const DocumentosScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
     const [searched, setSearched] = useState('');
-   
+
     const [documentoSeleccionado, setDocumentoSeleccionado] = useState();
-    const { getDocumentos, documentosList,eliminarDocumentos } = useContext(DocumentosContext);
+    const { getDocumentos, documentosList, eliminarDocumentos } = useContext(DocumentosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [idEliminar, setIdEliminar] = useState(0);
@@ -53,6 +53,9 @@ export const DocumentosScreen = () => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
 
 
     const { setShowModalUpdate }
@@ -65,9 +68,6 @@ export const DocumentosScreen = () => {
         console.log("documentos", documentosList);
     }, []);
 
-    const total = 0;
-    const size = 0;
-    const page = 0;
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -103,6 +103,15 @@ export const DocumentosScreen = () => {
         setShowModalDelete(true);
         setIdEliminar(e);
     }
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = event => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
 
 
     return (
@@ -154,8 +163,8 @@ export const DocumentosScreen = () => {
                                     documentosList.filter(row => row.dsdocumento ?
                                         row.dsdocumento.toLowerCase().includes(searched.toLowerCase()) : null)
                                     : documentosList
-                                ).map((row, i) => {
-                                    console.log("page:" + page + " size:" + size)
+                                ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
+                                    
                                     return (
                                         < TableRow key={row.id}>
 
@@ -200,9 +209,11 @@ export const DocumentosScreen = () => {
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
                         labelRowsPerPage={t('dgv.registrospaginas')}
-                        count={total}
-                        rowsPerPage={size}
+                        count={documentosList.length}
+                        rowsPerPage={rowsPerPage}
                         page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

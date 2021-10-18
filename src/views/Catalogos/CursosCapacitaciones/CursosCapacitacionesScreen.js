@@ -5,7 +5,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 
@@ -46,7 +46,7 @@ export const CursosCapacitacionesScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [objetoActualizar, setObjetoActualizar] = useState();
-    const { get, eliminar, cursosCapacitacionesList, size, page, total, changePageSize, changePage } = useContext(CursosCapacitacionesContext);
+    const { get, eliminar, cursosCapacitacionesList, size, page, total, changePageSize, changePageSizes, changePage } = useContext(CursosCapacitacionesContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [error, setError] = useState(false);
@@ -61,13 +61,17 @@ export const CursosCapacitacionesScreen = () => {
         get();
     }, []);
 
+    useEffect(() => {
+        get();
+    }, [size, page]);
+
     const handleChangePage = (event, newPage) => {
-        setPage(newPage);
+        changePage(newPage) 
     };
 
     const handleChangeRowsPerPage = event => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
+        changePageSizes(+event.target.value);
+        changePage(0)
     };
 
     const onSelect = (e) => {
@@ -101,7 +105,7 @@ export const CursosCapacitacionesScreen = () => {
                 <CardHeader color="primary">
                     <h4 className={classes.cardTitleWhite}>{t('pnl.cursoscapacitaciones')}</h4>
                     <p className={classes.cardCategoryWhite}>
-                            {t('pnl.permiteagregarcursoscap')}
+                        {t('pnl.permiteagregarcursoscap')}
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -142,12 +146,12 @@ export const CursosCapacitacionesScreen = () => {
                                     cursosCapacitacionesList.filter(row => row.dsestado ?
                                         row.dsestado.toLowerCase().includes(searched.toLowerCase()) : null)
                                     : cursosCapacitacionesList
-                                ).map((row,i) => {
+                                ).map((row, i) => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={i}>
                                             <TableCell align="center">
-                                              {row.activo === true ? 'Activo':'Inactivo'}
+                                                {row.activo === true ? 'Activo' : 'Inactivo'}
                                             </TableCell>
                                             <TableCell align="center">{row.dsestado}</TableCell >
                                             <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>

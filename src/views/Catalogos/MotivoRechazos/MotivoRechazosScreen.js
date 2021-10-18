@@ -45,7 +45,7 @@ export const MotivoRechazosScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [motivoRechazosSeleccionado, setMotivoRechazosSeleccionado] = useState();
-    const { getMotivoRechazos, eliminarMotivoRechazos, motivoRechazosList, size, page, total, changePageSize, changePage } = useContext(MotivoRechazosContext);
+    const { getMotivoRechazos, eliminarMotivoRechazos, motivoRechazosList, size, page, total, changePageSize,changePageSizes, changePage } = useContext(MotivoRechazosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -62,6 +62,10 @@ export const MotivoRechazosScreen = () => {
         // eslint-disable-next-line
         console.log("tipo de apoyo", motivoRechazosList);
     }, []);
+
+    useEffect(() => {
+        getMotivoRechazos();      
+    }, [size,page]);
 
 
     const onSelect = (e) => {
@@ -88,15 +92,15 @@ export const MotivoRechazosScreen = () => {
         setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
-    const handleChangePage = (event, newPage) => {
-        changePage(newPage)
+    const handleChangePage = (event, newPage) => {        
+        changePage(newPage)       
     };
 
-    const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
-        changePage(0)
+    const handleChangeRowsPerPage = event => {              
+        changePageSizes(+event.target.value);
+        changePage(0)       
+        
     };
-
     return (
         <GridItem xs={12} sm={12} md={12}>
 

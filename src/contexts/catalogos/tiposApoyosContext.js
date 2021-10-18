@@ -105,18 +105,20 @@ export const TiposApoyosContextProvider = props => {
 
     //Paginacion
 
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (pages) => {  
         try {
-            getTiposApoyos();
-        } catch (error) {
-            // console.log(error);
-            //dispatch( idiomaAddedError() )
+            dispatch(changePageNumber(pages))
+        } catch (error) {            
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))        
+        } catch (error) {            
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -143,6 +145,7 @@ export const TiposApoyosContextProvider = props => {
                 eliminarTiposApoyos,
                 changePageNumber,
                 changePageSize,
+                changePageSizes,
                 changePage
             }}
         >

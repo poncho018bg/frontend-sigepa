@@ -40,7 +40,8 @@ export const ContinuidadActividadesScreen = () => {
     const [idEliminar, setIdEliminar] = useState(0);
     const [continuidadActividadesSeleccionada, setContinuidadActividadesSeleccionada] = useState();
 
-    const { actividadescontinuarList, getActividadesContinuar, eliminarActividadesContinuar, actualizarActividadesContinuar, size, page, total, changePageSize, changePage } = useContext(ActividadesContinuarContext);
+    const { actividadescontinuarList, getActividadesContinuar, eliminarActividadesContinuar,
+         actualizarActividadesContinuar, size, page, total, changePageSize, changePage,changePageSizes } = useContext(ActividadesContinuarContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
@@ -52,6 +53,11 @@ export const ContinuidadActividadesScreen = () => {
     useEffect(() => {
         getActividadesContinuar();
     }, []);
+
+    useEffect(() => {
+        getActividadesContinuar();
+    }, [size,page]);
+
 
 
 
@@ -96,13 +102,14 @@ export const ContinuidadActividadesScreen = () => {
         console.log("actividades ---> ", lista);
     }
 
-    const handleChangePage = (event, newPage) => {
-        changePage(newPage)
+    const handleChangePage = (event, newPage) => {        
+        changePage(newPage)       
     };
 
-    const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
-        changePage(0)
+    const handleChangeRowsPerPage = event => {              
+        changePageSizes(+event.target.value);
+        changePage(0)       
+        
     };
 
     return (

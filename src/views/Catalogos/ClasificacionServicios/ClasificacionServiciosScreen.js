@@ -44,7 +44,7 @@ export const ClasificacionServiciosScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [clasificacionServiciosSeleccionado, setClasificacionServiciosSeleccionado] = useState();
-    const { getClasificacionServicios, eliminarClasificacionServicios, clasificacionServiciosList, size, page, total, changePageSize, changePage } = useContext(ClasificacionServiciosContext);
+    const { getClasificacionServicios, eliminarClasificacionServicios, clasificacionServiciosList, size, page, total, changePageSize,changePageSizes, changePage } = useContext(ClasificacionServiciosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -56,9 +56,11 @@ export const ClasificacionServiciosScreen = () => {
 
     useEffect(() => {
         getClasificacionServicios();
-        // eslint-disable-next-line
-        console.log("tipo de apoyo", clasificacionServiciosList);
     }, []);
+
+    useEffect(() => {
+        getClasificacionServicios();
+    }, [size, page]);
 
 
     const onSelect = (e) => {
@@ -84,13 +86,14 @@ export const ClasificacionServiciosScreen = () => {
         setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
-    const handleChangePage = (event, newPage) => {
-        changePage(newPage)
+    const handleChangePage = (event, newPage) => {        
+        changePage(newPage)       
     };
 
-    const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
-        changePage(0)
+    const handleChangeRowsPerPage = event => {              
+        changePageSizes(+event.target.value);
+        changePage(0)       
+        
     };
 
     return (
@@ -147,8 +150,8 @@ export const ClasificacionServiciosScreen = () => {
                                     return (
                                         < TableRow key={i}>
                                             <TableCell align="center">
-                                                
-                                                {row.activo ? 'Activo':'Inactivo'}
+
+                                                {row.activo ? 'Activo' : 'Inactivo'}
                                             </TableCell>
                                             <TableCell align="center">{row.dsclasificacionservicio}</TableCell>
                                             <TableCell align="center">{row.dsabreviatura}</TableCell>

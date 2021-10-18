@@ -48,7 +48,7 @@ export const TipoBeneficiarioScreen = () => {
         size,
         page,
         total,
-        changePageSize,
+        changePageSizes,
         changePage } = useContext(TiposBeneficiariosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
@@ -61,20 +61,21 @@ export const TipoBeneficiarioScreen = () => {
         = useContext(ModalContextUpdate);
 
     useEffect(() => {
-        getTipoBeneficiarios();
-        // eslint-disable-next-line
-        console.log("tipo de apoyo ---", tiposBeneficiariosList);
+        getTipoBeneficiarios();       
     }, []);
 
-    const handleChangePage = (event, newPage) => {
-        console.log("evente change page --->",event);
-        console.log("event new page -----> ", newPage);
-        changePage(newPage)
+    useEffect(() => {
+        getTipoBeneficiarios();       
+    }, [size,page]);
+
+    const handleChangePage = (event, newPage) => {        
+        changePage(newPage)       
     };
 
-    const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
-        changePage(0)
+    const handleChangeRowsPerPage = event => {              
+        changePageSizes(+event.target.value);
+        changePage(0)       
+        
     };
 
     const onSelect = (e) => {

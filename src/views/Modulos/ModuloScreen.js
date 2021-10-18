@@ -39,7 +39,7 @@ export const ModuloScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [moduloSeleccionado, setModuloSeleccionado] = useState();
-    const { getModulos, eliminarModulo, moduloList, size, page, total, changePageSize, changePage } = useContext(ModuloContext);
+    const { getModulos, eliminarModulo, moduloList, size, page, total, changePageSize,changePageSizes, changePage } = useContext(ModuloContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -51,10 +51,12 @@ export const ModuloScreen = () => {
     const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(() => {
-        getModulos();
-        // eslint-disable-next-line
-        console.log(moduloList);
+        getModulos();       
     }, []);
+
+    useEffect(() => {
+        getModulos();       
+    }, [size,page]);
 
 
     const onSelect = (e) => {
@@ -80,13 +82,14 @@ export const ModuloScreen = () => {
         setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
-    const handleChangePage = (event, newPage) => {
-        changePage(newPage)
+    const handleChangePage = (event, newPage) => {        
+        changePage(newPage)       
     };
 
-    const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
-        changePage(0)
+    const handleChangeRowsPerPage = event => {              
+        changePageSizes(+event.target.value);
+        changePage(0)       
+        
     };
     return (
         <GridItem xs={12} sm={12} md={12}>

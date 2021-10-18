@@ -1,13 +1,15 @@
 import React, { createContext, useReducer } from 'react';
 import EdadesBeneficiariosReducer from 'reducers/Catalogos/EdadesBeneficiariosReducer';
 import axios from "axios";
-import { GET_EDADES_BENEFICIARIOS,
-     REGISTRAR_EDADES_BENEFICIARIOS, 
-     MODIFICAR_EDADES_BENEFICIARIOS, ELIMINAR_EDADES_BENEFICIARIOS,
-     GET_EDADES_BENEFICIARIOS_BY_ID,
+import {
+    GET_EDADES_BENEFICIARIOS,
+    REGISTRAR_EDADES_BENEFICIARIOS,
+    MODIFICAR_EDADES_BENEFICIARIOS, ELIMINAR_EDADES_BENEFICIARIOS,
+    GET_EDADES_BENEFICIARIOS_BY_ID,
     AGREGAR_PROGRAMA_ERROR,
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA } from "../../types/actionTypes";
+    CAMBIAR_TAMANIO_PAGINA
+} from "../../types/actionTypes";
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
 import { axiosGetHetoas } from 'helpers/axios';
@@ -50,7 +52,7 @@ export const EdadesBeneficiariosContextProvider = props => {
      * @param {edadesBeneficiarios} edadesBeneficiarios 
      */
     const registrarEdadesBeneficiarios = async edadesBeneficiarios => {
-    
+
 
         try {
             const url = `${baseUrl}edadesBeneficiarios`;
@@ -64,7 +66,7 @@ export const EdadesBeneficiariosContextProvider = props => {
                         payload: response
                     })
                 }).catch(error => {
-                    console.log('ERROR=>',error)
+                    console.log('ERROR=>', error)
                     reject(error);
                 });
             });
@@ -81,7 +83,7 @@ export const EdadesBeneficiariosContextProvider = props => {
      * Se actualizan los tipos de apoyos
      * @param {edadesBeneficiarios} edadesBeneficiarios 
      */
-    const actualizarEdadesBeneficiarios= async edadesBeneficiarios => {
+    const actualizarEdadesBeneficiarios = async edadesBeneficiarios => {
         const { dsedadbeneficiario, boactivo, _links: { edadesBeneficiarios: { href } } } = edadesBeneficiarios;
 
         let edadesBeneficiariosEnviar = {
@@ -102,7 +104,7 @@ export const EdadesBeneficiariosContextProvider = props => {
     }
 
     const eliminarEdadesBeneficiarios = async idEdadesBeneficiarios => {
-        const {activo, _links:{edadesBeneficiarios:{href}}}=idEdadesBeneficiarios
+        const { activo, _links: { edadesBeneficiarios: { href } } } = idEdadesBeneficiarios
         const act = !activo
         idEdadesBeneficiarios.activo = act
         try {
@@ -118,17 +120,21 @@ export const EdadesBeneficiariosContextProvider = props => {
         }
     }
 
-     //Paginacion
-     const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    //Paginacion
+    const changePage = async (pages) => {
         try {
-            getEdadesBeneficiarios();
-        } catch (error) {         
+            dispatch(changePageNumber(pages))
+        } catch (error) {
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))
+        } catch (error) {
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -141,10 +147,10 @@ export const EdadesBeneficiariosContextProvider = props => {
         payload: size
     })
 
-     /**
-     * obtener tipos de apoyo
-     */
-      const getByIDBeneficiarios= async url => {
+    /**
+    * obtener tipos de apoyo
+    */
+    const getByIDBeneficiarios = async url => {
         try {
             const result = await axiosGetHetoas(url);
             dispatch({
@@ -160,7 +166,7 @@ export const EdadesBeneficiariosContextProvider = props => {
         <EdadesBeneficiariosContext.Provider
             value={{
                 edadesBeneficiariosList: state.edadesBeneficiariosList,
-                edadesBeneficiario:state.edadesBeneficiario,
+                edadesBeneficiario: state.edadesBeneficiario,
                 error: state.error,
                 page: state.page,
                 size: state.size,
@@ -171,6 +177,7 @@ export const EdadesBeneficiariosContextProvider = props => {
                 eliminarEdadesBeneficiarios,
                 changePageNumber,
                 changePageSize,
+                changePageSizes,
                 changePage,
                 getByIDBeneficiarios
             }}

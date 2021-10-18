@@ -32,7 +32,7 @@ export const CursosCapacitacionesContextProvider = props => {
     const get = async () => {
         try {
             const { page, size } = state;
-            const result = await axiosGet(`cursosCapacitaciones`);
+            const result = await axiosGet(`cursosCapacitaciones?page=${page}&size=${size}`);
             console.log(result._embedded);
             console.log(result._embedded.cursosCapacitaciones);
             dispatch({
@@ -144,16 +144,20 @@ export const CursosCapacitacionesContextProvider = props => {
     }
 
     //Paginacion
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (page) => {  
         try {
-            get();
-        } catch (error) {
+            dispatch(changePageNumber(page))
+        } catch (error) {            
             throw error;
         }
+    }
 
+    const changePageSizes = async (size) => {
+        try {
+            dispatch(changePageSize(size))        
+        } catch (error) {            
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -180,6 +184,7 @@ export const CursosCapacitacionesContextProvider = props => {
                 eliminar,
                 changePageNumber,
                 changePageSize,
+                changePageSizes,
                 changePage
             }}
         >
