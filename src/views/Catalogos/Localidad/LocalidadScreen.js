@@ -47,6 +47,7 @@ export const LocalidadScreen = () => {
         page,
         total,
         changePageSize,
+        changePageSizes,
         changePage,
         eliminar
     } = useContext(LocalidadesContext);
@@ -58,13 +59,14 @@ export const LocalidadScreen = () => {
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
 
-    const handleChangePage = (event, newPage) => {
-        changePage(newPage)
+    const handleChangePage = (event, newPage) => {        
+        changePage(newPage)       
     };
 
-    const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
-        changePage(0)
+    const handleChangeRowsPerPage = event => {              
+        changePageSizes(+event.target.value);
+        changePage(0)       
+        
     };
 
     const addDialog = () => {
@@ -74,6 +76,10 @@ export const LocalidadScreen = () => {
     useEffect(() => {
         get();
     }, []);
+
+    useEffect(() => {
+        get();
+    }, [size, page]);
 
     useEffect(() => {
         getMunicipiosId();
