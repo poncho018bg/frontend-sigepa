@@ -280,7 +280,7 @@ export const DialogTipoApoyoForm = (props) => {
         }).catch(err => {
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`);
+            setMsjConfirmacion(`Ocurrió un error`);
         });;
 
     }
