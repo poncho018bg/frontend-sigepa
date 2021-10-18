@@ -52,7 +52,7 @@ export const TipoBeneficiarioEdit = ({ tipoBeneficiarioSeleccionado }) => {
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err.response.data.message}`  );
+            setMsjConfirmacion(`Ocurrió un error`  );
 
            
         });

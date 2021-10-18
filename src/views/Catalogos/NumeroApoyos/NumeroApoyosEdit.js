@@ -55,7 +55,7 @@ export const NumeroApoyosEdit = ({ numeroApoyosSeleccionado }) => {
             .catch(err => {
                 setOpenSnackbar(true);
                 setError(true);
-                setMsjConfirmacion(`Ocurrio un error, ${err}`);
+                setMsjConfirmacion(`Ocurrió un error`);
 
                 setShowModalConfirmacion(false);
                 setShowModalUpdate(false);

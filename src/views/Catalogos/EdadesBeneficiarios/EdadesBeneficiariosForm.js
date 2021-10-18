@@ -57,7 +57,7 @@ export const EdadesBeneficiariosForm = () => {
             console.log('err',err)
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            setMsjConfirmacion(`Ocurrió un error`  );
         });
     }
 
