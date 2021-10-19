@@ -63,7 +63,7 @@ export const ApoyoServicioForm = () => {
         }).catch(err => {
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrió un error`);
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
         });;
 
 

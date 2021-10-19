@@ -55,7 +55,7 @@ export const EdadesBeneficiariosEdit = ({ edadesBeneficiariosSeleccionado }) => 
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrió un error`  );
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
 
             setShowModalConfirmacion(false);
             setShowModalUpdate(false);
