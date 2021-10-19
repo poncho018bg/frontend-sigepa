@@ -16,7 +16,7 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { actualizar, getByID, localidad } = useContext(LocalidadesContext);
     
-    const { getMunicipiosId,municipiosListId } = useContext(MunicipiosContext);
+    const { municipiosList ,getMunicipiosAll} = useContext(MunicipiosContext);
 
     //dialog confirmacion
     const [valores, setValores] = useState();
@@ -36,8 +36,8 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
     }
 
     useEffect(() => {
-        getMunicipiosId()
-    }, [])
+        getMunicipiosAll();
+    }, []);
 
     /**
     * Edita el elemento
@@ -62,7 +62,7 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrió un error`  );
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
 
             setShowModalConfirmacion(false);
             setShowModalUpdate(false);
@@ -159,12 +159,12 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                                     <em>{t('cmb.ninguno')}</em>
                                 </MenuItem>
                                 {
-                                    municipiosListId.map(
+                                    municipiosList.map(
                                         item => (
                                             <MenuItem
-                                                key={item.idMunicipio}
-                                                value={item.idMunicipio}>
-                                                {item.dsMunicipio}
+                                                key={item.id}
+                                                value={item.id}>
+                                                {item.dsmunicipio}
                                             </MenuItem>
                                         )
                                     )

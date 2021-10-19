@@ -56,7 +56,7 @@ export const EstadosForm = () => {
             .catch(err => {
                 setOpenSnackbar(true);
                 setError(true);
-                setMsjConfirmacion(`Ocurrió un error`);
+                setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
             });
     }
 

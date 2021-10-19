@@ -52,7 +52,7 @@ export const TipoBeneficiarioEdit = ({ tipoBeneficiarioSeleccionado }) => {
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrió un error`  );
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
 
            
         });

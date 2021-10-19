@@ -185,6 +185,21 @@ export const MunicipiosContextProvider = props => {
         }
     }
 
+    const getMunicipiosAll = async () => {
+
+        try {
+            const { page, size } = state;
+            const resultado = await axiosGet(`municipios?page=0&size=100000`);
+            console.log(resultado._embedded.municipios);
+            dispatch({
+                type: GET_MUNICIPIOS,
+                payload: resultado
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <MunicipiosContext.Provider
             value={{
@@ -204,7 +219,8 @@ export const MunicipiosContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePage,
-                getMunicipioEstado
+                getMunicipioEstado,
+                getMunicipiosAll
             }}
         >
             {props.children}

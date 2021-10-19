@@ -124,7 +124,7 @@ export const CatalogosScreen = () => {
                         </Card>
                     </GridItem>
 
-                    <GridItem xs={12} sm={6} md={3}>
+                   {/*  <GridItem xs={12} sm={6} md={3}>
                         <Card>
                             <Link to="../admin/localidades">
                                 <CardHeader color="warning" stats icon style={{ height: '9rem' }}>
@@ -132,7 +132,7 @@ export const CatalogosScreen = () => {
                                 </CardHeader>
                             </Link>
                         </Card>
-                    </GridItem>
+                    </GridItem> */}
 
 
 
