@@ -35,7 +35,7 @@ export const Programa = ({ programa }) => {
     const [objetoActualizar, setObjetoActualizar] = useState();
 
     const handleClickOpen = (e) => {
-        setIdEliminar(e.id);
+        setIdEliminar(e);
         console.log('handleClickOpen=>', e)
         console.log('handleClickOpen=>', e.id)
         setShowModalDelete(true);
