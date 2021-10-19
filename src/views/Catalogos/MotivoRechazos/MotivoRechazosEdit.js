@@ -68,7 +68,6 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
 
 
     return (
-
         <Formik
             enableReinitialize
             initialValues={motivoRechazosSeleccionado}
@@ -77,15 +76,11 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
                 actualizarInfoMotivoRechazos(valores)
             }}
         >
-
             {props => {
                 return (
-
-
                     <form
                         className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
                         onSubmit={props.handleSubmit}>
-
                         <DialogContent>
                             <TextField
                                 id="dsmotivorechazo"
@@ -106,7 +101,7 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                {t('btn.guardar')}
+                                    {t('btn.guardar')}
                                 </Button>
                             </Grid>
                         </DialogContent>

@@ -35,6 +35,9 @@ import moment from 'moment';
 import { RegionMunicipiosContext } from "contexts/catalogos/RegionMunicipiosContext";
 import { DocumentosContext } from "contexts/catalogos/documentosContext";
 
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
 }
@@ -206,14 +209,25 @@ export const ProgramasEdit = () => {
       .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
   });
 
-  const actualizarInfo = async valores => {
+  const [valores, setValores] = useState();
+  const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+
+  const confirmacionDialog = (e) => {
+    console.log("Aqui hace el llamado al dialog", e);
+    setShowModalConfirmacion(true);
+    setValores(e)
+  }
+
+  const handleRegistrar = () => {
     actualizar(query.state?.mobNo, valores, archivo, documentslst).then(response => {
 
       setOpenSnackbar(true);
       setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
       const timer = setTimeout(() => {
         setError(false);
-        history.push("/admin/programas")
+        history.push("/admin/programas");
+        setShowModalConfirmacion(false);
 
       }, 1000);
       return () => clearTimeout(timer);
@@ -222,7 +236,11 @@ export const ProgramasEdit = () => {
         setOpenSnackbar(true);
         setError(true);
         setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
-      });;
+      });
+  }
+
+  const actualizarInfo = async valores => {
+    confirmacionDialog(valores);
   }
 
   const handleChangeFile = e => {
@@ -668,6 +686,10 @@ export const ProgramasEdit = () => {
               </GridItem>
 
             </GridContainer>
+
+            <ModalConfirmacion
+              handleRegistrar={handleRegistrar} evento="Editar"
+            />
             <Mensaje
               setOpen={setOpenSnackbar}
               open={openSnackbar}

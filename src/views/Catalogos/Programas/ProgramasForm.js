@@ -54,6 +54,9 @@ function intersection(a, b) {
   return a.filter((value) => b.indexOf(value) !== -1);
 }
 
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+
 
 export const ProgramasForm = () => {
   const { t } = useTranslation();
@@ -82,6 +85,12 @@ export const ProgramasForm = () => {
   const [selected, setSelected] = useState([]);
   const [archivo, setArchivos] = React.useState();
   const [documentslst, setDocumentslst] = React.useState([]);
+
+  const [valores, setValores] = useState();
+
+  const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+
 
 
   useEffect(() => {
@@ -214,74 +223,89 @@ export const ProgramasForm = () => {
     }),
     onSubmit: async valores => {
       setLoading(true);
-      const {
-        nombrePrograma,
-        clavePrograma,
-        vigenciaDesde,
-        vigenciaHasta,
-        periodoRegistroWebDesde,
-        periodoRegistroWebHasta,
-        periodoRegistroPresencialDesde,
-        periodoRegistroPresencialHasta,
-        desripcionPrograma,
-        criterioPrograma,
-        actividadesPrograma,
-        obervacionesPrograma,
-        idBeneficiario,
-        idRangoEdadBeneficiario
-      } = valores;
-      console.log('miramira');
-      console.log(selected);
-      const lstmunSeleccionados = []
-      selected.map((mn) => {
-        lstmunSeleccionados.push(mn.value);
-      })
-      console.log('sasdsa');
-      console.log(lstmunSeleccionados);
-
-      let programas = {
-        dsprograma: nombrePrograma,
-        dsclaveprograma: clavePrograma,
-
-        fcvigenciainicio: vigenciaDesde,
-        fcvigenciafin: vigenciaHasta,
-        fcregistrowebinicio: periodoRegistroWebDesde,
-        fcregistrowebfin: periodoRegistroWebHasta,
-        fcregistropresencialinicio: periodoRegistroPresencialDesde,
-        fcregistropresencialfin: periodoRegistroPresencialHasta,
-        dsdescripcion: desripcionPrograma,
-        dscriterioelegibilidad: criterioPrograma,
-        dscontinuidad: actividadesPrograma,
-        dsobservaciones: obervacionesPrograma,
-        boactivo: true,
-        idBeneficiario,
-        idRangoEdadBeneficiario,
-        coberturaMunicipal: lstmunSeleccionados,
-        documentosRequisitos: documentslst,
-        file: archivo
-      }
-      console.log(programas);
-      registrar(programas, archivo).then(response => {
-        console.log(response);
-        setOpenSnackbar(true);
-
-        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
-
-        const timer = setTimeout(() => {
-          setLoading(false);
-          setError(false);
-          history.push("/admin/programas")
-
-        }, 5000);
-        return () => clearTimeout(timer);
-      })
-        .catch(err => {
-          setOpenSnackbar(true);
-          setError(true);
-          setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
-        });;
+      confirmacionDialog(valores);
     }
   })
+
+  /**
+     * abre el dialogo de confirmación
+     * @param {valores} e 
+     */
+  const confirmacionDialog = (e) => {
+    console.log("Aqui hace el llamado al dialog", e);
+    setShowModalConfirmacion(true);
+    setValores(e)
+  }
+
+  const handleRegistrar = () => {
+    const {
+      nombrePrograma,
+      clavePrograma,
+      vigenciaDesde,
+      vigenciaHasta,
+      periodoRegistroWebDesde,
+      periodoRegistroWebHasta,
+      periodoRegistroPresencialDesde,
+      periodoRegistroPresencialHasta,
+      desripcionPrograma,
+      criterioPrograma,
+      actividadesPrograma,
+      obervacionesPrograma,
+      idBeneficiario,
+      idRangoEdadBeneficiario
+    } = valores;
+    console.log('miramira');
+    console.log(selected);
+    const lstmunSeleccionados = []
+    selected.map((mn) => {
+      lstmunSeleccionados.push(mn.value);
+    })
+    console.log('sasdsa');
+    console.log(lstmunSeleccionados);
+
+    let programas = {
+      dsprograma: nombrePrograma,
+      dsclaveprograma: clavePrograma,
+
+      fcvigenciainicio: vigenciaDesde,
+      fcvigenciafin: vigenciaHasta,
+      fcregistrowebinicio: periodoRegistroWebDesde,
+      fcregistrowebfin: periodoRegistroWebHasta,
+      fcregistropresencialinicio: periodoRegistroPresencialDesde,
+      fcregistropresencialfin: periodoRegistroPresencialHasta,
+      dsdescripcion: desripcionPrograma,
+      dscriterioelegibilidad: criterioPrograma,
+      dscontinuidad: actividadesPrograma,
+      dsobservaciones: obervacionesPrograma,
+      boactivo: true,
+      idBeneficiario,
+      idRangoEdadBeneficiario,
+      coberturaMunicipal: lstmunSeleccionados,
+      documentosRequisitos: documentslst,
+      file: archivo
+    }
+    console.log(programas);
+    registrar(programas, archivo).then(response => {
+      console.log(response);
+      setOpenSnackbar(true);
+
+      setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
+
+      const timer = setTimeout(() => {
+        setLoading(false);
+        setError(false);
+        history.push("/admin/programas");
+        setShowModalConfirmacion(false);
+
+      }, 5000);
+      return () => clearTimeout(timer);
+    })
+      .catch(err => {
+        setOpenSnackbar(true);
+        setError(true);
+        setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+      });;
+  }
 
   const handleChangeFile = e => {
     console.log("files=>>>", e);
@@ -753,6 +777,9 @@ export const ProgramasForm = () => {
         </GridItem>
 
       </GridContainer>
+      <ModalConfirmacion
+        handleRegistrar={handleRegistrar} evento="Registrar"
+      />
       <Mensaje
         setOpen={setOpenSnackbar}
         open={openSnackbar}
