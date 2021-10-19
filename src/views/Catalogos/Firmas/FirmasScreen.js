@@ -28,36 +28,40 @@ import { Modal } from 'commons/Modal';
 import { FirmasForm } from './FirmasForm';
 import { FirmasEdit } from './FirmasEdit';
 import { FirmaPrograma } from './FirmaPrograma';
-
+import BlockIcon from '@material-ui/icons/Block';
 import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModalUpdate } from 'commons/ModalUpdate';
 import { useTranslation } from 'react-i18next';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 const useStyles = makeStyles(stylesArchivo);
 
 export const FirmasScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
     const [searched, setSearched] = useState('');
-    const [idEliminar] = useState(0);
+    const [idEliminar, setIdEliminar] = useState(0);
     const [firmasSeleccionado, setfirmasSeleccionado] = useState();
-    const { getFirmas, eliminarFirmas, firmasList, size, page, total, changePageSize,changePageSizes, changePage } = useContext(FirmasContext);
+    const { getFirmas, eliminarFirmas, firmasList, size, page, total, changePageSize, changePageSizes, changePage } = useContext(FirmasContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
-
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [openDialog, setOpenDialog] = useState(false);
     const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
 
     useEffect(() => {
         getFirmas();
-        
+
     }, []);
 
     useEffect(() => {
         getFirmas();
-        
-    }, [size,page]);
+
+    }, [size, page]);
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -69,19 +73,27 @@ export const FirmasScreen = () => {
     }
 
 
-    const handleDeshabilitar = () => {
+    const handleDeshabilitar = () => {       
         eliminarFirmas(idEliminar)
         setShowModalDelete(false);
+        setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
-    const handleChangePage = (event, newPage) => {        
-        changePage(newPage)       
+    const handleChangePage = (event, newPage) => {
+        changePage(newPage)
     };
 
-    const handleChangeRowsPerPage = event => {              
+    const handleChangeRowsPerPage = event => {
         changePageSizes(+event.target.value);
-        changePage(0)       
-        
+        changePage(0)
+
     };
+
+    const deleteDialog = (e) => {
+        setShowModalDelete(true);
+        setIdEliminar(e);
+    }
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -116,12 +128,13 @@ export const FirmasScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
+                                < TableCell align="center" > {t('dgv.estatus')}</TableCell >
                                 < TableCell align="center" >{t('dgv.nombrequienautoriza')}</TableCell >
                                 < TableCell align="center">{t('dgv.puesto')}</TableCell >
                                 < TableCell align="center">{t('dgv.fechaalta')}</TableCell >
                                 < TableCell align="center">{t('dgv.comentarios')}</TableCell >
-                                < TableCell align="center" > {t('dgv.estatus')}</TableCell >
-                                < TableCell align="center"> Acciones</TableCell >
+
+                                < TableCell align="center" colSpan={2}> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
@@ -134,18 +147,23 @@ export const FirmasScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-
+                                            <TableCell align="center">
+                                                {row.activo === true ? 'Activo' : 'Inactivo'}
+                                            </TableCell>
 
                                             <TableCell align="center">{row.dsautoriza}</TableCell >
                                             <TableCell align="center" >{row.dspuesto}</TableCell>
                                             <TableCell align="center">{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">{row.dscomentario}</TableCell>
-                                            <TableCell align="center">
-                                                {row.activo === true ? 'Activo' : 'Inactivo'}
-                                            </TableCell>
+
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />
+                                                </IconButton>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
+                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >
@@ -175,6 +193,13 @@ export const FirmasScreen = () => {
             <ModalUpdate>
                 <FirmasEdit firmasSeleccionado={firmasSeleccionado} />
             </ModalUpdate>
+
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
         </GridItem>
 
     )
