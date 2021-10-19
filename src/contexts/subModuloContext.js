@@ -98,7 +98,7 @@ export const SubModuloContextProvider = props => {
 
         console.log('x=>>', submodulo)
 
-        const { id, crcModulosCollection } = submodulo;
+        const { id, crcModulosCollection,fcfecharegistro } = submodulo;
 
 
         const url = `${baseUrl}subModulos/${id}`;
@@ -108,10 +108,11 @@ export const SubModuloContextProvider = props => {
             usuarioCreacionId: `${process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}`,
             boactivo: true,
             crcModulosCollection: [`/${crcModulosCollection}`],
-            perfiles: []
+            perfiles: [],
+            fcfecharegistro:fcfecharegistro
         }
         let moduloEnviarm = {
-
+            fcfecharegistro:fcfecharegistro,
             '_links': {
 
                 '1': {

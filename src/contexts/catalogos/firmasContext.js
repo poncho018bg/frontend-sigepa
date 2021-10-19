@@ -59,7 +59,7 @@ export const FirmasContextProvider = props => {
      * @param {firmas} firmas 
      */
     const registrarFirmas = async firmas => {
-       
+
 
 
         try {
@@ -99,12 +99,12 @@ export const FirmasContextProvider = props => {
             id: id,
             dsautoriza: dsautoriza,
             dspuesto: dspuesto,
-            dscomentario: dscomentario,           
+            dscomentario: dscomentario,
             activo: activo
         };
-        
+
         try {
-            await axiosPostHetoas(href, FirmasEnviar, 'PUT');
+
             const result = await axiosPostHetoas(href, FirmasEnviar, 'PUT');
             dispatch({
                 type: MODIFICAR_FIRMAS,
@@ -116,31 +116,37 @@ export const FirmasContextProvider = props => {
     }
 
     const eliminarFirmas = async idfirmas => {
+
+        const { activo, _links: { firmas: { href } } } = idfirmas;
+        const act = !activo;
+        idfirmas.activo = act;
+
         try {
-            await axiosDeleteTipo(`firmas/${idfirmas}`);
+
+            const result = await axiosPostHetoas(href, idfirmas, 'PUT');
             dispatch({
                 type: ELIMINAR_FIRMAS,
-                payload: idfirmas,
+                payload: result,
             })
         } catch (error) {
             console.log(error);
         }
-        
+
     }
 
     //Paginacion
-    const changePage = async (pages) => {  
+    const changePage = async (pages) => {
         try {
             dispatch(changePageNumber(pages))
-        } catch (error) {            
+        } catch (error) {
             throw error;
         }
     }
 
     const changePageSizes = async (sizes) => {
         try {
-            dispatch(changePageSize(sizes))        
-        } catch (error) {            
+            dispatch(changePageSize(sizes))
+        } catch (error) {
             throw error;
         }
     }
