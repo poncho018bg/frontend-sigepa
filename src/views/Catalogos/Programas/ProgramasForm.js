@@ -171,9 +171,9 @@ export const ProgramasForm = () => {
       periodoRegistroPresencialDesde: null,
       periodoRegistroPresencialHasta: null,
       desripcionPrograma: null,
-      criterioPrograma: null,
-      actividadesPrograma: null,
-      obervacionesPrograma: null,
+      criterioPrograma: '',
+      actividadesPrograma: '',
+      obervacionesPrograma: '',
       idBeneficiario: null,
       idRangoEdadBeneficiario: null,
       byimagen: null
@@ -198,10 +198,6 @@ export const ProgramasForm = () => {
         .required('El periodo del registro presencial hasta es obligatorio'),
       desripcionPrograma: Yup.string().nullable()
         .required('La descripcion del pograma de apoyo  es obligatorio'),
-      criterioPrograma: Yup.string().nullable()
-        .required('Los criterios de elegibilidad son obligatorios'),
-      actividadesPrograma: Yup.string().nullable()
-        .required('Las actividades por realizar son obligatorios'),
       idBeneficiario: Yup.string()
         .required('El tipo de beneficiario es obligatorio'),
       idRangoEdadBeneficiario: Yup.string()

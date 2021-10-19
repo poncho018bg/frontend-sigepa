@@ -620,7 +620,7 @@ export const ProgramasEdit = () => {
 
                     <Button className={classes.updateProfileButton}
                       type='submit'>
-                      Editar
+                      Guardar
                     </Button>
                     <Clearfix />
                   </CardBody>
