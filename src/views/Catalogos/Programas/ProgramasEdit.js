@@ -319,6 +319,11 @@ export const ProgramasEdit = () => {
                             value={moment(new Date(parseInt(props.values?.fcvigenciainicio))).format("YYYY-MM-DD")}
                             name="fcvigenciainicio"
                             onChange={props.handleChange}
+                            InputProps={{
+                              inputProps: {
+                                max: moment(new Date(parseInt(props.values?.fcvigenciafin))).format("YYYY-MM-DD")
+                              }
+                            }}
                           />
                         </CardBody>
 
@@ -338,6 +343,11 @@ export const ProgramasEdit = () => {
                             value={moment(new Date(parseInt(props.values?.fcvigenciafin))).format("YYYY-MM-DD")}
                             name="fcvigenciafin"
                             onChange={props.handleChange}
+                            InputProps={{
+                              inputProps: {
+                                min: moment(new Date(parseInt(props.values?.fcvigenciainicio))).format("YYYY-MM-DD")
+                              }
+                            }}
                           />
                         </CardBody>
 
@@ -356,6 +366,11 @@ export const ProgramasEdit = () => {
                             value={moment(new Date(parseInt(props.values?.fcregistrowebinicio))).format("YYYY-MM-DD")}
                             name="fcregistrowebinicio"
                             onChange={props.handleChange}
+                            InputProps={{
+                              inputProps: {
+                                max: moment(new Date(parseInt(props.values?.fcregistrowebfin))).format("YYYY-MM-DD")
+                              }
+                            }}
                           />
                         </CardBody>
 
@@ -375,6 +390,11 @@ export const ProgramasEdit = () => {
                             value={moment(new Date(parseInt(props.values?.fcregistrowebfin))).format("YYYY-MM-DD")}
                             name="fcregistrowebfin"
                             onChange={props.handleChange}
+                            InputProps={{
+                              inputProps: {
+                                min: moment(new Date(parseInt(props.values?.fcregistrowebinicio))).format("YYYY-MM-DD")
+                              }
+                            }}
                           />
                         </CardBody>
 
@@ -395,6 +415,11 @@ export const ProgramasEdit = () => {
                             value={moment(new Date(parseInt(props.values?.fcregistropresencialinicio))).format("YYYY-MM-DD")}
                             name="fcregistropresencialinicio"
                             onChange={props.handleChange}
+                            InputProps={{
+                              inputProps: {
+                                max: moment(new Date(parseInt(props.values?.fcregistropresencialfin))).format("YYYY-MM-DD")
+                              }
+                            }}
                           />
                         </CardBody>
 
@@ -414,6 +439,11 @@ export const ProgramasEdit = () => {
                             value={moment(new Date(parseInt(props.values?.fcregistropresencialfin))).format("YYYY-MM-DD")}
                             name="fcregistropresencialfin"
                             onChange={props.handleChange}
+                            InputProps={{
+                              inputProps: {
+                                min: moment(new Date(parseInt(props.values?.fcregistropresencialinicio))).format("YYYY-MM-DD")
+                              }
+                            }}
                           />
                         </CardBody>
 
