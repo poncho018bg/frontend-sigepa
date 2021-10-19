@@ -73,9 +73,11 @@ export const ClasificacionServiciosForm = () => {
         },
         validationSchema: Yup.object({
             dsclasificacionservicio: Yup.string()
-                .required('La clasificacion es obligatoria'),
+                .required('La clasificacion es obligatoria')
+                .matches(/^[a-zA-Z_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
             dsabreviatura: Yup.string()
-                .required('La abreviatura es obligatoria'),
+                .required('La abreviatura es obligatoria')
+                .matches(/^[a-zA-Z_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
 
         }),
         onSubmit: async valores => {
@@ -98,6 +100,7 @@ export const ClasificacionServiciosForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsclasificacionservicio}
+                    inputProps={{ maxLength: 100 }}
                 />
                 {formik.touched.dsclasificacionservicio && formik.errors.dsclasificacionservicio ? (
                     <FormHelperText error={formik.errors.dsclasificacionservicio}>{formik.errors.dsclasificacionservicio}</FormHelperText>
@@ -114,6 +117,7 @@ export const ClasificacionServiciosForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsabreviatura}
+                    inputProps={{ maxLength: 20 }}
                 />
                 {formik.touched.dsabreviatura && formik.errors.dsabreviatura ? (
                     <FormHelperText error={formik.errors.dsabreviatura}>{formik.errors.dsabreviatura}</FormHelperText>

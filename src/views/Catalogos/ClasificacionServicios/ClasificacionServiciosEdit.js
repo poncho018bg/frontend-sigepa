@@ -100,6 +100,7 @@ export const ClasificacionServiciosEdit = ({ clasificacionServiciosSeleccionado 
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dsclasificacionservicio}
+                                inputProps={{ maxLength: 100 }}
                             />
                             {props.touched.dsclasificacionservicio && props.errors.dsclasificacionservicio ? (
                                 <FormHelperText error={props.errors.dsclasificacionservicio}>{props.errors.dsclasificacionservicio}</FormHelperText>
@@ -116,6 +117,7 @@ export const ClasificacionServiciosEdit = ({ clasificacionServiciosSeleccionado 
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dsabreviatura}
+                                inputProps={{ maxLength: 20 }}
                             />
                             {props.touched.dsabreviatura && props.errors.dsabreviatura ? (
                                 <FormHelperText error={props.errors.dsabreviatura}>{props.errors.dsabreviatura}</FormHelperText>
