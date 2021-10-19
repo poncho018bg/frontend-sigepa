@@ -19,9 +19,10 @@ import { useHistory } from 'react-router';
 
 
 
-export const Programa = ({ programa }) => {
+export const Programa = ({  programa }) => {
     let history = useHistory();
     const {
+        id,
         dsprograma, dsclaveprograma,
         fcvigenciainicio, fcvigenciafin,
         fcregistrowebinicio, fcregistrowebfin,
@@ -29,24 +30,21 @@ export const Programa = ({ programa }) => {
         dsdescripcion, dscriterioelegibilidad,
         activo
     } = programa;
-    const [idEliminar, setIdEliminar] = useState('');
+    const [idEliminar, setIdEliminar] = useState();
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const { eliminar, get } = useContext(ProgramasContext);
     const [objetoActualizar, setObjetoActualizar] = useState();
 
-    const handleClickOpen = (e) => {
-        setIdEliminar(e);
-        console.log('handleClickOpen=>', e)
-        console.log('handleClickOpen=>', e.id)
+    const onClick = programa => {
         setShowModalDelete(true);
-
+        console.log("seleccionado ", programa.id);
+        setIdEliminar(programa.id);
     }
 
     const handleDeshabilitar = () => {
-        console.log('eliminareliminar', idEliminar)
-        eliminar(idEliminar);
-
         setShowModalDelete(false);
+        console.log('entro el deshabilitar idEliminar ---->', idEliminar);
+        eliminar(idEliminar);
     }
 
     const onSelect = (e) => {
@@ -60,11 +58,11 @@ export const Programa = ({ programa }) => {
 
     return (
         <>
-            < TableRow >
+            < TableRow key={id} >
                 <TableCell align="center">
                     {activo ? 'Activo' : 'Inactivo'}
                 </TableCell>
-                <TableCell align="center">{dsprograma}</TableCell>
+                <TableCell align="center">{id} {dsprograma}</TableCell>
                 <TableCell align="center">{dsclaveprograma}</TableCell >
                 <TableCell align="center">{moment(fcvigenciainicio).format("DD MMMM")} - {moment(fcvigenciafin).format(" DD MMMM YYYY")}</TableCell>
                 <TableCell align="center">{moment(fcregistrowebinicio).format("DD MMMM")} - {moment(fcregistrowebfin).format(" DD MMMM YYYY")}</TableCell>
@@ -78,7 +76,10 @@ export const Programa = ({ programa }) => {
                     </IconButton>
                 </TableCell>
                 <TableCell align="center">
-                    <IconButton aria-label="create" onClick={() => handleClickOpen(programa)}>
+                    <IconButton
+                        name="deshabilitar"
+                        aria-label="create"
+                        onClick={() => onClick(programa)}>
                         {(programa.activo) ? <BlockIcon /> : <BlockIcon />}
                     </IconButton>
                 </TableCell>
@@ -88,7 +89,9 @@ export const Programa = ({ programa }) => {
             />
 
 
+            {/*
             <ProgramasEdit objetoActualizar={objetoActualizar} />
+*/}
 
         </>
     )

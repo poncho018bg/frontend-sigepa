@@ -19,6 +19,18 @@ import { EdadesBeneficiariosContext } from 'contexts/catalogos/edadesBeneficiari
 import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
+/**
+ * Los siguientes imports se utilizan para el deshabilitar y editar programa
+ */
+import moment from 'moment';
+import 'moment/locale/es';
+import { ModalDelete } from 'commons/ModalDelete';
+import { ModalContextDelete } from 'contexts/modalContexDelete';
+import CreateIcon from '@material-ui/icons/Create';
+import IconButton from '@material-ui/core/IconButton';
+import BlockIcon from '@material-ui/icons/Block';
+import { useHistory } from 'react-router';
+
 export const ProgramasScreen = () => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -74,6 +86,50 @@ export const ProgramasScreen = () => {
 
   }
 
+
+
+
+  /**
+   * consstantes para el deshabilitar
+   */
+  const [idEliminar, setIdEliminar] = useState();
+  const { setShowModalDelete } = useContext(ModalContextDelete);
+  const { eliminar } = useContext(ProgramasContext);
+  const [objetoActualizar, setObjetoActualizar] = useState();
+  let history = useHistory();
+
+
+  /**
+   * Aqui se abre el modal para deshabilitar y se llena el dato a eliminar
+   * @param {programa} programa 
+   */
+  const onClick = programa => {
+    setShowModalDelete(true);
+    console.log("seleccionado ", programa.id);
+    setIdEliminar(programa);
+  }
+
+  /**
+   * Se deshabilita usando el jsonEliminar
+   */
+  const handleDeshabilitar = () => {
+    setShowModalDelete(false);
+    console.log('entro el deshabilitar idEliminar ---->', idEliminar);
+    eliminar(idEliminar);
+  }
+
+  /**
+   * Este es para abrir el editar; revisar funcionalidad del objeto actualizar
+   * @param {objeto} e 
+   */
+  const onSelect = (e) => {
+    console.log("on select del programa -->\n", e);
+    console.log("id editar", e.id);
+    setObjetoActualizar(e);
+    //history.push(`/admin/editarPrograma/${e.id}`)
+    history.push("/admin/editarPrograma", { mobNo: e.id })
+  }
+
   return (
     <>
       {loading ? (
@@ -121,7 +177,7 @@ export const ProgramasScreen = () => {
                     < TableCell align="center"> Vigencia del Programa</TableCell >
                     < TableCell align="center">Periodo de Registro Web</TableCell>
                     < TableCell align="center">Periodo de Registro Presencial</TableCell>
-                    
+
                     < TableCell colSpan={2} align="center"> Acciones</TableCell >
                   </TableRow >
                 </TableHead >
@@ -133,14 +189,41 @@ export const ProgramasScreen = () => {
                       : programasList
                     ).map(row => {
                       return (
-                        <Programa
-                          key={row.id}
-                          programa={row}
-                        />
+                        <>
+                          < TableRow key={row.id} >
+                            <TableCell align="center">
+                              {row.activo ? 'Activo' : 'Inactivo'}
+                            </TableCell>
+                            <TableCell align="center">{row.dsprograma}</TableCell>
+                            <TableCell align="center">{row.dsclaveprograma}</TableCell >
+                            <TableCell align="center">{moment(row.fcvigenciainicio).format("DD MMMM")} - {moment(row.fcvigenciafin).format(" DD MMMM YYYY")}</TableCell>
+                            <TableCell align="center">{moment(row.fcregistrowebinicio).format("DD MMMM")} - {moment(row.fcregistrowebfin).format(" DD MMMM YYYY")}</TableCell>
+                            <TableCell align="center">{moment(row.fcregistropresencialinicio).format("DD MMMM")} - {moment(row.fcregistropresencialfin).format(" DD MMMM YYYY")}</TableCell>
+
+
+                            <TableCell align="center">
+                              <IconButton aria-label="create" onClick={() => onSelect(row)}>
+
+                                <CreateIcon />
+                              </IconButton>
+                            </TableCell>
+                            <TableCell align="center">
+                              <IconButton
+                                name="deshabilitar"
+                                aria-label="create"
+                                onClick={() => onClick(row)}>
+                                {(row.activo) ? <BlockIcon /> : <BlockIcon />}
+                              </IconButton>
+                            </TableCell>
+                          </TableRow >
+                          <ModalDelete
+                            handleDeshabilitar={handleDeshabilitar}
+                          />
+                        </>
                       );
                     })
                   }
-                </TableBody >
+                </TableBody>
               </ Table>
               < TablePagination
                 rowsPerPageOptions={[5, 10, 15]}
@@ -156,7 +239,8 @@ export const ProgramasScreen = () => {
           </Card>
 
         </GridItem>
-      )}
+      )
+      }
     </>
 
 
