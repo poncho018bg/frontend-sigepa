@@ -180,9 +180,11 @@ export const ProgramasForm = () => {
     },
     validationSchema: Yup.object({
       nombrePrograma: Yup.string().nullable()
-        .required('El nombre del programa  es obligatorio'),
+        .required('El nombre del programa  es obligatorio')
+        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
       clavePrograma: Yup.string().nullable()
-        .required('La clave del programa es obligatoria'),
+        .required('La clave del programa es obligatoria')
+        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
       vigenciaDesde: Yup.string().nullable()
         .required('La vigencia desde es obligatorio'),
       vigenciaHasta: Yup.date().nullable()
@@ -197,7 +199,14 @@ export const ProgramasForm = () => {
         .nullable()
         .required('El periodo del registro presencial hasta es obligatorio'),
       desripcionPrograma: Yup.string().nullable()
-        .required('La descripcion del pograma de apoyo  es obligatorio'),
+        .required('La descripcion del pograma de apoyo  es obligatorio')
+        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+      criterioPrograma: Yup.string()
+        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+      actividadesPrograma: Yup.string()
+        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+      obervacionesPrograma: Yup.string()
+        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
       idBeneficiario: Yup.string()
         .required('El tipo de beneficiario es obligatorio'),
       idRangoEdadBeneficiario: Yup.string()
@@ -258,13 +267,13 @@ export const ProgramasForm = () => {
 
         setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
 
-          const timer = setTimeout(() => {
-           setLoading(false);
-           setError(false);
-             history.push("/admin/programas")
+        const timer = setTimeout(() => {
+          setLoading(false);
+          setError(false);
+          history.push("/admin/programas")
 
-           }, 5000);
-           return () => clearTimeout(timer);
+        }, 5000);
+        return () => clearTimeout(timer);
       })
         .catch(err => {
           setOpenSnackbar(true);
@@ -290,8 +299,8 @@ export const ProgramasForm = () => {
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <Card>
-          <CardHeader color="primary"> Programas </CardHeader>
-           
+            <CardHeader color="primary"> Programas </CardHeader>
+
             <CardBody>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
@@ -306,6 +315,7 @@ export const ProgramasForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.nombrePrograma}
+                    inputProps={{ maxLength: "500" }}
                   />
                   {formik.touched.nombrePrograma && formik.errors.nombrePrograma ? (
                     <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.nombrePrograma}>
@@ -324,6 +334,7 @@ export const ProgramasForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.clavePrograma}
+                    inputProps={{ maxLength: "100" }}
                   />
                   {formik.touched.clavePrograma && formik.errors.clavePrograma ? (
                     <FormHelperText style={{ marginBottom: '20px' }}
@@ -351,7 +362,7 @@ export const ProgramasForm = () => {
                       onChange={formik.handleChange}
                       InputProps={{
                         inputProps: {
-                         
+
                         }
                       }}
                     />
@@ -409,7 +420,7 @@ export const ProgramasForm = () => {
                       onChange={formik.handleChange}
                       InputProps={{
                         inputProps: {
-                          
+
                         }
                       }}
                     />
@@ -467,7 +478,7 @@ export const ProgramasForm = () => {
                       onChange={formik.handleChange}
                       InputProps={{
                         inputProps: {
-                          
+
                         }
                       }}
                     />
@@ -530,6 +541,7 @@ export const ProgramasForm = () => {
                     multiline
                     rows={4}
                     variant="outlined"
+                    inputProps={{ maxLength: "800" }}
                   />
                   {formik.touched.desripcionPrograma && formik.errors.desripcionPrograma ? (
                     <FormHelperText
@@ -670,6 +682,7 @@ export const ProgramasForm = () => {
                     variant="outlined"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    inputProps={{ maxLength: "800" }}
                   />
                   {formik.touched.criterioPrograma && formik.errors.criterioPrograma ? (
                     <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.criterioPrograma}>
@@ -690,6 +703,7 @@ export const ProgramasForm = () => {
                     variant="outlined"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    inputProps={{ maxLength: "300" }}
                   />
                   {formik.touched.actividadesPrograma && formik.errors.actividadesPrograma ? (
                     <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.actividadesPrograma}>
@@ -712,6 +726,7 @@ export const ProgramasForm = () => {
                     variant="outlined"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    inputProps={{ maxLength: "500" }}
                   />
                 </GridItem>
 

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Checkbox, FormHelperText, FormLabel, Grid, List, ListItem, ListItemIcon,ListItemText, makeStyles, MenuItem, Paper, TextField } from '@material-ui/core'
+import { Button, Checkbox, FormHelperText, FormLabel, Grid, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, TextField } from '@material-ui/core'
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -178,9 +178,11 @@ export const ProgramasEdit = () => {
   // Schema de validación
   const schemaValidacion = Yup.object({
     dsprograma: Yup.string().nullable()
-      .required('El nombre del programa  es obligatorio'),
+      .required('El nombre del programa  es obligatorio')
+      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
     dsclaveprograma: Yup.string().nullable()
-      .required('La clave del programa es obligatoria'),
+      .required('La clave del programa es obligatoria')
+      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
     /*  vigenciaDesde: Yup.string()
           .required('La vigencia desde es obligatorio'),
       vigenciaHasta: Yup.string()
@@ -194,16 +196,18 @@ export const ProgramasEdit = () => {
       periodoRegistroPresencialHasta: Yup.string()
         .required('El periodo del registro presencial hasta es obligatorio'),*/
     dsdescripcion: Yup.string().nullable()
-      .required('La descripcion del pograma de apoyo  es obligatorio'),
+      .required('La descripcion del pograma de apoyo  es obligatorio')
+      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
     dscriterioelegibilidad: Yup.string().nullable()
-      .required('Los criterios de elegibilidad son obligatorios'),
-    dscontinuidad: Yup.string().nullable()
-      .required('Las actividades por realizar son obligatorios')
-
+      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+    dscontinuidad: Yup.string()
+      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+    dsobservaciones: Yup.string()
+      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
   });
 
   const actualizarInfo = async valores => {
-    actualizar(query.state?.mobNo,valores,archivo,documentslst).then(response => {
+    actualizar(query.state?.mobNo, valores, archivo, documentslst).then(response => {
 
       setOpenSnackbar(true);
       setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
@@ -268,6 +272,7 @@ export const ProgramasEdit = () => {
                           onBlur={props.handleBlur}
                           value={props.values?.dsprograma}
                           InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "500" }}
                         />
                         {props.touched.dsprograma && props.errors.dsprograma ? (
                           <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsprograma}>
@@ -287,6 +292,7 @@ export const ProgramasEdit = () => {
                           onBlur={props.handleBlur}
                           value={props.values?.dsclaveprograma}
                           InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "100" }}
                         />
                         {props.touched.dsclaveprograma && props.errors.dsclaveprograma ? (
                           <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsclaveprograma}>
@@ -427,6 +433,7 @@ export const ProgramasEdit = () => {
                           onBlur={props.handleBlur}
                           value={props.values?.dsdescripcion}
                           InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "800" }}
                         />
                         {props.touched.dsdescripcion && props.errors.dsdescripcion ? (
                           <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsdescripcion}>
@@ -562,6 +569,7 @@ export const ProgramasEdit = () => {
                           onBlur={props.handleBlur}
                           value={props.values?.dscriterioelegibilidad}
                           InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "800" }}
                         />
                         {props.touched.dscriterioelegibilidad && props.errors.dscriterioelegibilidad ? (
                           <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dscriterioelegibilidad}>
@@ -583,6 +591,7 @@ export const ProgramasEdit = () => {
                           onBlur={props.handleBlur}
                           value={props.values?.dscontinuidad}
                           InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "300" }}
                         />
                         {props.touched.dscontinuidad && props.errors.dscontinuidad ? (
                           <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dscontinuidad}>
@@ -604,6 +613,7 @@ export const ProgramasEdit = () => {
                           onBlur={props.handleBlur}
                           value={props.values?.dsobservaciones}
                           InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "500" }}
                         />
                       </GridItem>
 
