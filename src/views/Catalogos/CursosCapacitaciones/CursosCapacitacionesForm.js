@@ -58,7 +58,7 @@ export const CursosCapacitacionesForm = () => {
             .catch(err => {
                 setOpenSnackbar(true);
                 setError(true);
-                setMsjConfirmacion(`Ocurrio un error, ${err}`);
+                setMsjConfirmacion(`Ocurrió un error`);
             });;;
     }
 
