@@ -63,7 +63,7 @@ export const EdadesBeneficiariosContextProvider = props => {
                     resolve(response);
                     dispatch({
                         type: REGISTRAR_EDADES_BENEFICIARIOS,
-                        payload: response
+                        payload: response.data
                     })
                 }).catch(error => {
                     console.log('ERROR=>', error)

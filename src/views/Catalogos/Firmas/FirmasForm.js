@@ -75,9 +75,11 @@ export const FirmasForm = () => {
         },
         validationSchema: Yup.object({
             dsautoriza: Yup.string()
-                .required(`${t('msg.obligatoriopersonaautoriza')}`),
+                .required(`${t('msg.obligatoriopersonaautoriza')}`)
+                .matches(/^[a-zA-Z_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
             dspuesto: Yup.string()
-                .required(`${t('msg.obligatoriopuesto')}`),
+                .required(`${t('msg.obligatoriopuesto')}`)
+                .matches(/^[a-zA-Z_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
 
         }),
         onSubmit: async valores => {
