@@ -345,7 +345,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                         onChange={props.handleChange}
                                         InputProps={{
                                             inputProps: {
-                                                min: moment(new Date()).format("yyyy-MM-DD")
+                                                
                                             }
                                         }}
                                     />
