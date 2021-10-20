@@ -162,6 +162,18 @@ export const FirmasContextProvider = props => {
     })
 
 
+    const getFirmasByParametros = async (search) => {
+        try {
+           
+            const result = await axiosGet(`firmas/search/findByDsautorizaContaining?dsautoriza=${search}`);            
+            dispatch({
+                type: GET_FIRMAS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <FirmasContext.Provider
@@ -180,7 +192,8 @@ export const FirmasContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePageSizes,
-                changePage
+                changePage,
+                getFirmasByParametros
             }}
         >
             {props.children}

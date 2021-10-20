@@ -139,6 +139,21 @@ export const ActividadesContinuarContextProvider = props => {
         payload: size
     })
 
+    const getActividadesContinuarByParametros = async (search) => {
+        try {
+            
+            const resultado = await axiosGet(`continuidadActividades/search/findByDsactividadcontinuidadContaining?dsactividadcontinuidad=${search}`);
+            
+            dispatch({
+                type: GET_ACTIVIDADESCONTINUAR,
+                payload: resultado
+            })
+        } catch (error) {
+
+            console.log(error);
+        }
+    }
+
     return (
         <ActividadesContinuarContext.Provider
             value={{
@@ -154,7 +169,8 @@ export const ActividadesContinuarContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePageSizes,
-                changePage
+                changePage,
+                getActividadesContinuarByParametros
             }}
         >
 

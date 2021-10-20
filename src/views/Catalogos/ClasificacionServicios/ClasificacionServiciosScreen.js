@@ -44,7 +44,8 @@ export const ClasificacionServiciosScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [clasificacionServiciosSeleccionado, setClasificacionServiciosSeleccionado] = useState();
-    const { getClasificacionServicios, eliminarClasificacionServicios, clasificacionServiciosList, size, page, total, changePageSize,changePageSizes, changePage } = useContext(ClasificacionServiciosContext);
+    const { getClasificacionServicios, eliminarClasificacionServicios, 
+        clasificacionServiciosList, size, page, total, changePageSize,changePageSizes, changePage, getClasificacionServiciosByParametros } = useContext(ClasificacionServiciosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -96,6 +97,15 @@ export const ClasificacionServiciosScreen = () => {
         
     };
 
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getClasificacionServicios();
+        }else{
+            getClasificacionServiciosByParametros(search)
+        }
+       
+    }
+
     return (
         <GridItem xs={12} sm={12} md={12}>
 
@@ -121,8 +131,8 @@ export const ClasificacionServiciosScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -141,12 +151,7 @@ export const ClasificacionServiciosScreen = () => {
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    clasificacionServiciosList.filter(row => row.dsclasificacionservicio ?
-                                        row.dsclasificacionservicio.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : clasificacionServiciosList
-                                ).map((row, i) => {
-                                    console.log("page:" + page + " size:" + size)
+                                clasificacionServiciosList.map((row, i) => {                                    
                                     return (
                                         < TableRow key={i}>
                                             <TableCell align="center">

@@ -46,7 +46,7 @@ export const CursosCapacitacionesScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [objetoActualizar, setObjetoActualizar] = useState();
-    const { get, eliminar, cursosCapacitacionesList, size, page, total, changePageSize, changePageSizes, changePage } = useContext(CursosCapacitacionesContext);
+    const { get, eliminar, cursosCapacitacionesList, size, page, total,  changePageSizes, changePage,getByParametros } = useContext(CursosCapacitacionesContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [error, setError] = useState(false);
@@ -98,6 +98,15 @@ export const CursosCapacitacionesScreen = () => {
         setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            get();
+        }else{
+            getByParametros(search)
+        }
+       
+    }
+
     return (
         <GridItem xs={12} sm={12} md={12}>
 
@@ -123,8 +132,8 @@ export const CursosCapacitacionesScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -142,18 +151,14 @@ export const CursosCapacitacionesScreen = () => {
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    cursosCapacitacionesList.filter(row => row.dsestado ?
-                                        row.dsestado.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : cursosCapacitacionesList
-                                ).map((row, i) => {
-                                    console.log("page:" + page + " size:" + size)
+                               cursosCapacitacionesList.map((row, i) => {
+                                   
                                     return (
                                         < TableRow key={i}>
                                             <TableCell align="center">
                                                 {row.activo === true ? 'Activo' : 'Inactivo'}
                                             </TableCell>
-                                            <TableCell align="center">{row.dsestado}</TableCell >
+                                            <TableCell align="center">{row.dscurso}</TableCell >
                                             <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>

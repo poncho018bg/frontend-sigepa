@@ -43,7 +43,7 @@ export const DocumentosScreen = () => {
     const [searched, setSearched] = useState('');
 
     const [documentoSeleccionado, setDocumentoSeleccionado] = useState();
-    const { getDocumentos, documentosList, eliminarDocumentos } = useContext(DocumentosContext);
+    const { getDocumentos, documentosList, eliminarDocumentos ,getDocumentosByParametros} = useContext(DocumentosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [idEliminar, setIdEliminar] = useState(0);
@@ -114,6 +114,15 @@ export const DocumentosScreen = () => {
     };
 
 
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getDocumentos();
+        }else{
+            getDocumentosByParametros(search)
+        }
+       
+    }
+
     return (
         <GridItem xs={12} sm={12} md={12}>
 
@@ -139,8 +148,8 @@ export const DocumentosScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -159,11 +168,7 @@ export const DocumentosScreen = () => {
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    documentosList.filter(row => row.dsdocumento ?
-                                        row.dsdocumento.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : documentosList
-                                ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
+                                documentosList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
                                     
                                     return (
                                         < TableRow key={row.id}>

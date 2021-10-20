@@ -141,6 +141,19 @@ export const ModuloContextProvider = props => {
         payload: size
     })
 
+    const getModulosParametros = async (search) => {
+
+        try {           
+            const resultado = await axiosGet(`modulos/search/findByDsmoduloContaining?dsmodulo=${search}`);            
+            dispatch({
+                type: GET_MODULOS,
+                payload: resultado
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <ModuloContext.Provider
             value={{
@@ -156,7 +169,8 @@ export const ModuloContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePageSizes,
-                changePage
+                changePage,
+                getModulosParametros
 
             }}
         >

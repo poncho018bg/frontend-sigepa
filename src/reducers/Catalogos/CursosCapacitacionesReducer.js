@@ -16,7 +16,7 @@ export default (state, action) => {
             return {
                 ...state,
                 cursosCapacitacionesList: action.payload._embedded.cursosCapacitaciones,
-                total: action.payload.page.totalElements
+                total: action.payload?.page?.totalElements
             };
         case AGREGAR_CURSOS_CAPACITACIONES_ERROR:
             console.log(action.type);

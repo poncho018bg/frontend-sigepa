@@ -169,6 +169,20 @@ export const SubModuloContextProvider = props => {
     }
 
 
+    const getModulosByParametros = async subModulo => {
+        try {
+            console.log('mod. buscar =>', subModulo)
+            const resultado = await axiosGet(`subModulos/search/findByDssubmoduloContaining?dssubmodulo=${subModulo}`);           
+            dispatch({
+                type: GET_SUBMODULOS,
+                payload: resultado._embedded.subModulos
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
 
     return (
         <SubModuloContext.Provider
@@ -179,6 +193,7 @@ export const SubModuloContextProvider = props => {
                 registrarSubModulos,
                 actualizarSubModulo,
                 eliminarSubModulo,
+                getModulosByParametros
             }}
         >
             {props.children}

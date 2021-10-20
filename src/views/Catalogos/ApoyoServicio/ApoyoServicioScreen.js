@@ -44,7 +44,8 @@ export const ApoyoServicioScreen = () => {
     const [idEliminar, setIdEliminar] = useState(0);
     const [ApoyoServicioSeleccionada, setApoyoServicioSeleccionada] = useState();
 
-    const { apoyoservicioList, getApoyoServicio, eliminarApoyoServicio, size, page, total, changePageSize, changePage,changePageSizes } = useContext(ApoyoServicioContext);
+    const { apoyoservicioList, getApoyoServicio, eliminarApoyoServicio, 
+        size, page, total,  changePage,changePageSizes,getApoyoServicioByParametros } = useContext(ApoyoServicioContext);
     const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
     const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
     const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
@@ -99,6 +100,14 @@ export const ApoyoServicioScreen = () => {
 
 
 
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getApoyoServicio();
+        }else{
+            getApoyoServicioByParametros(search)
+        }
+       
+    }
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -125,8 +134,8 @@ export const ApoyoServicioScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -143,12 +152,8 @@ export const ApoyoServicioScreen = () => {
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    apoyoservicioList.filter(row => row.dsservicio ?
-                                        row.dsservicio.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : apoyoservicioList
-                                ).map(row => {
-                                    console.log("page:" + page + " size:" + size)
+                            apoyoservicioList.map(row => {
+                                   
                                     return (
                                         < TableRow key={row.id}>
                                             <TableCell align="center">

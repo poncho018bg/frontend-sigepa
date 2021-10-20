@@ -149,6 +149,20 @@ export const TiposBeneficiariosContextProvider = props => {
         payload: size
     })
 
+    const getTipoBeneficiariosByParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`tiposBeneficiarios/search/findByDstipobeneficiarioContaining?dstipobeneficiario=${search}`);
+           
+            dispatch({
+                type: GET_TIPOS_BENEFICIARIOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <TiposBeneficiariosContext.Provider
             value={{
@@ -164,7 +178,8 @@ export const TiposBeneficiariosContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePageSizes,
-                changePage
+                changePage,
+                getTipoBeneficiariosByParametros
             }}
         >
             {props.children}

@@ -131,6 +131,20 @@ export const TiposApoyosContextProvider = props => {
         payload: size
     })
 
+    const getTiposApoyosByParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`tiposApoyos/search/findByDstipoapoyoContaining?dstipoapoyo=${search}`);
+            
+            dispatch({
+                type: GET_TIPOS_APOYOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <TiposApoyosContext.Provider
             value={{
@@ -146,7 +160,8 @@ export const TiposApoyosContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePageSizes,
-                changePage
+                changePage,
+                getTiposApoyosByParametros
             }}
         >
             {props.children}

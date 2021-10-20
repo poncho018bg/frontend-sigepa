@@ -162,6 +162,20 @@ export const EdadesBeneficiariosContextProvider = props => {
         }
     }
 
+    const getEdadesBeneficiariosByParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`edadesBeneficiarios/search/findByDsedadbeneficiarioContaining?dsedadbeneficiario=${search}`);
+            
+            dispatch({
+                type: GET_EDADES_BENEFICIARIOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <EdadesBeneficiariosContext.Provider
             value={{
@@ -179,7 +193,8 @@ export const EdadesBeneficiariosContextProvider = props => {
                 changePageSize,
                 changePageSizes,
                 changePage,
-                getByIDBeneficiarios
+                getByIDBeneficiarios,
+                getEdadesBeneficiariosByParametros
             }}
         >
             {props.children}

@@ -12,7 +12,7 @@ export default (state, action) => {
             return {
                 ...state,
                 motivoRechazosList: action.payload._embedded.motivoRechazos,
-                total: action.payload.page.totalElements
+                total: action.payload?.page?.totalElements
             };
         case AGREGAR_MOTIVO_RECHAZOS_ERROR:
             console.log(action.type);

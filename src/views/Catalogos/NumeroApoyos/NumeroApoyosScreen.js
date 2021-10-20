@@ -45,7 +45,7 @@ export const NumeroApoyosScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [numeroApoyosSeleccionado, setNumeroApoyosSeleccionado] = useState();
-    const { getNumeroApoyos, eliminarNumeroApoyos, numeroApoyosList, size, page, total, changePageSize, changePageSizes, changePage  } = useContext(NumeroApoyosContext);
+    const { getNumeroApoyos, eliminarNumeroApoyos, numeroApoyosList, size, page, total, changePageSize, changePageSizes, changePage,getNumeroApoyosByParametros  } = useContext(NumeroApoyosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [error, setError] = useState(false);
@@ -102,6 +102,15 @@ export const NumeroApoyosScreen = () => {
         
     };
 
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getNumeroApoyos();
+        }else{
+            getNumeroApoyosByParametros(search)
+        }
+       
+    }
+
     return (
         <GridItem xs={12} sm={12} md={12}>
 
@@ -127,8 +136,8 @@ export const NumeroApoyosScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -146,11 +155,7 @@ export const NumeroApoyosScreen = () => {
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    numeroApoyosList.filter(row => row.noapoyo ?
-                                        row.noapoyo.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : numeroApoyosList
-                                ).map(row => {
+                                numeroApoyosList.map(row => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>

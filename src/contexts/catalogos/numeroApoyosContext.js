@@ -144,6 +144,19 @@ export const NumeroApoyosContextProvider = props => {
         payload: size
     })
 
+    const getNumeroApoyosByParametros = async (search) => {
+        try {
+           
+            const result = await axiosGet(`numeroApoyos/search/findByNoapoyoContaining?noapoyo=${search}`);            
+            dispatch({
+                type: GET_NUMERO_APOYOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <NumeroApoyosContext.Provider
             value={{
@@ -159,7 +172,8 @@ export const NumeroApoyosContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePageSizes,
-                changePage
+                changePage,
+                getNumeroApoyosByParametros
             }}
         >
             {props.children}

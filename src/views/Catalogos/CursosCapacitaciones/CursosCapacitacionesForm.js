@@ -29,13 +29,13 @@ export const CursosCapacitacionesForm = () => {
 
     const handleRegistrar = () => {
         console.log("aqui hace el registro no deshabilita nada");
-        const { dsestado } = valores;
+        const { dscurso } = valores;
 
-        console.log(dsestado);
+        console.log(dscurso);
 
 
         let cursoCapacitaciones = {
-            dsestado,
+            dscurso,
             boactivo: true
         }
 
@@ -65,10 +65,10 @@ export const CursosCapacitacionesForm = () => {
 
     const formik = useFormik({
         initialValues: {
-            dsestado: ''
+            dscurso: ''
         },
         validationSchema: Yup.object({
-            dsestado: Yup.string()
+            dscurso: Yup.string()
                 .required(`${t('msg.obligatoriocurso')}`)
 
         }),
@@ -84,18 +84,18 @@ export const CursosCapacitacionesForm = () => {
         >
             <DialogContent>
                 <TextField
-                    id="dsestado"
+                    id="dscurso"
                     label={t('lbl.curso')}
                     variant="outlined"
-                    name="dsestado"
+                    name="dscurso"
                     fullWidth
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.dsestado}
+                    value={formik.values.dscurso}
                     inputProps={{ maxLength: 300 }}
                 />
-                {formik.touched.dsestado && formik.errors.dsestado ? (
-                    <FormHelperText error={formik.errors.dsestado}>{formik.errors.dsestado}</FormHelperText>
+                {formik.touched.dscurso && formik.errors.dscurso ? (
+                    <FormHelperText error={formik.errors.dscurso}>{formik.errors.dscurso}</FormHelperText>
                 ) : null}
             </DialogContent>
 

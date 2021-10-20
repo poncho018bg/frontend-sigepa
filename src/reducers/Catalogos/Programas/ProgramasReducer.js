@@ -16,7 +16,7 @@ export default (state, action) => {
             return {
                 ...state,
                 programasList: action.payload._embedded.programas,
-                totalP: action.payload.page.totalElements
+                totalP: action.payload?.page?.totalElements
             };
         case GET_PROGRAMASACTIVOS:
 

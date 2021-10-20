@@ -13,7 +13,7 @@ export default (state, action) => {
             return {
                 ...state,
                 edadesBeneficiariosList: action.payload._embedded.edadesBeneficiarios,
-                total: action.payload.page.totalElements
+                total: action.payload?.page?.totalElements
             };
         case REGISTRAR_EDADES_BENEFICIARIOS:
             return {

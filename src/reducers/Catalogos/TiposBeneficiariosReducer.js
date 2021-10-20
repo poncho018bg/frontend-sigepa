@@ -12,7 +12,7 @@ export default (state, action) => {
             return {
                 ...state,
                 tiposBeneficiariosList: action.payload._embedded.tiposBeneficiarios,
-                total: action.payload.page.totalElements
+                total: action.payload?.page?.totalElements
             };
         case AGREGAR_TIPOS_BENEFICIARIOS_ERROR:
             console.log(action.type);

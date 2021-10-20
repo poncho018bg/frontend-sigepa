@@ -12,7 +12,7 @@ export default (state, action) => {
             return {
                 ...state,
                 tiposApoyosList: action.payload._embedded.tiposApoyos,
-                total: action.payload.page.totalElements
+                total: action.payload?.page?.totalElements
             };
         case REGISTRAR_TIPOS_APOYOS:
             return {

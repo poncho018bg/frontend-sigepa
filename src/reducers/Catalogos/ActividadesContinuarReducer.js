@@ -12,7 +12,7 @@ export default (state, action) => {
       return {
         ...state,
         actividadescontinuarList: action.payload._embedded.continuidadActividades,
-        total: action.payload.page.totalElements
+        total: action.payload?.page?.totalElements
       };
     case AGREGAR_ACTIVIDADESCONTINUAR_ERROR:
       console.log(action.type);

@@ -159,6 +159,20 @@ export const MotivoRechazosContextProvider = props => {
         payload: size
     })
 
+    const getMotivoRechazosByParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`motivoRechazos/search/findByDsmotivorechazoContaining?dsmotivorechazo=${search}`);
+            
+            dispatch({
+                type: GET_MOTIVO_RECHAZOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <MotivoRechazosContext.Provider
             value={{
@@ -174,7 +188,8 @@ export const MotivoRechazosContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePageSizes,
-                changePage
+                changePage,
+                getMotivoRechazosByParametros
             }}
         >
             {props.children}

@@ -160,6 +160,22 @@ export const ApoyoServicioContextProvider = props => {
         payload: size
     })
 
+    const getApoyoServicioByParametros = async (search) => {
+
+        try {
+            
+            const resultado = await axiosGet(`apoyosServicios/search/findByDsservicioContaining?dsservicio=${search}`);
+            
+            dispatch({
+                type: GET_APOYOSERVICIO,
+                payload: resultado
+            })
+        } catch (error) {
+
+            console.log(error);
+        }
+    }
+
     return (
         <ApoyoServicioContext.Provider
             value={{
@@ -175,7 +191,8 @@ export const ApoyoServicioContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePageSizes,
-                changePage
+                changePage,
+                getApoyoServicioByParametros
 
             }}
         >

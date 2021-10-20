@@ -41,7 +41,8 @@ export const ContinuidadActividadesScreen = () => {
     const [continuidadActividadesSeleccionada, setContinuidadActividadesSeleccionada] = useState();
 
     const { actividadescontinuarList, getActividadesContinuar, eliminarActividadesContinuar,
-         actualizarActividadesContinuar, size, page, total, changePageSize, changePage,changePageSizes } = useContext(ActividadesContinuarContext);
+         actualizarActividadesContinuar, size, page, 
+         total,  changePage,changePageSizes,getActividadesContinuarByParametros } = useContext(ActividadesContinuarContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
@@ -112,6 +113,16 @@ export const ContinuidadActividadesScreen = () => {
         
     };
 
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getActividadesContinuar();
+        }else{
+            getActividadesContinuarByParametros(search)
+        }
+       
+    }
+
+
     return (
         <GridItem xs={12} sm={12} md={12}>
 
@@ -137,8 +148,8 @@ export const ContinuidadActividadesScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -155,11 +166,7 @@ export const ContinuidadActividadesScreen = () => {
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    actividadescontinuarList.filter(row => row.dsactividadcontinuidad ?
-                                        row.dsactividadcontinuidad.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : actividadescontinuarList
-                                ).map(row => {
+                                actividadescontinuarList.map(row => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>

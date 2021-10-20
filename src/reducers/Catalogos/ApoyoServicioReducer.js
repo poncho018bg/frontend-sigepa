@@ -14,7 +14,7 @@ export default (state, action) => {
       return {
         ...state,
         apoyoservicioList: action.payload._embedded.apoyosServicios,
-        total: action.payload.page.totalElements
+        total: action.payload?.page?.totalElements
       };
     case AGREGAR_APOYOSERVICIO_ERROR:
       console.log(action.type);

@@ -7,7 +7,7 @@ export default (state, action) => {
             return {
                 ...state,
                 firmasList: action.payload._embedded.firmas,
-                total: action.payload.page.totalElements
+                total: action.payload?.page?.totalElements
             };
         case REGISTRAR_FIRMAS:
             return {

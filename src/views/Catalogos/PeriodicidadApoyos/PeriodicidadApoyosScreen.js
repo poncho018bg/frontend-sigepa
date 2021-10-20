@@ -45,7 +45,8 @@ export const PeriodicidadApoyosScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [periodicidadApoyosSeleccionado, setPeriodicidadApoyosSeleccionado] = useState();
-    const { getPeriodicidadApoyos, eliminarPeriodicidadApoyos, periodicidadApoyosList , size, page, total, changePageSize,changePageSizes, changePage} = useContext(PeriodicidadApoyosContext);
+    const { getPeriodicidadApoyos, eliminarPeriodicidadApoyos, periodicidadApoyosList , size, page, 
+        total, changePageSizes, changePage,getPeriodicidadApoyosByParametros} = useContext(PeriodicidadApoyosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [error, setError] = useState(false);
@@ -97,6 +98,15 @@ export const PeriodicidadApoyosScreen = () => {
         
     };
 
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getPeriodicidadApoyos();
+        }else{
+            getPeriodicidadApoyosByParametros(search)
+        }
+       
+    }
+
     return (
         <GridItem xs={12} sm={12} md={12}>
 
@@ -122,8 +132,8 @@ export const PeriodicidadApoyosScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => getPeriodicidadApoyosByParametros(searchVal)}
+                                    onCancelSearch={() => getPeriodicidadApoyosByParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -141,11 +151,7 @@ export const PeriodicidadApoyosScreen = () => {
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    periodicidadApoyosList.filter(row => row.dsperiodicidad ?
-                                        row.dsperiodicidad.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : periodicidadApoyosList
-                                ).map(row => {
+                                periodicidadApoyosList.map(row => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>

@@ -170,6 +170,20 @@ export const CursosCapacitacionesContextProvider = props => {
         payload: size
     })
 
+    const getByParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`cursosCapacitaciones/search/findByDscursoContaining?dscurso=${search}`);
+            
+            dispatch({
+                type: GET_CURSOS_CAPACITACIONES,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <CursosCapacitacionesContext.Provider
             value={{
@@ -185,7 +199,8 @@ export const CursosCapacitacionesContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePageSizes,
-                changePage
+                changePage,
+                getByParametros
             }}
         >
             {props.children}

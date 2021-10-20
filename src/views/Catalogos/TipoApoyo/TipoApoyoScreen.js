@@ -44,7 +44,7 @@ export const TipoApoyoScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [tipoApoyoSeleccionado, setTipoApoyoSeleccionado] = useState();
-    const { getTiposApoyos, eliminarTiposApoyos, tiposApoyosList, size, page, total, changePageSizes, changePage } = useContext(TiposApoyosContext);
+    const { getTiposApoyos, eliminarTiposApoyos, tiposApoyosList, size, page, total, changePageSizes, changePage,getTiposApoyosByParametros } = useContext(TiposApoyosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [error, setError] = useState(false);
@@ -97,6 +97,15 @@ export const TipoApoyoScreen = () => {
         
     };
 
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getTiposApoyos();
+        }else{
+            getTiposApoyosByParametros(search)
+        }
+       
+    }
+
     return (
         <GridItem xs={12} sm={12} md={12}>
 
@@ -122,8 +131,8 @@ export const TipoApoyoScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -141,12 +150,7 @@ export const TipoApoyoScreen = () => {
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    tiposApoyosList.filter(row => row.dstipoapoyo ?
-                                        row.dstipoapoyo.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : tiposApoyosList
-                                ).map(row => {
-                                    console.log("page:" + page + " size:" + size)
+                                tiposApoyosList.map(row => {                                    
                                     return (
                                         < TableRow key={row.id}>
                                             <TableCell align="center">

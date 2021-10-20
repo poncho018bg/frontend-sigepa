@@ -39,7 +39,7 @@ export const ModuloScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [moduloSeleccionado, setModuloSeleccionado] = useState();
-    const { getModulos, eliminarModulo, moduloList, size, page, total, changePageSize,changePageSizes, changePage } = useContext(ModuloContext);
+    const { getModulos, eliminarModulo, moduloList, size, page, total, changePageSize,changePageSizes, changePage,getModulosParametros } = useContext(ModuloContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -91,6 +91,15 @@ export const ModuloScreen = () => {
         changePage(0)       
         
     };
+
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getModulos();
+        }else{
+            getModulosParametros(search)
+        }
+       
+    }
     return (
         <GridItem xs={12} sm={12} md={12}>
 
@@ -116,8 +125,8 @@ export const ModuloScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -135,11 +144,7 @@ export const ModuloScreen = () => {
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    moduloList.filter(row => row.dsmodulo ?
-                                        row.dsmodulo.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : moduloList
-                                ).map(row => {
+                               moduloList.map(row => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>

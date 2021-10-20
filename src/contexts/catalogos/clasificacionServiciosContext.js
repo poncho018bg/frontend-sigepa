@@ -158,6 +158,18 @@ export const ClasificacionServiciosContextProvider = props => {
         payload: size
     })
 
+    const getClasificacionServiciosByParametros = async (search) => {
+        try {            
+            const result = await axiosGet(`clasificacionServicios/search/findByDsclasificacionservicioContaining?dsclasificacionservicio=${search}`);            
+            dispatch({
+                type: GET_CLASIFICACION_SERVICIOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <ClasificacionServiciosContext.Provider
             value={{
@@ -173,7 +185,8 @@ export const ClasificacionServiciosContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePageSizes,
-                changePage
+                changePage,
+                getClasificacionServiciosByParametros
             }}
         >
             {props.children}

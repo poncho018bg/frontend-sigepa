@@ -38,7 +38,7 @@ export const SubModuloScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [subModuloSeleccionado, setSubModuloSeleccionado] = useState();
-    const { getSubModulos, eliminarSubModulo, submoduloList } = useContext(SubModuloContext);
+    const { getSubModulos, eliminarSubModulo, submoduloList,getModulosByParametros } = useContext(SubModuloContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [page, setPage] = useState(0);
@@ -64,6 +64,15 @@ export const SubModuloScreen = () => {
 
     const addDialog = () => {
         setShowModal(true);
+    }
+
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getSubModulos();
+        }else{
+            getModulosByParametros(search)
+        }
+       
     }
 
     const deleteDialog = (e) => {
@@ -114,8 +123,8 @@ export const SubModuloScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -133,10 +142,7 @@ export const SubModuloScreen = () => {
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    submoduloList.filter(row => row.dssubmodulo ?
-                                        row.dssubmodulo.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : submoduloList
+                                ( submoduloList
                                 ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
 
                                     return (

@@ -222,6 +222,19 @@ export const ProgramasContextProvider = props => {
         payload: size
     })
 
+    const getByParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`programas/search/findByDsprogramaContaining?dsprograma=${search}`);
+            dispatch({
+                type: GET_PROGRAMAS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <ProgramasContext.Provider
             value={{
@@ -240,7 +253,8 @@ export const ProgramasContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePage,
-                getProgramasActivos
+                getProgramasActivos,
+                getByParametros
             }}
         >
             {props.children}

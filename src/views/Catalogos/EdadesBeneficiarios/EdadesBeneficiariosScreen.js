@@ -45,7 +45,8 @@ export const EdadesBeneficiariosScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [edadesBeneficiariosSeleccionado, setEdadesBeneficiariosSeleccionado] = useState();
-    const { getEdadesBeneficiarios, eliminarEdadesBeneficiarios, edadesBeneficiariosList, size, page, total, changePageSizes, changePage } = useContext(EdadesBeneficiariosContext);
+    const { getEdadesBeneficiarios, eliminarEdadesBeneficiarios, 
+        edadesBeneficiariosList, size, page, total, changePageSizes, changePage,getEdadesBeneficiariosByParametros } = useContext(EdadesBeneficiariosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [error, setError] = useState(false);
@@ -96,6 +97,15 @@ export const EdadesBeneficiariosScreen = () => {
         
     };
 
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getEdadesBeneficiarios();
+        }else{
+            getEdadesBeneficiariosByParametros(search)
+        }
+       
+    }
+
     return (
         <GridItem xs={12} sm={12} md={12}>
 
@@ -121,8 +131,8 @@ export const EdadesBeneficiariosScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -140,12 +150,7 @@ export const EdadesBeneficiariosScreen = () => {
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    edadesBeneficiariosList.filter(row => row.dsedadbeneficiario ?
-                                        row.dsedadbeneficiario.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : edadesBeneficiariosList
-                                ).map(row => {
-                                    console.log("page:" + page + " size:" + size)
+                                edadesBeneficiariosList.map(row => {                                    
                                     return (
                                         < TableRow key={row.id}>
                                             <TableCell align="center">

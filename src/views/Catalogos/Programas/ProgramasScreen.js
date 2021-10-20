@@ -43,7 +43,7 @@ export const ProgramasScreen = () => {
     pageP,
     totalP,
     changePageSize,
-    changePage, changePageNumber } = useContext(ProgramasContext);
+    changePage, changePageNumber,getByParametros } = useContext(ProgramasContext);
 
   const { getTipoBeneficiarios } = useContext(TiposBeneficiariosContext);
   const { getEdadesBeneficiarios } = useContext(EdadesBeneficiariosContext);
@@ -130,6 +130,16 @@ export const ProgramasScreen = () => {
     history.push("/admin/editarPrograma", { mobNo: e.id })
   }
 
+  const buscaPorParametros = (search) => {
+    if(search === ''){
+      get();
+    }else{
+      getByParametros(search)
+    }
+   
+}
+
+
   return (
     <>
       {loading ? (
@@ -160,8 +170,8 @@ export const ProgramasScreen = () => {
                     <SearchBar
                       placeholder={t('lbl.buscar')}
                       value={searched}
-                      onChange={(searchVal) => setSearched(searchVal)}
-                      onCancelSearch={() => setSearched('')}
+                      onChange={(searchVal) => buscaPorParametros(searchVal)}
+                      onCancelSearch={() => buscaPorParametros('')}
                     />
                   </Grid>
                 </Grid>
@@ -183,11 +193,7 @@ export const ProgramasScreen = () => {
                 </TableHead >
                 < TableBody >
                   {
-                    (searched ?
-                      programasList.filter(row => row.dsprograma ?
-                        row.dsprograma.toLowerCase().includes(searched.toLowerCase()) : null)
-                      : programasList
-                    ).map(row => {
+                    programasList.map(row => {
                       return (
                         <>
                           < TableRow key={row.id} >

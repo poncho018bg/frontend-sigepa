@@ -43,7 +43,7 @@ export const FirmasScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [firmasSeleccionado, setfirmasSeleccionado] = useState();
-    const { getFirmas, eliminarFirmas, firmasList, size, page, total, changePageSize, changePageSizes, changePage } = useContext(FirmasContext);
+    const { getFirmas, eliminarFirmas, firmasList, size, page, total,  changePageSizes, changePage,getFirmasByParametros } = useContext(FirmasContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [error, setError] = useState(false);
@@ -95,6 +95,15 @@ export const FirmasScreen = () => {
         setIdEliminar(e);
     }
 
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getFirmas();
+        }else{
+            getFirmasByParametros(search)
+        }
+       
+    }
+
     return (
         <GridItem xs={12} sm={12} md={12}>
 
@@ -117,8 +126,8 @@ export const FirmasScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -139,12 +148,7 @@ export const FirmasScreen = () => {
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    firmasList.filter(row => row.dsautoriza ?
-                                        row.dsautoriza.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : firmasList
-                                ).map(row => {
-                                    console.log("page:" + page + " size:" + size)
+                                firmasList.map(row => {                                   
                                     return (
                                         < TableRow key={row.id}>
                                             <TableCell align="center">

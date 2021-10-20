@@ -12,7 +12,7 @@ export default (state, action) => {
             return {
                 ...state,
                 numeroApoyosList: action.payload._embedded.numeroApoyos,
-                total: action.payload.page.totalElements
+                total: action.payload?.page?.totalElements
             };
         case AGREGAR_NUMERO_APOYOS_ERROR:
             console.log(action.type);

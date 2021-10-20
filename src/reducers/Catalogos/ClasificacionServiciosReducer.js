@@ -12,7 +12,7 @@ export default (state, action) => {
             return {
                 ...state,
                 clasificacionServiciosList: action.payload._embedded.clasificacionServicios,
-                total: action.payload.page.totalElements
+                total: action.payload?.page?.totalElements
             };
         case AGREGAR_CLASIFICACION_SERVICIOS_ERROR:
             console.log(action.type);

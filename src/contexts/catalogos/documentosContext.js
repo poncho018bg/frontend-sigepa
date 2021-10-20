@@ -193,6 +193,19 @@ export const DocumentosContextProvider = props => {
 
     }
 
+    const getDocumentosByParametros = async (search) => {
+        try {
+            const result = await axiosGet(`documentosRequisitos/search/findByDsdocumentoContaining?dsdocumento=${search}`);
+           
+            dispatch({
+                type: GET_DOCUMENTOS_REQUISITOS,
+                payload: result._embedded.documentosRequisitos
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <DocumentosContext.Provider
             value={{
@@ -206,7 +219,8 @@ export const DocumentosContextProvider = props => {
                 registrarDocumento,
                 getProgramaDocumentos,
                 actualizarDocumento,
-                eliminarDocumentos
+                eliminarDocumentos,
+                getDocumentosByParametros
             }}
         >
             {props.children}

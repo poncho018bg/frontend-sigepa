@@ -49,7 +49,7 @@ export const TipoBeneficiarioScreen = () => {
         page,
         total,
         changePageSizes,
-        changePage } = useContext(TiposBeneficiariosContext);
+        changePage,getTipoBeneficiariosByParametros } = useContext(TiposBeneficiariosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [error, setError] = useState(false);
@@ -101,6 +101,15 @@ export const TipoBeneficiarioScreen = () => {
         setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getTipoBeneficiarios();
+        }else{
+            getTipoBeneficiariosByParametros(search)
+        }
+       
+    }
+
     return (
         <GridItem xs={12} sm={12} md={12}>
 
@@ -126,8 +135,8 @@ export const TipoBeneficiarioScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => getTipoBeneficiariosByParametros(searchVal)}
+                                    onCancelSearch={() => getTipoBeneficiariosByParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -145,11 +154,7 @@ export const TipoBeneficiarioScreen = () => {
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    tiposBeneficiariosList.filter(row => row.dstipobeneficiario ?
-                                        row.dstipobeneficiario.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : tiposBeneficiariosList
-                                ).map(row => {
+                                tiposBeneficiariosList.map(row => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>

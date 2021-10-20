@@ -134,6 +134,20 @@ export const PeriodicidadApoyosContextProvider = props => {
         payload: size
     })
 
+    const getPeriodicidadApoyosByParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`periodicidadApoyos/search/findByDsperiodicidadContaining?dsperiodicidad=${search}`);
+            
+            dispatch({
+                type: GET_PERIODICIDAD_APOYOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <PeriodicidadApoyosContext.Provider
             value={{
@@ -149,7 +163,8 @@ export const PeriodicidadApoyosContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePageSizes,
-                changePage
+                changePage,
+                getPeriodicidadApoyosByParametros
             }}
         >
             {props.children}

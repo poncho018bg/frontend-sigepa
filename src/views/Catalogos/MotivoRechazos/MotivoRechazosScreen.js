@@ -45,7 +45,9 @@ export const MotivoRechazosScreen = () => {
     const [searched, setSearched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [motivoRechazosSeleccionado, setMotivoRechazosSeleccionado] = useState();
-    const { getMotivoRechazos, eliminarMotivoRechazos, motivoRechazosList, size, page, total, changePageSize,changePageSizes, changePage } = useContext(MotivoRechazosContext);
+    const { getMotivoRechazos, eliminarMotivoRechazos, 
+        motivoRechazosList, size, page, total, changePageSizes, changePage,
+        getMotivoRechazosByParametros } = useContext(MotivoRechazosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -101,6 +103,16 @@ export const MotivoRechazosScreen = () => {
         changePage(0)       
         
     };
+
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getMotivoRechazos();
+        }else{
+            getMotivoRechazosByParametros(search)
+        }
+       
+    }
+
     return (
         <GridItem xs={12} sm={12} md={12}>
 
@@ -126,8 +138,8 @@ export const MotivoRechazosScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
