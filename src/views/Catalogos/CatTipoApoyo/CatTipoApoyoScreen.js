@@ -61,6 +61,7 @@ export const CatTipoApoyoScreen = () => {
     const [error, setError] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [idEliminar, setIdEliminar] = useState(0);
 
 
 
@@ -73,6 +74,11 @@ export const CatTipoApoyoScreen = () => {
         const cargarTiposApoyo = () => dispatch(obtenerTipoApoyoAction(idApoyosl,idPeriodicidadsl));
         cargarTiposApoyo()
     }, [showModalUpdate]);
+
+    useEffect(() => {
+        const cargarTiposApoyo = () => dispatch(obtenerTipoApoyoAction(idApoyosl,idPeriodicidadsl));
+        cargarTiposApoyo()      
+    }, [openDialog,openSnackbar]);
 
     const { loading } = useSelector(state => state.tipoApoyo);
     const tipoApoyo = useSelector(state => state.tipoApoyo.tipoApoyo);
@@ -100,18 +106,15 @@ export const CatTipoApoyoScreen = () => {
 
     const deleteDialog = (e) => {
         console.log('delete dialog =>',e)
-        const cargarTiposApoyo = () => dispatch(obtenerTipoApoyoAction(idApoyosl,idPeriodicidadsl));
-        eliminarApoyo(e)
-        setOpenDialog(true);        
-        cargarTiposApoyo()
+        setIdEliminar(e)             
+        setOpenDialog(true);    
 
-
-        
-        
+               
     }
 
     const handleDeshabilitar = () => {
-        dispatch(borrarModuloAction());       
+       // dispatch(borrarModuloAction());       
+       eliminarApoyo(idEliminar)
 
         setShowModalDelete(false);
         setOpenDialog(false);

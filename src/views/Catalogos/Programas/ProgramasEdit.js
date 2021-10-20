@@ -114,18 +114,18 @@ export const ProgramasEdit = () => {
   useEffect(() => {
     const lstDocsRg = []
     const lstDocsLf = []
-
-
-    programasDocumentosList.map((mp2) => {
+   
       documentosList.map((mp1) => {
-        if (mp1.id === mp2.id) {
+        const docsagr = programasDocumentosList.filter(e=> e.id === mp1.id)
+        
+        if (docsagr.length > 0 ) {
           lstDocsRg.push(mp1)
         } else {
           lstDocsLf.push(mp1)
         }
-      })
-    })
 
+      })
+    
 
     setChecked(lstDocsRg)
     setRight(lstDocsRg);
