@@ -434,9 +434,10 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                 apoyoservicioList.map((apyo, i) => {
                                     const fechaInicioq = `enServicio[${i}].fechaInicio`;
                                     const fechaFinq = `enServicio[${i}].fechaFin`;
+                                    const expandedfrm = `enServicio[${i}].expanded`;
 
                                     return (
-                                        <Accordion expanded={isActiveOption(apyo)} >
+                                        <Accordion expanded={isActiveOption(apyo)}  >
                                             <AccordionSummary
                                                 expandIcon={<ExpandMoreIcon />}
                                                 aria-label="Expand"
@@ -447,7 +448,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                                 <FormControlLabel
                                                     aria-label="Acknowledge"
                                                     onClick={agregarServicioFormik(apyo, i, props)}
-                                                    control={<Checkbox checked={isActiveOption(apyo)} />}
+                                                    control={<Checkbox checked={props.values.enServicio[i]?.expanded} name={expandedfrm} onChange={props.handleChange} value={props.values.enServicio[i]?.expanded}/>}
                                                     label={apyo.dsservicio}
                                                 />
                                             </AccordionSummary>
