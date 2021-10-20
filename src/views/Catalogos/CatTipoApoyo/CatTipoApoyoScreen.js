@@ -65,11 +65,14 @@ export const CatTipoApoyoScreen = () => {
 
 
     useEffect(() => {
-       
-        
         getPeriodicidadApoyos()
         getTiposApoyos()
     }, []);
+
+    useEffect(() => {
+        const cargarTiposApoyo = () => dispatch(obtenerTipoApoyoAction(idApoyosl,idPeriodicidadsl));
+        cargarTiposApoyo()
+    }, [showModalUpdate]);
 
     const { loading } = useSelector(state => state.tipoApoyo);
     const tipoApoyo = useSelector(state => state.tipoApoyo.tipoApoyo);
