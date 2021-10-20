@@ -23,7 +23,7 @@ export const ProgramasContextProvider = props => {
         programasList: [],
         programa: null,
         pageP: 0,
-        sizeP: 5,
+        sizeP: 10,
         totalP: 0
     }
 

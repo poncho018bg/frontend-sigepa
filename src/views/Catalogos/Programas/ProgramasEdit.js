@@ -58,7 +58,7 @@ export const ProgramasEdit = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
-  const { tiposBeneficiariosList } = useContext(TiposBeneficiariosContext);
+  const { tiposBeneficiariosList, getTipoBeneficiarios } = useContext(TiposBeneficiariosContext);
   const { edadesBeneficiariosList, getByIDBeneficiarios, edadesBeneficiario } = useContext(EdadesBeneficiariosContext);
 
   const [municipiosSelect, setMunicipiosSelect] = useState([]);
@@ -82,6 +82,7 @@ export const ProgramasEdit = () => {
   useEffect(() => {
     getRegionMunicipios('a3de85a7-6c23-46a4-847b-d79b3a90963d')
     getDocumentos();
+    getTipoBeneficiarios();
   }, []);
 
   useEffect(() => {
@@ -271,6 +272,8 @@ export const ProgramasEdit = () => {
           <form
             className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
             onSubmit={props.handleSubmit}>
+            {console.log('EDITAR=>>>', props.values)}
+            {console.log('EDITAR props =>>>', props)}
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <Card>
@@ -493,62 +496,75 @@ export const ProgramasEdit = () => {
 
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
-                        <TextField
-                          variant="outlined"
-                          label="Selecciona un tipo de beneficiario"
-                          select
-                          style={{ marginBottom: '20px' }}
-                          fullWidth
-                          name="idBeneficiario"
-                          value={props.values?.idBeneficiario}
-                          onChange={props.handleChange}
-                        >
-                          <MenuItem value="0">
-                            <em>{t('cmb.ninguno')}</em>
-                          </MenuItem>
-                          {
-                            tiposBeneficiariosList.map(
-                              item => (
-                                <MenuItem
-                                  key={item.id}
-                                  value={item.id}>
-                                  {item.dstipobeneficiario}
-                                </MenuItem>
+                        {props.values !== null ?
+
+                          <TextField
+                            variant="outlined"
+                            label="Selecciona un tipo de beneficiario"
+                            select
+                            style={{ marginBottom: '20px' }}
+                            fullWidth
+                            name="idBeneficiario"
+                            value={props?.values?.idBeneficiario}
+                            onChange={props.handleChange}
+                          >
+                            <MenuItem value="0">
+                              <em>{t('cmb.ninguno')}</em>
+                            </MenuItem>
+                            {
+                              tiposBeneficiariosList.map(
+                                item => (
+                                  <MenuItem
+                                    key={item.id}
+                                    value={item.id}>
+                                    {item.dstipobeneficiario}
+                                  </MenuItem>
+                                )
                               )
-                            )
-                          }
-                        </TextField>
+                            }
+                          </TextField> :
+                          <></>
+                        }
+
 
                       </GridItem>
                       <GridItem xs={12} sm={12} md={12}>
-                        <TextField
-                          variant="outlined"
-                          label="Selecciona un rango de edad"
-                          select
-                          style={{ marginBottom: '20px' }}
-                          fullWidth
-                          name="idRangoEdadBeneficiario"
-                          value={props.values?.idRangoEdadBeneficiario}
-                          onChange={props.handleChange}
-                        >
+                        {props.values !== null ?
 
-                          {
-                            edadesBeneficiariosList.map(
-                              item => (
-                                <MenuItem
-                                  key={item.id}
-                                  value={item.id}>
-                                  {item.dsedadbeneficiario}
-                                </MenuItem>
+                          <TextField
+                            variant="outlined"
+                            label="Selecciona un rango de edad"
+                            select
+                            style={{ marginBottom: '20px' }}
+                            fullWidth
+                            name="idRangoEdadBeneficiario"
+                            value={props.values?.idRangoEdadBeneficiario}
+                            onChange={props.handleChange}
+                          >
+
+                            {
+                              edadesBeneficiariosList.map(
+                                item => (
+                                  <MenuItem
+                                    key={item.id}
+                                    value={item.id}>
+                                    {item.dsedadbeneficiario}
+                                  </MenuItem>
+                                )
                               )
-                            )
-                          }
+                            }
 
-                        </TextField>
+                          </TextField>
+                          :
+                          <></>
+
+                        }
+
                         {props.touched.idRangoEdadBeneficiario && props.errors.idRangoEdadBeneficiario ? (
                           <FormHelperText error={props.errors.idRangoEdadBeneficiario}>{props.errors.idRangoEdadBeneficiario}</FormHelperText>
                         ) : null}
                       </GridItem>
+                      {console.log('municipiosSelect', municipiosSelect, selected)}
                       <GridItem xs={12} sm={12} md={12}>
                         <FormLabel component="legend">Cobertura municipal </FormLabel>
                         <MultiSelect
