@@ -86,10 +86,12 @@ export const ProgramasEdit = () => {
   }, []);
 
   useEffect(() => {
+    
     if (query.state?.mobNo) {
       getByID(query.state.mobNo);
     }
 
+    
   }, [location]);
 
   let data = programa;
@@ -565,6 +567,7 @@ export const ProgramasEdit = () => {
                         ) : null}
                       </GridItem>
                       {console.log('municipiosSelect', municipiosSelect, selected)}
+                      {console.log('zzz=>',programa)}
                       <GridItem xs={12} sm={12} md={12}>
                         <FormLabel component="legend">Cobertura municipal </FormLabel>
                         <MultiSelect

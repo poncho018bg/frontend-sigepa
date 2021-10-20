@@ -18,7 +18,7 @@ export default (state, action) => {
             return {
                 ...state,
                 submoduloList: action.payload._embedded.modulos,
-                total: action.payload.page.totalElements
+                total: action.payload?.page?.totalElements
             };
         case AGREGAR_SUBMODULOS_ERROR:
             console.log(action.type);

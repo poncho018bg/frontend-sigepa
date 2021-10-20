@@ -72,6 +72,20 @@ export default (state, action) => {
                 ...state,
                 sizeP: action.payload
             }
+        case GET_MUNICIPIOS_PROGRAMAS:
+
+            return {
+                ...state,
+                programasMunicipiosList: action.payload._embedded.coberturaApoyoses
+
+            };
+        case GET_DOCUMENTOS_PROGRAMAS:
+
+            return {
+                ...state,
+                programasDocumentosList: action.payload._embedded.documentosRequisitos
+
+            };
         default:
             return state;
     }

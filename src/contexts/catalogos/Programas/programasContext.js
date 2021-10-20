@@ -22,6 +22,8 @@ export const ProgramasContextProvider = props => {
     const initialState = {
         programasList: [],
         programa: null,
+        programasMunicipiosList:[],
+        programasDocumentosList:[],
         pageP: 0,
         sizeP: 10,
         totalP: 0
@@ -235,6 +237,33 @@ export const ProgramasContextProvider = props => {
         }
     }
 
+    const getMunicipios = async (idPrograma) => {
+        try {
+           
+            const result = await axiosGet(`programas/${idPrograma}/crcCoberturaapoyos`);
+            dispatch({
+                type: GET_MUNICIPIOS_PROGRAMAS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const getDocumentos = async (idPrograma) => {
+        try {
+           
+           
+            const result = await axiosGet(`programas/${idPrograma}/crcDocumentosRequisitosCollection`);
+            dispatch({
+                type: GET_DOCUMENTOS_PROGRAMAS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <ProgramasContext.Provider
             value={{
@@ -254,7 +283,9 @@ export const ProgramasContextProvider = props => {
                 changePageSize,
                 changePage,
                 getProgramasActivos,
-                getByParametros
+                getByParametros,
+                getMunicipios,
+                getDocumentos
             }}
         >
             {props.children}
