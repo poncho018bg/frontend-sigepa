@@ -79,7 +79,7 @@ export const DocumentosContextProvider = props => {
         try {
             console.log("idDocumento ", idDocumento);
             const result = await axiosGet(`programasdocument/${idDocumento}`);
-            console.log(result);
+            console.log("programas documentos ---> ",result);
             dispatch({
                 type: GET_PROGRAMAS_DOCUMENTO,
                 payload: result

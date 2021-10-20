@@ -28,10 +28,10 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
     const [searched, setSearched] = useState('');
 
     useEffect(() => {
-       
-        getProgramaDocumentos(documentoProgramaSeleccionado.id);
+       console.log("documento seleccionado --->", documentoProgramaSeleccionado.id);
+       getProgramaDocumentos(documentoProgramaSeleccionado.id);
         console.log("programas del documento ---> ", programasDocumento)
-    }, []);
+    }, [documentoProgramaSeleccionado.id]);
 
     const cerrarProgramas = () => {
         cerrarVistaProgramas();

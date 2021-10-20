@@ -35,6 +35,7 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModalUpdate } from 'commons/ModalUpdate';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { useTranslation } from 'react-i18next';
+import { SignalCellularConnectedNoInternet0Bar } from '@material-ui/icons';
 const useStyles = makeStyles(stylesArchivo);
 
 export const DocumentosScreen = () => {
@@ -43,7 +44,7 @@ export const DocumentosScreen = () => {
     const [searched, setSearched] = useState('');
 
     const [documentoSeleccionado, setDocumentoSeleccionado] = useState();
-    const { getDocumentos, documentosList, eliminarDocumentos ,getDocumentosByParametros} = useContext(DocumentosContext);
+    const { getDocumentos, documentosList, eliminarDocumentos, getDocumentosByParametros } = useContext(DocumentosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [idEliminar, setIdEliminar] = useState(0);
@@ -88,9 +89,16 @@ export const DocumentosScreen = () => {
 
 
     const verProgramas = (e) => {
+        //setDocumentoProgramaSeleccionado();
         console.log("programa seleccionado --->", e);
-        setDocumentoProgramaSeleccionado(e);
-        setVerProgramasDocumento(true);
+        if (documentoProgramaSeleccionado == e) {
+            console.log("es igual");
+            cerrarVistaProgramas();
+        } else {
+            setDocumentoProgramaSeleccionado(e);
+            setVerProgramasDocumento(true);
+        }
+
     }
 
     const cerrarVistaProgramas = () => {
@@ -115,12 +123,12 @@ export const DocumentosScreen = () => {
 
 
     const buscaPorParametros = (search) => {
-        if(search === ''){
+        if (search === '') {
             getDocumentos();
-        }else{
+        } else {
             getDocumentosByParametros(search)
         }
-       
+
     }
 
     return (
@@ -169,7 +177,7 @@ export const DocumentosScreen = () => {
                         < TableBody >
                             {
                                 documentosList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
-                                    
+
                                     return (
                                         < TableRow key={row.id}>
 
