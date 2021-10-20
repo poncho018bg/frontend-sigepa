@@ -177,7 +177,7 @@ export const DocumentosContextProvider = props => {
             activo:act,
             vigencias:[]
         }
-
+        documentos.activo = act
 
         try {
             const result = await axiosPostHetoas(href, documentosEnviar, 'PUT');

@@ -10,7 +10,7 @@ import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 
 export const ModalConfirmacion = (props) => {
 
-    const { handleRegistrar, evento } = props;
+    const { handleRegistrar} = props;
 
     const { showModalConfirmacion, setShowModalConfirmacion }
         = useContext(ModalContextConfirmacion);

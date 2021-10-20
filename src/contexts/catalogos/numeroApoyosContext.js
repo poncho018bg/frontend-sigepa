@@ -58,7 +58,7 @@ export const NumeroApoyosContextProvider = props => {
                     resolve(response);
                     dispatch({
                         type: REGISTRAR_NUMERO_APOYOS,
-                        payload: response
+                        payload: response.data
                     })
                 }).catch(error => {
                     console.log('ERROR=>',error)

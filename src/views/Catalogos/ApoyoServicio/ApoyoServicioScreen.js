@@ -65,6 +65,10 @@ export const ApoyoServicioScreen = () => {
 
     }, [size,page]);
 
+    useEffect(() => {
+        getApoyoServicio();
+
+    }, [showModalUpdate]);
 
     const onSelect = (e) => {
         setShowModalUpdate(true);

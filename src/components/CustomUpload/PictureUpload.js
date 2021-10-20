@@ -18,13 +18,7 @@ export default function PictureUpload() {
       reader.readAsDataURL(newFile);
     }
   };
-  // eslint-disable-next-line
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // this.state.file is the file/image uploaded
-    // in this function you can save the image (this.state.file) on form submit
-    // you have to call it yourself
-  };
+
   return (
     <div className="picture-container">
       <div className="picture">
