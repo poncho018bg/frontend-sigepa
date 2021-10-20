@@ -101,7 +101,7 @@ export const ProgramasEdit = () => {
   useEffect(() => {
 
     const lstmun = []
-    programasMunicipiosList.map(mp => {
+    programasMunicipiosList?.map(mp => {
       const mpi = municipiosSelect.filter(e => e.value === mp.municipio_id)
       lstmun.push({ label: mpi[0]?.label, value: mp.id })
     })
@@ -113,10 +113,11 @@ export const ProgramasEdit = () => {
 
   useEffect(() => {
     const lstDocsRg = []
-    const lstDocsLf = []  
-    documentosList.map((mp1) => {
-      programasDocumentosList.map((mp2) => {
-        
+    const lstDocsLf = []
+
+
+    programasDocumentosList.map((mp2) => {
+      documentosList.map((mp1) => {
         if (mp1.id === mp2.id) {
           lstDocsRg.push(mp1)
         } else {
@@ -124,6 +125,8 @@ export const ProgramasEdit = () => {
         }
       })
     })
+
+
     setChecked(lstDocsRg)
     setRight(lstDocsRg);
     setLeft(lstDocsLf);
@@ -312,7 +315,7 @@ export const ProgramasEdit = () => {
           <form
             className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
             onSubmit={props.handleSubmit}>
-            
+
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <Card>
@@ -603,10 +606,10 @@ export const ProgramasEdit = () => {
                           <FormHelperText error={props.errors.idRangoEdadBeneficiario}>{props.errors.idRangoEdadBeneficiario}</FormHelperText>
                         ) : null}
                       </GridItem>
-                      
+
                       <GridItem xs={12} sm={12} md={12}>
                         <FormLabel component="legend">Cobertura municipal </FormLabel>
-                       
+
                         <MultiSelect
                           style={{ marginBottom: '120px' }}
                           options={municipiosSelect}
