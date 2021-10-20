@@ -7,7 +7,8 @@ import {
     REGISTRAR_PROGRAMAS,
     MODIFICAR_PROGRAMAS,
     ELIMINAR_PROGRAMAS,
-    GET_PROGRAMAS, CAMBIAR_TAMANIO_PAGINA_PROGRAMAS, CAMBIAR_PAGINA_PROGRAMAS, GET_PROGRAMASACTIVOS
+    GET_PROGRAMAS, CAMBIAR_TAMANIO_PAGINA_PROGRAMAS, CAMBIAR_PAGINA_PROGRAMAS, GET_PROGRAMASACTIVOS,
+    GET_DOCUMENTOS_PROGRAMAS,GET_MUNICIPIOS_PROGRAMAS
 }
     from 'types/actionTypes';
 import ProgramasReducer from 'reducers/Catalogos/Programas/ProgramasReducer';
@@ -237,7 +238,7 @@ export const ProgramasContextProvider = props => {
         }
     }
 
-    const getMunicipios = async (idPrograma) => {
+    const getMunicipiosProg = async (idPrograma) => {
         try {
            
             const result = await axiosGet(`programas/${idPrograma}/crcCoberturaapoyos`);
@@ -250,7 +251,7 @@ export const ProgramasContextProvider = props => {
         }
     }
 
-    const getDocumentos = async (idPrograma) => {
+    const getDocumentosProg = async (idPrograma) => {
         try {
            
            
@@ -274,6 +275,8 @@ export const ProgramasContextProvider = props => {
                 pageP: state.pageP,
                 sizeP: state.sizeP,
                 totalP: state.totalP,
+                programasMunicipiosList:state.programasMunicipiosList,
+                programasDocumentosList:state.programasDocumentosList,
                 get,
                 registrar,
                 actualizar,
@@ -284,8 +287,8 @@ export const ProgramasContextProvider = props => {
                 changePage,
                 getProgramasActivos,
                 getByParametros,
-                getMunicipios,
-                getDocumentos
+                getMunicipiosProg,
+                getDocumentosProg
             }}
         >
             {props.children}
