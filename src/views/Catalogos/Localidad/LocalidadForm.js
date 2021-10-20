@@ -81,7 +81,7 @@ export const LocalidadForm = () => {
             idMunicipio: 0,
             dslocalidad: '',
             dscodigopostal: '',
-            dslocalidad: ''
+            
 
         },
         validationSchema: Yup.object({

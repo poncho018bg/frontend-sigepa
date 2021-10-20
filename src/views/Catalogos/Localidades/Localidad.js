@@ -74,7 +74,7 @@ export const Localidad = ({ localidad }) => {
                 </TableCell>
                 <TableCell align="center">
                     <IconButton aria-label="create" onClick={() => handleClickOpen(localidad)}>
-                        {(localidad.activo) ? <BlockIcon /> : <BlockIcon />}
+                    <BlockIcon />
                     </IconButton>
                 </TableCell>
             </TableRow >

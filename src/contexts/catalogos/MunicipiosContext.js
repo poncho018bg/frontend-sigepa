@@ -139,7 +139,7 @@ export const MunicipiosContextProvider = props => {
 
         dispatch(changePageNumber(page))
         try {
-            getMunicipios();
+            await  getMunicipios();
         } catch (error) {
             throw error;
         }

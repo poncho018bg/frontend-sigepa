@@ -80,7 +80,7 @@ export const Programa = ({  programa }) => {
                         name="deshabilitar"
                         aria-label="create"
                         onClick={() => onClick(programa)}>
-                        {(programa.activo) ? <BlockIcon /> : <BlockIcon />}
+                        <BlockIcon />
                     </IconButton>
                 </TableCell>
             </TableRow >

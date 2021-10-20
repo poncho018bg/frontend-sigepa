@@ -268,8 +268,8 @@ export const CatTipoApoyoScreen = () => {
 
                                                     </TableCell>
                                                     <TableCell align="center">
-                                                        <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                            {(row.activo) ? <BlockIcon /> : <BlockIcon />}
+                                                        <IconButton aria-label="create" onClick={() => deleteDialog(row)}>                                                           
+                                                            <BlockIcon />
                                                         </IconButton>
                                                     </TableCell>
                                                 </TableRow >

@@ -143,7 +143,7 @@ export const EstadosContextProvider = props => {
 
         dispatch(changePageNumber(page))
         try {
-            getEstados();
+            await  getEstados();
         } catch (error) {
             throw error;
         }

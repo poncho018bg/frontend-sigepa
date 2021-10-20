@@ -218,7 +218,7 @@ export const ProgramasScreen = () => {
                                 name="deshabilitar"
                                 aria-label="create"
                                 onClick={() => onClick(row)}>
-                                {(row.activo) ? <BlockIcon /> : <BlockIcon />}
+                                <BlockIcon />
                               </IconButton>
                             </TableCell>
                           </TableRow >
