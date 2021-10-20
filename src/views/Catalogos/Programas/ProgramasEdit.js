@@ -37,6 +37,7 @@ import { DocumentosContext } from "contexts/catalogos/documentosContext";
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -49,7 +50,8 @@ function intersection(a, b) {
 export const ProgramasEdit = () => {
   const { t } = useTranslation();
 
-  const { actualizar, programa, getByID } = useContext(ProgramasContext);
+  const { actualizar, programa, getByID,
+    getMunicipiosProg, getDocumentosProg, programasMunicipiosList, programasDocumentosList } = useContext(ProgramasContext);
   const classes = useStyles();
   let query = useLocation();
   let history = useHistory();
@@ -77,33 +79,69 @@ export const ProgramasEdit = () => {
   const [dataEditar, setDataEditar] = useState({});
 
   const { regionList, getRegionMunicipios } = useContext(RegionMunicipiosContext);
+  const { getMunicipiosAll, municipiosList } = useContext(MunicipiosContext)
   const { getDocumentos, documentosList } = useContext(DocumentosContext);
 
   useEffect(() => {
-    getRegionMunicipios('a3de85a7-6c23-46a4-847b-d79b3a90963d')
+    getMunicipiosAll()
     getDocumentos();
     getTipoBeneficiarios();
   }, []);
 
   useEffect(() => {
-    
+
     if (query.state?.mobNo) {
       getByID(query.state.mobNo);
+      getMunicipiosProg(query.state.mobNo)
+      getDocumentosProg(query.state.mobNo)
     }
 
-    
   }, [location]);
+
+  useEffect(() => {
+
+    const lstmun = []
+    programasMunicipiosList.map(mp => {
+      const mpi = municipiosSelect.filter(e => e.value === mp.municipio_id)
+      lstmun.push({ label: mpi[0]?.label, value: mp.id })
+    })
+
+    setSelected(lstmun)
+
+  }, [municipiosSelect]);
+
+
+  useEffect(() => {
+    const lstDocsRg = []
+    const lstDocsLf = []  
+    documentosList.map((mp1) => {
+      programasDocumentosList.map((mp2) => {
+        
+        if (mp1.id === mp2.id) {
+          lstDocsRg.push(mp1)
+        } else {
+          lstDocsLf.push(mp1)
+        }
+      })
+    })
+    setChecked(lstDocsRg)
+    setRight(lstDocsRg);
+    setLeft(lstDocsLf);
+    setLeft(not(lstDocsLf, leftChecked))
+    setChecked(not(checked, leftChecked))
+
+  }, [programasDocumentosList]);
 
   let data = programa;
 
 
   useEffect(() => {
     const lstmun = []
-    regionList.map((mn) => {
-      lstmun.push({ label: mn.dsMunicipio, value: mn.idMunicipio })
+    municipiosList.map((mn) => {
+      lstmun.push({ label: mn.dsmunicipio, value: mn.id })
     })
     setMunicipiosSelect(lstmun)
-  }, [regionList]);
+  }, [municipiosList]);
 
   useEffect(() => {
     setLeft(documentosList)
@@ -274,8 +312,7 @@ export const ProgramasEdit = () => {
           <form
             className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
             onSubmit={props.handleSubmit}>
-            {console.log('EDITAR=>>>', props.values)}
-            {console.log('EDITAR props =>>>', props)}
+            
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <Card>
@@ -566,10 +603,10 @@ export const ProgramasEdit = () => {
                           <FormHelperText error={props.errors.idRangoEdadBeneficiario}>{props.errors.idRangoEdadBeneficiario}</FormHelperText>
                         ) : null}
                       </GridItem>
-                      {console.log('municipiosSelect', municipiosSelect, selected)}
-                      {console.log('zzz=>',programa)}
+                      
                       <GridItem xs={12} sm={12} md={12}>
                         <FormLabel component="legend">Cobertura municipal </FormLabel>
+                       
                         <MultiSelect
                           style={{ marginBottom: '120px' }}
                           options={municipiosSelect}

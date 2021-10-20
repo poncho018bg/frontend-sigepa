@@ -43,7 +43,7 @@ export const ProgramasScreen = () => {
     pageP,
     totalP,
     changePageSize,
-    changePage, changePageNumber,getByParametros } = useContext(ProgramasContext);
+    changePage, changePageNumber,getByParametros} = useContext(ProgramasContext);
 
   const { getTipoBeneficiarios } = useContext(TiposBeneficiariosContext);
   const { getEdadesBeneficiarios } = useContext(EdadesBeneficiariosContext);
