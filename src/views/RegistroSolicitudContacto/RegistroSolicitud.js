@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
+import { useLocation } from "react-router-dom";
 
 import Box from '@material-ui/core/Box';
 import Stepper from '@material-ui/core/Stepper';
@@ -34,6 +35,9 @@ const pasos = [
 ];
 
 export const RegistroSolicitud = () => {
+    //id del programa
+    let query = useLocation();
+    console.log("ID DEL PROGRAMA ====>", query.state?.mobNo);
     const [activeStep, setActiveStep] = useState(0);
     const [skipped, setSkipped] = useState(new Set());
     const [activar, setActivar] = useState();

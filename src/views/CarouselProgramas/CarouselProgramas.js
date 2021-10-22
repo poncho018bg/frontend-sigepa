@@ -83,15 +83,16 @@ export const CarouselProgramas = () => {
         setProgramDetail(e)
         console.log('detallePrograma=>', e)
     }
-    
+
 
     const handleClose = () => {
         setOpen(false);
     };
 
-    const redirectRegister = () => {
-        setOpen(false);       
-        history.push("/admin/registroSolicitud")
+    const redirectRegister = (programDetail) => {
+        console.log("deatalle del programa  ====>", programDetail);
+        setOpen(false);
+        history.push("/admin/registroSolicitud", { mobNo: programDetail.id })
     };
     return (
         <div style={{ paddingTop: "10%" }}>
@@ -113,70 +114,65 @@ export const CarouselProgramas = () => {
                 itemClass="carousel-item-padding-40-px"
                 style={{ paddingTop: "10%", }}
             >
-                <div>
-                    {programasList.map(prog => {
 
-                        return (
-                            <>
-                                <GridContainer>
-                                    <GridItem xs={12} sm={12} md={10}>
-                                        <Card product className={classes.cardHover}>
-                                            <CardHeader image className={classes.cardHeaderHover}>
-                                                <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                                                    <img src={priceImage1} alt="..." />
-                                                </a>
-                                            </CardHeader>
-                                            <CardBody>
-                                                <div className={classes.cardHoverUnder}>
-                                                </div>
-                                                <h4 className={classes.cardProductTitle}>
-                                                    {prog.dsclaveprograma} - {prog.dsprograma}
-                                                </h4>
-                                                <p className={classes.cardProductDesciprion}>
-                                                    {prog.dsdescripcion}
-                                                </p>
-                                            </CardBody>
-                                            <CardFooter >
-                                                <div >
-                                                    <Link onClick={() => detallePrograma(prog)} >
-                                                        <h4>Ver más</h4>
-                                                    </Link>
+                {programasList.map(prog => {
+                    return (
+                        <div>
+                            <GridContainer>
+                                <GridItem xs={12} sm={12} md={10}>
+                                    <Card product className={classes.cardHover}>
+                                        <CardHeader image className={classes.cardHeaderHover}>
+                                            <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                                                <img src={priceImage1} alt="..." />
+                                            </a>
+                                        </CardHeader>
+                                        <CardBody>
+                                            <div className={classes.cardHoverUnder}>
+                                            </div>
+                                            <h4 className={classes.cardProductTitle}>
+                                                {prog.dsclaveprograma} - {prog.dsprograma}
+                                            </h4>
+                                            <p className={classes.cardProductDesciprion}>
+                                                {prog.dsdescripcion}
+                                            </p>
+                                        </CardBody>
+                                        <CardFooter>
+                                            <Link color="inherit" onClick={() => detallePrograma(prog)} variant="body2">
+                                                <h4>Ver más</h4>
+                                            </Link>
+                                        </CardFooter>
+                                    </Card>
+                                </GridItem>
+                            </GridContainer>
+                        </div>
+                    )
+                })}
 
-                                                </div>
-                                            </CardFooter>
-                                        </Card>
-                                    </GridItem>
-                                </GridContainer>
+                <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="lg" fullWidth={true}>
+                    <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+                        <h4> {programDetail?.dsclaveprograma} - {programDetail?.dsprograma}</h4>
+                    </DialogTitle>
+                    <DialogContent >
 
-                            </>
-                        )
-                    })}
+                        <p>{programDetail?.dsdescripcion}</p>
+                        <p>{programDetail?.dscriterioelegibilidad}</p>
+                        <p>Vigencia del Programa del {moment(programDetail?.fcvigenciainicio).format(" DD [de] MMMM ")}
+                            al {moment(programDetail?.fcvigenciafin).format(" DD [de] MMMM  YYYY ")}</p>
+                        <p>Periodo de registro presencial del {moment(programDetail?.fcregistropresencialinicio).format(" DD [de] MMMM ")}
+                            al {moment(programDetail?.fcregistropresencialfin).format(" DD [de] MMMM  YYYY ")}</p>
+                        <p>Periodo de registro Web del {moment(programDetail?.fcregistrowebinicio).format(" DD [de] MMMM ")}
+                            al  {moment(programDetail?.fcregistrowebfin).format(" DD [de] MMMM  YYYY ")}</p>
 
-                    <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="lg"  fullWidth={true}>
-                        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                            <h4> {programDetail?.dsclaveprograma} - {programDetail?.dsprograma}</h4>
-                        </DialogTitle>
-                        <DialogContent >
-
-                            <p>{programDetail?.dsdescripcion}</p>
-                            <p>{programDetail?.dscriterioelegibilidad}</p>
-                            <p>Vigencia del Programa del {moment(programDetail?.fcvigenciainicio).format(" DD [de] MMMM ")} 
-                                al {moment(programDetail?.fcvigenciafin).format(" DD [de] MMMM  YYYY ")}</p>
-                            <p>Periodo de registro presencial del {moment(programDetail?.fcregistropresencialinicio).format(" DD [de] MMMM ")} 
-                                al {moment(programDetail?.fcregistropresencialfin).format(" DD [de] MMMM  YYYY ")}</p>
-                            <p>Periodo de registro Web del {moment(programDetail?.fcregistrowebinicio).format(" DD [de] MMMM ")} 
-                                al  {moment(programDetail?.fcregistrowebfin).format(" DD [de] MMMM  YYYY ")}</p>
-
-                        </DialogContent>
-                        <DialogActions>
-                            <Button autoFocus onClick={redirectRegister} color="primary">
-                                Registro solicitud de apoyo
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button autoFocus onClick={() => redirectRegister(programDetail)} color="primary">
+                            Registro solicitud de apoyo
+                        </Button>
+                    </DialogActions>
+                </Dialog>
 
 
-                </div>
+
 
             </Carousel>
         </div>
