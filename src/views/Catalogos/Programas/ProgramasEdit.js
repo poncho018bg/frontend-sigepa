@@ -1,15 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Checkbox, FormHelperText, FormLabel, Grid, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, TextField } from '@material-ui/core'
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
 import Card from 'components/Card/Card';
 import CardHeader from 'components/Card/CardHeader';
-import CardIcon from 'components/Card/CardIcon';
-import PermIdentity from '@material-ui/icons/PermIdentity';
+
 import styles from "assets/jss/material-dashboard-pro-react/views/userProfileStyles.js";
 import CardBody from 'components/Card/CardBody';
 import { Formik } from 'formik';
@@ -19,20 +15,18 @@ const useStyles = makeStyles(styles);
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router";
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
-import DateFnsUtils from '@date-io/date-fns';
-import deLocale from "date-fns/locale/es";
+
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { TiposBeneficiariosContext } from 'contexts/catalogos/tiposBeneficiariosContext';
 import { EdadesBeneficiariosContext } from 'contexts/catalogos/edadesBeneficiariosContext';
 import { MultiSelect } from 'react-multi-select-component';
 import { useTranslation } from 'react-i18next';
-import { DropzoneArea } from 'material-ui-dropzone';
+import { DropzoneArea, DropzoneAreaBase } from 'material-ui-dropzone';
 
 import 'moment/locale/es';
 import moment from 'moment';
 
 //context
-import { RegionMunicipiosContext } from "contexts/catalogos/RegionMunicipiosContext";
 import { DocumentosContext } from "contexts/catalogos/documentosContext";
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
@@ -51,7 +45,8 @@ export const ProgramasEdit = () => {
   const { t } = useTranslation();
 
   const { actualizar, programa, getByID,
-    getMunicipiosProg, getDocumentosProg, programasMunicipiosList, programasDocumentosList } = useContext(ProgramasContext);
+    getMunicipiosProg, getDocumentosProg, programasMunicipiosList, programasDocumentosList,
+    getImgDocumentosProg, imagenprg } = useContext(ProgramasContext);
   const classes = useStyles();
   let query = useLocation();
   let history = useHistory();
@@ -61,7 +56,7 @@ export const ProgramasEdit = () => {
   const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
   const { tiposBeneficiariosList, getTipoBeneficiarios } = useContext(TiposBeneficiariosContext);
-  const { edadesBeneficiariosList, getByIDBeneficiarios, edadesBeneficiario } = useContext(EdadesBeneficiariosContext);
+  const { edadesBeneficiariosList } = useContext(EdadesBeneficiariosContext);
 
   const [municipiosSelect, setMunicipiosSelect] = useState([]);
 
@@ -78,10 +73,9 @@ export const ProgramasEdit = () => {
 
   const [dataEditar, setDataEditar] = useState({});
 
-  const { regionList, getRegionMunicipios } = useContext(RegionMunicipiosContext);
   const { getMunicipiosAll, municipiosList } = useContext(MunicipiosContext)
   const { getDocumentos, documentosList } = useContext(DocumentosContext);
-
+  const [archivoPrograma, setArchivoPrograma] = React.useState([]);
   useEffect(() => {
     getMunicipiosAll()
     getDocumentos();
@@ -94,6 +88,7 @@ export const ProgramasEdit = () => {
       getByID(query.state.mobNo);
       getMunicipiosProg(query.state.mobNo)
       getDocumentosProg(query.state.mobNo)
+      getImgDocumentosProg(query.state.mobNo)
     }
 
   }, [location]);
@@ -112,20 +107,33 @@ export const ProgramasEdit = () => {
 
 
   useEffect(() => {
+    const filesimg = []
+    const blobpgr = new Blob([imagenprg], { type: 'image/png' });   
+    
+    const file2 = new File([blobpgr], 'Proceso aduanal.png', { type: 'image/png' })    
+    console.log(file2)
+
+  }, [imagenprg]);
+
+
+
+
+
+  useEffect(() => {
     const lstDocsRg = []
     const lstDocsLf = []
-   
-      documentosList.map((mp1) => {
-        const docsagr = programasDocumentosList.filter(e=> e.id === mp1.id)
-        
-        if (docsagr.length > 0 ) {
-          lstDocsRg.push(mp1)
-        } else {
-          lstDocsLf.push(mp1)
-        }
 
-      })
-    
+    documentosList.map((mp1) => {
+      const docsagr = programasDocumentosList.filter(e => e.id === mp1.id)
+
+      if (docsagr.length > 0) {
+        lstDocsRg.push(mp1)
+      } else {
+        lstDocsLf.push(mp1)
+      }
+
+    })
+
 
     setChecked(lstDocsRg)
     setRight(lstDocsRg);
@@ -172,15 +180,7 @@ export const ProgramasEdit = () => {
     setChecked(newChecked);
   };
 
-  /*useEffect(() => {
-    getByIDBeneficiarios(data?._links.edadbeneficiarioid.href);
-    if(edadesBeneficiario){
-    console.log('edad',edadesBeneficiario);
-    console.log('id',edadesBeneficiario.id);
-    }
-    const info = {...data,   idRangoEdadBeneficiario: edadesBeneficiario?.id}
-    setDataEditar(info)
-  }, [data])*/
+
 
 
   console.log("data", dataEditar);
@@ -726,10 +726,11 @@ export const ProgramasEdit = () => {
 
                       <GridItem xs={12} sm={12} md={12}>
                         <Grid item xs={12}>
-                          <DropzoneArea
+                          <DropzoneAreaBase
                             acceptedFiles={['image/png']}
                             filesLimit='1'
-                            onChange={handleChangeFile}
+                            onAdd={(fileObjs) => setArchivoPrograma(fileObjs)}
+                            fileObjects={archivoPrograma}
                           />
                         </Grid>
                       </GridItem>
