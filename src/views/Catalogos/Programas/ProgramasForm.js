@@ -42,7 +42,7 @@ import { RegionMunicipiosContext } from "contexts/catalogos/RegionMunicipiosCont
 import { MultiSelect } from "react-multi-select-component";
 import { DocumentosContext } from "contexts/catalogos/documentosContext";
 import { useTranslation } from 'react-i18next';
-import { DropzoneArea } from "material-ui-dropzone";
+import { DropzoneArea, DropzoneAreaBase } from "material-ui-dropzone";
 const useStyles = makeStyles(styles);
 
 
@@ -89,7 +89,7 @@ export const ProgramasForm = () => {
   const [valores, setValores] = useState();
 
   const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
-
+  const [archivoPrograma, setArchivoPrograma] = React.useState([]);
 
 
 
@@ -263,6 +263,10 @@ export const ProgramasForm = () => {
     console.log('sasdsa');
     console.log(lstmunSeleccionados);
 
+    console.log('archivoPrograma',archivoPrograma)
+
+    const blobpgr = new Blob([archivoPrograma], {type: 'image/png'});
+    console.log('blobpgr',blobpgr)
     let programas = {
       dsprograma: nombrePrograma,
       dsclaveprograma: clavePrograma,
@@ -282,10 +286,10 @@ export const ProgramasForm = () => {
       idRangoEdadBeneficiario,
       coberturaMunicipal: lstmunSeleccionados,
       documentosRequisitos: documentslst,
-      file: archivo
+      file: archivoPrograma[0].data
     }
     console.log(programas);
-    registrar(programas, archivo).then(response => {
+    registrar(programas, blobpgr).then(response => {
       console.log(response);
       setOpenSnackbar(true);
 
@@ -309,11 +313,8 @@ export const ProgramasForm = () => {
 
   const handleChangeFile = e => {
     console.log("files=>>>", e);
+    console.log(archivoPrograma)
 
-    setArchivos(new Blob([JSON.stringify(e)], {
-      type: 'application/json',
-    }));
-    console.log('archivo', archivo)
   }
 
   return (
@@ -757,10 +758,12 @@ export const ProgramasForm = () => {
 
                 <GridItem xs={12} sm={12} md={12}>
                   <Grid item xs={12}>
-                    <DropzoneArea
+                    <DropzoneAreaBase
                       acceptedFiles={['image/png']}
+                      onAdd={(fileObjs) => setArchivoPrograma(fileObjs) }
+                      fileObjects={archivoPrograma}
                       filesLimit='1'
-                      onChange={handleChangeFile}
+                      onDrop={handleChangeFile}
                     />
                   </Grid>
                 </GridItem>

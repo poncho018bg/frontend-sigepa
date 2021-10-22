@@ -3,7 +3,7 @@ import {
     REGISTRAR_PROGRAMAS, MODIFICAR_PROGRAMAS
     , ELIMINAR_PROGRAMAS, GET_PROGRAMAS, AGREGAR_PROGRAMA_ERROR, GET_PROGRAMAS_BY_ID,
     CAMBIAR_PAGINA_PROGRAMAS, CAMBIAR_TAMANIO_PAGINA_PROGRAMAS, GET_PROGRAMASACTIVOS,
-    GET_DOCUMENTOS_PROGRAMAS,GET_MUNICIPIOS_PROGRAMAS
+    GET_DOCUMENTOS_PROGRAMAS,GET_MUNICIPIOS_PROGRAMAS,GET_IMAGEN_PROGRAMAS
 } from 'types/actionTypes';
 
 
@@ -86,6 +86,11 @@ export default (state, action) => {
                 ...state,
                 programasDocumentosList: action.payload._embedded.documentosRequisitos
 
+            };
+            case GET_IMAGEN_PROGRAMAS:
+            return {
+                ...state,
+                imagenprg: action
             };
         default:
             return state;
