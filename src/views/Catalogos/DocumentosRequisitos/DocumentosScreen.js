@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
@@ -35,7 +34,6 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModalUpdate } from 'commons/ModalUpdate';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { useTranslation } from 'react-i18next';
-import { SignalCellularConnectedNoInternet0Bar } from '@material-ui/icons';
 const useStyles = makeStyles(stylesArchivo);
 
 export const DocumentosScreen = () => {
@@ -89,7 +87,7 @@ export const DocumentosScreen = () => {
 
 
     const verProgramas = (e) => {
-        //setDocumentoProgramaSeleccionado();
+       
         console.log("programa seleccionado --->", e);
         if (documentoProgramaSeleccionado == e) {
             console.log("es igual");

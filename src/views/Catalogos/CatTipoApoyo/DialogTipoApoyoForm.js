@@ -15,7 +15,6 @@ import GridItem from "components/Grid/GridItem.js";
 import moment from 'moment';
 import 'moment/locale/es';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
-import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 import { NumeroApoyosContext } from 'contexts/catalogos/numeroApoyosContext';
 import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
 import { MultiSelect } from "react-multi-select-component";
@@ -29,7 +28,6 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import "./styles.css";
-import { boolean } from 'yup';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { ModalContext } from 'contexts/modalContex';

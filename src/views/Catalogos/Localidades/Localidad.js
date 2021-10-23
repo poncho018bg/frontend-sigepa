@@ -1,18 +1,13 @@
 
 import React, { useContext, useState } from 'react'
 
-import Checkbox from '@material-ui/core/Checkbox';
 import { TableCell, TableRow } from '@material-ui/core';
 import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
-import { ModalContextDelete } from 'contexts/modalContexDelete';
-import { ModalDelete } from 'commons/ModalDelete';
 import { ModalUpdate } from 'commons/ModalUpdate';
 import { LocalidadEdit } from './LocalidadEdit';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';

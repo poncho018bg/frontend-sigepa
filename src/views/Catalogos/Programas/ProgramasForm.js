@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 // @material-ui/icons
-import PermIdentity from "@material-ui/icons/PermIdentity";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -25,16 +24,9 @@ import * as Yup from 'yup';
 import { ProgramasContext } from "contexts/catalogos/Programas/programasContext";
 
 import { Mensaje } from "components/Personalizados/Mensaje";
-import CardIcon from "components/Card/CardIcon";
 import { useHistory } from "react-router";
 
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
 
-import DateFnsUtils from '@date-io/date-fns';
-import deLocale from "date-fns/locale/es";
 import { Loading } from "components/Personalizados/Loading";
 import { TiposBeneficiariosContext } from "contexts/catalogos/tiposBeneficiariosContext";
 import { EdadesBeneficiariosContext } from "contexts/catalogos/edadesBeneficiariosContext";
@@ -42,7 +34,7 @@ import { RegionMunicipiosContext } from "contexts/catalogos/RegionMunicipiosCont
 import { MultiSelect } from "react-multi-select-component";
 import { DocumentosContext } from "contexts/catalogos/documentosContext";
 import { useTranslation } from 'react-i18next';
-import { DropzoneArea, DropzoneAreaBase } from "material-ui-dropzone";
+import { DropzoneAreaBase } from "material-ui-dropzone";
 const useStyles = makeStyles(styles);
 
 

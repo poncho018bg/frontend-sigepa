@@ -1,19 +1,16 @@
 
 import React, { useContext, useState } from 'react'
 
-import Checkbox from '@material-ui/core/Checkbox';
 import { TableCell, TableRow } from '@material-ui/core';
 import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
-import { ProgramasEdit } from './ProgramasEdit';
+
 
 import { useHistory } from 'react-router';
 
@@ -50,8 +47,7 @@ export const Programa = ({  programa }) => {
     const onSelect = (e) => {
         console.log("on select del programa -->\n", e);
         console.log("id editar", e.id);
-        setObjetoActualizar(e);
-        //history.push(`/admin/editarPrograma/${e.id}`)
+        setObjetoActualizar(e);        
         history.push("/admin/editarPrograma", { mobNo: e.id })
     }
 
@@ -89,9 +85,7 @@ export const Programa = ({  programa }) => {
             />
 
 
-            {/*
-            <ProgramasEdit objetoActualizar={objetoActualizar} />
-*/}
+
 
         </>
     )

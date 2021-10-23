@@ -21,7 +21,7 @@ import { TiposBeneficiariosContext } from 'contexts/catalogos/tiposBeneficiarios
 import { EdadesBeneficiariosContext } from 'contexts/catalogos/edadesBeneficiariosContext';
 import { MultiSelect } from 'react-multi-select-component';
 import { useTranslation } from 'react-i18next';
-import { DropzoneArea, DropzoneAreaBase } from 'material-ui-dropzone';
+import { DropzoneAreaBase } from 'material-ui-dropzone';
 
 import 'moment/locale/es';
 import moment from 'moment';

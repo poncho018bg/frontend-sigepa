@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
@@ -27,7 +26,6 @@ import { Modal } from 'commons/Modal';
 
 import { FirmasForm } from './FirmasForm';
 import { FirmasEdit } from './FirmasEdit';
-import { FirmaPrograma } from './FirmaPrograma';
 import BlockIcon from '@material-ui/icons/Block';
 import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';

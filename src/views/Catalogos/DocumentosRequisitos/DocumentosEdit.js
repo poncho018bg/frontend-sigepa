@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import { DocumentosContext } from 'contexts/catalogos/documentosContext';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { useTranslation } from 'react-i18next';
-import NativeSelect from '@material-ui/core/NativeSelect';
 import { withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 

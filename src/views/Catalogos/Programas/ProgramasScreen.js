@@ -10,7 +10,6 @@ import { makeStyles, Table, TableBody, TableCell, TableHead, TablePagination, Ta
 import { stylesArchivo } from 'css/stylesArchivo';
 import SearchBar from 'material-ui-search-bar';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
-import { Programa } from './Programa';
 import Add from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
 import { Loading } from "components/Personalizados/Loading";

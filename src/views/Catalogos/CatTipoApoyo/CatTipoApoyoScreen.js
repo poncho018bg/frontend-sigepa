@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -12,10 +11,7 @@ import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
@@ -93,8 +89,7 @@ export const CatTipoApoyoScreen = () => {
     };
 
     const onSelect = (e) => {
-        //dispatch(tipoApoyoEditar(e));
-        //setShowDialogForm(true);
+
         setShowModalUpdate(true);
         setPersonaSeleccionada(e);
     }
@@ -112,8 +107,7 @@ export const CatTipoApoyoScreen = () => {
                
     }
 
-    const handleDeshabilitar = () => {
-       // dispatch(borrarModuloAction());       
+    const handleDeshabilitar = () => {    
        eliminarApoyo(idEliminar)
 
         setShowModalDelete(false);

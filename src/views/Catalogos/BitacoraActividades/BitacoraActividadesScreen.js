@@ -5,7 +5,6 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import { MenuItem, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, TextField, Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
-import moment from 'moment';
 import 'moment/locale/es';
 
 import SearchBar from "material-ui-search-bar";
@@ -64,30 +63,6 @@ export const BitacoraActividadesScreen = () => {
     };
 
 
-    const onSelect = (e) => {
-        setShowModalUpdate(true);
-        setBitacoraActividadSeleccionada(e);
-    }
-
-    const addDialog = () => {
-        setShowModal(true);
-    }
-
-    const deleteDialog = (e) => {
-        setShowModalDelete(true);
-        setIdEliminar(e.id);
-    }
-
-
-    const handleDeshabilitar = () => {
-        setShowModalDelete(false);
-    }
-
-
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
 
     const buscarMovimientos = () => {
         console.log('rol', puesto.length)
