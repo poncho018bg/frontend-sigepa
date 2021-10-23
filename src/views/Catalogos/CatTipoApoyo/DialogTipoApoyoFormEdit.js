@@ -2,7 +2,6 @@ import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLab
 import React, { useEffect, useState, useContext } from 'react';
 import Button from "components/CustomButtons/Button.js";
 import DialogContent from '@material-ui/core/DialogContent';
-import { useSelector } from 'react-redux';
 import { stylesArchivo } from 'css/stylesArchivo';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Formik } from 'formik';
