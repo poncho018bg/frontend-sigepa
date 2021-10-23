@@ -60,7 +60,7 @@ export const CarouselProgramas = () => {
         getProgramasActivos('3').then(data => {
             setTimeout(() => setLoading(false), 500);
 
-        });;
+        })
 
     }, []);
 

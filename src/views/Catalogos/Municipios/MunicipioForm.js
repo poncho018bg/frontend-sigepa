@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 export const MunicipioForm = () => {
     const { t } = useTranslation();
     const { registrarMunicipios } = useContext(MunicipiosContext);
-    const { getEstados, estadosList,getEstadosAll } = useContext(EstadosContext);
+    const {  estadosList,getEstadosAll } = useContext(EstadosContext);
     const { setShowModal } = useContext(ModalContext);
 
     //dialog confirmar

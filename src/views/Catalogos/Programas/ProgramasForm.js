@@ -75,7 +75,7 @@ export const ProgramasForm = () => {
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
   const [selected, setSelected] = useState([]);
-  const [archivo, setArchivos] = React.useState();
+
   const [documentslst, setDocumentslst] = React.useState([]);
 
   const [valores, setValores] = useState();

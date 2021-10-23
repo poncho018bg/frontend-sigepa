@@ -96,18 +96,14 @@ export const DialogTipoApoyoForm = (props) => {
     const { registrarApoyo } = useContext(ApoyoContext)
 
 
-    const [municipiosSelect, setMunicipiosSelect] = React.useState([]);
+  
     const [tipoApoyoSelect, setTipoApoyoSelect] = React.useState([]);
     const [actividadesContinuarSelect, setActividadesContinuarSelect] = React.useState([]);
 
 
     let history = useHistory();
 
-    const [checked, setChecked] = React.useState([]);
 
-    const [state, setState] = React.useState({
-        checkedA: false
-    });
 
     const { setShowModal } = useContext(ModalContext);
     const [valores, setValores] = useState();
@@ -117,7 +113,7 @@ export const DialogTipoApoyoForm = (props) => {
     const [error, setError] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [invisible, setInvisible] = React.useState(true);
+
     const [disabledCalendar, setDisabledCalendar] = useState(true);
 
 

@@ -71,7 +71,7 @@ export const ProgramasEdit = () => {
   const [archivo, setArchivos] = React.useState();
   const [documentslst, setDocumentslst] = React.useState([]);
 
-  const [dataEditar, setDataEditar] = useState({});
+  const [dataEditar] = useState({});
 
   const { getMunicipiosAll, municipiosList } = useContext(MunicipiosContext)
   const { getDocumentos, documentosList } = useContext(DocumentosContext);

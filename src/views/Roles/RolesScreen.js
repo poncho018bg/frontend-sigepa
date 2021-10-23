@@ -41,7 +41,7 @@ export const RolesScreen = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    const [formValues, handleInputChange] = useForm(initPerfiles);
+    const [formValues] = useForm(initPerfiles);
     const { getModulos, moduloList } = useContext(ModuloContext);
     const { getSubModulos, submoduloList } = useContext(SubModuloContext);
     const { getSubmodulosByperfil, submodulosPerfilList } = useContext(SubmodulosByPerfilContex);

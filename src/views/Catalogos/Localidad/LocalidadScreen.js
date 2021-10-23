@@ -52,10 +52,10 @@ export const LocalidadScreen = () => {
     const { setShowModal } = useContext(ModalContext);
     const { getMunicipiosId } = useContext(MunicipiosContext);
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ setOpenDialog] = useState(false);
 
     const handleChangePage = (event, newPage) => {        
         changePage(newPage)       

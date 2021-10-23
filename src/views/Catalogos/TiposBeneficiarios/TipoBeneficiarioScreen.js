@@ -55,7 +55,7 @@ export const TipoBeneficiarioScreen = () => {
     const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ setOpenDialog] = useState(false);
 
     const { setShowModalUpdate }
         = useContext(ModalContextUpdate);

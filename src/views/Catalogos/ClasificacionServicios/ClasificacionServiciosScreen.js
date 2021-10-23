@@ -42,7 +42,7 @@ export const ClasificacionServiciosScreen = () => {
     const [idEliminar, setIdEliminar] = useState(0);
     const [clasificacionServiciosSeleccionado, setClasificacionServiciosSeleccionado] = useState();
     const { getClasificacionServicios, eliminarClasificacionServicios, 
-        clasificacionServiciosList, size, page, total, changePageSize,changePageSizes, changePage, getClasificacionServiciosByParametros } = useContext(ClasificacionServiciosContext);
+        clasificacionServiciosList, size, page, total, changePageSizes, changePage, getClasificacionServiciosByParametros } = useContext(ClasificacionServiciosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
@@ -50,7 +50,7 @@ export const ClasificacionServiciosScreen = () => {
     const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ setOpenDialog] = useState(false);
 
     useEffect(() => {
         getClasificacionServicios();

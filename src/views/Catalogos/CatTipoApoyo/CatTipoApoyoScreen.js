@@ -39,7 +39,7 @@ export const CatTipoApoyoScreen = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [searched] = useState('');
 
-    const [showDialogForm, setShowDialogForm] = useState(false);
+    const [ setShowDialogForm] = useState(false);
     const [open, setOpen] = useState(false);
     const [severity] = useState('info');
     const [message] = useState('mensaje');

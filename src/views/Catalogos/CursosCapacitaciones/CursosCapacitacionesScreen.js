@@ -39,7 +39,7 @@ export const CursosCapacitacionesScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
 
-    const [rowsPerPage, setRowsPerPage] = useState(1);
+
     const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [objetoActualizar, setObjetoActualizar] = useState();
@@ -49,7 +49,7 @@ export const CursosCapacitacionesScreen = () => {
     const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ setOpenDialog] = useState(false);
 
     const { setShowModalUpdate }
         = useContext(ModalContextUpdate);

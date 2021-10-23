@@ -36,21 +36,21 @@ export const ApoyoServicioScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
 
-    const [rowsPerPage, setRowsPerPage] = useState(1);
+    
     const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [ApoyoServicioSeleccionada, setApoyoServicioSeleccionada] = useState();
 
     const { apoyoservicioList, getApoyoServicio, eliminarApoyoServicio, 
         size, page, total,  changePage,changePageSizes,getApoyoServicioByParametros } = useContext(ApoyoServicioContext);
-    const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
-    const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
-    const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
+    const { setShowModal } = useContext(ModalContext);
+    const {  setShowModalDelete } = useContext(ModalContextDelete);
+    const { showModalUpdate,  setShowModalUpdate }
         = useContext(ModalContextUpdate);
     const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ setOpenDialog] = useState(false);
 
     useEffect(() => {
         getApoyoServicio();

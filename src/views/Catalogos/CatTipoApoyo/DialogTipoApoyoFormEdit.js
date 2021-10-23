@@ -89,10 +89,10 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     const [tipoApoyoSelect, setTipoApoyoSelect] = React.useState([]);
     const [actividadesContinuarSelect, setActividadesContinuarSelect] = React.useState([]);
 
-    const [selected, setSelected] = useState([]);
+ 
     const [selectedTipApoy, setSelectedTipApoy] = useState([]);
     const [selectedActividadesContinuar, setSelectedActividadesContinuar] = useState([]);
-    const [expanded, setExpanded] = React.useState(true)
+  
 
     //dialog confirmacion
     const [valores, setValores] = useState();
