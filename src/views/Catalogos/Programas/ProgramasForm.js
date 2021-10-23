@@ -300,7 +300,7 @@ export const ProgramasForm = () => {
         setOpenSnackbar(true);
         setError(true);
         setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
-      });;
+      })
   }
 
   const handleChangeFile = e => {

@@ -8,7 +8,7 @@ import React, {  useState } from 'react';
  */
 export const FirmaPrograma = ({ Firma }) => {
 
-    const [programa, setPrograma] = useState([]);
+    const [programa] = useState([]);
 
     return (
         <span>

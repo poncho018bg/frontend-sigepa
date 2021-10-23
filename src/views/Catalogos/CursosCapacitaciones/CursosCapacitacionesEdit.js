@@ -58,7 +58,7 @@ export const CursosCapacitacionesEdit = ({ objetoActualizar }) => {
             setOpenSnackbar(true);
             setError(true);
             setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
-        });;
+        });
 
     }
 

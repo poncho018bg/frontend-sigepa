@@ -52,7 +52,7 @@ export const MotivoRechazosEdit = ({ motivoRechazosSeleccionado }) => {
             setOpenSnackbar(true);
             setError(true);
             setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
-        });;
+        })
     }
 
     // Schema de validación

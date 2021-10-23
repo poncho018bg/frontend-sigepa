@@ -17,7 +17,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 import { Loading } from 'views/Loading/Loading';
 import { DialogDelete } from 'views/Dialogs/DialogDelete';
-import { tipoApoyoEditar, tipoApoyoEliminar, borrarModuloAction, obtenerTipoApoyoAction } from 'actions/TipoApoyoAction';
+import { tipoApoyoEditar,  obtenerTipoApoyoAction } from 'actions/TipoApoyoAction';
 import { Link } from 'react-router-dom';
 import { DialogTipoApoyoFormEdit } from './DialogTipoApoyoFormEdit';
 import { ModalUpdate } from 'commons/ModalUpdate';
@@ -41,12 +41,12 @@ export const CatTipoApoyoScreen = () => {
 
     const [showDialogForm, setShowDialogForm] = useState(false);
     const [open, setOpen] = useState(false);
-    const [severity, setSeverity] = useState('info');
-    const [message, setMessage] = useState('mensaje');
-    const [idSelect, setIdSelect] = useState('');
+    const [severity] = useState('info');
+    const [message] = useState('mensaje');
+
     const [openDialog, setOpenDialog] = useState(false);
     const [personaSeleccionada, setPersonaSeleccionada] = useState();
-    const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
+    const { showModalUpdate,  setShowModalUpdate }
         = useContext(ModalContextUpdate);
     const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
     const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);
@@ -54,7 +54,7 @@ export const CatTipoApoyoScreen = () => {
     const [idPeriodicidadsl, setIdPeriodicidadsl] = useState('');
     const { eliminarApoyo } = useContext(ApoyoContext)
     const { setShowModalDelete } = useContext(ModalContextDelete);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);

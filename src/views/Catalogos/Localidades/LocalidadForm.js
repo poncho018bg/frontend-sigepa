@@ -15,7 +15,7 @@ export const LocalidadForm = () => {
     const { t } = useTranslation();
     const { registrar } = useContext(LocalidadesContext);
     const { setShowModal } = useContext(ModalContext);
-    const { municipiosListId,getMunicipioEstado,municipiosListId } = useContext(MunicipiosContext);
+    const { getMunicipioEstado,municipiosListId } = useContext(MunicipiosContext);
 
 
     //dialog confirmar
@@ -67,7 +67,7 @@ export const LocalidadForm = () => {
             setOpenSnackbar(true);
             setError(true);
             setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
-        });;        ;
+        })
       
     }
 
@@ -82,7 +82,7 @@ export const LocalidadForm = () => {
             idMunicipio: 0,
             dslocalidad: '',
             dscodigopostal: '',
-            dslocalidad: ''
+
 
         },
         validationSchema: Yup.object({

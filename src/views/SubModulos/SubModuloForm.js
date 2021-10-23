@@ -78,7 +78,7 @@ export const SubModuloForm = () => {
             setOpenSnackbar(true);
             setError(true);
             setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
-        });;
+        })
 
     }
 

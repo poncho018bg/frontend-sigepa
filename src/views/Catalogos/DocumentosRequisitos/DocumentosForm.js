@@ -100,7 +100,7 @@ export const DocumentosForm = () => {
             setOpenSnackbar(true);
             setError(true);
             setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
-        });;
+        })
     }
 
     useEffect(() => {

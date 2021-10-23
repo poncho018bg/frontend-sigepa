@@ -44,7 +44,7 @@ export const LocalidadScreen = () => {
         size,
         page,
         total,
-        changePageSize,
+
         changePageSizes,
         changePage,
         eliminar

@@ -56,7 +56,7 @@ export const TipoBeneficiarioForm = () => {
             setOpenSnackbar(true);
             setError(true);
             setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
-        });;        ;
+        })
     }
 
 

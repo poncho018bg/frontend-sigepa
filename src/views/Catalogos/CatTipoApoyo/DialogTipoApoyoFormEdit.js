@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox, Dialog, DialogTitle, FormControlLabel, FormHelperText, FormLabel, Grid, Input, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, Radio, RadioGroup, Select, TextField } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLabel, FormHelperText, FormLabel, Grid,      makeStyles, MenuItem,  Radio, RadioGroup,  TextField } from '@material-ui/core'
 import React, { useEffect, useState, useContext } from 'react';
 import Button from "components/CustomButtons/Button.js";
 import DialogContent from '@material-ui/core/DialogContent';
@@ -197,8 +197,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     const actualizarTipoApoyo = async valores => {
         valores.idTipoApoyo = selectedTipApoy
         valores.idActividadContinuidadApoyo = selectedActividadesContinuar
-        // actualizarApoyo(valores);
-        // setShowModalUpdate(false);
+
         confirmacionDialog(valores);
     }
 
@@ -219,18 +218,14 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
             setOpenSnackbar(true);
             setError(true);
             setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
-        });;
+        })
     }
 
 
     function isActiveOption(apoyo) {
         var apy = personaSeleccionada?.enServicio?.filter(ab => ab.id === apoyo.id)
-        if (apy.length > 0) {
-            return true;
-        } else {
-            return false
-        }
-    }
+         return  (apy.length > 0)
+             }
 
     return (
 
@@ -593,9 +588,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                 labelledBy="Seleccionar"
                             />
 
-                            {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
-                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
-                ) : null} */}
+
                         </DialogContent>
 
 

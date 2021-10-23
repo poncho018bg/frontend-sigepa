@@ -71,7 +71,7 @@ export const LocalidadForm = () => {
                 setOpenSnackbar(true);
                 setError(true);
                 setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
-            });;;
+            })
     }
 
     const formik = useFormik({

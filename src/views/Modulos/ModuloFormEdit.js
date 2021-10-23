@@ -52,7 +52,7 @@ export const ModuloFormEdit = ({ moduloSeleccionado }) => {
             setOpenSnackbar(true);
             setError(true);
             setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
-        });;
+        })
     }
 
 
