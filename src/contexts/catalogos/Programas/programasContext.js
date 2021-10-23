@@ -36,7 +36,7 @@ export const ProgramasContextProvider = props => {
 
     const get = async () => {
         try {
-            const { pageP, sizeP } = state;
+            
             console.log(state);
             const result = await axiosGet(`programas?page=${state.pageP}&size=${state.sizeP}`);
             dispatch({

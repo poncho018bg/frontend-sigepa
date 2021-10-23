@@ -8,7 +8,7 @@ import {
     CAMBIAR_TAMANIO_PAGINA
 } from "../../types/actionTypes";
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,   axiosPostHetoas } from 'helpers/axios';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 export const NumeroApoyosContext = createContext();
@@ -103,7 +103,7 @@ export const NumeroApoyosContextProvider = props => {
     const eliminarNumeroApoyos = async idNumeroApoyos => {
 
   
-        const { activo, boactivo, _links: { ct_NumeroApoyos: { href } } } = idNumeroApoyos;
+        const { activo,  _links: { ct_NumeroApoyos: { href } } } = idNumeroApoyos;
         const act = !activo 
         idNumeroApoyos.activo = act
         

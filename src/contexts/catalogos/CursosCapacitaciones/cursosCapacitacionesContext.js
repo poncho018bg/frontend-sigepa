@@ -1,7 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 import axios from "axios";
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,  axiosPostHetoas } from 'helpers/axios';
 import CursosCapacitacionesReducer from 'reducers/Catalogos/CursosCapacitacionesReducer';
 import {
     REGISTRAR_CURSOS_CAPACITACIONES, GET_CURSOS_CAPACITACIONES, ELIMINAR_CURSOS_CAPACITACIONES, MODIFICAR_CURSOS_CAPACITACIONES,

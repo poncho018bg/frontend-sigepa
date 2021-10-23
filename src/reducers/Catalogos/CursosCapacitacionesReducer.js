@@ -31,9 +31,7 @@ export default (state, action) => {
             };
         case ELIMINAR_CURSOS_CAPACITACIONES:
             return {
-                ...state,
-                //cursosCapacitacionesList: state.cursosCapacitacionesList.filter(cursosCapacitaciones => cursosCapacitaciones.id !== action.payload.id)
-                //cursosCapacitacionesList: [...state.cursosCapacitacionesList, action.payload]
+                ...state,               
                 cursosCapacitacionesList: state.cursosCapacitacionesList.map(
                     cursosCapacitaciones => cursosCapacitaciones.id === action.payload.id ? action.payload : cursosCapacitaciones
                 )

@@ -8,7 +8,7 @@ import {
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,  axiosPostHetoas } from 'helpers/axios';
 
 
 const baseUrl = process.env.REACT_APP_API_URL;
@@ -78,7 +78,7 @@ export const ApoyoServicioContextProvider = props => {
 
     const actualizarApoyoServicio = async apoyosServicios => {
         console.log("apoyos servicios ----> ", apoyosServicios);
-        const { id, dsservicio, activo, clasificacion_id, clasificacionServicio, serviciosApoyos, _links: { apoyosServicios: { href } } } = apoyosServicios;
+        const { id,  clasificacion_id,  _links: { apoyosServicios: { href } } } = apoyosServicios;
 
         let actualizarClasificacion = {
             "_links": { "1": { "href": `/${clasificacion_id}` } },
@@ -108,7 +108,7 @@ export const ApoyoServicioContextProvider = props => {
     }
 
     const eliminarApoyoServicio = async apoyosServicios => {
-        const { dsservicio, activo, clasificacion_id, clasificacionServicio, serviciosApoyos, _links: { apoyosServicios: { href } } } = apoyosServicios;
+        const { dsservicio, activo, clasificacion_id,  _links: { apoyosServicios: { href } } } = apoyosServicios;
         const act = activo === true ? false : true;
         let apoyosServiciosEnviar = {
             dsservicio,

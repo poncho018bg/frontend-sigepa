@@ -4,7 +4,7 @@ import axios from "axios";
 import { GET_DOCUMENTOS_REQUISITOS, REGISTRAR_DOCUMENTOS_REQUISITOS, MODIFICAR_DOCUMENTOS_REQUISITOS, VIGENCIA_DOCUMENTOS_REQUISITOS, GET_VIGENCIAS, 
     AGREGAR_DOCUMENTOS_ERROR,GET_PROGRAMAS_DOCUMENTO } from "../../types/actionTypes";
 
-import { axiosGet, axiosPost, axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
+import { axiosGet,  axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 

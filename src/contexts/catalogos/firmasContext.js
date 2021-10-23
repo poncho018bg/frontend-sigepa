@@ -7,7 +7,7 @@ import {
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from "../../types/actionTypes";
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,  axiosPostHetoas } from 'helpers/axios';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -93,7 +93,7 @@ export const FirmasContextProvider = props => {
      * @param {firmas} firmas 
      */
     const actualizarFirmas = async firmas => {
-        const { id, dsautoriza, dspuesto, dscomentario, idPrograma, activo, _links: { firmas: { href } } } = firmas;
+        const { id, dsautoriza, dspuesto, dscomentario,  activo, _links: { firmas: { href } } } = firmas;
 
         let FirmasEnviar = {
             id: id,

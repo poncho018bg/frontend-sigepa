@@ -11,7 +11,7 @@ import {
     GET_BENEFICIARIO
 } from 'types/actionTypes';
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas, axiosPut } from 'helpers/axiosPublico';
+import { axiosGet, axiosPost,  axiosPut } from 'helpers/axiosPublico';
 
 export const RegistroSolicitudContext = createContext();
 
@@ -30,7 +30,7 @@ export const RegistroSolicitudContextProvider = props => {
 
     const getGeneros = async () => {
         try {
-            const { page, size } = state;
+           
             const result = await axiosGet(`generos`);
             console.log("RESULT GENEROS -->", result);
             dispatch({
@@ -43,7 +43,7 @@ export const RegistroSolicitudContextProvider = props => {
     }
     const getEstudios = async () => {
         try {
-            const { page, size } = state;
+           
             const result = await axiosGet(`gradoEstudios`);
             console.log("RESULT Estudios -->", result);
             dispatch({
@@ -57,7 +57,7 @@ export const RegistroSolicitudContextProvider = props => {
 
     const getEstadoCivil = async () => {
         try {
-            const { page, size } = state;
+           
             const result = await axiosGet(`estadosCiviles`);
             console.log("RESULT Estudios -->", result);
             dispatch({
@@ -71,7 +71,7 @@ export const RegistroSolicitudContextProvider = props => {
 
     const getIdentificaciones = async () => {
         try {
-            const { page, size } = state;
+            
             const result = await axiosGet(`identificacionesOficiales`);
             console.log("RESULT Estudios -->", result);
             dispatch({
