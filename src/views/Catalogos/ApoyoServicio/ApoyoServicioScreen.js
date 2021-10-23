@@ -37,7 +37,7 @@ export const ApoyoServicioScreen = () => {
     const classes = useStyles();
 
     const [rowsPerPage, setRowsPerPage] = useState(1);
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [ApoyoServicioSeleccionada, setApoyoServicioSeleccionada] = useState();
 
@@ -47,7 +47,7 @@ export const ApoyoServicioScreen = () => {
     const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
     const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
         = useContext(ModalContextUpdate);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [openDialog, setOpenDialog] = useState(false);

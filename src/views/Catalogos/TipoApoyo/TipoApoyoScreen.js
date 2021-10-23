@@ -38,13 +38,13 @@ const useStyles = makeStyles(stylesArchivo);
 export const TipoApoyoScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [tipoApoyoSeleccionado, setTipoApoyoSeleccionado] = useState();
     const { getTiposApoyos, eliminarTiposApoyos, tiposApoyosList, size, page, total, changePageSizes, changePage,getTiposApoyosByParametros } = useContext(TiposApoyosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [openDialog, setOpenDialog] = useState(false);

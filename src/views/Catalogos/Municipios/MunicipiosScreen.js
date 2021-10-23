@@ -45,7 +45,7 @@ export const MunicipiosScreen = () => {
     const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
 
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [openDialog, setOpenDialog] = useState(false);

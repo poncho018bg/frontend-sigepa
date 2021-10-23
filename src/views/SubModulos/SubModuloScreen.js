@@ -33,7 +33,7 @@ const useStyles = makeStyles(stylesArchivo);
 export const SubModuloScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [subModuloSeleccionado, setSubModuloSeleccionado] = useState();
     const { getSubModulos, eliminarSubModulo, submoduloList,getModulosByParametros } = useContext(SubModuloContext);
@@ -41,7 +41,7 @@ export const SubModuloScreen = () => {
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [openDialog, setOpenDialog] = useState(false);

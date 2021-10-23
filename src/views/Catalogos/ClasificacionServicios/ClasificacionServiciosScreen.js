@@ -38,7 +38,7 @@ const useStyles = makeStyles(stylesArchivo);
 export const ClasificacionServiciosScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [clasificacionServiciosSeleccionado, setClasificacionServiciosSeleccionado] = useState();
     const { getClasificacionServicios, eliminarClasificacionServicios, 
@@ -47,7 +47,7 @@ export const ClasificacionServiciosScreen = () => {
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [openDialog, setOpenDialog] = useState(false);

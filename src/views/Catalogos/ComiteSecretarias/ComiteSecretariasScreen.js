@@ -39,7 +39,7 @@ const useStyles = makeStyles(stylesArchivo);
 export const ComiteSecretariasScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [comiteSecretariasSeleccionado, setComiteSecretariasSeleccionado] = useState();
     const { getComiteSecretarias, eliminarComiteSecretarias, comiteSecretariasList } = useContext(ComiteSecretariasContext);

@@ -12,8 +12,7 @@ import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 
-import { ModalContextDelete } from 'contexts/modalContexDelete';
-import { ModalContextUpdate } from 'contexts/modalContexUpdate';
+
 import { BtActividadesContext } from 'contexts/catalogos/BtActividadesContext';
 import { obtenerRolesAction } from 'actions/rolesKeycloakAction';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,9 +31,6 @@ export const BitacoraActividadesScreen = () => {
 
     const { btActividadesList, getBtActividadesby } = useContext(BtActividadesContext);
 
-    const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
-    const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
-        = useContext(ModalContextUpdate);
 
     const [nombre, setNombre] = useState('');
     const [apellidopaterno, setApellidopaterno] = useState('');

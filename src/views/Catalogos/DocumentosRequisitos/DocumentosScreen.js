@@ -39,7 +39,7 @@ const useStyles = makeStyles(stylesArchivo);
 export const DocumentosScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
+    const [searched ]= useState('');
 
     const [documentoSeleccionado, setDocumentoSeleccionado] = useState();
     const { getDocumentos, documentosList, eliminarDocumentos, getDocumentosByParametros } = useContext(DocumentosContext);
@@ -48,7 +48,7 @@ export const DocumentosScreen = () => {
     const [idEliminar, setIdEliminar] = useState(0);
     const [documentoProgramaSeleccionado, setDocumentoProgramaSeleccionado] = useState();
     const [verProgramasDocumento, setVerProgramasDocumento] = useState();
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [openDialog, setOpenDialog] = useState(false);

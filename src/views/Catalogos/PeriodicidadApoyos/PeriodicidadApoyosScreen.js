@@ -39,14 +39,14 @@ const useStyles = makeStyles(stylesArchivo);
 export const PeriodicidadApoyosScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [periodicidadApoyosSeleccionado, setPeriodicidadApoyosSeleccionado] = useState();
     const { getPeriodicidadApoyos, eliminarPeriodicidadApoyos, periodicidadApoyosList , size, page, 
         total, changePageSizes, changePage,getPeriodicidadApoyosByParametros} = useContext(PeriodicidadApoyosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [openDialog, setOpenDialog] = useState(false);

@@ -40,13 +40,13 @@ export const CursosCapacitacionesScreen = () => {
     const classes = useStyles();
 
     const [rowsPerPage, setRowsPerPage] = useState(1);
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [objetoActualizar, setObjetoActualizar] = useState();
     const { get, eliminar, cursosCapacitacionesList, size, page, total,  changePageSizes, changePage,getByParametros } = useContext(CursosCapacitacionesContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [openDialog, setOpenDialog] = useState(false);

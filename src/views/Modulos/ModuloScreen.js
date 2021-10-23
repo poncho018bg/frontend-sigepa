@@ -33,7 +33,7 @@ const useStyles = makeStyles(stylesArchivo);
 export const ModuloScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [moduloSeleccionado, setModuloSeleccionado] = useState();
     const { getModulos, eliminarModulo, moduloList, size, page, total, changePageSize,changePageSizes, changePage,getModulosParametros } = useContext(ModuloContext);
@@ -42,7 +42,7 @@ export const ModuloScreen = () => {
 
     const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
