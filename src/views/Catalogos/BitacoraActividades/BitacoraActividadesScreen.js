@@ -34,11 +34,10 @@ export const BitacoraActividadesScreen = () => {
 
     const [nombre, setNombre] = useState('');
     const [apellidopaterno, setApellidopaterno] = useState('');
-    const [apellidoMaterno, setApellidoMaterno] = useState('');
-    const [puesto, setPuesto] = useState('');
+    const [apellidoMaterno] = useState('');
+    const [puesto] = useState('');
     const [rol, setRol] = useState('');
     const [fecha, setFecha] = useState('');
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
     const { roles } = useSelector(state => state.roles);
 
 

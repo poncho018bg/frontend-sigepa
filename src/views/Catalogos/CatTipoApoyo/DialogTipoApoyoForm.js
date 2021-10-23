@@ -421,9 +421,7 @@ export const DialogTipoApoyoForm = (props) => {
                         labelledBy="Seleccionar"
 
                     />
-                    {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
-                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
-                ) : null} */}
+
                 </CardBody>
                 <CardBody>
              
@@ -636,9 +634,7 @@ export const DialogTipoApoyoForm = (props) => {
                         labelledBy="Seleccionar"
                     />
 
-                    {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
-                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
-                ) : null} */}
+
                 </CardBody>
 
                 <CardBody>

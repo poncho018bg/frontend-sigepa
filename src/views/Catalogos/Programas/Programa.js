@@ -24,13 +24,13 @@ export const Programa = ({  programa }) => {
         fcvigenciainicio, fcvigenciafin,
         fcregistrowebinicio, fcregistrowebfin,
         fcregistropresencialinicio, fcregistropresencialfin,
-        dsdescripcion, dscriterioelegibilidad,
+        
         activo
     } = programa;
     const [idEliminar, setIdEliminar] = useState();
     const { setShowModalDelete } = useContext(ModalContextDelete);
-    const { eliminar, get } = useContext(ProgramasContext);
-    const [objetoActualizar, setObjetoActualizar] = useState();
+    const { eliminar} = useContext(ProgramasContext);
+    const [ setObjetoActualizar] = useState();
 
     const onClick = programa => {
         setShowModalDelete(true);

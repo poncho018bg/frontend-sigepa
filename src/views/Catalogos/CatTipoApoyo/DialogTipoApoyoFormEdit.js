@@ -76,8 +76,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     let history = useHistory();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
 
-    const classes = useStyles();
-    const { tipoApoyoEditar } = useSelector(state => state.tipoApoyo);
+    const classes = useStyles();   
     const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);
     const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
     const { programasList, get } = useContext(ProgramasContext);
@@ -378,9 +377,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
                             />
 
-                            {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
-                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
-                ) : null} */}
+
                         </DialogContent>
 
                         <DialogContent>

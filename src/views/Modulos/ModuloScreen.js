@@ -36,7 +36,7 @@ export const ModuloScreen = () => {
     const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [moduloSeleccionado, setModuloSeleccionado] = useState();
-    const { getModulos, eliminarModulo, moduloList, size, page, total, changePageSize,changePageSizes, changePage,getModulosParametros } = useContext(ModuloContext);
+    const { getModulos, eliminarModulo, moduloList, size, page, total, changePageSizes, changePage,getModulosParametros } = useContext(ModuloContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 

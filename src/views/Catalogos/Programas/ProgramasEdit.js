@@ -107,7 +107,7 @@ export const ProgramasEdit = () => {
 
 
   useEffect(() => {
-    const filesimg = []
+    
     const blobpgr = new Blob([imagenprg], { type: 'image/png' });   
     
     const file2 = new File([blobpgr], 'Proceso aduanal.png', { type: 'image/png' })    
