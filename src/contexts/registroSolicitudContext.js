@@ -8,7 +8,9 @@ import {
     GET_IDENTIFICACIONES_OFICIALES,
     REGISTRAR_BENEFICIARIO,
     REGISTRAR_DIRECCION_BENEFICIARIO,
-    GET_BENEFICIARIO
+    GET_BENEFICIARIO,
+    ACTUALIZAR_BENEFICIARIO,
+    OBTENER_DIRECCION
 } from 'types/actionTypes';
 
 import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas, axiosPut } from 'helpers/axiosPublico';
@@ -128,11 +130,44 @@ export const RegistroSolicitudContextProvider = props => {
     const getBeneficiario = async curp => {
         try {
             const resultado = await axiosGet(`beneficiarioOverride/curp/${curp}`);
+            console.log("resultado de la consulta ===>", resultado);
             dispatch({
                 type: GET_BENEFICIARIO,
                 payload: resultado
             }
             );
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    /**
+     * Se actualiza el beneficiario siempre que ya existe el registro.
+     * @param {beneficiario} beneficiario 
+     */
+    const actualizarBeneficiario = async beneficiario => {
+        try {
+            console.log(beneficiario);
+            const resultado = await axiosPut('beneficiarioOverride', beneficiario);
+            console.log("resultado --->", resultado);
+            dispatch({
+                type: ACTUALIZAR_BENEFICIARIO,
+                payload: resultado
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const obtenerDireccionBeneficiario = async idBeneficiario => {
+        try {
+            console.log("LLEGA EL ID DEL BENEFICIARIO DIRECCION ====>",idBeneficiario);
+            const resultado = await axiosGet(`domicilioOverride/domicilio/${idBeneficiario}`);
+            console.log("resultado CONSULTA DE DIRECCION--->", resultado);
+            dispatch({
+                type: OBTENER_DIRECCION,
+                payload: resultado
+            });
         } catch (error) {
             console.log(error);
         }
@@ -153,7 +188,9 @@ export const RegistroSolicitudContextProvider = props => {
             registrarBeneficiario,
             registrarDireccionBeneficiario,
             actualizarDireccionBeneficiario,
-            getBeneficiario
+            getBeneficiario,
+            actualizarBeneficiario,
+            obtenerDireccionBeneficiario
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>

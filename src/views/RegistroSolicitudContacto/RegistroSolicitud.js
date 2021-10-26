@@ -43,7 +43,9 @@ export const RegistroSolicitud = () => {
     const [activar, setActivar] = useState();
     const [curp, setCurp] = useState();
 
-    const { beneficiario, registrarBeneficiario, direccion, registrarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
+    const { beneficiario, registrarBeneficiario, direccion,
+        registrarDireccionBeneficiario, getBeneficiario, actualizarBeneficiario,
+        obtenerDireccionBeneficiario } = useContext(RegistroSolicitudContext);
     //
     const child = useRef();
     const direccionChild = useRef();
@@ -62,11 +64,11 @@ export const RegistroSolicitud = () => {
      * @param {estadoCivil} estadoCivil 
      * @param {identificacion} identificacion 
      */
-    const llenarDatosBeneficiario = (nombre, apellidoPaterno, apellidoMaterno, curp, genero, fechaNacimientoReal, edad, estudios, estadoCivil, identificacion) => {
+    const llenarDatosBeneficiario = (id, nombre, apellidoPaterno, apellidoMaterno, curp, genero, fechaNacimientoReal, edad, estudios, estadoCivil, identificacion) => {
         /**
          * se guarda al ejecutar esta función
          */
-        console.log("funcion llenar datos", nombre,
+        console.log("funcion llenar datos", id, nombre,
             apellidoPaterno,
             apellidoMaterno,
             curp,
@@ -77,27 +79,45 @@ export const RegistroSolicitud = () => {
             estadoCivil,
             identificacion);
 
-        let datosEnviar = {
-            dsnombre: nombre,
-            dsapellido1: apellidoPaterno,
-            dsapellido2: apellidoMaterno,
-            dscurp: curp,
-            fcfechanacimiento: fechaNacimientoReal,
-            idgenero: genero,
-            //edad,
-            idestadocivil: estadoCivil,
-            idgradoestudios: estudios,
-            ididentificacionoficial: identificacion
+        console.log("ID DEL BENEFICIARIO", id);
+        if (id == undefined) {
+            let datosEnviar = {
+                dsnombre: nombre,
+                dsapellido1: apellidoPaterno,
+                dsapellido2: apellidoMaterno,
+                dscurp: curp,
+                fcfechanacimiento: fechaNacimientoReal,
+                idgenero: genero,
+                //edad,
+                idestadocivil: estadoCivil,
+                idgradoestudios: estudios,
+                ididentificacionoficial: identificacion
+            }
+            console.log("datos enviados ---> ", datosEnviar);
+            /**
+             * al llegar aqui se inicia el guardado en la BD
+             */
+            registrarBeneficiario(datosEnviar);
+        } else {
+            console.log("Aun tenemos el beneficiario id", id)
+            let datosEnviar = {
+                id: id,
+                dsnombre: nombre,
+                dsapellido1: apellidoPaterno,
+                dsapellido2: apellidoMaterno,
+                dscurp: curp,
+                fcfechanacimiento: fechaNacimientoReal,
+                idgenero: genero,
+                //edad,
+                idestadocivil: estadoCivil,
+                idgradoestudios: estudios,
+                ididentificacionoficial: identificacion
+            }
+            /**
+             * si se hace algun edición se guarda aquí
+             */
+            actualizarBeneficiario(datosEnviar);
         }
-        console.log("datos enviados ---> ", datosEnviar);
-        /**
-         * al llegar aqui se inicia el guardado en la BD
-         */
-        registrarBeneficiario(datosEnviar);
-        /**
-         * Se inicializa el nextbutton para asegurar que va a llegar a la siguiente pantalla los datos a enviar
-         */
-        //NextButton();
     }
 
 
@@ -117,8 +137,20 @@ export const RegistroSolicitud = () => {
     };
 
     const handleNext = () => {
+        if (activeStep == 0) {
+            console.log("curp----->", curp);
+            /**
+             * consulta para traer el id y datos del beneficiario
+             */
+            getBeneficiario(curp);
+        }
         if (activeStep == 1) {
             child.current.registroBeneficiario();
+            /**
+             * hacemos una consulta para obtener el domicilio del beneficiario, si es que tiene datos
+             */
+            console.log("BENEFICIARIO ID DIRECCION ====>", beneficiario.id);
+            obtenerDireccionBeneficiario(beneficiario.id);
         }
         if (activeStep == 2) {
             console.log("ACtive STEP 2", beneficiario)
@@ -201,9 +233,9 @@ export const RegistroSolicitud = () => {
                     {activeStep === 0 ?
                         <RegistroCurp setActivar={setActivar} setCurp={setCurp} />
                         : activeStep === 1 ?
-                            <RegistroDatosSolicitante curpR={curp} llenarDatosBeneficiario={llenarDatosBeneficiario} ref={child} />
+                            <RegistroDatosSolicitante curpR={curp} llenarDatosBeneficiario={llenarDatosBeneficiario} ref={child} beneficiario={beneficiario} />
                             : activeStep === 2 ?
-                                <RegistroDireccion beneficiario={beneficiario} obtenerDireccion={obtenerDireccion} ref={direccionChild} />
+                                <RegistroDireccion beneficiario={beneficiario} obtenerDireccion={obtenerDireccion} ref={direccionChild} direccionBeneficiario={direccion} />
                                 : activeStep === 3 ?
                                     <RegistroSolicitudContacto direccionB={direccion} beneficiario={beneficiario} ref={contacto} />
                                     : activeStep === 4 ?

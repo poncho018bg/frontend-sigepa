@@ -5,85 +5,84 @@ const baseUrl = process.env.REACT_APP_API_PUBLICO_URL;
 
 const baseUrlExpediente = process.env.REACT_APP_API_EXPEDIENTE_URL;
 
- async function axiosGet(endpoint) {
-     const url = `${ baseUrl }${ endpoint }`;
+async function axiosGet(endpoint) {
+    const url = `${baseUrl}${endpoint}`;
 
 
-    try{
-            const promise = await axios({
-                method:'GET',
-                url,
-                headers: {
-                    Authorization: 'Bearer ' + UserService.getToken(),
-                }
-            }).then(response => {
+    try {
+        const promise = await axios({
+            method: 'GET',
+            url,
+            headers: {
+                Authorization: 'Bearer ' + UserService.getToken(),
+            }
+        }).then(response => {
             return response.data
-            });
-            return promise;
-        } catch (error) {
+        });
+        return promise;
+    } catch (error) {
         console.error('There was an error!', error);
         return Promise.reject(error)
     }
 }
 
+async function axiosPost(endpoint, data, method) {
+    const url = `${baseUrl}${endpoint}`;
 
- async function axiosPost(endpoint,data, method ) {
-    const url = `${ baseUrl }${ endpoint }`;
+    try {
+        const promise = await axios({
+            method: 'POST',
+            url,
+            data,
 
-    try{
-            const promise = await axios({
-                method:'POST',
-                url,
-                data,
-               
-                headers: {
-                    Authorization: 'Bearer ' + UserService.getToken(),
-                    'Content-Type': 'application/json'
-                }
-            }).then(response => {
+            headers: {
+                Authorization: 'Bearer ' + UserService.getToken(),
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
             return response.data
-            });
-            return promise;
-        } catch (error) {
+        });
+        return promise;
+    } catch (error) {
         console.error('There was an error!', error);
         return promise;
-        }
+    }
 }
 
-async function axiosPut(endpoint,data, method ) {
-    const url = `${ baseUrl }${ endpoint }`;
+async function axiosPut(endpoint, data, method) {
+    const url = `${baseUrl}${endpoint}`;
 
-    try{
-            const promise = await axios({
-                method:'PUT',
-                url,
-                data,
-               
-                headers: {
-                    Authorization: 'Bearer ' + UserService.getToken(),
-                    'Content-Type': 'application/json'
-                }
-            }).then(response => {
+    try {
+        const promise = await axios({
+            method: 'PUT',
+            url,
+            data,
+
+            headers: {
+                Authorization: 'Bearer ' + UserService.getToken(),
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
             return response.data
-            });
-            return promise;
-        } catch (error) {
+        });
+        return promise;
+    } catch (error) {
         console.error('There was an error!', error);
         return promise;
-        }
+    }
 }
 
 async function axiosGetSinToken(endpoint) {
-    const url = `${ endpoint }`;
-    try{
-            const promise = await axios({
-                method:'GET',
-                url
-            }).then(response => {
+    const url = `${endpoint}`;
+    try {
+        const promise = await axios({
+            method: 'GET',
+            url
+        }).then(response => {
             return response.data
-            });
-            return promise;
-        } catch (error) {
+        });
+        return promise;
+    } catch (error) {
         console.error('There was an error!', error);
         return Promise.reject(error)
     }
@@ -91,19 +90,19 @@ async function axiosGetSinToken(endpoint) {
 
 
 async function axiosGetExpediente(endpoint) {
-    const url = `${ baseUrlExpediente }${ endpoint }`;
-    try{
-            const promise = await axios({
-                method:'GET',
-                url,
-                headers: {
-                    Authorization: 'Bearer ' + UserService.getToken(),
-                }
-            }).then(response => {
+    const url = `${baseUrlExpediente}${endpoint}`;
+    try {
+        const promise = await axios({
+            method: 'GET',
+            url,
+            headers: {
+                Authorization: 'Bearer ' + UserService.getToken(),
+            }
+        }).then(response => {
             return response.data
-            });
-            return promise;
-        } catch (error) {
+        });
+        return promise;
+    } catch (error) {
         console.error('There was an error!', error);
         return Promise.reject(error)
     }
@@ -112,144 +111,144 @@ async function axiosGetExpediente(endpoint) {
 
 async function axiosExpedienteToken(endpoint, method) {
     console.log(method);
-    const url = `${ baseUrlExpediente }${ endpoint }`;
+    const url = `${baseUrlExpediente}${endpoint}`;
     console.log(url);
-    try{
-            const promise = await axios({
-                method,
-                url,
-                headers: {
-                    Authorization: 'Bearer ' + UserService.getToken(),
-                }
-            }).then(response => {
+    try {
+        const promise = await axios({
+            method,
+            url,
+            headers: {
+                Authorization: 'Bearer ' + UserService.getToken(),
+            }
+        }).then(response => {
             return response.data
-            });
-            return promise;
-        } catch (error) {
+        });
+        return promise;
+    } catch (error) {
         console.error('There was an error!', error);
         return Promise.reject(error)
     }
 }
 
-async function axiosPostExpediente(endpoint,data, method ) {
-    const url = `${ baseUrlExpediente }${ endpoint }`;
-    try{
-            const promise = await axios({
-                method,
-                data,
-                url,
-                headers: {
-                    Authorization: 'Bearer ' + UserService.getToken(),
-                }
-            }).then(response => {
+async function axiosPostExpediente(endpoint, data, method) {
+    const url = `${baseUrlExpediente}${endpoint}`;
+    try {
+        const promise = await axios({
+            method,
+            data,
+            url,
+            headers: {
+                Authorization: 'Bearer ' + UserService.getToken(),
+            }
+        }).then(response => {
             return response.data
-            });
-            return promise;
-        } catch (error) {
+        });
+        return promise;
+    } catch (error) {
         console.error('There was an error!', error);
         return Promise.reject(error)
     }
 }
 
 async function axiosGetTipo(endpoint) {
-    const url = `${ baseUrlExpediente }${ endpoint }`;
-    try{
-            const promise = await axios({
-                method:'GET',
-                url,
-                headers: {
-                    Authorization: 'Bearer ' + UserService.getToken(),
-                }
-            }).then(response => {
+    const url = `${baseUrlExpediente}${endpoint}`;
+    try {
+        const promise = await axios({
+            method: 'GET',
+            url,
+            headers: {
+                Authorization: 'Bearer ' + UserService.getToken(),
+            }
+        }).then(response => {
             return response.data
-            });
-            return promise;
-        } catch (error) {
+        });
+        return promise;
+    } catch (error) {
         console.error('There was an error!', error);
         return Promise.reject(error)
     }
 }
 
 
- async function axiosPostTipo(endpoint,data, method ) {
-    const url = `${ baseUrlExpediente }${ endpoint }`;
-    try{
-            const promise = await axios({
-                method,
-                url,
-                data,
-               
-                headers: {
-                    Authorization: 'Bearer ' + UserService.getToken(),
-                    'Content-Type': 'application/json'
-                }
-            }).then(response => {
+async function axiosPostTipo(endpoint, data, method) {
+    const url = `${baseUrlExpediente}${endpoint}`;
+    try {
+        const promise = await axios({
+            method,
+            url,
+            data,
+
+            headers: {
+                Authorization: 'Bearer ' + UserService.getToken(),
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
             return response.data
-            });
-            return promise;
-        } catch (error) {
+        });
+        return promise;
+    } catch (error) {
         console.error('There was an error!', error);
         return Promise.reject(error);
-        }
+    }
 }
 
 
 async function axiosDeleteTipo(endpoint) {
-    const url = `${ baseUrl }${ endpoint }`;
-    try{
-            const promise = await axios({
-                method:'DELETE',
-                url,
-                headers: {
-                    Authorization: 'Bearer ' + UserService.getToken(),
-                }
-            }).then(response => {
+    const url = `${baseUrl}${endpoint}`;
+    try {
+        const promise = await axios({
+            method: 'DELETE',
+            url,
+            headers: {
+                Authorization: 'Bearer ' + UserService.getToken(),
+            }
+        }).then(response => {
             return response.data
-            });
-            return promise;
-        } catch (error) {
+        });
+        return promise;
+    } catch (error) {
         console.error('There was an error!', error);
         return Promise.reject(error)
     }
 }
 
 
-async function axiosPostHetoas(endpoint,data, method ) {
+async function axiosPostHetoas(endpoint, data, method) {
     const url = endpoint;
-    try{
-            const promise = await axios({
-                method,
-                url,
-                data,
-               
-                headers: {
-                    Authorization: 'Bearer ' + UserService.getToken(),
-                    'Content-Type': 'application/json'
-                }
-            }).then(response => {
+    try {
+        const promise = await axios({
+            method,
+            url,
+            data,
+
+            headers: {
+                Authorization: 'Bearer ' + UserService.getToken(),
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
             return response.data
-            });
-            return promise;
-        } catch (error) {
+        });
+        return promise;
+    } catch (error) {
         console.error('There was an error!', error);
         return Promise.reject(error);
-        }
+    }
 }
 
 async function axiosGetHetoas(endpoint) {
     const url = endpoint;
-    try{
-            const promise = await axios({
-                method:'GET',
-                url,
-                headers: {
-                    Authorization: 'Bearer ' + UserService.getToken(),
-                }
-            }).then(response => {
+    try {
+        const promise = await axios({
+            method: 'GET',
+            url,
+            headers: {
+                Authorization: 'Bearer ' + UserService.getToken(),
+            }
+        }).then(response => {
             return response.data
-            });
-            return promise;
-        } catch (error) {
+        });
+        return promise;
+    } catch (error) {
         console.error('There was an error!', error);
         return Promise.reject(error)
     }

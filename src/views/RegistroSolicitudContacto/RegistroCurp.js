@@ -38,8 +38,7 @@ export const RegistroCurp = ({ setActivar, setCurp }) => {
 
     const Next = () => {
         console.log("entro al next");
-        setActivar(isValidated());
-        console.log("imprime el validar", isValidated());
+        setActivar(true);
     }
     useEffect(() => {
         Next();
@@ -54,6 +53,7 @@ export const RegistroCurp = ({ setActivar, setCurp }) => {
     };
 
     const isValidated = () => {
+        
         if (
             emailState === "success"
         ) {
@@ -78,7 +78,9 @@ export const RegistroCurp = ({ setActivar, setCurp }) => {
 
                             </h4>
                         </GridItem>
+                        {/*
                         <GridItem xs={12} sm={12} md={12} lg={10}>
+                            
                             <CustomInput
                                 success={emailState === "success"}
                                 error={emailState === "error"}
@@ -108,6 +110,7 @@ export const RegistroCurp = ({ setActivar, setCurp }) => {
                                 }}
                             />
                         </GridItem>
+                            */}
                         <GridItem xs={12} sm={12} md={12} lg={10}>
                             <TextField
                                 style={{ marginBottom: '20px' }}

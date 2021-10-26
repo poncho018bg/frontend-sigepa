@@ -5,7 +5,9 @@ import {
     GET_IDENTIFICACIONES_OFICIALES,
     REGISTRAR_BENEFICIARIO,
     REGISTRAR_DIRECCION_BENEFICIARIO,
-    GET_BENEFICIARIO
+    GET_BENEFICIARIO,
+    ACTUALIZAR_BENEFICIARIO,
+    OBTENER_DIRECCION
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -48,6 +50,16 @@ export default (state, action) => {
             return {
                 ...state,
                 beneficiario: action.payload
+            };
+        case ACTUALIZAR_BENEFICIARIO:
+            return {
+                ...state,
+                beneficiario: action.payload
+            };
+        case OBTENER_DIRECCION:
+            return {
+                ...state,
+                direccion: action.payload
             };
         default:
             return state;
