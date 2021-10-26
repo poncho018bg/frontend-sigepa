@@ -111,7 +111,7 @@ export const CarouselProgramas = () => {
                                     <Card product className={classes.cardHover}>
                                         <CardHeader image className={classes.cardHeaderHover}>
                                             <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                                                <img src={priceImage1} alt="..." />
+                                               
                                             </a>
                                         </CardHeader>
                                         <CardBody>

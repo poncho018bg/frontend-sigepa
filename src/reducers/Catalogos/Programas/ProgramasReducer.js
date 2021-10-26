@@ -90,7 +90,7 @@ export default (state, action) => {
             case GET_IMAGEN_PROGRAMAS:
             return {
                 ...state,
-                imagenprg: action
+                imagenprg: action.payload
             };
         default:
             return state;

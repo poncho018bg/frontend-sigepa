@@ -107,11 +107,15 @@ export const ProgramasEdit = () => {
 
 
   useEffect(() => {
-    
+    console.log('<1',imagenprg)
+  
     const blobpgr = new Blob([imagenprg], { type: 'image/png' });   
     
-    const file2 = new File([blobpgr], 'Proceso aduanal.png', { type: 'image/png' })    
-    console.log(file2)
+    const file2 = new File([blobpgr], 'Proceso aduanal.png', { type: 'image/png' })  
+
+    setArchivoPrograma(`data:image/png;base64,${imagenprg}`)
+    console.log('blobpgr>>>',blobpgr)
+    console.log('file2>>>>',file2)
 
   }, [imagenprg]);
 
@@ -251,6 +255,16 @@ export const ProgramasEdit = () => {
       .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
     dsobservaciones: Yup.string()
       .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+    dsidentificadorplantilla: Yup.string()
+      .required('El identificador plantilla es obligatorio'),
+    dsnombreplantilla: Yup.string()
+      .required('El nombre de la plantilla es obligatorio'),
+    dsobjetivo: Yup.string()
+      .required('El objetivo es obligatorio'),
+    dscriteriosseleccion: Yup.string()
+      .required('Los criterios de selección son obligatorios'),
+    dscriteriospriorizacion: Yup.string()
+      .required('Los criterios de priorización son obligatorios'),
   });
 
   const [valores, setValores] = useState();
@@ -684,6 +698,8 @@ export const ProgramasEdit = () => {
                           </FormHelperText>
                         ) : null}
                       </GridItem>
+                    </GridContainer>
+                    <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
                         <TextField
                           id="dscontinuidad"
@@ -706,6 +722,8 @@ export const ProgramasEdit = () => {
                           </FormHelperText>
                         ) : null}
                       </GridItem>
+                    </GridContainer>
+                    <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
                         <TextField
                           id="dsobservaciones"
@@ -724,17 +742,161 @@ export const ProgramasEdit = () => {
                         />
                       </GridItem>
 
+                    </GridContainer>
+
+                    <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
-                        <Grid item xs={12}>
-                          <DropzoneAreaBase
-                            acceptedFiles={['image/png']}
-                            filesLimit='1'
-                            onAdd={(fileObjs) => setArchivoPrograma(fileObjs)}
-                            fileObjects={archivoPrograma}
-                          />
-                        </Grid>
+
+
+                        <TextField
+                          style={{ marginBottom: '20px' }}
+                          id="dsnombreplantilla"
+                          error={props.errors.dsnombreplantilla}
+                          label="Nombre de la plantilla"
+                          variant="outlined"
+                          name="dsnombreplantilla"
+                          fullWidth
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.dsnombreplantilla}
+                          InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "500" }}
+                        />
+                        {props.touched.dsnombreplantilla && props.errors.dsnombreplantilla ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsnombreplantilla}>
+                            {props.errors.dsnombreplantilla}
+                          </FormHelperText>
+                        ) : null}
                       </GridItem>
                     </GridContainer>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <TextField
+                          style={{ marginBottom: '20px' }}
+                          id="dsidentificadorplantilla"
+                          error={props.errors.dsidentificadorplantilla}
+                          label="Identificador de plantilla"
+                          variant="outlined"
+                          name="dsidentificadorplantilla"
+                          fullWidth
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.dsidentificadorplantilla}
+                          InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "500" }}
+                        />
+                        {props.touched.dsidentificadorplantilla && props.errors.dsidentificadorplantilla ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsidentificadorplantilla}>
+                            {props.errors.dsidentificadorplantilla}
+                          </FormHelperText>
+                        ) : null}
+                      </GridItem>
+
+                    </GridContainer>
+
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <TextField
+                          id="dsobjetivo"
+                          name="dsobjetivo"
+                          label="Objetivo"
+                          style={{ marginBottom: '20px' }}
+                          fullWidth
+                          multiline
+                          rows={4}
+                          variant="outlined"
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.dsobjetivo}
+                          InputLabelProps={{ shrink: true }}
+
+                        />
+
+                        {props.touched.dsobjetivo && props.errors.dsobjetivo ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsobjetivo}>
+                            {props.errors.dsobjetivo}
+                          </FormHelperText>
+                        ) : null}
+                      </GridItem>
+                    </GridContainer>
+
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <TextField
+                          id="dscriteriosseleccion"
+                          name="dscriteriosseleccion"
+                          label="Criterios de selección"
+                          style={{ marginBottom: '20px' }}
+                          fullWidth
+                          multiline
+                          rows={4}
+                          variant="outlined"
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.dscriteriosseleccion}
+                          InputLabelProps={{ shrink: true }}
+
+                        />
+
+                        {props.touched.dscriteriosseleccion && props.errors.dscriteriosseleccion ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dscriteriosseleccion}>
+                            {props.errors.dscriteriosseleccion}
+                          </FormHelperText>
+                        ) : null}
+                      </GridItem>
+                    </GridContainer>
+
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <TextField
+                          id="dscriteriospriorizacion"
+                          name="dscriteriospriorizacion"
+                          label="Criterios de priorización"
+                          style={{ marginBottom: '20px' }}
+                          fullWidth
+                          multiline
+                          rows={4}
+                          variant="outlined"
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.dscriteriospriorizacion}
+                          InputLabelProps={{ shrink: true }}
+
+                        />
+
+                        {props.touched.dscriteriospriorizacion && props.errors.dscriteriospriorizacion ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dscriteriospriorizacion}>
+                            {props.errors.dscriteriospriorizacion}
+                          </FormHelperText>
+                        ) : null}
+                      </GridItem>
+                    </GridContainer>
+
+               
+
+                    <GridContainer>
+                      {console.log('imgxxx=>',archivoPrograma)}
+                      {console.log('${archivoPrograma[0]?.data}',`${archivoPrograma[0]?.data}`)}
+                <GridItem xs={12} sm={12} md={6}>
+                  <DropzoneAreaBase
+                    acceptedFiles={['image/png']}
+                    onAdd={(fileObjs) => setArchivoPrograma(fileObjs)}
+                    fileObjects={archivoPrograma}
+                    filesLimit='1'
+                    showPreviews={false}
+                    showPreviewsInDropzone={false}
+                    useChipsForPreview={false}
+                    previewChipProps={false}
+                   
+                  />
+
+                </GridItem>
+                <GridItem xs={12} sm={12} md={6}>
+
+                  <img width='500' height='200' src={`${archivoPrograma[0]?.data}`} />
+
+                </GridItem>
+              </GridContainer>
 
                     <Button className={classes.updateProfileButton}
                       type='submit'>

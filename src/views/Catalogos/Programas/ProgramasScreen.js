@@ -94,7 +94,7 @@ export const ProgramasScreen = () => {
   const [idEliminar, setIdEliminar] = useState();
   const { setShowModalDelete } = useContext(ModalContextDelete);
   const { eliminar } = useContext(ProgramasContext);
-  const [ setObjetoActualizar] = useState();
+  const [objetoActualizar, setObjetoActualizar] = useState();
   let history = useHistory();
 
 
