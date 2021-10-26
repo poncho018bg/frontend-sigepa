@@ -10,7 +10,6 @@ import { makeStyles, Table, TableBody, TableCell, TableHead, TablePagination, Ta
 import { stylesArchivo } from 'css/stylesArchivo';
 import SearchBar from 'material-ui-search-bar';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
-import { Programa } from './Programa';
 import Add from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
 import { Loading } from "components/Personalizados/Loading";
@@ -34,7 +33,7 @@ import { useHistory } from 'react-router';
 export const ProgramasScreen = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const [searched, setSearched] = useState('');
+  const [searched] = useState('');
   const [loading, setLoading] = useState(true);
   const [pagina, setPagina] = useState(0);
 
@@ -43,7 +42,7 @@ export const ProgramasScreen = () => {
     pageP,
     totalP,
     changePageSize,
-    changePage, changePageNumber,getByParametros} = useContext(ProgramasContext);
+    changePage, getByParametros} = useContext(ProgramasContext);
 
   const { getTipoBeneficiarios } = useContext(TiposBeneficiariosContext);
   const { getEdadesBeneficiarios } = useContext(EdadesBeneficiariosContext);
@@ -78,7 +77,7 @@ export const ProgramasScreen = () => {
     get().then(data => {
       setTimeout(() => setLoading(false), 500);
 
-    });;
+    })
 
   }, []);
 

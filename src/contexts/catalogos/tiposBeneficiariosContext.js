@@ -8,7 +8,7 @@ import {
     AGREGAR_TIPOS_BENEFICIARIOS_ERROR
 } from "../../types/actionTypes";
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,   axiosPostHetoas } from 'helpers/axios';
 const baseUrl = process.env.REACT_APP_API_URL;
 export const TiposBeneficiariosContext = createContext();
 

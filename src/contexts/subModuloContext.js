@@ -3,11 +3,11 @@ import SubModuloReducer from '../reducers/SubModuloReducer';
 import axios from "axios";
 import {
     GET_SUBMODULOS, REGISTRAR_SUBMODULO, ELIMINAR_SUBMODULO, MODIFICAR_SUBMODULO, GET_MODULO_SUBMODULOS,
-    AGREGAR_SUBMODULOS_ERROR,
-    CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA
+    AGREGAR_SUBMODULOS_ERROR
+    
+    
 } from '../types/actionTypes';
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,  axiosPostHetoas } from 'helpers/axios';
 import UserService from 'servicios/UserService';
 
 const baseUrl = process.env.REACT_APP_API_URL;

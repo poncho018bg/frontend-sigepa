@@ -1,8 +1,7 @@
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox, Dialog, DialogTitle, FormControlLabel, FormHelperText, FormLabel, Grid, Input, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, Radio, RadioGroup, Select, TextField } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLabel, FormHelperText, FormLabel, Grid,      makeStyles, MenuItem,  Radio, RadioGroup,  TextField } from '@material-ui/core'
 import React, { useEffect, useState, useContext } from 'react';
 import Button from "components/CustomButtons/Button.js";
 import DialogContent from '@material-ui/core/DialogContent';
-import { useSelector } from 'react-redux';
 import { stylesArchivo } from 'css/stylesArchivo';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Formik } from 'formik';
@@ -12,10 +11,8 @@ import { PeriodicidadApoyosContext } from 'contexts/catalogos/periodicidadApoyos
 
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import moment from 'moment';
 import 'moment/locale/es';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
-import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 import { NumeroApoyosContext } from 'contexts/catalogos/numeroApoyosContext';
 import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
 import { MultiSelect } from "react-multi-select-component";
@@ -78,8 +75,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     let history = useHistory();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
 
-    const classes = useStyles();
-    const { tipoApoyoEditar } = useSelector(state => state.tipoApoyo);
+    const classes = useStyles();   
     const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);
     const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
     const { programasList, get } = useContext(ProgramasContext);
@@ -91,10 +87,10 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     const [tipoApoyoSelect, setTipoApoyoSelect] = React.useState([]);
     const [actividadesContinuarSelect, setActividadesContinuarSelect] = React.useState([]);
 
-    const [selected, setSelected] = useState([]);
+ 
     const [selectedTipApoy, setSelectedTipApoy] = useState([]);
     const [selectedActividadesContinuar, setSelectedActividadesContinuar] = useState([]);
-    const [expanded, setExpanded] = React.useState(true)
+  
 
     //dialog confirmacion
     const [valores, setValores] = useState();
@@ -199,8 +195,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     const actualizarTipoApoyo = async valores => {
         valores.idTipoApoyo = selectedTipApoy
         valores.idActividadContinuidadApoyo = selectedActividadesContinuar
-        // actualizarApoyo(valores);
-        // setShowModalUpdate(false);
+
         confirmacionDialog(valores);
     }
 
@@ -221,18 +216,14 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
             setOpenSnackbar(true);
             setError(true);
             setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
-        });;
+        })
     }
 
 
     function isActiveOption(apoyo) {
         var apy = personaSeleccionada?.enServicio?.filter(ab => ab.id === apoyo.id)
-        if (apy.length > 0) {
-            return true;
-        } else {
-            return false
-        }
-    }
+         return  (apy.length > 0)
+             }
 
     return (
 
@@ -385,9 +376,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
                             />
 
-                            {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
-                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
-                ) : null} */}
+
                         </DialogContent>
 
                         <DialogContent>
@@ -595,9 +584,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                 labelledBy="Seleccionar"
                             />
 
-                            {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
-                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
-                ) : null} */}
+
                         </DialogContent>
 
 

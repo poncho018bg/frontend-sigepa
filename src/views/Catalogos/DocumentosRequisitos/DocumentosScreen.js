@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
@@ -35,13 +34,12 @@ import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModalUpdate } from 'commons/ModalUpdate';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { useTranslation } from 'react-i18next';
-import { SignalCellularConnectedNoInternet0Bar } from '@material-ui/icons';
 const useStyles = makeStyles(stylesArchivo);
 
 export const DocumentosScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
+    const [searched ]= useState('');
 
     const [documentoSeleccionado, setDocumentoSeleccionado] = useState();
     const { getDocumentos, documentosList, eliminarDocumentos, getDocumentosByParametros } = useContext(DocumentosContext);
@@ -50,10 +48,10 @@ export const DocumentosScreen = () => {
     const [idEliminar, setIdEliminar] = useState(0);
     const [documentoProgramaSeleccionado, setDocumentoProgramaSeleccionado] = useState();
     const [verProgramasDocumento, setVerProgramasDocumento] = useState();
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ setOpenDialog] = useState(false);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -89,7 +87,7 @@ export const DocumentosScreen = () => {
 
 
     const verProgramas = (e) => {
-        //setDocumentoProgramaSeleccionado();
+       
         console.log("programa seleccionado --->", e);
         if (documentoProgramaSeleccionado == e) {
             console.log("es igual");

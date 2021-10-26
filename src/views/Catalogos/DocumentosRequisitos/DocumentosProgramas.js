@@ -9,7 +9,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardActions from '@material-ui/core/CardActions';
 import SearchBar from "material-ui-search-bar";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid, Checkbox } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
 
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';

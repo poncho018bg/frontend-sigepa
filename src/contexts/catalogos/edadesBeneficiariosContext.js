@@ -6,13 +6,13 @@ import {
     REGISTRAR_EDADES_BENEFICIARIOS,
     MODIFICAR_EDADES_BENEFICIARIOS, ELIMINAR_EDADES_BENEFICIARIOS,
     GET_EDADES_BENEFICIARIOS_BY_ID,
-    AGREGAR_PROGRAMA_ERROR,
+    
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from "../../types/actionTypes";
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
-import { axiosGetHetoas } from 'helpers/axios';
+import { axiosGet,  axiosPostHetoas,axiosGetHetoas } from 'helpers/axios';
+
 
 const baseUrl = process.env.REACT_APP_API_URL;
 export const EdadesBeneficiariosContext = createContext();

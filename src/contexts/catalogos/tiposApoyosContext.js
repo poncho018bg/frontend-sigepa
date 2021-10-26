@@ -3,12 +3,12 @@ import TiposApoyosReducer from 'reducers/Catalogos/TiposApoyosReducer';
 
 import {
     GET_TIPOS_APOYOS, REGISTRAR_TIPOS_APOYOS, ELIMINAR_TIPOS_APOYOS, MODIFICAR_TIPOS_APOYOS,
-    AGREGAR_PROGRAMA_ERROR,
+    
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from "../../types/actionTypes";
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet, axiosPost,  axiosPostHetoas } from 'helpers/axios';
 
 export const TiposApoyosContext = createContext();
 

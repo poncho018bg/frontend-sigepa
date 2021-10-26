@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -12,16 +11,13 @@ import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 import { Loading } from 'views/Loading/Loading';
 import { DialogDelete } from 'views/Dialogs/DialogDelete';
-import { tipoApoyoEditar, tipoApoyoEliminar, borrarModuloAction, obtenerTipoApoyoAction } from 'actions/TipoApoyoAction';
+import { tipoApoyoEditar,  obtenerTipoApoyoAction } from 'actions/TipoApoyoAction';
 import { Link } from 'react-router-dom';
 import { DialogTipoApoyoFormEdit } from './DialogTipoApoyoFormEdit';
 import { ModalUpdate } from 'commons/ModalUpdate';
@@ -41,16 +37,16 @@ export const CatTipoApoyoScreen = () => {
     const dispatch = useDispatch();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
 
-    const [showDialogForm, setShowDialogForm] = useState(false);
+    const [ setShowDialogForm] = useState(false);
     const [open, setOpen] = useState(false);
-    const [severity, setSeverity] = useState('info');
-    const [message, setMessage] = useState('mensaje');
-    const [idSelect, setIdSelect] = useState('');
+    const [severity] = useState('info');
+    const [message] = useState('mensaje');
+
     const [openDialog, setOpenDialog] = useState(false);
     const [personaSeleccionada, setPersonaSeleccionada] = useState();
-    const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
+    const { showModalUpdate,  setShowModalUpdate }
         = useContext(ModalContextUpdate);
     const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
     const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);
@@ -58,7 +54,7 @@ export const CatTipoApoyoScreen = () => {
     const [idPeriodicidadsl, setIdPeriodicidadsl] = useState('');
     const { eliminarApoyo } = useContext(ApoyoContext)
     const { setShowModalDelete } = useContext(ModalContextDelete);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
@@ -93,8 +89,7 @@ export const CatTipoApoyoScreen = () => {
     };
 
     const onSelect = (e) => {
-        //dispatch(tipoApoyoEditar(e));
-        //setShowDialogForm(true);
+
         setShowModalUpdate(true);
         setPersonaSeleccionada(e);
     }
@@ -112,8 +107,7 @@ export const CatTipoApoyoScreen = () => {
                
     }
 
-    const handleDeshabilitar = () => {
-       // dispatch(borrarModuloAction());       
+    const handleDeshabilitar = () => {    
        eliminarApoyo(idEliminar)
 
         setShowModalDelete(false);

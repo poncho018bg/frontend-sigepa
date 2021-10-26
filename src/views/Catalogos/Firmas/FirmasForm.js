@@ -1,4 +1,4 @@
-import { Button, DialogContent, FormHelperText, Grid, TextField, MenuItem } from '@material-ui/core';
+import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core';
 import React, { useEffect, useContext, useState } from 'react';
 
 import { useFormik } from 'formik'
@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 
 export const FirmasForm = () => {
     const { t } = useTranslation();
-    const { registrarFirmas, getProgramas, programaList } = useContext(FirmasContext);
+    const { registrarFirmas, getProgramas } = useContext(FirmasContext);
     const { setShowModal } = useContext(ModalContext);
 
 

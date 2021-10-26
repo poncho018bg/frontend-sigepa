@@ -1,10 +1,10 @@
 import React, { createContext, useReducer } from 'react';
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet, axiosPostHetoas } from 'helpers/axios';
 import {
     GET_LOCALIDADES,
     REGISTRAR_LOCALIDADES,
-    ELIMINAR_LOCALIDADES,
+    
     MODIFICAR_LOCALIDADES,
     AGREGAR_PROGRAMA_ERROR,
     CAMBIAR_PAGINA,
@@ -15,7 +15,7 @@ import {
 
 import LocalidadesReducer from 'reducers/Catalogos/Localidades/LocalidadesReducer';
 import axios from "axios";
-import pagesHeaderStyle from 'assets/jss/material-dashboard-pro-react/components/authNavbarStyle';
+
 const baseUrl = process.env.REACT_APP_API_URL;
 
 
@@ -58,7 +58,7 @@ export const LocalidadesContextProvider = props => {
     const registrar = async localidades => {
 
         try {
-            //const resultado = await axiosPost('localidades', localidades);
+            
 
             const url = `${baseUrl}localidades`;
             return new Promise((resolve, reject) => {
@@ -75,10 +75,7 @@ export const LocalidadesContextProvider = props => {
                 });
             });
 
-            /* dispatch({
-                 type: REGISTRAR_LOCALIDADES,
-                 payload: resultado
-             })*/
+           
         } catch (error) {
             console.log('ocurrio un error en el context');
             console.log(error);
@@ -134,7 +131,7 @@ export const LocalidadesContextProvider = props => {
             municipio_id,
 
             _links: { localidades: { href } },
-            _links: { municipios: { hrefm } }
+           
         } = valores;
         const act = activo === true ? false : true;
 

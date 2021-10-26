@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { Button, DialogContent, FormHelperText, Grid, TextField, MenuItem } from '@material-ui/core'
+import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { FirmasContext } from 'contexts/catalogos/firmasContext';
@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 export const FirmasEdit = ({ firmasSeleccionado }) => {
     const { t } = useTranslation();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    const { actualizarFirmas, getProgramas, programaList } = useContext(FirmasContext);
+    const { actualizarFirmas, getProgramas } = useContext(FirmasContext);
 
     //dialog confirmacion
     const [valores, setValores] = useState();

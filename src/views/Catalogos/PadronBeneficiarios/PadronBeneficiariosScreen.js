@@ -16,9 +16,7 @@ export const PadronBeneficiariosScreen = () => {
     const classes = useStyles();
     const [searched, setSearched] = useState('');
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [showDialogForm, setShowDialogForm] = useState(false);
-    const [open, setOpen] = useState(false);
+    const [rowsPerPage, setRowsPerPage] = useState(10);     
     const [paginas, setPaginas] = useState([]);
 
     const handleChangePage = (event, newPage) => {

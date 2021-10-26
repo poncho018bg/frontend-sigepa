@@ -2,18 +2,17 @@ import React, { createContext, useReducer } from 'react';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 import axios from "axios";
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,  axiosDeleteTipo } from 'helpers/axios';
 import {
     REGISTRAR_PROGRAMAS,
     MODIFICAR_PROGRAMAS,
     ELIMINAR_PROGRAMAS,
     GET_PROGRAMAS, CAMBIAR_TAMANIO_PAGINA_PROGRAMAS, CAMBIAR_PAGINA_PROGRAMAS, GET_PROGRAMASACTIVOS,
-    GET_DOCUMENTOS_PROGRAMAS,GET_MUNICIPIOS_PROGRAMAS
+    GET_DOCUMENTOS_PROGRAMAS,GET_MUNICIPIOS_PROGRAMAS,GET_IMAGEN_PROGRAMAS,GET_PROGRAMAS_BY_ID
 }
     from 'types/actionTypes';
 import ProgramasReducer from 'reducers/Catalogos/Programas/ProgramasReducer';
-import { GET_PROGRAMAS_BY_ID } from 'types/actionTypes';
-import { axiosGetHetoas } from 'helpers/axios';
+
 
 
 
@@ -23,11 +22,13 @@ export const ProgramasContextProvider = props => {
     const initialState = {
         programasList: [],
         programa: null,
+        imagenprg:null,
         programasMunicipiosList:[],
         programasDocumentosList:[],
         pageP: 0,
         sizeP: 10,
-        totalP: 0
+        totalP: 0,
+       
     }
 
     const [state, dispatch] = useReducer(ProgramasReducer, initialState);
@@ -35,7 +36,7 @@ export const ProgramasContextProvider = props => {
 
     const get = async () => {
         try {
-            const { pageP, sizeP } = state;
+            
             console.log(state);
             const result = await axiosGet(`programas?page=${state.pageP}&size=${state.sizeP}`);
             dispatch({
@@ -71,6 +72,7 @@ export const ProgramasContextProvider = props => {
         const programaDTO = new Blob([JSON.stringify(programas)], {
             type: 'application/json',
         });
+       
         console.log('programas', programaDTO)
         console.log('file', file)
         formData.append('programaDTO', programaDTO)
@@ -105,7 +107,7 @@ export const ProgramasContextProvider = props => {
      */
     const actualizar = async (id,objetoActualizar,file,documentos) => {
 
-        //const { _links: { programas: { href } } } = objetoActualizar;
+       
 
         console.log("objeto actualizar --->", objetoActualizar);
         console.log("documentos ----->", documentos);
@@ -265,6 +267,19 @@ export const ProgramasContextProvider = props => {
         }
     }
 
+    const getImgDocumentosProg = async (idPrograma) => {
+        try {          
+           
+            const result = await axiosGet(`programasOverride/imgPrograma/${idPrograma}`);
+            dispatch({
+                type: GET_IMAGEN_PROGRAMAS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <ProgramasContext.Provider
             value={{
@@ -288,7 +303,9 @@ export const ProgramasContextProvider = props => {
                 getProgramasActivos,
                 getByParametros,
                 getMunicipiosProg,
-                getDocumentosProg
+                getDocumentosProg,
+                getImgDocumentosProg,
+                imagenprg:state.imagenprg
             }}
         >
             {props.children}

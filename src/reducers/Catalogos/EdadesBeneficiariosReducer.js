@@ -15,6 +15,12 @@ export default (state, action) => {
                 edadesBeneficiariosList: action.payload._embedded.edadesBeneficiarios,
                 total: action.payload?.page?.totalElements
             };
+        case AGREGAR_LOCALIDADES_ERROR:
+
+            return {
+                ...state,
+                error: action.payload
+            }
         case REGISTRAR_EDADES_BENEFICIARIOS:
             return {
                 ...state,
@@ -43,10 +49,10 @@ export default (state, action) => {
                 size: action.payload
             }
         case GET_EDADES_BENEFICIARIOS_BY_ID:
-                return {
-                    ...state,
-                    edadesBeneficiario: action.payload
-                };
+            return {
+                ...state,
+                edadesBeneficiario: action.payload
+            };
         default:
             return state;
     }

@@ -8,7 +8,7 @@ import {
     CAMBIAR_TAMANIO_PAGINA
 } from "../../types/actionTypes";
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,  axiosPostHetoas } from 'helpers/axios';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 export const MotivoRechazosContext = createContext();
@@ -81,13 +81,7 @@ export const MotivoRechazosContextProvider = props => {
      * @param {motivoRechazos} motivoRechazos 
      */
     const actualizarMotivoRechazos = async motivoRechazos => {
-        const { dsmotivorechazo, boactivo, _links: { ct_MotivoRechazos: { href } } } = motivoRechazos;
-
-        let motivoRechazosEnviar = {
-            dsmotivorechazo,
-            boactivo
-        };
-
+        const {  _links: { ct_MotivoRechazos: { href } } } = motivoRechazos;
 
 
         return new Promise((resolve, reject) => {

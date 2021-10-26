@@ -8,7 +8,7 @@ import {
     CAMBIAR_TAMANIO_PAGINA
 } from "../../types/actionTypes";
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet, axiosPost,  axiosPostHetoas } from 'helpers/axios';
 
 
 export const PeriodicidadApoyosContext = createContext();

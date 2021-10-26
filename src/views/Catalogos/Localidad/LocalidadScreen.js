@@ -10,9 +10,7 @@ import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
@@ -46,7 +44,7 @@ export const LocalidadScreen = () => {
         size,
         page,
         total,
-        changePageSize,
+
         changePageSizes,
         changePage,
         eliminar
@@ -54,10 +52,10 @@ export const LocalidadScreen = () => {
     const { setShowModal } = useContext(ModalContext);
     const { getMunicipiosId } = useContext(MunicipiosContext);
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ setOpenDialog] = useState(false);
 
     const handleChangePage = (event, newPage) => {        
         changePage(newPage)       

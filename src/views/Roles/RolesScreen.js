@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
-import { useForm } from 'hooks/useForm';
+
 // core components
 import { Collapse, DialogContent, FormHelperText, List, ListItem, ListItemIcon, ListItemText, ListSubheader, MenuItem, TextField } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
@@ -41,11 +41,10 @@ export const RolesScreen = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    const [formValues, handleInputChange] = useForm(initPerfiles);
+
     const { getModulos, moduloList } = useContext(ModuloContext);
     const { getSubModulos, submoduloList } = useContext(SubModuloContext);
     const { getSubmodulosByperfil, submodulosPerfilList } = useContext(SubmodulosByPerfilContex);
-    const { idPerfil } = formValues;
     const [errors, setErrors] = useState({});
     const [checked, setChecked] = React.useState([-1]);
     const [checkedSub, setCheckedSub] = React.useState([0]);

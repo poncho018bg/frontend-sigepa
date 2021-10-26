@@ -35,7 +35,6 @@ export default (state, action) => {
         case ELIMINAR_MOTIVO_RECHAZOS:
             return {
                 ...state,
-                //motivoRechazosList: state.motivoRechazosList.filter(motivoRechazos => motivoRechazos.id !== action.payload)
                 motivoRechazosList: state.motivoRechazosList.map(
                     motivoRechazos => motivoRechazos.id === action.payload.id ? action.payload : motivoRechazos
                 )

@@ -13,9 +13,7 @@ import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 
@@ -41,7 +39,7 @@ const useStyles = makeStyles(stylesArchivo);
 export const ComiteSecretariasScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [comiteSecretariasSeleccionado, setComiteSecretariasSeleccionado] = useState();
     const { getComiteSecretarias, eliminarComiteSecretarias, comiteSecretariasList } = useContext(ComiteSecretariasContext);

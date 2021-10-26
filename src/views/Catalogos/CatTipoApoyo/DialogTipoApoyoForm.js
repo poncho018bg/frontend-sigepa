@@ -1,5 +1,5 @@
 
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox, DialogTitle, FormControlLabel, FormelperText, FormHelperText, FormLabel, Grid, Input, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, Radio, RadioGroup, Select, TextField } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox,  FormControlLabel,  FormHelperText, FormLabel, Grid,      makeStyles, MenuItem,  Radio, RadioGroup,  TextField } from '@material-ui/core'
 import React, { useEffect, useState, useContext } from 'react';
 import Button from "components/CustomButtons/Button.js";
 import { useSelector } from 'react-redux';
@@ -15,7 +15,6 @@ import GridItem from "components/Grid/GridItem.js";
 import moment from 'moment';
 import 'moment/locale/es';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
-import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 import { NumeroApoyosContext } from 'contexts/catalogos/numeroApoyosContext';
 import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
 import { MultiSelect } from "react-multi-select-component";
@@ -29,7 +28,6 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import "./styles.css";
-import { boolean } from 'yup';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { ModalContext } from 'contexts/modalContex';
@@ -98,18 +96,14 @@ export const DialogTipoApoyoForm = (props) => {
     const { registrarApoyo } = useContext(ApoyoContext)
 
 
-    const [municipiosSelect, setMunicipiosSelect] = React.useState([]);
+  
     const [tipoApoyoSelect, setTipoApoyoSelect] = React.useState([]);
     const [actividadesContinuarSelect, setActividadesContinuarSelect] = React.useState([]);
 
 
     let history = useHistory();
 
-    const [checked, setChecked] = React.useState([]);
 
-    const [state, setState] = React.useState({
-        checkedA: false
-    });
 
     const { setShowModal } = useContext(ModalContext);
     const [valores, setValores] = useState();
@@ -119,7 +113,7 @@ export const DialogTipoApoyoForm = (props) => {
     const [error, setError] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [invisible, setInvisible] = React.useState(true);
+
     const [disabledCalendar, setDisabledCalendar] = useState(true);
 
 
@@ -281,7 +275,7 @@ export const DialogTipoApoyoForm = (props) => {
             setOpenSnackbar(true);
             setError(true);
             setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
-        });;
+        });
 
     }
 
@@ -427,9 +421,7 @@ export const DialogTipoApoyoForm = (props) => {
                         labelledBy="Seleccionar"
 
                     />
-                    {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
-                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
-                ) : null} */}
+
                 </CardBody>
                 <CardBody>
              
@@ -642,9 +634,7 @@ export const DialogTipoApoyoForm = (props) => {
                         labelledBy="Seleccionar"
                     />
 
-                    {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
-                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
-                ) : null} */}
+
                 </CardBody>
 
                 <CardBody>

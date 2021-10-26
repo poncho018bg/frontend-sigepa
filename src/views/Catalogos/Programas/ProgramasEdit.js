@@ -1,15 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Checkbox, FormHelperText, FormLabel, Grid, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, TextField } from '@material-ui/core'
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
 import Card from 'components/Card/Card';
 import CardHeader from 'components/Card/CardHeader';
-import CardIcon from 'components/Card/CardIcon';
-import PermIdentity from '@material-ui/icons/PermIdentity';
+
 import styles from "assets/jss/material-dashboard-pro-react/views/userProfileStyles.js";
 import CardBody from 'components/Card/CardBody';
 import { Formik } from 'formik';
@@ -19,20 +15,18 @@ const useStyles = makeStyles(styles);
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router";
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
-import DateFnsUtils from '@date-io/date-fns';
-import deLocale from "date-fns/locale/es";
+
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { TiposBeneficiariosContext } from 'contexts/catalogos/tiposBeneficiariosContext';
 import { EdadesBeneficiariosContext } from 'contexts/catalogos/edadesBeneficiariosContext';
 import { MultiSelect } from 'react-multi-select-component';
 import { useTranslation } from 'react-i18next';
-import { DropzoneArea } from 'material-ui-dropzone';
+import { DropzoneAreaBase } from 'material-ui-dropzone';
 
 import 'moment/locale/es';
 import moment from 'moment';
 
 //context
-import { RegionMunicipiosContext } from "contexts/catalogos/RegionMunicipiosContext";
 import { DocumentosContext } from "contexts/catalogos/documentosContext";
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
@@ -51,7 +45,8 @@ export const ProgramasEdit = () => {
   const { t } = useTranslation();
 
   const { actualizar, programa, getByID,
-    getMunicipiosProg, getDocumentosProg, programasMunicipiosList, programasDocumentosList } = useContext(ProgramasContext);
+    getMunicipiosProg, getDocumentosProg, programasMunicipiosList, programasDocumentosList,
+    getImgDocumentosProg, imagenprg } = useContext(ProgramasContext);
   const classes = useStyles();
   let query = useLocation();
   let history = useHistory();
@@ -61,7 +56,7 @@ export const ProgramasEdit = () => {
   const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
   const { tiposBeneficiariosList, getTipoBeneficiarios } = useContext(TiposBeneficiariosContext);
-  const { edadesBeneficiariosList, getByIDBeneficiarios, edadesBeneficiario } = useContext(EdadesBeneficiariosContext);
+  const { edadesBeneficiariosList } = useContext(EdadesBeneficiariosContext);
 
   const [municipiosSelect, setMunicipiosSelect] = useState([]);
 
@@ -76,12 +71,11 @@ export const ProgramasEdit = () => {
   const [archivo, setArchivos] = React.useState();
   const [documentslst, setDocumentslst] = React.useState([]);
 
-  const [dataEditar, setDataEditar] = useState({});
+  const [dataEditar] = useState({});
 
-  const { regionList, getRegionMunicipios } = useContext(RegionMunicipiosContext);
   const { getMunicipiosAll, municipiosList } = useContext(MunicipiosContext)
   const { getDocumentos, documentosList } = useContext(DocumentosContext);
-
+  const [archivoPrograma, setArchivoPrograma] = React.useState([]);
   useEffect(() => {
     getMunicipiosAll()
     getDocumentos();
@@ -94,6 +88,7 @@ export const ProgramasEdit = () => {
       getByID(query.state.mobNo);
       getMunicipiosProg(query.state.mobNo)
       getDocumentosProg(query.state.mobNo)
+      getImgDocumentosProg(query.state.mobNo)
     }
 
   }, [location]);
@@ -112,20 +107,37 @@ export const ProgramasEdit = () => {
 
 
   useEffect(() => {
+    console.log('<1',imagenprg)
+  
+    const blobpgr = new Blob([imagenprg], { type: 'image/png' });   
+    
+    const file2 = new File([blobpgr], 'Proceso aduanal.png', { type: 'image/png' })  
+
+    setArchivoPrograma(`data:image/png;base64,${imagenprg}`)
+    console.log('blobpgr>>>',blobpgr)
+    console.log('file2>>>>',file2)
+
+  }, [imagenprg]);
+
+
+
+
+
+  useEffect(() => {
     const lstDocsRg = []
     const lstDocsLf = []
-   
-      documentosList.map((mp1) => {
-        const docsagr = programasDocumentosList.filter(e=> e.id === mp1.id)
-        
-        if (docsagr.length > 0 ) {
-          lstDocsRg.push(mp1)
-        } else {
-          lstDocsLf.push(mp1)
-        }
 
-      })
-    
+    documentosList.map((mp1) => {
+      const docsagr = programasDocumentosList.filter(e => e.id === mp1.id)
+
+      if (docsagr.length > 0) {
+        lstDocsRg.push(mp1)
+      } else {
+        lstDocsLf.push(mp1)
+      }
+
+    })
+
 
     setChecked(lstDocsRg)
     setRight(lstDocsRg);
@@ -172,15 +184,7 @@ export const ProgramasEdit = () => {
     setChecked(newChecked);
   };
 
-  /*useEffect(() => {
-    getByIDBeneficiarios(data?._links.edadbeneficiarioid.href);
-    if(edadesBeneficiario){
-    console.log('edad',edadesBeneficiario);
-    console.log('id',edadesBeneficiario.id);
-    }
-    const info = {...data,   idRangoEdadBeneficiario: edadesBeneficiario?.id}
-    setDataEditar(info)
-  }, [data])*/
+
 
 
   console.log("data", dataEditar);
@@ -251,6 +255,16 @@ export const ProgramasEdit = () => {
       .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
     dsobservaciones: Yup.string()
       .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+    dsidentificadorplantilla: Yup.string()
+      .required('El identificador plantilla es obligatorio'),
+    dsnombreplantilla: Yup.string()
+      .required('El nombre de la plantilla es obligatorio'),
+    dsobjetivo: Yup.string()
+      .required('El objetivo es obligatorio'),
+    dscriteriosseleccion: Yup.string()
+      .required('Los criterios de selección son obligatorios'),
+    dscriteriospriorizacion: Yup.string()
+      .required('Los criterios de priorización son obligatorios'),
   });
 
   const [valores, setValores] = useState();
@@ -684,6 +698,8 @@ export const ProgramasEdit = () => {
                           </FormHelperText>
                         ) : null}
                       </GridItem>
+                    </GridContainer>
+                    <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
                         <TextField
                           id="dscontinuidad"
@@ -706,6 +722,8 @@ export const ProgramasEdit = () => {
                           </FormHelperText>
                         ) : null}
                       </GridItem>
+                    </GridContainer>
+                    <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
                         <TextField
                           id="dsobservaciones"
@@ -724,16 +742,161 @@ export const ProgramasEdit = () => {
                         />
                       </GridItem>
 
+                    </GridContainer>
+
+                    <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
-                        <Grid item xs={12}>
-                          <DropzoneArea
-                            acceptedFiles={['image/png']}
-                            filesLimit='1'
-                            onChange={handleChangeFile}
-                          />
-                        </Grid>
+
+
+                        <TextField
+                          style={{ marginBottom: '20px' }}
+                          id="dsnombreplantilla"
+                          error={props.errors.dsnombreplantilla}
+                          label="Nombre de la plantilla"
+                          variant="outlined"
+                          name="dsnombreplantilla"
+                          fullWidth
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.dsnombreplantilla}
+                          InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "500" }}
+                        />
+                        {props.touched.dsnombreplantilla && props.errors.dsnombreplantilla ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsnombreplantilla}>
+                            {props.errors.dsnombreplantilla}
+                          </FormHelperText>
+                        ) : null}
                       </GridItem>
                     </GridContainer>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <TextField
+                          style={{ marginBottom: '20px' }}
+                          id="dsidentificadorplantilla"
+                          error={props.errors.dsidentificadorplantilla}
+                          label="Identificador de plantilla"
+                          variant="outlined"
+                          name="dsidentificadorplantilla"
+                          fullWidth
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.dsidentificadorplantilla}
+                          InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "500" }}
+                        />
+                        {props.touched.dsidentificadorplantilla && props.errors.dsidentificadorplantilla ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsidentificadorplantilla}>
+                            {props.errors.dsidentificadorplantilla}
+                          </FormHelperText>
+                        ) : null}
+                      </GridItem>
+
+                    </GridContainer>
+
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <TextField
+                          id="dsobjetivo"
+                          name="dsobjetivo"
+                          label="Objetivo"
+                          style={{ marginBottom: '20px' }}
+                          fullWidth
+                          multiline
+                          rows={4}
+                          variant="outlined"
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.dsobjetivo}
+                          InputLabelProps={{ shrink: true }}
+
+                        />
+
+                        {props.touched.dsobjetivo && props.errors.dsobjetivo ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsobjetivo}>
+                            {props.errors.dsobjetivo}
+                          </FormHelperText>
+                        ) : null}
+                      </GridItem>
+                    </GridContainer>
+
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <TextField
+                          id="dscriteriosseleccion"
+                          name="dscriteriosseleccion"
+                          label="Criterios de selección"
+                          style={{ marginBottom: '20px' }}
+                          fullWidth
+                          multiline
+                          rows={4}
+                          variant="outlined"
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.dscriteriosseleccion}
+                          InputLabelProps={{ shrink: true }}
+
+                        />
+
+                        {props.touched.dscriteriosseleccion && props.errors.dscriteriosseleccion ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dscriteriosseleccion}>
+                            {props.errors.dscriteriosseleccion}
+                          </FormHelperText>
+                        ) : null}
+                      </GridItem>
+                    </GridContainer>
+
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <TextField
+                          id="dscriteriospriorizacion"
+                          name="dscriteriospriorizacion"
+                          label="Criterios de priorización"
+                          style={{ marginBottom: '20px' }}
+                          fullWidth
+                          multiline
+                          rows={4}
+                          variant="outlined"
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.dscriteriospriorizacion}
+                          InputLabelProps={{ shrink: true }}
+
+                        />
+
+                        {props.touched.dscriteriospriorizacion && props.errors.dscriteriospriorizacion ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dscriteriospriorizacion}>
+                            {props.errors.dscriteriospriorizacion}
+                          </FormHelperText>
+                        ) : null}
+                      </GridItem>
+                    </GridContainer>
+
+               
+
+                    <GridContainer>
+                      {console.log('imgxxx=>',archivoPrograma)}
+                      {console.log('${archivoPrograma[0]?.data}',`${archivoPrograma[0]?.data}`)}
+                <GridItem xs={12} sm={12} md={6}>
+                  <DropzoneAreaBase
+                    acceptedFiles={['image/png']}
+                    onAdd={(fileObjs) => setArchivoPrograma(fileObjs)}
+                    fileObjects={archivoPrograma}
+                    filesLimit='1'
+                    showPreviews={false}
+                    showPreviewsInDropzone={false}
+                    useChipsForPreview={false}
+                    previewChipProps={false}
+                   
+                  />
+
+                </GridItem>
+                <GridItem xs={12} sm={12} md={6}>
+
+                  <img width='500' height='200' src={`${archivoPrograma[0]?.data}`} />
+
+                </GridItem>
+              </GridContainer>
 
                     <Button className={classes.updateProfileButton}
                       type='submit'>

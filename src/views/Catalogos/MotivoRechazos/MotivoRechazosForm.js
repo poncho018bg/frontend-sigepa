@@ -62,7 +62,7 @@ export const MotivoRechazosForm = () => {
             setOpenSnackbar(true);
             setError(true);
             setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
-        });;
+        })
 
     }
 

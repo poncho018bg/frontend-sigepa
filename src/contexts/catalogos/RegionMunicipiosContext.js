@@ -2,7 +2,7 @@ import React, { createContext, useReducer } from 'react';
 import RegionMunicipiosReducer from 'reducers/Catalogos/RegionMunicipiosReducer';
 
 import { GET_REGIONMUNICIPIOS, REGISTRAR_REGIONMUNICIPIOS, ELIMINAR_REGIONMUNICIPIOS, MODIFICAR_REGIONMUNICIPIOS } from 'types/actionTypes';
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet, axiosPost,  axiosPostHetoas } from 'helpers/axios';
 
 
 
@@ -111,7 +111,8 @@ export const RegionMunicipiosContextProvider = props => {
                 getRegionMunicipios,
                 registrarRegionMunicipios,
                 eliminarRegionMunicipios,
-                actualizarRegionMunicipios
+                actualizarRegionMunicipios,
+                getMunicipiosEstados
 
             }}
         >

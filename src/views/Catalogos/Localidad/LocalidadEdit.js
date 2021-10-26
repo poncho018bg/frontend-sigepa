@@ -14,7 +14,7 @@ import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 export const LocalidadEdit = ({ objetoActualizar }) => {
     const { t } = useTranslation();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    const { actualizar, getByID, localidad } = useContext(LocalidadesContext);
+    const { actualizar } = useContext(LocalidadesContext);
     
     const { municipiosList ,getMunicipiosAll} = useContext(MunicipiosContext);
 
