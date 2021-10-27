@@ -1,4 +1,4 @@
-import { GET_FIRMAS, REGISTRAR_FIRMAS, MODIFICAR_FIRMAS, ELIMINAR_FIRMAS, GET_PROGRAMAS } from "../../types/actionTypes";
+import { GET_FIRMAS, REGISTRAR_FIRMAS, MODIFICAR_FIRMAS, ELIMINAR_FIRMAS, GET_PROGRAMAS,CAMBIAR_PAGINA,CAMBIAR_TAMANIO_PAGINA } from "../../types/actionTypes";
 
 export default (state, action) => {
 
@@ -7,6 +7,7 @@ export default (state, action) => {
             return {
                 ...state,
                 firmasList: action.payload._embedded.firmas,
+                total: action.payload?.page?.totalElements
             };
         case REGISTRAR_FIRMAS:
             return {
@@ -30,6 +31,16 @@ export default (state, action) => {
                 ...state,
                 programaList: action.payload
             };
+        case CAMBIAR_PAGINA:
+            return {
+                ...state,
+                page: action.payload
+            }
+        case CAMBIAR_TAMANIO_PAGINA:
+            return {
+                ...state,
+                size: action.payload
+            }
         default:
             return state;
     }

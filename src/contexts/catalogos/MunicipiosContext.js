@@ -1,7 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 import MunicipiosReducer from 'reducers/Catalogos/MunicipiosReducer';
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
+import { axiosGet, axiosPost,  axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
 import {
     GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO,
     AGREGAR_MUNICIPIOS_ERROR,
@@ -139,7 +139,7 @@ export const MunicipiosContextProvider = props => {
 
         dispatch(changePageNumber(page))
         try {
-            getMunicipios();
+            await  getMunicipios();
         } catch (error) {
             throw error;
         }
@@ -185,6 +185,21 @@ export const MunicipiosContextProvider = props => {
         }
     }
 
+    const getMunicipiosAll = async () => {
+
+        try {
+            
+            const resultado = await axiosGet(`municipios?page=0&size=100000`);
+            console.log(resultado._embedded.municipios);
+            dispatch({
+                type: GET_MUNICIPIOS,
+                payload: resultado
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <MunicipiosContext.Provider
             value={{
@@ -204,7 +219,8 @@ export const MunicipiosContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePage,
-                getMunicipioEstado
+                getMunicipioEstado,
+                getMunicipiosAll
             }}
         >
             {props.children}

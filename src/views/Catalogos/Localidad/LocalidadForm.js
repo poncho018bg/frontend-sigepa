@@ -1,5 +1,5 @@
 import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState ,useEffect} from 'react';
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -16,7 +16,7 @@ export const LocalidadForm = () => {
     const { t } = useTranslation();
     const { registrar } = useContext(LocalidadesContext);
     const { setShowModal } = useContext(ModalContext);
-    const { municipiosListId } = useContext(MunicipiosContext);
+    const { municipiosList ,getMunicipiosAll} = useContext(MunicipiosContext);
 
     //dialog confirmacion
     const [valores, setValores] = useState();
@@ -37,6 +37,10 @@ export const LocalidadForm = () => {
         setValores(e)
     }
 
+    useEffect(() => {
+        getMunicipiosAll();
+    }, []);
+
     const handleRegistrar = () => {
         const { dsidlocalidad, dsclavelocalidad, idMunicipio, dscodigopostal, dslocalidad } = valores;
         let localidad = {
@@ -52,7 +56,7 @@ export const LocalidadForm = () => {
         registrar(localidad).then(response => {
             setOpenSnackbar(true);
 
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
 
             const timer = setTimeout(() => {
 
@@ -66,8 +70,8 @@ export const LocalidadForm = () => {
             .catch(err => {
                 setOpenSnackbar(true);
                 setError(true);
-                setMsjConfirmacion(`Ocurrio un error, ${err}`);
-            });;;
+                setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+            })
     }
 
     const formik = useFormik({
@@ -77,7 +81,7 @@ export const LocalidadForm = () => {
             idMunicipio: 0,
             dslocalidad: '',
             dscodigopostal: '',
-            dslocalidad: ''
+            
 
         },
         validationSchema: Yup.object({
@@ -154,12 +158,12 @@ export const LocalidadForm = () => {
                         <em>{t('cmb.ninguno')}</em>
                     </MenuItem>
                     {
-                        municipiosListId.map(
+                        municipiosList.map(
                             item => (
                                 <MenuItem
-                                    key={item.idMunicipio}
-                                    value={item.idMunicipio}>
-                                    {item.dsMunicipio}
+                                    key={item.id}
+                                    value={item.id}>
+                                    {item.dsmunicipio}
                                 </MenuItem>
                             )
                         )

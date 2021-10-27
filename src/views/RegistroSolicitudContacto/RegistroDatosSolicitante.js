@@ -43,13 +43,9 @@ const useStyles = makeStyles(styles);
 export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     console.log('aqui');
     console.log(props);
-    const { curpR, llenarDatosBeneficiario } = props;
+    const { curpR, llenarDatosBeneficiario, beneficiario } = props;
     //console.log(props.allStates.about);
     const classes = useStyles();
-    const [simpleSelect, setsimpleSelect] = React.useState("");
-    const [design, setdesign] = React.useState(false);
-    const [code, setcode] = React.useState(false);
-    const [develop, setdevelop] = React.useState(false);
     const [nombre, setNombre] = useState("")
     const [curp, setCurp] = useState("");
     const [apellidoPaterno, setApellidoPaterno] = useState("");
@@ -66,41 +62,56 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     const { getGeneros, generosList,
         estudiosList, getEstudios,
         estadoCivilList, getEstadoCivil,
-        getIdentificaciones, identificacionesList } = useContext(RegistroSolicitudContext);
+        getIdentificaciones, identificacionesList
+    } = useContext(RegistroSolicitudContext);
 
     useEffect(() => {
-        console.log("curp que llega --> ", curpR)
+        console.log("curp que llega --> ", curpR);
 
-        axios.get(`http://localhost:9080/v1/curp/consultaCurp/${curpR}`)
-            .then(response => {
-                console.log(response);
-                setNombre(response.data.response[0].nombre);
-                setCurp(response.data.response[0].curp);
-                setApellidoPaterno(response.data.response[0].apellidoPaterno);
-                setapellidoMaterno(response.data.response[0].apellidoMaterno);
-                //setGenero(response.data.response[0].sexo)
-                console.log("fecha --->", response.data.response[0].fechaNacimientoAxu)
-                var dateParts = response.data.response[0].fechaNacimientoAxu.split("/");
-                console.log("date parts ", +dateParts[2], dateParts[1] - 1, dateParts[0])
-                var date = new Date(+dateParts[2], dateParts[1] - 1, dateParts[0]);
-                console.log("chale -->", date);
-                console.log("fomateada fecha ---> ", moment(date).format("YYYY-MM-DD"))
-                setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
-                setFechaNacimientoAxu(response.data.response[0].fechaNacimientoAxu);
-                setEdad(response.data.response[0].edad);
-            });
+        console.log("BENEFICIARIO DEL USE EFFECT ====>", beneficiario);
+        if (beneficiario.length == 0) {
+            axios.get(`http://localhost:9080/v1/curp/consultaCurp/${curpR}`)
+                .then(response => {
+                    console.log(response);
+                    setNombre(response.data.response[0].nombre);
+                    setCurp(response.data.response[0].curp);
+                    setApellidoPaterno(response.data.response[0].apellidoPaterno);
+                    setapellidoMaterno(response.data.response[0].apellidoMaterno);
+                    //setGenero(response.data.response[0].sexo)
+                    console.log("fecha --->", response.data.response[0].fechaNacimientoAxu)
+                    var dateParts = response.data.response[0].fechaNacimientoAxu.split("/");
+                    console.log("date parts ", +dateParts[2], dateParts[1] - 1, dateParts[0])
+                    var date = new Date(+dateParts[2], dateParts[1] - 1, dateParts[0]);
+                    console.log("chale -->", date);
+                    console.log("fomateada fecha ---> ", moment(date).format("YYYY-MM-DD"))
+                    setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
+                    setFechaNacimientoAxu(response.data.response[0].fechaNacimientoAxu);
+                    setEdad(response.data.response[0].edad);
+                });
+        } else {
+            console.log("se llenando los datos del beneficiario");
+            //setNombre(beneficiario.dsnombre);
+            setGenero(beneficiario.idgenero);
+            setEstudios(beneficiario.idgradoestudios);
+            setEstadoCivil(beneficiario.idestadocivil);
+            setIdentificacion(beneficiario.ididentificacionoficial);
 
+        }
         getGeneros();
         getEstudios();
         getEstadoCivil();
         getIdentificaciones();
-    }, [curpR]);
+
+    }, [beneficiario]);
 
     const llenado = () => {
         console.log("entro al momento de cargar --->",
             nombre, apellidoPaterno, apellidoMaterno, genero, estudios, estadoCivil, identificacion);
 
-        llenarDatosBeneficiario(nombre,
+        console.log("beneficiario que consulto si existe o no", beneficiario);
+        llenarDatosBeneficiario(
+            beneficiario.id,
+            nombre,
             apellidoPaterno,
             apellidoMaterno,
             curp,
@@ -204,29 +215,6 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                         />
                                     </GridItem>
                                     <GridItem xs={12} sm={6}>
-                                        {/*
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="genero"
-                                            label="Genero"
-                                            variant="outlined"
-                                            nombre="genero"
-                                            fullWidth
-                                            value={genero}
-                                        >
-                                            <MenuItem value="0">
-                                                <em>Seleccionar</em>
-                                            </MenuItem>
-                                            {generosList.map((gen, i) => {
-                                                <MenuItem
-                                                    key={i}
-                                                    value={gen.id}>
-                                                    {gen.dsgenero}
-                                                </MenuItem>
-
-                                            })}
-                                        </TextField>
-                                        */}
 
                                         <TextField
                                             style={{ marginBottom: '20px' }}
@@ -237,6 +225,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             fullWidth
                                             select
                                             onChange={onChange}
+                                            value={genero}
                                         >
                                             <MenuItem value="0">
                                                 <em>Seleccionar</em>
@@ -288,6 +277,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             fullWidth
                                             select
                                             onChange={onChange}
+                                            value={estudios}
                                         >
                                             <MenuItem value="0">
                                                 <em>Seleccionar</em>
@@ -319,6 +309,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                     fullWidth
                                     select
                                     onChange={onChange}
+                                    value={estadoCivil}
                                 >
                                     <MenuItem value="0">
                                         <em>Seleccionar</em>
@@ -340,32 +331,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                         <GridContainer justify="center">
                             <GridItem xs={12} sm={12} md={12} lg={10}>
                                 <GridContainer>
-                                    {/*
                                     <GridItem xs={12} sm={4}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="tipoIdentificacion"
-                                            label="Tipo de Identificación Oficial"
-                                            variant="outlined"
-                                            name="tipoIdentificacion"
-                                            fullWidth
-                                        />
-                                    
-                                    </GridItem>
-                                    */}
-                                    <GridItem xs={12} sm={4}>
-                                        {/*
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="apellidoPaterno"
-                                            label="Identificación Oficial"
-                                            variant="outlined"
-                                            nombre="nombre"
-                                            fullWidth
-                                            value={apellidoPaterno}
-
-                                        />
-                                        */}
                                         <TextField
                                             style={{ marginBottom: '20px' }}
                                             id="ine"
@@ -375,6 +341,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             fullWidth
                                             select
                                             onChange={onChange}
+                                            value={identificacion}
                                         >
                                             <MenuItem value="0">
                                                 <em>Seleccionar</em>

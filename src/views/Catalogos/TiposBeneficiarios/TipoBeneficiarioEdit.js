@@ -38,7 +38,7 @@ export const TipoBeneficiarioEdit = ({ tipoBeneficiarioSeleccionado }) => {
         actualizarTiposBeneficiarios(valores).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -52,10 +52,9 @@ export const TipoBeneficiarioEdit = ({ tipoBeneficiarioSeleccionado }) => {
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
 
-            setShowModalConfirmacion(false);
-            setShowModalUpdate(false);
+           
         });
     }
 
@@ -100,6 +99,7 @@ export const TipoBeneficiarioEdit = ({ tipoBeneficiarioSeleccionado }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dstipobeneficiario}
+                                inputProps={{ maxLength: 100 }}
                             />
                             {props.touched.dstipobeneficiario && props.errors.dstipobeneficiario ? (
                                 <FormHelperText error={props.errors.dstipobeneficiario}>{props.errors.dstipobeneficiario}</FormHelperText>

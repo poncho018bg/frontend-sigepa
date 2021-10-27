@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
@@ -13,7 +12,6 @@ import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
@@ -35,18 +33,18 @@ const useStyles = makeStyles(stylesArchivo);
 export const SubModuloScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [subModuloSeleccionado, setSubModuloSeleccionado] = useState();
-    const { getSubModulos, eliminarSubModulo, submoduloList } = useContext(SubModuloContext);
+    const { getSubModulos, eliminarSubModulo, submoduloList,getModulosByParametros } = useContext(SubModuloContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ setOpenDialog] = useState(false);
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
 
@@ -66,6 +64,15 @@ export const SubModuloScreen = () => {
         setShowModal(true);
     }
 
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getSubModulos();
+        }else{
+            getModulosByParametros(search)
+        }
+       
+    }
+
     const deleteDialog = (e) => {
         setShowModalDelete(true);
         setIdEliminar(e);
@@ -77,7 +84,7 @@ export const SubModuloScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -94,9 +101,9 @@ export const SubModuloScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Submodulos</h4>
+                    <h4 className={classes.cardTitleWhite}>Submódulos</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Pantalla que permite configurar los Submodulos
+                        Pantalla que permite configurar los Submódulos
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -114,8 +121,8 @@ export const SubModuloScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -125,29 +132,25 @@ export const SubModuloScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell align="center"> Estatus</TableCell >
-                                < TableCell align="center"> ID</TableCell >
+                                < TableCell align="center"> Estatus</TableCell >                                
                                 < TableCell align="center"> Submódulo</TableCell >
                                 < TableCell align="center"> Fecha registro</TableCell >
-                                < TableCell colSpan={1} align="center"> Acciones</TableCell >
+                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    submoduloList.filter(row => row.dssubmodulo ?
-                                        row.dssubmodulo.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : submoduloList
+                                ( submoduloList
                                 ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
 
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
+                                            <TableCell align="center">
                                                 {row.activoval ? 'Activo' : 'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.id}</TableCell>
-                                            <TableCell>{row.dssubmodulo}</TableCell >
-                                            <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            
+                                            <TableCell align="center">{row.dssubmodulo}</TableCell >
+                                            <TableCell align="center">{moment(row.fcfecharegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
 
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
@@ -157,7 +160,7 @@ export const SubModuloScreen = () => {
 
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
+                                                <BlockIcon />
                                                 </IconButton>
                                             </TableCell>
 

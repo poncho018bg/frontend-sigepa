@@ -8,7 +8,7 @@ import {
     CAMBIAR_TAMANIO_PAGINA
 } from "../../types/actionTypes";
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,  axiosPostHetoas } from 'helpers/axios';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 export const MotivoRechazosContext = createContext();
@@ -58,7 +58,7 @@ export const MotivoRechazosContextProvider = props => {
                     resolve(response);
                     dispatch({
                         type: REGISTRAR_MOTIVO_RECHAZOS,
-                        payload: response
+                        payload: response.data
                     })
                 }).catch(error => {
                     reject(error);
@@ -81,13 +81,7 @@ export const MotivoRechazosContextProvider = props => {
      * @param {motivoRechazos} motivoRechazos 
      */
     const actualizarMotivoRechazos = async motivoRechazos => {
-        const { dsmotivorechazo, boactivo, _links: { ct_MotivoRechazos: { href } } } = motivoRechazos;
-
-        let motivoRechazosEnviar = {
-            dsmotivorechazo,
-            boactivo
-        };
-
+        const {  _links: { ct_MotivoRechazos: { href } } } = motivoRechazos;
 
 
         return new Promise((resolve, reject) => {
@@ -97,7 +91,7 @@ export const MotivoRechazosContextProvider = props => {
                 resolve(response);
                 dispatch({
                     type: MODIFICAR_MOTIVO_RECHAZOS,
-                    payload: response
+                    payload: response.data
                 })
             }).catch(error => {
                 reject(error);
@@ -123,7 +117,7 @@ export const MotivoRechazosContextProvider = props => {
             console.log(result);
             console.log('mir mira');
             dispatch({
-                type: ELIMINAR_APOYOSERVICIO,
+                type: ELIMINAR_MOTIVO_RECHAZOS,
                 payload: result,
             })
         } catch (error) {
@@ -133,16 +127,20 @@ export const MotivoRechazosContextProvider = props => {
     }
 
     //Paginacion
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (pages) => {
         try {
-            getMotivoRechazos();
+            dispatch(changePageNumber(pages))
         } catch (error) {
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))
+        } catch (error) {
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -154,6 +152,20 @@ export const MotivoRechazosContextProvider = props => {
         type: CAMBIAR_TAMANIO_PAGINA,
         payload: size
     })
+
+    const getMotivoRechazosByParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`motivoRechazos/search/findByDsmotivorechazoContaining?dsmotivorechazo=${search}`);
+            
+            dispatch({
+                type: GET_MOTIVO_RECHAZOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <MotivoRechazosContext.Provider
@@ -169,7 +181,9 @@ export const MotivoRechazosContextProvider = props => {
                 eliminarMotivoRechazos,
                 changePageNumber,
                 changePageSize,
-                changePage
+                changePageSizes,
+                changePage,
+                getMotivoRechazosByParametros
             }}
         >
             {props.children}

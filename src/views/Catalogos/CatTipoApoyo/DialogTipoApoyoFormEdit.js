@@ -1,8 +1,7 @@
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox, Dialog, DialogTitle, FormControlLabel, FormHelperText, FormLabel, Grid, Input, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, Radio, RadioGroup, Select, TextField } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLabel, FormHelperText, FormLabel, Grid,      makeStyles, MenuItem,  Radio, RadioGroup,  TextField } from '@material-ui/core'
 import React, { useEffect, useState, useContext } from 'react';
 import Button from "components/CustomButtons/Button.js";
 import DialogContent from '@material-ui/core/DialogContent';
-import { useSelector } from 'react-redux';
 import { stylesArchivo } from 'css/stylesArchivo';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Formik } from 'formik';
@@ -12,10 +11,8 @@ import { PeriodicidadApoyosContext } from 'contexts/catalogos/periodicidadApoyos
 
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import moment from 'moment';
 import 'moment/locale/es';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
-import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 import { NumeroApoyosContext } from 'contexts/catalogos/numeroApoyosContext';
 import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
 import { MultiSelect } from "react-multi-select-component";
@@ -28,7 +25,7 @@ import { Mensaje } from 'components/Personalizados/Mensaje';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { useHistory } from "react-router";
 import { useTranslation } from 'react-i18next';
-
+import NumberFormat from 'react-number-format';
 const useStyles = makeStyles(stylesArchivo);
 
 
@@ -51,13 +48,34 @@ function intersection(a, b) {
     return a.filter((value) => b.indexOf(value) !== -1);
 }
 
+function NumberFormatCustom(props) {
+    const { inputRef, onChange, ...other } = props;
+  
+    return (
+      <NumberFormat
+        {...other}
+        getInputRef={inputRef}
+        onValueChange={(values) => {
+          onChange({
+            target: {
+              name: props.name,
+              value: values.value,
+            },
+          });
+        }}
+        thousandSeparator
+        isNumericString
+        prefix="$"
+      />
+    );
+  }
+
 export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     const { t } = useTranslation();
     let history = useHistory();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
 
-    const classes = useStyles();
-    const { tipoApoyoEditar } = useSelector(state => state.tipoApoyo);
+    const classes = useStyles();   
     const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);
     const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
     const { programasList, get } = useContext(ProgramasContext);
@@ -69,10 +87,10 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     const [tipoApoyoSelect, setTipoApoyoSelect] = React.useState([]);
     const [actividadesContinuarSelect, setActividadesContinuarSelect] = React.useState([]);
 
-    const [selected, setSelected] = useState([]);
+ 
     const [selectedTipApoy, setSelectedTipApoy] = useState([]);
     const [selectedActividadesContinuar, setSelectedActividadesContinuar] = useState([]);
-    const [expanded, setExpanded] = React.useState(true)
+  
 
     //dialog confirmacion
     const [valores, setValores] = useState();
@@ -92,7 +110,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
         setSelectedTipApoy(personaSeleccionada.idTipoApoyo)
         setSelected(personaSeleccionada.coberturaMunicipal)
         setSelectedActividadesContinuar(personaSeleccionada.idActividadContinuidadApoyo)
-        console.log('personaSeleccionada',personaSeleccionada)
+        console.log('personaSeleccionada', personaSeleccionada)
     }, []);
 
 
@@ -100,7 +118,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
  * abre el dialogo de confirmación
  * @param {valores} e 
  */
-    const confirmacionDialog = (e) => {        
+    const confirmacionDialog = (e) => {
         setShowModalConfirmacion(true);
         setValores(e)
     }
@@ -139,7 +157,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
             fechaFin: ''
         }
         props.values.enServicio[index] = serv
-        
+
     }
 
 
@@ -177,8 +195,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     const actualizarTipoApoyo = async valores => {
         valores.idTipoApoyo = selectedTipApoy
         valores.idActividadContinuidadApoyo = selectedActividadesContinuar
-        // actualizarApoyo(valores);
-        // setShowModalUpdate(false);
+
         confirmacionDialog(valores);
     }
 
@@ -186,7 +203,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
         actualizarApoyo(valores).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
             const timer = setTimeout(() => {
                 setError(false);
                 history.push("/admin/catapoyoservicio")
@@ -198,19 +215,15 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
         }).catch(err => {
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`);
-        });;
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+        })
     }
 
 
     function isActiveOption(apoyo) {
         var apy = personaSeleccionada?.enServicio?.filter(ab => ab.id === apoyo.id)
-        if (apy.length > 0) {
-            return true;
-        } else {
-            return false
-        }
-    }
+         return  (apy.length > 0)
+             }
 
     return (
 
@@ -231,11 +244,11 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                     <form
                         onSubmit={props.handleSubmit}
                     >
-                        {console.log('PROPS=>',props)}
+                        {console.log('PROPS=>', props)}
                         <DialogContent >
                             <TextField
                                 id="dsapoyo"
-                                label="Nombre del Tipo de Apoyo"
+                                label="Nombre del Tipo de apoyo"
                                 variant="outlined"
                                 name="dsapoyo"
                                 fullWidth
@@ -282,7 +295,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         <DialogContent>
                             <TextField
                                 id="dsdescripcion"
-                                label="Descripción del Tipo de Apoyo"
+                                label="Descripción del Tipo de apoyo"
                                 variant="outlined"
                                 name="dsdescripcion"
                                 value={props.values.dsdescripcion}
@@ -321,6 +334,11 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                         value={props.values.fcvigenciainicio}
                                         name="fcvigenciainicio"
                                         onChange={props.handleChange}
+                                        InputProps={{
+                                            inputProps: {
+                                                
+                                            }
+                                        }}
                                     />
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={6}>
@@ -328,6 +346,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                         id="fcvigenciafin"
                                         label="Hasta"
                                         type="date"
+
                                         fullWidth
                                         className={classes.textField}
                                         InputLabelProps={{
@@ -336,6 +355,11 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                         value={props.values.fcvigenciafin}
                                         name="fcvigenciafin"
                                         onChange={props.handleChange}
+                                        InputProps={{
+                                            inputProps: {
+                                                min: props.values.fcvigenciainicio
+                                            }
+                                        }}
                                     />
                                 </GridItem>
                             </GridContainer>
@@ -352,25 +376,23 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
                             />
 
-                            {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
-                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
-                ) : null} */}
+
                         </DialogContent>
 
                         <DialogContent>
-                            <CurrencyTextField
+
+                            <TextField
                                 label="Cantidad en pesos"
-                                name="cantidadPesos"
-                                fullWidth
-                                variant="standard"
                                 value={props.values.cantidadPesos}
-                                currencySymbol="$"
-                                minimumValue="0"
-                                outputFormat="string"
-                                decimalCharacter="."
-                                digitGroupSeparator=","
-                                maximumValue="10000000000000"
                                 onChange={props.handleChange}
+                                name="cantidadPesos"
+                                id="formatted-numberformat-input"
+                                fullWidth
+                                InputProps={{
+                                    inputComponent: NumberFormatCustom,
+                                    maxLength: 7
+                                }}
+                                
                             />
                             {props.touched.cantidadPesos && props.errors.cantidadPesos ? (
                                 <FormHelperText error={props.errors.cantidadPesos}>{props.errors.cantidadPesos}</FormHelperText>
@@ -400,10 +422,11 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
                                 apoyoservicioList.map((apyo, i) => {
                                     const fechaInicioq = `enServicio[${i}].fechaInicio`;
-                                    const fechaFinq = `enServicio[${i}].fechaFin`;                                    
-                                   
+                                    const fechaFinq = `enServicio[${i}].fechaFin`;
+                                    const expandedfrm = `enServicio[${i}].expanded`;
+
                                     return (
-                                        <Accordion expanded={isActiveOption(apyo)} >
+                                        <Accordion expanded={isActiveOption(apyo)}  >
                                             <AccordionSummary
                                                 expandIcon={<ExpandMoreIcon />}
                                                 aria-label="Expand"
@@ -414,7 +437,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                                 <FormControlLabel
                                                     aria-label="Acknowledge"
                                                     onClick={agregarServicioFormik(apyo, i, props)}
-                                                    control={<Checkbox checked={isActiveOption(apyo)}/>}
+                                                    control={<Checkbox checked={props.values.enServicio[i]?.expanded} name={expandedfrm} onChange={props.handleChange} value={props.values.enServicio[i]?.expanded}/>}
                                                     label={apyo.dsservicio}
                                                 />
                                             </AccordionSummary>
@@ -561,9 +584,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                 labelledBy="Seleccionar"
                             />
 
-                            {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
-                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
-                ) : null} */}
+
                         </DialogContent>
 
 
@@ -576,6 +597,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                 variant="outlined"
                                 name="observaciones"
                                 value={props.values.observaciones}
+                                onChange={props.handleChange}
                                 fullWidth
                                 inputProps={{ maxLength: 500 }}
                             />

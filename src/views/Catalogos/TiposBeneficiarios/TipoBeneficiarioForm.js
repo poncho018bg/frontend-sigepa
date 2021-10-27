@@ -41,7 +41,7 @@ export const TipoBeneficiarioForm = () => {
         registrarTiposBeneficiarios(tiposBeneficiario).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -55,8 +55,8 @@ export const TipoBeneficiarioForm = () => {
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
-        });;        ;
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+        })
     }
 
 
@@ -90,6 +90,7 @@ export const TipoBeneficiarioForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dstipobeneficiario}
+                    inputProps={{ maxLength: 100 }}
                 />
                 {formik.touched.dstipobeneficiario && formik.errors.dstipobeneficiario ? (
                     <FormHelperText error={formik.errors.dstipobeneficiario}>{formik.errors.dstipobeneficiario}</FormHelperText>

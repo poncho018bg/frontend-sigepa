@@ -12,7 +12,7 @@ export default (state, action) => {
             return {
                 ...state,
                 clasificacionServiciosList: action.payload._embedded.clasificacionServicios,
-                total: action.payload.page.totalElements
+                total: action.payload?.page?.totalElements
             };
         case AGREGAR_CLASIFICACION_SERVICIOS_ERROR:
             console.log(action.type);
@@ -35,7 +35,10 @@ export default (state, action) => {
         case ELIMINAR_CLASIFICACION_SERVICIOS:
             return {
                 ...state,
-                clasificacionServiciosList: state.clasificacionServiciosList.filter(clasificacionServicio => clasificacionServicio.id !== action.payload)
+
+                clasificacionServiciosList: state.clasificacionServiciosList.map(
+                    clasificacionServicio => clasificacionServicio.id === action.payload.id ? action.payload : clasificacionServicio
+                )
             };
         case CAMBIAR_PAGINA:
             return {

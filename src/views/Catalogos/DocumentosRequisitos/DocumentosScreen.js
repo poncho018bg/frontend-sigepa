@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
@@ -40,19 +39,22 @@ const useStyles = makeStyles(stylesArchivo);
 export const DocumentosScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
-   
+    const [searched ]= useState('');
+
     const [documentoSeleccionado, setDocumentoSeleccionado] = useState();
-    const { getDocumentos, documentosList,eliminarDocumentos } = useContext(DocumentosContext);
+    const { getDocumentos, documentosList, eliminarDocumentos, getDocumentosByParametros } = useContext(DocumentosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const [idEliminar, setIdEliminar] = useState(0);
     const [documentoProgramaSeleccionado, setDocumentoProgramaSeleccionado] = useState();
     const [verProgramasDocumento, setVerProgramasDocumento] = useState();
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ setOpenDialog] = useState(false);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
 
 
     const { setShowModalUpdate }
@@ -65,9 +67,6 @@ export const DocumentosScreen = () => {
         console.log("documentos", documentosList);
     }, []);
 
-    const total = 0;
-    const size = 0;
-    const page = 0;
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -83,14 +82,21 @@ export const DocumentosScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
 
     const verProgramas = (e) => {
+       
         console.log("programa seleccionado --->", e);
-        setDocumentoProgramaSeleccionado(e);
-        setVerProgramasDocumento(true);
+        if (documentoProgramaSeleccionado == e) {
+            console.log("es igual");
+            cerrarVistaProgramas();
+        } else {
+            setDocumentoProgramaSeleccionado(e);
+            setVerProgramasDocumento(true);
+        }
+
     }
 
     const cerrarVistaProgramas = () => {
@@ -104,6 +110,24 @@ export const DocumentosScreen = () => {
         setIdEliminar(e);
     }
 
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = event => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+
+
+    const buscaPorParametros = (search) => {
+        if (search === '') {
+            getDocumentos();
+        } else {
+            getDocumentosByParametros(search)
+        }
+
+    }
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -112,7 +136,7 @@ export const DocumentosScreen = () => {
                 <CardHeader color="primary">
                     <h4 className={classes.cardTitleWhite}>Documentos</h4>
                     <p className={classes.cardCategoryWhite}>
-                        En esta zona se consutan los documentos y programas a los que tiene asignados
+                        En esta zona se consultan los documentos y programas a los que tiene asignados
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -130,8 +154,8 @@ export const DocumentosScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -142,7 +166,7 @@ export const DocumentosScreen = () => {
                         < TableHead >
                             < TableRow key="ta1" >
                                 < TableCell align="center">Documento</TableCell >
-                                < TableCell align="center" >Programa de Apoyo</TableCell >
+                                < TableCell align="center" >Programa de apoyo</TableCell >
                                 < TableCell align="center">Vigencia</TableCell >
                                 < TableCell align="center" > Estatus</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
@@ -150,12 +174,8 @@ export const DocumentosScreen = () => {
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    documentosList.filter(row => row.dsdocumento ?
-                                        row.dsdocumento.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : documentosList
-                                ).map((row, i) => {
-                                    console.log("page:" + page + " size:" + size)
+                                documentosList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
+
                                     return (
                                         < TableRow key={row.id}>
 
@@ -187,7 +207,7 @@ export const DocumentosScreen = () => {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
+                                                <BlockIcon />
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >
@@ -200,9 +220,11 @@ export const DocumentosScreen = () => {
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
                         labelRowsPerPage={t('dgv.registrospaginas')}
-                        count={total}
-                        rowsPerPage={size}
+                        count={documentosList.length}
+                        rowsPerPage={rowsPerPage}
                         page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </CardBody>
             </Card>

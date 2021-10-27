@@ -16,9 +16,7 @@ export const PadronBeneficiariosScreen = () => {
     const classes = useStyles();
     const [searched, setSearched] = useState('');
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [showDialogForm, setShowDialogForm] = useState(false);
-    const [open, setOpen] = useState(false);
+    const [rowsPerPage, setRowsPerPage] = useState(10);     
     const [paginas, setPaginas] = useState([]);
 
     const handleChangePage = (event, newPage) => {
@@ -37,7 +35,7 @@ export const PadronBeneficiariosScreen = () => {
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Padrón de beneficiarios</h4>
             <p className={classes.cardCategoryWhite}>
-              Pantalla que permite ver el padron de beneficiarios
+              Pantalla que permite ver el padrón de beneficiarios
             </p>
             <CardActions>
             <Grid container spacing={3}>
@@ -57,13 +55,13 @@ export const PadronBeneficiariosScreen = () => {
               < Table stickyHeader aria-label="sticky table" >
                 < TableHead >
                   < TableRow key="898as" >
-                    < TableCell > Beneficiario</TableCell >
-                    < TableCell > CURP  </TableCell >
-                    < TableCell> Apoyo Otorgado</TableCell >
-                    <TableCell>Tipo de Apoyo</TableCell>
-                    < TableCell> Año Registro Programa</TableCell >
-                    < TableCell>Periocidad</TableCell >
-                    < TableCell>Nùmero de veces</TableCell >
+                    < TableCell align="center"> Beneficiario</TableCell >
+                    < TableCell align="center"> CURP  </TableCell >
+                    < TableCell align="center"> Apoyo otorgado</TableCell >
+                    <TableCell align="center">Tipo de apoyo</TableCell>
+                    < TableCell align="center"> Año registro programa</TableCell >
+                    < TableCell align="center">Periocidad</TableCell >
+                    < TableCell align="center">Nùmero de veces</TableCell >
                   </TableRow >
                 </TableHead >
                 < TableBody >

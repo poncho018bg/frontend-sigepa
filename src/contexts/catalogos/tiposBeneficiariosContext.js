@@ -4,10 +4,11 @@ import axios from "axios";
 import {
     GET_TIPOS_BENEFICIARIOS, REGISTRAR_TIPOS_BENEFICIARIOS, ELIMINAR_TIPOS_BENEFICIARIOS, MODIFICAR_TIPOS_BENEFICIARIOS,
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA
+    CAMBIAR_TAMANIO_PAGINA,
+    AGREGAR_TIPOS_BENEFICIARIOS_ERROR
 } from "../../types/actionTypes";
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,   axiosPostHetoas } from 'helpers/axios';
 const baseUrl = process.env.REACT_APP_API_URL;
 export const TiposBeneficiariosContext = createContext();
 
@@ -46,16 +47,32 @@ export const TiposBeneficiariosContextProvider = props => {
      * @param {tiposBeneficiarios} tiposBeneficiarios 
      */
     const registrarTiposBeneficiarios = async tiposBeneficiarios => {
+
+
         try {
-            console.log(tiposBeneficiarios);
-            const resultado = await axiosPost('tiposBeneficiarios', tiposBeneficiarios);
-            console.log(resultado);
-            dispatch({
-                type: REGISTRAR_TIPOS_BENEFICIARIOS,
-                payload: resultado
-            })
+            const url = `${baseUrl}tiposBeneficiarios`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, tiposBeneficiarios, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_TIPOS_BENEFICIARIOS,
+                        payload: response
+                    })
+                }).catch(error => {
+                    console.log('ERROR=>', error)
+                    console.log('ERRRO2=>', error.response.data.cause)
+                    console.log('ERRRO2=>', error.response.data.message)
+                    reject(error);
+                });
+            });
+
         } catch (error) {
-            console.log(error);
+            dispatch({
+                type: AGREGAR_TIPOS_BENEFICIARIOS_ERROR,
+                payload: true
+            })
         }
     }
 
@@ -65,19 +82,26 @@ export const TiposBeneficiariosContextProvider = props => {
      */
     const actualizarTiposBeneficiarios = async tiposBeneficiarios => {
         const { _links: { ct_TiposBeneficiarios: { href } } } = tiposBeneficiarios;
-        return new Promise((resolve, reject) => {
-            axios.put(href, tiposBeneficiarios, {
-                headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
-            }).then(response => {
-                resolve(response);
-                dispatch({
-                    type: MODIFICAR_TIPOS_BENEFICIARIOS,
-                    payload: response.data
-                })
-            }).catch(error => {
-                reject(error);
+        try {
+            return new Promise((resolve, reject) => {
+                axios.put(href, tiposBeneficiarios, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: MODIFICAR_TIPOS_BENEFICIARIOS,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
             });
-        });
+        } catch (error) {
+            dispatch({
+                type: AGREGAR_TIPOS_BENEFICIARIOS_ERROR,
+                payload: true
+            })
+        }
     }
 
     const eliminarTiposBeneficiarios = async idTiposBeneficiarios => {
@@ -98,18 +122,21 @@ export const TiposBeneficiariosContextProvider = props => {
         }
     }
 
-    const changePage = async (page) => {
-        console.log("llego al page --->", page);
-
-        dispatch(changePageNumber(page))
+    //Paginacion
+    const changePage = async (pages) => {
         try {
-            getTipoBeneficiarios();
+            dispatch(changePageNumber(pages))
         } catch (error) {
-            // console.log(error);
-            //dispatch( idiomaAddedError() )
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))
+        } catch (error) {
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -121,6 +148,20 @@ export const TiposBeneficiariosContextProvider = props => {
         type: CAMBIAR_TAMANIO_PAGINA,
         payload: size
     })
+
+    const getTipoBeneficiariosByParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`tiposBeneficiarios/search/findByDstipobeneficiarioContaining?dstipobeneficiario=${search}`);
+           
+            dispatch({
+                type: GET_TIPOS_BENEFICIARIOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <TiposBeneficiariosContext.Provider
@@ -136,7 +177,9 @@ export const TiposBeneficiariosContextProvider = props => {
                 eliminarTiposBeneficiarios,
                 changePageNumber,
                 changePageSize,
-                changePage
+                changePageSizes,
+                changePage,
+                getTipoBeneficiariosByParametros
             }}
         >
             {props.children}

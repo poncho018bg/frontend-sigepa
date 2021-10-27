@@ -9,7 +9,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardActions from '@material-ui/core/CardActions';
 import SearchBar from "material-ui-search-bar";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid, Checkbox } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
 
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
@@ -28,10 +28,10 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
     const [searched, setSearched] = useState('');
 
     useEffect(() => {
-       
-        getProgramaDocumentos(documentoProgramaSeleccionado.id);
+       console.log("documento seleccionado --->", documentoProgramaSeleccionado.id);
+       getProgramaDocumentos(documentoProgramaSeleccionado.id);
         console.log("programas del documento ---> ", programasDocumento)
-    }, []);
+    }, [documentoProgramaSeleccionado.id]);
 
     const cerrarProgramas = () => {
         cerrarVistaProgramas();
@@ -73,8 +73,8 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell align="center">Programa de Apoyo</ TableCell>
-                                < TableCell align="center" >Tipo de Apoyo</TableCell >
+                                < TableCell align="center">Programa de apoyo</ TableCell>
+                                < TableCell align="center" >Tipo de apoyo</TableCell >
                                 < TableCell align="center">Periodicidad</TableCell >
                                 < TableCell align="center"> Vigencia</TableCell >
                                 < TableCell align="center" > Estatus</TableCell >

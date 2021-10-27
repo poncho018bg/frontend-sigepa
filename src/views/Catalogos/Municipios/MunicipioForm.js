@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 export const MunicipioForm = () => {
     const { t } = useTranslation();
     const { registrarMunicipios } = useContext(MunicipiosContext);
-    const { getEstados, estadosList } = useContext(EstadosContext);
+    const {  estadosList,getEstadosAll } = useContext(EstadosContext);
     const { setShowModal } = useContext(ModalContext);
 
     //dialog confirmar
@@ -43,7 +43,7 @@ export const MunicipioForm = () => {
         registrarMunicipios(municipio).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -57,12 +57,12 @@ export const MunicipioForm = () => {
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
         });
     }
 
     useEffect(() => {
-        getEstados();
+        getEstadosAll();
 
     }, []);
 

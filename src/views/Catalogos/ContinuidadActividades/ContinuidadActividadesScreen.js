@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
@@ -9,13 +8,11 @@ import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 
-import moment from 'moment';
+
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
@@ -36,22 +33,29 @@ const useStyles = makeStyles(stylesArchivo);
 export const ContinuidadActividadesScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [continuidadActividadesSeleccionada, setContinuidadActividadesSeleccionada] = useState();
 
-    const { actividadescontinuarList, getActividadesContinuar, eliminarActividadesContinuar, actualizarActividadesContinuar, size, page, total, changePageSize, changePage } = useContext(ActividadesContinuarContext);
+    const { actividadescontinuarList, getActividadesContinuar, eliminarActividadesContinuar,
+         actualizarActividadesContinuar, size, page, 
+         total,  changePage,changePageSizes,getActividadesContinuarByParametros } = useContext(ActividadesContinuarContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ setOpenDialog] = useState(false);
 
     useEffect(() => {
         getActividadesContinuar();
     }, []);
+
+    useEffect(() => {
+        getActividadesContinuar();
+    }, [size,page]);
+
 
 
 
@@ -74,7 +78,7 @@ export const ContinuidadActividadesScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
     const handleChangeCheck = (event) => {
@@ -96,14 +100,25 @@ export const ContinuidadActividadesScreen = () => {
         console.log("actividades ---> ", lista);
     }
 
-    const handleChangePage = (event, newPage) => {
-        changePage(newPage)
+    const handleChangePage = (event, newPage) => {        
+        changePage(newPage)       
     };
 
-    const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
-        changePage(0)
+    const handleChangeRowsPerPage = event => {              
+        changePageSizes(+event.target.value);
+        changePage(0)       
+        
     };
+
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getActividadesContinuar();
+        }else{
+            getActividadesContinuarByParametros(search)
+        }
+       
+    }
+
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -130,8 +145,8 @@ export const ContinuidadActividadesScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -141,25 +156,21 @@ export const ContinuidadActividadesScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell > Estatus</TableCell >
-                                < TableCell> Descripción de actividad </TableCell>
+                                < TableCell align="center"> Estatus</TableCell >
+                                < TableCell align="center"> Descripción de actividad </TableCell>
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    actividadescontinuarList.filter(row => row.dsactividadcontinuidad ?
-                                        row.dsactividadcontinuidad.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : actividadescontinuarList
-                                ).map(row => {
+                                actividadescontinuarList.map(row => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
+                                            <TableCell align="center">
                                             {row.activo === true ? 'Activo':'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.dsactividadcontinuidad}</TableCell >
+                                            <TableCell align="center">{row.dsactividadcontinuidad}</TableCell >
                                             
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
@@ -168,7 +179,7 @@ export const ContinuidadActividadesScreen = () => {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
+                                                <BlockIcon />
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >

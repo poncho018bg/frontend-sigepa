@@ -28,7 +28,7 @@ import UserService from "../../servicios/UserService";
 import { DialogLogOut } from "views/Dialogs/DialogLogOut";
 import { useDispatch, useSelector } from 'react-redux';
 import sidebarStyle from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
-
+import { useHistory } from "react-router";
 
 
 const useStyles = makeStyles(sidebarStyle);
@@ -119,7 +119,8 @@ const roles = () => {
 }
 
 function Sidebar(props) {
- 
+  let query = useLocation();
+  let history = useHistory();
   const classes = useStyles();
   const [miniActive, setMiniActive] = React.useState(true);
   const classesCard = useStylesCard();
@@ -626,6 +627,7 @@ function Sidebar(props) {
     setOpenDialog(true);
   }
   function handleDeshabilitar() {
+    history.push("/admin/")
     UserService.doLogout();
     setOpenDialog(false);
   }

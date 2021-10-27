@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -12,16 +11,13 @@ import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 import { Loading } from 'views/Loading/Loading';
 import { DialogDelete } from 'views/Dialogs/DialogDelete';
-import { tipoApoyoEditar, tipoApoyoEliminar, borrarModuloAction, obtenerTipoApoyoAction } from 'actions/TipoApoyoAction';
+import { tipoApoyoEditar,  obtenerTipoApoyoAction } from 'actions/TipoApoyoAction';
 import { Link } from 'react-router-dom';
 import { DialogTipoApoyoFormEdit } from './DialogTipoApoyoFormEdit';
 import { ModalUpdate } from 'commons/ModalUpdate';
@@ -41,16 +37,16 @@ export const CatTipoApoyoScreen = () => {
     const dispatch = useDispatch();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
 
-    const [showDialogForm, setShowDialogForm] = useState(false);
+    const [ setShowDialogForm] = useState(false);
     const [open, setOpen] = useState(false);
-    const [severity, setSeverity] = useState('info');
-    const [message, setMessage] = useState('mensaje');
-    const [idSelect, setIdSelect] = useState('');
+    const [severity] = useState('info');
+    const [message] = useState('mensaje');
+
     const [openDialog, setOpenDialog] = useState(false);
     const [personaSeleccionada, setPersonaSeleccionada] = useState();
-    const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
+    const { showModalUpdate,  setShowModalUpdate }
         = useContext(ModalContextUpdate);
     const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
     const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);
@@ -58,18 +54,27 @@ export const CatTipoApoyoScreen = () => {
     const [idPeriodicidadsl, setIdPeriodicidadsl] = useState('');
     const { eliminarApoyo } = useContext(ApoyoContext)
     const { setShowModalDelete } = useContext(ModalContextDelete);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [idEliminar, setIdEliminar] = useState(0);
 
 
 
     useEffect(() => {
-       
-        
         getPeriodicidadApoyos()
         getTiposApoyos()
     }, []);
+
+    useEffect(() => {
+        const cargarTiposApoyo = () => dispatch(obtenerTipoApoyoAction(idApoyosl,idPeriodicidadsl));
+        cargarTiposApoyo()
+    }, [showModalUpdate]);
+
+    useEffect(() => {
+        const cargarTiposApoyo = () => dispatch(obtenerTipoApoyoAction(idApoyosl,idPeriodicidadsl));
+        cargarTiposApoyo()      
+    }, [openDialog,openSnackbar]);
 
     const { loading } = useSelector(state => state.tipoApoyo);
     const tipoApoyo = useSelector(state => state.tipoApoyo.tipoApoyo);
@@ -84,8 +89,7 @@ export const CatTipoApoyoScreen = () => {
     };
 
     const onSelect = (e) => {
-        //dispatch(tipoApoyoEditar(e));
-        //setShowDialogForm(true);
+
         setShowModalUpdate(true);
         setPersonaSeleccionada(e);
     }
@@ -97,23 +101,19 @@ export const CatTipoApoyoScreen = () => {
 
     const deleteDialog = (e) => {
         console.log('delete dialog =>',e)
-        const cargarTiposApoyo = () => dispatch(obtenerTipoApoyoAction(idApoyosl,idPeriodicidadsl));
-        eliminarApoyo(e)
-        setOpenDialog(true);        
-        cargarTiposApoyo()
+        setIdEliminar(e)             
+        setOpenDialog(true);    
 
-
-        
-        
+               
     }
 
-    const handleDeshabilitar = () => {
-        dispatch(borrarModuloAction());       
+    const handleDeshabilitar = () => {    
+       eliminarApoyo(idEliminar)
 
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
     const buscarTiposApoyos = () => {
@@ -134,7 +134,7 @@ export const CatTipoApoyoScreen = () => {
                 <GridItem xs={12} sm={12} md={12}>
                     <Card>
                         <CardHeader color="primary">
-                            <h4 className={classes.cardTitleWhite}>Tipo Apoyo</h4>
+                            <h4 className={classes.cardTitleWhite}>Tipo apoyo</h4>
                             <p className={classes.cardCategoryWhite}>
 
                             </p>
@@ -223,14 +223,14 @@ export const CatTipoApoyoScreen = () => {
                             < Table stickyHeader aria-label="sticky table" >
                                 < TableHead >
                                     < TableRow key="898as" >
-                                        < TableCell > Estatus</TableCell >
-                                        < TableCell > Tipo apoyo</TableCell >
-                                        < TableCell> Apoyo</TableCell >
-                                        < TableCell> Programa de apoyo en el que se otorga</TableCell >
-                                        < TableCell> Periodicidad</TableCell >
-                                        < TableCell> Número de entregas</TableCell >
-                                        < TableCell> Vigencia</TableCell >
-                                        < TableCell> Fecha de alta</TableCell >
+                                        < TableCell align="center"> Estatus</TableCell >
+                                        < TableCell align="center"> Tipo apoyo</TableCell >
+                                        < TableCell align="center"> Apoyo</TableCell >
+                                        < TableCell align="center"> Programa de apoyo en el que se otorga</TableCell >
+                                        < TableCell align="center"> Periodicidad</TableCell >
+                                        < TableCell align="center"> Número de entregas</TableCell >
+                                        < TableCell align="center"> Vigencia</TableCell >
+                                        < TableCell align="center"> Fecha de alta</TableCell >
                                         < TableCell colSpan={2} align="center"> Acciones</TableCell >
                                     </TableRow >
                                 </TableHead >
@@ -243,17 +243,17 @@ export const CatTipoApoyoScreen = () => {
                                         ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                                             return (
                                                 < TableRow key={row.id}>
-                                                    <TableCell>
+                                                    <TableCell align="center">
                                                        
                                                         {row.estatus === 'true' ? 'Activo':'Inactivo'}
                                                     </TableCell>
-                                                    <TableCell>{row.descTiposApoyos}</TableCell>
-                                                    <TableCell>{row.dsapoyo}</TableCell >
-                                                    <TableCell>{row.desPrograma}</TableCell >
-                                                    <TableCell>{row.descPeriodicidad}</TableCell >
-                                                    <TableCell>{row.descNumApoyo}</TableCell >
-                                                    <TableCell >{moment(row.fcvigenciafin).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
-                                                    <TableCell >{moment(row.fcfecharegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                                    <TableCell align="center">{row.descTiposApoyos}</TableCell>
+                                                    <TableCell align="center">{row.dsapoyo}</TableCell >
+                                                    <TableCell align="center">{row.desPrograma}</TableCell >
+                                                    <TableCell align="center">{row.descPeriodicidad}</TableCell >
+                                                    <TableCell align="center">{row.descNumApoyo}</TableCell >
+                                                    <TableCell align="center">{moment(row.fcvigenciafin).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                                    <TableCell align="center">{moment(row.fcfecharegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                                     <TableCell align="center">
 
                                                         <IconButton aria-label="create" onClick={() => onSelect(row)}>
@@ -262,8 +262,8 @@ export const CatTipoApoyoScreen = () => {
 
                                                     </TableCell>
                                                     <TableCell align="center">
-                                                        <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                            {(row.activo) ? <BlockIcon /> : <BlockIcon />}
+                                                        <IconButton aria-label="create" onClick={() => deleteDialog(row)}>                                                           
+                                                            <BlockIcon />
                                                         </IconButton>
                                                     </TableCell>
                                                 </TableRow >

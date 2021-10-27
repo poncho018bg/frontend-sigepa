@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
+import { useLocation } from "react-router-dom";
 
 import Box from '@material-ui/core/Box';
 import Stepper from '@material-ui/core/Stepper';
@@ -7,6 +8,8 @@ import StepLabel from '@material-ui/core/StepLabel';
 
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
+
+import { axiosGet } from 'helpers/axiosPublico';
 
 import { RegistroCurp } from './RegistroCurp';
 import { RegistroDatosSolicitante } from './RegistroDatosSolicitante';
@@ -18,6 +21,8 @@ import { RegistroFinalizado } from './RegistroFinalizado';
 import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 
 import Button from "components/CustomButtons/Button.js";
+
+import ValidarPrograma from './ValidarPrograma';
 
 
 const useStyles = makeStyles(stylesArchivo);
@@ -32,12 +37,17 @@ const pasos = [
 ];
 
 export const RegistroSolicitud = () => {
+    //id del programa
+    let query = useLocation();
+    console.log("ID DEL PROGRAMA ====>", query.state?.mobNo);
     const [activeStep, setActiveStep] = useState(0);
     const [skipped, setSkipped] = useState(new Set());
     const [activar, setActivar] = useState();
     const [curp, setCurp] = useState();
 
-    const { beneficiario, registrarBeneficiario, direccion, registrarDireccionBeneficiario } = useContext(RegistroSolicitudContext);    
+    const { beneficiario, registrarBeneficiario, direccion,
+        registrarDireccionBeneficiario, getBeneficiario, actualizarBeneficiario,
+        obtenerDireccionBeneficiario, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
     //
     const child = useRef();
     const direccionChild = useRef();
@@ -56,11 +66,11 @@ export const RegistroSolicitud = () => {
      * @param {estadoCivil} estadoCivil 
      * @param {identificacion} identificacion 
      */
-    const llenarDatosBeneficiario = (nombre, apellidoPaterno, apellidoMaterno, curp, genero, fechaNacimientoReal, edad, estudios, estadoCivil, identificacion) => {
+    const llenarDatosBeneficiario = (id, nombre, apellidoPaterno, apellidoMaterno, curp, genero, fechaNacimientoReal, edad, estudios, estadoCivil, identificacion) => {
         /**
          * se guarda al ejecutar esta función
          */
-        console.log("funcion llenar datos", nombre,
+        console.log("funcion llenar datos", id, nombre,
             apellidoPaterno,
             apellidoMaterno,
             curp,
@@ -71,34 +81,58 @@ export const RegistroSolicitud = () => {
             estadoCivil,
             identificacion);
 
-        let datosEnviar = {
-            dsnombre: nombre,
-            dsapellido1: apellidoPaterno,
-            dsapellido2: apellidoMaterno,
-            dscurp: curp,
-            fcfechanacimiento: fechaNacimientoReal,
-            idgenero: genero,
-            //edad,
-            idestadocivil: estadoCivil,
-            idgradoestudios: estudios,
-            ididentificacionoficial: identificacion
+        console.log("ID DEL BENEFICIARIO", id);
+        if (id == undefined) {
+            let datosEnviar = {
+                dsnombre: nombre,
+                dsapellido1: apellidoPaterno,
+                dsapellido2: apellidoMaterno,
+                dscurp: curp,
+                fcfechanacimiento: fechaNacimientoReal,
+                idgenero: genero,
+                //edad,
+                idestadocivil: estadoCivil,
+                idgradoestudios: estudios,
+                ididentificacionoficial: identificacion
+            }
+            console.log("datos enviados ---> ", datosEnviar);
+            /**
+             * al llegar aqui se inicia el guardado en la BD
+             */
+            registrarBeneficiario(datosEnviar);
+        } else {
+            console.log("Aun tenemos el beneficiario id", id)
+            let datosEnviar = {
+                id: id,
+                dsnombre: nombre,
+                dsapellido1: apellidoPaterno,
+                dsapellido2: apellidoMaterno,
+                dscurp: curp,
+                fcfechanacimiento: fechaNacimientoReal,
+                idgenero: genero,
+                //edad,
+                idestadocivil: estadoCivil,
+                idgradoestudios: estudios,
+                ididentificacionoficial: identificacion
+            }
+            /**
+             * si se hace algun edición se guarda aquí
+             */
+            actualizarBeneficiario(datosEnviar);
         }
-        console.log("datos enviados ---> ", datosEnviar);
-        /**
-         * al llegar aqui se inicia el guardado en la BD
-         */
-        registrarBeneficiario(datosEnviar);
-        /**
-         * Se inicializa el nextbutton para asegurar que va a llegar a la siguiente pantalla los datos a enviar
-         */
-        //NextButton();
     }
 
 
 
     const obtenerDireccion = direccionBeneficiario => {
         console.log("datos a GUARDAR de la direccion BENEFICIARIO", direccionBeneficiario);
-        registrarDireccionBeneficiario(direccionBeneficiario);
+        if (direccionBeneficiario.id !== undefined) {
+            console.log("TRAE ID");
+            actualizarDireccionBeneficiario(direccionBeneficiario);
+        } else {
+            console.log("NUEVA DIRECCION");
+            registrarDireccionBeneficiario(direccionBeneficiario);
+        }
         console.log("datos que devuelve el guardar direccion primera parte---> ", direccion);
     }
 
@@ -111,8 +145,20 @@ export const RegistroSolicitud = () => {
     };
 
     const handleNext = () => {
+        if (activeStep == 0) {
+            console.log("curp----->", curp);
+            /**
+             * consulta para traer el id y datos del beneficiario
+             */
+            getBeneficiario(curp);
+        }
         if (activeStep == 1) {
             child.current.registroBeneficiario();
+            /**
+             * hacemos una consulta para obtener el domicilio del beneficiario, si es que tiene datos
+             */
+            console.log("BENEFICIARIO ID DIRECCION ====>", beneficiario.id);
+            obtenerDireccionBeneficiario(beneficiario.id);
         }
         if (activeStep == 2) {
             console.log("ACtive STEP 2", beneficiario)
@@ -173,49 +219,50 @@ export const RegistroSolicitud = () => {
     }
 
     return (
-        <Box sx={{ width: '100%' }}>
-            <Stepper activeStep={activeStep}>
-                {pasos.map((label) => (
-                    <Step key={label}>
-                        <StepLabel>{label}</StepLabel>
-                    </Step>
-                ))}
-            </Stepper>
-            {activeStep === pasos.length ? (
-                <span>
-                    Has completado todos los pasos
+        <ValidarPrograma idPrograma={query.state?.mobNo}>
+            <Box sx={{ width: '100%' }}>
+                <Stepper activeStep={activeStep}>
+                    {pasos.map((label) => (
+                        <Step key={label}>
+                            <StepLabel>{label}</StepLabel>
+                        </Step>
+                    ))}
+                </Stepper>
+                {activeStep === pasos.length ? (
+                    <span>
+                        Has completado todos los pasos
 
-                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                        <Box sx={{ flex: '1 1 auto' }} />
-                        <Button onClick={handleReset}>Reiniciar</Button>
-                    </Box>
-                </span>
-            ) : (
-                <>
-                    {activeStep === 0 ?
-                        <RegistroCurp setActivar={setActivar} setCurp={setCurp} />
-                        : activeStep === 1 ?
-                            <RegistroDatosSolicitante curpR={curp} llenarDatosBeneficiario={llenarDatosBeneficiario} ref={child} />
-                            : activeStep === 2 ?
-                                <RegistroDireccion beneficiario={beneficiario} obtenerDireccion={obtenerDireccion} ref={direccionChild} />
-                                : activeStep === 3 ?
-                                    <RegistroSolicitudContacto direccionB={direccion} beneficiario={beneficiario} ref={contacto} />
-                                    : activeStep === 4 ?
-                                        <RegistroCargaDocumentos />
-                                        :
-                                        <RegistroFinalizado />}
+                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                            <Box sx={{ flex: '1 1 auto' }} />
+                            <Button onClick={handleReset}>Reiniciar</Button>
+                        </Box>
+                    </span>
+                ) : (
+                    <>
+                        {activeStep === 0 ?
+                            <RegistroCurp setActivar={setActivar} setCurp={setCurp} />
+                            : activeStep === 1 ?
+                                <RegistroDatosSolicitante curpR={curp} llenarDatosBeneficiario={llenarDatosBeneficiario} ref={child} beneficiario={beneficiario} />
+                                : activeStep === 2 ?
+                                    <RegistroDireccion beneficiario={beneficiario} obtenerDireccion={obtenerDireccion} ref={direccionChild} direccionBeneficiario={direccion} />
+                                    : activeStep === 3 ?
+                                        <RegistroSolicitudContacto direccionB={direccion} beneficiario={beneficiario} ref={contacto} />
+                                        : activeStep === 4 ?
+                                            <RegistroCargaDocumentos idPrograma={query.state?.mobNo}/>
+                                            :
+                                            <RegistroFinalizado />}
 
-                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                        <Button
-                            color="inherit"
-                            disabled={activeStep === 0}
-                            onClick={handleBack}
-                            sx={{ mr: 1 }}
-                        >
-                            Regresar
-                        </Button>
-                        <Box sx={{ flex: '1 1 auto' }} />
-                        {/*
+                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                            <Button
+                                color="inherit"
+                                disabled={activeStep === 0}
+                                onClick={handleBack}
+                                sx={{ mr: 1 }}
+                            >
+                                Regresar
+                            </Button>
+                            <Box sx={{ flex: '1 1 auto' }} />
+                            {/*
                         {isStepOptional(activeStep) && (
                             <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
                                 Saltar
@@ -223,10 +270,11 @@ export const RegistroSolicitud = () => {
                         )}
                         */}
 
-                        <NextButton />
-                    </Box>
-                </>
-            )}
-        </Box>
+                            <NextButton />
+                        </Box>
+                    </>
+                )}
+            </Box>
+        </ValidarPrograma>
     )
 }

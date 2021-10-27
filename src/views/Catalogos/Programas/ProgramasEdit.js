@@ -1,15 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Checkbox, FormHelperText, FormLabel, Grid, List, ListItem, ListItemIcon, makeStyles, MenuItem, Paper, TextField } from '@material-ui/core'
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+import { Button, Checkbox, FormHelperText, FormLabel, Grid, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, TextField } from '@material-ui/core'
+
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
 import Card from 'components/Card/Card';
 import CardHeader from 'components/Card/CardHeader';
-import CardIcon from 'components/Card/CardIcon';
-import PermIdentity from '@material-ui/icons/PermIdentity';
+
 import styles from "assets/jss/material-dashboard-pro-react/views/userProfileStyles.js";
 import CardBody from 'components/Card/CardBody';
 import { Formik } from 'formik';
@@ -19,13 +15,23 @@ const useStyles = makeStyles(styles);
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router";
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
-import DateFnsUtils from '@date-io/date-fns';
-import deLocale from "date-fns/locale/es";
+
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { TiposBeneficiariosContext } from 'contexts/catalogos/tiposBeneficiariosContext';
 import { EdadesBeneficiariosContext } from 'contexts/catalogos/edadesBeneficiariosContext';
 import { MultiSelect } from 'react-multi-select-component';
 import { useTranslation } from 'react-i18next';
+import { DropzoneAreaBase } from 'material-ui-dropzone';
+
+import 'moment/locale/es';
+import moment from 'moment';
+
+//context
+import { DocumentosContext } from "contexts/catalogos/documentosContext";
+
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -38,7 +44,9 @@ function intersection(a, b) {
 export const ProgramasEdit = () => {
   const { t } = useTranslation();
 
-  const { actualizar, programa, getByID } = useContext(ProgramasContext);
+  const { actualizar, programa, getByID,
+    getMunicipiosProg, getDocumentosProg, programasMunicipiosList, programasDocumentosList,
+    getImgDocumentosProg, imagenprg } = useContext(ProgramasContext);
   const classes = useStyles();
   let query = useLocation();
   let history = useHistory();
@@ -47,89 +55,185 @@ export const ProgramasEdit = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
-  const { tiposBeneficiariosList } = useContext(TiposBeneficiariosContext);
-  const { edadesBeneficiariosList ,getByIDBeneficiarios,edadesBeneficiario} = useContext(EdadesBeneficiariosContext);
+  const { tiposBeneficiariosList, getTipoBeneficiarios } = useContext(TiposBeneficiariosContext);
+  const { edadesBeneficiariosList } = useContext(EdadesBeneficiariosContext);
 
   const [municipiosSelect, setMunicipiosSelect] = useState([]);
 
 
   const [left, setLeft] = React.useState([]);
-    const [right, setRight] = React.useState([]);
-    
-    const [checked, setChecked] = React.useState([]);
-    const leftChecked = intersection(checked, left);
-    const rightChecked = intersection(checked, right);
-    const [selected, setSelected] = useState([]);
+  const [right, setRight] = React.useState([]);
 
-    const [documentslst, setDocumentslst] = React.useState([]);
+  const [checked, setChecked] = React.useState([]);
+  const leftChecked = intersection(checked, left);
+  const rightChecked = intersection(checked, right);
+  const [selected, setSelected] = useState([]);
+  const [archivo, setArchivos] = React.useState();
+  const [documentslst, setDocumentslst] = React.useState([]);
 
-    const [dataEditar, setDataEditar] = useState({});
+  const [dataEditar] = useState({});
+
+  const { getMunicipiosAll, municipiosList } = useContext(MunicipiosContext)
+  const { getDocumentos, documentosList } = useContext(DocumentosContext);
+  const [archivoPrograma, setArchivoPrograma] = React.useState([]);
+  useEffect(() => {
+    getMunicipiosAll()
+    getDocumentos();
+    getTipoBeneficiarios();
+  }, []);
 
   useEffect(() => {
+
     if (query.state?.mobNo) {
       getByID(query.state.mobNo);
+      getMunicipiosProg(query.state.mobNo)
+      getDocumentosProg(query.state.mobNo)
+      getImgDocumentosProg(query.state.mobNo)
     }
 
   }, [location]);
 
+  useEffect(() => {
+
+    const lstmun = []
+    programasMunicipiosList?.map(mp => {
+      const mpi = municipiosSelect.filter(e => e.value === mp.municipio_id)
+      lstmun.push({ label: mpi[0]?.label, value: mp.id })
+    })
+
+    setSelected(lstmun)
+
+  }, [municipiosSelect]);
+
+
+  useEffect(() => {
+    console.log('<1',imagenprg)
+  
+    const blobpgr = new Blob([imagenprg], { type: 'image/png' });   
+    
+    const file2 = new File([blobpgr], 'Proceso aduanal.png', { type: 'image/png' })  
+
+    setArchivoPrograma(`data:image/png;base64,${imagenprg}`)
+    console.log('blobpgr>>>',blobpgr)
+    console.log('file2>>>>',file2)
+
+  }, [imagenprg]);
+
+
+
+
+
+  useEffect(() => {
+    const lstDocsRg = []
+    const lstDocsLf = []
+
+    documentosList.map((mp1) => {
+      const docsagr = programasDocumentosList.filter(e => e.id === mp1.id)
+
+      if (docsagr.length > 0) {
+        lstDocsRg.push(mp1)
+      } else {
+        lstDocsLf.push(mp1)
+      }
+
+    })
+
+
+    setChecked(lstDocsRg)
+    setRight(lstDocsRg);
+    setLeft(lstDocsLf);
+    setLeft(not(lstDocsLf, leftChecked))
+    setChecked(not(checked, leftChecked))
+
+  }, [programasDocumentosList]);
+
   let data = programa;
 
-  /*useEffect(() => {
-    getByIDBeneficiarios(data?._links.edadbeneficiarioid.href);
-    if(edadesBeneficiario){
-    console.log('edad',edadesBeneficiario);
-    console.log('id',edadesBeneficiario.id);
+
+  useEffect(() => {
+    const lstmun = []
+    municipiosList.map((mn) => {
+      lstmun.push({ label: mn.dsmunicipio, value: mn.id })
+    })
+    setMunicipiosSelect(lstmun)
+  }, [municipiosList]);
+
+  useEffect(() => {
+    setLeft(documentosList)
+  }, [documentosList]);
+
+  useEffect(() => {
+    var docslst = []
+    right.map((mp) => {
+      docslst.push(mp.id)
+    })
+    setDocumentslst(docslst)
+  }, [right]);
+
+
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
     }
-    const info = {...data,   idRangoEdadBeneficiario: edadesBeneficiario?.id}
-    setDataEditar(info)
-  }, [data])*/
+
+    setChecked(newChecked);
+  };
 
 
-  console.log("data",dataEditar);
+
+
+  console.log("data", dataEditar);
   const handleCheckedRight = () => {
     setRight(right.concat(leftChecked));
     setLeft(not(left, leftChecked));
     setChecked(not(checked, leftChecked));
-};
+  };
 
-const handleCheckedLeft = () => {
+  const handleCheckedLeft = () => {
     setLeft(left.concat(rightChecked));
     setRight(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
-};
+  };
 
-const customList = (items) => (
-  <Paper className={classes.paper}>
+  const customList = (items) => (
+    <Paper className={classes.paper}>
       <List dense component="div" role="list">
-          {items.map((value) => {
-              const labelId = `transfer-list-item-${value}-label`;
+        {items.map((value) => {
+          const labelId = `transfer-list-item-${value}-label`;
 
-              return (
-                  <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
-                      <ListItemIcon>
-                          <Checkbox
-                              checked={checked.indexOf(value) !== -1}
-                              tabIndex={-1}
-                              disableRipple
-                              inputProps={{ 'aria-labelledby': labelId }}
-                          />
-                      </ListItemIcon>
-                      <ListItemText id={labelId} primary={`${value.dsdocumento}`} />
-                  </ListItem>
-              );
-          })}
-          <ListItem />
+          return (
+            <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
+              <ListItemIcon>
+                <Checkbox
+                  checked={checked.indexOf(value) !== -1}
+                  tabIndex={-1}
+                  disableRipple
+                  inputProps={{ 'aria-labelledby': labelId }}
+                />
+              </ListItemIcon>
+              <ListItemText id={labelId} primary={`${value.dsdocumento}`} />
+            </ListItem>
+          );
+        })}
+        <ListItem />
       </List>
-  </Paper>
-);
+    </Paper>
+  );
 
 
   // Schema de validación
   const schemaValidacion = Yup.object({
     dsprograma: Yup.string().nullable()
-      .required('El nombre del programa  es obligatorio'),
+      .required('El nombre del programa  es obligatorio')
+      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
     dsclaveprograma: Yup.string().nullable()
-      .required('La clave del programa es obligatoria'),
+      .required('La clave del programa es obligatoria')
+      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
     /*  vigenciaDesde: Yup.string()
           .required('La vigencia desde es obligatorio'),
       vigenciaHasta: Yup.string()
@@ -143,32 +247,70 @@ const customList = (items) => (
       periodoRegistroPresencialHasta: Yup.string()
         .required('El periodo del registro presencial hasta es obligatorio'),*/
     dsdescripcion: Yup.string().nullable()
-      .required('La descripcion del pograma de apoyo  es obligatorio'),
+      .required('La descripcion del pograma de apoyo  es obligatorio')
+      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
     dscriterioelegibilidad: Yup.string().nullable()
-      .required('Los criterios de elegibilidad son obligatorios'),
-    dscontinuidad: Yup.string().nullable()
-      .required('Las actividades por realizar son obligatorios')
-
+      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+    dscontinuidad: Yup.string()
+      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+    dsobservaciones: Yup.string()
+      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+    dsidentificadorplantilla: Yup.string()
+      .required('El identificador plantilla es obligatorio'),
+    dsnombreplantilla: Yup.string()
+      .required('El nombre de la plantilla es obligatorio'),
+    dsobjetivo: Yup.string()
+      .required('El objetivo es obligatorio'),
+    dscriteriosseleccion: Yup.string()
+      .required('Los criterios de selección son obligatorios'),
+    dscriteriospriorizacion: Yup.string()
+      .required('Los criterios de priorización son obligatorios'),
   });
 
-  const actualizarInfo = async valores => {
-    actualizar(valores).then(response => {
+  const [valores, setValores] = useState();
+  const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
+
+  const confirmacionDialog = (e) => {
+    console.log("Aqui hace el llamado al dialog", e);
+    setShowModalConfirmacion(true);
+    setValores(e)
+  }
+
+  const handleRegistrar = () => {
+    actualizar(query.state?.mobNo, valores, archivo, documentslst).then(response => {
 
       setOpenSnackbar(true);
-      setMsjConfirmacion(`El programa ${response.data.dsprograma}  fue actualizado correctamente `  );
-     const timer = setTimeout(() => {
-      setError(false);
-        history.push("/admin/programas")
+      setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
+      const timer = setTimeout(() => {
+        setError(false);
+        history.push("/admin/programas");
+        setShowModalConfirmacion(false);
 
       }, 1000);
       return () => clearTimeout(timer);
     })
-    .catch(err => {   
-      setOpenSnackbar(true);
-      setError(true);
-      setMsjConfirmacion(`Ocurrio un error, ${err}`  );
-    });;        
+      .catch(err => {
+        setOpenSnackbar(true);
+        setError(true);
+        setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+      });
   }
+
+  const actualizarInfo = async valores => {
+    confirmacionDialog(valores);
+  }
+
+  const handleChangeFile = e => {
+    console.log("files=>>>", e);
+
+    setArchivos(new Blob([JSON.stringify(e)], {
+      type: 'application/json',
+    }));
+    console.log('archivo', archivo)
+  }
+
+
 
 
   return (
@@ -178,30 +320,20 @@ const customList = (items) => (
       initialValues={data}
       validationSchema={schemaValidacion}
       onSubmit={(valores) => {
-
         actualizarInfo(valores)
-
       }}
     >
 
       {props => {
         return (
-
-
           <form
             className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
             onSubmit={props.handleSubmit}>
+
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <Card>
-                  <CardHeader color="rose" icon>
-                    <CardIcon color="rose">
-                      <PermIdentity />
-                    </CardIcon>
-                    <h4 className={classes.cardIconTitle}>
-                      Programas
-                    </h4>
-                  </CardHeader>
+                  <CardHeader color="primary"> Programas </CardHeader>
                   <CardBody>
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
@@ -217,6 +349,7 @@ const customList = (items) => (
                           onBlur={props.handleBlur}
                           value={props.values?.dsprograma}
                           InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "500" }}
                         />
                         {props.touched.dsprograma && props.errors.dsprograma ? (
                           <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsprograma}>
@@ -236,6 +369,7 @@ const customList = (items) => (
                           onBlur={props.handleBlur}
                           value={props.values?.dsclaveprograma}
                           InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "100" }}
                         />
                         {props.touched.dsclaveprograma && props.errors.dsclaveprograma ? (
                           <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsclaveprograma}>
@@ -249,129 +383,147 @@ const customList = (items) => (
 
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={6}>
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                          <TextField
                             id="fcvigenciainicio"
+                            label="Vigencia del programa inicio"
+                            type="date"
+                            fullWidth
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            value={moment(new Date(parseInt(props.values?.fcvigenciainicio))).format("YYYY-MM-DD")}
                             name="fcvigenciainicio"
-                            fullWidth
-                            label="Vigencia del Programa Inicio"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            style={{ marginBottom: '20px' }}
-                            clearable
-                            value={props.values?.fcvigenciainicio}
-                            onChange={value => props.setFieldValue("fcvigenciainicio", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
+                            onChange={props.handleChange}
+                            InputProps={{
+                              inputProps: {
+                                max: moment(new Date(parseInt(props.values?.fcvigenciafin))).format("YYYY-MM-DD")
+                              }
                             }}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
+
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
-
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                          <TextField
                             id="fcvigenciafin"
+                            label="Vigencia del programa hasta"
+                            type="date"
+                            fullWidth
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            value={moment(new Date(parseInt(props.values?.fcvigenciafin))).format("YYYY-MM-DD")}
                             name="fcvigenciafin"
-                            fullWidth
-                            style={{ marginBottom: '20px' }}
-                            label="Vigencia del Programa Hasta"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            clearable
-                            value={props.values?.fcvigenciafin}
-                            onChange={value => props.setFieldValue("fcvigenciafin", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
+                            onChange={props.handleChange}
+                            InputProps={{
+                              inputProps: {
+                                min: moment(new Date(parseInt(props.values?.fcvigenciainicio))).format("YYYY-MM-DD")
+                              }
                             }}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
+
                       </GridItem>
                       <GridItem xs={12} sm={12} md={6}>
-
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                          <TextField
                             id="fcregistrowebinicio"
+                            label="Periodo registro web desde"
+                            type="date"
+                            fullWidth
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            value={moment(new Date(parseInt(props.values?.fcregistrowebinicio))).format("YYYY-MM-DD")}
                             name="fcregistrowebinicio"
-                            fullWidth
-                            style={{ marginBottom: '20px' }}
-                            label="Periodo Registro Web Desde"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            clearable
-                            value={props.values?.fcregistrowebinicio}
-                            onChange={value => props.setFieldValue("periodoRegistroWebDesde", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
+                            onChange={props.handleChange}
+                            InputProps={{
+                              inputProps: {
+                                max: moment(new Date(parseInt(props.values?.fcregistrowebfin))).format("YYYY-MM-DD")
+                              }
                             }}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
+
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
-
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                          <TextField
                             id="fcregistrowebfin"
+                            label="Periodo registro web hasta"
+                            type="date"
+                            fullWidth
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            value={moment(new Date(parseInt(props.values?.fcregistrowebfin))).format("YYYY-MM-DD")}
                             name="fcregistrowebfin"
-                            fullWidth
-                            label="Periodo Registro web Hasta"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            style={{ marginBottom: '20px' }}
-                            clearable
-                            value={props.values?.fcregistrowebfin}
-                            onChange={value => props.setFieldValue("fcregistrowebfin", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
+                            onChange={props.handleChange}
+                            InputProps={{
+                              inputProps: {
+                                min: moment(new Date(parseInt(props.values?.fcregistrowebinicio))).format("YYYY-MM-DD")
+                              }
                             }}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
 
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
 
-
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                          <TextField
                             id="fcregistropresencialinicio"
-                            name="fcregistropresencialinicio"
+                            label="Periodo registro presencial desde"
+                            type="date"
                             fullWidth
-                            label="Periodo Registro Presencial Desde"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            style={{ marginBottom: '20px' }}
-                            clearable
-                            value={props.values?.fcregistropresencialinicio}
-                            onChange={value => props.setFieldValue("fcregistropresencialinicio", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            value={moment(new Date(parseInt(props.values?.fcregistropresencialinicio))).format("YYYY-MM-DD")}
+                            name="fcregistropresencialinicio"
+                            onChange={props.handleChange}
+                            InputProps={{
+                              inputProps: {
+                                max: moment(new Date(parseInt(props.values?.fcregistropresencialfin))).format("YYYY-MM-DD")
+                              }
                             }}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
+
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
-
-                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}>
-                          <KeyboardDatePicker
+                        <CardBody>
+                          <TextField
                             id="fcregistropresencialfin"
-                            name="fcregistropresencialfin"
+                            label="Periodo registro presencial hasta"
+                            type="date"
                             fullWidth
-                            label="Periodo Registro Presencial Hasta"
-                            inputVariant="outlined"
-                            format="MM/dd/yyyy"
-                            style={{ marginBottom: '20px' }}
-                            clearable
-                            value={props.values?.fcregistropresencialfin}
-                            onChange={value => props.setFieldValue("fcregistropresencialfin", value)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            value={moment(new Date(parseInt(props.values?.fcregistropresencialfin))).format("YYYY-MM-DD")}
+                            name="fcregistropresencialfin"
+                            onChange={props.handleChange}
+                            InputProps={{
+                              inputProps: {
+                                min: moment(new Date(parseInt(props.values?.fcregistropresencialinicio))).format("YYYY-MM-DD")
+                              }
                             }}
                           />
-                        </MuiPickersUtilsProvider>
+                        </CardBody>
+
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={12}>
@@ -388,6 +540,7 @@ const customList = (items) => (
                           onBlur={props.handleBlur}
                           value={props.values?.dsdescripcion}
                           InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "800" }}
                         />
                         {props.touched.dsdescripcion && props.errors.dsdescripcion ? (
                           <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsdescripcion}>
@@ -398,116 +551,130 @@ const customList = (items) => (
                     </GridContainer>
 
                     <GridContainer>
-                  <GridItem xs={12} sm={12} md={12}>
-                  <TextField
-                        variant="outlined"
-                        label="Selecciona un tipo de beneficiario"
-                        select
-                        style={{marginBottom: '20px'}}
-                        fullWidth
-                        name="idBeneficiario"
-                        value={props.values?.idBeneficiario}
-                        onChange={props.handleChange}
-                    >
-                        <MenuItem value="0">
-                            <em>{t('cmb.ninguno')}</em>
-                        </MenuItem>
-                        {
-                            tiposBeneficiariosList.map(
+                      <GridItem xs={12} sm={12} md={12}>
+                        {props.values !== null ?
+
+                          <TextField
+                            variant="outlined"
+                            label="Selecciona un tipo de beneficiario"
+                            select
+                            style={{ marginBottom: '20px' }}
+                            fullWidth
+                            name="idBeneficiario"
+                            value={props?.values?.idBeneficiario}
+                            onChange={props.handleChange}
+                          >
+                            <MenuItem value="0">
+                              <em>{t('cmb.ninguno')}</em>
+                            </MenuItem>
+                            {
+                              tiposBeneficiariosList.map(
                                 item => (
-                                    <MenuItem
-                                        key={item.id}
-                                        value={item.id}>
-                                        {item.dstipobeneficiario}
-                                    </MenuItem>
+                                  <MenuItem
+                                    key={item.id}
+                                    value={item.id}>
+                                    {item.dstipobeneficiario}
+                                  </MenuItem>
                                 )
-                            )
-                        }
-                    </TextField>
-                 
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
-                  <TextField
-                        variant="outlined"
-                        label="Selecciona un rango de edad"
-                        select
-                        style={{marginBottom: '20px'}}
-                        fullWidth
-                        name="idRangoEdadBeneficiario"
-                        value={props.values?.idRangoEdadBeneficiario}
-                        onChange={props.handleChange}
-                    >
-                       
-                        {
-                            edadesBeneficiariosList.map(
-                                item => (
-                                    <MenuItem
-                                        key={item.id}
-                                        value={item.id}>
-                                        {item.dsedadbeneficiario}
-                                    </MenuItem>
-                                )
-                            )
+                              )
+                            }
+                          </TextField> :
+                          <></>
                         }
 
-                    </TextField>
-                    {props.touched.idRangoEdadBeneficiario && props.errors.idRangoEdadBeneficiario ? (
-                        <FormHelperText error={props.errors.idRangoEdadBeneficiario}>{props.errors.idRangoEdadBeneficiario}</FormHelperText>
-                    ) : null}
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
-                  <FormLabel component="legend">Cobertura municipal </FormLabel>
-                    <MultiSelect
-                         style={{marginBottom: '120px'}}
-                        options={municipiosSelect}
-                        value={selected}
-                        onChange={setSelected}
-                        labelledBy="Seleccionar"
-                    />
-                  </GridItem>
 
-                  <GridItem xs={12} sm={12} md={12}  style={{marginBottom: '20px'}}>
-                  <FormLabel  style={{marginBottom: '20px'}} component="legend">Documentación y formatos requeridos para el tipo de apoyo</FormLabel>
-                    <Grid
-                        container
-                        spacing={2}
-                        style={{marginBottom: '20px'}}
-                        justifyContent="center"
-                        alignItems="center"
-                        className={classes.root}
-                        fullWidth
-                    >
-                        <Grid item>{customList(left)}</Grid>
-                        <Grid item>
+                      </GridItem>
+                      <GridItem xs={12} sm={12} md={12}>
+                        {props.values !== null ?
+
+                          <TextField
+                            variant="outlined"
+                            label="Selecciona un rango de edad"
+                            select
+                            style={{ marginBottom: '20px' }}
+                            fullWidth
+                            name="idRangoEdadBeneficiario"
+                            value={props.values?.idRangoEdadBeneficiario}
+                            onChange={props.handleChange}
+                          >
+
+                            {
+                              edadesBeneficiariosList.map(
+                                item => (
+                                  <MenuItem
+                                    key={item.id}
+                                    value={item.id}>
+                                    {item.dsedadbeneficiario}
+                                  </MenuItem>
+                                )
+                              )
+                            }
+
+                          </TextField>
+                          :
+                          <></>
+
+                        }
+
+                        {props.touched.idRangoEdadBeneficiario && props.errors.idRangoEdadBeneficiario ? (
+                          <FormHelperText error={props.errors.idRangoEdadBeneficiario}>{props.errors.idRangoEdadBeneficiario}</FormHelperText>
+                        ) : null}
+                      </GridItem>
+
+                      <GridItem xs={12} sm={12} md={12}>
+                        <FormLabel component="legend">Cobertura municipal </FormLabel>
+
+                        <MultiSelect
+                          style={{ marginBottom: '120px' }}
+                          options={municipiosSelect}
+                          value={selected}
+                          onChange={setSelected}
+                          labelledBy="Seleccionar"
+                        />
+                      </GridItem>
+
+                      <GridItem xs={12} sm={12} md={12} style={{ marginBottom: '20px' }}>
+                        <FormLabel style={{ marginBottom: '20px' }} component="legend">Documentación y formatos requeridos para el tipo de apoyo</FormLabel>
+                        <Grid
+                          container
+                          spacing={2}
+                          style={{ marginBottom: '20px' }}
+                          justifyContent="center"
+                          alignItems="center"
+                          className={classes.root}
+                          fullWidth
+                        >
+                          <Grid item>{customList(left)}</Grid>
+                          <Grid item>
                             <Grid container direction="column" alignItems="center">
 
-                                <Button
-                                    variant="outlined"
-                                    size="small"
-                                    className={classes.button}
-                                    onClick={handleCheckedRight}
-                                    disabled={leftChecked.length === 0}
-                                    aria-label="move selected right"
-                                >
-                                    &gt;
-                                </Button>
-                                <Button
-                                    variant="outlined"
-                                    size="small"
-                                    className={classes.button}
-                                    onClick={handleCheckedLeft}
-                                    disabled={rightChecked.length === 0}
-                                    aria-label="move selected left"
-                                >
-                                    &lt;
-                                </Button>
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                className={classes.button}
+                                onClick={handleCheckedRight}
+                                disabled={leftChecked.length === 0}
+                                aria-label="move selected right"
+                              >
+                                &gt;
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                className={classes.button}
+                                onClick={handleCheckedLeft}
+                                disabled={rightChecked.length === 0}
+                                aria-label="move selected left"
+                              >
+                                &lt;
+                              </Button>
 
                             </Grid>
+                          </Grid>
+                          <Grid item>{customList(right)}</Grid>
                         </Grid>
-                        <Grid item>{customList(right)}</Grid>
-                    </Grid>
-                  </GridItem>
-                </GridContainer>
+                      </GridItem>
+                    </GridContainer>
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
                         <TextField
@@ -523,6 +690,7 @@ const customList = (items) => (
                           onBlur={props.handleBlur}
                           value={props.values?.dscriterioelegibilidad}
                           InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "800" }}
                         />
                         {props.touched.dscriterioelegibilidad && props.errors.dscriterioelegibilidad ? (
                           <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dscriterioelegibilidad}>
@@ -530,6 +698,8 @@ const customList = (items) => (
                           </FormHelperText>
                         ) : null}
                       </GridItem>
+                    </GridContainer>
+                    <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
                         <TextField
                           id="dscontinuidad"
@@ -544,6 +714,7 @@ const customList = (items) => (
                           onBlur={props.handleBlur}
                           value={props.values?.dscontinuidad}
                           InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "300" }}
                         />
                         {props.touched.dscontinuidad && props.errors.dscontinuidad ? (
                           <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dscontinuidad}>
@@ -551,6 +722,8 @@ const customList = (items) => (
                           </FormHelperText>
                         ) : null}
                       </GridItem>
+                    </GridContainer>
+                    <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
                         <TextField
                           id="dsobservaciones"
@@ -565,13 +738,169 @@ const customList = (items) => (
                           onBlur={props.handleBlur}
                           value={props.values?.dsobservaciones}
                           InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "500" }}
                         />
+                      </GridItem>
+
+                    </GridContainer>
+
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+
+
+                        <TextField
+                          style={{ marginBottom: '20px' }}
+                          id="dsnombreplantilla"
+                          error={props.errors.dsnombreplantilla}
+                          label="Nombre de la plantilla"
+                          variant="outlined"
+                          name="dsnombreplantilla"
+                          fullWidth
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.dsnombreplantilla}
+                          InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "500" }}
+                        />
+                        {props.touched.dsnombreplantilla && props.errors.dsnombreplantilla ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsnombreplantilla}>
+                            {props.errors.dsnombreplantilla}
+                          </FormHelperText>
+                        ) : null}
+                      </GridItem>
+                    </GridContainer>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <TextField
+                          style={{ marginBottom: '20px' }}
+                          id="dsidentificadorplantilla"
+                          error={props.errors.dsidentificadorplantilla}
+                          label="Identificador de plantilla"
+                          variant="outlined"
+                          name="dsidentificadorplantilla"
+                          fullWidth
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.dsidentificadorplantilla}
+                          InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "500" }}
+                        />
+                        {props.touched.dsidentificadorplantilla && props.errors.dsidentificadorplantilla ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsidentificadorplantilla}>
+                            {props.errors.dsidentificadorplantilla}
+                          </FormHelperText>
+                        ) : null}
+                      </GridItem>
+
+                    </GridContainer>
+
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <TextField
+                          id="dsobjetivo"
+                          name="dsobjetivo"
+                          label="Objetivo"
+                          style={{ marginBottom: '20px' }}
+                          fullWidth
+                          multiline
+                          rows={4}
+                          variant="outlined"
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.dsobjetivo}
+                          InputLabelProps={{ shrink: true }}
+
+                        />
+
+                        {props.touched.dsobjetivo && props.errors.dsobjetivo ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsobjetivo}>
+                            {props.errors.dsobjetivo}
+                          </FormHelperText>
+                        ) : null}
                       </GridItem>
                     </GridContainer>
 
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <TextField
+                          id="dscriteriosseleccion"
+                          name="dscriteriosseleccion"
+                          label="Criterios de selección"
+                          style={{ marginBottom: '20px' }}
+                          fullWidth
+                          multiline
+                          rows={4}
+                          variant="outlined"
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.dscriteriosseleccion}
+                          InputLabelProps={{ shrink: true }}
+
+                        />
+
+                        {props.touched.dscriteriosseleccion && props.errors.dscriteriosseleccion ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dscriteriosseleccion}>
+                            {props.errors.dscriteriosseleccion}
+                          </FormHelperText>
+                        ) : null}
+                      </GridItem>
+                    </GridContainer>
+
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <TextField
+                          id="dscriteriospriorizacion"
+                          name="dscriteriospriorizacion"
+                          label="Criterios de priorización"
+                          style={{ marginBottom: '20px' }}
+                          fullWidth
+                          multiline
+                          rows={4}
+                          variant="outlined"
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.dscriteriospriorizacion}
+                          InputLabelProps={{ shrink: true }}
+
+                        />
+
+                        {props.touched.dscriteriospriorizacion && props.errors.dscriteriospriorizacion ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dscriteriospriorizacion}>
+                            {props.errors.dscriteriospriorizacion}
+                          </FormHelperText>
+                        ) : null}
+                      </GridItem>
+                    </GridContainer>
+
+               
+
+                    <GridContainer>
+                      {console.log('imgxxx=>',archivoPrograma)}
+                      {console.log('${archivoPrograma[0]?.data}',`${archivoPrograma[0]?.data}`)}
+                <GridItem xs={12} sm={12} md={6}>
+                  <DropzoneAreaBase
+                    acceptedFiles={['image/png']}
+                    onAdd={(fileObjs) => setArchivoPrograma(fileObjs)}
+                    fileObjects={archivoPrograma}
+                    filesLimit='1'
+                    showPreviews={false}
+                    showPreviewsInDropzone={false}
+                    useChipsForPreview={false}
+                    previewChipProps={false}
+                   
+                  />
+
+                </GridItem>
+                <GridItem xs={12} sm={12} md={6}>
+
+                  <img width='500' height='200' src={`${archivoPrograma[0]?.data}`} />
+
+                </GridItem>
+              </GridContainer>
+
                     <Button className={classes.updateProfileButton}
                       type='submit'>
-                      Editar
+                      Guardar
                     </Button>
                     <Clearfix />
                   </CardBody>
@@ -579,6 +908,10 @@ const customList = (items) => (
               </GridItem>
 
             </GridContainer>
+
+            <ModalConfirmacion
+              handleRegistrar={handleRegistrar} evento="Editar"
+            />
             <Mensaje
               setOpen={setOpenSnackbar}
               open={openSnackbar}

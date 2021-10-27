@@ -1,18 +1,13 @@
 
 import React, { useContext, useState } from 'react'
 
-import Checkbox from '@material-ui/core/Checkbox';
 import { TableCell, TableRow } from '@material-ui/core';
 import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import { LocalidadesContext } from 'contexts/catalogos/Localidades/localidadesContext';
-import { ModalContextDelete } from 'contexts/modalContexDelete';
-import { ModalDelete } from 'commons/ModalDelete';
 import { ModalUpdate } from 'commons/ModalUpdate';
 import { LocalidadEdit } from './LocalidadEdit';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
@@ -28,7 +23,7 @@ export const Localidad = ({ localidad }) => {
 
     const { eliminar } = useContext(LocalidadesContext);
     const [objetoActualizar, setObjetoActualizar] = useState();
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
@@ -54,19 +49,19 @@ export const Localidad = ({ localidad }) => {
         
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
     return (
         <>
             < TableRow >
-                <TableCell>
+                <TableCell align="center">
                     {activo === true ? 'Activo':'Inactivo'}
                 </TableCell>
-                <TableCell>{dsclavelocalidad}</TableCell >
-                <TableCell>{dslocalidad}</TableCell >
-                <TableCell>{dscodigopostal}</TableCell >
-                <TableCell >{moment(fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                <TableCell align="center">{dsclavelocalidad}</TableCell >
+                <TableCell align="center">{dslocalidad}</TableCell >
+                <TableCell align="center">{dscodigopostal}</TableCell >
+                <TableCell align="center">{moment(fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                 <TableCell align="center">
                     <IconButton aria-label="create" onClick={() => onSelect(localidad)}>
                         <CreateIcon />
@@ -74,7 +69,7 @@ export const Localidad = ({ localidad }) => {
                 </TableCell>
                 <TableCell align="center">
                     <IconButton aria-label="create" onClick={() => handleClickOpen(localidad)}>
-                        {(localidad.activo) ? <BlockIcon /> : <BlockIcon />}
+                    <BlockIcon />
                     </IconButton>
                 </TableCell>
             </TableRow >

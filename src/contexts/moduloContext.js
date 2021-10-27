@@ -7,10 +7,10 @@ import {
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from '../types/actionTypes';
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,  axiosPostHetoas } from 'helpers/axios';
 import UserService from 'servicios/UserService';
 
-
+const baseUrl = process.env.REACT_APP_API_URL;
 export const ModuloContext = createContext();
 
 export const ModuloContextProvider = props => {
@@ -51,7 +51,7 @@ export const ModuloContextProvider = props => {
                     resolve(response);
                     dispatch({
                         type: REGISTRAR_MODULO,
-                        payload: response
+                        payload: response.data
                     })
                 }).catch(error => {
                     reject(error);
@@ -108,23 +108,27 @@ export const ModuloContextProvider = props => {
                 type: ELIMINAR_MODULO,
                 payload: resultado,
             })
-
+           
         } catch (error) {
             console.log(error);
         }
     }
 
     //Paginacion
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (pages) => {  
         try {
-            getModulos();
-        } catch (error) {
+            dispatch(changePageNumber(pages))
+        } catch (error) {            
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))        
+        } catch (error) {            
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -136,6 +140,19 @@ export const ModuloContextProvider = props => {
         type: CAMBIAR_TAMANIO_PAGINA,
         payload: size
     })
+
+    const getModulosParametros = async (search) => {
+
+        try {           
+            const resultado = await axiosGet(`modulos/search/findByDsmoduloContaining?dsmodulo=${search}`);            
+            dispatch({
+                type: GET_MODULOS,
+                payload: resultado
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <ModuloContext.Provider
@@ -151,7 +168,9 @@ export const ModuloContextProvider = props => {
                 eliminarModulo,
                 changePageNumber,
                 changePageSize,
-                changePage
+                changePageSizes,
+                changePage,
+                getModulosParametros
 
             }}
         >

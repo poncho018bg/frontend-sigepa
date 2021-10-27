@@ -12,7 +12,7 @@ export default (state, action) => {
             return {
                 ...state,
                 periodicidadApoyosList: action.payload._embedded.periodicidadApoyos,
-                total: action.payload.page.totalElements
+                total: action.payload?.page?.totalElements
 
             };
         case AGREGAR_LOCALIDADES_ERROR:

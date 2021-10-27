@@ -5,16 +5,14 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import { MenuItem, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, TextField, Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
-import moment from 'moment';
 import 'moment/locale/es';
 
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
-import { ModalContext } from 'contexts/modalContex';
-import { ModalContextDelete } from 'contexts/modalContexDelete';
-import { ModalContextUpdate } from 'contexts/modalContexUpdate';
+
+
 import { BtActividadesContext } from 'contexts/catalogos/BtActividadesContext';
 import { obtenerRolesAction } from 'actions/rolesKeycloakAction';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,18 +30,14 @@ export const BitacoraActividadesScreen = () => {
     const [searched, setSearched] = useState('');
 
     const { btActividadesList, getBtActividadesby } = useContext(BtActividadesContext);
-    const { showModal, modalTitle, setShowModal, setModalTitle } = useContext(ModalContext);
-    const { showModalDelete, setShowModalDelete } = useContext(ModalContextDelete);
-    const { showModalUpdate, modalTitleUpdate, setShowModalUpdate, setModalTitleUpdate }
-        = useContext(ModalContextUpdate);
+
 
     const [nombre, setNombre] = useState('');
     const [apellidopaterno, setApellidopaterno] = useState('');
-    const [apellidoMaterno, setApellidoMaterno] = useState('');
-    const [puesto, setPuesto] = useState('');
+    const [apellidoMaterno] = useState('');
+    const [puesto] = useState('');
     const [rol, setRol] = useState('');
     const [fecha, setFecha] = useState('');
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
     const { roles } = useSelector(state => state.roles);
 
 
@@ -64,30 +58,6 @@ export const BitacoraActividadesScreen = () => {
     };
 
 
-    const onSelect = (e) => {
-        setShowModalUpdate(true);
-        setBitacoraActividadSeleccionada(e);
-    }
-
-    const addDialog = () => {
-        setShowModal(true);
-    }
-
-    const deleteDialog = (e) => {
-        setShowModalDelete(true);
-        setIdEliminar(e.id);
-    }
-
-
-    const handleDeshabilitar = () => {
-        setShowModalDelete(false);
-    }
-
-
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
 
     const buscarMovimientos = () => {
         console.log('rol', puesto.length)
@@ -200,8 +170,8 @@ export const BitacoraActividadesScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell > Fecha de registro</TableCell >
-                                < TableCell> Acción</TableCell >
+                                < TableCell align="center"> Fecha de registro</TableCell >
+                                < TableCell align="center"> Acción</TableCell >
 
                             </TableRow >
                         </TableHead >

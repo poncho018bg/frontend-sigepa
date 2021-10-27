@@ -4,11 +4,14 @@ import {
     GET_ESTADO_CIVIL,
     GET_IDENTIFICACIONES_OFICIALES,
     REGISTRAR_BENEFICIARIO,
-    REGISTRAR_DIRECCION_BENEFICIARIO
+    REGISTRAR_DIRECCION_BENEFICIARIO,
+    GET_BENEFICIARIO,
+    ACTUALIZAR_BENEFICIARIO,
+    OBTENER_DIRECCION,
+    MODIFICAR_DIRECCION_BENEFICIARIO
 } from "../types/actionTypes";
 
 export default (state, action) => {
-    console.log("action --->", action.payload);
     switch (action.type) {
         case GET_GENEROS:
             return {
@@ -39,10 +42,32 @@ export default (state, action) => {
                 ...state,
                 beneficiario: [...state.beneficiario, action.payload]
             };
-            case REGISTRAR_DIRECCION_BENEFICIARIO:
+        case REGISTRAR_DIRECCION_BENEFICIARIO:
             return {
                 ...state,
                 direccion: [...state.direccion, action.payload]
+            };
+        case MODIFICAR_DIRECCION_BENEFICIARIO:
+            return {
+                ...state,
+                direccion: state.direccion.map(
+                    direccion => direccion.id === action.payload.id ? action.payload : direccion
+                )
+            };
+        case GET_BENEFICIARIO:
+            return {
+                ...state,
+                beneficiario: action.payload
+            };
+        case ACTUALIZAR_BENEFICIARIO:
+            return {
+                ...state,
+                beneficiario: action.payload
+            };
+        case OBTENER_DIRECCION:
+            return {
+                ...state,
+                direccion: action.payload
             };
         default:
             return state;

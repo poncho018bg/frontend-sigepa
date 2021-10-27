@@ -16,7 +16,7 @@ export const RegistroCargaDocumentosContextProvider = props => {
     const getDocumentosApoyo = async idApoyo => {
         try {
             console.log("idApoyo ", idApoyo);
-            const result = await axiosGet(`documentosapoyo/${idApoyo}`);
+            const result = await axiosGet(`documentosprogramaapoyo/${idApoyo}`);
             console.log(result);
             dispatch({
                 type: GET_DOCUMENTOS_APOYO,

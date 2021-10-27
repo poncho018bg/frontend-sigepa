@@ -42,7 +42,7 @@ export const TipoApoyoForm = () => {
             registrarTiposApoyos(tiposApoyo).then(response => {
                 setOpenSnackbar(true);
                  
-                setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+                setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
                
                const timer = setTimeout(() => {
             
@@ -56,7 +56,7 @@ export const TipoApoyoForm = () => {
             .catch(err => {   
                 setOpenSnackbar(true);
                 setError(true);
-                setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+                setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
             });
     }
 
@@ -90,6 +90,7 @@ export const TipoApoyoForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dstipoapoyo}
+                    inputProps={{ maxLength: 200 }}
                 />
                 {formik.touched.dstipoapoyo && formik.errors.dstipoapoyo ? (
                     <FormHelperText error={formik.errors.dstipoapoyo}>{formik.errors.dstipoapoyo}</FormHelperText>

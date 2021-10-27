@@ -7,7 +7,7 @@ import {
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from "../../types/actionTypes";
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,  axiosPostHetoas } from 'helpers/axios';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -59,7 +59,7 @@ export const FirmasContextProvider = props => {
      * @param {firmas} firmas 
      */
     const registrarFirmas = async firmas => {
-       
+
 
 
         try {
@@ -82,7 +82,7 @@ export const FirmasContextProvider = props => {
             console.log('ocurrio un error en el context');
             console.log(error);
             dispatch({
-                type: AGREGAR_MUNICIPIOS_ERROR,
+                type: AGREGAR_FIRMAS_ERROR,
                 payload: true
             })
         }
@@ -93,18 +93,18 @@ export const FirmasContextProvider = props => {
      * @param {firmas} firmas 
      */
     const actualizarFirmas = async firmas => {
-        const { id, dsautoriza, dspuesto, dscomentario, idPrograma, activo, _links: { firmas: { href } } } = firmas;
+        const { id, dsautoriza, dspuesto, dscomentario,  activo, _links: { firmas: { href } } } = firmas;
 
         let FirmasEnviar = {
             id: id,
             dsautoriza: dsautoriza,
             dspuesto: dspuesto,
-            dscomentario: dscomentario,           
+            dscomentario: dscomentario,
             activo: activo
         };
-        
+
         try {
-            await axiosPostHetoas(href, FirmasEnviar, 'PUT');
+
             const result = await axiosPostHetoas(href, FirmasEnviar, 'PUT');
             dispatch({
                 type: MODIFICAR_FIRMAS,
@@ -116,29 +116,39 @@ export const FirmasContextProvider = props => {
     }
 
     const eliminarFirmas = async idfirmas => {
+
+        const { activo, _links: { firmas: { href } } } = idfirmas;
+        const act = !activo;
+        idfirmas.activo = act;
+
         try {
-            await axiosDeleteTipo(`firmas/${idfirmas}`);
+
+            const result = await axiosPostHetoas(href, idfirmas, 'PUT');
             dispatch({
                 type: ELIMINAR_FIRMAS,
-                payload: idfirmas,
+                payload: result,
             })
         } catch (error) {
             console.log(error);
         }
-        
+
     }
 
     //Paginacion
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (pages) => {
         try {
-            getFirmas();
+            dispatch(changePageNumber(pages))
         } catch (error) {
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))
+        } catch (error) {
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -152,6 +162,18 @@ export const FirmasContextProvider = props => {
     })
 
 
+    const getFirmasByParametros = async (search) => {
+        try {
+           
+            const result = await axiosGet(`firmas/search/findByDsautorizaContaining?dsautoriza=${search}`);            
+            dispatch({
+                type: GET_FIRMAS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <FirmasContext.Provider
@@ -169,7 +191,9 @@ export const FirmasContextProvider = props => {
                 eliminarFirmas,
                 changePageNumber,
                 changePageSize,
-                changePage
+                changePageSizes,
+                changePage,
+                getFirmasByParametros
             }}
         >
             {props.children}

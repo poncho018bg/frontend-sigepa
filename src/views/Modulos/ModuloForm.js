@@ -63,7 +63,7 @@ export const ModuloForm = () => {
 
         registrarModulos(module).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
 
             const timer = setTimeout(() => {
                 setError(false);
@@ -75,8 +75,8 @@ export const ModuloForm = () => {
         }).catch(err => {
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`);
-        });;
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+        })
 
     }
 
@@ -95,6 +95,7 @@ export const ModuloForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsmodulo}
+                    inputProps={{ maxLength: 200 }}
                 />
                 {formik.touched.dsmodulo && formik.errors.dsmodulo ? (
                     <FormHelperText error={formik.errors.dsmodulo}>{formik.errors.dsmodulo}</FormHelperText>

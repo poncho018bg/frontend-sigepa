@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
@@ -13,9 +12,7 @@ import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
@@ -36,25 +33,27 @@ const useStyles = makeStyles(stylesArchivo);
 export const ModuloScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [moduloSeleccionado, setModuloSeleccionado] = useState();
-    const { getModulos, eliminarModulo, moduloList, size, page, total, changePageSize, changePage } = useContext(ModuloContext);
+    const { getModulos, eliminarModulo, moduloList, size, page, total, changePageSizes, changePage,getModulosParametros } = useContext(ModuloContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
     const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ setOpenDialog] = useState(false);
 
     useEffect(() => {
-        getModulos();
-        // eslint-disable-next-line
-        console.log(moduloList);
+        getModulos();       
     }, []);
+
+    useEffect(() => {
+        getModulos();       
+    }, [size,page]);
 
 
     const onSelect = (e) => {
@@ -77,25 +76,35 @@ export const ModuloScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
-    const handleChangePage = (event, newPage) => {
-        changePage(newPage)
+    const handleChangePage = (event, newPage) => {        
+        changePage(newPage)       
     };
 
-    const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
-        changePage(0)
+    const handleChangeRowsPerPage = event => {              
+        changePageSizes(+event.target.value);
+        changePage(0)       
+        
     };
+
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getModulos();
+        }else{
+            getModulosParametros(search)
+        }
+       
+    }
     return (
         <GridItem xs={12} sm={12} md={12}>
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Modulos</h4>
+                    <h4 className={classes.cardTitleWhite}>Módulos</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Pantalla que permite configurar los Modulos
+                        Pantalla que permite configurar los módulos
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -113,8 +122,8 @@ export const ModuloScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -124,29 +133,24 @@ export const ModuloScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell > Estatus</TableCell >
-                                < TableCell > ID</TableCell >
-                                < TableCell> Desc. Modulo</TableCell >
-                                < TableCell> Fecha Registro</TableCell >
+                                < TableCell align="center"> Estatus</TableCell >                                
+                                < TableCell align="center"> Descripción módulo</TableCell >
+                                < TableCell align="center"> Fecha registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    moduloList.filter(row => row.dsmodulo ?
-                                        row.dsmodulo.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : moduloList
-                                ).map(row => {
+                               moduloList.map(row => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
+                                            <TableCell align="center">
                                                 {row.activo ? 'Activo' : 'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.id}</TableCell>
-                                            <TableCell>{row.dsmodulo}</TableCell >
-                                            <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            
+                                            <TableCell align="center">{row.dsmodulo}</TableCell >
+                                            <TableCell align="center">{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
 
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
@@ -155,7 +159,7 @@ export const ModuloScreen = () => {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
+                                                <BlockIcon />
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >

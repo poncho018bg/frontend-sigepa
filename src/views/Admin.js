@@ -42,7 +42,7 @@ export default function Dashboard(props) {
 
   const [color, setColor] = React.useState("blue");
   const [bgColor, setBgColor] = React.useState("black");
-  // const [hasImage, setHasImage] = React.useState(true);
+
   const [fixedClasses, setFixedClasses] = React.useState("dropdown");
   const [logo, setLogo] = React.useState(
     require("assets/img/m_logo.png").default

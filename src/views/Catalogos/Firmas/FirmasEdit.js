@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { Button, DialogContent, FormHelperText, Grid, TextField, MenuItem } from '@material-ui/core'
+import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { FirmasContext } from 'contexts/catalogos/firmasContext';
@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 export const FirmasEdit = ({ firmasSeleccionado }) => {
     const { t } = useTranslation();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    const { actualizarFirmas, getProgramas, programaList } = useContext(FirmasContext);
+    const { actualizarFirmas, getProgramas } = useContext(FirmasContext);
 
     //dialog confirmacion
     const [valores, setValores] = useState();
@@ -40,7 +40,7 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
         actualizarFirmas(valores).then(response => {
             setOpenSnackbar(true);
 
-            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
 
             const timer = setTimeout(() => {
 
@@ -54,7 +54,7 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
             .catch(err => {
                 setOpenSnackbar(true);
                 setError(true);
-                setMsjConfirmacion(`Ocurrio un error, ${err}`);
+                setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
 
                 setShowModalConfirmacion(false);
                 setShowModalUpdate(false);
@@ -102,6 +102,7 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dsautoriza}
+                                inputProps={{ maxLength: 200 }}
                             />
                             {props.touched.dsautoriza && props.errors.dsautoriza ? (
                                 <FormHelperText error={props.errors.dsautoriza}>{props.errors.dsautoriza}</FormHelperText>
@@ -117,6 +118,7 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dspuesto}
+                                inputProps={{ maxLength: 200 }}
                             />
                             {props.touched.dspuesto && props.errors.dspuesto ? (
                                 <FormHelperText error={props.errors.dspuesto}>{props.errors.dspuesto}</FormHelperText>
@@ -137,6 +139,7 @@ export const FirmasEdit = ({ firmasSeleccionado }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dscomentario}
+                                inputProps={{ maxLength: 200 }}
                             />
                             {props.touched.dscomentario && props.errors.dscomentario ? (
                                 <FormHelperText error={props.errors.dscomentario}>{props.errors.dscomentario}</FormHelperText>

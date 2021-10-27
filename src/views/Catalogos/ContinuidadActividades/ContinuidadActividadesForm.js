@@ -41,7 +41,7 @@ export const ContinuidadActividadesForm = () => {
         registrarActividadesContinuar(actividadcontinuidad).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -55,7 +55,7 @@ export const ContinuidadActividadesForm = () => {
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
         });
     }
 

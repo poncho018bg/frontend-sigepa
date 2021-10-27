@@ -40,7 +40,7 @@ export const ContinuidadActividadesEdit = ({ continuidadActividadesSeleccionada 
         actualizarActividadesContinuar(valores).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -54,7 +54,7 @@ export const ContinuidadActividadesEdit = ({ continuidadActividadesSeleccionada 
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
 
             setShowModalConfirmacion(false);
             setShowModalUpdate(false);

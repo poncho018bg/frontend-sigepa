@@ -3,11 +3,11 @@ import SubModuloReducer from '../reducers/SubModuloReducer';
 import axios from "axios";
 import {
     GET_SUBMODULOS, REGISTRAR_SUBMODULO, ELIMINAR_SUBMODULO, MODIFICAR_SUBMODULO, GET_MODULO_SUBMODULOS,
-    AGREGAR_SUBMODULOS_ERROR,
-    CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA
+    AGREGAR_SUBMODULOS_ERROR
+    
+    
 } from '../types/actionTypes';
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,  axiosPostHetoas } from 'helpers/axios';
 import UserService from 'servicios/UserService';
 
 const baseUrl = process.env.REACT_APP_API_URL;
@@ -60,7 +60,8 @@ export const SubModuloContextProvider = props => {
             usuarioCreacionId: subModulo.usuarioCreacionId,
             boactivo: true,
             crcModulosCollection: [`/${subModulo.crcModulosCollection}`],
-            perfiles: []
+            perfiles: [],
+            activoval:true
         }
 
         try {
@@ -70,10 +71,12 @@ export const SubModuloContextProvider = props => {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
                     resolve(response);
+                    response.data.activoval = true
                     dispatch({
                         type: REGISTRAR_SUBMODULO,
                         payload: response.data
                     })
+                    dispatch(getSubModulos())
                 }).catch(error => {
                     reject(error);
                 });
@@ -95,7 +98,7 @@ export const SubModuloContextProvider = props => {
 
         console.log('x=>>', submodulo)
 
-        const { id, crcModulosCollection } = submodulo;
+        const { id, crcModulosCollection,fcfecharegistro } = submodulo;
 
 
         const url = `${baseUrl}subModulos/${id}`;
@@ -105,10 +108,11 @@ export const SubModuloContextProvider = props => {
             usuarioCreacionId: `${process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}`,
             boactivo: true,
             crcModulosCollection: [`/${crcModulosCollection}`],
-            perfiles: []
+            perfiles: [],
+            fcfecharegistro:fcfecharegistro
         }
         let moduloEnviarm = {
-
+            fcfecharegistro:fcfecharegistro,
             '_links': {
 
                 '1': {
@@ -131,10 +135,14 @@ export const SubModuloContextProvider = props => {
                     type: MODIFICAR_SUBMODULO,
                     payload: response.data
                 })
+                dispatch(getSubModulos())
             }).catch(error => {
                 reject(error);
             });
         });
+
+    
+        
     }
 
     const eliminarSubModulo = async idModulo => {
@@ -161,6 +169,20 @@ export const SubModuloContextProvider = props => {
     }
 
 
+    const getModulosByParametros = async subModulo => {
+        try {
+            console.log('mod. buscar =>', subModulo)
+            const resultado = await axiosGet(`subModulos/search/findByDssubmoduloContaining?dssubmodulo=${subModulo}`);           
+            dispatch({
+                type: GET_SUBMODULOS,
+                payload: resultado._embedded.subModulos
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
 
     return (
         <SubModuloContext.Provider
@@ -171,6 +193,7 @@ export const SubModuloContextProvider = props => {
                 registrarSubModulos,
                 actualizarSubModulo,
                 eliminarSubModulo,
+                getModulosByParametros
             }}
         >
             {props.children}

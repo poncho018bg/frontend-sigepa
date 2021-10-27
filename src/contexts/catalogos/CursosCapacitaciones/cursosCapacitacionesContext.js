@@ -1,7 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 import axios from "axios";
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,  axiosPostHetoas } from 'helpers/axios';
 import CursosCapacitacionesReducer from 'reducers/Catalogos/CursosCapacitacionesReducer';
 import {
     REGISTRAR_CURSOS_CAPACITACIONES, GET_CURSOS_CAPACITACIONES, ELIMINAR_CURSOS_CAPACITACIONES, MODIFICAR_CURSOS_CAPACITACIONES,
@@ -32,7 +32,7 @@ export const CursosCapacitacionesContextProvider = props => {
     const get = async () => {
         try {
             const { page, size } = state;
-            const result = await axiosGet(`cursosCapacitaciones`);
+            const result = await axiosGet(`cursosCapacitaciones?page=${page}&size=${size}`);
             console.log(result._embedded);
             console.log(result._embedded.cursosCapacitaciones);
             dispatch({
@@ -56,10 +56,11 @@ export const CursosCapacitacionesContextProvider = props => {
                 axios.post(url, cursosCapacitaciones, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
+                    console.log(response);
                     resolve(response);
                     dispatch({
                         type: REGISTRAR_CURSOS_CAPACITACIONES,
-                        payload: response
+                        payload: response.data
                     })
                 }).catch(error => {
                     reject(error);
@@ -97,7 +98,7 @@ export const CursosCapacitacionesContextProvider = props => {
                 resolve(response);
                 dispatch({
                     type: MODIFICAR_CURSOS_CAPACITACIONES,
-                    payload: response
+                    payload: response.data
                 })
             }).catch(error => {
                 reject(error);
@@ -112,7 +113,7 @@ export const CursosCapacitacionesContextProvider = props => {
             dsestado,
             id,
             fechaRegistro,
-            activo,            
+            activo,
             _links: { self: { href } },
         } = cursosCapacitacionesw;
         const act = activo === true ? false : true;
@@ -129,7 +130,7 @@ export const CursosCapacitacionesContextProvider = props => {
 
         try {
             const result = await axiosPostHetoas(href, localidad, 'PUT');
-            console.log(result);
+            console.log("ELIMINAR -->", result);
             console.log('mir mira');
             dispatch({
                 type: ELIMINAR_CURSOS_CAPACITACIONES,
@@ -143,16 +144,20 @@ export const CursosCapacitacionesContextProvider = props => {
     }
 
     //Paginacion
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (page) => {  
         try {
-            get();
-        } catch (error) {
+            dispatch(changePageNumber(page))
+        } catch (error) {            
             throw error;
         }
+    }
 
+    const changePageSizes = async (size) => {
+        try {
+            dispatch(changePageSize(size))        
+        } catch (error) {            
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -164,6 +169,20 @@ export const CursosCapacitacionesContextProvider = props => {
         type: CAMBIAR_TAMANIO_PAGINA,
         payload: size
     })
+
+    const getByParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`cursosCapacitaciones/search/findByDscursoContaining?dscurso=${search}`);
+            
+            dispatch({
+                type: GET_CURSOS_CAPACITACIONES,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <CursosCapacitacionesContext.Provider
@@ -179,7 +198,9 @@ export const CursosCapacitacionesContextProvider = props => {
                 eliminar,
                 changePageNumber,
                 changePageSize,
-                changePage
+                changePageSizes,
+                changePage,
+                getByParametros
             }}
         >
             {props.children}

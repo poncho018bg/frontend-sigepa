@@ -1,5 +1,4 @@
 import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
-import NativeSelect from '@material-ui/core/NativeSelect';
 import { withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import React, { useEffect, useContext, useState } from 'react';
@@ -88,7 +87,7 @@ export const DocumentosForm = () => {
 
         registrarDocumento(documentosRequisitos).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
 
             const timer = setTimeout(() => {
                 setError(false);
@@ -100,8 +99,8 @@ export const DocumentosForm = () => {
         }).catch(err => {
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`);
-        });;
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+        })
     }
 
     useEffect(() => {

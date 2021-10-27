@@ -16,7 +16,7 @@ export default (state, action) => {
             return {
                 ...state,
                 cursosCapacitacionesList: action.payload._embedded.cursosCapacitaciones,
-                total: action.payload.page.totalElements
+                total: action.payload?.page?.totalElements
             };
         case AGREGAR_CURSOS_CAPACITACIONES_ERROR:
             console.log(action.type);
@@ -31,8 +31,10 @@ export default (state, action) => {
             };
         case ELIMINAR_CURSOS_CAPACITACIONES:
             return {
-                ...state,
-                cursosCapacitacionesList: state.cursosCapacitacionesList.filter(cursosCapacitaciones => cursosCapacitaciones.id !== action.payload)
+                ...state,               
+                cursosCapacitacionesList: state.cursosCapacitacionesList.map(
+                    cursosCapacitaciones => cursosCapacitaciones.id === action.payload.id ? action.payload : cursosCapacitaciones
+                )
             };
         case MODIFICAR_CURSOS_CAPACITACIONES:
             return {

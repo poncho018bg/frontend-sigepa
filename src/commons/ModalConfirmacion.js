@@ -10,7 +10,7 @@ import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 
 export const ModalConfirmacion = (props) => {
 
-    const { handleRegistrar, evento } = props;
+    const { handleRegistrar} = props;
 
     const { showModalConfirmacion, setShowModalConfirmacion }
         = useContext(ModalContextConfirmacion);
@@ -33,7 +33,7 @@ export const ModalConfirmacion = (props) => {
             <DialogTitle id="alert-dialog-title">{"Confirmación"}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                ¿El sistema guardará el alta registrada?
+                ¿Está seguro de guardar la información?
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

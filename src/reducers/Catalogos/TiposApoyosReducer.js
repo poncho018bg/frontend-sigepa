@@ -1,7 +1,7 @@
 import {
     GET_TIPOS_APOYOS, REGISTRAR_TIPOS_APOYOS, ELIMINAR_TIPOS_APOYOS, MODIFICAR_TIPOS_APOYOS,
     CAMBIAR_PAGINA,
-    AGREGAR_LOCALIDADES_ERROR,
+
     CAMBIAR_TAMANIO_PAGINA
 } from '../../types/actionTypes';
 
@@ -12,7 +12,7 @@ export default (state, action) => {
             return {
                 ...state,
                 tiposApoyosList: action.payload._embedded.tiposApoyos,
-                total: action.payload.page.totalElements
+                total: action.payload?.page?.totalElements
             };
         case REGISTRAR_TIPOS_APOYOS:
             return {

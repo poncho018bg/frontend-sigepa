@@ -12,7 +12,7 @@ export default (state, action) => {
             return {
                 ...state,
                 motivoRechazosList: action.payload._embedded.motivoRechazos,
-                total: action.payload.page.totalElements
+                total: action.payload?.page?.totalElements
             };
         case AGREGAR_MOTIVO_RECHAZOS_ERROR:
             console.log(action.type);
@@ -35,7 +35,9 @@ export default (state, action) => {
         case ELIMINAR_MOTIVO_RECHAZOS:
             return {
                 ...state,
-                motivoRechazosList: state.motivoRechazosList.filter(motivoRechazos => motivoRechazos.id !== action.payload)
+                motivoRechazosList: state.motivoRechazosList.map(
+                    motivoRechazos => motivoRechazos.id === action.payload.id ? action.payload : motivoRechazos
+                )
             };
         case CAMBIAR_PAGINA:
             return {

@@ -1,17 +1,25 @@
-import { GET_TIPOS_BENEFICIARIOS, REGISTRAR_TIPOS_BENEFICIARIOS, ELIMINAR_TIPOS_BENEFICIARIOS, MODIFICAR_TIPOS_BENEFICIARIOS,
-    CAMBIAR_PAGINA, CAMBIAR_TAMANIO_PAGINA } from '../../types/actionTypes';
+import {
+    GET_TIPOS_BENEFICIARIOS, REGISTRAR_TIPOS_BENEFICIARIOS, ELIMINAR_TIPOS_BENEFICIARIOS, MODIFICAR_TIPOS_BENEFICIARIOS,
+    CAMBIAR_PAGINA, CAMBIAR_TAMANIO_PAGINA, AGREGAR_TIPOS_BENEFICIARIOS_ERROR
+} from '../../types/actionTypes';
 
 export default (state, action) => {
 
     switch (action.type) {
         case GET_TIPOS_BENEFICIARIOS:
             console.log('en los beneficiarios');
-            console.log("payload beneficiarios ---> ",action.payload);
+            console.log("payload beneficiarios ---> ", action.payload);
             return {
                 ...state,
                 tiposBeneficiariosList: action.payload._embedded.tiposBeneficiarios,
-                total: action.payload.page.totalElements
+                total: action.payload?.page?.totalElements
             };
+        case AGREGAR_TIPOS_BENEFICIARIOS_ERROR:
+            console.log(action.type);
+            return {
+                ...state,
+                error: action.payload
+            }
         case REGISTRAR_TIPOS_BENEFICIARIOS:
             return {
                 ...state,
@@ -30,7 +38,7 @@ export default (state, action) => {
                 tiposBeneficiariosList: state.tiposBeneficiariosList.filter(tipoBeneficiario => tipoBeneficiario.id !== action.payload)
             };
         case CAMBIAR_PAGINA:
-            console.log("cambiar pagina --->> ",action.payload);
+            console.log("cambiar pagina --->> ", action.payload);
             return {
                 ...state,
                 page: action.payload

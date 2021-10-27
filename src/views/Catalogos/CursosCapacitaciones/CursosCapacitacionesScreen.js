@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow,Grid } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
 
@@ -13,9 +12,7 @@ import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
@@ -42,17 +39,17 @@ export const CursosCapacitacionesScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
 
-    const [rowsPerPage, setRowsPerPage] = useState(1);
-    const [searched, setSearched] = useState('');
+
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [objetoActualizar, setObjetoActualizar] = useState();
-    const { get, eliminar, cursosCapacitacionesList, size, page, total, changePageSize, changePage } = useContext(CursosCapacitacionesContext);
+    const { get, eliminar, cursosCapacitacionesList, size, page, total,  changePageSizes, changePage,getByParametros } = useContext(CursosCapacitacionesContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ setOpenDialog] = useState(false);
 
     const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
@@ -61,13 +58,17 @@ export const CursosCapacitacionesScreen = () => {
         get();
     }, []);
 
+    useEffect(() => {
+        get();
+    }, [size, page]);
+
     const handleChangePage = (event, newPage) => {
-        setPage(newPage);
+        changePage(newPage) 
     };
 
     const handleChangeRowsPerPage = event => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
+        changePageSizes(+event.target.value);
+        changePage(0)
     };
 
     const onSelect = (e) => {
@@ -91,7 +92,16 @@ export const CursosCapacitacionesScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
+    }
+
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            get();
+        }else{
+            getByParametros(search)
+        }
+       
     }
 
     return (
@@ -101,7 +111,7 @@ export const CursosCapacitacionesScreen = () => {
                 <CardHeader color="primary">
                     <h4 className={classes.cardTitleWhite}>{t('pnl.cursoscapacitaciones')}</h4>
                     <p className={classes.cardCategoryWhite}>
-                            {t('pnl.permiteagregarcursoscap')}
+                        {t('pnl.permiteagregarcursoscap')}
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -119,8 +129,8 @@ export const CursosCapacitacionesScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -130,27 +140,23 @@ export const CursosCapacitacionesScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > {t('dgv.estatus')}</TableCell >
-                                < TableCell> {t('dgv.cursos')}</TableCell >
-                                < TableCell> {t('dgv.fecharegistro')}</TableCell >
+                                < TableCell align="center"> {t('dgv.estatus')}</TableCell >
+                                < TableCell align="center"> {t('dgv.cursos')}</TableCell >
+                                < TableCell align="center"> {t('dgv.fecharegistro')}</TableCell >
                                 < TableCell colSpan={2} align="center"> {t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    cursosCapacitacionesList.filter(row => row.dsmotivorechazo ?
-                                        row.dsmotivorechazo.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : cursosCapacitacionesList
-                                ).map(row => {
-                                    console.log("page:" + page + " size:" + size)
+                               cursosCapacitacionesList.map((row, i) => {
+                                   
                                     return (
-                                        < TableRow key={row.id}>
-                                            <TableCell>
-                                              {row.activo === true ? 'Activo':'Inactivo'}
+                                        < TableRow key={i}>
+                                            <TableCell align="center">
+                                                {row.activo === true ? 'Activo' : 'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.dsestado}</TableCell >
-                                            <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell align="center">{row.dscurso}</TableCell >
+                                            <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />
@@ -158,7 +164,7 @@ export const CursosCapacitacionesScreen = () => {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
+                                                <BlockIcon />
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >

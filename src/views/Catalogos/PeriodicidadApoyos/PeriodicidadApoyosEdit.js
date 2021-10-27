@@ -39,7 +39,7 @@ export const PeriodicidadApoyosEdit = ({ periodicidadApoyosSeleccionado }) => {
         actualizarPeriodicidadApoyos(valores).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -53,7 +53,7 @@ export const PeriodicidadApoyosEdit = ({ periodicidadApoyosSeleccionado }) => {
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
 
             setShowModalConfirmacion(false);
             setShowModalUpdate(false);
@@ -101,6 +101,7 @@ export const PeriodicidadApoyosEdit = ({ periodicidadApoyosSeleccionado }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dsperiodicidad}
+                                inputProps={{ maxLength: 200 }}
                             />
                             {props.touched.dsperiodicidad && props.errors.dsperiodicidad ? (
                                 <FormHelperText error={props.errors.dsperiodicidad}>{props.errors.dsperiodicidad}</FormHelperText>

@@ -6,7 +6,7 @@ import {
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet, axiosPost,  axiosPostHetoas } from 'helpers/axios';
 
 
 
@@ -103,7 +103,7 @@ export const ActividadesContinuarContextProvider = props => {
             console.log(result);
             console.log('mir mira');
             dispatch({
-                type: ELIMINAR_APOYOSERVICIO,
+                type: ELIMINAR_ACTIVIDADESCONTINUAR,
                 payload: result,
             })
         } catch (error) {
@@ -113,16 +113,20 @@ export const ActividadesContinuarContextProvider = props => {
     }
 
     //Paginacion
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (pages) => {  
         try {
-            getActividadesContinuar();
-        } catch (error) {
+            dispatch(changePageNumber(pages))
+        } catch (error) {            
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))        
+        } catch (error) {            
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -134,6 +138,21 @@ export const ActividadesContinuarContextProvider = props => {
         type: CAMBIAR_TAMANIO_PAGINA,
         payload: size
     })
+
+    const getActividadesContinuarByParametros = async (search) => {
+        try {
+            
+            const resultado = await axiosGet(`continuidadActividades/search/findByDsactividadcontinuidadContaining?dsactividadcontinuidad=${search}`);
+            
+            dispatch({
+                type: GET_ACTIVIDADESCONTINUAR,
+                payload: resultado
+            })
+        } catch (error) {
+
+            console.log(error);
+        }
+    }
 
     return (
         <ActividadesContinuarContext.Provider
@@ -149,7 +168,9 @@ export const ActividadesContinuarContextProvider = props => {
                 actualizarActividadesContinuar,
                 changePageNumber,
                 changePageSize,
-                changePage
+                changePageSizes,
+                changePage,
+                getActividadesContinuarByParametros
             }}
         >
 

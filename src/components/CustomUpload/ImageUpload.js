@@ -26,13 +26,8 @@ export default function ImageUpload(props) {
       reader.readAsDataURL(file);
     }
   };
-  // eslint-disable-next-line
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // file is the file/image uploaded
-    // in this function you can save the image (file) on form submit
-    // you have to call it yourself
-  };
+
+
   const handleClick = () => {
     fileInput.current.click();
   };

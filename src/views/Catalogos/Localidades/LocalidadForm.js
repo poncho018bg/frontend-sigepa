@@ -1,5 +1,5 @@
 import { Button, DialogContent, FormHelperText, Grid, MenuItem, TextField } from '@material-ui/core'
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState }from 'react';
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { ModalContext } from 'contexts/modalContex';
@@ -15,7 +15,7 @@ export const LocalidadForm = () => {
     const { t } = useTranslation();
     const { registrar } = useContext(LocalidadesContext);
     const { setShowModal } = useContext(ModalContext);
-    const { municipiosListId } = useContext(MunicipiosContext);
+    const { getMunicipioEstado,municipiosListId } = useContext(MunicipiosContext);
 
 
     //dialog confirmar
@@ -35,6 +35,8 @@ export const LocalidadForm = () => {
         setValores(e)
     }
 
+
+
     const handleRegistrar = () => {
         const { dsidlocalidad, dsclavelocalidad, idMunicipio, dscodigopostal, dslocalidad } = valores;
         let localidad = {
@@ -50,7 +52,7 @@ export const LocalidadForm = () => {
         registrar(localidad).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -64,10 +66,14 @@ export const LocalidadForm = () => {
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
-        });;        ;
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+        })
       
     }
+
+    useEffect(() => {
+        getMunicipioEstado();
+    }, []);
 
     const formik = useFormik({
         initialValues: {
@@ -76,7 +82,7 @@ export const LocalidadForm = () => {
             idMunicipio: 0,
             dslocalidad: '',
             dscodigopostal: '',
-            dslocalidad: ''
+
 
         },
         validationSchema: Yup.object({

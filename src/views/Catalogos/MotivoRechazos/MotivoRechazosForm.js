@@ -49,7 +49,7 @@ export const MotivoRechazosForm = () => {
 
         registrarMotivoRechazos(motivoRechazos).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
 
             const timer = setTimeout(() => {
                 setError(false);
@@ -61,8 +61,8 @@ export const MotivoRechazosForm = () => {
         }).catch(err => {
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`);
-        });;
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+        })
 
     }
 

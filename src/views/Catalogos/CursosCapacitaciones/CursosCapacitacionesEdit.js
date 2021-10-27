@@ -43,7 +43,7 @@ export const CursosCapacitacionesEdit = ({ objetoActualizar }) => {
         actualizar(valores).then(response => {
 
             setOpenSnackbar(true);
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
             const timer = setTimeout(() => {
                 setError(false);
                 history.push("/admin/cursosCapacitaciones")
@@ -57,15 +57,15 @@ export const CursosCapacitacionesEdit = ({ objetoActualizar }) => {
         }).catch(err => {
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`);
-        });;
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+        });
 
     }
 
 
     // Schema de validación
     const schemaValidacion = Yup.object({
-        dsestado: Yup.string()
+        dscurso: Yup.string()
             .required(`${t('msg.obligatoriocurso')}`)
     });
 
@@ -95,17 +95,18 @@ export const CursosCapacitacionesEdit = ({ objetoActualizar }) => {
 
                         <DialogContent>
                             <TextField
-                                id="dsestado"
+                                id="dscurso"
                                 label={t('lbl.curso')}
                                 variant="outlined"
-                                name="dsestado"
+                                name="dscurso"
                                 fullWidth
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
-                                value={props.values.dsestado}
+                                value={props.values.dscurso}
+                                inputProps={{ maxLength: 300 }}
                             />
-                            {props.touched.dsestado && props.errors.dsestado ? (
-                                <FormHelperText error={props.errors.dsestado}>{props.errors.dsestado}</FormHelperText>
+                            {props.touched.dscurso && props.errors.dscurso ? (
+                                <FormHelperText error={props.errors.dscurso}>{props.errors.dscurso}</FormHelperText>
                             ) : null}
                         </DialogContent>
 

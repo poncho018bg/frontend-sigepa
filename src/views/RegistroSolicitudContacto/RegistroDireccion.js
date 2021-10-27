@@ -30,7 +30,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 export const RegistroDireccion = forwardRef((props, ref) => {
     const classes = useStyles();
-    const { beneficiario, obtenerDireccion } = props;
+    const { beneficiario, obtenerDireccion, direccionBeneficiario } = props;
 
     console.log("LLEGA EL ID DEL BENEFICIARIO ---> ", beneficiario);
 
@@ -54,45 +54,72 @@ export const RegistroDireccion = forwardRef((props, ref) => {
 
 
     useEffect(() => {
-        //console.log("BENEFICIARIO --->", beneficiario.id);
+        console.log("ESTO LLEGO DE LA CONSULTA DE LA DIRECCION DEL BENEFICIARIO -----> ", direccionBeneficiario);
+        if (direccionBeneficiario !== undefined) {
+            console.log("DIRECCION DEL BENEFICIARIO -----> ", direccionBeneficiario[0]);
+            if (direccionBeneficiario[0] !== undefined) {
+                console.log("direccion es defined ====> ", direccionBeneficiario[0]);
+                setCalle(direccionBeneficiario[0].calle);
+                setNoExterior(direccionBeneficiario[0].noExterior);
+                setNoInterior(direccionBeneficiario[0].noInterior);
+                setColonia(direccionBeneficiario[0].colonia);
+                setEntreCalle(direccionBeneficiario[0].entreCalle);
+                setYCalle(direccionBeneficiario[0].ycalle);
+                setIdLocalidad(direccionBeneficiario[0].idLocalidad);
+                setOtraReferencia(direccionBeneficiario[0].otraReferencia);
+            }
+        }
         getEstadosAll();
-    }, [beneficiario]);
-    /*
-    React.useImperativeHandle(ref, () => ({
-        isValidated: () => {
-            return isValidated();
-        },
-        sendState: () => {
-            return sendState();
-        },
-        state: {
-            simpleSelect,
-        },
-    }));
-    const sendState = () => {
-        return {
-            simpleSelect,
-        };
-    };
-    */
+    }, [direccionBeneficiario]);
+
+
     const llenado = () => {
         if (beneficiario != undefined) {
-            console.log("LLEGA EL ID DEL BENEFICIARIO AL LLENAR LOS DATOS? ---> ", beneficiario[0].id);
-            let datosDireccion = {
-                idBeneficiario: beneficiario[0].id,
-                calle: calle,
-                noExterior: noExterior,
-                noInterior: noInterior,
-                colonia: colonia,
-                entreCalle: entreCalle,
-                yCalle: yCalle,
-                codigoPostal: codigoPostal,
-                idLocalidad: idLocalidad,
-                otraReferencia: otraReferencia,
-                telefonoCasa: '',
-                telefonoCelular: '',
-                telefonoContacto: '',
-                correo: ''
+            console.log("beneficiario ===>", beneficiario);
+            var id = "";
+            if (beneficiario[0] !== undefined) {
+                console.log("LLEGA EL ID DEL BENEFICIARIO AL LLENAR LOS DATOS? ---> ", beneficiario[0].id);
+                id = beneficiario[0].id;
+            } else {
+                console.log("USA EL BEN como id");
+                id = beneficiario.id;
+            }
+            let datosDireccion = {};
+            if (direccionBeneficiario[0] === undefined) {
+                datosDireccion = {
+                    idBeneficiario: id,
+                    calle: calle,
+                    noExterior: noExterior,
+                    noInterior: noInterior,
+                    colonia: colonia,
+                    entreCalle: entreCalle,
+                    yCalle: yCalle,
+                    codigoPostal: codigoPostal,
+                    idLocalidad: idLocalidad,
+                    otraReferencia: otraReferencia,
+                    telefonoCasa: '',
+                    telefonoCelular: '',
+                    telefonoContacto: '',
+                    correo: ''
+                }
+            } else {
+                datosDireccion = {
+                    id:direccionBeneficiario[0].id,
+                    idBeneficiario: id,
+                    calle: calle,
+                    noExterior: noExterior,
+                    noInterior: noInterior,
+                    colonia: colonia,
+                    entreCalle: entreCalle,
+                    yCalle: yCalle,
+                    codigoPostal: codigoPostal,
+                    idLocalidad: idLocalidad,
+                    otraReferencia: otraReferencia,
+                    telefonoCasa: direccionBeneficiario[0].telefonoCasa,
+                    telefonoCelular: direccionBeneficiario[0].telefonoCelular,
+                    telefonoContacto: direccionBeneficiario[0].telefonoContacto,
+                    correo: direccionBeneficiario[0].correo
+                }
             }
             console.log("Datos que debe guardar", datosDireccion);
             /**
@@ -169,6 +196,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="calle"
                                 fullWidth
                                 onChange={onChange}
+                                value={calle}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={3}>
@@ -180,6 +208,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="numeroExterior"
                                 fullWidth
                                 onChange={onChange}
+                                value={noExterior}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={3}>
@@ -191,6 +220,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="numeroInterior"
                                 fullWidth
                                 onChange={onChange}
+                                value={noInterior}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={7}>
@@ -202,6 +232,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="colonia"
                                 fullWidth
                                 onChange={onChange}
+                                value={colonia}
                             />
                         </GridItem>
 
@@ -215,6 +246,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="entreCalle"
                                 onChange={onChange}
                                 fullWidth
+                                value={entreCalle}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={5}>
@@ -226,6 +258,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="yCalle"
                                 fullWidth
                                 onChange={onChange}
+                                value={yCalle}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={3}>
@@ -305,6 +338,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="codigoPostal"
                                 fullWidth
                                 onChange={onChange}
+                                value={codigoPostal}
                             />
                         </GridItem>
 
@@ -330,6 +364,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 fullWidth
                                 select
                                 onChange={onChange}
+                                value={idLocalidad}
                             >
                                 {
                                     localidadesList.map(
@@ -379,6 +414,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="otraReferencia"
                                 fullWidth
                                 onChange={onChange}
+                                value={otraReferencia}
                             />
                         </GridItem>
                     </GridContainer>

@@ -8,7 +8,7 @@ import {
     CAMBIAR_TAMANIO_PAGINA
 } from "../../types/actionTypes";
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet, axiosPost,  axiosPostHetoas } from 'helpers/axios';
 
 
 export const PeriodicidadApoyosContext = createContext();
@@ -108,16 +108,20 @@ export const PeriodicidadApoyosContextProvider = props => {
     }
 
     //Paginacion
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (pages) => {  
         try {
-            getPeriodicidadApoyos();
-        } catch (error) {
+            dispatch(changePageNumber(pages))
+        } catch (error) {            
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))        
+        } catch (error) {            
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -129,6 +133,20 @@ export const PeriodicidadApoyosContextProvider = props => {
         type: CAMBIAR_TAMANIO_PAGINA,
         payload: size
     })
+
+    const getPeriodicidadApoyosByParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`periodicidadApoyos/search/findByDsperiodicidadContaining?dsperiodicidad=${search}`);
+            
+            dispatch({
+                type: GET_PERIODICIDAD_APOYOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <PeriodicidadApoyosContext.Provider
@@ -144,7 +162,9 @@ export const PeriodicidadApoyosContextProvider = props => {
                 eliminarPeriodicidadApoyos,
                 changePageNumber,
                 changePageSize,
-                changePage
+                changePageSizes,
+                changePage,
+                getPeriodicidadApoyosByParametros
             }}
         >
             {props.children}

@@ -40,7 +40,7 @@ export const TipoApoyoEdit = ({ tipoApoyoSeleccionado }) => {
         actualizarTiposApoyos(valores).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -54,7 +54,7 @@ export const TipoApoyoEdit = ({ tipoApoyoSeleccionado }) => {
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
         });
     }
 
@@ -92,13 +92,14 @@ export const TipoApoyoEdit = ({ tipoApoyoSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dstipoapoyo"
-                                label="Desc. Tipo de Apoyo"
+                                label="Desc. Tipo de apoyo"
                                 variant="outlined"
                                 name="dstipoapoyo"
                                 fullWidth
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dstipoapoyo}
+                                inputProps={{ maxLength: 200 }}
                             />
                             {props.touched.dstipoapoyo && props.errors.dstipoapoyo ? (
                                 <FormHelperText error={props.errors.dstipoapoyo}>{props.errors.dstipoapoyo}</FormHelperText>

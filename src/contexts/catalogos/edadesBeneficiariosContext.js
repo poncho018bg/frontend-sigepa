@@ -1,17 +1,20 @@
 import React, { createContext, useReducer } from 'react';
 import EdadesBeneficiariosReducer from 'reducers/Catalogos/EdadesBeneficiariosReducer';
-
-import { GET_EDADES_BENEFICIARIOS,
-     REGISTRAR_EDADES_BENEFICIARIOS, 
-     MODIFICAR_EDADES_BENEFICIARIOS, ELIMINAR_EDADES_BENEFICIARIOS,
-     GET_EDADES_BENEFICIARIOS_BY_ID,
-    AGREGAR_PROGRAMA_ERROR,
+import axios from "axios";
+import {
+    GET_EDADES_BENEFICIARIOS,
+    REGISTRAR_EDADES_BENEFICIARIOS,
+    MODIFICAR_EDADES_BENEFICIARIOS, ELIMINAR_EDADES_BENEFICIARIOS,
+    GET_EDADES_BENEFICIARIOS_BY_ID,
+    
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA } from "../../types/actionTypes";
+    CAMBIAR_TAMANIO_PAGINA
+} from "../../types/actionTypes";
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
-import { axiosGetHetoas } from 'helpers/axios';
+import { axiosGet,  axiosPostHetoas,axiosGetHetoas } from 'helpers/axios';
 
+
+const baseUrl = process.env.REACT_APP_API_URL;
 export const EdadesBeneficiariosContext = createContext();
 
 export const EdadesBeneficiariosContextProvider = props => {
@@ -49,16 +52,30 @@ export const EdadesBeneficiariosContextProvider = props => {
      * @param {edadesBeneficiarios} edadesBeneficiarios 
      */
     const registrarEdadesBeneficiarios = async edadesBeneficiarios => {
+
+
         try {
-            console.log(edadesBeneficiarios);
-            const resultado = await axiosPost('edadesBeneficiarios', edadesBeneficiarios);
-            console.log(resultado);
-            dispatch({
-                type: REGISTRAR_EDADES_BENEFICIARIOS,
-                payload: resultado
-            })
+            const url = `${baseUrl}edadesBeneficiarios`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, edadesBeneficiarios, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_EDADES_BENEFICIARIOS,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log('ERROR=>', error)
+                    reject(error);
+                });
+            });
+
         } catch (error) {
-            console.log(error);
+            dispatch({
+                type: AGREGAR_APOYOS_ERROR,
+                payload: true
+            })
         }
     }
 
@@ -66,7 +83,7 @@ export const EdadesBeneficiariosContextProvider = props => {
      * Se actualizan los tipos de apoyos
      * @param {edadesBeneficiarios} edadesBeneficiarios 
      */
-    const actualizarEdadesBeneficiarios= async edadesBeneficiarios => {
+    const actualizarEdadesBeneficiarios = async edadesBeneficiarios => {
         const { dsedadbeneficiario, boactivo, _links: { edadesBeneficiarios: { href } } } = edadesBeneficiarios;
 
         let edadesBeneficiariosEnviar = {
@@ -87,7 +104,7 @@ export const EdadesBeneficiariosContextProvider = props => {
     }
 
     const eliminarEdadesBeneficiarios = async idEdadesBeneficiarios => {
-        const {activo, _links:{edadesBeneficiarios:{href}}}=idEdadesBeneficiarios
+        const { activo, _links: { edadesBeneficiarios: { href } } } = idEdadesBeneficiarios
         const act = !activo
         idEdadesBeneficiarios.activo = act
         try {
@@ -103,17 +120,21 @@ export const EdadesBeneficiariosContextProvider = props => {
         }
     }
 
-     //Paginacion
-     const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    //Paginacion
+    const changePage = async (pages) => {
         try {
-            getEdadesBeneficiarios();
-        } catch (error) {         
+            dispatch(changePageNumber(pages))
+        } catch (error) {
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))
+        } catch (error) {
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -126,10 +147,10 @@ export const EdadesBeneficiariosContextProvider = props => {
         payload: size
     })
 
-     /**
-     * obtener tipos de apoyo
-     */
-      const getByIDBeneficiarios= async url => {
+    /**
+    * obtener tipos de apoyo
+    */
+    const getByIDBeneficiarios = async url => {
         try {
             const result = await axiosGetHetoas(url);
             dispatch({
@@ -141,11 +162,25 @@ export const EdadesBeneficiariosContextProvider = props => {
         }
     }
 
+    const getEdadesBeneficiariosByParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`edadesBeneficiarios/search/findByDsedadbeneficiarioContaining?dsedadbeneficiario=${search}`);
+            
+            dispatch({
+                type: GET_EDADES_BENEFICIARIOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <EdadesBeneficiariosContext.Provider
             value={{
                 edadesBeneficiariosList: state.edadesBeneficiariosList,
-                edadesBeneficiario:state.edadesBeneficiario,
+                edadesBeneficiario: state.edadesBeneficiario,
                 error: state.error,
                 page: state.page,
                 size: state.size,
@@ -156,8 +191,10 @@ export const EdadesBeneficiariosContextProvider = props => {
                 eliminarEdadesBeneficiarios,
                 changePageNumber,
                 changePageSize,
+                changePageSizes,
                 changePage,
-                getByIDBeneficiarios
+                getByIDBeneficiarios,
+                getEdadesBeneficiariosByParametros
             }}
         >
             {props.children}

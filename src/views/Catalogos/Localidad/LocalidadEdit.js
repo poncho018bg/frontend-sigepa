@@ -14,9 +14,9 @@ import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
 export const LocalidadEdit = ({ objetoActualizar }) => {
     const { t } = useTranslation();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    const { actualizar, getByID, localidad } = useContext(LocalidadesContext);
+    const { actualizar } = useContext(LocalidadesContext);
     
-    const { getMunicipiosId,municipiosListId } = useContext(MunicipiosContext);
+    const { municipiosList ,getMunicipiosAll} = useContext(MunicipiosContext);
 
     //dialog confirmacion
     const [valores, setValores] = useState();
@@ -36,8 +36,8 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
     }
 
     useEffect(() => {
-        getMunicipiosId()
-    }, [])
+        getMunicipiosAll();
+    }, []);
 
     /**
     * Edita el elemento
@@ -48,7 +48,7 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
         actualizar(valores).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -62,7 +62,7 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
 
             setShowModalConfirmacion(false);
             setShowModalUpdate(false);
@@ -159,12 +159,12 @@ export const LocalidadEdit = ({ objetoActualizar }) => {
                                     <em>{t('cmb.ninguno')}</em>
                                 </MenuItem>
                                 {
-                                    municipiosListId.map(
+                                    municipiosList.map(
                                         item => (
                                             <MenuItem
-                                                key={item.idMunicipio}
-                                                value={item.idMunicipio}>
-                                                {item.dsMunicipio}
+                                                key={item.id}
+                                                value={item.id}>
+                                                {item.dsmunicipio}
                                             </MenuItem>
                                         )
                                     )

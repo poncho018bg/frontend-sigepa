@@ -26,14 +26,34 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
 
     const { direccion, registrarDireccionBeneficiario, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
 
+    useEffect(() => {
+        console.log("DIRECCION B USSE EFFECT -----> ", direccionB);
+        if(direccionB !== undefined){
+            console.log("DIRECCION B DEFINED -----> ", direccionB[0]);
+            if(direccionB[0] !== undefined){
+                console.log("DIRECCION B 0 DEFINED ====> ", direccionB[0]);
+                setCelular(direccionB[0].telefonoCelular);
+                setTelefonoCasa(direccionB[0].telefonoCasa);
+                setTelefonoContato(direccionB[0].telefonoContacto);
+                setEmail(direccionB[0].correo);
+            }
+        }
+    }, [direccionB]);
+
     const llenado = () => {
         if (direccionB != undefined) {
             if (beneficiario != undefined) {
-                console.log("LLEGA EL ID DEL BENEFICIARIO AL LLENAR LOS DATOS? ---> ", direccionB[0].id, beneficiario[0].id);
+                var idBen = "";
+                if (beneficiario[0] !== undefined) {
+                    console.log("LLEGA EL ID DEL BENEFICIARIO AL LLENAR LOS DATOS? ---> ", direccionB[0].id, beneficiario[0].id);
+                    idBen = beneficiario[0].id;
+                } else {
+                    idBen = beneficiario.id
+                }
 
                 let datosDireccion = {
                     id: direccionB[0].id,
-                    idBeneficiario: beneficiario[0].id,
+                    idBeneficiario: idBen,
                     calle: direccionB[0].calle,
                     noExterior: direccionB[0].noExterior,
                     noInterior: direccionB[0].noInterior,
@@ -97,6 +117,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="celular"
                             fullWidth
                             onChange={onChange}
+                            value={celular}
                         />
                     </CardBody>
                     <CardBody>
@@ -108,6 +129,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="telefono"
                             fullWidth
                             onChange={onChange}
+                            value={telefonoCasa}
                         />
                     </CardBody>
                     <CardBody>
@@ -118,6 +140,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="telefonocontacto"
                             fullWidth
                             onChange={onChange}
+                            value={telefonoContacto}
                         />
                     </CardBody>
                     <CardBody>
@@ -128,6 +151,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="email"
                             fullWidth
                             onChange={onChange}
+                            value={email}
                         />
                     </CardBody>
                     <CardBody>

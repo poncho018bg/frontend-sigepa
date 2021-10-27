@@ -1,5 +1,5 @@
 
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox, DialogTitle, FormControlLabel, FormelperText, FormLabel, Grid, Input, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, Radio, RadioGroup, Select, TextField } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox,  FormControlLabel,  FormHelperText, FormLabel, Grid,      makeStyles, MenuItem,  Radio, RadioGroup,  TextField } from '@material-ui/core'
 import React, { useEffect, useState, useContext } from 'react';
 import Button from "components/CustomButtons/Button.js";
 import { useSelector } from 'react-redux';
@@ -15,7 +15,6 @@ import GridItem from "components/Grid/GridItem.js";
 import moment from 'moment';
 import 'moment/locale/es';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
-import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 import { NumeroApoyosContext } from 'contexts/catalogos/numeroApoyosContext';
 import { ApoyoServicioContext } from 'contexts/catalogos/ApoyoServicioContext';
 import { MultiSelect } from "react-multi-select-component";
@@ -29,11 +28,11 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import "./styles.css";
-import { boolean } from 'yup';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { ModalContext } from 'contexts/modalContex';
 import { useTranslation } from 'react-i18next';
+import NumberFormat from 'react-number-format';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -55,6 +54,30 @@ function intersection(a, b) {
     return a.filter((value) => b.indexOf(value) !== -1);
 }
 
+function NumberFormatCustom(props) {
+    const { inputRef, onChange, ...other } = props;
+  
+    return (
+      <NumberFormat
+        {...other}
+        getInputRef={inputRef}
+        onValueChange={(values) => {
+          onChange({
+            target: {
+              name: props.name,
+              value: values.value,
+            },
+          });
+        }}
+        thousandSeparator
+        isNumericString
+        prefix="$"
+      />
+    );
+  }
+  
+
+
 export const DialogTipoApoyoForm = (props) => {
     const { t } = useTranslation();
     /**
@@ -73,18 +96,14 @@ export const DialogTipoApoyoForm = (props) => {
     const { registrarApoyo } = useContext(ApoyoContext)
 
 
-    const [municipiosSelect, setMunicipiosSelect] = React.useState([]);
+  
     const [tipoApoyoSelect, setTipoApoyoSelect] = React.useState([]);
     const [actividadesContinuarSelect, setActividadesContinuarSelect] = React.useState([]);
 
 
     let history = useHistory();
 
-    const [checked, setChecked] = React.useState([]);
 
-    const [state, setState] = React.useState({
-        checkedA: false
-    });
 
     const { setShowModal } = useContext(ModalContext);
     const [valores, setValores] = useState();
@@ -94,7 +113,8 @@ export const DialogTipoApoyoForm = (props) => {
     const [error, setError] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [invisible, setInvisible] = React.useState(true);
+
+    const [disabledCalendar, setDisabledCalendar] = useState(true);
 
 
 
@@ -167,14 +187,10 @@ export const DialogTipoApoyoForm = (props) => {
             estatus: '',
             visita: false,
             idTipoApoyo: [],
-            fcvigenciainicio: moment(new Date()).format("yyyy-MM-dd"),
-            fcvigenciafin: moment(new Date()).format("yyyy-MM-dd"),
+            fcvigenciainicio: moment(new Date()).format("yyyy-MM-DD"),
+            fcvigenciafin: moment(new Date()).format("yyyy-MM-DD"),
             cantidadPesos: '',
-            enServicio: [{
-                id: '',
-                fechaInicio: '',
-                fechaFin: ''
-            }],
+            enServicio: [],
             descApoyoEspecie: '',
             idPeriodicidad: '',
             observaciones: '',
@@ -242,10 +258,10 @@ export const DialogTipoApoyoForm = (props) => {
 
         }
 
-        
+
         registrarApoyo(nuevoApoyo).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
 
             const timer = setTimeout(() => {
                 setError(false);
@@ -258,8 +274,8 @@ export const DialogTipoApoyoForm = (props) => {
         }).catch(err => {
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`);
-        });;
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+        });
 
     }
 
@@ -268,12 +284,12 @@ export const DialogTipoApoyoForm = (props) => {
     return (
         <Card>
             <form onSubmit={formik.handleSubmit}>
-                <CardHeader color="primary">{(tipoApoyoEditar) ? 'Editar Tipo de Apoyo' : 'Alta Tipo de Apoyo'} </CardHeader>
+                <CardHeader color="primary">{(tipoApoyoEditar) ? 'Editar Tipo de apoyo' : 'Alta Tipo de apoyo'} </CardHeader>
                 {console.log('ERRORES=>', formik.errors)}
                 <CardBody>
                     <TextField
                         id="dsapoyo"
-                        label="Nombre del Tipo de Apoyo"
+                        label="Nombre del Tipo de apoyo"
                         variant="outlined"
                         name="dsapoyo"
                         value={formik.values.dsapoyo}
@@ -319,7 +335,7 @@ export const DialogTipoApoyoForm = (props) => {
 
                     <TextField
                         id="dsdescripcion"
-                        label="Descripción del Tipo de Apoyo"
+                        label="Descripción del Tipo de apoyo"
                         variant="outlined"
                         name="dsdescripcion"
                         value={formik.values.dsdescripcion}
@@ -358,20 +374,23 @@ export const DialogTipoApoyoForm = (props) => {
                                 }}
                                 value={formik.values.fcvigenciainicio}
                                 name="fcvigenciainicio"
+                                onClick={(e)=> setDisabledCalendar(false)}
                                 onChange={formik.handleChange}
                                 InputProps={{
                                     inputProps: {
-                                        max: formik.values.fcvigenciafin
+                                        min: moment(new Date()).format("yyyy-MM-DD")
                                     }
                                 }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={12} md={6}>
+
                             <TextField
                                 id="fcvigenciafin"
                                 label="Hasta"
                                 type="date"
                                 fullWidth
+                                disabled={disabledCalendar}
                                 className={classes.textField}
                                 InputLabelProps={{
                                     shrink: true,
@@ -402,24 +421,22 @@ export const DialogTipoApoyoForm = (props) => {
                         labelledBy="Seleccionar"
 
                     />
-                    {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
-                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
-                ) : null} */}
+
                 </CardBody>
                 <CardBody>
-                    <CurrencyTextField
+             
+                    <TextField
                         label="Cantidad en pesos"
-                        name="cantidadPesos"
-                        fullWidth
-                        variant="standard"
                         value={formik.values.cantidadPesos}
-                        currencySymbol="$"
-                        minimumValue="0"
-                        outputFormat="string"
-                        decimalCharacter="."
-                        digitGroupSeparator=","
-                        maximumValue="10000000000000"
                         onChange={formik.handleChange}
+                        name="cantidadPesos"
+                        id="formatted-numberformat-input"
+                        fullWidth
+                        InputProps={{
+                            inputComponent: NumberFormatCustom,
+                            maxLength:7
+                        }}
+                        
                     />
                     {formik.touched.cantidadPesos && formik.errors.cantidadPesos ? (
                         <FormHelperText error={formik.errors.cantidadPesos}>{formik.errors.cantidadPesos}</FormHelperText>
@@ -617,9 +634,7 @@ export const DialogTipoApoyoForm = (props) => {
                         labelledBy="Seleccionar"
                     />
 
-                    {/* {formik.touched.idTipoApoyo && formik.errors.idTipoApoyo ? (
-                    <FormHelperText error={formik.errors.idTipoApoyo}>{formik.errors.idTipoApoyo}</FormHelperText>
-                ) : null} */}
+
                 </CardBody>
 
                 <CardBody>
@@ -641,7 +656,7 @@ export const DialogTipoApoyoForm = (props) => {
                 <CardBody >
                     <Grid container justify="flex-end">
                         <Button variant="contained" color="primary" type='submit'>
-                        {t('btn.guardar')}
+                            {t('btn.guardar')}
                         </Button>
                     </Grid>
                 </CardBody>

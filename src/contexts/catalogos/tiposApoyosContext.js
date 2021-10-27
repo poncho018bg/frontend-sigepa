@@ -3,12 +3,12 @@ import TiposApoyosReducer from 'reducers/Catalogos/TiposApoyosReducer';
 
 import {
     GET_TIPOS_APOYOS, REGISTRAR_TIPOS_APOYOS, ELIMINAR_TIPOS_APOYOS, MODIFICAR_TIPOS_APOYOS,
-    AGREGAR_PROGRAMA_ERROR,
+    
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from "../../types/actionTypes";
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet, axiosPost,  axiosPostHetoas } from 'helpers/axios';
 
 export const TiposApoyosContext = createContext();
 
@@ -105,18 +105,20 @@ export const TiposApoyosContextProvider = props => {
 
     //Paginacion
 
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (pages) => {  
         try {
-            getTiposApoyos();
-        } catch (error) {
-            // console.log(error);
-            //dispatch( idiomaAddedError() )
+            dispatch(changePageNumber(pages))
+        } catch (error) {            
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))        
+        } catch (error) {            
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -128,6 +130,20 @@ export const TiposApoyosContextProvider = props => {
         type: CAMBIAR_TAMANIO_PAGINA,
         payload: size
     })
+
+    const getTiposApoyosByParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`tiposApoyos/search/findByDstipoapoyoContaining?dstipoapoyo=${search}`);
+            
+            dispatch({
+                type: GET_TIPOS_APOYOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <TiposApoyosContext.Provider
@@ -143,7 +159,9 @@ export const TiposApoyosContextProvider = props => {
                 eliminarTiposApoyos,
                 changePageNumber,
                 changePageSize,
-                changePage
+                changePageSizes,
+                changePage,
+                getTiposApoyosByParametros
             }}
         >
             {props.children}

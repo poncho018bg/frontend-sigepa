@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
@@ -13,9 +12,7 @@ import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 
@@ -42,26 +39,32 @@ const useStyles = makeStyles(stylesArchivo);
 export const MotivoRechazosScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [motivoRechazosSeleccionado, setMotivoRechazosSeleccionado] = useState();
-    const { getMotivoRechazos, eliminarMotivoRechazos, motivoRechazosList, size, page, total, changePageSize, changePage } = useContext(MotivoRechazosContext);
+    const { getMotivoRechazos, eliminarMotivoRechazos, 
+        motivoRechazosList, size, page, total, changePageSizes, changePage,
+        getMotivoRechazosByParametros } = useContext(MotivoRechazosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
     const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
 
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ setOpenDialog] = useState(false);
 
     useEffect(() => {
         getMotivoRechazos();
         // eslint-disable-next-line
         console.log("tipo de apoyo", motivoRechazosList);
     }, []);
+
+    useEffect(() => {
+        getMotivoRechazos();      
+    }, [size,page]);
 
 
     const onSelect = (e) => {
@@ -85,17 +88,27 @@ export const MotivoRechazosScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
-    const handleChangePage = (event, newPage) => {
-        changePage(newPage)
+    const handleChangePage = (event, newPage) => {        
+        changePage(newPage)       
     };
 
-    const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
-        changePage(0)
+    const handleChangeRowsPerPage = event => {              
+        changePageSizes(+event.target.value);
+        changePage(0)       
+        
     };
+
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getMotivoRechazos();
+        }else{
+            getMotivoRechazosByParametros(search)
+        }
+       
+    }
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -122,8 +135,8 @@ export const MotivoRechazosScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -133,9 +146,9 @@ export const MotivoRechazosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > {t('dgv.estatus')}</TableCell >
-                                < TableCell> {t('dgv.descmotivorechazo')}</TableCell >
-                                < TableCell> {t('dgv.fechareg')}</TableCell >
+                                < TableCell align="center"> {t('dgv.estatus')}</TableCell >
+                                < TableCell align="center"> {t('dgv.descmotivorechazo')}</TableCell >
+                                < TableCell align="center"> {t('dgv.fechareg')}</TableCell >
                                 < TableCell colSpan={2} align="center"> {t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
@@ -149,11 +162,11 @@ export const MotivoRechazosScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
+                                            <TableCell align="center">
                                                 {row.activo === true ? 'Activo':'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.dsmotivorechazo}</TableCell >
-                                            <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell align="center">{row.dsmotivorechazo}</TableCell >
+                                            <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />
@@ -161,7 +174,7 @@ export const MotivoRechazosScreen = () => {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
+                                                <BlockIcon />
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >

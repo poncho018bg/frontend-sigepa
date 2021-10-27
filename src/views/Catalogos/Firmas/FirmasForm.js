@@ -1,4 +1,4 @@
-import { Button, DialogContent, FormHelperText, Grid, TextField, MenuItem } from '@material-ui/core';
+import { Button, DialogContent, FormHelperText, Grid, TextField } from '@material-ui/core';
 import React, { useEffect, useContext, useState } from 'react';
 
 import { useFormik } from 'formik'
@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 
 export const FirmasForm = () => {
     const { t } = useTranslation();
-    const { registrarFirmas, getProgramas, programaList } = useContext(FirmasContext);
+    const { registrarFirmas, getProgramas } = useContext(FirmasContext);
     const { setShowModal } = useContext(ModalContext);
 
 
@@ -44,7 +44,7 @@ export const FirmasForm = () => {
         registrarFirmas(Firmas).then(response => {
             setOpenSnackbar(true);
 
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
 
             const timer = setTimeout(() => {
 
@@ -58,7 +58,7 @@ export const FirmasForm = () => {
             .catch(err => {
                 setOpenSnackbar(true);
                 setError(true);
-                setMsjConfirmacion(`Ocurrio un error, ${err}`);
+                setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
             });
     }
 
@@ -75,9 +75,11 @@ export const FirmasForm = () => {
         },
         validationSchema: Yup.object({
             dsautoriza: Yup.string()
-                .required(`${t('msg.obligatoriopersonaautoriza')}`),
+                .required(`${t('msg.obligatoriopersonaautoriza')}`)
+                .matches(/^[a-zA-Z_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
             dspuesto: Yup.string()
-                .required(`${t('msg.obligatoriopuesto')}`),
+                .required(`${t('msg.obligatoriopuesto')}`)
+                .matches(/^[a-zA-Z_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
 
         }),
         onSubmit: async valores => {
@@ -100,6 +102,7 @@ export const FirmasForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsautoriza}
+                    inputProps={{ maxLength: 200 }}
                 />
                 {formik.touched.dsautoriza && formik.errors.dsautoriza ? (
                     <FormHelperText error={formik.errors.dsautoriza}>{formik.errors.dsautoriza}</FormHelperText>
@@ -115,6 +118,7 @@ export const FirmasForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dspuesto}
+                    inputProps={{ maxLength: 200 }}
                 />
                 {formik.touched.dspuesto && formik.errors.dspuesto ? (
                     <FormHelperText error={formik.errors.dspuesto}>{formik.errors.dspuesto}</FormHelperText>
@@ -131,6 +135,7 @@ export const FirmasForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dscomentario}
+                    inputProps={{ maxLength: 200 }}
                 />
                 {formik.touched.dscomentario && formik.errors.dscomentario ? (
                     <FormHelperText error={formik.errors.dscomentario}>{formik.errors.dscomentario}</FormHelperText>

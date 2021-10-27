@@ -42,7 +42,7 @@ export const EdadesBeneficiariosForm = () => {
         registrarEdadesBeneficiarios(edadesBeneficiarios).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -54,9 +54,10 @@ export const EdadesBeneficiariosForm = () => {
             return () => clearTimeout(timer);
         })
         .catch(err => {   
+            console.log('err',err)
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
         });
     }
 
@@ -67,6 +68,7 @@ export const EdadesBeneficiariosForm = () => {
         validationSchema: Yup.object({
             dsedadbeneficiario: Yup.string()
                 .required('El modulo  es obligatorio')
+                .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`)
 
         }),
         onSubmit: async valores => {
@@ -89,8 +91,9 @@ export const EdadesBeneficiariosForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsedadbeneficiario}
+                    inputProps={{ maxLength: 80 }}
                 />
-                {formik.touched.dssecretaria && formik.errors.dsedadbeneficiario ? (
+                {formik.touched.dsedadbeneficiario && formik.errors.dsedadbeneficiario ? (
                     <FormHelperText error={formik.errors.dsedadbeneficiario}>{formik.errors.dsedadbeneficiario}</FormHelperText>
                 ) : null}
             </DialogContent>

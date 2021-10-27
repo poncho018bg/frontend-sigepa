@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import NumeroApoyosReducer from 'reducers/Catalogos/NumeroApoyosReducer';
-
+import axios from "axios";
 import {
     GET_NUMERO_APOYOS, REGISTRAR_NUMERO_APOYOS, MODIFICAR_NUMERO_APOYOS, ELIMINAR_NUMERO_APOYOS,
     AGREGAR_NUMERO_APOYOS_ERROR,
@@ -8,9 +8,9 @@ import {
     CAMBIAR_TAMANIO_PAGINA
 } from "../../types/actionTypes";
 
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,   axiosPostHetoas } from 'helpers/axios';
 
-
+const baseUrl = process.env.REACT_APP_API_URL;
 export const NumeroApoyosContext = createContext();
 
 export const NumeroApoyosContextProvider = props => {
@@ -48,18 +48,29 @@ export const NumeroApoyosContextProvider = props => {
      * @param {numeroApoyos} numeroApoyos 
      */
     const registrarNumeroApoyos = async numeroApoyos => {
+
         try {
-            console.log(numeroApoyos);
-            const resultado = await axiosPost('numeroApoyos', numeroApoyos);
-            console.log(resultado);
-            dispatch({
-                type: REGISTRAR_NUMERO_APOYOS,
-                payload: resultado
-            })
+            const url = `${baseUrl}numeroApoyos`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, numeroApoyos, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_NUMERO_APOYOS,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log('ERROR=>',error)
+                    console.log('ERRRO2=>',error.response.data.cause)
+                    console.log('ERRRO2=>',error.response.data.message)
+                    reject(error);
+                });
+            });
+
         } catch (error) {
-            console.log(error);
             dispatch({
-                type: AGREGAR_MUNICIPIOS_ERROR,
+                type: AGREGAR_NUMERO_APOYOS_ERROR,
                 payload: true
             })
         }
@@ -91,27 +102,36 @@ export const NumeroApoyosContextProvider = props => {
 
     const eliminarNumeroApoyos = async idNumeroApoyos => {
 
+  
+        const { activo,  _links: { ct_NumeroApoyos: { href } } } = idNumeroApoyos;
+        const act = !activo 
+        idNumeroApoyos.activo = act
+        
         try {
-            await axiosDeleteTipo(`numeroApoyos/${idNumeroApoyos.id}`);
+            const result = await axiosPostHetoas(href, idNumeroApoyos, 'PUT');
             dispatch({
-                type: ELIMINAR_NUMERO_APOYOS,
-                payload: idNumeroApoyos.id,
+                type: MODIFICAR_NUMERO_APOYOS,
+                payload: result,
             })
         } catch (error) {
             console.log(error);
         }
     }
     //Paginacion
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (pages) => {  
         try {
-            getNumeroApoyos();
-        } catch (error) {
+            dispatch(changePageNumber(pages))
+        } catch (error) {            
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))        
+        } catch (error) {            
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -123,6 +143,19 @@ export const NumeroApoyosContextProvider = props => {
         type: CAMBIAR_TAMANIO_PAGINA,
         payload: size
     })
+
+    const getNumeroApoyosByParametros = async (search) => {
+        try {
+           
+            const result = await axiosGet(`numeroApoyos/search/findByNoapoyoContaining?noapoyo=${search}`);            
+            dispatch({
+                type: GET_NUMERO_APOYOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <NumeroApoyosContext.Provider
@@ -138,7 +171,9 @@ export const NumeroApoyosContextProvider = props => {
                 eliminarNumeroApoyos,
                 changePageNumber,
                 changePageSize,
-                changePage
+                changePageSizes,
+                changePage,
+                getNumeroApoyosByParametros
             }}
         >
             {props.children}

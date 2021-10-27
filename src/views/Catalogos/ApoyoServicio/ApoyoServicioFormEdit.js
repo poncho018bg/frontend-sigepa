@@ -40,10 +40,12 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
 
     const handleRegistrar = () => {
 
+        console.log("valores antes de registrar--->",valores)
+
         actualizarApoyoServicio(valores).then(response => {
 
             setOpenSnackbar(true);
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
             const timer = setTimeout(() => {
                 setError(false);
                 history.push("/admin/apoyoservicio")
@@ -56,8 +58,8 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
         }).catch(err => {
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`);
-        });;
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+        });
 
 
     }
@@ -72,6 +74,7 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
     });
 
     const actualizarInfoApoyoServicio = async valores => {
+        console.log("Valores --->",valores);
         valores.clasificacionServicio = `/${valores.clasificacion_id}`
         valores.serviciosApoyos = [{}]
         confirmacionDialog(valores);
@@ -138,6 +141,7 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dsservicio}
+                                inputProps={{ maxLength: 200 }}
                             />
                             {props.touched.dsservicio && props.errors.dsservicio ? (
                                 <FormHelperText error={props.errors.dsservicio}>{props.errors.dsservicio}</FormHelperText>
@@ -147,7 +151,7 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                {t('btn.guardar')}
+                                    {t('btn.guardar')}
                                 </Button>
                             </Grid>
 

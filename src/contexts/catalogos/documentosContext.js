@@ -4,7 +4,7 @@ import axios from "axios";
 import { GET_DOCUMENTOS_REQUISITOS, REGISTRAR_DOCUMENTOS_REQUISITOS, MODIFICAR_DOCUMENTOS_REQUISITOS, VIGENCIA_DOCUMENTOS_REQUISITOS, GET_VIGENCIAS, 
     AGREGAR_DOCUMENTOS_ERROR,GET_PROGRAMAS_DOCUMENTO } from "../../types/actionTypes";
 
-import { axiosGet, axiosPost, axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
+import { axiosGet,  axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
 
 const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -79,7 +79,7 @@ export const DocumentosContextProvider = props => {
         try {
             console.log("idDocumento ", idDocumento);
             const result = await axiosGet(`programasdocument/${idDocumento}`);
-            console.log(result);
+            console.log("programas documentos ---> ",result);
             dispatch({
                 type: GET_PROGRAMAS_DOCUMENTO,
                 payload: result
@@ -177,7 +177,7 @@ export const DocumentosContextProvider = props => {
             activo:act,
             vigencias:[]
         }
-
+        documentos.activo = act
 
         try {
             const result = await axiosPostHetoas(href, documentosEnviar, 'PUT');
@@ -193,6 +193,19 @@ export const DocumentosContextProvider = props => {
 
     }
 
+    const getDocumentosByParametros = async (search) => {
+        try {
+            const result = await axiosGet(`documentosRequisitos/search/findByDsdocumentoContaining?dsdocumento=${search}`);
+           
+            dispatch({
+                type: GET_DOCUMENTOS_REQUISITOS,
+                payload: result._embedded.documentosRequisitos
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <DocumentosContext.Provider
             value={{
@@ -206,7 +219,8 @@ export const DocumentosContextProvider = props => {
                 registrarDocumento,
                 getProgramaDocumentos,
                 actualizarDocumento,
-                eliminarDocumentos
+                eliminarDocumentos,
+                getDocumentosByParametros
             }}
         >
             {props.children}

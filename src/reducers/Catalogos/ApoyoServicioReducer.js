@@ -14,7 +14,7 @@ export default (state, action) => {
       return {
         ...state,
         apoyoservicioList: action.payload._embedded.apoyosServicios,
-        total: action.payload.page.totalElements
+        total: action.payload?.page?.totalElements
       };
     case AGREGAR_APOYOSERVICIO_ERROR:
       console.log(action.type);
@@ -37,7 +37,9 @@ export default (state, action) => {
     case ELIMINAR_APOYOSERVICIO:
       return {
         ...state,
-        apoyoservicioList: state.apoyoservicioList.filter(apoyoservicio => apoyoservicio.id !== action.payload)
+        apoyoservicioList: state.apoyoservicioList.map(
+          apoyoservicio => apoyoservicio.id === action.payload.id ? action.payload : apoyoservicio
+      )
       };
     case CAMBIAR_PAGINA:
       return {

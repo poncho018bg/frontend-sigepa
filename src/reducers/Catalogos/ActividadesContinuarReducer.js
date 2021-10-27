@@ -12,7 +12,7 @@ export default (state, action) => {
       return {
         ...state,
         actividadescontinuarList: action.payload._embedded.continuidadActividades,
-        total: action.payload.page.totalElements
+        total: action.payload?.page?.totalElements
       };
     case AGREGAR_ACTIVIDADESCONTINUAR_ERROR:
       console.log(action.type);
@@ -35,7 +35,10 @@ export default (state, action) => {
     case ELIMINAR_ACTIVIDADESCONTINUAR:
       return {
         ...state,
-        actividadescontinuarList: state.actividadescontinuarList.filter(actividadescontinuar => actividadescontinuar.id !== action.payload)
+        //actividadescontinuarList: state.actividadescontinuarList.filter(actividadescontinuar => actividadescontinuar.id !== action.payload)
+        actividadescontinuarList: state.actividadescontinuarList.map(
+          actividadescontinuar => actividadescontinuar.id === action.payload.id ? action.payload : actividadescontinuar
+      )
       };
     case CAMBIAR_PAGINA:
       return {

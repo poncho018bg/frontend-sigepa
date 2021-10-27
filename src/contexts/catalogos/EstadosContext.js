@@ -8,7 +8,7 @@ import {
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
+import { axiosGet, axiosPost,  axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
 
 
 
@@ -52,7 +52,7 @@ export const EstadosContextProvider = props => {
 
         try {
 
-            const { page, size } = state;
+           
             const resultado = await axiosGet(`estados?page=0&size=50`);
             console.log(resultado._embedded.estados);
             dispatch({
@@ -102,10 +102,11 @@ export const EstadosContextProvider = props => {
 
     const actualizarEstados = async estado => {
         console.log(estado);
-        const { noestado, dsestado, _links: { estados: { href } } } = estado;
+        const { noestado, dsestado, dsabreviatura, _links: { estados: { href } } } = estado;
         let estadosEnviar = {
             noestado,
             dsestado,
+            dsabreviatura,
             municipiosCollection: []
 
         }
@@ -121,7 +122,7 @@ export const EstadosContextProvider = props => {
     }
 
     const eliminarEstados = async estado => {
-      
+
         const { activo, _links: { estados: { href } } } = estado;
         const act = !activo
         estado.activo = act
@@ -142,7 +143,7 @@ export const EstadosContextProvider = props => {
 
         dispatch(changePageNumber(page))
         try {
-            getEstados();
+            await  getEstados();
         } catch (error) {
             throw error;
         }
@@ -162,7 +163,7 @@ export const EstadosContextProvider = props => {
 
         try {
 
-            const { page, size } = state;
+            
             const resultado = await axiosGet(`estados?page=${0}&size=${50}`);
             console.log(resultado._embedded.estados);
             dispatch({

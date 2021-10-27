@@ -41,7 +41,7 @@ export const NumeroApoyosForm = () => {
         registrarNumeroApoyos(numeroApoyos).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -55,7 +55,7 @@ export const NumeroApoyosForm = () => {
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
         });
     }
 
@@ -88,8 +88,14 @@ export const NumeroApoyosForm = () => {
                     name="noapoyo"
                     fullWidth
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+                    onBlur={formik.handleBlur}                    
                     value={formik.values.noapoyo}
+                    inputProps= {{maxLength:3}}                    
+                    type="number"
+                    onInput = {(e) =>{
+                        e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,3)
+                    }}
+                    
                 />
                 {formik.touched.noapoyo && formik.errors.noapoyo ? (
                     <FormHelperText error={formik.errors.noapoyo}>{formik.errors.noapoyo}</FormHelperText>

@@ -10,9 +10,7 @@ import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
@@ -46,25 +44,27 @@ export const LocalidadScreen = () => {
         size,
         page,
         total,
-        changePageSize,
+
+        changePageSizes,
         changePage,
         eliminar
     } = useContext(LocalidadesContext);
     const { setShowModal } = useContext(ModalContext);
     const { getMunicipiosId } = useContext(MunicipiosContext);
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ setOpenDialog] = useState(false);
 
-    const handleChangePage = (event, newPage) => {
-        changePage(newPage)
+    const handleChangePage = (event, newPage) => {        
+        changePage(newPage)       
     };
 
-    const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
-        changePage(0)
+    const handleChangeRowsPerPage = event => {              
+        changePageSizes(+event.target.value);
+        changePage(0)       
+        
     };
 
     const addDialog = () => {
@@ -74,6 +74,10 @@ export const LocalidadScreen = () => {
     useEffect(() => {
         get();
     }, []);
+
+    useEffect(() => {
+        get();
+    }, [size, page]);
 
     useEffect(() => {
         getMunicipiosId();
@@ -90,7 +94,7 @@ export const LocalidadScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
     const onSelect = (e) => {
@@ -131,11 +135,11 @@ export const LocalidadScreen = () => {
               < Table stickyHeader aria-label="sticky table" >
                 < TableHead >
                   < TableRow key="898as" >
-                    < TableCell >{t('dgv.estatus')}</TableCell >
-                    < TableCell >{t('dgv.clave')} </TableCell >
-                    < TableCell >{t('dgv.localidad')}</TableCell >
-                    < TableCell>{t('dgv.cp')}</TableCell >
-                    < TableCell>{t('dgv.registro')}</TableCell >
+                    < TableCell align="center">{t('dgv.estatus')}</TableCell >
+                    < TableCell align="center">{t('dgv.clave')} </TableCell >
+                    < TableCell align="center">{t('dgv.localidad')}</TableCell >
+                    < TableCell align="center">{t('dgv.cp')}</TableCell >
+                    < TableCell align="center">{t('dgv.registro')}</TableCell >
                     < TableCell colSpan={2} align="center">{t('dgv.acciones')}</TableCell >
                   </TableRow >
                 </TableHead >
@@ -148,14 +152,14 @@ export const LocalidadScreen = () => {
                       ).map((row, i) => {
                         return (
                             < TableRow key={i}>
-                            <TableCell>
+                            <TableCell align="center">
                                 
                                 {row.activo ? 'Activo':'Inactivo'}
                             </TableCell>
-                            <TableCell>{row.dsclavelocalidad}</TableCell>
-                            <TableCell>{row.dslocalidad}</TableCell>
-                            <TableCell>{row.dscodigopostal}</TableCell >
-                            <TableCell >{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                            <TableCell align="center">{row.dsclavelocalidad}</TableCell>
+                            <TableCell align="center">{row.dslocalidad}</TableCell>
+                            <TableCell align="center">{row.dscodigopostal}</TableCell >
+                            <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                             <TableCell align="center">
                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                     <CreateIcon />
@@ -163,7 +167,7 @@ export const LocalidadScreen = () => {
                             </TableCell>
                             <TableCell align="center">
                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
+                                <BlockIcon />
                                 </IconButton>
                             </TableCell>
                         </TableRow >

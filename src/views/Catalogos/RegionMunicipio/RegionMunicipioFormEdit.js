@@ -35,7 +35,7 @@ export const RegionMunicipioFormEdit = ({ regionMunicipioSeleccionada }) => {
         actualizarRegionMunicipios(valores).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -49,7 +49,7 @@ export const RegionMunicipioFormEdit = ({ regionMunicipioSeleccionada }) => {
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
         });
     }
 

@@ -38,7 +38,7 @@ export const ModuloFormEdit = ({ moduloSeleccionado }) => {
         actualizarModulo(valores).then(response => {
 
             setOpenSnackbar(true);
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
             const timer = setTimeout(() => {
                 setError(false);
                 history.push("/admin/modulos")
@@ -51,8 +51,8 @@ export const ModuloFormEdit = ({ moduloSeleccionado }) => {
         }).catch(err => {
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`);
-        });;
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+        })
     }
 
 
@@ -98,6 +98,7 @@ export const ModuloFormEdit = ({ moduloSeleccionado }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dsmodulo}
+                                inputProps={{ maxLength: 200 }}
                             />
                             {props.touched.dsmodulo && props.errors.dsmodulo ? (
                                 <FormHelperText error={props.errors.dsmodulo}>{props.errors.dsmodulo}</FormHelperText>

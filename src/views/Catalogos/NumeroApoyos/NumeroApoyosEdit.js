@@ -40,26 +40,26 @@ export const NumeroApoyosEdit = ({ numeroApoyosSeleccionado }) => {
     const handleRegistrar = () => {
         actualizarNumeroApoyos(valores).then(response => {
             setOpenSnackbar(true);
-             
-            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
-           
-           const timer = setTimeout(() => {
-        
-            setError(false);
-            setShowModalConfirmacion(false);
-            setShowModalUpdate(false);
-        
+
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
+
+            const timer = setTimeout(() => {
+
+                setError(false);
+                setShowModalConfirmacion(false);
+                setShowModalUpdate(false);
+
             }, 2000);
             return () => clearTimeout(timer);
         })
-        .catch(err => {   
-            setOpenSnackbar(true);
-            setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            .catch(err => {
+                setOpenSnackbar(true);
+                setError(true);
+                setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
 
-            setShowModalConfirmacion(false);
-            setShowModalUpdate(false);
-        });
+                setShowModalConfirmacion(false);
+                setShowModalUpdate(false);
+            });
     }
 
 
@@ -103,6 +103,8 @@ export const NumeroApoyosEdit = ({ numeroApoyosSeleccionado }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.noapoyo}
+                                inputProps={{ maxLength: 3 }}
+                                type="number"
                             />
                             {props.touched.noapoyo && props.errors.noapoyo ? (
                                 <FormHelperText error={props.errors.noapoyo}>{props.errors.noapoyo}</FormHelperText>
@@ -112,7 +114,7 @@ export const NumeroApoyosEdit = ({ numeroApoyosSeleccionado }) => {
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                {t('btn.guardar')}
+                                    {t('btn.guardar')}
                                 </Button>
                             </Grid>
                         </DialogContent>
@@ -122,7 +124,7 @@ export const NumeroApoyosEdit = ({ numeroApoyosSeleccionado }) => {
                         <Mensaje
                             setOpen={setOpenSnackbar}
                             open={openSnackbar}
-                            severity={error?"error":"success"}
+                            severity={error ? "error" : "success"}
                             message={msjConfirmacion}
                         />
                     </form>

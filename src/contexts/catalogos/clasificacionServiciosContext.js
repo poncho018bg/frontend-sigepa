@@ -91,7 +91,34 @@ export const ClasificacionServiciosContextProvider = props => {
         }
     }
 
+    
     const eliminarClasificacionServicios = async idClasificacionServicios => {
+
+        const { id, dsclasificacionservicio,dsabreviatura, activo, _links: { clasificacionServicios: { href } } } = idClasificacionServicios;
+        const act = activo === true ? false : true;
+
+        let clasificacionServiciosEnviar = {
+            id,
+            dsclasificacionservicio,
+            dsabreviatura,
+            activo: act,
+            'crcApoyoServicios': []
+        };
+
+        try {
+            const result = await axiosPostHetoas(href, clasificacionServiciosEnviar, 'PUT');
+            console.log(result);
+            console.log('mir mira');
+            dispatch({
+                type: ELIMINAR_CLASIFICACION_SERVICIOS,
+                payload: result,
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const eliminarClasificacionServicios1 = async idClasificacionServicios => {
 
         try {
             await axiosDeleteTipo(`clasificacionServicios/${idClasificacionServicios.id}`);
@@ -105,16 +132,20 @@ export const ClasificacionServiciosContextProvider = props => {
     }
 
     //Paginacion
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (pages) => {  
         try {
-            getClasificacionServicios();
-        } catch (error) {
+            dispatch(changePageNumber(pages))
+        } catch (error) {            
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))        
+        } catch (error) {            
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -126,6 +157,18 @@ export const ClasificacionServiciosContextProvider = props => {
         type: CAMBIAR_TAMANIO_PAGINA,
         payload: size
     })
+
+    const getClasificacionServiciosByParametros = async (search) => {
+        try {            
+            const result = await axiosGet(`clasificacionServicios/search/findByDsclasificacionservicioContaining?dsclasificacionservicio=${search}`);            
+            dispatch({
+                type: GET_CLASIFICACION_SERVICIOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <ClasificacionServiciosContext.Provider
@@ -141,7 +184,9 @@ export const ClasificacionServiciosContextProvider = props => {
                 eliminarClasificacionServicios,
                 changePageNumber,
                 changePageSize,
-                changePage
+                changePageSizes,
+                changePage,
+                getClasificacionServiciosByParametros
             }}
         >
             {props.children}

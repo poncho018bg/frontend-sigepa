@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
@@ -27,33 +26,40 @@ import { Modal } from 'commons/Modal';
 
 import { FirmasForm } from './FirmasForm';
 import { FirmasEdit } from './FirmasEdit';
-import { FirmaPrograma } from './FirmaPrograma';
-
+import BlockIcon from '@material-ui/icons/Block';
 import { ModalDelete } from 'commons/ModalDelete';
 import { ModalContextDelete } from 'contexts/modalContexDelete';
 import { ModalContextUpdate } from 'contexts/modalContexUpdate';
 import { ModalUpdate } from 'commons/ModalUpdate';
 import { useTranslation } from 'react-i18next';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 const useStyles = makeStyles(stylesArchivo);
 
 export const FirmasScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
-    const [idEliminar] = useState(0);
+    const [searched] = useState('');
+    const [idEliminar, setIdEliminar] = useState(0);
     const [firmasSeleccionado, setfirmasSeleccionado] = useState();
-    const { getFirmas, eliminarFirmas, firmasList, size, page, total, changePageSize, changePage } = useContext(FirmasContext);
+    const { getFirmas, eliminarFirmas, firmasList, size, page, total,  changePageSizes, changePage,getFirmasByParametros } = useContext(FirmasContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
-
+    const [error] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [ setOpenDialog] = useState(false);
     const { setShowModalUpdate }
         = useContext(ModalContextUpdate);
 
     useEffect(() => {
         getFirmas();
-        // eslint-disable-next-line
-        console.log("tipo de apoyo", firmasList);
+
     }, []);
+
+    useEffect(() => {
+        getFirmas();
+
+    }, [size, page]);
 
     const onSelect = (e) => {
         setShowModalUpdate(true);
@@ -65,18 +71,36 @@ export const FirmasScreen = () => {
     }
 
 
-    const handleDeshabilitar = () => {
+    const handleDeshabilitar = () => {       
         eliminarFirmas(idEliminar)
         setShowModalDelete(false);
+        setOpenDialog(false);
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
     const handleChangePage = (event, newPage) => {
         changePage(newPage)
     };
 
     const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
+        changePageSizes(+event.target.value);
         changePage(0)
+
     };
+
+    const deleteDialog = (e) => {
+        setShowModalDelete(true);
+        setIdEliminar(e);
+    }
+
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getFirmas();
+        }else{
+            getFirmasByParametros(search)
+        }
+       
+    }
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -100,8 +124,8 @@ export const FirmasScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -111,35 +135,37 @@ export const FirmasScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell >{t('dgv.nombrequienautoriza')}</TableCell >
-                                < TableCell>{t('dgv.puesto')}</TableCell >
-                                < TableCell>{t('dgv.fechaalta')}</TableCell >
-                                < TableCell>{t('dgv.comentarios')}</TableCell >
-                                < TableCell colSpan={2}> {t('dgv.estatus')}</TableCell >
+                                < TableCell align="center" > {t('dgv.estatus')}</TableCell >
+                                < TableCell align="center" >{t('dgv.nombrequienautoriza')}</TableCell >
+                                < TableCell align="center">{t('dgv.puesto')}</TableCell >
+                                < TableCell align="center">{t('dgv.fechaalta')}</TableCell >
+                                < TableCell align="center">{t('dgv.comentarios')}</TableCell >
+
+                                < TableCell align="center" colSpan={2}> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    firmasList.filter(row => row.dsautoriza ?
-                                        row.dsautoriza.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : firmasList
-                                ).map(row => {
-                                    console.log("page:" + page + " size:" + size)
+                                firmasList.map(row => {                                   
                                     return (
                                         < TableRow key={row.id}>
-
-
-                                            <TableCell>{row.dsautoriza}</TableCell >
-                                            <TableCell >{row.dspuesto}</TableCell>
-                                            <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
-                                            <TableCell >{row.dscomentario}</TableCell>
-                                            <TableCell>
+                                            <TableCell align="center">
                                                 {row.activo === true ? 'Activo' : 'Inactivo'}
                                             </TableCell>
+
+                                            <TableCell align="center">{row.dsautoriza}</TableCell >
+                                            <TableCell align="center" >{row.dspuesto}</TableCell>
+                                            <TableCell align="center">{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell align="center">{row.dscomentario}</TableCell>
+
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />
+                                                </IconButton>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
+                                                <BlockIcon />
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >
@@ -169,6 +195,13 @@ export const FirmasScreen = () => {
             <ModalUpdate>
                 <FirmasEdit firmasSeleccionado={firmasSeleccionado} />
             </ModalUpdate>
+
+            <Mensaje
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
         </GridItem>
 
     )

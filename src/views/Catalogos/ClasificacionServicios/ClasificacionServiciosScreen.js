@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
@@ -13,9 +12,7 @@ import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
@@ -41,24 +38,27 @@ const useStyles = makeStyles(stylesArchivo);
 export const ClasificacionServiciosScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [clasificacionServiciosSeleccionado, setClasificacionServiciosSeleccionado] = useState();
-    const { getClasificacionServicios, eliminarClasificacionServicios, clasificacionServiciosList, size, page, total, changePageSize, changePage } = useContext(ClasificacionServiciosContext);
+    const { getClasificacionServicios, eliminarClasificacionServicios, 
+        clasificacionServiciosList, size, page, total, changePageSizes, changePage, getClasificacionServiciosByParametros } = useContext(ClasificacionServiciosContext);
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalDelete } = useContext(ModalContextDelete);
 
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ setOpenDialog] = useState(false);
 
     useEffect(() => {
         getClasificacionServicios();
-        // eslint-disable-next-line
-        console.log("tipo de apoyo", clasificacionServiciosList);
     }, []);
+
+    useEffect(() => {
+        getClasificacionServicios();
+    }, [size, page]);
 
 
     const onSelect = (e) => {
@@ -81,26 +81,36 @@ export const ClasificacionServiciosScreen = () => {
         setShowModalDelete(false);
         setOpenDialog(false);
         setOpenSnackbar(true);
-        setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+        setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
     }
 
-    const handleChangePage = (event, newPage) => {
-        changePage(newPage)
+    const handleChangePage = (event, newPage) => {        
+        changePage(newPage)       
     };
 
-    const handleChangeRowsPerPage = event => {
-        changePageSize(+event.target.value);
-        changePage(0)
+    const handleChangeRowsPerPage = event => {              
+        changePageSizes(+event.target.value);
+        changePage(0)       
+        
     };
+
+    const buscaPorParametros = (search) => {
+        if(search === ''){
+            getClasificacionServicios();
+        }else{
+            getClasificacionServiciosByParametros(search)
+        }
+       
+    }
 
     return (
         <GridItem xs={12} sm={12} md={12}>
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Clasificacion de los Servicios</h4>
+                    <h4 className={classes.cardTitleWhite}>Clasificación de los servicios</h4>
                     <p className={classes.cardCategoryWhite}>
-                        En esta sección podran clasificar los servicios
+                        En esta sección podrán clasificar los servicios
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -118,8 +128,8 @@ export const ClasificacionServiciosScreen = () => {
                                 <SearchBar
                                     placeholder={t('lbl.buscar')}
                                     value={searched}
-                                    onChange={(searchVal) => setSearched(searchVal)}
-                                    onCancelSearch={() => setSearched('')}
+                                    onChange={(searchVal) => buscaPorParametros(searchVal)}
+                                    onCancelSearch={() => buscaPorParametros('')}
                                 />
                             </Grid>
                         </Grid>
@@ -129,30 +139,25 @@ export const ClasificacionServiciosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estatus</TableCell >
-                                < TableCell> Clasificacion de los servicios</TableCell >
-                                <TableCell> Abreviatura</TableCell>
-                                < TableCell> Fecha Registro</TableCell >
+                                < TableCell align="center"> Estatus</TableCell >
+                                < TableCell align="center"> Clasificación de los servicios</TableCell >
+                                < TableCell align="center"> Abreviatura</TableCell>
+                                < TableCell align="center"> Fecha registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
                             {
-                                (searched ?
-                                    clasificacionServiciosList.filter(row => row.dsclasificacionservicio ?
-                                        row.dsclasificacionservicio.toLowerCase().includes(searched.toLowerCase()) : null)
-                                    : clasificacionServiciosList
-                                ).map((row, i) => {
-                                    console.log("page:" + page + " size:" + size)
+                                clasificacionServiciosList.map((row, i) => {                                    
                                     return (
                                         < TableRow key={i}>
-                                            <TableCell>
-                                                
-                                                {row.activo ? 'Activo':'Inactivo'}
+                                            <TableCell align="center">
+
+                                                {row.activo ? 'Activo' : 'Inactivo'}
                                             </TableCell>
-                                            <TableCell>{row.dsclasificacionservicio}</TableCell>
-                                            <TableCell>{row.dsabreviatura}</TableCell>
-                                            <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell align="center">{row.dsclasificacionservicio}</TableCell>
+                                            <TableCell align="center">{row.dsabreviatura}</TableCell>
+                                            <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />
@@ -160,7 +165,8 @@ export const ClasificacionServiciosScreen = () => {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
+                                                    
+                                                    <BlockIcon />
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >

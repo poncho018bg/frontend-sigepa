@@ -41,7 +41,7 @@ export const EdadesBeneficiariosEdit = ({ edadesBeneficiariosSeleccionado }) => 
         actualizarEdadesBeneficiarios(valores).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`El registro ha sido actualizado exitosamente `  );
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -55,7 +55,7 @@ export const EdadesBeneficiariosEdit = ({ edadesBeneficiariosSeleccionado }) => 
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
 
             setShowModalConfirmacion(false);
             setShowModalUpdate(false);
@@ -104,6 +104,7 @@ export const EdadesBeneficiariosEdit = ({ edadesBeneficiariosSeleccionado }) => 
                                 onChange={props.handleChange}
                                 onBlur={props.handleBlur}
                                 value={props.values.dsedadbeneficiario}
+                                inputProps={{ maxLength: 80 }}
                             />
                             {props.touched.dsedadbeneficiario && props.errors.dsedadbeneficiario ? (
                                 <FormHelperText error={props.errors.dsedadbeneficiario}>{props.errors.dsedadbeneficiario}</FormHelperText>

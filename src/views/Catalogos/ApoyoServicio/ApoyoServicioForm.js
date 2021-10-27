@@ -51,7 +51,7 @@ export const ApoyoServicioForm = () => {
 
         registrarApoyoSevicio(apoyoSevicio).then(response => {
             setOpenSnackbar(true);
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
 
             const timer = setTimeout(() => {
                 setError(false);
@@ -63,8 +63,8 @@ export const ApoyoServicioForm = () => {
         }).catch(err => {
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`);
-        });;
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+        });
 
 
 
@@ -103,6 +103,7 @@ export const ApoyoServicioForm = () => {
                     value={formik.values.clasificacionServicio}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    
                 >
                     <MenuItem value="0">
                         <em>{t('cmb.ninguno')}</em>
@@ -135,6 +136,7 @@ export const ApoyoServicioForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsservicio}
+                    inputProps={{ maxLength: 200 }}
                 />
                 {formik.touched.dsservicio && formik.errors.dsservicio ? (
                     <FormHelperText error={formik.errors.dsservicio}>{formik.errors.dsservicio}</FormHelperText>

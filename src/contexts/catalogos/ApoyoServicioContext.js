@@ -8,7 +8,7 @@ import {
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
-import { axiosGet, axiosPost, axiosDeleteTipo, axiosPostHetoas } from 'helpers/axios';
+import { axiosGet,  axiosPostHetoas } from 'helpers/axios';
 
 
 const baseUrl = process.env.REACT_APP_API_URL;
@@ -56,7 +56,7 @@ export const ApoyoServicioContextProvider = props => {
                     resolve(response);
                     dispatch({
                         type: REGISTRAR_APOYOSERVICIO,
-                        payload: response
+                        payload: response.data
                     })
                 }).catch(error => {
                     reject(error);
@@ -77,33 +77,38 @@ export const ApoyoServicioContextProvider = props => {
 
 
     const actualizarApoyoServicio = async apoyosServicios => {
-        console.log(apoyosServicios);
-        const { dsservicio, activo, clasificacion_id, clasificacionServicio, serviciosApoyos, _links: { apoyosServicios: { href } } } = apoyosServicios;
-        let apoyosServiciosEnviar = {
-            dsservicio,
-            activo,
-            crcProgramastipoapoyos: [],
-            clasificacionServicio: `/${clasificacion_id}`,
-            serviciosApoyos: [{}]
+        console.log("apoyos servicios ----> ", apoyosServicios);
+        const { id,  clasificacion_id,  _links: { apoyosServicios: { href } } } = apoyosServicios;
+
+        let actualizarClasificacion = {
+            "_links": { "1": { "href": `/${clasificacion_id}` } },
+        };
+        const urVigencia = `${baseUrl}apoyosServicios/${id}/clasificacionServicio`;
+        try {
+            axiosPostHetoas(urVigencia, actualizarClasificacion, 'PUT');
+        } catch (error) {
+            console.log(error);
         }
 
         return new Promise((resolve, reject) => {
             axios.put(href, apoyosServicios, {
                 headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
             }).then(response => {
+                console.log("response apoyo--->", response);
                 resolve(response);
                 dispatch({
                     type: MODIFICAR_APOYOSERVICIO,
-                    payload: response
+                    payload: response.data
                 })
             }).catch(error => {
                 reject(error);
             });
         });
+
     }
 
     const eliminarApoyoServicio = async apoyosServicios => {
-        const { dsservicio, activo, clasificacion_id, clasificacionServicio, serviciosApoyos, _links: { apoyosServicios: { href } } } = apoyosServicios;
+        const { dsservicio, activo, clasificacion_id,  _links: { apoyosServicios: { href } } } = apoyosServicios;
         const act = activo === true ? false : true;
         let apoyosServiciosEnviar = {
             dsservicio,
@@ -129,16 +134,20 @@ export const ApoyoServicioContextProvider = props => {
     }
 
     //Paginacion
-    const changePage = async (page) => {
-        console.log(page);
-
-        dispatch(changePageNumber(page))
+    const changePage = async (pages) => {  
         try {
-            getApoyoServicio();
-        } catch (error) {
+            dispatch(changePageNumber(pages))
+        } catch (error) {            
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))        
+        } catch (error) {            
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
@@ -150,6 +159,22 @@ export const ApoyoServicioContextProvider = props => {
         type: CAMBIAR_TAMANIO_PAGINA,
         payload: size
     })
+
+    const getApoyoServicioByParametros = async (search) => {
+
+        try {
+            
+            const resultado = await axiosGet(`apoyosServicios/search/findByDsservicioContaining?dsservicio=${search}`);
+            
+            dispatch({
+                type: GET_APOYOSERVICIO,
+                payload: resultado
+            })
+        } catch (error) {
+
+            console.log(error);
+        }
+    }
 
     return (
         <ApoyoServicioContext.Provider
@@ -165,7 +190,9 @@ export const ApoyoServicioContextProvider = props => {
                 actualizarApoyoServicio,
                 changePageNumber,
                 changePageSize,
-                changePage
+                changePageSizes,
+                changePage,
+                getApoyoServicioByParametros
 
             }}
         >

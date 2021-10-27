@@ -13,9 +13,7 @@ import moment from 'moment';
 import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import BlockIcon from '@material-ui/icons/Block';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchBar from "material-ui-search-bar";
 import CardActions from '@material-ui/core/CardActions';
 
@@ -41,7 +39,7 @@ const useStyles = makeStyles(stylesArchivo);
 export const ComiteSecretariasScreen = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const [searched, setSearched] = useState('');
+    const [searched] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [comiteSecretariasSeleccionado, setComiteSecretariasSeleccionado] = useState();
     const { getComiteSecretarias, eliminarComiteSecretarias, comiteSecretariasList } = useContext(ComiteSecretariasContext);
@@ -116,9 +114,9 @@ export const ComiteSecretariasScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell > Estado</TableCell >
-                                < TableCell> Descripcion Tipo Beneficiario</TableCell >
-                                < TableCell> Fecha Registro</TableCell >
+                                < TableCell align="center"> Estado</TableCell >
+                                < TableCell align="center"> Descripcion tipo beneficiario</TableCell >
+                                < TableCell align="center"> Fecha registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
                         </TableHead >
@@ -132,15 +130,15 @@ export const ComiteSecretariasScreen = () => {
                                     console.log("page:" + page + " size:" + size)
                                     return (
                                         < TableRow key={row.id}>
-                                            <TableCell>
+                                            <TableCell align="center">
                                                 <Checkbox
                                                     checked={row.boactivo}
                                                     color="primary"
                                                     inputProps={{ 'aria-label': 'Checkbox A' }}
                                                 />
                                             </TableCell>
-                                            <TableCell>{row.dssecretaria}</TableCell >
-                                            <TableCell >{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                            <TableCell align="center">{row.dssecretaria}</TableCell >
+                                            <TableCell align="center">{moment(row.fcfechacreacion).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
                                                     <CreateIcon />
@@ -148,7 +146,8 @@ export const ComiteSecretariasScreen = () => {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => deleteDialog(row)}>
-                                                    {(row.activo) ? <BlockIcon /> : <BlockIcon />}
+                                                    
+                                                    <BlockIcon />
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow >

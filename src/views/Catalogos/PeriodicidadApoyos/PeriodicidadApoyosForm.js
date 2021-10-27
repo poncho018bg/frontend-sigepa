@@ -40,7 +40,7 @@ export const PeriodicidadApoyosForm = () => {
         registrarPeriodicidadApoyos(periodicidadApoyos).then(response => {
             setOpenSnackbar(true);
              
-            setMsjConfirmacion(`${t('msg.registroinhabilitadoexitosamente')}`);
+            setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
            
            const timer = setTimeout(() => {
         
@@ -54,7 +54,7 @@ export const PeriodicidadApoyosForm = () => {
         .catch(err => {   
             setOpenSnackbar(true);
             setError(true);
-            setMsjConfirmacion(`Ocurrio un error, ${err}`  );
+            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
         });
     }
 
@@ -88,6 +88,7 @@ export const PeriodicidadApoyosForm = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.dsperiodicidad}
+                    inputProps={{ maxLength: 200 }}
                 />
                 {formik.touched.dsperiodicidad && formik.errors.dsperiodicidad ? (
                     <FormHelperText error={formik.errors.dsperiodicidad}>{formik.errors.dsperiodicidad}</FormHelperText>
