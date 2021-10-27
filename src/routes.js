@@ -63,30 +63,13 @@ import { RegistroProgramasApoyoScreen } from "views/RegistroProgramasApoyo/Regis
 import { CarouselProgramas } from "views/CarouselProgramas/CarouselProgramas";
 import { RegistroSolicitud } from "views/RegistroSolicitudContacto/RegistroSolicitud";
 import { LocalidadScreen } from "views/Catalogos/Localidad/LocalidadScreen";
+import { PruebaRegistro } from "views/UsuarioPublico/PruebaRegistro";
 import { RegistroPrueba } from "views/Formio/RegistroPrueba";
 import { EventsPage } from "views/Formio/events/components/EventsPage";
 
 
 
-const dashboardRoutes = [
-  {
-    collapse: true,
-    name: "Paginas publicas",
-    rtlName: "صفحات",
-    icon: Image,
-    state: "pageCollapse",
-    views: [
-      {
-        path: "/registroPrueba",
-        name: "Registro de prueba",
-        rtlName: "Registro de Prueba",
-        mini: "TAPY",
-        rtlMini: "TAPY",
-        component: RegistroPrueba,
-        layout: "/public"
-      },
-    ],
-  },
+const dashboardRoutes = [  
   {
     collapse: true,
     name: "Administración General",
@@ -538,6 +521,17 @@ const dashboardRoutes = [
         layout: "/admin"
       },
     ]
+  },
+
+  {
+    path: "/rtlsupportpage",
+    name: "RTL public",
+    rtlName: "صودعم رتل",
+    mini: "RS",
+    rtlMini: "صو",
+    component: PruebaRegistro,
+    layout: "/rtl",
+    type: "public"
   }
 ];
 

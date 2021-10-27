@@ -1,4 +1,5 @@
 import React from "react";
+import cx from "classnames";
 import { Switch, Route, Redirect } from "react-router-dom";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
@@ -13,13 +14,16 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes from "routes.js";
 
-import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
+import styles from "assets/jss/material-dashboard-pro-react/layouts/adminStyle.js";
 
 import bgImage from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
 
 import Keycloak from 'keycloak-js';
-import { useSelector } from 'react-redux'
+import {useDispatch, useSelector } from 'react-redux'
+import { getSubmodulosByPerfilId } from "actions/perfilSubmoduloAction";
+import { obtenerRolesAction } from "actions/rolesKeycloakAction";
+import AdminNavbar from "components/Navbars/AdminNavbar";
 
 let ps;
 
@@ -48,7 +52,7 @@ const switchRoutes = (
 const useStyles = makeStyles(styles);
 
 export default function Admin({ ...rest }) {
-  
+  const dispatch = useDispatch();
   const [keycloak, setKeycloak] = React.useState(null);
   const [authenticated, setAuthenticated] = React.useState(false);
   // styles
@@ -56,15 +60,38 @@ export default function Admin({ ...rest }) {
   // ref to help us initialize PerfectScrollbar on windows devices
   const mainPanel = React.createRef();
   // states and functions
-  const [image, setImage] = React.useState(bgImage);
+  const [image, setImage] = React.useState(
+    require("assets/img/sidebar-6.jpg").default
+  );
+  const [logo, setLogo] = React.useState(
+    require("assets/img/m_logo.png").default
+  );
   const [color, setColor] = React.useState("blue");
   const [fixedClasses, setFixedClasses] = React.useState("dropdown show");
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [miniActive, setMiniActive] = React.useState(false);
+  const rolesall = useSelector(state => state.roles);
+  const { perfilSubmodulos } = useSelector(state => state.submodulosbyperfil);
+  const [rolUser, setRolUser] = React.useState('');
+  const [opcionesMenu, setOpcionesMenu] = React.useState('');
+
+
   const handleImageClick = image => {
     setImage(image);
   };
   const handleColorClick = color => {
     setColor(color);
+  };
+  const handleBgColorClick = (bgColor) => {
+    switch (bgColor) {
+      case "white":
+        setLogo(require("assets/img/m_logo.png").default);
+        break;
+      default:
+        setLogo(require("assets/img/m_logo.png").default);
+        break;
+    }
+    setBgColor(bgColor);
   };
   const handleFixedClick = () => {
     if (fixedClasses === "dropdown") {
@@ -79,21 +106,105 @@ export default function Admin({ ...rest }) {
   const getRoute = () => {
     return window.location.pathname !== "/admin/maps";
   };
+  const getActiveRoute = (routes) => {
+    let activeRoute = "Default Brand Text";
+    for (let i = 0; i < routes.length; i++) {
+      if (routes[i].collapse) {
+        let collapseActiveRoute = getActiveRoute(routes[i].views);
+        if (collapseActiveRoute !== activeRoute) {
+          return collapseActiveRoute;
+        }
+      } else {
+        if (
+          window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+        ) {
+          return routes[i].name;
+        }
+      }
+    }
+    return activeRoute;
+  };
+
+  const getRoutes = (routes) => {
+    return routes.map((prop, key) => {
+      if (prop.collapse) {
+        return getRoutes(prop.views);
+      }
+      if (prop.layout === "/admin") {
+        return (
+          <Route
+            path={prop.layout + prop.path}
+            component={prop.component}
+            key={key}
+          />
+        );
+      } else {
+        return null;
+      }
+    });
+  };
+
+  const sidebarMinimize = () => {
+    setMiniActive(!miniActive);
+  };
   const resizeFunction = () => {
     if (window.innerWidth >= 960) {
       setMobileOpen(false);
     }
   };
-  
+
+  React.useEffect(() => {
+   
+    const cargarRolesActivos = () => dispatch(obtenerRolesAction());
+    cargarRolesActivos();
+  }, [sessionStorage.getItem('groups')]);
+
+
+  React.useEffect(() => {
+    let groupssesion = JSON.parse(sessionStorage.getItem('groups')) 
+    console.log('Todos los roles =>', rolesall.roles)
+    rolesall.roles.forEach(element => {
+      console.log('KR', element.path,)
+      console.log('UR', groupssesion)
+      if (element.path === groupssesion[0]) {
+        setRolUser(element?.id)
+        console.log('rolUser', rolUser)
+      }
+    });
+
+  }, [rolesall]);
+
+  React.useEffect(() => {
+    
+    if (rolUser!== '') {
+      const cargarPerfilesActivos = () => dispatch(getSubmodulosByPerfilId(rolUser));
+      cargarPerfilesActivos();
+    }
+
+
+
+  }, [rolUser]);
   const kcc = useSelector(state => state.auth)
- 
+  React.useEffect(() => {
+    setOpcionesMenu(perfilSubmodulos)
+    console.log('Permisosccccc=>', perfilSubmodulos)
+  }, [perfilSubmodulos]);
+
   React.useEffect(() => {
 
     const keycloak = Keycloak(keyCloakConfig);
-    
-    keycloak.init({onLoad: 'login-required', checkLoginIframeInterval: 1, enableLogging: true}).then(authenticated => {
+
+    keycloak.init({ onLoad: 'login-required', checkLoginIframeInterval: 1, enableLogging: true }).then(authenticated => {
       if (keycloak.authenticated) {
+        console.log("keycloak ", keycloak.tokenParsed)
+        console.log("token ", keycloak.token)
         sessionStorage.setItem('token', keycloak.token);
+        sessionStorage.setItem('idUSuario', keycloak.tokenParsed.sub);
+        sessionStorage.setItem('username', keycloak.tokenParsed.preferred_username);
+        sessionStorage.setItem('firstName', keycloak.tokenParsed.given_name);
+        sessionStorage.setItem('lastName', keycloak.tokenParsed.family_name);
+        sessionStorage.setItem('roles',JSON.stringify(keycloak.tokenParsed.realm_access) );
+        sessionStorage.setItem('groups',JSON.stringify(keycloak.tokenParsed.groups) );
         console.log("token ", keycloak.token)
 
         setKeycloak(keycloak);
@@ -102,17 +213,24 @@ export default function Admin({ ...rest }) {
         kcc.authenticated = authenticated;
 
         setInterval(() => {
-          keycloak.updateToken(30).then(function(refreshed) {
+          keycloak.updateToken(30).then(function (refreshed) {
             if (refreshed) {
-              sessionStorage.setItem('token', keycloak.token);
               console.log("token ", keycloak.token)
-        
+              sessionStorage.setItem('token', keycloak.token);
+              sessionStorage.setItem('idUSuario', keycloak.tokenParsed.sub);
+              sessionStorage.setItem('username', keycloak.tokenParsed.preferred_username);
+              sessionStorage.setItem('firstName', keycloak.tokenParsed.given_name);
+              sessionStorage.setItem('lastName', keycloak.tokenParsed.family_name);
+              sessionStorage.setItem('roles', keycloak.tokenParsed.realm_access);
+              sessionStorage.setItem('groups', keycloak.tokenParsed.groups);
+             
+
               kcc.keycloak = keycloak;
               kcc.authenticated = authenticated;
             } else {
               console.log("Token todavia válido")
             }
-          }).catch(function() {
+          }).catch(function () {
             console.log(error);
             keycloak.logout()
           })
@@ -123,13 +241,15 @@ export default function Admin({ ...rest }) {
       }
     })
 
-    
+
   }, []); // passing an empty array as second argument triggers the callback in useEffect only after the initial render thus replicating `componentDidMount` lifecycle behaviour
+
+
 
   // initialize and destroy the PerfectScrollbar plugin
   React.useEffect(() => {
-    if(kcc.keycloak) {
-      if(authenticated){
+    if (kcc.keycloak) {
+      if (authenticated) {
         if (navigator.platform.indexOf("Win") > -1) {
           ps = new PerfectScrollbar(mainPanel.current, {
             suppressScrollX: true,
@@ -149,36 +269,52 @@ export default function Admin({ ...rest }) {
     }
   }, [mainPanel]);
 
-  if(keycloak) {
-    if(authenticated){
+
+
+  if (keycloak) {
+    if (authenticated) {
+   
 
       return (
         <div className={classes.wrapper}>
           <Sidebar
             routes={routes}
-            logoText={"Fabrica de Software"}
+            logoText={"SIGEPA"}
             logo={logo}
             image={image}
             handleDrawerToggle={handleDrawerToggle}
             open={mobileOpen}
-            color={color}
+            color={color}            
+            pantallasview={perfilSubmodulos}
             {...rest}
           />
           <div className={classes.mainPanel} ref={mainPanel}>
-            <Navbar
-              routes={routes}
-              handleDrawerToggle={handleDrawerToggle}
-              {...rest}
+          <AdminNavbar
+          sidebarMinimize={sidebarMinimize.bind(this)}
+          miniActive={miniActive}
+          brandText={getActiveRoute(routes)}
+          handleDrawerToggle={handleDrawerToggle}
+          {...rest}
             />
             {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
             {getRoute() ? (
-              <div className={classes.content}>
-                <div className={classes.container}>{switchRoutes}</div>
-              </div>
-            ) : (
-              <div className={classes.map}>{switchRoutes}</div>
-            )}
-            {getRoute() ? <Footer /> : null}          
+          <div className={classes.content}>
+            <div className={classes.container}>
+              <Switch>
+                {getRoutes(routes)}
+                <Redirect from="/admin" to="/admin/dashboard" />
+              </Switch>
+            </div>
+          </div>
+        ) : (
+          <div className={classes.map}>
+            <Switch>
+              {getRoutes(routes)}
+              <Redirect from="/admin" to="/admin/dashboard" />
+            </Switch>
+          </div>
+        )}
+            {getRoute() ? <Footer /> : null}
           </div>
         </div>
       );

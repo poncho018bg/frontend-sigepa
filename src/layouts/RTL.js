@@ -9,8 +9,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-//import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
-
+import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
+import {  useSelector } from "react-redux";
 import routes from "routes.js";
 
 import styles from "assets/jss/material-dashboard-react/layouts/rtlStyle.js";
@@ -46,6 +46,8 @@ export default function RTL({ ...rest }) {
   // ref to help us initialize PerfectScrollbar on windows devices
   const mainPanel = React.createRef();
   // states and functions
+  const { perfilSubmodulos } = useSelector(state => state.submodulosbyperfil);
+  const [opcionesMenu, setOpcionesMenu] = React.useState('');
   const [image, setImage] = React.useState(bgImage);
   const [color, setColor] = React.useState("blue");
   const [fixedClasses, setFixedClasses] = React.useState("dropdown show");
@@ -92,6 +94,12 @@ export default function RTL({ ...rest }) {
       window.removeEventListener("resize", resizeFunction);
     };
   }, [mainPanel]);
+
+  React.useEffect(() => {
+    setOpcionesMenu(perfilSubmodulos)
+    console.log('Permisosccccc=>', perfilSubmodulos)
+  }, [perfilSubmodulos]);
+
   return (
     <div className={classes.wrapper}>
       <Sidebar
@@ -103,6 +111,7 @@ export default function RTL({ ...rest }) {
         open={mobileOpen}
         color={color}
         rtlActive
+        pantallasview={perfilSubmodulos}
         {...rest}
       />
       <div className={classes.mainPanel} ref={mainPanel}>

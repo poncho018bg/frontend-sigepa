@@ -31,9 +31,9 @@ import { PersonContextProvider } from "contexts/personContext";
 import { ModalContextProvider } from "contexts/modalContex";
 import { ModalContextDeleteProvider } from "contexts/modalContexDelete";
 
-import HttpService from "./servicios/HttpService";
-import UserService from "./servicios/UserService";
-import Admin from "./views/Admin";
+
+
+import Admin from "layouts/Admin";
 import { ModuloContextProvider } from "contexts/moduloContext";
 import { ModalContextUpdateProvider } from "contexts/modalContexUpdate";
 import { SubModuloContextProvider } from "contexts/subModuloContext";
@@ -70,97 +70,90 @@ import { RegistroSolicitudContextProvider } from "contexts/registroSolicitudCont
 
 
 
+
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
 const theme = createTheme({
 }, esES);
 
-const renderApp = () => ReactDOM.render(
 
+
+ReactDOM.render(
   <ThemeProvider theme={theme}>
-
-
     <Router history={hist}>
       <Provider store={store}>
-        <AppState>
-          <Switch>
-            <Route path="/admin" component={Admin} />
-            <Redirect from="/" to="/admin/dashboard" />
-          </Switch>
-        </AppState>
+        <ModalContextConfirmacionProvider>
+          <ModalContextProvider>
+            <ModalContextDeleteProvider>
+              <ModalContextUpdateProvider>
+                <PersonContextProvider>
+                  <ModuloContextProvider>
+                    <SubModuloContextProvider>
+                      <ModuloSubContextProvider>
+                        <SubmodulosByPerfilContexProvider>
+                          <TiposApoyosContextProvider>
+                            <TiposBeneficiariosContextProvider>
+                              <ComiteSecretariasContextProvider>
+                                <EdadesBeneficiariosContextProvider>
+                                  <MotivoRechazosContextProvider>
+                                    <NumeroApoyosContextProvider>
+                                      <PeriodicidadApoyosContextProvider>
+                                        <CursosCapacitacionesContextProvider>
+                                          <ActividadesContinuarContextProvider>
+                                            <BtActividadesContextProvider>
+                                              <ApoyoServicioContextProvider>
+                                                <DocumentosContextProvider>
+                                                  <EstadosContextProvider>
+                                                    <MunicipiosContextProvider>
+                                                      <FirmasContextProvider>
+                                                        <RegionMunicipiosContextProvider>
+                                                          <ProgramasContextProvider>
+                                                            <ApoyoContextProvider>
+                                                              <ClasificacionServiciosContextProvider>
+                                                                <LocalidadesContextProvider>
+                                                                  <RegistroCargaDocumentosContextProvider>
+                                                                    <RegistroSolicitudContextProvider>
+                                                                      <Switch>
+                                                                        <Route path="/admin" component={Admin} />
+                                                                        <Redirect from="/" to="/admin/dashboard" />
+                                                                      </Switch>
+                                                                    </RegistroSolicitudContextProvider>
+                                                                  </RegistroCargaDocumentosContextProvider>
+                                                                </LocalidadesContextProvider>
+                                                              </ClasificacionServiciosContextProvider>
+                                                            </ApoyoContextProvider>
+                                                          </ProgramasContextProvider>
+                                                        </RegionMunicipiosContextProvider>
+                                                      </FirmasContextProvider>
+                                                    </MunicipiosContextProvider>
+                                                  </EstadosContextProvider>
+                                                </DocumentosContextProvider>
+                                              </ApoyoServicioContextProvider>
+                                            </BtActividadesContextProvider>
+                                          </ActividadesContinuarContextProvider>
+                                        </CursosCapacitacionesContextProvider>
+                                      </PeriodicidadApoyosContextProvider>
+                                    </NumeroApoyosContextProvider>
+                                  </MotivoRechazosContextProvider>
+                                </EdadesBeneficiariosContextProvider>
+                              </ComiteSecretariasContextProvider>
+                            </TiposBeneficiariosContextProvider>
+                          </TiposApoyosContextProvider>
+                        </SubmodulosByPerfilContexProvider>
+                      </ModuloSubContextProvider>
+                    </SubModuloContextProvider>
+                  </ModuloContextProvider>
+                </PersonContextProvider>
+              </ModalContextUpdateProvider>
+            </ModalContextDeleteProvider>
+          </ModalContextProvider>
+        </ModalContextConfirmacionProvider>
+
+
+
       </Provider>
     </Router></ThemeProvider>,
   document.getElementById("root")
 );
 
-HttpService.configure();
-UserService.initKeycloak(renderApp);
 
-
-const AppState = ({ children }) => {
-  return (
-    <ModalContextConfirmacionProvider>
-      <ModalContextProvider>
-        <ModalContextDeleteProvider>
-          <ModalContextUpdateProvider>
-            <PersonContextProvider>
-              <ModuloContextProvider>
-                <SubModuloContextProvider>
-                  <ModuloSubContextProvider>
-                    <SubmodulosByPerfilContexProvider>
-                      <TiposApoyosContextProvider>
-                        <TiposBeneficiariosContextProvider>
-                          <ComiteSecretariasContextProvider>
-                            <EdadesBeneficiariosContextProvider>
-                              <MotivoRechazosContextProvider>
-                                <NumeroApoyosContextProvider>
-                                  <PeriodicidadApoyosContextProvider>
-                                    <CursosCapacitacionesContextProvider>
-                                      <ActividadesContinuarContextProvider>
-                                        <BtActividadesContextProvider>
-                                          <ApoyoServicioContextProvider>
-                                            <DocumentosContextProvider>
-                                              <EstadosContextProvider>
-                                                <MunicipiosContextProvider>
-                                                  <FirmasContextProvider>
-                                                    <RegionMunicipiosContextProvider>
-                                                      <ProgramasContextProvider>
-                                                        <ApoyoContextProvider>
-                                                          <ClasificacionServiciosContextProvider>
-                                                            <LocalidadesContextProvider>
-                                                              <RegistroCargaDocumentosContextProvider>
-                                                                <RegistroSolicitudContextProvider>
-                                                                  {children}
-                                                                </RegistroSolicitudContextProvider>
-                                                              </RegistroCargaDocumentosContextProvider>
-                                                            </LocalidadesContextProvider>
-                                                          </ClasificacionServiciosContextProvider>
-                                                        </ApoyoContextProvider>
-                                                      </ProgramasContextProvider>
-                                                    </RegionMunicipiosContextProvider>
-                                                  </FirmasContextProvider>
-                                                </MunicipiosContextProvider>
-                                              </EstadosContextProvider>
-                                            </DocumentosContextProvider>
-                                          </ApoyoServicioContextProvider>
-                                        </BtActividadesContextProvider>
-                                      </ActividadesContinuarContextProvider>
-                                    </CursosCapacitacionesContextProvider>
-                                  </PeriodicidadApoyosContextProvider>
-                                </NumeroApoyosContextProvider>
-                              </MotivoRechazosContextProvider>
-                            </EdadesBeneficiariosContextProvider>
-                          </ComiteSecretariasContextProvider>
-                        </TiposBeneficiariosContextProvider>
-                      </TiposApoyosContextProvider>
-                    </SubmodulosByPerfilContexProvider>
-                  </ModuloSubContextProvider>
-                </SubModuloContextProvider>
-              </ModuloContextProvider>
-            </PersonContextProvider>
-          </ModalContextUpdateProvider>
-        </ModalContextDeleteProvider>
-      </ModalContextProvider>
-    </ModalContextConfirmacionProvider>
-  )
-}
