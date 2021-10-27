@@ -68,7 +68,6 @@ import { RegistroPrueba } from "views/Formio/RegistroPrueba";
 import { EventsPage } from "views/Formio/events/components/EventsPage";
 
 
-
 const dashboardRoutes = [  
   {
     collapse: true,
@@ -523,16 +522,7 @@ const dashboardRoutes = [
     ]
   },
 
-  {
-    path: "/rtlsupportpage",
-    name: "RTL public",
-    rtlName: "صودعم رتل",
-    mini: "RS",
-    rtlMini: "صو",
-    component: PruebaRegistro,
-    layout: "/rtl",
-    type: "public"
-  }
+
 ];
 
 export default dashboardRoutes;
