@@ -1,9 +1,9 @@
 import axios from "axios";
-import UserService from "servicios/UserService";
+
 
 
 const baseUrl = process.env.REACT_APP_API_KEYCLOAK_URL;
-
+const UserService = sessionStorage.getItem('token')
 
 
 async function axiosGet(endpoint) {
@@ -14,7 +14,7 @@ async function axiosGet(endpoint) {
                method:'GET',
                url,
                headers: {
-                   Authorization: 'Bearer ' + UserService.getToken(),
+                   Authorization: 'Bearer ' + UserService,
                }
            }).then(response => {
            return response.data
