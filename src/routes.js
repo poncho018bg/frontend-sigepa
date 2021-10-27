@@ -63,7 +63,7 @@ import { RegistroProgramasApoyoScreen } from "views/RegistroProgramasApoyo/Regis
 import { CarouselProgramas } from "views/CarouselProgramas/CarouselProgramas";
 import { RegistroSolicitud } from "views/RegistroSolicitudContacto/RegistroSolicitud";
 import { LocalidadScreen } from "views/Catalogos/Localidad/LocalidadScreen";
-import { PruebaRegistro } from "views/UsuarioPublico/PruebaRegistro";
+
 
 
 
@@ -504,16 +504,7 @@ const dashboardRoutes = [
     ]
   },
 
-  {
-    path: "/rtlsupportpage",
-    name: "RTL public",
-    rtlName: "صودعم رتل",
-    mini: "RS",
-    rtlMini: "صو",
-    component: PruebaRegistro,
-    layout: "/rtl",
-    type: "public"
-  }
+
 ];
 
 export default dashboardRoutes;
