@@ -66,11 +66,30 @@ import { RegistroProgramasApoyoScreen } from "views/RegistroProgramasApoyo/Regis
 import { CarouselProgramas } from "views/CarouselProgramas/CarouselProgramas";
 import { RegistroSolicitud } from "views/RegistroSolicitudContacto/RegistroSolicitud";
 import { LocalidadScreen } from "views/Catalogos/Localidad/LocalidadScreen";
+import { RegistroPrueba } from "views/Formio/RegistroPrueba";
+import { EventsPage } from "views/Formio/events/components/EventsPage";
 
 
 
 const dashboardRoutes = [
-
+  {
+    collapse: true,
+    name: "Paginas publicas",
+    rtlName: "صفحات",
+    icon: Image,
+    state: "pageCollapse",
+    views: [
+      {
+        path: "/registroPrueba",
+        name: "Registro de prueba",
+        rtlName: "Registro de Prueba",
+        mini: "TAPY",
+        rtlMini: "TAPY",
+        component: RegistroPrueba,
+        layout: "/public"
+      },
+    ],
+  },
   {
     collapse: true,
     name: "Administración General",
@@ -143,7 +162,7 @@ const dashboardRoutes = [
         component: SubModuloScreen,
         layout: "/admin"
       },
-     
+
       {
         path: "/tiposApoyos",
         name: "Tipos de Apoyo",
@@ -153,7 +172,7 @@ const dashboardRoutes = [
         component: TipoApoyoScreen,
         layout: "/admin"
       },
-      
+
       {
         path: "/tiposBeneficiario",
         name: "Tipos de Beneficiarios",
@@ -238,7 +257,7 @@ const dashboardRoutes = [
         component: RegionMunicipioScreen,
         layout: "/admin"
       },
-      
+
     ]
   },
   {
@@ -327,15 +346,15 @@ const dashboardRoutes = [
     state: "pageCollapse",
     views: [
 
-        {
-          path: "/consultaProgramas",
-          name: "Consulta de programas",
-          rtlName: "scat",
-          mini: "sM",
-          rtlMini: "sm",
-          component: CarouselProgramas,
-          layout: "/admin"
-        },
+      {
+        path: "/consultaProgramas",
+        name: "Consulta de programas",
+        rtlName: "scat",
+        mini: "sM",
+        rtlMini: "sm",
+        component: CarouselProgramas,
+        layout: "/admin"
+      },
 
     ]
   },
@@ -357,8 +376,8 @@ const dashboardRoutes = [
         component: MotivoRechazosScreen,
         layout: "/admin"
       },
-     
-     
+
+
       {
         path: "/continuidadActividades",
         name: "Continuidad Actividades",
@@ -431,7 +450,7 @@ const dashboardRoutes = [
         rtlMini: "AS",
         component: PadronBeneficiariosScreen,
         layout: "/admin"
-      },{
+      }, {
         path: "/documentoRequisito",
         name: "Documentos",
         rtlName: "Documentos",
@@ -501,6 +520,24 @@ const dashboardRoutes = [
         mini: "TAPY",
         rtlMini: "TAPY",
         component: RegistroSolicitud,
+        layout: "/admin"
+      },
+      {
+        path: "/registroPrueba",
+        name: "Registro de prueba",
+        rtlName: "Registro de Prueba",
+        mini: "TAPY",
+        rtlMini: "TAPY",
+        component: RegistroPrueba,
+        layout: "/admin"
+      },
+      {
+        path: "/formatosFur",
+        name: "Formatos Fur",
+        rtlName: "Formatos Fur",
+        mini: "TAPY",
+        rtlMini: "TAPY",
+        component: EventsPage,
         layout: "/admin"
       },
     ]

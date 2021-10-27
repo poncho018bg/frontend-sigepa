@@ -24,7 +24,7 @@ import "assets/css/material-dashboard-react.css?v=1.9.0";
 import { store } from "store/store";
 
 
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { esES } from '@material-ui/core/locale';
 import './i18n';
 import { PersonContextProvider } from "contexts/personContext";
@@ -72,7 +72,7 @@ import { RegistroSolicitudContextProvider } from "contexts/registroSolicitudCont
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
-const theme = createMuiTheme({
+const theme = createTheme({
 }, esES);
 
 const renderApp = () => ReactDOM.render(
