@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
@@ -21,10 +21,9 @@ import CardHeader from '@material-ui/core/CardHeader';
 import { red } from '@material-ui/core/colors';
 import IconButton from '@material-ui/core/IconButton';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { Typography,Avatar } from "@material-ui/core";
+import { Typography, Avatar } from "@material-ui/core";
 
 // core components
-import UserService from "../../servicios/UserService";
 import { DialogLogOut } from "views/Dialogs/DialogLogOut";
 import { useDispatch, useSelector } from 'react-redux';
 import sidebarStyle from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
@@ -78,7 +77,7 @@ var ps;
 // the links, and couldn't initialize the plugin.
 function SidebarWrapper({ className, user, headerLinks, links }) {
   const sidebarWrapper = React.useRef();
-
+  
   React.useEffect(() => {
 
     if (navigator.platform.indexOf("Win") > -1) {
@@ -103,22 +102,12 @@ function SidebarWrapper({ className, user, headerLinks, links }) {
 }
 
 const nombre = () => {
-  return (<div>{UserService.getFirstName()} {UserService.getLastName()}</div>)
+  return (<div>{sessionStorage.getItem('firstName')} {sessionStorage.getItem('lastName')}</div>)
 }
-const roles = () => {
-  return (
-    UserService.getRoles().roles.map((rol) => {
-      if (rol != 'offline_access') {
-        if (rol != 'uma_authorization') {
-          return (<>{rol}</>);
-        }
-      }
-    })
-  )
 
-}
 
 function Sidebar(props) {
+  const kcc = useSelector(state => state.auth);
   let query = useLocation();
   let history = useHistory();
   const classes = useStyles();
@@ -175,7 +164,7 @@ function Sidebar(props) {
   };
 
   const validateprofilesModulos = (modulename, lstRoutes) => {
-    if (lstRoutes.filter(md => md.dsModulo === modulename).length !== 0) {
+    if (lstRoutes?.filter(md => md.dsModulo === modulename).length !== 0) {
       return true
     }
   };
@@ -298,7 +287,7 @@ function Sidebar(props) {
                   </List>
                 </Collapse>
 
-              </>) : (<></>)}
+              </>) : (null)}
 
             </>
 
@@ -567,7 +556,7 @@ function Sidebar(props) {
         <img src={logo} alt="logo" className={classes.img} />
       </a>
       <a
-      style={{paddingLeft:'25%'}}
+        style={{ paddingLeft: '25%' }}
         href="/frontend-sigepa/"
         target="_blank"
         className={logoNormal}
@@ -627,9 +616,24 @@ function Sidebar(props) {
     setOpenDialog(true);
   }
   function handleDeshabilitar() {
-    history.push("/admin/")
-    UserService.doLogout();
-    setOpenDialog(false);
+    kcc.keycloak.logout();
+    setOpenProfile(null);
+    sessionStorage.removeItem("token");
+
+  }
+
+  function roles  ()  {   
+    let rolessesion = JSON.parse(sessionStorage.getItem('roles'))   
+    return (
+      rolessesion.roles?.map((rol) => {
+        if (rol != 'offline_access') {
+          if (rol != 'uma_authorization') {
+            return (<>{rol}</>);
+          }
+        }
+      })
+    )
+  
   }
 
 }

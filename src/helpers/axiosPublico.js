@@ -1,8 +1,8 @@
 import axios from "axios";
-import UserService from "servicios/UserService";
+
 
 const baseUrl = process.env.REACT_APP_API_PUBLICO_URL;
-
+const UserService = sessionStorage.getItem('token')
 const baseUrlExpediente = process.env.REACT_APP_API_EXPEDIENTE_URL;
 
 async function axiosGet(endpoint) {
@@ -14,7 +14,7 @@ async function axiosGet(endpoint) {
             method: 'GET',
             url,
             headers: {
-                Authorization: 'Bearer ' + UserService.getToken(),
+                Authorization: 'Bearer ' + UserService,
             }
         }).then(response => {
             return response.data
@@ -36,7 +36,7 @@ async function axiosPost(endpoint, data, method) {
             data,
 
             headers: {
-                Authorization: 'Bearer ' + UserService.getToken(),
+                Authorization: 'Bearer ' + UserService,
                 'Content-Type': 'application/json'
             }
         }).then(response => {
@@ -59,7 +59,7 @@ async function axiosPut(endpoint, data, method) {
             data,
 
             headers: {
-                Authorization: 'Bearer ' + UserService.getToken(),
+                Authorization: 'Bearer ' + UserService,
                 'Content-Type': 'application/json'
             }
         }).then(response => {
@@ -96,7 +96,7 @@ async function axiosGetExpediente(endpoint) {
             method: 'GET',
             url,
             headers: {
-                Authorization: 'Bearer ' + UserService.getToken(),
+                Authorization: 'Bearer ' + UserService,
             }
         }).then(response => {
             return response.data
@@ -118,7 +118,7 @@ async function axiosExpedienteToken(endpoint, method) {
             method,
             url,
             headers: {
-                Authorization: 'Bearer ' + UserService.getToken(),
+                Authorization: 'Bearer ' + UserService,
             }
         }).then(response => {
             return response.data
@@ -138,7 +138,7 @@ async function axiosPostExpediente(endpoint, data, method) {
             data,
             url,
             headers: {
-                Authorization: 'Bearer ' + UserService.getToken(),
+                Authorization: 'Bearer ' + UserService,
             }
         }).then(response => {
             return response.data
@@ -157,7 +157,7 @@ async function axiosGetTipo(endpoint) {
             method: 'GET',
             url,
             headers: {
-                Authorization: 'Bearer ' + UserService.getToken(),
+                Authorization: 'Bearer ' + UserService,
             }
         }).then(response => {
             return response.data
@@ -179,7 +179,7 @@ async function axiosPostTipo(endpoint, data, method) {
             data,
 
             headers: {
-                Authorization: 'Bearer ' + UserService.getToken(),
+                Authorization: 'Bearer ' + UserService,
                 'Content-Type': 'application/json'
             }
         }).then(response => {
@@ -200,7 +200,7 @@ async function axiosDeleteTipo(endpoint) {
             method: 'DELETE',
             url,
             headers: {
-                Authorization: 'Bearer ' + UserService.getToken(),
+                Authorization: 'Bearer ' + UserService,
             }
         }).then(response => {
             return response.data
@@ -222,7 +222,7 @@ async function axiosPostHetoas(endpoint, data, method) {
             data,
 
             headers: {
-                Authorization: 'Bearer ' + UserService.getToken(),
+                Authorization: 'Bearer ' + UserService,
                 'Content-Type': 'application/json'
             }
         }).then(response => {
@@ -242,7 +242,7 @@ async function axiosGetHetoas(endpoint) {
             method: 'GET',
             url,
             headers: {
-                Authorization: 'Bearer ' + UserService.getToken(),
+                Authorization: 'Bearer ' + UserService,
             }
         }).then(response => {
             return response.data
