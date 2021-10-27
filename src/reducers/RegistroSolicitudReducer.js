@@ -7,7 +7,8 @@ import {
     REGISTRAR_DIRECCION_BENEFICIARIO,
     GET_BENEFICIARIO,
     ACTUALIZAR_BENEFICIARIO,
-    OBTENER_DIRECCION
+    OBTENER_DIRECCION,
+    MODIFICAR_DIRECCION_BENEFICIARIO
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -45,6 +46,13 @@ export default (state, action) => {
             return {
                 ...state,
                 direccion: [...state.direccion, action.payload]
+            };
+        case MODIFICAR_DIRECCION_BENEFICIARIO:
+            return {
+                ...state,
+                direccion: state.direccion.map(
+                    direccion => direccion.id === action.payload.id ? action.payload : direccion
+                )
             };
         case GET_BENEFICIARIO:
             return {

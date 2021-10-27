@@ -10,7 +10,8 @@ import {
     REGISTRAR_DIRECCION_BENEFICIARIO,
     GET_BENEFICIARIO,
     ACTUALIZAR_BENEFICIARIO,
-    OBTENER_DIRECCION
+    OBTENER_DIRECCION,
+    MODIFICAR_DIRECCION_BENEFICIARIO
 } from 'types/actionTypes';
 
 import { axiosGet, axiosPost,  axiosPut } from 'helpers/axiosPublico';
@@ -119,7 +120,7 @@ export const RegistroSolicitudContextProvider = props => {
             const resultado = await axiosPut('domicilioOverride', direccion);
             console.log("resultado --->", resultado);
             dispatch({
-                type: REGISTRAR_DIRECCION_BENEFICIARIO,
+                type: MODIFICAR_DIRECCION_BENEFICIARIO,
                 payload: resultado
             });
         } catch (error) {

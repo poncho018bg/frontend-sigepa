@@ -25,19 +25,18 @@ const Input = styled('input')({
 });
 
 
-export const RegistroCargaDocumentos = () => {
+export const RegistroCargaDocumentos = (props) => {
     const classes = useStyles();
     const { documentosApoyoList, getDocumentosApoyo } = useContext(RegistroCargaDocumentosContext);
 
+    const {idPrograma} = props;
     const [archivo, setArchivos] = useState([]);
     const [sesion, setSesion] = useState("");
-    //aqui va el id del apoyo momentaneo, este debe llegar desde otro lado
-    let idApoyo = '75424371-b980-48c7-8a3f-b13ef586705e';
 
 
 
     useEffect(() => {
-        getDocumentosApoyo(idApoyo);
+        getDocumentosApoyo(idPrograma);
         console.log("documentos ", documentosApoyoList);
     }, []);
 
@@ -110,7 +109,7 @@ export const RegistroCargaDocumentos = () => {
                         return (
                             <Grid container spacing={1} key={i}>
                                 <Grid item xs={12}>
-                                    {row.documento}
+                                    {row.nombreDocumento}
                                 </Grid>
                                 {/*
                                 <Grid item xs={12}>

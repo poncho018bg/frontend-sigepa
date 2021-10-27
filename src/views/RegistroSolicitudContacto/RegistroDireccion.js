@@ -55,9 +55,9 @@ export const RegistroDireccion = forwardRef((props, ref) => {
 
     useEffect(() => {
         console.log("ESTO LLEGO DE LA CONSULTA DE LA DIRECCION DEL BENEFICIARIO -----> ", direccionBeneficiario);
-        if(direccionBeneficiario !== undefined){
+        if (direccionBeneficiario !== undefined) {
             console.log("DIRECCION DEL BENEFICIARIO -----> ", direccionBeneficiario[0]);
-            if(direccionBeneficiario[0] !== undefined){
+            if (direccionBeneficiario[0] !== undefined) {
                 console.log("direccion es defined ====> ", direccionBeneficiario[0]);
                 setCalle(direccionBeneficiario[0].calle);
                 setNoExterior(direccionBeneficiario[0].noExterior);
@@ -84,22 +84,42 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                 console.log("USA EL BEN como id");
                 id = beneficiario.id;
             }
-
-            let datosDireccion = {
-                idBeneficiario: id,
-                calle: calle,
-                noExterior: noExterior,
-                noInterior: noInterior,
-                colonia: colonia,
-                entreCalle: entreCalle,
-                yCalle: yCalle,
-                codigoPostal: codigoPostal,
-                idLocalidad: idLocalidad,
-                otraReferencia: otraReferencia,
-                telefonoCasa: '',
-                telefonoCelular: '',
-                telefonoContacto: '',
-                correo: ''
+            let datosDireccion = {};
+            if (direccionBeneficiario[0] === undefined) {
+                datosDireccion = {
+                    idBeneficiario: id,
+                    calle: calle,
+                    noExterior: noExterior,
+                    noInterior: noInterior,
+                    colonia: colonia,
+                    entreCalle: entreCalle,
+                    yCalle: yCalle,
+                    codigoPostal: codigoPostal,
+                    idLocalidad: idLocalidad,
+                    otraReferencia: otraReferencia,
+                    telefonoCasa: '',
+                    telefonoCelular: '',
+                    telefonoContacto: '',
+                    correo: ''
+                }
+            } else {
+                datosDireccion = {
+                    id:direccionBeneficiario[0].id,
+                    idBeneficiario: id,
+                    calle: calle,
+                    noExterior: noExterior,
+                    noInterior: noInterior,
+                    colonia: colonia,
+                    entreCalle: entreCalle,
+                    yCalle: yCalle,
+                    codigoPostal: codigoPostal,
+                    idLocalidad: idLocalidad,
+                    otraReferencia: otraReferencia,
+                    telefonoCasa: direccionBeneficiario[0].telefonoCasa,
+                    telefonoCelular: direccionBeneficiario[0].telefonoCelular,
+                    telefonoContacto: direccionBeneficiario[0].telefonoContacto,
+                    correo: direccionBeneficiario[0].correo
+                }
             }
             console.log("Datos que debe guardar", datosDireccion);
             /**

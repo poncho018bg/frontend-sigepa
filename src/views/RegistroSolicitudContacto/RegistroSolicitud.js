@@ -22,6 +22,8 @@ import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 
 import Button from "components/CustomButtons/Button.js";
 
+import ValidarPrograma from './ValidarPrograma';
+
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -45,7 +47,7 @@ export const RegistroSolicitud = () => {
 
     const { beneficiario, registrarBeneficiario, direccion,
         registrarDireccionBeneficiario, getBeneficiario, actualizarBeneficiario,
-        obtenerDireccionBeneficiario } = useContext(RegistroSolicitudContext);
+        obtenerDireccionBeneficiario, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
     //
     const child = useRef();
     const direccionChild = useRef();
@@ -124,7 +126,13 @@ export const RegistroSolicitud = () => {
 
     const obtenerDireccion = direccionBeneficiario => {
         console.log("datos a GUARDAR de la direccion BENEFICIARIO", direccionBeneficiario);
-        registrarDireccionBeneficiario(direccionBeneficiario);
+        if (direccionBeneficiario.id !== undefined) {
+            console.log("TRAE ID");
+            actualizarDireccionBeneficiario(direccionBeneficiario);
+        } else {
+            console.log("NUEVA DIRECCION");
+            registrarDireccionBeneficiario(direccionBeneficiario);
+        }
         console.log("datos que devuelve el guardar direccion primera parte---> ", direccion);
     }
 
@@ -211,49 +219,50 @@ export const RegistroSolicitud = () => {
     }
 
     return (
-        <Box sx={{ width: '100%' }}>
-            <Stepper activeStep={activeStep}>
-                {pasos.map((label) => (
-                    <Step key={label}>
-                        <StepLabel>{label}</StepLabel>
-                    </Step>
-                ))}
-            </Stepper>
-            {activeStep === pasos.length ? (
-                <span>
-                    Has completado todos los pasos
+        <ValidarPrograma idPrograma={query.state?.mobNo}>
+            <Box sx={{ width: '100%' }}>
+                <Stepper activeStep={activeStep}>
+                    {pasos.map((label) => (
+                        <Step key={label}>
+                            <StepLabel>{label}</StepLabel>
+                        </Step>
+                    ))}
+                </Stepper>
+                {activeStep === pasos.length ? (
+                    <span>
+                        Has completado todos los pasos
 
-                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                        <Box sx={{ flex: '1 1 auto' }} />
-                        <Button onClick={handleReset}>Reiniciar</Button>
-                    </Box>
-                </span>
-            ) : (
-                <>
-                    {activeStep === 0 ?
-                        <RegistroCurp setActivar={setActivar} setCurp={setCurp} />
-                        : activeStep === 1 ?
-                            <RegistroDatosSolicitante curpR={curp} llenarDatosBeneficiario={llenarDatosBeneficiario} ref={child} beneficiario={beneficiario} />
-                            : activeStep === 2 ?
-                                <RegistroDireccion beneficiario={beneficiario} obtenerDireccion={obtenerDireccion} ref={direccionChild} direccionBeneficiario={direccion} />
-                                : activeStep === 3 ?
-                                    <RegistroSolicitudContacto direccionB={direccion} beneficiario={beneficiario} ref={contacto} />
-                                    : activeStep === 4 ?
-                                        <RegistroCargaDocumentos />
-                                        :
-                                        <RegistroFinalizado />}
+                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                            <Box sx={{ flex: '1 1 auto' }} />
+                            <Button onClick={handleReset}>Reiniciar</Button>
+                        </Box>
+                    </span>
+                ) : (
+                    <>
+                        {activeStep === 0 ?
+                            <RegistroCurp setActivar={setActivar} setCurp={setCurp} />
+                            : activeStep === 1 ?
+                                <RegistroDatosSolicitante curpR={curp} llenarDatosBeneficiario={llenarDatosBeneficiario} ref={child} beneficiario={beneficiario} />
+                                : activeStep === 2 ?
+                                    <RegistroDireccion beneficiario={beneficiario} obtenerDireccion={obtenerDireccion} ref={direccionChild} direccionBeneficiario={direccion} />
+                                    : activeStep === 3 ?
+                                        <RegistroSolicitudContacto direccionB={direccion} beneficiario={beneficiario} ref={contacto} />
+                                        : activeStep === 4 ?
+                                            <RegistroCargaDocumentos idPrograma={query.state?.mobNo}/>
+                                            :
+                                            <RegistroFinalizado />}
 
-                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                        <Button
-                            color="inherit"
-                            disabled={activeStep === 0}
-                            onClick={handleBack}
-                            sx={{ mr: 1 }}
-                        >
-                            Regresar
-                        </Button>
-                        <Box sx={{ flex: '1 1 auto' }} />
-                        {/*
+                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                            <Button
+                                color="inherit"
+                                disabled={activeStep === 0}
+                                onClick={handleBack}
+                                sx={{ mr: 1 }}
+                            >
+                                Regresar
+                            </Button>
+                            <Box sx={{ flex: '1 1 auto' }} />
+                            {/*
                         {isStepOptional(activeStep) && (
                             <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
                                 Saltar
@@ -261,10 +270,11 @@ export const RegistroSolicitud = () => {
                         )}
                         */}
 
-                        <NextButton />
-                    </Box>
-                </>
-            )}
-        </Box>
+                            <NextButton />
+                        </Box>
+                    </>
+                )}
+            </Box>
+        </ValidarPrograma>
     )
 }
