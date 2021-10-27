@@ -63,6 +63,7 @@ import { RegistroProgramasApoyoScreen } from "views/RegistroProgramasApoyo/Regis
 import { CarouselProgramas } from "views/CarouselProgramas/CarouselProgramas";
 import { RegistroSolicitud } from "views/RegistroSolicitudContacto/RegistroSolicitud";
 import { LocalidadScreen } from "views/Catalogos/Localidad/LocalidadScreen";
+import { RegistroProgramas } from "views/UsuarioPublico/RegistroProgramas";
 
 
 
@@ -500,6 +501,16 @@ const dashboardRoutes = [
         rtlMini: "TAPY",
         component: RegistroSolicitud,
         layout: "/admin"
+      },
+
+      {
+        path: "/registroSolicitud",
+        name: "Registro de Solicitud",
+        rtlName: "Registro de Solicitud",
+        mini: "TAPY",
+        rtlMini: "TAPY",
+        component: RegistroProgramas,
+        layout: "/public"
       },
     ]
   },
