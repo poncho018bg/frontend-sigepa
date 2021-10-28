@@ -65,13 +65,8 @@ import { RegistroSolicitud } from "views/RegistroSolicitudContacto/RegistroSolic
 import { LocalidadScreen } from "views/Catalogos/Localidad/LocalidadScreen";
 import { RegistroPrueba } from "views/Formio/RegistroPrueba";
 import { EventsPage } from "views/Formio/events/components/EventsPage";
-import { RegistroProgramas } from "views/UsuarioPublico/RegistroProgramas";
-
-
-
 
 const dashboardRoutes = [
-
   {
     collapse: true,
     name: "Administración General",
@@ -523,14 +518,15 @@ const dashboardRoutes = [
         layout: "/admin"
       },
 
+      //aqui ponemos la ruta que quiere poncho pero cambiamos el componete porque el que pone no existe
+      //funcionaria con esta ruta http://localhost:3000/public/registroProgramas
       {
-        path: "/registroSolicitud",
-        name: "Registro de Solicitud",
-        rtlName: "Registro de Solicitud",
-        mini: "TAPY",
-        rtlMini: "TAPY",
-        component: RegistroProgramas,
-        layout: "/public"
+        path: "/registroProgramas",
+        name: "Widgets",
+        rtlName: "الحاجيات",
+        icon: WidgetsIcon,
+        component: RegistroProgramasApoyoScreen,
+        layout: "/public",
       },
     ]
   },

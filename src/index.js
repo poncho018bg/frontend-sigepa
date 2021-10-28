@@ -34,7 +34,7 @@ import { ModalContextDeleteProvider } from "contexts/modalContexDelete";
 
 
 import Admin from "layouts/Admin";
-import Public  from "layouts/Public";
+import Auth  from "layouts/Auth";
 import { ModuloContextProvider } from "contexts/moduloContext";
 import { ModalContextUpdateProvider } from "contexts/modalContexUpdate";
 import { SubModuloContextProvider } from "contexts/subModuloContext";
@@ -117,7 +117,7 @@ ReactDOM.render(
                                                                     <RegistroSolicitudContextProvider>
                                                                       <Switch>
                                                                         <Route path="/admin" component={Admin} />
-                                                                        <Route path="/public" component={Public} />
+                                                                        <Route path="/public" component={Auth} />
                                                                         <Redirect from="/" to="/admin/dashboard" />
                                                                       </Switch>
                                                                     </RegistroSolicitudContextProvider>
