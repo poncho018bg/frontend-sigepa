@@ -1,4 +1,7 @@
-import { GET_DOCUMENTOS_APOYO } from "../types/actionTypes";
+import {
+    GET_DOCUMENTOS_APOYO,
+    GUARDAR_DATOS_BOVEDA
+} from "../types/actionTypes";
 
 export default (state, action) => {
     switch (action.type) {
@@ -7,6 +10,11 @@ export default (state, action) => {
                 ...state,
                 documentosApoyoList: action.payload
             }
+        case GUARDAR_DATOS_BOVEDA:
+            return {
+                ...state,
+                documentosBoveda: [...state.documentosBoveda, action.payload]
+            };
         default:
             return state;
     }

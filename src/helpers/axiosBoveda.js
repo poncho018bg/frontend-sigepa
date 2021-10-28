@@ -44,6 +44,7 @@ async function axiosPostFile(data, token) {
             }
         }).then(response => {
             console.log("SUCCESS!!", response);
+            return response;
         });
         return promise;
     } catch (error) {

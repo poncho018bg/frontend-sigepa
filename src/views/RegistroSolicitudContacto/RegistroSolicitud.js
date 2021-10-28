@@ -219,7 +219,7 @@ export const RegistroSolicitud = () => {
     }
 
     return (
-        <ValidarPrograma idPrograma={query.state?.mobNo}>
+        /*<ValidarPrograma idPrograma={query.state?.mobNo}>*/
             <Box sx={{ width: '100%' }}>
                 <Stepper activeStep={activeStep}>
                     {pasos.map((label) => (
@@ -248,7 +248,7 @@ export const RegistroSolicitud = () => {
                                     : activeStep === 3 ?
                                         <RegistroSolicitudContacto direccionB={direccion} beneficiario={beneficiario} ref={contacto} />
                                         : activeStep === 4 ?
-                                            <RegistroCargaDocumentos idPrograma={query.state?.mobNo}/>
+                                            <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo}/>
                                             :
                                             <RegistroFinalizado />}
 
@@ -275,6 +275,6 @@ export const RegistroSolicitud = () => {
                     </>
                 )}
             </Box>
-        </ValidarPrograma>
+        /*</ValidarPrograma>*/
     )
 }

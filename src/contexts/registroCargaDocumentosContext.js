@@ -1,14 +1,19 @@
 import React, { createContext, useReducer } from 'react';
 import registroCargaDocumentosReducer from '../reducers/registroCargaDocumentosReducer';
-import { GET_DOCUMENTOS_APOYO } from '../types/actionTypes';
+import {
+    GET_DOCUMENTOS_APOYO,
+    GUARDAR_DATOS_BOVEDA
+} from '../types/actionTypes';
 
 import { axiosGet } from 'helpers/axios';
+import { axiosPost } from 'helpers/axiosPublico';
 
 export const RegistroCargaDocumentosContext = createContext();
 
 export const RegistroCargaDocumentosContextProvider = props => {
     const initialState = {
-        documentosApoyoList: []
+        documentosApoyoList: [],
+        documentosBoveda: []
     }
 
     const [state, dispatch] = useReducer(registroCargaDocumentosReducer, initialState);
@@ -26,11 +31,26 @@ export const RegistroCargaDocumentosContextProvider = props => {
             console.log(error);
         }
     }
+
+    const registrarDatosBoveda = async datos => {
+        try {
+            const result = await axiosPost('bovedaDocumentos', datos);
+            console.log(result);
+            dispatch({
+                type: GUARDAR_DATOS_BOVEDA,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <RegistroCargaDocumentosContext.Provider
             value={{
                 documentosApoyoList: state.documentosApoyoList,
-                getDocumentosApoyo
+                documentosBoveda: state.documentosBoveda,
+                getDocumentosApoyo,
+                registrarDatosBoveda
             }}
         >
             {props.children}

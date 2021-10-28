@@ -27,12 +27,17 @@ const Input = styled('input')({
 
 export const RegistroCargaDocumentos = (props) => {
     const classes = useStyles();
-    const { documentosApoyoList, getDocumentosApoyo } = useContext(RegistroCargaDocumentosContext);
-
-    const {idPrograma} = props;
+    const { documentosApoyoList, getDocumentosApoyo,
+        documentosBoveda,
+        registrarDatosBoveda } = useContext(RegistroCargaDocumentosContext);
+    const { beneficiario } = props;
+    //    const {idPrograma} = props;
     const [archivo, setArchivos] = useState([]);
     const [sesion, setSesion] = useState("");
 
+    const [boveda, setBoveda] = useState();
+
+    let idPrograma = '8cbd2101-ef40-4fad-8698-5911ccecaf54';
 
 
     useEffect(() => {
@@ -67,7 +72,7 @@ export const RegistroCargaDocumentos = (props) => {
         setArchivos(e[0]);
     }
 
-    const submit = () => {
+    const submit = (documentoApoyo) => {
         //mandar llamar el inicio de sesión
         const getLogin = async () => {
             const result = await axiosLoginBoveda();
@@ -75,7 +80,7 @@ export const RegistroCargaDocumentos = (props) => {
             setSesion(result);
         }
         getLogin();
-        console.log("sesion de la boveda ", sesion, idApoyo);
+        console.log("sesion de la boveda ", sesion, idPrograma);
         //subir archivo
         const data = new FormData();
         //archivo o archivos a subir
@@ -83,17 +88,22 @@ export const RegistroCargaDocumentos = (props) => {
         //id del usuario de la boveda
         data.append("userId", sesion.userId);
         //metadata
-        data.append("metadata", '{"idApoyo":"' + idApoyo + '"}');
+        data.append("metadata", '{"idPrograma":"' + idPrograma + '"}');
 
-        const getGuardar = async () =>{
+        const getGuardar = async () => {
             const result = await axiosPostFile(data, sesion.token);
             console.log("retorno algo? -->", result);
+            setBoveda(result);
         }
         getGuardar();
-        
+
+
         /**
-         * Mandamos llamar el metodo para guardar el archivo en la boveda
+         * Guardamos los datos de la boveda en la tabla bovedadocumentos
          */
+        console.log("beneficiarios ====> ", beneficiario);
+        console.log("Boveda ===========> ", boveda);
+        console.log("Documento Apoyo ==> ", documentoApoyo);
     }
 
 
@@ -134,7 +144,7 @@ export const RegistroCargaDocumentos = (props) => {
                                         onChange={handleChange}
                                     />
                                 </Grid>
-                                <button type="submit" onClick={() => submit()}>
+                                <button type="submit" onClick={() => submit(row)}>
                                     Guardar
                                 </button>
                             </Grid>
