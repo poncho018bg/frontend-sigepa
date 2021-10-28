@@ -63,7 +63,6 @@ import { RegistroProgramasApoyoScreen } from "views/RegistroProgramasApoyo/Regis
 import { CarouselProgramas } from "views/CarouselProgramas/CarouselProgramas";
 import { RegistroSolicitud } from "views/RegistroSolicitudContacto/RegistroSolicitud";
 import { LocalidadScreen } from "views/Catalogos/Localidad/LocalidadScreen";
-import { PruebaRegistro } from "views/UsuarioPublico/PruebaRegistro";
 import { RegistroPrueba } from "views/Formio/RegistroPrueba";
 import { EventsPage } from "views/Formio/events/components/EventsPage";
 
