@@ -181,8 +181,8 @@ export const ProgramasForm = () => {
       dsidentificadorplantilla: '',
       dsnombreplantilla: '',
       dsobjetivo: '',
-      dscriteriosseleccion: '',
-      dscriteriospriorizacion: ''
+      urlpublica: '',
+
     },
     validationSchema: Yup.object({
       nombrePrograma: Yup.string().nullable()
@@ -223,10 +223,9 @@ export const ProgramasForm = () => {
         .required('El nombre de la plantilla es obligatorio'),
       dsobjetivo: Yup.string()
         .required('El objetivo es obligatorio'),
-      dscriteriosseleccion: Yup.string()
-        .required('Los criterios de selección son obligatorios'),
-      dscriteriospriorizacion: Yup.string()
-        .required('Los criterios de priorización son obligatorios'),
+      urlpublica: Yup.string()
+        .required('URL pública es obligatorio'),
+
     }),
     onSubmit: async valores => {
       setLoading(true);
@@ -263,8 +262,7 @@ export const ProgramasForm = () => {
       dsidentificadorplantilla,
       dsnombreplantilla,
       dsobjetivo,
-      dscriteriosseleccion,
-      dscriteriospriorizacion
+      urlpublica
 
     } = valores;
     console.log('miramira');
@@ -303,8 +301,7 @@ export const ProgramasForm = () => {
       dsidentificadorplantilla: dsidentificadorplantilla,
       dsnombreplantilla: dsnombreplantilla,
       dsobjetivo: dsobjetivo,
-      dscriteriosseleccion: dscriteriosseleccion,
-      dscriteriospriorizacion: dscriteriospriorizacion
+      urlpublica: urlpublica
     }
     console.log(programas);
     registrar(programas, blobpgr).then(response => {
@@ -447,63 +444,7 @@ export const ProgramasForm = () => {
 
 
                 </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CardBody>
-                    <TextField
-                      id="periodoRegistroWebDesde"
-                      label="Periodo registro web desde"
-                      type="date"
-                      fullWidth
-                      className={classes.textField}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      value={formik.values.periodoRegistroWebDesde}
-                      name="periodoRegistroWebDesde"
-                      onChange={formik.handleChange}
-                      InputProps={{
-                        inputProps: {
 
-                        }
-                      }}
-                    />
-                    {formik.touched.periodoRegistroWebDesde && formik.errors.periodoRegistroWebDesde ? (
-                      <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.periodoRegistroWebDesde}>
-                        {formik.errors.periodoRegistroWebDesde}
-                      </FormHelperText>
-                    ) : null}
-                  </CardBody>
-
-                </GridItem>
-
-                <GridItem xs={12} sm={12} md={6}>
-                  <CardBody>
-                    <TextField
-                      id="periodoRegistroWebHasta"
-                      label="Periodo registro web hasta"
-                      type="date"
-                      fullWidth
-                      className={classes.textField}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      value={formik.values.periodoRegistroWebHasta}
-                      name="periodoRegistroWebHasta"
-                      onChange={formik.handleChange}
-                      InputProps={{
-                        inputProps: {
-                          min: formik.values.periodoRegistroWebDesde
-                        }
-                      }}
-                    />
-                    {formik.touched.periodoRegistroWebHasta && formik.errors.periodoRegistroWebHasta ? (
-                      <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.periodoRegistroWebHasta}>
-                        {formik.errors.periodoRegistroWebHasta}
-                      </FormHelperText>
-                    ) : null}
-                  </CardBody>
-
-                </GridItem>
 
                 <GridItem xs={12} sm={12} md={6}>
                   <CardBody>
@@ -569,6 +510,85 @@ export const ProgramasForm = () => {
 
 
 
+                </GridItem>
+
+                <GridItem xs={12} sm={12} md={6}>
+                  <CardBody>
+                    <TextField
+                      id="periodoRegistroWebDesde"
+                      label="Periodo registro web desde"
+                      type="date"
+                      fullWidth
+                      className={classes.textField}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      value={formik.values.periodoRegistroWebDesde}
+                      name="periodoRegistroWebDesde"
+                      onChange={formik.handleChange}
+                      InputProps={{
+                        inputProps: {
+
+                        }
+                      }}
+                    />
+                    {formik.touched.periodoRegistroWebDesde && formik.errors.periodoRegistroWebDesde ? (
+                      <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.periodoRegistroWebDesde}>
+                        {formik.errors.periodoRegistroWebDesde}
+                      </FormHelperText>
+                    ) : null}
+                  </CardBody>
+
+                </GridItem>
+
+                <GridItem xs={12} sm={12} md={6}>
+                  <CardBody>
+                    <TextField
+                      id="periodoRegistroWebHasta"
+                      label="Periodo registro web hasta"
+                      type="date"
+                      fullWidth
+                      className={classes.textField}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      value={formik.values.periodoRegistroWebHasta}
+                      name="periodoRegistroWebHasta"
+                      onChange={formik.handleChange}
+                      InputProps={{
+                        inputProps: {
+                          min: formik.values.periodoRegistroWebDesde
+                        }
+                      }}
+                    />
+                    {formik.touched.periodoRegistroWebHasta && formik.errors.periodoRegistroWebHasta ? (
+                      <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.periodoRegistroWebHasta}>
+                        {formik.errors.periodoRegistroWebHasta}
+                      </FormHelperText>
+                    ) : null}
+                  </CardBody>
+
+                </GridItem>
+
+                <GridItem xs={12} sm={12} md={12}>
+                  <TextField
+                    style={{ marginBottom: '20px' }}
+                    id="urlpublica"
+                    error={formik.errors.urlpublica}
+                    label="URL Pública para registro Web"
+                    variant="outlined"
+                    name="urlpublica"
+                    fullWidth
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.urlpublica}
+                    inputProps={{ maxLength: "500" }}
+                  />
+                  {formik.touched.urlpublica && formik.errors.urlpublica ? (
+                    <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.urlpublica}>
+                      {formik.errors.urlpublica}
+                    </FormHelperText>
+                  ) : null}
                 </GridItem>
 
                 <GridItem xs={12} sm={12} md={12}>
@@ -782,7 +802,7 @@ export const ProgramasForm = () => {
                     style={{ marginBottom: '20px' }}
                     id="dsnombreplantilla"
                     error={formik.errors.dsnombreplantilla}
-                    label="Nombre de la plantilla"
+                    label="Nombre de la plantilla FR"
                     variant="outlined"
                     name="dsnombreplantilla"
                     fullWidth
@@ -807,7 +827,7 @@ export const ProgramasForm = () => {
                     style={{ marginBottom: '20px' }}
                     id="dsidentificadorplantilla"
                     error={formik.errors.dsidentificadorplantilla}
-                    label="Identificador de plantilla"
+                    label="Identificador de plantilla FR"
                     variant="outlined"
                     name="dsidentificadorplantilla"
                     fullWidth
@@ -831,11 +851,11 @@ export const ProgramasForm = () => {
                     id="dsobjetivo"
                     name="dsobjetivo"
                     value={formik.values.dsobjetivo}
-                    label="Objetivo"
+                    label="Texto descriptivo del programa (html)"
                     style={{ marginBottom: '20px' }}
                     fullWidth
                     multiline
-                    rows={4}
+                    rows={20}
                     variant="outlined"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -849,54 +869,9 @@ export const ProgramasForm = () => {
                 </GridItem>
               </GridContainer>
 
-              <GridContainer>
 
-                <GridItem xs={12} sm={12} md={12}>
-                  <TextField
-                    id="dscriteriosseleccion"
-                    name="dscriteriosseleccion"
-                    value={formik.values.dscriteriosseleccion}
-                    label="Criterios de selección"
-                    style={{ marginBottom: '20px' }}
-                    fullWidth
-                    multiline
-                    rows={4}
-                    variant="outlined"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
 
-                  />
-                  {formik.touched.dscriteriosseleccion && formik.errors.dscriteriosseleccion ? (
-                    <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.dscriteriosseleccion}>
-                      {formik.errors.dscriteriosseleccion}
-                    </FormHelperText>
-                  ) : null}
-                </GridItem>
-              </GridContainer>
 
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={12}>
-                  <TextField
-                    id="dscriteriospriorizacion"
-                    name="dscriteriospriorizacion"
-                    value={formik.values.dscriteriospriorizacion}
-                    label="Criterios de priorización"
-                    style={{ marginBottom: '20px' }}
-                    fullWidth
-                    multiline
-                    rows={4}
-                    variant="outlined"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-
-                  />
-                  {formik.touched.dscriteriospriorizacion && formik.errors.dscriteriospriorizacion ? (
-                    <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.dscriteriospriorizacion}>
-                      {formik.errors.dscriteriospriorizacion}
-                    </FormHelperText>
-                  ) : null}
-                </GridItem>
-              </GridContainer>
 
 
               <GridContainer>
