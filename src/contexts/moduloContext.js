@@ -8,7 +8,7 @@ import {
     CAMBIAR_TAMANIO_PAGINA
 } from '../types/actionTypes';
 import { axiosGet,  axiosPostHetoas } from 'helpers/axios';
-import UserService from 'servicios/UserService';
+
 
 const baseUrl = process.env.REACT_APP_API_URL;
 export const ModuloContext = createContext();
@@ -74,7 +74,7 @@ export const ModuloContextProvider = props => {
 
         let moduloEnviar = {
             dsmodulo,
-            'usuarioCreacionId': `${process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}`,
+            'usuarioCreacionId': `${process.env.REACT_APP_API_URL}/usuario/${sessionStorage.getItem('idUSuario')}`,
             boactivo,
             'SubModulos': []
         }
@@ -99,7 +99,7 @@ export const ModuloContextProvider = props => {
         const act = !activo
         modulo.activo = act
         modulo.subModulos = []
-        modulo.usuarioCreacionId = `${process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}`
+        modulo.usuarioCreacionId = `${process.env.REACT_APP_API_URL}/usuario/${sessionStorage.getItem('idUSuario')}`
 
         try {
             const resultado = await axiosPostHetoas(href, modulo, 'PUT');

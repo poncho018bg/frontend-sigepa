@@ -61,24 +61,14 @@ import { ProgramasContextProvider } from "contexts/catalogos/Programas/programas
 import { ApoyoContextProvider } from "contexts/catalogos/ApoyoContext";
 import { ClasificacionServiciosContextProvider } from "contexts/catalogos/clasificacionServiciosContext";
 import { LocalidadesContextProvider } from "contexts/catalogos/Localidades/localidadesContext";
-
 import { ModalContextConfirmacionProvider } from "contexts/modalContextConfirmacion";
-
 import { RegistroCargaDocumentosContextProvider } from "contexts/registroCargaDocumentosContext"
-
 import { RegistroSolicitudContextProvider } from "contexts/registroSolicitudContext";
-
-
-
-
-
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
 const theme = createTheme({
 }, esES);
-
-
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
@@ -151,9 +141,6 @@ ReactDOM.render(
             </ModalContextDeleteProvider>
           </ModalContextProvider>
         </ModalContextConfirmacionProvider>
-
-
-
       </Provider>
     </Router></ThemeProvider>,
   document.getElementById("root")

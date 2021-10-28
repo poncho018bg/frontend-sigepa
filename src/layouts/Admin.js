@@ -20,35 +20,15 @@ import bgImage from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
 
 import Keycloak from 'keycloak-js';
-import {useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getSubmodulosByPerfilId } from "actions/perfilSubmoduloAction";
 import { obtenerRolesAction } from "actions/rolesKeycloakAction";
 import AdminNavbar from "components/Navbars/AdminNavbar";
 
-let ps;
-
 const keyCloakConfig = process.env.REACT_APP_KEYCLOAK_CONFIG;
 
 let keyck;
-
-const switchRoutes = (
-  <Switch>
-    {routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
-      }
-      return null;
-    })}
-    <Redirect from="/admin" to="/admin/dashboard" />
-  </Switch>
-);
-
+let ps;
 const useStyles = makeStyles(styles);
 
 export default function Admin({ ...rest }) {
@@ -60,13 +40,12 @@ export default function Admin({ ...rest }) {
   // ref to help us initialize PerfectScrollbar on windows devices
   const mainPanel = React.createRef();
   // states and functions
-  const [image, setImage] = React.useState(
-    require("assets/img/sidebar-6.jpg").default
-  );
+  const [image, setImage] = React.useState("");
   const [logo, setLogo] = React.useState(
     require("assets/img/m_logo.png").default
   );
   const [color, setColor] = React.useState("blue");
+  const [bgColor, setBgColor] = React.useState("black");
   const [fixedClasses, setFixedClasses] = React.useState("dropdown show");
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [miniActive, setMiniActive] = React.useState(false);
@@ -75,6 +54,15 @@ export default function Admin({ ...rest }) {
   const [rolUser, setRolUser] = React.useState('');
   const [opcionesMenu, setOpcionesMenu] = React.useState('');
 
+  //pantalla Mini
+  const mainPanelClasses =
+    classes.mainPanel +
+    " " +
+    cx({
+      [classes.mainPanelSidebarMini]: miniActive,
+      [classes.mainPanelWithPerfectScrollbar]:
+        navigator.platform.indexOf("Win") > -1,
+    });
 
   const handleImageClick = image => {
     setImage(image);
@@ -154,14 +142,13 @@ export default function Admin({ ...rest }) {
   };
 
   React.useEffect(() => {
-   
     const cargarRolesActivos = () => dispatch(obtenerRolesAction());
     cargarRolesActivos();
   }, [sessionStorage.getItem('groups')]);
 
 
   React.useEffect(() => {
-    let groupssesion = JSON.parse(sessionStorage.getItem('groups')) 
+    let groupssesion = JSON.parse(sessionStorage.getItem('groups'))
     console.log('Todos los roles =>', rolesall.roles)
     rolesall.roles.forEach(element => {
       console.log('KR', element.path,)
@@ -171,20 +158,17 @@ export default function Admin({ ...rest }) {
         console.log('rolUser', rolUser)
       }
     });
-
   }, [rolesall]);
 
   React.useEffect(() => {
-    
-    if (rolUser!== '') {
+    if (rolUser !== '') {
       const cargarPerfilesActivos = () => dispatch(getSubmodulosByPerfilId(rolUser));
       cargarPerfilesActivos();
     }
-
-
-
   }, [rolUser]);
+
   const kcc = useSelector(state => state.auth)
+
   React.useEffect(() => {
     setOpcionesMenu(perfilSubmodulos)
     console.log('Permisosccccc=>', perfilSubmodulos)
@@ -196,15 +180,14 @@ export default function Admin({ ...rest }) {
 
     keycloak.init({ onLoad: 'login-required', checkLoginIframeInterval: 1, enableLogging: true }).then(authenticated => {
       if (keycloak.authenticated) {
-        console.log("keycloak ", keycloak.tokenParsed)
-        console.log("token ", keycloak.token)
         sessionStorage.setItem('token', keycloak.token);
         sessionStorage.setItem('idUSuario', keycloak.tokenParsed.sub);
         sessionStorage.setItem('username', keycloak.tokenParsed.preferred_username);
         sessionStorage.setItem('firstName', keycloak.tokenParsed.given_name);
         sessionStorage.setItem('lastName', keycloak.tokenParsed.family_name);
-        sessionStorage.setItem('roles',JSON.stringify(keycloak.tokenParsed.realm_access) );
-        sessionStorage.setItem('groups',JSON.stringify(keycloak.tokenParsed.groups) );
+        sessionStorage.setItem('roles', JSON.stringify(keycloak.tokenParsed.realm_access));
+        sessionStorage.setItem('groups', JSON.stringify(keycloak.tokenParsed.groups));
+        console.log("keycloak ", keycloak.tokenParsed)
         console.log("token ", keycloak.token)
 
         setKeycloak(keycloak);
@@ -215,7 +198,6 @@ export default function Admin({ ...rest }) {
         setInterval(() => {
           keycloak.updateToken(30).then(function (refreshed) {
             if (refreshed) {
-              console.log("token ", keycloak.token)
               sessionStorage.setItem('token', keycloak.token);
               sessionStorage.setItem('idUSuario', keycloak.tokenParsed.sub);
               sessionStorage.setItem('username', keycloak.tokenParsed.preferred_username);
@@ -223,7 +205,7 @@ export default function Admin({ ...rest }) {
               sessionStorage.setItem('lastName', keycloak.tokenParsed.family_name);
               sessionStorage.setItem('roles', keycloak.tokenParsed.realm_access);
               sessionStorage.setItem('groups', keycloak.tokenParsed.groups);
-             
+              console.log("token ", keycloak.token)
 
               kcc.keycloak = keycloak;
               kcc.authenticated = authenticated;
@@ -243,7 +225,6 @@ export default function Admin({ ...rest }) {
 
 
   }, []); // passing an empty array as second argument triggers the callback in useEffect only after the initial render thus replicating `componentDidMount` lifecycle behaviour
-
 
 
   // initialize and destroy the PerfectScrollbar plugin
@@ -273,7 +254,6 @@ export default function Admin({ ...rest }) {
 
   if (keycloak) {
     if (authenticated) {
-   
 
       return (
         <div className={classes.wrapper}>
@@ -284,36 +264,38 @@ export default function Admin({ ...rest }) {
             image={image}
             handleDrawerToggle={handleDrawerToggle}
             open={mobileOpen}
-            color={color}            
+            color={color}
+            bgColor={bgColor}
+            miniActive={miniActive}
             pantallasview={perfilSubmodulos}
             {...rest}
           />
-          <div className={classes.mainPanel} ref={mainPanel}>
-          <AdminNavbar
-          sidebarMinimize={sidebarMinimize.bind(this)}
-          miniActive={miniActive}
-          brandText={getActiveRoute(routes)}
-          handleDrawerToggle={handleDrawerToggle}
-          {...rest}
+          <div className={mainPanelClasses} ref={mainPanel}>
+            <AdminNavbar
+              sidebarMinimize={sidebarMinimize.bind(this)}
+              miniActive={miniActive}
+              brandText={getActiveRoute(routes)}
+              handleDrawerToggle={handleDrawerToggle}
+              {...rest}
             />
             {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
             {getRoute() ? (
-          <div className={classes.content}>
-            <div className={classes.container}>
-              <Switch>
-                {getRoutes(routes)}
-                <Redirect from="/admin" to="/admin/dashboard" />
-              </Switch>
-            </div>
-          </div>
-        ) : (
-          <div className={classes.map}>
-            <Switch>
-              {getRoutes(routes)}
-              <Redirect from="/admin" to="/admin/dashboard" />
-            </Switch>
-          </div>
-        )}
+              <div className={classes.content}>
+                <div className={classes.container}>
+                  <Switch>
+                    {getRoutes(routes)}
+                    <Redirect from="/admin" to="/admin/dashboard" />
+                  </Switch>
+                </div>
+              </div>
+            ) : (
+              <div className={classes.map}>
+                <Switch>
+                  {getRoutes(routes)}
+                  <Redirect from="/admin" to="/admin/dashboard" />
+                </Switch>
+              </div>
+            )}
             {getRoute() ? <Footer /> : null}
           </div>
         </div>
