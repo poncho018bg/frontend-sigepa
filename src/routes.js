@@ -65,6 +65,7 @@ import { RegistroSolicitud } from "views/RegistroSolicitudContacto/RegistroSolic
 import { LocalidadScreen } from "views/Catalogos/Localidad/LocalidadScreen";
 import { RegistroPrueba } from "views/Formio/RegistroPrueba";
 import { EventsPage } from "views/Formio/events/components/EventsPage";
+import {RegistroProgramas} from "views/UsuarioPublico/RegistroProgramas.js"
 
 const dashboardRoutes = [
   {
@@ -525,7 +526,7 @@ const dashboardRoutes = [
         name: "Widgets",
         rtlName: "الحاجيات",
         icon: WidgetsIcon,
-        component: RegistroProgramasApoyoScreen,
+        component: RegistroProgramas,
         layout: "/public",
       },
     ]
