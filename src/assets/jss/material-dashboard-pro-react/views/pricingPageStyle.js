@@ -18,26 +18,26 @@ const pricingPageStyle = (theme) => ({
   },
   title: {
     ...defaultFont,
-    color: whiteColor,
+    color: roseColor,
     marginTop: "5vh",
     marginBottom: "30px",
     textAlign: "center",
   },
   description: {
     fontSize: "18px",
-    color: whiteColor,
+    color: roseColor,
     textAlign: "center",
   },
   cardTitleWhite: {
     ...cardTitle,
-    color: whiteColor + " !important",
+    color: grayColor + " !important",
   },
   cardCategory: {
     color: grayColor[0],
     marginTop: "10px",
   },
   cardCategoryWhite: {
-    color: whiteColor,
+    color: roseColor,
     marginTop: "10px",
   },
   icon: {
@@ -45,7 +45,7 @@ const pricingPageStyle = (theme) => ({
     margin: "10px auto 0",
     width: "130px",
     height: "130px",
-    border: "1px solid " + grayColor[11],
+    border: "5px solid " + grayColor[11],
     borderRadius: "50%",
     lineHeight: "174px",
     "& svg": {
