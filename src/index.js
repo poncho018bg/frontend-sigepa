@@ -34,6 +34,7 @@ import { ModalContextDeleteProvider } from "contexts/modalContexDelete";
 
 
 import Admin from "layouts/Admin";
+import Public  from "layouts/Public";
 import { ModuloContextProvider } from "contexts/moduloContext";
 import { ModalContextUpdateProvider } from "contexts/modalContexUpdate";
 import { SubModuloContextProvider } from "contexts/subModuloContext";
@@ -66,6 +67,7 @@ import { ModalContextConfirmacionProvider } from "contexts/modalContextConfirmac
 import { RegistroCargaDocumentosContextProvider } from "contexts/registroCargaDocumentosContext"
 
 import { RegistroSolicitudContextProvider } from "contexts/registroSolicitudContext";
+
 
 
 
@@ -115,6 +117,7 @@ ReactDOM.render(
                                                                     <RegistroSolicitudContextProvider>
                                                                       <Switch>
                                                                         <Route path="/admin" component={Admin} />
+                                                                        <Route path="/public" component={Public} />
                                                                         <Redirect from="/" to="/admin/dashboard" />
                                                                       </Switch>
                                                                     </RegistroSolicitudContextProvider>

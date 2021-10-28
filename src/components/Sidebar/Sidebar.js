@@ -77,7 +77,7 @@ var ps;
 // the links, and couldn't initialize the plugin.
 function SidebarWrapper({ className, user, headerLinks, links }) {
   const sidebarWrapper = React.useRef();
-  
+
   React.useEffect(() => {
 
     if (navigator.platform.indexOf("Win") > -1) {
@@ -494,28 +494,32 @@ function Sidebar(props) {
         </ListItem>
       </List>
 
-      <div style={{ position: `fixed`, bottom: `0px`, width: `15em`, wordBreak: `break-word` }}>
-        <Card className={classesCard.card}>
-          <CardHeader
-            className={classesCard.card}
-            avatar={
-              <Avatar aria-label="recipe" style={{ color: `#fff` }}>
-                <PersonIcon style={{ color: `#fff` }}></PersonIcon>
-              </Avatar>
-            }
-            action={
-              <IconButton aria-label="settings" style={{ color: `#fff` }}
-                onClick={logout}
-              >
-                <ExitToAppIcon />
-              </IconButton>
-            }
-            title={<Typography className={classes.title}>{nombre()}</Typography>}
-            subheader={<Typography className={classes.title}>{roles().slice(0, 1)}</Typography>}
-          />
+      {(sessionStorage.getItem("token") !== null) ?
+        (
+          <div style={{ position: `fixed`, bottom: `0px`, width: `15em`, wordBreak: `break-word` }}>
+            <Card className={classesCard.card}>
+              <CardHeader
+                className={classesCard.card}
+                avatar={
+                  <Avatar aria-label="recipe" style={{ color: `#fff` }}>
+                    <PersonIcon style={{ color: `#fff` }}></PersonIcon>
+                  </Avatar>
+                }
+                action={
+                  <IconButton aria-label="settings" style={{ color: `#fff` }}
+                    onClick={logout}
+                  >
+                    <ExitToAppIcon />
+                  </IconButton>
+                }
+                title={<Typography className={classes.title}>{nombre()}</Typography>}
+                subheader={<Typography className={classes.title}>{roles()?.slice(0, 1)}</Typography>}
+              />
 
-        </Card>
-      </div>
+            </Card>
+          </div>
+        ) : null}
+
       <DialogLogOut
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}
@@ -619,13 +623,19 @@ function Sidebar(props) {
     kcc.keycloak.logout();
     setOpenProfile(null);
     sessionStorage.removeItem("token");
+    sessionStorage.removeItem("idUSuario");
+    sessionStorage.removeItem("username");
+    sessionStorage.removeItem("firstName");
+    sessionStorage.removeItem("lastName");
+    sessionStorage.removeItem("roles");
+    sessionStorage.removeItem("groups");
 
   }
 
-  function roles  ()  {   
-    let rolessesion = JSON.parse(sessionStorage.getItem('roles'))   
+  function roles() {
+    let rolessesion = JSON.parse(sessionStorage.getItem('roles'))
     return (
-      rolessesion.roles?.map((rol) => {
+      rolessesion?.roles?.map((rol) => {
         if (rol != 'offline_access') {
           if (rol != 'uma_authorization') {
             return (<>{rol}</>);
@@ -633,7 +643,7 @@ function Sidebar(props) {
         }
       })
     )
-  
+
   }
 
 }
