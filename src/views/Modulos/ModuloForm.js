@@ -5,7 +5,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { ModuloContext } from 'contexts/moduloContext';
 import { ModalContext } from 'contexts/modalContex';
-import UserService from "../../servicios/UserService";
+
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
@@ -31,7 +31,7 @@ export const ModuloForm = () => {
     const formik = useFormik({
         initialValues: {
             dsmodulo: '',
-            usuarioCreacionId: UserService.getIdUSuario()
+            usuarioCreacionId: sessionStorage.getItem('idUSuario')
         },
         validationSchema: Yup.object({
             dsmodulo: Yup.string()
@@ -55,7 +55,7 @@ export const ModuloForm = () => {
 
         let module = {
             dsmodulo: dsmodulo,
-            usuarioCreacionId: `${process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}`,
+            usuarioCreacionId: `${process.env.REACT_APP_API_URL}/usuario/${sessionStorage.getItem('idUSuario')}`,
             boactivo: true,
             'SubModulos': []
         }

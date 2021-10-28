@@ -4,7 +4,7 @@ import BtActividadesReducer from 'reducers/Catalogos/BtActividadesReducer';
 import { GET_BTACTIVIDADES, REGISTRAR_BTACTIVIDADES, ELIMINAR_BTACTIVIDADES } from 'types/actionTypes';
 import { axiosGet, axiosPost,axiosDeleteTipo ,axiosPostHetoas} from 'helpers/axios';
 
-import UserService from 'servicios/UserService';
+
 
 
 export const BtActividadesContext = createContext();
@@ -38,7 +38,7 @@ export const BtActividadesContextProvider = props => {
     const getBtActividadesby = async (nombre, apellidopaterno, apellidoMaterno, puesto, rol, fecha) => {
 
         try {
-            const resultado = await axiosGet(`BitacoraAccionesOverride/${nombre.length === 0 ? "NULL" : nombre}/${apellidopaterno.length === 0 ? "NULL" : apellidopaterno}/${apellidoMaterno.length === 0 ? "NULL" : apellidoMaterno}/${puesto.length === 0 ? "NULL" : puesto}/${rol.length === 0 ? "NULL" : rol}/${fecha.length === 0 ? "NULL" : fecha}/${UserService.getToken()}`);
+            const resultado = await axiosGet(`BitacoraAccionesOverride/${nombre.length === 0 ? "NULL" : nombre}/${apellidopaterno.length === 0 ? "NULL" : apellidopaterno}/${apellidoMaterno.length === 0 ? "NULL" : apellidoMaterno}/${puesto.length === 0 ? "NULL" : puesto}/${rol.length === 0 ? "NULL" : rol}/${fecha.length === 0 ? "NULL" : fecha}/${sessionStorage.getItem('token')}`);
            
             console.log(resultado);
             dispatch({

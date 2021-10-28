@@ -23,7 +23,7 @@ import styles from "assets/jss/material-dashboard-react/components/headerLinksSt
 
 import { useDispatch,useSelector } from 'react-redux'
 
-import UserService from "../../servicios/UserService";
+
 import { DialogLogOut } from "views/Dialogs/DialogLogOut";
 import { cerrarSesion } from "actions/SesionAction";
 
@@ -67,7 +67,7 @@ export default function AdminNavbarLinks() {
 
   const handleDeshabilitar = () => {
     dispatch(cerrarSesion());
-    UserService.doLogout();
+   //Aqui se cierra la sesión 
     setOpenDialog(false);
 }
   return (
