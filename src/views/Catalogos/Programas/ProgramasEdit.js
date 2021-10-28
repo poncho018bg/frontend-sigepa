@@ -825,7 +825,7 @@ export const ProgramasEdit = () => {
                         <TextField
                           id="dsobjetivo"
                           name="dsobjetivo"
-                          label="Texto Descriptivo del programa (html)"
+                          label="Texto descriptivo del programa (html)"
                           style={{ marginBottom: '20px' }}
                           fullWidth
                           multiline
