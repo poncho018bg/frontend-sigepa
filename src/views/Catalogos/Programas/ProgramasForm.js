@@ -181,7 +181,7 @@ export const ProgramasForm = () => {
       dsidentificadorplantilla: '',
       dsnombreplantilla: '',
       dsobjetivo: '',
-      urlpublica: '',
+      dsurl: '',
 
     },
     validationSchema: Yup.object({
@@ -223,7 +223,7 @@ export const ProgramasForm = () => {
         .required('El nombre de la plantilla es obligatorio'),
       dsobjetivo: Yup.string()
         .required('El objetivo es obligatorio'),
-      urlpublica: Yup.string()
+        dsurl: Yup.string()
         .required('URL pública es obligatorio'),
 
     }),
@@ -262,7 +262,7 @@ export const ProgramasForm = () => {
       dsidentificadorplantilla,
       dsnombreplantilla,
       dsobjetivo,
-      urlpublica
+      dsurl
 
     } = valores;
     console.log('miramira');
@@ -301,7 +301,7 @@ export const ProgramasForm = () => {
       dsidentificadorplantilla: dsidentificadorplantilla,
       dsnombreplantilla: dsnombreplantilla,
       dsobjetivo: dsobjetivo,
-      urlpublica: urlpublica
+      dsurl: dsurl
     }
     console.log(programas);
     registrar(programas, blobpgr).then(response => {
@@ -573,20 +573,20 @@ export const ProgramasForm = () => {
                 <GridItem xs={12} sm={12} md={12}>
                   <TextField
                     style={{ marginBottom: '20px' }}
-                    id="urlpublica"
-                    error={formik.errors.urlpublica}
+                    id="dsurl"
+                    error={formik.errors.dsurl}
                     label="URL Pública para registro Web"
                     variant="outlined"
-                    name="urlpublica"
+                    name="dsurl"
                     fullWidth
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.urlpublica}
+                    value={formik.values.dsurl}
                     inputProps={{ maxLength: "500" }}
                   />
-                  {formik.touched.urlpublica && formik.errors.urlpublica ? (
-                    <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.urlpublica}>
-                      {formik.errors.urlpublica}
+                  {formik.touched.dsurl && formik.errors.dsurl ? (
+                    <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.dsurl}>
+                      {formik.errors.dsurl}
                     </FormHelperText>
                   ) : null}
                 </GridItem>

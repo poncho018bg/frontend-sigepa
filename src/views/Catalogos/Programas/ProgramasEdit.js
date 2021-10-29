@@ -261,7 +261,7 @@ export const ProgramasEdit = () => {
       .required('El nombre de la plantilla es obligatorio'),
     dsobjetivo: Yup.string()
       .required('El objetivo es obligatorio'),
-    urlpublica: Yup.string()
+      dsurl: Yup.string()
       .required('URL pública es obligatorio'),
 
   });
@@ -532,21 +532,21 @@ export const ProgramasEdit = () => {
                       <GridItem xs={12} sm={12} md={12}>
                         <TextField
                           style={{ marginBottom: '20px' }}
-                          id="urlpublica"
-                          error={props.errors.urlpublica}
+                          id="dsurl"
+                          error={props.errors.dsurl}
                           label="URL Pública para registro Web"
                           variant="outlined"
-                          name="urlpublica"
+                          name="dsurl"
                           fullWidth
                           onChange={props.handleChange}
                           onBlur={props.handleBlur}
-                          value={props.values?.urlpublica}
+                          value={props.values?.dsurl}
                           InputLabelProps={{ shrink: true }}
                           inputProps={{ maxLength: "500" }}
                         />
-                        {props.touched.urlpublica && props.errors.urlpublica ? (
-                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.urlpublica}>
-                            {props.errors.urlpublica}
+                        {props.touched.dsurl && props.errors.dsurl ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsurl}>
+                            {props.errors.dsurl}
                           </FormHelperText>
                         ) : null}
                       </GridItem>
