@@ -104,7 +104,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                 }
             } else {
                 datosDireccion = {
-                    id:direccionBeneficiario[0].id,
+                    id: direccionBeneficiario[0].id,
                     idBeneficiario: id,
                     calle: calle,
                     noExterior: noExterior,
@@ -153,26 +153,37 @@ export const RegistroDireccion = forwardRef((props, ref) => {
     }
 
     const onChange = event => {
+        console.log("target direccion ===> ", event.target.name);
         //llenado de los datos a registrar
         switch (event.target.name) {
-            case 'calle':
+            case "calle":
                 setCalle(event.target.value);
-            case 'numeroExterior':
+                break;
+            case "numeroExterior":
                 setNoExterior(event.target.value);
-            case 'numeroInterior':
+                break;
+            case "numeroInterior":
                 setNoInterior(event.target.value);
-            case 'colonia':
+                break;
+            case "colonia":
                 setColonia(event.target.value);
-            case 'entreCalle':
+                break;
+            case "entreCalle":
                 setEntreCalle(event.target.value);
-            case 'yCalle':
+                break;
+            case "yCalle":
                 setYCalle(event.target.value);
-            case 'codigoPostal':
+                break;
+            case "codigoPostal":
                 setCodigoPostal(event.target.value);
-            case 'localidad':
+                break;
+            case "localidad":
+                console.log("target value ==>",event.target.value)
                 setIdLocalidad(event.target.value);
-            case 'otraReferencia':
+                break;
+            case "otraReferencia":
                 setOtraReferencia(event.target.value);
+                break;
         }
     }
 

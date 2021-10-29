@@ -90,14 +90,19 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
         switch (event.target.name) {
             case 'celular':
                 setCelular(event.target.value);
+                break;
             case 'telefono':
                 setTelefonoCasa(event.target.value);
+                break;
             case 'telefonocontacto':
                 setTelefonoContato(event.target.value);
+                break;
             case 'email':
                 setEmail(event.target.value);
+                break;
             case 'observaciones':
                 setObservaciones(event.target.value);
+                break;
         }
     }
 
