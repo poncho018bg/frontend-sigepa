@@ -18,6 +18,8 @@ import { DropzoneArea } from 'material-ui-dropzone';
 
 import { axiosLoginBoveda, axiosPostFile } from 'helpers/axiosBoveda';
 
+import { PictureAsPdf } from '@material-ui/icons';
+
 const useStyles = makeStyles(stylesArchivo);
 
 const Input = styled('input')({
@@ -43,6 +45,12 @@ export const RegistroCargaDocumentos = (props) => {
     useEffect(() => {
         getDocumentosApoyo(idPrograma);
         console.log("documentos ", documentosApoyoList);
+        const getLogin = async () => {
+            const result = await axiosLoginBoveda();
+            console.log("resultado de la sesion ", result);
+            setSesion(result);
+        }
+        getLogin();
     }, []);
 
     /**
@@ -69,43 +77,62 @@ export const RegistroCargaDocumentos = (props) => {
         /**
          * Aqui se llenan los archivos que se van a subir a la boveda
          */
-        setArchivos(e[0]);
+        if (e[0] != undefined) {
+            console.log("PRUEBA ", new File([e[0]], `${+new Date()}_${e[0].name}`, { type: e[0].type }));
+            setArchivos(new File([e[0]], `${+new Date()}_${e[0].name}`, { type: e[0].type }));
+        }
+
     }
 
     const submit = (documentoApoyo) => {
         //mandar llamar el inicio de sesión
-        const getLogin = async () => {
-            const result = await axiosLoginBoveda();
-            console.log("resultado de la sesion ", result);
-            setSesion(result);
-        }
-        getLogin();
         console.log("sesion de la boveda ", sesion, idPrograma);
         //subir archivo
         const data = new FormData();
         //archivo o archivos a subir
+        console.log("archivo submit ====>", archivo);
         data.append("file", archivo);
         //id del usuario de la boveda
         data.append("userId", sesion.userId);
         //metadata
         data.append("metadata", '{"idPrograma":"' + idPrograma + '"}');
 
-        const getGuardar = async () => {
+        const getGuardar = async (documentoApoyo) => {
             const result = await axiosPostFile(data, sesion.token);
             console.log("retorno algo? -->", result);
             setBoveda(result);
+
+            console.log("AQUI LLEGA EL GUARDAR EN LA BOVEDA")
+            guardarDatosBoveda(documentoApoyo, result);
         }
-        getGuardar();
-
-
-        /**
-         * Guardamos los datos de la boveda en la tabla bovedadocumentos
-         */
-        console.log("beneficiarios ====> ", beneficiario);
-        console.log("Boveda ===========> ", boveda);
-        console.log("Documento Apoyo ==> ", documentoApoyo);
+        getGuardar(documentoApoyo);
     }
 
+    const guardarDatosBoveda = (documentoApoyo, result) => {
+        var datos = JSON.parse(result.data.message);
+        console.log("beneficiarios ====> ", beneficiario);
+        console.log("Boveda ===========> ", datos.fileId);
+        console.log("Documento Apoyo ==> ", documentoApoyo);
+        let datosGuardar = {
+            documentoId: documentoApoyo.id,
+            beneficiarioId: beneficiario.id,
+            documentoBovedaId: datos.fileId
+        }
+        registrarDatosBoveda(datosGuardar);
+    }
+
+
+    const handlePreviewIcon = (fileObject, classes) => {
+        const { type } = fileObject.file
+        const iconProps = {
+            className: classes.image,
+        }
+
+        switch (type) {
+            case "application/pdf":
+                return <PictureAsPdf {...iconProps} />
+        }
+    }
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -119,34 +146,26 @@ export const RegistroCargaDocumentos = (props) => {
                         return (
                             <Grid container spacing={1} key={i}>
                                 <Grid item xs={12}>
-                                    {row.nombreDocumento}
+                                    <h4>{row.nombreDocumento}</h4>
                                 </Grid>
-                                {/*
                                 <Grid item xs={12}>
-                                    <label htmlFor="contained-button-file">
-                                        <Input
-                                            accept="pdf/*"
-                                            id="contained-button-file"
-                                            multiple="false"
-                                            type="file"
-                                            className="form-control"
+                                    <Grid item xs={6}>
+                                        <DropzoneArea
+                                            acceptedFiles={['application/pdf']}
+                                            filesLimit='1'
+                                            onChange={handleChange}
+                                            dropzoneText={"Arrastra un pdf aqui o da clic para agregar un archivo"}
+                                            getPreviewIcon={handlePreviewIcon}
                                         />
-                                        <Button variant="contained" component="span">
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <Button
+                                            type="submit"
+                                            onClick={() => submit(row)}>
                                             Subir
                                         </Button>
-                                    </label>
+                                    </Grid>
                                 </Grid>
-                                */}
-                                <Grid item xs={12}>
-                                    <DropzoneArea
-                                        acceptedFiles={['application/pdf']}
-                                        filesLimit='1'
-                                        onChange={handleChange}
-                                    />
-                                </Grid>
-                                <button type="submit" onClick={() => submit(row)}>
-                                    Guardar
-                                </button>
                             </Grid>
                         );
                     })

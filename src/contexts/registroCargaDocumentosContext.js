@@ -34,8 +34,9 @@ export const RegistroCargaDocumentosContextProvider = props => {
 
     const registrarDatosBoveda = async datos => {
         try {
-            const result = await axiosPost('bovedaDocumentos', datos);
-            console.log(result);
+            console.log("datos a guardar ---->", datos)
+            const result = await axiosPost('bovedaDocumentosOverride', datos);
+            console.log("resultado de los datos boveda ====> ",result);
             dispatch({
                 type: GUARDAR_DATOS_BOVEDA,
                 payload: result
