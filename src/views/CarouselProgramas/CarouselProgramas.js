@@ -20,6 +20,10 @@ import { DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 import moment from 'moment';
 import 'moment/locale/es';
 import { useHistory } from "react-router";
+import HTMLRenderer from 'react-html-renderer'
+
+
+
 const useStyles = makeStyles(styles);
 
 export const CarouselProgramas = () => {
@@ -30,9 +34,8 @@ export const CarouselProgramas = () => {
     const { programasList, getProgramasActivos } = useContext(ProgramasContext);
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [priceImage1, setPriceImage1] = React.useState(
-        require("assets/img/card-1.jpeg").default
-    );
+
+
 
 
     const responsive = {
@@ -111,7 +114,7 @@ export const CarouselProgramas = () => {
                                     <Card product className={classes.cardHover}>
                                         <CardHeader image className={classes.cardHeaderHover}>
                                             <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                                               
+
                                             </a>
                                         </CardHeader>
                                         <CardBody>
@@ -143,7 +146,13 @@ export const CarouselProgramas = () => {
                     <DialogContent >
 
                         <p>{programDetail?.dsdescripcion}</p>
-                        <p>{programDetail?.dscriterioelegibilidad}</p>
+                        <p>
+                            <HTMLRenderer
+                                html={programDetail?.dsobjetivo}
+                                components={{
+                                }}
+                            />
+                        </p>
                         <p>Vigencia del Programa del {moment(programDetail?.fcvigenciainicio).format(" DD [de] MMMM ")}
                             al {moment(programDetail?.fcvigenciafin).format(" DD [de] MMMM  YYYY ")}</p>
                         <p>Periodo de registro presencial del {moment(programDetail?.fcregistropresencialinicio).format(" DD [de] MMMM ")}
