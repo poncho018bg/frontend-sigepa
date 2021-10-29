@@ -10,14 +10,11 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Hidden from "@material-ui/core/Hidden";
 
 // material-ui icons
-
-
-
+import Menu from "@material-ui/icons/Menu";
 
 // core components
-
+import AdminNavbarLinks from "./AdminNavbarLinks";
 import Button from "components/CustomButtons/Button.js";
-
 import styles from "assets/jss/material-dashboard-pro-react/components/adminNavbarStyle.js";
 
 const useStyles = makeStyles(styles);
@@ -29,7 +26,10 @@ export default function AdminNavbar(props) {
     require("assets/img/Edomex_logo_escudo.png").default
   );
   const [logosigepa, setLogosigepa] = React.useState(
-    require("assets/img/logo_full_3.png").default
+    require("assets/img/logo_sigepa.png").default
+  );
+  const [logoEdomex, setLogoEdomex] = React.useState(
+    require("assets/img/edomexLogo.png").default
   );
   const appBarClasses = cx({
     [" " + classes[color]]: color,
@@ -43,22 +43,30 @@ export default function AdminNavbar(props) {
   return (
     <AppBar className={classes.appBar + appBarClasses}>
       <Toolbar className={classes.container}>
+        <Hidden smDown implementation="css">
+          <img src={logo} width="140" height="89" />
+        </Hidden>
         <div className={classes.flex}>
-          {/* Here we create navbar brand, based on route name */}
-          <Button href="#" className={classes.title} color="transparent">
-
-            {/* <img src={logo} alt="EDOMEX" style={{width:'100px', height:'100px'}} /> */}
-          </Button>
+          <center> <img src={logosigepa} alt="EDOMEX" width="230" height="70" />
+          </center>
         </div>
-        <div style={{marginLeft:"10%", marginRight:"22%", paddingTop:"1%"}}>
-         <img src={logosigepa} alt="EDOMEX"  /> 
-        </div>
-        {/* <Hidden smDown implementation="css">
+        <Hidden smDown implementation="css">
+          <img src={logoEdomex} width="230" height="60" />
+        </Hidden>
+        {/*<Hidden smDown implementation="css">
           <AdminNavbarLinks rtlActive={rtlActive} />
-        </Hidden> */}
-        
+        </Hidden>*/}
+
         <Hidden mdUp implementation="css">
-          
+          <Button
+            className={classes.appResponsive}
+            color="transparent"
+            justIcon
+            aria-label="open drawer"
+            onClick={props.handleDrawerToggle}
+          >
+            <Menu />
+          </Button>
         </Hidden>
       </Toolbar>
     </AppBar>

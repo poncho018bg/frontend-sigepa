@@ -21,6 +21,7 @@ import DescriptionIcon from '@material-ui/icons/Description';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import MarkunreadMailboxIcon from '@material-ui/icons/MarkunreadMailbox';
+import { Home } from "@material-ui/icons";
 
 // core components/views for Admin layout
 import { ModuloScreen } from "views/Modulos/ModuloScreen";
@@ -65,9 +66,20 @@ import { RegistroSolicitud } from "views/RegistroSolicitudContacto/RegistroSolic
 import { LocalidadScreen } from "views/Catalogos/Localidad/LocalidadScreen";
 import { RegistroPrueba } from "views/Formio/RegistroPrueba";
 import { EventsPage } from "views/Formio/events/components/EventsPage";
-import {RegistroProgramas} from "views/UsuarioPublico/RegistroProgramas.js"
+import { RegistroProgramas } from "views/UsuarioPublico/RegistroProgramas.js"
+// core components/views for Admin layout
+import DashboardPage from "views/Dashboard/Dashboard.js";
+
 
 const dashboardRoutes = [
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    rtlName: "لوحة القيادة",
+    icon: Home,
+    component: DashboardPage,
+    layout: "/admin"
+  },
   {
     collapse: true,
     name: "Administración General",
@@ -83,7 +95,6 @@ const dashboardRoutes = [
         rtlMini: "r",
         component: RolesScreen,
         layout: "/admin",
-    
       },
       {
         path: "/catalogos",
@@ -140,7 +151,7 @@ const dashboardRoutes = [
         component: SubModuloScreen,
         layout: "/admin"
       },
-     
+
       {
         path: "/tiposApoyos",
         name: "Tipos de Apoyo",
@@ -150,7 +161,7 @@ const dashboardRoutes = [
         component: TipoApoyoScreen,
         layout: "/admin"
       },
-      
+
       {
         path: "/tiposBeneficiario",
         name: "Tipos de Beneficiarios",
@@ -235,7 +246,7 @@ const dashboardRoutes = [
         component: RegionMunicipioScreen,
         layout: "/admin"
       },
-      
+
     ]
   },
   {
@@ -324,15 +335,15 @@ const dashboardRoutes = [
     state: "pageCollapse",
     views: [
 
-        {
-          path: "/consultaProgramas",
-          name: "Consulta de programas",
-          rtlName: "scat",
-          mini: "sM",
-          rtlMini: "sm",
-          component: CarouselProgramas,
-          layout: "/admin"
-        },
+      {
+        path: "/consultaProgramas",
+        name: "Consulta de programas",
+        rtlName: "scat",
+        mini: "sM",
+        rtlMini: "sm",
+        component: CarouselProgramas,
+        layout: "/admin"
+      },
 
     ]
   },
@@ -354,8 +365,8 @@ const dashboardRoutes = [
         component: MotivoRechazosScreen,
         layout: "/admin"
       },
-     
-     
+
+
       {
         path: "/continuidadActividades",
         name: "Continuidad Actividades",
@@ -428,7 +439,7 @@ const dashboardRoutes = [
         rtlMini: "AS",
         component: PadronBeneficiariosScreen,
         layout: "/admin"
-      },{
+      }, {
         path: "/documentoRequisito",
         name: "Documentos",
         rtlName: "Documentos",

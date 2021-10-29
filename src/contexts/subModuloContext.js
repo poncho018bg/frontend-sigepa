@@ -8,7 +8,7 @@ import {
     
 } from '../types/actionTypes';
 import { axiosGet,  axiosPostHetoas } from 'helpers/axios';
-import UserService from 'servicios/UserService';
+
 
 const baseUrl = process.env.REACT_APP_API_URL;
 export const SubModuloContext = createContext();
@@ -105,7 +105,7 @@ export const SubModuloContextProvider = props => {
 
         const moduloEnviar = {
             dssubmodulo: submodulo.dssubmodulo,
-            usuarioCreacionId: `${process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}`,
+            usuarioCreacionId: `${process.env.REACT_APP_API_URL}/usuario/${sessionStorage.getItem('idUSuario')}`,
             boactivo: true,
             crcModulosCollection: [`/${crcModulosCollection}`],
             perfiles: [],
@@ -152,7 +152,7 @@ export const SubModuloContextProvider = props => {
         const url = `${baseUrl}subModulos/${id}`;
         idModulo.activo = act
         idModulo.activoval = act
-        idModulo.usuarioCreacionId = `${process.env.REACT_APP_API_URL}/usuario/${UserService.getIdUSuario()}`
+        idModulo.usuarioCreacionId = `${process.env.REACT_APP_API_URL}/usuario/${sessionStorage.getItem('idUSuario')}`
         idModulo.crcModulosCollection = []
         idModulo.perfiles = []
         try {

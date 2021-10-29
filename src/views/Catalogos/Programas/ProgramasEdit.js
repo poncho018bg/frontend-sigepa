@@ -107,15 +107,15 @@ export const ProgramasEdit = () => {
 
 
   useEffect(() => {
-    console.log('<1',imagenprg)
-  
-    const blobpgr = new Blob([imagenprg], { type: 'image/png' });   
-    
-    const file2 = new File([blobpgr], 'Proceso aduanal.png', { type: 'image/png' })  
+    console.log('<1', imagenprg)
+
+    const blobpgr = new Blob([imagenprg], { type: 'image/png' });
+
+    const file2 = new File([blobpgr], 'Proceso aduanal.png', { type: 'image/png' })
 
     setArchivoPrograma(`data:image/png;base64,${imagenprg}`)
-    console.log('blobpgr>>>',blobpgr)
-    console.log('file2>>>>',file2)
+    console.log('blobpgr>>>', blobpgr)
+    console.log('file2>>>>', file2)
 
   }, [imagenprg]);
 
@@ -261,10 +261,9 @@ export const ProgramasEdit = () => {
       .required('El nombre de la plantilla es obligatorio'),
     dsobjetivo: Yup.string()
       .required('El objetivo es obligatorio'),
-    dscriteriosseleccion: Yup.string()
-      .required('Los criterios de selección son obligatorios'),
-    dscriteriospriorizacion: Yup.string()
-      .required('Los criterios de priorización son obligatorios'),
+    urlpublica: Yup.string()
+      .required('URL pública es obligatorio'),
+
   });
 
   const [valores, setValores] = useState();
@@ -429,53 +428,7 @@ export const ProgramasEdit = () => {
                         </CardBody>
 
                       </GridItem>
-                      <GridItem xs={12} sm={12} md={6}>
-                        <CardBody>
-                          <TextField
-                            id="fcregistrowebinicio"
-                            label="Periodo registro web desde"
-                            type="date"
-                            fullWidth
-                            className={classes.textField}
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            value={moment(new Date(parseInt(props.values?.fcregistrowebinicio))).format("YYYY-MM-DD")}
-                            name="fcregistrowebinicio"
-                            onChange={props.handleChange}
-                            InputProps={{
-                              inputProps: {
-                                max: moment(new Date(parseInt(props.values?.fcregistrowebfin))).format("YYYY-MM-DD")
-                              }
-                            }}
-                          />
-                        </CardBody>
 
-                      </GridItem>
-
-                      <GridItem xs={12} sm={12} md={6}>
-                        <CardBody>
-                          <TextField
-                            id="fcregistrowebfin"
-                            label="Periodo registro web hasta"
-                            type="date"
-                            fullWidth
-                            className={classes.textField}
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            value={moment(new Date(parseInt(props.values?.fcregistrowebfin))).format("YYYY-MM-DD")}
-                            name="fcregistrowebfin"
-                            onChange={props.handleChange}
-                            InputProps={{
-                              inputProps: {
-                                min: moment(new Date(parseInt(props.values?.fcregistrowebinicio))).format("YYYY-MM-DD")
-                              }
-                            }}
-                          />
-                        </CardBody>
-
-                      </GridItem>
 
                       <GridItem xs={12} sm={12} md={6}>
 
@@ -525,6 +478,79 @@ export const ProgramasEdit = () => {
                         </CardBody>
 
                       </GridItem>
+
+                      <GridItem xs={12} sm={12} md={6}>
+                        <CardBody>
+                          <TextField
+                            id="fcregistrowebinicio"
+                            label="Periodo registro web desde"
+                            type="date"
+                            fullWidth
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            value={moment(new Date(parseInt(props.values?.fcregistrowebinicio))).format("YYYY-MM-DD")}
+                            name="fcregistrowebinicio"
+                            onChange={props.handleChange}
+                            InputProps={{
+                              inputProps: {
+                                max: moment(new Date(parseInt(props.values?.fcregistrowebfin))).format("YYYY-MM-DD")
+                              }
+                            }}
+                          />
+                        </CardBody>
+
+                      </GridItem>
+
+                      <GridItem xs={12} sm={12} md={6}>
+                        <CardBody>
+                          <TextField
+                            id="fcregistrowebfin"
+                            label="Periodo registro web hasta"
+                            type="date"
+                            fullWidth
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            value={moment(new Date(parseInt(props.values?.fcregistrowebfin))).format("YYYY-MM-DD")}
+                            name="fcregistrowebfin"
+                            onChange={props.handleChange}
+                            InputProps={{
+                              inputProps: {
+                                min: moment(new Date(parseInt(props.values?.fcregistrowebinicio))).format("YYYY-MM-DD")
+                              }
+                            }}
+                          />
+                        </CardBody>
+
+                      </GridItem>
+
+
+
+                      <GridItem xs={12} sm={12} md={12}>
+                        <TextField
+                          style={{ marginBottom: '20px' }}
+                          id="urlpublica"
+                          error={props.errors.urlpublica}
+                          label="URL Pública para registro Web"
+                          variant="outlined"
+                          name="urlpublica"
+                          fullWidth
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                          value={props.values?.urlpublica}
+                          InputLabelProps={{ shrink: true }}
+                          inputProps={{ maxLength: "500" }}
+                        />
+                        {props.touched.urlpublica && props.errors.urlpublica ? (
+                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.urlpublica}>
+                            {props.errors.urlpublica}
+                          </FormHelperText>
+                        ) : null}
+                      </GridItem>
+
 
                       <GridItem xs={12} sm={12} md={12}>
                         <TextField
@@ -752,7 +778,7 @@ export const ProgramasEdit = () => {
                           style={{ marginBottom: '20px' }}
                           id="dsnombreplantilla"
                           error={props.errors.dsnombreplantilla}
-                          label="Nombre de la plantilla"
+                          label="Nombre de la plantilla FR"
                           variant="outlined"
                           name="dsnombreplantilla"
                           fullWidth
@@ -775,7 +801,7 @@ export const ProgramasEdit = () => {
                           style={{ marginBottom: '20px' }}
                           id="dsidentificadorplantilla"
                           error={props.errors.dsidentificadorplantilla}
-                          label="Identificador de plantilla"
+                          label="Identificador de plantilla FR"
                           variant="outlined"
                           name="dsidentificadorplantilla"
                           fullWidth
@@ -799,11 +825,11 @@ export const ProgramasEdit = () => {
                         <TextField
                           id="dsobjetivo"
                           name="dsobjetivo"
-                          label="Objetivo"
+                          label="Texto descriptivo del programa (html)"
                           style={{ marginBottom: '20px' }}
                           fullWidth
                           multiline
-                          rows={4}
+                          rows={20}
                           variant="outlined"
                           onChange={props.handleChange}
                           onBlur={props.handleBlur}
@@ -820,83 +846,34 @@ export const ProgramasEdit = () => {
                       </GridItem>
                     </GridContainer>
 
+
+            
+
+
+
                     <GridContainer>
-                      <GridItem xs={12} sm={12} md={12}>
-                        <TextField
-                          id="dscriteriosseleccion"
-                          name="dscriteriosseleccion"
-                          label="Criterios de selección"
-                          style={{ marginBottom: '20px' }}
-                          fullWidth
-                          multiline
-                          rows={4}
-                          variant="outlined"
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
-                          value={props.values?.dscriteriosseleccion}
-                          InputLabelProps={{ shrink: true }}
+                      {console.log('imgxxx=>', archivoPrograma)}
+                      {console.log('${archivoPrograma[0]?.data}', `${archivoPrograma[0]?.data}`)}
+                      <GridItem xs={12} sm={12} md={6}>
+                        <DropzoneAreaBase
+                          acceptedFiles={['image/png']}
+                          onAdd={(fileObjs) => setArchivoPrograma(fileObjs)}
+                          fileObjects={archivoPrograma}
+                          filesLimit='1'
+                          showPreviews={false}
+                          showPreviewsInDropzone={false}
+                          useChipsForPreview={false}
+                          previewChipProps={false}
 
                         />
 
-                        {props.touched.dscriteriosseleccion && props.errors.dscriteriosseleccion ? (
-                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dscriteriosseleccion}>
-                            {props.errors.dscriteriosseleccion}
-                          </FormHelperText>
-                        ) : null}
+                      </GridItem>
+                      <GridItem xs={12} sm={12} md={6}>
+
+                        <img width='500' height='200' src={`${archivoPrograma[0]?.data}`} />
+
                       </GridItem>
                     </GridContainer>
-
-                    <GridContainer>
-                      <GridItem xs={12} sm={12} md={12}>
-                        <TextField
-                          id="dscriteriospriorizacion"
-                          name="dscriteriospriorizacion"
-                          label="Criterios de priorización"
-                          style={{ marginBottom: '20px' }}
-                          fullWidth
-                          multiline
-                          rows={4}
-                          variant="outlined"
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
-                          value={props.values?.dscriteriospriorizacion}
-                          InputLabelProps={{ shrink: true }}
-
-                        />
-
-                        {props.touched.dscriteriospriorizacion && props.errors.dscriteriospriorizacion ? (
-                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dscriteriospriorizacion}>
-                            {props.errors.dscriteriospriorizacion}
-                          </FormHelperText>
-                        ) : null}
-                      </GridItem>
-                    </GridContainer>
-
-               
-
-                    <GridContainer>
-                      {console.log('imgxxx=>',archivoPrograma)}
-                      {console.log('${archivoPrograma[0]?.data}',`${archivoPrograma[0]?.data}`)}
-                <GridItem xs={12} sm={12} md={6}>
-                  <DropzoneAreaBase
-                    acceptedFiles={['image/png']}
-                    onAdd={(fileObjs) => setArchivoPrograma(fileObjs)}
-                    fileObjects={archivoPrograma}
-                    filesLimit='1'
-                    showPreviews={false}
-                    showPreviewsInDropzone={false}
-                    useChipsForPreview={false}
-                    previewChipProps={false}
-                   
-                  />
-
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-
-                  <img width='500' height='200' src={`${archivoPrograma[0]?.data}`} />
-
-                </GridItem>
-              </GridContainer>
 
                     <Button className={classes.updateProfileButton}
                       type='submit'>

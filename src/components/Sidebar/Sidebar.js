@@ -588,6 +588,33 @@ function Sidebar(props) {
     <div ref={mainPanel}>
       <Hidden smDown implementation="css">
         <Drawer
+          variant="temporary"
+          anchor={rtlActive ? "left" : "right"}
+          open={props.open}
+          classes={{
+            paper: drawerPaper + " " + classes[bgColor + "Background"],
+          }}
+          onClose={props.handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+        >
+          {brand}
+          <SidebarWrapper
+            className={sidebarWrapper}
+            user={user}
+            links={links}
+          />
+          {image !== undefined ? (
+            <div
+              className={classes.background}
+              style={{ backgroundImage: "url(" + image + ")" }}
+            />
+          ) : null}
+        </Drawer>
+      </Hidden>
+      <Hidden smDown implementation="css">
+        <Drawer
           onMouseOver={() => setMiniActive(false)}
           onMouseOut={() => setMiniActive(true)}
           anchor={rtlActive ? "right" : "left"}

@@ -18,7 +18,7 @@ import { obtenerRolesAction } from 'actions/rolesKeycloakAction';
 import { ModuloContext } from 'contexts/moduloContext';
 import { SubModuloContext } from 'contexts/subModuloContext';
 import { PerfilSubmoduloStartAddNew } from 'actions/perfilSubmoduloAction';
-import UserService from 'servicios/UserService';
+
 import { SubmodulosByPerfilContex } from 'contexts/submodulosByPerfilContex';
 import { useHistory } from "react-router";
 import { Mensaje } from "components/Personalizados/Mensaje";
@@ -233,7 +233,7 @@ export const RolesScreen = () => {
 
         var data = {
             'iPerfil': idPerfilSelected,
-            'idUsuario': UserService.getIdUSuario(),
+            'idUsuario': sessionStorage.getItem('idUSuario'),
             'submodulos': submodulos
 
         }
