@@ -141,7 +141,8 @@ export const CarouselProgramas = () => {
 
                 <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="lg" fullWidth={true}>
                     <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                        <h4> {programDetail?.dsclaveprograma} - {programDetail?.dsprograma}</h4>
+                        {console.log('x=>',programDetail)}
+                        <h2> {programDetail?.dsclaveprograma} - {programDetail?.dsprograma} </h2>
                     </DialogTitle>
                     <DialogContent >
 

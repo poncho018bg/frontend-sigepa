@@ -56,10 +56,10 @@ export default (state, action) => {
                 direccion: [...state.direccion, action.payload]
             };
 
-        case GUARDAR_SOLICITUD_FOLIO:
+        case GUARDAR_SOLICITUD_FOLIO:            
             return {
                 ...state,
-                solicitudFolio: [...state.solicitudFolio, action.payload]
+                solicitudFolio: action.payload
             };
         case MODIFICAR_DIRECCION_BENEFICIARIO:
             return {

@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import RegistroSolicitudReducer from 'reducers/RegistroSolicitudReducer';
-
+import axios from "axios";
 import {
     GET_GENEROS,
     GET_GRADO_ESTUDIOS,
@@ -18,6 +18,7 @@ import {
 
 import { axiosGet, axiosPost,  axiosPut } from 'helpers/axiosPublico';
 const baseUrl = process.env.REACT_APP_API_URL;
+const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL
 export const RegistroSolicitudContext = createContext();
 
 export const RegistroSolicitudContextProvider = props => {
@@ -179,7 +180,7 @@ export const RegistroSolicitudContextProvider = props => {
 
     const registrarSolicitudFolio = async solFolios => {
         try {
-            const url = `${baseUrl}solicitudOverride`;
+            const url = `${baseUrlPublico}solicitudOverride`;
             return new Promise((resolve, reject) => {
                 axios.post(url, solFolios, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
@@ -212,6 +213,7 @@ export const RegistroSolicitudContextProvider = props => {
             identificacionesList: state.identificacionesList,
             beneficiario: state.beneficiario,
             direccion: state.direccion,
+            solicitudFolio:state.solicitudFolio,
             getGeneros,
             getEstudios,
             getEstadoCivil,
