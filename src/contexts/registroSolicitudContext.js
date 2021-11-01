@@ -11,11 +11,13 @@ import {
     GET_BENEFICIARIO,
     ACTUALIZAR_BENEFICIARIO,
     OBTENER_DIRECCION,
-    MODIFICAR_DIRECCION_BENEFICIARIO
+    MODIFICAR_DIRECCION_BENEFICIARIO,
+    GUARDAR_SOLICITUD_FOLIO,
+    AGREGAR_SOLICITUD_FOLIO_ERROR
 } from 'types/actionTypes';
 
 import { axiosGet, axiosPost,  axiosPut } from 'helpers/axiosPublico';
-
+const baseUrl = process.env.REACT_APP_API_URL;
 export const RegistroSolicitudContext = createContext();
 
 export const RegistroSolicitudContextProvider = props => {
@@ -25,7 +27,8 @@ export const RegistroSolicitudContextProvider = props => {
         estadoCivilList: [],
         identificacionesList: [],
         beneficiario: [],
-        direccion: []
+        direccion: [],
+        solicitudFolio:null
     }
 
 
@@ -174,6 +177,33 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
+    const registrarSolicitudFolio = async solFolios => {
+        try {
+            const url = `${baseUrl}solicitudOverride`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, solFolios, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: GUARDAR_SOLICITUD_FOLIO,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            console.log('ocurrio un error en el context');
+            console.log(error);
+            dispatch({
+                type: AGREGAR_SOLICITUD_FOLIO_ERROR,
+                payload: true
+            })
+        }
+    }
+
     return (
         <RegistroSolicitudContext.Provider value={{
             generosList: state.generosList,
@@ -191,7 +221,8 @@ export const RegistroSolicitudContextProvider = props => {
             actualizarDireccionBeneficiario,
             getBeneficiario,
             actualizarBeneficiario,
-            obtenerDireccionBeneficiario
+            obtenerDireccionBeneficiario,
+            registrarSolicitudFolio
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>
