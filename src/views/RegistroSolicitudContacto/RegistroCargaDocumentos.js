@@ -17,6 +17,8 @@ import { RegistroCargaDocumentosContext } from 'contexts/registroCargaDocumentos
 import { DropzoneArea } from 'material-ui-dropzone';
 
 import { axiosLoginBoveda, axiosPostFile } from 'helpers/axiosBoveda';
+import axios from "axios";
+import { axiosGet } from 'helpers/axiosPublico';
 
 import { PictureAsPdf } from '@material-ui/icons';
 
@@ -39,7 +41,7 @@ export const RegistroCargaDocumentos = (props) => {
 
     const [boveda, setBoveda] = useState();
 
-    /*let idPrograma = '8cbd2101-ef40-4fad-8698-5911ccecaf54';*/
+    //let idPrograma = '8cbd2101-ef40-4fad-8698-5911ccecaf54';
 
 
     useEffect(() => {
@@ -114,7 +116,7 @@ export const RegistroCargaDocumentos = (props) => {
         console.log("Boveda ===========> ", datos.fileId);
         console.log("Documento Apoyo ==> ", documentoApoyo);
         let datosGuardar = {
-            documentoId: documentoApoyo.id,
+            documentoId: documentoApoyo.idDocumentoRequisito,
             beneficiarioId: beneficiario.id,
             documentoBovedaId: datos.fileId
         }
@@ -131,6 +133,54 @@ export const RegistroCargaDocumentos = (props) => {
         switch (type) {
             case "application/pdf":
                 return <PictureAsPdf {...iconProps} />
+        }
+    }
+
+    const SubirArchivo = ({ documentos }) => {
+        console.log("row del documento ", documentos);
+
+        const [existe, setExiste] = useState();
+        const baseUrl = process.env.REACT_APP_API_PUBLICO_URL;
+        useEffect(() => {
+            const existeDoc = async () => {
+                let url = `${baseUrl}bovedaDocumentosOverride/existeDocumento?idDocumento=${documentos.idDocumentoRequisito}&idBeneficiario=${beneficiario.id}`
+                const promise = await axios({
+                    method: 'GET',
+                    url,
+                    headers: {
+                        Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+                    }
+                }).then(response => {
+                    validar(response.data);
+                    return response.data;
+                });
+                return promise;
+            }
+            existeDoc();
+            console.log("funcion ", existeDoc());
+
+        }, []);
+
+        const validar = (b) => {
+            console.log(b);
+            setExiste(b);
+        }
+
+        console.log(existe);
+        if (existe) {
+            return (
+                <></>
+            )
+        } else {
+            return (
+                <Grid item xs={2}>
+                    <Button
+                        type="submit"
+                        onClick={() => submit(documentos)}>
+                        Subir
+                    </Button>
+                </Grid>
+            )
         }
     }
 
@@ -158,13 +208,7 @@ export const RegistroCargaDocumentos = (props) => {
                                             getPreviewIcon={handlePreviewIcon}
                                         />
                                     </Grid>
-                                    <Grid item xs={2}>
-                                        <Button
-                                            type="submit"
-                                            onClick={() => submit(row)}>
-                                            Subir
-                                        </Button>
-                                    </Grid>
+                                    <SubirArchivo documentos={row} />
                                 </Grid>
                             </Grid>
                         );

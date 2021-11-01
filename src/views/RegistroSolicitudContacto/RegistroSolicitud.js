@@ -219,7 +219,7 @@ export const RegistroSolicitud = () => {
     }
 
     return (
-        <ValidarPrograma idPrograma={query.state?.mobNo}>
+       /* <ValidarPrograma idPrograma={query.state?.mobNo}>*/
             <Box sx={{ width: '100%' }}>
                 <Stepper activeStep={activeStep}>
                     {pasos.map((label) => (
@@ -275,6 +275,6 @@ export const RegistroSolicitud = () => {
                     </>
                 )}
             </Box>
-        </ValidarPrograma>
+        /*</ValidarPrograma>*/
     )
 }
