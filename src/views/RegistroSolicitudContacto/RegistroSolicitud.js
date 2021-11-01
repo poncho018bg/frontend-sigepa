@@ -17,6 +17,8 @@ import { RegistroDireccion } from './RegistroDireccion';
 import { RegistroSolicitudContacto } from './RegistroSolicitudContacto';
 import { RegistroCargaDocumentos } from './RegistroCargaDocumentos';
 import { RegistroFinalizado } from './RegistroFinalizado';
+import { RegistroCaracteristicasAdicionales } from './RegistroCaracteristicasAdicionales';
+import { RegistroIngresos } from './RegistroIngresos';
 
 import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 
@@ -33,7 +35,9 @@ const pasos = [
     'Direccion',
     'Registro de Contacto',
     'Carga de Documentos',
-    'Registro Finalizado'
+    'Registro Finalizado',
+    'Identificación de ingresos económicos de la mujer',
+    'Características adicionales de la solicitante'
 ];
 
 export const RegistroSolicitud = () => {
@@ -249,8 +253,12 @@ export const RegistroSolicitud = () => {
                                         <RegistroSolicitudContacto direccionB={direccion} beneficiario={beneficiario} ref={contacto} />
                                         : activeStep === 4 ?
                                             <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo}/>
-                                            :
-                                            <RegistroFinalizado />}
+                                                : activeStep === 5 ?
+                                                <RegistroIngresos idPrograma={query.state?.mobNo} />
+                                                    : activeStep === 6 ?
+                                                    <RegistroCaracteristicasAdicionales idPrograma={query.state?.mobNo} />
+                                                        :
+                                                        <RegistroFinalizado />}
 
                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                             <Button
