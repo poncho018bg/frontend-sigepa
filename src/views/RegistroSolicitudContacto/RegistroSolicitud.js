@@ -25,6 +25,7 @@ import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 import Button from "components/CustomButtons/Button.js";
 
 import ValidarPrograma from './ValidarPrograma';
+import { Loading } from 'components/Personalizados/Loading';
 
 
 const useStyles = makeStyles(stylesArchivo);
@@ -48,7 +49,7 @@ export const RegistroSolicitud = () => {
     const [skipped, setSkipped] = useState(new Set());
     const [activar, setActivar] = useState();
     const [curp, setCurp] = useState();
-
+    const [loading, setLoading] = useState(true);
     const { beneficiario, registrarBeneficiario, direccion,
         registrarDireccionBeneficiario, getBeneficiario, actualizarBeneficiario,
         obtenerDireccionBeneficiario, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
@@ -149,12 +150,19 @@ export const RegistroSolicitud = () => {
     };
 
     const handleNext = () => {
+        setLoading(true);
         if (activeStep == 0) {
             console.log("curp----->", curp);
             /**
              * consulta para traer el id y datos del beneficiario
              */
-            getBeneficiario(curp);
+   
+            getBeneficiario(curp).then(response => {
+                setLoading(false);
+            }).catch(err => {
+                setLoading(true);
+            });
+
         }
         if (activeStep == 1) {
             child.current.registroBeneficiario();
@@ -282,6 +290,9 @@ export const RegistroSolicitud = () => {
                         </Box>
                     </>
                 )}
+                <Loading
+                loading={loading}
+            />
             </Box>
         /*</ValidarPrograma>*/
     )

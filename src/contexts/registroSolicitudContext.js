@@ -19,6 +19,7 @@ import {
 import { axiosGet, axiosPost,  axiosPut } from 'helpers/axiosPublico';
 const baseUrl = process.env.REACT_APP_API_URL;
 const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL
+const baseUrlCurp = process.env.REACT_APP_API_PUBLICO_URL
 export const RegistroSolicitudContext = createContext();
 
 export const RegistroSolicitudContextProvider = props => {
@@ -133,16 +134,30 @@ export const RegistroSolicitudContextProvider = props => {
     }
 
     const getBeneficiario = async curp => {
+
+
+
         try {
-            const resultado = await axiosGet(`beneficiarioOverride/curp/${curp}`);
-            console.log("resultado de la consulta ===>", resultado);
-            dispatch({
-                type: GET_BENEFICIARIO,
-                payload: resultado
-            }
-            );
+            const url = `${baseUrlPublico}beneficiarioOverride/curp/${curp}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: GET_BENEFICIARIO,
+                        payload: response
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
         } catch (error) {
-            console.log(error);
+            dispatch({
+                type: AGREGAR_SOLICITUD_FOLIO_ERROR,
+                payload: true
+            })
         }
     }
 
