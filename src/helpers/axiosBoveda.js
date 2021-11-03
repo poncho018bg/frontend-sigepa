@@ -7,8 +7,8 @@ async function axiosLoginBoveda() {
     const url = `${baseUrl}login`;
     try {
         const data = new FormData()
-        data.append("username", "publico")
-        data.append("password", "publico")
+        data.append("username", "SIGEPA")
+        data.append("password", "S1G3P4%23")
         const promise = await axios({
             timeout: 5000,
             method: 'POST',
