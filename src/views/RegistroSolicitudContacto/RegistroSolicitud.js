@@ -174,15 +174,15 @@ export const RegistroSolicitud = () => {
              * hacemos una consulta para obtener el domicilio del beneficiario, si es que tiene datos
              */
             console.log("BENEFICIARIO ID DIRECCION ====>", beneficiario.id);
-            obtenerDireccionBeneficiario(beneficiario.id);
+           // obtenerDireccionBeneficiario(beneficiario.id);
         }
         if (activeStep == 2) {
             console.log("ACtive STEP 2", beneficiario)
-            direccionChild.current.registroDireccion(beneficiario);
+          //  direccionChild.current.registroDireccion(beneficiario);
         }
         if (activeStep == 3) {
             console.log("DIRECCION para el paso 3 de contacto --->", direccion);
-            contacto.current.registroContacto();
+           // contacto.current.registroContacto();
         }
         let newSkipped = skipped;
         if (isStepSkipped(activeStep)) {

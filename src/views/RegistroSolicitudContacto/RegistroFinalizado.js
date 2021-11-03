@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -11,15 +11,19 @@ import { Mensaje } from 'components/Personalizados/Mensaje';
 import { useTranslation } from 'react-i18next';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import Dialog from '@material-ui/core/Dialog';
-import { DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import { DialogActions, DialogContent } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
-
-import ReactPDF, { PDFDownloadLink, Page, Text, Font, Document, StyleSheet } from '@react-pdf/renderer';
+import ReactToPrint from "react-to-print";
+import { PDFDownloadLink, Page, Text, Font, Document, StyleSheet } from '@react-pdf/renderer';
+import { ComponentToPrint } from './folio';
 
 Font.register({
     family: 'Oswald',
     src: 'https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf'
 });
+
+
+
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -32,6 +36,7 @@ export const RegistroFinalizado = () => {
     const { solicitudFolio, registrarSolicitudFolio } = useContext(RegistroSolicitudContext);
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
     const [open, setOpen] = React.useState(false);
+    const componentRef = useRef();
     let history = useHistory();
     const styles = StyleSheet.create({
         body: {
@@ -96,8 +101,13 @@ export const RegistroFinalizado = () => {
         });
     }, []);
 
+    useEffect(() => {
+        sessionStorage.setItem('foliosol', solicitudFolio?.dsfoliosolicitud)
+    }, [solicitudFolio]);
+
     const handleClose = () => {
         setOpen(false);
+        history.push("/admin/consultaProgramas")
     };
 
     const descargarFolio = () => {
@@ -105,7 +115,7 @@ export const RegistroFinalizado = () => {
         history.push("/admin/consultaProgramas")
     };
 
-   
+
 
     const MyDocument = () => (
         <Document>
@@ -115,7 +125,7 @@ export const RegistroFinalizado = () => {
                 <Text style={styles.title}>Registro de solicitud exitosa</Text>
 
                 <Text style={styles.title}>
-                    Número de Folio de Solicitud: SSRE22000024
+                    Número de Folio de Solicitud:  {sessionStorage.getItem('foliosol')}
                 </Text>
                 <Text >
                     Para darle continuidad a tu trámite, es necesario conservar el número de folio
@@ -132,7 +142,7 @@ export const RegistroFinalizado = () => {
                     <h4 className={classes.cardTitleWhite}>Registro Exitoso</h4>
                 </CardHeader>
                 <CardBody>
-                    
+
                 </CardBody>
             </Card>
 
@@ -144,28 +154,27 @@ export const RegistroFinalizado = () => {
             />
 
             <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="xs" fullWidth={true}>
-                <DialogTitle id="customized-dialog-title" onClose={handleClose}>
 
-                    <h2> Registro de solicitud exitosa </h2>
-                </DialogTitle>
                 <DialogContent >
 
-                    <p> </p>
-                    <p>Número de Folio de Solicitud: {solicitudFolio?.dsfoliosolicitud} </p>
-
-                    <p>Para darle continuidad a tu trámite, es necesario conservar el número de folio</p>
+                    <ComponentToPrint ref={componentRef} />
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={() => descargarFolio()} color="primary">
-                    <PDFDownloadLink document={<MyDocument />} fileName={`${solicitudFolio?.dsfoliosolicitud}.pdf`} onClick={() => descargarFolio()}>
-                            {({ blob, url, loading, error }) =>
-                                 'Descargar'
+                        <PDFDownloadLink document={<MyDocument />} fileName={`${solicitudFolio?.dsfoliosolicitud}.pdf`} onClick={() => descargarFolio()}>
+                            {() =>
+                                'Descargar'
                             }
                         </PDFDownloadLink>
                     </Button>
-                   
-                   
-              
+
+
+                    <ReactToPrint
+                        trigger={() => <Button autoFocus color="primary">Imprimir</Button>}
+                        content={() => componentRef.current}
+                    />
+
+
                 </DialogActions>
             </Dialog>
         </GridItem>
