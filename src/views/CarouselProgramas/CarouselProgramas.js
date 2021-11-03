@@ -102,7 +102,7 @@ export const CarouselProgramas = () => {
                 containerClass="carousel-container"
                 removeArrowOnDeviceType={["tablet", "mobile"]}
                 dotListClass="custom-dot-list-style"
-                itemClass="carousel-item-padding-40-px"
+                itemClass="carousel-item-padding-10-px"
                 style={{ paddingTop: "10%", }}
             >
 
@@ -112,16 +112,11 @@ export const CarouselProgramas = () => {
                             <GridContainer>
                                 <GridItem xs={12} sm={12} md={10}>
                                     <Card product className={classes.cardHover}>
-                                        <CardHeader image className={classes.cardHeaderHover}>
-                                            <a href="#pablo" onClick={(e) => e.preventDefault()}>
-
-                                            </a>
-                                        </CardHeader>
+                                       
                                         <CardBody>
-                                            <div className={classes.cardHoverUnder}>
-                                            </div>
+                                           
                                             <h4 className={classes.cardProductTitle}>
-                                                {prog.dsclaveprograma} - {prog.dsprograma}
+                                              {prog.dsprograma}
                                             </h4>
                                             <p className={classes.cardProductDesciprion}>
                                                 {prog.dsdescripcion}
@@ -141,7 +136,8 @@ export const CarouselProgramas = () => {
 
                 <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="lg" fullWidth={true}>
                     <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                        <h4> {programDetail?.dsclaveprograma} - {programDetail?.dsprograma}</h4>
+                        {console.log('x=>',programDetail)}
+                        <h2> {programDetail?.dsclaveprograma} - {programDetail?.dsprograma} </h2>
                     </DialogTitle>
                     <DialogContent >
 

@@ -8,7 +8,9 @@ import {
     GET_BENEFICIARIO,
     ACTUALIZAR_BENEFICIARIO,
     OBTENER_DIRECCION,
-    MODIFICAR_DIRECCION_BENEFICIARIO
+    MODIFICAR_DIRECCION_BENEFICIARIO,
+    GUARDAR_SOLICITUD_FOLIO,
+    AGREGAR_SOLICITUD_FOLIO_ERROR
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -19,6 +21,12 @@ export default (state, action) => {
                 generosList: action.payload._embedded.generos,
                 total: action.payload.page.totalElements
             };
+        case AGREGAR_SOLICITUD_FOLIO_ERROR:
+            console.log(action.type);
+            return {
+                ...state,
+                error: action.payload
+            }
         case GET_GRADO_ESTUDIOS:
             return {
                 ...state,
@@ -46,6 +54,12 @@ export default (state, action) => {
             return {
                 ...state,
                 direccion: [...state.direccion, action.payload]
+            };
+
+        case GUARDAR_SOLICITUD_FOLIO:            
+            return {
+                ...state,
+                solicitudFolio: action.payload
             };
         case MODIFICAR_DIRECCION_BENEFICIARIO:
             return {

@@ -21,6 +21,7 @@ import 'moment/locale/es';
 //
 import { RegistroSolicitudContext } from "contexts/registroSolicitudContext";
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
+import { Loading } from "components/Personalizados/Loading";
 
 const styles = {
     infoText: {
@@ -41,6 +42,7 @@ const styles = {
 };
 
 const useStyles = makeStyles(styles);
+const baseUrl = process.env.REACT_APP_AP_CURP_URL;
 export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     console.log('aqui');
     console.log(props);
@@ -55,7 +57,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     const [fechaNacimientoAxu, setFechaNacimientoAxu] = useState("");
     const [fechaNacimientoReal, setFechaNacimientoReal] = useState("");
     const [edad, setEdad] = useState("");
-
+    const [loading, setLoading] = useState(true);
     const [estudios, setEstudios] = useState("");
     const [estadoCivil, setEstadoCivil] = useState("");
     const [identificacion, setIdentificacion] = useState("");
@@ -72,11 +74,12 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     const { programasList, get } = useContext(ProgramasContext);
 
     useEffect(() => {
+        setLoading(true);
         console.log("curp que llega --> ", curpR);
 
         console.log("BENEFICIARIO DEL USE EFFECT ====>", beneficiario);
         if (beneficiario.length == 0) {
-            axios.get(`http://localhost:9080/v1/curp/consultaCurp/${curpR}`)
+            axios.get(`${baseUrl}${curpR}`)
                 .then(response => {
                     console.log(response);
                     setNombre(response.data.response[0].nombre);
@@ -93,6 +96,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                     setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
                     setFechaNacimientoAxu(response.data.response[0].fechaNacimientoAxu);
                     setEdad(response.data.response[0].edad);
+                    
                 });
         } else {
             console.log("se llenando los datos del beneficiario");
@@ -418,6 +422,9 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                     </CardBody>
                 </Card>
             </GridItem>
+            <Loading
+                loading={loading}
+            />
         </div>
     );
 });

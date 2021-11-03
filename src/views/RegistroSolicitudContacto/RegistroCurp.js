@@ -13,6 +13,7 @@ import { TextField } from "@material-ui/core";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import { Link } from "react-router-dom";
 
 const styles = {
     infoText: {
@@ -53,7 +54,7 @@ export const RegistroCurp = ({ setActivar, setCurp }) => {
     };
 
     const isValidated = () => {
-        
+
         if (
             emailState === "success"
         ) {
@@ -78,39 +79,7 @@ export const RegistroCurp = ({ setActivar, setCurp }) => {
 
                             </h4>
                         </GridItem>
-                        {/*
-                        <GridItem xs={12} sm={12} md={12} lg={10}>
-                            
-                            <CustomInput
-                                success={emailState === "success"}
-                                error={emailState === "error"}
-                                labelText={
-                                    <span>
-                                        Correo Electronico <small>(Requerido)</small>
-                                    </span>
-                                }
-                                id="email"
-                                formControlProps={{
-                                    fullWidth: true,
-                                }}
-                                inputProps={{
-                                    onChange: (event) => {
-                                        if (!verifyEmail(event.target.value)) {
-                                            setemailState("error");
-                                        } else {
-                                            setemailState("success");
-                                        }
-                                        setemail(event.target.value);
-                                    },
-                                    endAdornment: (
-                                        <InputAdornment position="end" className={classes.inputAdornment}>
-                                            <Email className={classes.inputAdornmentIcon} />
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
-                        </GridItem>
-                            */}
+
                         <GridItem xs={12} sm={12} md={12} lg={10}>
                             <TextField
                                 style={{ marginBottom: '20px' }}
@@ -124,6 +93,9 @@ export const RegistroCurp = ({ setActivar, setCurp }) => {
                                     setCurp(value);
                                 }}
                             />
+                        </GridItem>
+                        <GridItem xs={12} sm={12} md={12} lg={10}>                            
+                            <a href="https://www.gob.mx/curp/">¿No conoces tu CURP?</a>
                         </GridItem>
                     </GridContainer>
                 </CardBody>

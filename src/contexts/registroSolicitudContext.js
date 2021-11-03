@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import RegistroSolicitudReducer from 'reducers/RegistroSolicitudReducer';
-
+import axios from "axios";
 import {
     GET_GENEROS,
     GET_GRADO_ESTUDIOS,
@@ -11,11 +11,15 @@ import {
     GET_BENEFICIARIO,
     ACTUALIZAR_BENEFICIARIO,
     OBTENER_DIRECCION,
-    MODIFICAR_DIRECCION_BENEFICIARIO
+    MODIFICAR_DIRECCION_BENEFICIARIO,
+    GUARDAR_SOLICITUD_FOLIO,
+    AGREGAR_SOLICITUD_FOLIO_ERROR
 } from 'types/actionTypes';
 
 import { axiosGet, axiosPost,  axiosPut } from 'helpers/axiosPublico';
-
+const baseUrl = process.env.REACT_APP_API_URL;
+const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL
+const baseUrlCurp = process.env.REACT_APP_API_PUBLICO_URL
 export const RegistroSolicitudContext = createContext();
 
 export const RegistroSolicitudContextProvider = props => {
@@ -25,7 +29,8 @@ export const RegistroSolicitudContextProvider = props => {
         estadoCivilList: [],
         identificacionesList: [],
         beneficiario: [],
-        direccion: []
+        direccion: [],
+        solicitudFolio:null
     }
 
 
@@ -129,16 +134,30 @@ export const RegistroSolicitudContextProvider = props => {
     }
 
     const getBeneficiario = async curp => {
+
+
+
         try {
-            const resultado = await axiosGet(`beneficiarioOverride/curp/${curp}`);
-            console.log("resultado de la consulta ===>", resultado);
-            dispatch({
-                type: GET_BENEFICIARIO,
-                payload: resultado
-            }
-            );
+            const url = `${baseUrlPublico}beneficiarioOverride/curp/${curp}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: GET_BENEFICIARIO,
+                        payload: response
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
         } catch (error) {
-            console.log(error);
+            dispatch({
+                type: AGREGAR_SOLICITUD_FOLIO_ERROR,
+                payload: true
+            })
         }
     }
 
@@ -174,6 +193,33 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
+    const registrarSolicitudFolio = async solFolios => {
+        try {
+            const url = `${baseUrlPublico}solicitudOverride`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, solFolios, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: GUARDAR_SOLICITUD_FOLIO,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            console.log('ocurrio un error en el context');
+            console.log(error);
+            dispatch({
+                type: AGREGAR_SOLICITUD_FOLIO_ERROR,
+                payload: true
+            })
+        }
+    }
+
     return (
         <RegistroSolicitudContext.Provider value={{
             generosList: state.generosList,
@@ -182,6 +228,7 @@ export const RegistroSolicitudContextProvider = props => {
             identificacionesList: state.identificacionesList,
             beneficiario: state.beneficiario,
             direccion: state.direccion,
+            solicitudFolio:state.solicitudFolio,
             getGeneros,
             getEstudios,
             getEstadoCivil,
@@ -191,7 +238,8 @@ export const RegistroSolicitudContextProvider = props => {
             actualizarDireccionBeneficiario,
             getBeneficiario,
             actualizarBeneficiario,
-            obtenerDireccionBeneficiario
+            obtenerDireccionBeneficiario,
+            registrarSolicitudFolio
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>
