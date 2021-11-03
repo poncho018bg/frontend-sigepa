@@ -118,7 +118,7 @@ export const CarouselProgramas = () => {
                                             <h4 className={classes.cardProductTitle}>
                                               {prog.dsprograma}
                                             </h4>
-                                            <p className={classes.cardProductDesciprion}>
+                                            <p className={classes.cardProductDesciprion} >
                                                 {prog.dsdescripcion}
                                             </p>
                                         </CardBody>
