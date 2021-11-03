@@ -63,8 +63,6 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     const [identificacion, setIdentificacion] = useState("");
     const [identPrograma, setIdentPrograma] = useState();
 
-    const [loading, setLoading] = useState(true);
-
     const { getGeneros, generosList,
         estudiosList, getEstudios,
         estadoCivilList, getEstadoCivil,
