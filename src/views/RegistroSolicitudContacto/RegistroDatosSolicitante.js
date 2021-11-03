@@ -20,6 +20,8 @@ import 'moment/locale/es';
 
 //
 import { RegistroSolicitudContext } from "contexts/registroSolicitudContext";
+import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
+import { Loading } from "components/Personalizados/Loading";
 
 const styles = {
     infoText: {
@@ -40,10 +42,11 @@ const styles = {
 };
 
 const useStyles = makeStyles(styles);
+const baseUrl = process.env.REACT_APP_AP_CURP_URL;
 export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     console.log('aqui');
     console.log(props);
-    const { curpR, llenarDatosBeneficiario, beneficiario } = props;
+    const { curpR, llenarDatosBeneficiario, beneficiario, setIdentPrograma, idPrograma } = props;
     //console.log(props.allStates.about);
     const classes = useStyles();
     const [nombre, setNombre] = useState("")
@@ -54,10 +57,11 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     const [fechaNacimientoAxu, setFechaNacimientoAxu] = useState("");
     const [fechaNacimientoReal, setFechaNacimientoReal] = useState("");
     const [edad, setEdad] = useState("");
-
+    const [loading, setLoading] = useState(true);
     const [estudios, setEstudios] = useState("");
     const [estadoCivil, setEstadoCivil] = useState("");
     const [identificacion, setIdentificacion] = useState("");
+    //const [identPrograma, setIdentPrograma] = useState();
 
     const { getGeneros, generosList,
         estudiosList, getEstudios,
@@ -65,12 +69,15 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
         getIdentificaciones, identificacionesList
     } = useContext(RegistroSolicitudContext);
 
+    const { programasList, get } = useContext(ProgramasContext);
+
     useEffect(() => {
+        setLoading(true);
         console.log("curp que llega --> ", curpR);
 
         console.log("BENEFICIARIO DEL USE EFFECT ====>", beneficiario);
         if (beneficiario.length == 0) {
-            axios.get(`http://localhost:9080/v1/curp/consultaCurp/${curpR}`)
+            axios.get(`${baseUrl}${curpR}`)
                 .then(response => {
                     console.log(response);
                     setNombre(response.data.response[0].nombre);
@@ -87,6 +94,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                     setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
                     setFechaNacimientoAxu(response.data.response[0].fechaNacimientoAxu);
                     setEdad(response.data.response[0].edad);
+
                 });
         } else {
             console.log("se llenando los datos del beneficiario");
@@ -97,6 +105,10 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
             setIdentificacion(beneficiario.ididentificacionoficial);
 
         }
+        get().then(data => {
+            setTimeout(() => setLoading(false), 500);
+
+        });
         getGeneros();
         getEstudios();
         getEstadoCivil();
@@ -133,25 +145,30 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
         console.log("evento onchange", event);
         console.log("evento onchange", event.target);
         switch (event.target.name) {
+            case 'programa':
+                setIdentPrograma(event.target.value);
+                break;
             case 'genero':
-                //idGenero
                 setGenero(event.target.value);
                 console.log("genero onchange", genero);
+                break;
             case 'estudios':
-                //idEstudios
                 setEstudios(event.target.value);
                 console.log("estudios onchange", estudios);
+                break;
             case 'estadoCivil':
-                //idEstadoCivil
                 setEstadoCivil(event.target.value);
                 console.log("civil ", estadoCivil);
+                break;
             case 'identificacion':
-                //idIdentificacion oficial
                 setIdentificacion(event.target.value);
                 console.log("identificacion ", identificacion);
+                break;
         }
 
     }
+
+    //console.log("Iden programa", identPrograma);
 
     const isValidated = () => {
         return true;
@@ -170,6 +187,31 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                         <GridContainer justify="center">
                             <GridItem xs={12} sm={12} md={12} lg={10}>
                                 <GridContainer>
+                                    <GridItem xs={12} sm={12}>
+                                        <TextField
+                                            style={{ marginBottom: '20px' }}
+                                            id="programa"
+                                            label="Programa"
+                                            variant="outlined"
+                                            name="programa"
+                                            fullWidth
+                                            select
+                                            onChange={onChange}
+                                            value={idPrograma}
+                                        >
+                                            {
+                                                programasList.map(
+                                                    (g, i) => (
+                                                        <MenuItem
+                                                            key={i}
+                                                            value={g.id}>
+                                                            {g.dsprograma}
+                                                        </MenuItem>
+                                                    )
+                                                )
+                                            }
+                                        </TextField>
+                                    </GridItem>
                                     <GridItem xs={12} sm={12}>
                                         <TextField
                                             style={{ marginBottom: '20px' }}
@@ -359,6 +401,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             }
                                         </TextField>
                                     </GridItem>
+                                    {/*
                                     <GridItem xs={12} sm={4}>
                                         <TextField
                                             style={{ marginBottom: '20px' }}
@@ -369,12 +412,16 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             fullWidth
                                         />
                                     </GridItem>
+                                    */}
                                 </GridContainer>
                             </GridItem>
                         </GridContainer>
                     </CardBody>
                 </Card>
             </GridItem>
+            <Loading
+                loading={loading}
+            />
         </div>
     );
 });

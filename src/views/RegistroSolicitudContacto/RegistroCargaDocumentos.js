@@ -35,7 +35,8 @@ export const RegistroCargaDocumentos = (props) => {
         documentosBoveda,
         registrarDatosBoveda } = useContext(RegistroCargaDocumentosContext);
     const { beneficiario } = props;
-    const { idPrograma } = props;
+    const { idPrograma} = props;
+    const {identPrograma} = props;
     const [archivo, setArchivos] = useState([]);
     const [sesion, setSesion] = useState("");
 
@@ -45,7 +46,12 @@ export const RegistroCargaDocumentos = (props) => {
 
 
     useEffect(() => {
-        getDocumentosApoyo(idPrograma);
+        if (identPrograma !== undefined) {
+            getDocumentosApoyo(identPrograma);
+        } else {
+            getDocumentosApoyo(idPrograma);
+        }
+
         console.log("documentos ", documentosApoyoList);
         const getLogin = async () => {
             const result = await axiosLoginBoveda();
