@@ -146,7 +146,7 @@ export const RegistroSolicitudContextProvider = props => {
                     resolve(response);
                     dispatch({
                         type: GET_BENEFICIARIO,
-                        payload: response
+                        payload: response.data
                     })
                 }).catch(error => {
                     reject(error);

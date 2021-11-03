@@ -46,7 +46,7 @@ const baseUrl = process.env.REACT_APP_AP_CURP_URL;
 export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     console.log('aqui');
     console.log(props);
-    const { curpR, llenarDatosBeneficiario, beneficiario } = props;
+    const { curpR, llenarDatosBeneficiario, beneficiario, setIdentPrograma, idPrograma } = props;
     //console.log(props.allStates.about);
     const classes = useStyles();
     const [nombre, setNombre] = useState("")
@@ -61,7 +61,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     const [estudios, setEstudios] = useState("");
     const [estadoCivil, setEstadoCivil] = useState("");
     const [identificacion, setIdentificacion] = useState("");
-    const [identPrograma, setIdentPrograma] = useState();
+    //const [identPrograma, setIdentPrograma] = useState();
 
     const { getGeneros, generosList,
         estudiosList, getEstudios,
@@ -94,7 +94,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                     setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
                     setFechaNacimientoAxu(response.data.response[0].fechaNacimientoAxu);
                     setEdad(response.data.response[0].edad);
-                    
+
                 });
         } else {
             console.log("se llenando los datos del beneficiario");
@@ -147,7 +147,6 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
         switch (event.target.name) {
             case 'programa':
                 setIdentPrograma(event.target.value);
-                console.log("programa ==> ", identPrograma);
                 break;
             case 'genero':
                 setGenero(event.target.value);
@@ -169,7 +168,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
 
     }
 
-    console.log("Iden programa", identPrograma);
+    //console.log("Iden programa", identPrograma);
 
     const isValidated = () => {
         return true;
@@ -198,7 +197,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             fullWidth
                                             select
                                             onChange={onChange}
-                                            value={identPrograma}
+                                            value={idPrograma}
                                         >
                                             {
                                                 programasList.map(
