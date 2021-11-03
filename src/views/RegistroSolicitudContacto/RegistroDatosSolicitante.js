@@ -20,6 +20,7 @@ import 'moment/locale/es';
 
 //
 import { RegistroSolicitudContext } from "contexts/registroSolicitudContext";
+import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
 
 const styles = {
     infoText: {
@@ -58,12 +59,17 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     const [estudios, setEstudios] = useState("");
     const [estadoCivil, setEstadoCivil] = useState("");
     const [identificacion, setIdentificacion] = useState("");
+    const [identPrograma, setIdentPrograma] = useState();
+
+    const [loading, setLoading] = useState(true);
 
     const { getGeneros, generosList,
         estudiosList, getEstudios,
         estadoCivilList, getEstadoCivil,
         getIdentificaciones, identificacionesList
     } = useContext(RegistroSolicitudContext);
+
+    const { programasList, get } = useContext(ProgramasContext);
 
     useEffect(() => {
         console.log("curp que llega --> ", curpR);
@@ -97,6 +103,10 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
             setIdentificacion(beneficiario.ididentificacionoficial);
 
         }
+        get().then(data => {
+            setTimeout(() => setLoading(false), 500);
+
+        });
         getGeneros();
         getEstudios();
         getEstadoCivil();
@@ -133,25 +143,31 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
         console.log("evento onchange", event);
         console.log("evento onchange", event.target);
         switch (event.target.name) {
+            case 'programa':
+                setIdentPrograma(event.target.value);
+                console.log("programa ==> ", identPrograma);
+                break;
             case 'genero':
-                //idGenero
                 setGenero(event.target.value);
                 console.log("genero onchange", genero);
+                break;
             case 'estudios':
-                //idEstudios
                 setEstudios(event.target.value);
                 console.log("estudios onchange", estudios);
+                break;
             case 'estadoCivil':
-                //idEstadoCivil
                 setEstadoCivil(event.target.value);
                 console.log("civil ", estadoCivil);
+                break;
             case 'identificacion':
-                //idIdentificacion oficial
                 setIdentificacion(event.target.value);
                 console.log("identificacion ", identificacion);
+                break;
         }
 
     }
+
+    console.log("Iden programa", identPrograma);
 
     const isValidated = () => {
         return true;
@@ -170,6 +186,31 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                         <GridContainer justify="center">
                             <GridItem xs={12} sm={12} md={12} lg={10}>
                                 <GridContainer>
+                                    <GridItem xs={12} sm={12}>
+                                        <TextField
+                                            style={{ marginBottom: '20px' }}
+                                            id="programa"
+                                            label="Programa"
+                                            variant="outlined"
+                                            name="programa"
+                                            fullWidth
+                                            select
+                                            onChange={onChange}
+                                            value={identPrograma}
+                                        >
+                                            {
+                                                programasList.map(
+                                                    (g, i) => (
+                                                        <MenuItem
+                                                            key={i}
+                                                            value={g.id}>
+                                                            {g.dsprograma}
+                                                        </MenuItem>
+                                                    )
+                                                )
+                                            }
+                                        </TextField>
+                                    </GridItem>
                                     <GridItem xs={12} sm={12}>
                                         <TextField
                                             style={{ marginBottom: '20px' }}
@@ -359,6 +400,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             }
                                         </TextField>
                                     </GridItem>
+                                    {/*
                                     <GridItem xs={12} sm={4}>
                                         <TextField
                                             style={{ marginBottom: '20px' }}
@@ -369,6 +411,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             fullWidth
                                         />
                                     </GridItem>
+                                    */}
                                 </GridContainer>
                             </GridItem>
                         </GridContainer>
