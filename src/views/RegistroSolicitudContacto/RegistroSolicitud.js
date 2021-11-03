@@ -35,9 +35,9 @@ const pasos = [
     'Direccion',
     'Registro de Contacto',
     'Carga de Documentos',
-    'Registro Finalizado',
     'Identificación de ingresos económicos de la mujer',
-    'Características adicionales de la solicitante'
+    'Características adicionales de la solicitante',
+    'Registro Finalizado'
 ];
 
 export const RegistroSolicitud = () => {
@@ -254,9 +254,9 @@ export const RegistroSolicitud = () => {
                                         : activeStep === 4 ?
                                             <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo}/>
                                                 : activeStep === 5 ?
-                                                <RegistroIngresos idPrograma={query.state?.mobNo} />
+                                                <RegistroIngresos beneficiario={beneficiario} idPrograma={query.state?.mobNo} />
                                                     : activeStep === 6 ?
-                                                    <RegistroCaracteristicasAdicionales idPrograma={query.state?.mobNo} />
+                                                    <RegistroCaracteristicasAdicionales beneficiario={beneficiario} idPrograma={query.state?.mobNo} />
                                                         :
                                                         <RegistroFinalizado />}
 
