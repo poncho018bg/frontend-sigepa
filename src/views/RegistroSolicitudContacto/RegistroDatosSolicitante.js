@@ -61,6 +61,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     const [estudios, setEstudios] = useState("");
     const [estadoCivil, setEstadoCivil] = useState("");
     const [identificacion, setIdentificacion] = useState("");
+    const [rfc, setRfc] = useState("");
     //const [identPrograma, setIdentPrograma] = useState();
 
     const { getGeneros, generosList,
@@ -76,33 +77,34 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
         console.log("curp que llega --> ", curpR);
 
         console.log("BENEFICIARIO DEL USE EFFECT ====>", beneficiario);
-        if (beneficiario.length == 0) {
-            axios.get(`${baseUrl}${curpR}`)
-                .then(response => {
-                    console.log(response);
-                    setNombre(response.data.response[0].nombre);
-                    setCurp(response.data.response[0].curp);
-                    setApellidoPaterno(response.data.response[0].apellidoPaterno);
-                    setapellidoMaterno(response.data.response[0].apellidoMaterno);
-                    //setGenero(response.data.response[0].sexo)
-                    console.log("fecha --->", response.data.response[0].fechaNacimientoAxu)
-                    var dateParts = response.data.response[0].fechaNacimientoAxu.split("/");
-                    console.log("date parts ", +dateParts[2], dateParts[1] - 1, dateParts[0])
-                    var date = new Date(+dateParts[2], dateParts[1] - 1, dateParts[0]);
-                    console.log("chale -->", date);
-                    console.log("fomateada fecha ---> ", moment(date).format("YYYY-MM-DD"))
-                    setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
-                    setFechaNacimientoAxu(response.data.response[0].fechaNacimientoAxu);
-                    setEdad(response.data.response[0].edad);
 
-                });
-        } else {
+        axios.get(`${baseUrl}${curpR}`)
+            .then(response => {
+                console.log(response);
+                setNombre(response.data.response[0].nombre);
+                setCurp(response.data.response[0].curp);
+                setApellidoPaterno(response.data.response[0].apellidoPaterno);
+                setapellidoMaterno(response.data.response[0].apellidoMaterno);
+                //setGenero(response.data.response[0].sexo)
+                console.log("fecha --->", response.data.response[0].fechaNacimientoAxu)
+                var dateParts = response.data.response[0].fechaNacimientoAxu.split("/");
+                console.log("date parts ", +dateParts[2], dateParts[1] - 1, dateParts[0])
+                var date = new Date(+dateParts[2], dateParts[1] - 1, dateParts[0]);
+                console.log("chale -->", date);
+                console.log("fomateada fecha ---> ", moment(date).format("YYYY-MM-DD"))
+                setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
+                setFechaNacimientoAxu(response.data.response[0].fechaNacimientoAxu);
+                setEdad(response.data.response[0].edad);
+
+            });
+        if (beneficiario !== undefined) {
             console.log("se llenando los datos del beneficiario");
             //setNombre(beneficiario.dsnombre);
             setGenero(beneficiario.idgenero);
             setEstudios(beneficiario.idgradoestudios);
             setEstadoCivil(beneficiario.idestadocivil);
             setIdentificacion(beneficiario.ididentificacionoficial);
+            setRfc(beneficiario.rfc);
 
         }
         get().then(data => {
@@ -132,7 +134,8 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
             edad,
             estudios,
             estadoCivil,
-            identificacion);
+            identificacion,
+            rfc);
     }
     useImperativeHandle(ref, () => ({
         registroBeneficiario() {
@@ -142,9 +145,12 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     );
 
     const onChange = event => {
-        console.log("evento onchange", event);
-        console.log("evento onchange", event.target);
+        console.log("nombre del evento ==>",event.target);
         switch (event.target.name) {
+            case 'rfc':
+                setRfc(event.target.value);
+                console.log("RFC ==>", rfc);
+                break;
             case 'programa':
                 setIdentPrograma(event.target.value);
                 break;
@@ -229,7 +235,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             id="apellidoPaterno"
                                             label="Apellido Paterno"
                                             variant="outlined"
-                                            nombre="nombre"
+                                            name="nombre"
                                             fullWidth
                                             value={apellidoPaterno}
                                         />
@@ -240,7 +246,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             id="apellidoMaterno"
                                             label="Apellido Materno"
                                             variant="outlined"
-                                            nombre="apellidoMaterno"
+                                            name="apellidoMaterno"
                                             fullWidth
                                             value={apellidoMaterno}
                                         />
@@ -251,9 +257,21 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             id="nombre"
                                             label="Nombre"
                                             variant="outlined"
-                                            nombre="nombre"
+                                            name="nombre"
                                             fullWidth
                                             value={nombre}
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={12} sm={6}>
+                                        <TextField
+                                            style={{ marginBottom: '20px' }}
+                                            id="rfc"
+                                            label="RFC"
+                                            variant="outlined"
+                                            name="rfc"
+                                            fullWidth
+                                            onChange={onChange}
+                                            value={rfc}
                                         />
                                     </GridItem>
                                     <GridItem xs={12} sm={6}>
@@ -291,7 +309,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             id="fechaNacimientoAxu"
                                             label="Fecha Nacimiento"
                                             variant="outlined"
-                                            nombre="fechaNacimientoAxu"
+                                            name="fechaNacimientoAxu"
                                             fullWidth
                                             value={fechaNacimientoAxu}
 
@@ -303,7 +321,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             id="edad"
                                             label="Edad"
                                             variant="outlined"
-                                            nombre="edad"
+                                            name="edad"
                                             fullWidth
                                             value={edad}
 

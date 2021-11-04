@@ -28,7 +28,7 @@ export const RegistroSolicitudContextProvider = props => {
         estudiosList: [],
         estadoCivilList: [],
         identificacionesList: [],
-        beneficiario: [],
+        beneficiario:undefined,
         direccion: [],
         solicitudFolio:null
     }
@@ -134,15 +134,14 @@ export const RegistroSolicitudContextProvider = props => {
     }
 
     const getBeneficiario = async curp => {
-
-
-
+        console.log("CURP CONSULTA BENEFICIARIOS ", curp);
         try {
             const url = `${baseUrlPublico}beneficiarioOverride/curp/${curp}`;
             return new Promise((resolve, reject) => {
                 axios.get(url, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
+                    console.log("AXIOS RESPONSE BENEFICIARIOS: ",response.data);
                     resolve(response);
                     dispatch({
                         type: GET_BENEFICIARIO,
