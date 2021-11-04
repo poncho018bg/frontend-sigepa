@@ -98,7 +98,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
 
             });
         if (beneficiario !== undefined) {
-            console.log("se llenando los datos del beneficiario");
+            console.log("se llenando los datos del beneficiario",beneficiario);
             //setNombre(beneficiario.dsnombre);
             setGenero(beneficiario.idgenero);
             setEstudios(beneficiario.idgradoestudios);
@@ -118,7 +118,8 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
 
     }, [beneficiario]);
 
-    const generoCurp = (generocrp) => {        
+    const generoCurp = (generocrp) => {    
+        console.log('',generocrp)    
         let gen = '';
         generosList.map(e => {
             console.log('e=>', e)
