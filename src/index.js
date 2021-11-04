@@ -34,7 +34,7 @@ import { ModalContextDeleteProvider } from "contexts/modalContexDelete";
 
 
 import Admin from "layouts/Admin";
-import Auth  from "layouts/Auth";
+import Auth from "layouts/Auth";
 import { ModuloContextProvider } from "contexts/moduloContext";
 import { ModalContextUpdateProvider } from "contexts/modalContexUpdate";
 import { SubModuloContextProvider } from "contexts/subModuloContext";
@@ -64,6 +64,7 @@ import { LocalidadesContextProvider } from "contexts/catalogos/Localidades/local
 import { ModalContextConfirmacionProvider } from "contexts/modalContextConfirmacion";
 import { RegistroCargaDocumentosContextProvider } from "contexts/registroCargaDocumentosContext"
 import { RegistroSolicitudContextProvider } from "contexts/registroSolicitudContext";
+import { ComplementoFursContextProvider } from "contexts/complementoFurContext";
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
@@ -105,11 +106,13 @@ ReactDOM.render(
                                                                 <LocalidadesContextProvider>
                                                                   <RegistroCargaDocumentosContextProvider>
                                                                     <RegistroSolicitudContextProvider>
-                                                                      <Switch>
-                                                                        <Route path="/admin" component={Admin} />
-                                                                        <Route path="/public" component={Auth} />
-                                                                        <Redirect from="/" to="/admin/dashboard" />
-                                                                      </Switch>
+                                                                      <ComplementoFursContextProvider>
+                                                                        <Switch>
+                                                                          <Route path="/admin" component={Admin} />
+                                                                          <Route path="/public" component={Auth} />
+                                                                          <Redirect from="/" to="/admin/dashboard" />
+                                                                        </Switch>
+                                                                      </ComplementoFursContextProvider>
                                                                     </RegistroSolicitudContextProvider>
                                                                   </RegistroCargaDocumentosContextProvider>
                                                                 </LocalidadesContextProvider>

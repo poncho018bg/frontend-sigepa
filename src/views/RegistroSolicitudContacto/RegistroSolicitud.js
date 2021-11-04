@@ -36,9 +36,9 @@ const pasos = [
     'Direccion',
     'Registro de Contacto',
     'Carga de Documentos',
-    'Registro Finalizado',
     'Identificación de ingresos económicos de la mujer',
-    'Características adicionales de la solicitante'
+    'Características adicionales de la solicitante',
+    'Registro Finalizado'
 ];
 
 export const RegistroSolicitud = () => {
@@ -53,26 +53,23 @@ export const RegistroSolicitud = () => {
     const { beneficiario, registrarBeneficiario, direccion,
         registrarDireccionBeneficiario, getBeneficiario, actualizarBeneficiario,
         obtenerDireccionBeneficiario, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
-
-    //constante para llenar el programa 
-    const [identPrograma, setIdentPrograma] = useState();
-    //funciones de hijos
+    //
     const child = useRef();
     const direccionChild = useRef();
     const contacto = useRef();
     //let datosEnviar;
     /**
      * llenado de datos del beneficiario
-     * @param {nombre} nombre 
-     * @param {apellidoPaterno} apellidoPaterno 
-     * @param {apellidoMaterno} apellidoMaterno 
-     * @param {curp} curp 
-     * @param {genero} genero 
-     * @param {fechaNacimientoReal} fechaNacimientoReal 
-     * @param {edad} edad 
-     * @param {estudios} estudios 
-     * @param {estadoCivil} estadoCivil 
-     * @param {identificacion} identificacion 
+     * @param {nombre} nombre
+     * @param {apellidoPaterno} apellidoPaterno
+     * @param {apellidoMaterno} apellidoMaterno
+     * @param {curp} curp
+     * @param {genero} genero
+     * @param {fechaNacimientoReal} fechaNacimientoReal
+     * @param {edad} edad
+     * @param {estudios} estudios
+     * @param {estadoCivil} estadoCivil
+     * @param {identificacion} identificacion
      */
     const llenarDatosBeneficiario = (id, nombre, apellidoPaterno, apellidoMaterno, curp, genero, fechaNacimientoReal, edad, estudios, estadoCivil, identificacion, rfc) => {
         /**
@@ -167,7 +164,6 @@ export const RegistroSolicitud = () => {
 
         }
         if (activeStep == 1) {
-            console.log("PROGRAMA NUEVO ====>", identPrograma);
             child.current.registroBeneficiario();
             /**
              * hacemos una consulta para obtener el domicilio del beneficiario, si es que tiene datos
@@ -291,7 +287,7 @@ export const RegistroSolicitud = () => {
                             </Button>
                             <Box sx={{ flex: '1 1 auto' }} />
                             {/*
-                        {isStepOptional(activeStep) && (
+                       x {isStepOptional(activeStep) && (
                             <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
                                 Saltar
                             </Button>
