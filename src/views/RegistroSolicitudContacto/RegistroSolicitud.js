@@ -272,11 +272,11 @@ export const RegistroSolicitud = () => {
                                         : activeStep === 4 ?
                                             <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo} identPrograma={identPrograma} />
                                             : activeStep === 5 ?
-                                                <RegistroIngresos idPrograma={query.state?.mobNo} />
+                                                <RegistroIngresos beneficiario={beneficiario}  idPrograma={query.state?.mobNo} />
                                                 : activeStep === 6 ?
-                                                    <RegistroCaracteristicasAdicionales idPrograma={query.state?.mobNo} />
+                                                    <RegistroCaracteristicasAdicionales beneficiario={beneficiario}  idPrograma={query.state?.mobNo} />
                                                     :
-                                                    <RegistroFinalizado />}
+                                                    <RegistroFinalizado  beneficiario={beneficiario}  idPrograma={query.state?.mobNo} />}
 
                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                             <Button

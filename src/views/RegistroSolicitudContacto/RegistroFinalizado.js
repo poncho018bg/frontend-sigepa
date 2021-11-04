@@ -27,7 +27,7 @@ Font.register({
 
 const useStyles = makeStyles(stylesArchivo);
 
-export const RegistroFinalizado = () => {
+export const RegistroFinalizado = (props) => {
     const { t } = useTranslation();
     const classes = useStyles();
     const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -37,6 +37,8 @@ export const RegistroFinalizado = () => {
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
     const [open, setOpen] = React.useState(false);
     const componentRef = useRef();
+    const { beneficiario ,idPrograma} = props;
+   
     let history = useHistory();
     const styles = StyleSheet.create({
         body: {
@@ -78,9 +80,9 @@ export const RegistroFinalizado = () => {
     useEffect(() => {
         console.log('Finalizar')
         let folios = {
-            idPrograma: '0f8ff60c-bfce-49d9-8609-58368cdad5f8',
-            idBeneficiario: '019faef4-37dd-4e9b-a1f2-a9e9835c3b60',
-            idUsuario: 'a9ebeb7a-898d-4e7d-a867-3ee46c8bdf6f'
+            idPrograma: idPrograma,
+            idBeneficiario: beneficiario,
+            idUsuario: sessionStorage.getItem('idUSuario')
         }
         registrarSolicitudFolio(folios).then(response => {
 
