@@ -41,7 +41,7 @@ export const RegistroCaracteristicasAdicionales = (props) => {
                     </CardHeader>
                     <CardBody>
                         <div className="container" id="main">
-                            <Form src="http://617c77de34c5aaccebf28e47.localhost:3001/caracteristicas" onSubmit={handleSubmit} />
+                            <Form src="http://10.4.2.44:3001/caracteristicas" onSubmit={handleSubmit} />
                         </div>
                     </CardBody>
                 </Card>
