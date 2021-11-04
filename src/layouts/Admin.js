@@ -149,8 +149,8 @@ export default function Admin({ ...rest }) {
 
   React.useEffect(() => {
     let groupssesion = JSON.parse(sessionStorage.getItem('groups'))
-    console.log('Todos los roles =>', rolesall.roles)
-    rolesall.roles.forEach(element => {
+    console.log('Todos los roles =>', rolesall?.roles)
+    rolesall?.roles.forEach(element => {
       console.log('KR', element.path,)
       console.log('UR', groupssesion)
       if (element.path === groupssesion[0]) {
