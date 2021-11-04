@@ -85,7 +85,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                 setCurp(response.data.response[0].curp);
                 setApellidoPaterno(response.data.response[0].apellidoPaterno);
                 setapellidoMaterno(response.data.response[0].apellidoMaterno);
-                //setGenero(response.data.response[0].sexo)
+                setGenero(generoCurp(response.data.response[0].sexo))
                 console.log("fecha --->", response.data.response[0].fechaNacimientoAxu)
                 var dateParts = response.data.response[0].fechaNacimientoAxu.split("/");
                 console.log("date parts ", +dateParts[2], dateParts[1] - 1, dateParts[0])
@@ -118,6 +118,17 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
 
     }, [beneficiario]);
 
+    const generoCurp = (generocrp) => {        
+        let gen = '';
+        generosList.map(e => {
+            console.log('e=>', e)
+            if (e.dsabreviatura === generocrp) {
+                gen = e.id;
+            }
+        })        
+        return gen
+    };
+
     const llenado = () => {
         console.log("entro al momento de cargar --->",
             nombre, apellidoPaterno, apellidoMaterno, genero, estudios, estadoCivil, identificacion);
@@ -145,7 +156,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     );
 
     const onChange = event => {
-        console.log("nombre del evento ==>",event.target);
+        console.log("nombre del evento ==>", event.target);
         switch (event.target.name) {
             case 'rfc':
                 setRfc(event.target.value);
