@@ -48,6 +48,9 @@ export const RegistroDireccion = forwardRef((props, ref) => {
     const [idLocalidad, setIdLocalidad] = useState("");
     const [otraReferencia, setOtraReferencia] = useState("");
 
+    const [idEstado, setIdEstado] = useState("");
+    const [idMunicipio, setIdMunicipio] = useState("");
+
     const { direccion, registrarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
 
 
@@ -65,8 +68,13 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                 setColonia(direccionBeneficiario[0].colonia);
                 setEntreCalle(direccionBeneficiario[0].entreCalle);
                 setYCalle(direccionBeneficiario[0].ycalle);
-                setIdLocalidad(direccionBeneficiario[0].idLocalidad);
                 setOtraReferencia(direccionBeneficiario[0].otraReferencia);
+                setIdEstado(direccionBeneficiario[0].idEstado);
+                getMunicipioEstado(direccionBeneficiario[0].idEstado);
+                setIdMunicipio(direccionBeneficiario[0].idMunicipio);
+                getLocalidadesMunicipio(direccionBeneficiario[0].idMunicipio);
+                setIdLocalidad(direccionBeneficiario[0].idLocalidad);
+                setCodigoPostal(direccionBeneficiario[0].codigoPostal);
             }
         }
         getEstadosAll();
@@ -145,10 +153,15 @@ export const RegistroDireccion = forwardRef((props, ref) => {
     );
 
     const onChangeEstado = event => {
+        console.log("entro al onchagen estado", event.target.value);
+        setIdEstado(event.target.value);
         getMunicipioEstado(event.target.value);
+        
     }
 
     const onChangeMunicipio = event => {
+        console.log("entro al onchange municipio");
+        setIdMunicipio(event.target.value);
         getLocalidadesMunicipio(event.target.value);
     }
 
@@ -178,7 +191,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                 setCodigoPostal(event.target.value);
                 break;
             case "localidad":
-                console.log("target value ==>",event.target.value)
+                console.log("target value ==>", event.target.value)
                 setIdLocalidad(event.target.value);
                 break;
             case "otraReferencia":
@@ -273,16 +286,6 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                             />
                         </GridItem>
                         <GridItem xs={12} sm={3}>
-                            {/*}
-                            <TextField
-                                style={{ marginBottom: '20px' }}
-                                id="entidadFederativa"
-                                label="Entidad Federativa"
-                                variant="outlined"
-                                name="entidadFederativa"
-                                fullWidth
-                            />
-                            */}
                             <TextField
                                 style={{ marginBottom: '20px' }}
                                 id="entidadFederativa"
@@ -292,6 +295,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 fullWidth
                                 select
                                 onChange={onChangeEstado}
+                                value={idEstado}
                             >
                                 {
                                     estadosList.map(
@@ -307,16 +311,6 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                             </TextField>
                         </GridItem>
                         <GridItem xs={12} sm={7}>
-                            {/*
-                            <TextField
-                                style={{ marginBottom: '20px' }}
-                                id="municipio"
-                                label="Municipio"
-                                variant="outlined"
-                                name="municipio"
-                                fullWidth
-                            />
-                            */}
                             <TextField
                                 style={{ marginBottom: '20px' }}
                                 id="municipio"
@@ -326,6 +320,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 fullWidth
                                 select
                                 onChange={onChangeMunicipio}
+                                value={idMunicipio}
                             >
                                 {
                                     municipiosListId.map(
@@ -355,17 +350,6 @@ export const RegistroDireccion = forwardRef((props, ref) => {
 
 
                         <GridItem xs={12} sm={5}>
-                            {/*
-                            
-                            <TextField
-                                style={{ marginBottom: '20px' }}
-                                id="ctLocalidad"
-                                label="CT Localidad"
-                                variant="outlined"
-                                name="ctLocalidad"
-                                fullWidth
-                            />
-                            */}
                             <TextField
                                 style={{ marginBottom: '20px' }}
                                 id="ctLocalidad"
@@ -390,31 +374,6 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 }
                             </TextField>
                         </GridItem>
-
-                        {/*
-                        <GridItem xs={12} sm={3}>    
-                            <TextField
-                                style={{ marginBottom: '20px' }}
-                                id="nombreMunicipio"
-                                label="Nombre del Municipio"
-                                variant="outlined"
-                                name="nombreMunicipio"
-                                fullWidth
-                            />
-                            
-                        </GridItem>
-                        
-                        <GridItem xs={12} sm={10}>
-                            <TextField
-                                style={{ marginBottom: '20px' }}
-                                id="nombreLocalidad"
-                                label="Nombre Localidad"
-                                variant="outlined"
-                                name="nombreLocalidad"
-                                fullWidth
-                            />
-                        </GridItem>
-                        */}
 
                         <GridItem xs={12} sm={10}>
                             <TextField
