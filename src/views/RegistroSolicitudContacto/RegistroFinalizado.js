@@ -37,8 +37,8 @@ export const RegistroFinalizado = (props) => {
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
     const [open, setOpen] = React.useState(false);
     const componentRef = useRef();
-    const { beneficiario ,idPrograma} = props;
-   
+    const { beneficiario, idPrograma } = props;
+
     let history = useHistory();
     const styles = StyleSheet.create({
         body: {
@@ -157,12 +157,13 @@ export const RegistroFinalizado = (props) => {
 
             <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="xs" fullWidth={true}>
 
+          
                 <DialogContent >
 
                     <ComponentToPrint ref={componentRef} />
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={() => descargarFolio()} color="primary">
+                    <Button autoFocus color="primary">
                         <PDFDownloadLink document={<MyDocument />} fileName={`${solicitudFolio?.dsfoliosolicitud}.pdf`} onClick={() => descargarFolio()}>
                             {() =>
                                 'Descargar'
