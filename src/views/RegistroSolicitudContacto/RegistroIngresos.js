@@ -39,7 +39,7 @@ export const RegistroIngresos = (props) => {
                     </CardHeader>
                     <CardBody>
                         <div className="container" id="main">
-                            <Form src="http://617c5f9034c5aaccebf28d64.localhost:3001/regingresos" onSubmit={handleSubmit} />
+                            <Form src="http://61836f5f556049bc543535a3.localhost:3001/testform" onSubmit={handleSubmit} />
                         </div>
                     </CardBody>
                 </Card>
