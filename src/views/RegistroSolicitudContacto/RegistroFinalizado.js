@@ -81,7 +81,7 @@ export const RegistroFinalizado = (props) => {
         console.log('Finalizar')
         let folios = {
             idPrograma: idPrograma,
-            idBeneficiario: beneficiario,
+            idBeneficiario: beneficiario.id,
             idUsuario: sessionStorage.getItem('idUSuario')
         }
         registrarSolicitudFolio(folios).then(response => {
