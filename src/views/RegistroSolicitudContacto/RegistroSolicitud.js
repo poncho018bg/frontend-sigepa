@@ -57,6 +57,8 @@ export const RegistroSolicitud = () => {
     const child = useRef();
     const direccionChild = useRef();
     const contacto = useRef();
+
+    const [identPrograma, setIdentPrograma] = useState();
     //let datosEnviar;
     /**
      * llenado de datos del beneficiario
@@ -71,7 +73,7 @@ export const RegistroSolicitud = () => {
      * @param {estadoCivil} estadoCivil
      * @param {identificacion} identificacion
      */
-    const llenarDatosBeneficiario = (id, nombre, apellidoPaterno, apellidoMaterno, curp, genero, fechaNacimientoReal, edad, estudios, estadoCivil, identificacion) => {
+    const llenarDatosBeneficiario = (id, nombre, apellidoPaterno, apellidoMaterno, curp, genero, fechaNacimientoReal, edad, estudios, estadoCivil, identificacion, rfc) => {
         /**
          * se guarda al ejecutar esta función
          */
@@ -84,7 +86,8 @@ export const RegistroSolicitud = () => {
             edad,
             estudios,
             estadoCivil,
-            identificacion);
+            identificacion,
+            rfc);
 
         console.log("ID DEL BENEFICIARIO", id);
         if (id == undefined) {
@@ -98,7 +101,8 @@ export const RegistroSolicitud = () => {
                 //edad,
                 idestadocivil: estadoCivil,
                 idgradoestudios: estudios,
-                ididentificacionoficial: identificacion
+                ididentificacionoficial: identificacion,
+                rfc: rfc
             }
             console.log("datos enviados ---> ", datosEnviar);
             /**
@@ -118,7 +122,8 @@ export const RegistroSolicitud = () => {
                 //edad,
                 idestadocivil: estadoCivil,
                 idgradoestudios: estudios,
-                ididentificacionoficial: identificacion
+                ididentificacionoficial: identificacion,
+                rfc: rfc
             }
             /**
              * si se hace algun edición se guarda aquí
@@ -157,11 +162,7 @@ export const RegistroSolicitud = () => {
              * consulta para traer el id y datos del beneficiario
              */
 
-            getBeneficiario(curp).then(response => {
-                setLoading(false);
-            }).catch(err => {
-                setLoading(true);
-            });
+            getBeneficiario(curp)
 
         }
         if (activeStep == 1) {
@@ -231,16 +232,19 @@ export const RegistroSolicitud = () => {
     }
 
     return (
-       /* <ValidarPrograma idPrograma={query.state?.mobNo}>*/
-            <Box sx={{ width: '100%' }}>
-                <Stepper activeStep={activeStep}>
-                    {pasos.map((label) => (
-                        <Step key={label}>
-                            <StepLabel>{label}</StepLabel>
-                        </Step>
-                    ))}
-                </Stepper>
-                {activeStep === pasos.length ? (
+
+        <ValidarPrograma idPrograma={query.state?.mobNo}>
+        < Box sx={{ width: '100%' }
+        }>
+            <Stepper activeStep={activeStep}>
+                {pasos.map((label) => (
+                    <Step key={label}>
+                        <StepLabel>{label}</StepLabel>
+                    </Step>
+                ))}
+            </Stepper>
+            {
+                activeStep === pasos.length ? (
                     <span>
                         Has completado todos los pasos
 
@@ -254,19 +258,25 @@ export const RegistroSolicitud = () => {
                         {activeStep === 0 ?
                             <RegistroCurp setActivar={setActivar} setCurp={setCurp} />
                             : activeStep === 1 ?
-                                <RegistroDatosSolicitante curpR={curp} llenarDatosBeneficiario={llenarDatosBeneficiario} ref={child} beneficiario={beneficiario} />
+                                <RegistroDatosSolicitante
+                                    curpR={curp}
+                                    llenarDatosBeneficiario={llenarDatosBeneficiario}
+                                    ref={child}
+                                    beneficiario={beneficiario}
+                                    setIdentPrograma={setIdentPrograma}
+                                    idPrograma={query.state?.mobNo} />
                                 : activeStep === 2 ?
                                     <RegistroDireccion beneficiario={beneficiario} obtenerDireccion={obtenerDireccion} ref={direccionChild} direccionBeneficiario={direccion} />
                                     : activeStep === 3 ?
                                         <RegistroSolicitudContacto direccionB={direccion} beneficiario={beneficiario} ref={contacto} />
                                         : activeStep === 4 ?
-                                            <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo}/>
-                                                : activeStep === 5 ?
-                                                <RegistroIngresos beneficiario={beneficiario} idPrograma={query.state?.mobNo} />
-                                                    : activeStep === 6 ?
-                                                    <RegistroCaracteristicasAdicionales beneficiario={beneficiario} idPrograma={query.state?.mobNo} />
-                                                        :
-                                                        <RegistroFinalizado />}
+                                            <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo} identPrograma={identPrograma} />
+                                            : activeStep === 5 ?
+                                                <RegistroIngresos idPrograma={query.state?.mobNo} />
+                                                : activeStep === 6 ?
+                                                    <RegistroCaracteristicasAdicionales idPrograma={query.state?.mobNo} />
+                                                    :
+                                                    <RegistroFinalizado />}
 
                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                             <Button
@@ -279,7 +289,7 @@ export const RegistroSolicitud = () => {
                             </Button>
                             <Box sx={{ flex: '1 1 auto' }} />
                             {/*
-                        {isStepOptional(activeStep) && (
+                       x {isStepOptional(activeStep) && (
                             <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
                                 Saltar
                             </Button>
@@ -289,11 +299,12 @@ export const RegistroSolicitud = () => {
                             <NextButton />
                         </Box>
                     </>
-                )}
-                <Loading
+                )
+            }
+            <Loading
                 loading={loading}
             />
-            </Box>
-        /*</ValidarPrograma>*/
+        </Box >
+        </ValidarPrograma >
     )
 }
