@@ -57,6 +57,8 @@ export const RegistroSolicitud = () => {
     const child = useRef();
     const direccionChild = useRef();
     const contacto = useRef();
+
+    const [identPrograma, setIdentPrograma] = useState();
     //let datosEnviar;
     /**
      * llenado de datos del beneficiario
