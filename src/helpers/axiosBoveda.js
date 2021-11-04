@@ -4,7 +4,7 @@ const baseUrl = process.env.REACT_APP_API_BOVEDA;
 
 
 async function axiosLoginBoveda() {
-    const url = `${baseUrl}login`;
+    const url = `${baseUrl}login?username=SIGEPA&password=S1G3P4%23`;
     try {
         const data = new FormData()
         data.append("username", "SIGEPA")
@@ -12,10 +12,10 @@ async function axiosLoginBoveda() {
         const promise = await axios({
             timeout: 5000,
             method: 'POST',
-            url,
-            data
+            url
         }).then(response => {
-            return response.data
+            console.log("responde esto la boveda ==>",response);
+            return response
         })
         return promise
     } catch (error) {

@@ -35,14 +35,14 @@ export const RegistroCargaDocumentos = (props) => {
         documentosBoveda,
         registrarDatosBoveda } = useContext(RegistroCargaDocumentosContext);
     const { beneficiario } = props;
-    const { idPrograma} = props;
-    const {identPrograma} = props;
+    //const { idPrograma} = props;
+    const { identPrograma } = props;
     const [archivo, setArchivos] = useState([]);
     const [sesion, setSesion] = useState("");
 
     const [boveda, setBoveda] = useState();
 
-    //let idPrograma = '8cbd2101-ef40-4fad-8698-5911ccecaf54';
+    let idPrograma = '8cbd2101-ef40-4fad-8698-5911ccecaf54';
 
 
     useEffect(() => {
@@ -101,7 +101,7 @@ export const RegistroCargaDocumentos = (props) => {
         console.log("archivo submit ====>", archivo);
         data.append("file", archivo);
         //id del usuario de la boveda
-        data.append("userId", sesion.userId);
+        data.append("userId", sesion.data.userId);
         //metadata
         data.append("metadata", '{"idPrograma":"' + idPrograma + '"}');
 
@@ -117,7 +117,7 @@ export const RegistroCargaDocumentos = (props) => {
     }
 
     const guardarDatosBoveda = (documentoApoyo, result) => {
-        var datos = JSON.parse(result.data);
+        //var datos = JSON.parse(result.data);
         console.log("beneficiarios ====> ", beneficiario);
         console.log("Boveda ===========> ", result.data.fileId);
         console.log("Documento Apoyo ==> ", documentoApoyo);
@@ -175,7 +175,7 @@ export const RegistroCargaDocumentos = (props) => {
         console.log(existe);
         if (existe) {
             return (
-                <></>
+                <>El Documento ya se registro en el Expediente</>
             )
         } else {
             return (
