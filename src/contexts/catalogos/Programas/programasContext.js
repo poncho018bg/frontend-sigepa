@@ -88,6 +88,7 @@ export const ProgramasContextProvider = props => {
                 }
             }).then(response => {
                 resolve(response);
+                dispatch(get())
                 dispatch({
                     type: REGISTRAR_PROGRAMAS,
                     payload: response
