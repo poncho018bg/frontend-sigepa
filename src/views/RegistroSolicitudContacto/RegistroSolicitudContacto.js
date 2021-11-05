@@ -125,6 +125,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             fullWidth
                             onChange={onChange}
                             value={celular}
+                            inputProps={{ maxLength: 10, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                         />
                     </CardBody>
                     <CardBody>
@@ -137,6 +138,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             fullWidth
                             onChange={onChange}
                             value={telefonoCasa}
+                            inputProps={{ maxLength: 10, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                         />
                     </CardBody>
                     <CardBody>
@@ -148,6 +150,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             fullWidth
                             onChange={onChange}
                             value={telefonoContacto}
+                            inputProps={{ maxLength: 10, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                         />
                     </CardBody>
                     <CardBody>
@@ -159,6 +162,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             fullWidth
                             onChange={onChange}
                             value={email}
+                            inputProps={{ maxLength: 80 }}
                         />
                     </CardBody>
                     <CardBody>
