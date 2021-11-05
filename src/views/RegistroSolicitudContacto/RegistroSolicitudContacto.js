@@ -36,6 +36,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                 setTelefonoCasa(direccionB[0].telefonoCasa);
                 setTelefonoContato(direccionB[0].telefonoContacto);
                 setEmail(direccionB[0].correo);
+                setObservaciones(direccionB[0].dsobservaciones);
             }
         }
     }, [direccionB]);
@@ -66,7 +67,8 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                     telefonoCasa: telefonoCasa,
                     telefonoCelular: celular,
                     telefonoContacto: telefonoContacto,
-                    correo: email
+                    correo: email,
+                    dsobservaciones: observaciones
                 }
                 console.log("Datos que debe guardar", datosDireccion);
 
@@ -167,6 +169,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="observaciones"
                             fullWidth
                             onChange={onChange}
+                            value={observaciones}
                         />
                     </CardBody>
                 </CardBody>

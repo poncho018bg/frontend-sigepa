@@ -47,7 +47,6 @@ export const RegistroDireccion = forwardRef((props, ref) => {
     const [codigoPostal, setCodigoPostal] = useState("");
     const [idLocalidad, setIdLocalidad] = useState("");
     const [otraReferencia, setOtraReferencia] = useState("");
-    const [dsobservaciones, setDsobservaciones] = useState("");
     const [idEstado, setIdEstado] = useState("");
     const [idMunicipio, setIdMunicipio] = useState("");
 
@@ -75,7 +74,6 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                 getLocalidadesMunicipio(direccionBeneficiario[0].idMunicipio);
                 setIdLocalidad(direccionBeneficiario[0].idLocalidad);
                 setCodigoPostal(direccionBeneficiario[0].codigoPostal);
-                setDsobservaciones(direccionBeneficiario[0].dsobservaciones);
             }
         }
         getEstadosAll();
@@ -110,7 +108,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                     telefonoCelular: '',
                     telefonoContacto: '',
                     correo: '',
-                    dsobservaciones: dsobservaciones
+                    dsobservaciones: ''
                 }
             } else {
                 datosDireccion = {
@@ -129,7 +127,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                     telefonoCelular: direccionBeneficiario[0].telefonoCelular,
                     telefonoContacto: direccionBeneficiario[0].telefonoContacto,
                     correo: direccionBeneficiario[0].correo,
-                    dsobservaciones: dsobservaciones
+                    dsobservaciones: direccionBeneficiario[0].dsobservaciones
                 }
             }
             console.log("Datos que debe guardar", datosDireccion);
@@ -199,9 +197,6 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                 break;
             case "otraReferencia":
                 setOtraReferencia(event.target.value);
-                break;
-            case "dsobservaciones":
-                setDsobservaciones(event.target.value);
                 break;
         }
     }
@@ -384,13 +379,13 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                         <GridItem xs={12} sm={10}>
                             <TextField
                                 style={{ marginBottom: '20px' }}
-                                id="dsobservaciones"
+                                id="otraReferencia"
                                 label="Otra referencia"
                                 variant="outlined"
-                                name="dsobservaciones"
+                                name="otraReferencia"
                                 fullWidth
                                 onChange={onChange}
-                                value={dsobservaciones}
+                                value={otraReferencia}
                             />
                         </GridItem>
                     </GridContainer>
