@@ -2,7 +2,7 @@
 import {
     REGISTRAR_PROGRAMAS, MODIFICAR_PROGRAMAS
     , ELIMINAR_PROGRAMAS, GET_PROGRAMAS, AGREGAR_PROGRAMA_ERROR, GET_PROGRAMAS_BY_ID,
-    CAMBIAR_PAGINA_PROGRAMAS, CAMBIAR_TAMANIO_PAGINA_PROGRAMAS, GET_PROGRAMASACTIVOS,
+    CAMBIAR_PAGINA, CAMBIAR_TAMANIO_PAGINA, GET_PROGRAMASACTIVOS,
     GET_DOCUMENTOS_PROGRAMAS,GET_MUNICIPIOS_PROGRAMAS,GET_IMAGEN_PROGRAMAS
 } from 'types/actionTypes';
 
@@ -17,7 +17,7 @@ export default (state, action) => {
             return {
                 ...state,
                 programasList: action.payload._embedded.programas,
-                totalP: action.payload?.page?.totalElements
+                total: action.payload?.page?.totalElements
             };
         case GET_PROGRAMASACTIVOS:
 
@@ -60,19 +60,16 @@ export default (state, action) => {
                 programa: action.payload
             };
 
-        case CAMBIAR_PAGINA_PROGRAMAS:
-            console.log('en el reducer de cambio de pagina');
-            console.log(action.payload);
-            return {
-                ...state,
-
-                pageP: action.payload,
-            };
-        case CAMBIAR_TAMANIO_PAGINA_PROGRAMAS:
-            return {
-                ...state,
-                sizeP: action.payload
-            }
+            case CAMBIAR_PAGINA:
+                return {
+                    ...state,
+                    page: action.payload
+                }
+            case CAMBIAR_TAMANIO_PAGINA:
+                return {
+                    ...state,
+                    size: action.payload
+                }
         case GET_MUNICIPIOS_PROGRAMAS:
 
             return {

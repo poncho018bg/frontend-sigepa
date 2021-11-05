@@ -7,7 +7,7 @@ import {
     REGISTRAR_PROGRAMAS,
     MODIFICAR_PROGRAMAS,
     ELIMINAR_PROGRAMAS,
-    GET_PROGRAMAS, CAMBIAR_TAMANIO_PAGINA_PROGRAMAS, CAMBIAR_PAGINA_PROGRAMAS, GET_PROGRAMASACTIVOS,
+    GET_PROGRAMAS, CAMBIAR_PAGINA, CAMBIAR_TAMANIO_PAGINA, GET_PROGRAMASACTIVOS,
     GET_DOCUMENTOS_PROGRAMAS,GET_MUNICIPIOS_PROGRAMAS,GET_IMAGEN_PROGRAMAS,GET_PROGRAMAS_BY_ID
 }
     from 'types/actionTypes';
@@ -25,9 +25,9 @@ export const ProgramasContextProvider = props => {
         imagenprg:null,
         programasMunicipiosList:[],
         programasDocumentosList:[],
-        pageP: 0,
-        sizeP: 10,
-        totalP: 0,
+        page: 0,
+        size: 10,
+        total: 0,
        
     }
 
@@ -37,8 +37,8 @@ export const ProgramasContextProvider = props => {
     const get = async () => {
         try {
             
-            console.log(state);
-            const result = await axiosGet(`programas?page=${state.pageP}&size=${state.sizeP}`);
+            const { page, size } = state;
+            const result = await axiosGet(`programas?page=${page}&size=${size}`);
             dispatch({
                 type: GET_PROGRAMAS,
                 payload: result
@@ -166,28 +166,29 @@ export const ProgramasContextProvider = props => {
 
     //Paginacion
 
-    const changePage = (page) => {
-        dispatch({
-            type: CAMBIAR_PAGINA_PROGRAMAS,
-            payload: page
-        })
+    const changePage = async (pages) => {  
         try {
-
-         get();
-
-        } catch (error) {
+            dispatch(changePageNumber(pages))
+        } catch (error) {            
             throw error;
         }
+    }
 
+    const changePageSizes = async (sizes) => {
+        try {
+            dispatch(changePageSize(sizes))        
+        } catch (error) {            
+            throw error;
+        }
     }
 
     const changePageNumber = (page) => ({
-        type: CAMBIAR_PAGINA_PROGRAMAS,
+        type: CAMBIAR_PAGINA,
         payload: page
     })
 
     const changePageSize = (size) => ({
-        type: CAMBIAR_TAMANIO_PAGINA_PROGRAMAS,
+        type: CAMBIAR_TAMANIO_PAGINA,
         payload: size
     })
 
@@ -251,9 +252,9 @@ export const ProgramasContextProvider = props => {
                 programa: state.programa,
                 errorInsert: state.errorInsert,
                 mensajeError: state.mensajeError,
-                pageP: state.pageP,
-                sizeP: state.sizeP,
-                totalP: state.totalP,
+                page: state.page,
+                size: state.size,
+                total: state.total,
                 programasMunicipiosList:state.programasMunicipiosList,
                 programasDocumentosList:state.programasDocumentosList,
                 get,
@@ -264,6 +265,7 @@ export const ProgramasContextProvider = props => {
                 changePageNumber,
                 changePageSize,
                 changePage,
+                changePageSizes,
                 getProgramasActivos,
                 getByParametros,
                 getMunicipiosProg,
