@@ -869,8 +869,7 @@ export const ProgramasEdit = () => {
 
 
                     <GridContainer>
-                      {console.log('imgxxx=>', archivoPrograma)}
-                      {console.log('${archivoPrograma[0]?.data}', `${archivoPrograma[0]?.data}`)}
+                     
                       <GridItem xs={12} sm={12} md={6}>
                         <DropzoneAreaBase
                           acceptedFiles={['image/png']}

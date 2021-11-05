@@ -224,8 +224,7 @@ export const ProgramasForm = () => {
         .required('El tipo de beneficiario es obligatorio'),
       idRangoEdadBeneficiario: Yup.string()
         .required('El rango de edad es obligatorio'),
-      dsnombreplantilla: Yup.string()
-        .required('La plantilla es obligatoria'),
+
       dsobjetivo: Yup.string()
         .required('El objetivo es obligatorio'),
       dsurl: Yup.string()
@@ -265,7 +264,7 @@ export const ProgramasForm = () => {
       idBeneficiario,
       idRangoEdadBeneficiario,
       dsidentificadorplantilla,
-      dsnombreplantilla,
+      
       dsobjetivo,
       dsurl
 
@@ -280,7 +279,12 @@ export const ProgramasForm = () => {
     console.log(lstmunSeleccionados);
 
     console.log('archivoPrograma', archivoPrograma)
-
+    let nmplantilla  ='';
+    formioComplemento.map(e=>{
+      if(e._id ===dsidentificadorplantilla ){
+        nmplantilla = e.title
+      }
+    })
     const blobpgr = new Blob([archivoPrograma], { type: 'image/png' });
     console.log('blobpgr', blobpgr)
     let programas = {
@@ -304,7 +308,7 @@ export const ProgramasForm = () => {
       documentosRequisitos: documentslst,
       file: archivoPrograma[0].data,
       dsidentificadorplantilla: dsidentificadorplantilla,
-      dsnombreplantilla: dsnombreplantilla,
+      dsnombreplantilla: nmplantilla,
       dsobjetivo: dsobjetivo,
       dsurl: dsurl
     }
@@ -817,16 +821,17 @@ export const ProgramasForm = () => {
                     select
                     style={{ marginBottom: '20px' }}
                     fullWidth
-                    id="dsnombreplantilla"
-                    onChange={handleChangePlantilla}
-                    value={selectedPlantilla.title}                    
+                    name="dsidentificadorplantilla"
+                    id="dsidentificadorplantilla"
+                    onChange={formik.handleChange}
+                    value={formik.values.dsidentificadorplantilla}                    
                   >
                     {
                       formioComplemento.map(
                         item => (
                           <MenuItem
                             key={item._id}
-                            value={item}>
+                            value={item._id}>
                             {item.path} -  {item.title}
                           </MenuItem>
                         )
