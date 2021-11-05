@@ -17,8 +17,7 @@ import { RegistroDireccion } from './RegistroDireccion';
 import { RegistroSolicitudContacto } from './RegistroSolicitudContacto';
 import { RegistroCargaDocumentos } from './RegistroCargaDocumentos';
 import { RegistroFinalizado } from './RegistroFinalizado';
-import { RegistroCaracteristicasAdicionales } from './RegistroCaracteristicasAdicionales';
-import { RegistroIngresos } from './RegistroIngresos';
+import { RegistroPreguntas } from './RegistroPreguntas';
 
 import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 
@@ -36,7 +35,6 @@ const pasos = [
     'Direccion',
     'Registro de Contacto',
     'Carga de Documentos',
-    'Identificación de ingresos económicos de la mujer',
     'Características adicionales de la solicitante',
     'Registro Finalizado'
 ];
@@ -272,9 +270,7 @@ export const RegistroSolicitud = () => {
                                         : activeStep === 4 ?
                                             <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo} identPrograma={identPrograma} />
                                             : activeStep === 5 ?
-                                                <RegistroIngresos beneficiario={beneficiario}  idPrograma={query.state?.mobNo} />
-                                                : activeStep === 6 ?
-                                                    <RegistroCaracteristicasAdicionales beneficiario={beneficiario}  idPrograma={query.state?.mobNo} />
+                                                <RegistroPreguntas beneficiario={beneficiario}  idPrograma={query.state?.mobNo} />
                                                     :
                                                     <RegistroFinalizado  beneficiario={beneficiario}  idPrograma={query.state?.mobNo} />}
 
