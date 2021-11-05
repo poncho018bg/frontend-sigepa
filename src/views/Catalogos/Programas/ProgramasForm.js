@@ -840,31 +840,7 @@ export const ProgramasForm = () => {
                   </TextField>
                 </GridItem>
               </GridContainer>
-              {/*
-              <GridContainer>
-               <GridItem xs={12} sm={12} md={12}>
-                  <TextField
-                    style={{ marginBottom: '20px' }}
-                    id="dsidentificadorplantilla"
-                    error={formik.errors.dsidentificadorplantilla}
-                    label="Identificador de plantilla FR"
-                    variant="outlined"
-                    name="dsidentificadorplantilla"
-                    fullWidth
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.dsidentificadorplantilla}
-                    inputProps={{ maxLength: "100" }}
-                  />
-                  {formik.touched.dsidentificadorplantilla && formik.errors.dsidentificadorplantilla ? (
-                    <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.dsidentificadorplantilla}>
-                      {formik.errors.dsidentificadorplantilla}
-                    </FormHelperText>
-                  ) : null}
-                </GridItem>
-
-              </GridContainer>
-                  */}
+     
 
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>

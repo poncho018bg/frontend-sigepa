@@ -105,50 +105,13 @@ export const ProgramasContextProvider = props => {
      * Se actualizan los tipos de apoyos
      * @param {motivoRechazos} motivoRechazos 
      */
-    const actualizar = async (id,objetoActualizar,file,documentos) => {
+    const actualizar = async (id,objetoActualizar,file) => {
 
-       
-
-        console.log("objeto actualizar --->", objetoActualizar);
-        console.log("documentos ----->", documentos);
-
-        let { dsprograma,
-            dsclaveprograma,
-            fcvigenciainicio,
-            fcvigenciafin,
-            fcregistrowebinicio,
-            fcregistrowebfin,
-            fcregistropresencialinicio,
-            fcregistropresencialfin,
-            dsdescripcion,
-            dscriterioelegibilidad,
-            dscontinuidad,
-            dsobservaciones,
-            idBeneficiario,
-            idRangoEdadBeneficiario } = objetoActualizar
-
-
-        let objetoEnviar = {
-            id:id,
-            dsprograma,
-            dsclaveprograma,
-            fcvigenciainicio,
-            fcvigenciafin,
-            fcregistrowebinicio,
-            fcregistrowebfin,
-            fcregistropresencialinicio,
-            fcregistropresencialfin,
-            dsdescripcion,
-            dscriterioelegibilidad,
-            dscontinuidad,
-            dsobservaciones,
-            idBeneficiario,
-            idRangoEdadBeneficiario,
-            documentosRequisitos:documentos
-        }
+        objetoActualizar.id=id   
+        console.log("objeto actualizar --->", objetoActualizar);                    
 
         const formData = new FormData();
-        const programaDTO = new Blob([JSON.stringify(objetoEnviar)], {
+        const programaDTO = new Blob([JSON.stringify(objetoActualizar)], {
             type: 'application/json',
         });
 
