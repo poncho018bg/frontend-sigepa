@@ -13,6 +13,7 @@ import Clearfix from "components/Clearfix/Clearfix.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
+import { useDispatch, useSelector } from 'react-redux';
 
 
 import styles from "assets/jss/material-dashboard-pro-react/views/userProfileStyles.js";
@@ -48,6 +49,7 @@ function intersection(a, b) {
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { formioComplementoLoading } from 'actions/FormioComplementoAction';
 
 
 export const ProgramasForm = () => {
@@ -82,12 +84,17 @@ export const ProgramasForm = () => {
 
   const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
   const [archivoPrograma, setArchivoPrograma] = React.useState([]);
+  const formioComplemento = useSelector(state => state.formioComplemento.formioComplemento);
+  const [selectedPlantilla, setSelectedPlantilla] = useState([]);
 
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getRegionMunicipios('a3de85a7-6c23-46a4-847b-d79b3a90963d')
     getDocumentos();
+    const cargarFormioComplemento = () => dispatch(formioComplementoLoading());
+    cargarFormioComplemento();
+    console.log("Esto es lo que trae la consulta formioComplemento", formioComplemento);
   }, []);
 
   useEffect(() => {
@@ -217,13 +224,11 @@ export const ProgramasForm = () => {
         .required('El tipo de beneficiario es obligatorio'),
       idRangoEdadBeneficiario: Yup.string()
         .required('El rango de edad es obligatorio'),
-      dsidentificadorplantilla: Yup.string()
-        .required('El identificador plantilla es obligatorio'),
       dsnombreplantilla: Yup.string()
-        .required('El nombre de la plantilla es obligatorio'),
+        .required('La plantilla es obligatoria'),
       dsobjetivo: Yup.string()
         .required('El objetivo es obligatorio'),
-        dsurl: Yup.string()
+      dsurl: Yup.string()
         .required('URL pública es obligatorio'),
 
     }),
@@ -330,6 +335,14 @@ export const ProgramasForm = () => {
     console.log("files=>>>", e);
     console.log(archivoPrograma)
 
+  }
+
+  const handleChangePlantilla = (event) => {
+    formik.values.dsidentificadorplantilla = event.target.value._id;
+    formik.values.dsnombreplantilla = event.target.value.path;
+    setSelectedPlantilla(event.target.value);
+    console.log("formik.values.dsidentificadorplantilla", formik.values.dsidentificadorplantilla);
+    console.log("formik.values.dsnombreplantilla", formik.values.dsnombreplantilla);
   }
 
   return (
@@ -799,30 +812,37 @@ export const ProgramasForm = () => {
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
                   <TextField
-                    style={{ marginBottom: '20px' }}
-                    id="dsnombreplantilla"
-                    error={formik.errors.dsnombreplantilla}
-                    label="Nombre de la plantilla FR"
                     variant="outlined"
-                    name="dsnombreplantilla"
+                    label="Selecciona una plantilla"
+                    select
+                    style={{ marginBottom: '20px' }}
                     fullWidth
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.dsnombreplantilla}
-                    inputProps={{ maxLength: "100" }}
-                  />
-                  {formik.touched.dsnombreplantilla && formik.errors.dsnombreplantilla ? (
-                    <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.dsnombreplantilla}>
-                      {formik.errors.dsnombreplantilla}
-                    </FormHelperText>
-                  ) : null}
+                    id="dsnombreplantilla"
+                    onChange={handleChangePlantilla}
+                    value={selectedPlantilla.title}                    
+                  >
+                    {
+                      formioComplemento.map(
+                        item => (
+                          <MenuItem
+                            key={item._id}
+                            value={item}>
+                            {item.path} -  {item.title}
+                          </MenuItem>
+                        )
+                      )
+                    }
+                    {formik.touched.dsnombreplantilla && formik.errors.dsnombreplantilla ? (
+                      <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.dsnombreplantilla}>
+                        {formik.errors.dsnombreplantilla}
+                      </FormHelperText>
+                    ) : null}
+                  </TextField>
                 </GridItem>
               </GridContainer>
-
+              {/*
               <GridContainer>
-
-
-                <GridItem xs={12} sm={12} md={12}>
+               <GridItem xs={12} sm={12} md={12}>
                   <TextField
                     style={{ marginBottom: '20px' }}
                     id="dsidentificadorplantilla"
@@ -844,6 +864,7 @@ export const ProgramasForm = () => {
                 </GridItem>
 
               </GridContainer>
+                  */}
 
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
