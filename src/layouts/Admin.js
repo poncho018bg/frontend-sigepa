@@ -53,6 +53,7 @@ export default function Admin({ ...rest }) {
   const { perfilSubmodulos } = useSelector(state => state.submodulosbyperfil);
   const [rolUser, setRolUser] = React.useState('');
   const [opcionesMenu, setOpcionesMenu] = React.useState('');
+  const teststate = useSelector(state => state);
 
   //pantalla Mini
   const mainPanelClasses =
@@ -141,26 +142,29 @@ export default function Admin({ ...rest }) {
     }
   };
 
-  React.useEffect(() => {
-    const cargarRolesActivos = () => dispatch(obtenerRolesAction());
-    cargarRolesActivos();
-  }, [sessionStorage.getItem('groups')]);
+
 
 
   React.useEffect(() => {
     let groupssesion = JSON.parse(sessionStorage.getItem('groups'))
-    console.log('Todos los roles =>', rolesall?.roles)
-    rolesall?.roles.forEach(element => {
-      console.log('KR', element.path,)
-      console.log('UR', groupssesion)
-      if (element.path === groupssesion[0]) {
-        setRolUser(element?.id)
-        console.log('rolUser', rolUser)
-      }
-    });
+    if(groupssesion !== null){
+
+      console.log('Todos los roles =>', rolesall?.roles)
+      console.log('groupssesion',groupssesion)
+      rolesall?.roles.forEach(element => {
+        console.log('KR', element.path,)
+        console.log('UR', groupssesion)
+        if (element.path === groupssesion[0]) {
+          setRolUser(element?.id)
+          console.log('rolUser', rolUser)
+        }
+      });
+    }
+ 
   }, [rolesall]);
 
   React.useEffect(() => {
+    console.log('rolUserx=>',rolUser)
     if (rolUser !== '') {
       const cargarPerfilesActivos = () => dispatch(getSubmodulosByPerfilId(rolUser));
       cargarPerfilesActivos();
@@ -195,6 +199,10 @@ export default function Admin({ ...rest }) {
         kcc.keycloak = keycloak;
         kcc.authenticated = authenticated;
 
+        //obtiene los roles
+        const cargarRolesActivos = () => dispatch(obtenerRolesAction(keycloak.token));
+        cargarRolesActivos();
+       
         setInterval(() => {
           keycloak.updateToken(30).then(function (refreshed) {
             if (refreshed) {
@@ -206,7 +214,7 @@ export default function Admin({ ...rest }) {
               sessionStorage.setItem('roles', keycloak.tokenParsed.realm_access);
               sessionStorage.setItem('groups', keycloak.tokenParsed.groups);
               console.log("token ", keycloak.token)
-
+              cargarRolesActivos();
               kcc.keycloak = keycloak;
               kcc.authenticated = authenticated;
             } else {
@@ -217,7 +225,7 @@ export default function Admin({ ...rest }) {
             keycloak.logout()
           })
         }, 15000);
-
+      
       } else {
         keycloak.login();
       }
@@ -254,7 +262,7 @@ export default function Admin({ ...rest }) {
 
   if (keycloak) {
     if (authenticated) {
-
+      {console.log('teststate',teststate)}
       return (
         <div className={classes.wrapper}>
           <Sidebar

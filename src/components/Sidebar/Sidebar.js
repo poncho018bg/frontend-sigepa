@@ -229,19 +229,17 @@ function Sidebar(props) {
             [classes.collapseItemMiniRTL]: rtlActive,
           });
         return (
+          <>
+            {validateprofilesModulos(prop.name, props.pantallasview) ? (
+              <ListItem
+                key={key}
+                className={cx(
+                  { [classes.item]: prop.icon !== undefined },
+                  { [classes.collapseItem]: prop.icon === undefined }
+                )}
+              >
 
-          <ListItem
-            key={key}
-            className={cx(
-              { [classes.item]: prop.icon !== undefined },
-              { [classes.collapseItem]: prop.icon === undefined }
-            )}
-          >
-            <>
 
-              {/* AQUI VA VALIDACIÓN QUE OCULTE LOS MENUS */}
-
-              {validateprofilesModulos(prop.name, props.pantallasview) ? (<>
                 <NavLink
                   to={"#"}
                   className={navLinkClasses}
@@ -287,15 +285,11 @@ function Sidebar(props) {
                   </List>
                 </Collapse>
 
-              </>) : (null)}
 
-            </>
+              </ListItem>
+            ) : (null)}
 
-
-
-
-          </ListItem>
-
+          </>
         );
       }
       const innerNavLinkClasses =
@@ -341,56 +335,47 @@ function Sidebar(props) {
           [classes.itemIconRTL]: rtlActive,
         });
       return (
-        <ListItem
-          key={key}
-          className={cx(
-            { [classes.item]: prop.icon !== undefined },
-            { [classes.collapseItem]: prop.icon === undefined }
-          )}
-        >
-
-
-          <NavLink
-            to={prop.layout + prop.path}
+        <>
+          {validateprofiles(prop.name, props.pantallasview) ? (<ListItem
+            key={key}
             className={cx(
-              { [navLinkClasses]: prop.icon !== undefined },
-              { [innerNavLinkClasses]: prop.icon === undefined }
+              { [classes.item]: prop.icon !== undefined },
+              { [classes.collapseItem]: prop.icon === undefined }
             )}
           >
 
-            {/*INICIO PRUEBA DE PERMISOS */}
-            {validateprofiles(prop.name, props.pantallasview) ? (
-              <>
+            <NavLink
+              to={prop.layout + prop.path}
+              className={cx(
+                { [navLinkClasses]: prop.icon !== undefined },
+                { [innerNavLinkClasses]: prop.icon === undefined }
+              )}
+            >
 
-                {prop.icon !== undefined ? (
-                  typeof prop.icon === "string" ? (
-                    <Icon className={itemIcon}>{prop.icon}</Icon>
-                  ) : (
-                    <prop.icon className={itemIcon} />
-                  )
+              {prop.icon !== undefined ? (
+                typeof prop.icon === "string" ? (
+                  <Icon className={itemIcon}>{prop.icon}</Icon>
                 ) : (
-                  <span className={collapseItemMini}>
+                  <prop.icon className={itemIcon} />
+                )
+              ) : (
+                <span className={collapseItemMini}>
 
-                  </span>
+                </span>
+              )}
+              <ListItemText
+                primary={rtlActive ? prop.rtlName : prop.name}
+                disableTypography={true}
+                className={cx(
+                  { [itemText]: prop.icon !== undefined },
+                  { [collapseItemText]: prop.icon === undefined }
                 )}
-                <ListItemText
-                  primary={rtlActive ? prop.rtlName : prop.name}
-                  disableTypography={true}
-                  className={cx(
-                    { [itemText]: prop.icon !== undefined },
-                    { [collapseItemText]: prop.icon === undefined }
-                  )}
-                />
-              </>
-            ) : (
-              <></>
-            )
+              />
 
-            }
+            </NavLink>
+          </ListItem>) : (null)}
 
-            {/*FIN PRUEBA DE PERMISOS */}
-          </NavLink>
-        </ListItem>
+        </>
       );
     });
   };

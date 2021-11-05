@@ -1,11 +1,11 @@
 import { axiosGet } from "helpers/axiosKeycloak";
 import { typesKeycloak } from "../types/types";
 
-export function obtenerRolesAction() {
+export function obtenerRolesAction(token) {
     return async (dispatch) => {
         dispatch(descargarRoles());
         try {
-            const data = await axiosGet(`groups`);
+            const data = await axiosGet(`groups`,token);
             console.log('R.->',data);
             dispatch(descargaRolesExitosa(data));
         } catch (error) {
