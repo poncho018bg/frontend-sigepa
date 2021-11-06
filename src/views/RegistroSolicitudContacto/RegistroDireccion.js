@@ -50,13 +50,11 @@ export const RegistroDireccion = forwardRef((props, ref) => {
     const [idEstado, setIdEstado] = useState("");
     const [idMunicipio, setIdMunicipio] = useState("");
 
-    const { direccion, registrarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
-
 
 
 
     useEffect(() => {
-
+        getEstadosAll();
         console.log("ESTO LLEGO DE LA CONSULTA DE LA DIRECCION DEL BENEFICIARIO -----> ", direccionBeneficiario);
         if (direccionBeneficiario !== undefined) {
             console.log("DIRECCION DEL BENEFICIARIO -----> ", direccionBeneficiario[0]);
@@ -73,11 +71,10 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                 getMunicipioEstado(direccionBeneficiario[0].idEstado);
                 setIdMunicipio(direccionBeneficiario[0].idMunicipio);
                 setCodigoPostal(direccionBeneficiario[0].codigoPostal);
-                getLocalidadesMunicipio(direccionBeneficiario[0].idMunicipio,direccionBeneficiario[0].codigoPostal);
-                setIdLocalidad(direccionBeneficiario[0].idLocalidad);   
+                getLocalidadesMunicipio(direccionBeneficiario[0].idMunicipio, direccionBeneficiario[0].codigoPostal);
+                setIdLocalidad(direccionBeneficiario[0].idLocalidad);
             }
         }
-        getEstadosAll();
     }, [direccionBeneficiario]);
 
 
