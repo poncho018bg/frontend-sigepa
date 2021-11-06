@@ -36,7 +36,7 @@ export const RegistroCargaDocumentos = (props) => {
         documentosBoveda,
         registrarDatosBoveda } = useContext(RegistroCargaDocumentosContext);
     const { beneficiario } = props;
-    //const { idPrograma } = props;
+    const { idPrograma } = props;
     const { identPrograma } = props;
     const { setValidarDocs, validarDocs, setActivar } = props;
     const [archivo, setArchivos] = useState([]);
@@ -47,7 +47,7 @@ export const RegistroCargaDocumentos = (props) => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
-    let idPrograma = '8cbd2101-ef40-4fad-8698-5911ccecaf54';
+    //let idPrograma = '8cbd2101-ef40-4fad-8698-5911ccecaf54';
 
 
     useEffect(() => {
