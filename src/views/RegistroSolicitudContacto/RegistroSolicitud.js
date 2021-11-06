@@ -55,7 +55,7 @@ export const RegistroSolicitud = () => {
     const child = useRef();
     const direccionChild = useRef();
     const contacto = useRef();
-
+    const [validarDocs, setValidarDocs] = useState([]);
     const [identPrograma, setIdentPrograma] = useState();
     //let datosEnviar;
     /**
@@ -269,7 +269,7 @@ export const RegistroSolicitud = () => {
                                         : activeStep === 3 ?
                                             <RegistroSolicitudContacto activar={activar} setActivar={setActivar} direccionB={direccion} beneficiario={beneficiario} ref={contacto} />
                                             : activeStep === 4 ?
-                                                <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo} identPrograma={identPrograma} />
+                                                <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo} identPrograma={identPrograma}  setValidarDocs={setValidarDocs} validarDocs={validarDocs} setActivar={setActivar} />
                                                 : activeStep === 5 ?
                                                     <RegistroPreguntas beneficiario={beneficiario} idPrograma={query.state?.mobNo} />
                                                     :
