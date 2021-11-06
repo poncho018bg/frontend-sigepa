@@ -30,7 +30,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 export const RegistroDireccion = forwardRef((props, ref) => {
     const classes = useStyles();
-    const { beneficiario, obtenerDireccion, direccionBeneficiario } = props;
+    const { beneficiario, obtenerDireccion, direccionBeneficiario, setActivar, activar } = props;
 
     console.log("LLEGA EL ID DEL BENEFICIARIO ---> ", beneficiario);
 
@@ -56,6 +56,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
 
 
     useEffect(() => {
+
         console.log("ESTO LLEGO DE LA CONSULTA DE LA DIRECCION DEL BENEFICIARIO -----> ", direccionBeneficiario);
         if (direccionBeneficiario !== undefined) {
             console.log("DIRECCION DEL BENEFICIARIO -----> ", direccionBeneficiario[0]);
@@ -168,6 +169,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
 
     const onChange = event => {
         console.log("target direccion ===> ", event.target.name);
+        console.log(event.target.value);
         //llenado de los datos a registrar
         switch (event.target.name) {
             case "calle":
@@ -201,6 +203,46 @@ export const RegistroDireccion = forwardRef((props, ref) => {
         }
     }
 
+    const [calleStatus, setCalleStatus] = useState("");
+    const [exteriorStatus, setExteriorStatus] = useState("");
+    const [interiorStatus, setInteriorStatus] = useState("");
+    const [coloniaStatus, setColoniaStatus] = useState("");
+    const [entreCalleStatus, setEntreCalleStatus] = useState("");
+    const [ycalleStatus, setYCalleStatus] = useState("");
+    const [codigoPostalStatus, setCodigoPostalStatus] = useState("");
+    const [localidadStatus, setLocalidadStatus] = useState("");
+
+    const next = () => {
+        if (activar || activar === undefined) {
+            console.log("activar es true o indefinido oblur", calle);
+            if (calle !== "" && noExterior !== "" && noInterior !== "" && colonia !== "" && entreCalle !== "" && yCalle !== "" && idLocalidad !== "") {
+                return true;
+            } else {
+                if (calle === "") {
+                    return false;
+                }
+                if (noExterior === "") {
+                    return false;
+                }
+                if (noInterior === "") {
+                    return false;
+                }
+                if (colonia === "") {
+                    return false;
+                }
+                if (entreCalle === "") {
+                    return false;
+                }
+                if (yCalle === "") {
+                    return false;
+                }
+                if (idLocalidad === "") {
+                    return false;
+                }
+            }
+        }
+    }
+
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>
@@ -222,6 +264,20 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 fullWidth
                                 onChange={onChange}
                                 value={calle}
+                                success={calleStatus === 'success'}
+                                error={calleStatus === 'error'}
+                                onBlur={() => setActivar(next())}
+
+                                inputProps={{
+                                    onChange: (event) => {
+                                        if (event.target.value === "") {
+                                            setCalleStatus("error");
+                                            setActivar(false);
+                                        } else {
+                                            setCalleStatus("success");
+                                        }
+                                    }
+                                }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={3}>
@@ -234,6 +290,19 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 fullWidth
                                 onChange={onChange}
                                 value={noExterior}
+                                success={exteriorStatus === 'success'}
+                                error={exteriorStatus === 'error'}
+                                onBlur={() => setActivar(next())}
+                                inputProps={{
+                                    onChange: (event) => {
+                                        if (event.target.value === "") {
+                                            setExteriorStatus("error");
+                                            setActivar(false);
+                                        } else {
+                                            setExteriorStatus("success");
+                                        }
+                                    }
+                                }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={3}>
@@ -246,6 +315,19 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 fullWidth
                                 onChange={onChange}
                                 value={noInterior}
+                                success={interiorStatus === 'success'}
+                                error={interiorStatus === 'error'}
+                                onBlur={() => setActivar(next())}
+                                inputProps={{
+                                    onChange: (event) => {
+                                        if (event.target.value === "") {
+                                            setInteriorStatus("error");
+                                            setActivar(false);
+                                        } else {
+                                            setInteriorStatus("success");
+                                        }
+                                    }
+                                }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={7}>
@@ -258,6 +340,19 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 fullWidth
                                 onChange={onChange}
                                 value={colonia}
+                                success={coloniaStatus === 'success'}
+                                error={coloniaStatus === 'error'}
+                                onBlur={() => setActivar(next())}
+                                inputProps={{
+                                    onChange: (event) => {
+                                        if (event.target.value === "") {
+                                            setColoniaStatus("error");
+                                            setActivar(false);
+                                        } else {
+                                            setColoniaStatus("success");
+                                        }
+                                    }
+                                }}
                             />
                         </GridItem>
 
@@ -272,6 +367,19 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 onChange={onChange}
                                 fullWidth
                                 value={entreCalle}
+                                success={entreCalleStatus === 'success'}
+                                error={entreCalleStatus === 'error'}
+                                onBlur={() => setActivar(next())}
+                                inputProps={{
+                                    onChange: (event) => {
+                                        if (event.target.value === "") {
+                                            setEntreCalleStatus("error");
+                                            setActivar(false);
+                                        } else {
+                                            setEntreCalleStatus("success");
+                                        }
+                                    }
+                                }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={5}>
@@ -284,6 +392,19 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 fullWidth
                                 onChange={onChange}
                                 value={yCalle}
+                                success={ycalleStatus === 'success'}
+                                error={ycalleStatus === 'error'}
+                                onBlur={() => setActivar(next())}
+                                inputProps={{
+                                    onChange: (event) => {
+                                        if (event.target.value === "") {
+                                            setYCalleStatus("error");
+                                            setActivar(false);
+                                        } else {
+                                            setYCalleStatus("success");
+                                        }
+                                    }
+                                }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={3}>
@@ -361,6 +482,19 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 select
                                 onChange={onChange}
                                 value={idLocalidad}
+                                success={localidadStatus === 'success'}
+                                error={localidadStatus === 'error'}
+                                onBlur={() => setActivar(next())}
+                                inputProps={{
+                                    onChange: (event) => {
+                                        if (event.target.value === "") {
+                                            setLocalidadStatus("error");
+                                            setActivar(false);
+                                        } else {
+                                            setLocalidadStatus("success");
+                                        }
+                                    }
+                                }}
                             >
                                 {
                                     localidadesList.map(
