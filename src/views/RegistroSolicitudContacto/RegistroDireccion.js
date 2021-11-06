@@ -285,7 +285,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                             <TextField
                                 style={{ marginBottom: '20px' }}
                                 id="numeroExterior"
-                                label="Número Exterior"
+                                label="Número exterior"
                                 variant="outlined"
                                 name="numeroExterior"
                                 fullWidth
@@ -313,7 +313,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                             <TextField
                                 style={{ marginBottom: '20px' }}
                                 id="numeroInterior"
-                                label="Número Interior"
+                                label="Número interior"
                                 variant="outlined"
                                 name="numeroInterior"
                                 fullWidth
@@ -371,7 +371,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                             <TextField
                                 style={{ marginBottom: '20px' }}
                                 id="entreCalle"
-                                label="Entre Calle"
+                                label="Entre calle"
                                 variant="outlined"
                                 name="entreCalle"
                                 onChange={onChange}
@@ -425,7 +425,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                             <TextField
                                 style={{ marginBottom: '20px' }}
                                 id="entidadFederativa"
-                                label="Entidad Federativa"
+                                label="Entidad federativa"
                                 variant="outlined"
                                 name="entidadFederativa"
                                 fullWidth
@@ -475,7 +475,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                             <TextField
                                 style={{ marginBottom: '20px' }}
                                 id="codigoPostal"
-                                label="Código Postal"
+                                label="Código postal"
                                 variant="outlined"
                                 name="codigoPostal"
                                 fullWidth
