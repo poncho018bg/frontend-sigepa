@@ -6,6 +6,7 @@ import { perfilSubmodulosReducer } from './PerfilSubmodulos';
 import { rolReducer } from './RolesKeycloakReducer';
 
 import { tipoBandejaReducer } from './tipobandejaReducer';
+import {formioComplementoReducer} from './FormioComplementoReducer'
 
 
 
@@ -16,7 +17,8 @@ export const rootReducer = combineReducers({
     auth: authReducer,
     roles:rolReducer,
     submodulosbyperfil:perfilSubmodulosReducer,
-    tipoApoyo:TipoApoyoReducer
+    tipoApoyo:TipoApoyoReducer,
+    formioComplemento:formioComplementoReducer,
    
 })
 

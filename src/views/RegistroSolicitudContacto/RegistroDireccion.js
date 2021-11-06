@@ -263,6 +263,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="calle"
                                 fullWidth
                                 onChange={onChange}
+                                inputProps={{ maxLength: 150, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                                 value={calle}
                                 success={calleStatus === 'success'}
                                 error={calleStatus === 'error'}
@@ -302,7 +303,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                             setExteriorStatus("success");
                                         }
                                     }
-                                }}
+                                },{ maxLength: 40, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/'  }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={3}>
@@ -327,7 +328,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                             setInteriorStatus("success");
                                         }
                                     }
-                                }}
+                                },{ maxLength: 40, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/'  }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={7}>
@@ -352,7 +353,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                             setColoniaStatus("success");
                                         }
                                     }
-                                }}
+                                },{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                             />
                         </GridItem>
 
@@ -379,7 +380,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                             setEntreCalleStatus("success");
                                         }
                                     }
-                                }}
+                                },{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={5}>
@@ -404,7 +405,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                             setYCalleStatus("success");
                                         }
                                     }
-                                }}
+                                },{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={3}>
@@ -467,6 +468,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 fullWidth
                                 onChange={onChange}
                                 value={codigoPostal}
+                                inputProps={{ maxLength: 5, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                             />
                         </GridItem>
 
@@ -520,6 +522,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 fullWidth
                                 onChange={onChange}
                                 value={otraReferencia}
+                                inputProps={{ maxLength: 100, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                             />
                         </GridItem>
                     </GridContainer>

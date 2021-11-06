@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Checkbox, FormHelperText, FormLabel, Grid, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Paper, TextField } from '@material-ui/core'
-
+import { useDispatch, useSelector } from 'react-redux';
 import GridContainer from 'components/Grid/GridContainer';
 import GridItem from 'components/Grid/GridItem';
 import Card from 'components/Card/Card';
@@ -32,6 +32,7 @@ import { DocumentosContext } from "contexts/catalogos/documentosContext";
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { MunicipiosContext } from 'contexts/catalogos/MunicipiosContext';
+import { formioComplementoLoading } from 'actions/FormioComplementoAction';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -76,10 +77,17 @@ export const ProgramasEdit = () => {
   const { getMunicipiosAll, municipiosList } = useContext(MunicipiosContext)
   const { getDocumentos, documentosList } = useContext(DocumentosContext);
   const [archivoPrograma, setArchivoPrograma] = React.useState([]);
+  const [selectedPlantilla, setSelectedPlantilla] = useState([]);
+  const formioComplemento = useSelector(state => state.formioComplemento.formioComplemento);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     getMunicipiosAll()
     getDocumentos();
     getTipoBeneficiarios();
+    const cargarFormioComplemento = () => dispatch(formioComplementoLoading());
+    cargarFormioComplemento();
   }, []);
 
   useEffect(() => {
@@ -103,6 +111,8 @@ export const ProgramasEdit = () => {
 
     setSelected(lstmun)
 
+    
+
   }, [municipiosSelect]);
 
 
@@ -113,7 +123,7 @@ export const ProgramasEdit = () => {
 
     const file2 = new File([blobpgr], 'Proceso aduanal.png', { type: 'image/png' })
 
-    setArchivoPrograma(`data:image/png;base64,${imagenprg}`)
+    setArchivoPrograma(imagenprg)
     console.log('blobpgr>>>', blobpgr)
     console.log('file2>>>>', file2)
 
@@ -230,10 +240,10 @@ export const ProgramasEdit = () => {
   const schemaValidacion = Yup.object({
     dsprograma: Yup.string().nullable()
       .required('El nombre del programa  es obligatorio')
-      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+      .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
     dsclaveprograma: Yup.string().nullable()
       .required('La clave del programa es obligatoria')
-      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+      .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
     /*  vigenciaDesde: Yup.string()
           .required('La vigencia desde es obligatorio'),
       vigenciaHasta: Yup.string()
@@ -248,20 +258,18 @@ export const ProgramasEdit = () => {
         .required('El periodo del registro presencial hasta es obligatorio'),*/
     dsdescripcion: Yup.string().nullable()
       .required('La descripcion del pograma de apoyo  es obligatorio')
-      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+      .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
     dscriterioelegibilidad: Yup.string().nullable()
-      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+      .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
     dscontinuidad: Yup.string()
-      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+      .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
     dsobservaciones: Yup.string()
-      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
-    dsidentificadorplantilla: Yup.string()
-      .required('El identificador plantilla es obligatorio'),
-    dsnombreplantilla: Yup.string()
-      .required('El nombre de la plantilla es obligatorio'),
+      .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
+
+    
     dsobjetivo: Yup.string()
       .required('El objetivo es obligatorio'),
-      dsurl: Yup.string()
+    dsurl: Yup.string()
       .required('URL pública es obligatorio'),
 
   });
@@ -277,7 +285,19 @@ export const ProgramasEdit = () => {
   }
 
   const handleRegistrar = () => {
-    actualizar(query.state?.mobNo, valores, archivo, documentslst).then(response => {
+    const lstmunSeleccionados = []
+    selected.map((mn) => {
+      lstmunSeleccionados.push(mn.value);
+    })
+
+    console.log('valores=>', valores)
+    valores.coberturaMunicipal= lstmunSeleccionados
+    valores.file= archivoPrograma
+    valores.activo = true
+    valores.documentosRequisitos= documentslst
+    console.log('valores=>', valores)
+    const blobpgr = new Blob([archivoPrograma], { type: 'image/png' });
+    actualizar(query.state?.mobNo, valores, blobpgr).then(response => {
 
       setOpenSnackbar(true);
       setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
@@ -309,6 +329,16 @@ export const ProgramasEdit = () => {
     console.log('archivo', archivo)
   }
 
+  const handleChangePlantilla = (event, props) => {
+    props.values.dsidentificadorplantilla = event.target.value._id;
+    props.values.dsnombreplantilla = event.target.value.path;
+    setSelectedPlantilla(event.target.value.title);
+    console.log("formik.values.dsidentificadorplantilla", props.values.dsidentificadorplantilla);
+    console.log("formik.values.dsnombreplantilla", props.values.dsnombreplantilla);
+    console.log(props)
+  }
+
+
 
 
 
@@ -328,7 +358,7 @@ export const ProgramasEdit = () => {
           <form
             className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
             onSubmit={props.handleSubmit}>
-
+              {console.log('ERRORES=>',props?.errors)}
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <Card>
@@ -769,57 +799,44 @@ export const ProgramasEdit = () => {
                       </GridItem>
 
                     </GridContainer>
-
+                        
                     <GridContainer>
+                      
                       <GridItem xs={12} sm={12} md={12}>
-
-
                         <TextField
+                          variant="outlined"
+                          label="Selecciona una plantilla"
+                          select
                           style={{ marginBottom: '20px' }}
+                          fullWidth   
+                          name="dsidentificadorplantilla"                       
                           id="dsnombreplantilla"
-                          error={props.errors.dsnombreplantilla}
-                          label="Nombre de la plantilla FR"
-                          variant="outlined"
-                          name="dsnombreplantilla"
-                          fullWidth
                           onChange={props.handleChange}
-                          onBlur={props.handleBlur}
-                          value={props.values?.dsnombreplantilla}
-                          InputLabelProps={{ shrink: true }}
-                          inputProps={{ maxLength: "500" }}
-                        />
-                        {props.touched.dsnombreplantilla && props.errors.dsnombreplantilla ? (
-                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsnombreplantilla}>
-                            {props.errors.dsnombreplantilla}
-                          </FormHelperText>
-                        ) : null}
+                          value={props?.values?.dsidentificadorplantilla}
+                        >
+                          {
+                            formioComplemento.map(
+                              item => (
+                                <MenuItem
+                                  key={item._id}
+                                  value={item._id}>
+                                  {item.path} -  {item.title}
+                                </MenuItem>
+                              )
+                            )
+                          }
+                          {props.touched.dsnombreplantilla && props.errors.dsnombreplantilla ? (
+                            <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsnombreplantilla}>
+                              {props.errors.dsnombreplantilla}
+                            </FormHelperText>
+                          ) : null}
+                        </TextField>
                       </GridItem>
                     </GridContainer>
-                    <GridContainer>
-                      <GridItem xs={12} sm={12} md={12}>
-                        <TextField
-                          style={{ marginBottom: '20px' }}
-                          id="dsidentificadorplantilla"
-                          error={props.errors.dsidentificadorplantilla}
-                          label="Identificador de plantilla FR"
-                          variant="outlined"
-                          name="dsidentificadorplantilla"
-                          fullWidth
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
-                          value={props.values?.dsidentificadorplantilla}
-                          InputLabelProps={{ shrink: true }}
-                          inputProps={{ maxLength: "500" }}
-                        />
-                        {props.touched.dsidentificadorplantilla && props.errors.dsidentificadorplantilla ? (
-                          <FormHelperText style={{ marginBottom: '20px' }} error={props.errors.dsidentificadorplantilla}>
-                            {props.errors.dsidentificadorplantilla}
-                          </FormHelperText>
-                        ) : null}
-                      </GridItem>
 
-                    </GridContainer>
 
+                  
+                  
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
                         <TextField
@@ -847,13 +864,12 @@ export const ProgramasEdit = () => {
                     </GridContainer>
 
 
-            
+
 
 
 
                     <GridContainer>
-                      {console.log('imgxxx=>', archivoPrograma)}
-                      {console.log('${archivoPrograma[0]?.data}', `${archivoPrograma[0]?.data}`)}
+                     
                       <GridItem xs={12} sm={12} md={6}>
                         <DropzoneAreaBase
                           acceptedFiles={['image/png']}
@@ -870,7 +886,7 @@ export const ProgramasEdit = () => {
                       </GridItem>
                       <GridItem xs={12} sm={12} md={6}>
 
-                        <img width='500' height='200' src={`${archivoPrograma[0]?.data}`} />
+                        <img width='500' height='200' src={`${archivoPrograma}`} />
 
                       </GridItem>
                     </GridContainer>

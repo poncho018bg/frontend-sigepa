@@ -80,7 +80,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
 
         axios.get(`${baseUrl}${curpR}`)
             .then(response => {
-                console.log(response);
+                console.log('X=>',response);
                 setNombre(response.data.response[0].nombre);
                 setCurp(response.data.response[0].curp);
                 setApellidoPaterno(response.data.response[0].apellidoPaterno);
@@ -250,6 +250,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             name="nombre"
                                             fullWidth
                                             value={apellidoPaterno}
+                                            inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }} 
                                         />
                                     </GridItem>
                                     <GridItem xs={12} sm={12}>
@@ -261,6 +262,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             name="apellidoMaterno"
                                             fullWidth
                                             value={apellidoMaterno}
+                                            inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                                         />
                                     </GridItem>
                                     <GridItem xs={12} sm={12}>
@@ -272,6 +274,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             name="nombre"
                                             fullWidth
                                             value={nombre}
+                                            inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                                         />
                                     </GridItem>
                                     <GridItem xs={12} sm={6}>

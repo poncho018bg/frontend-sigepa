@@ -13,6 +13,7 @@ import Clearfix from "components/Clearfix/Clearfix.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
+import { useDispatch, useSelector } from 'react-redux';
 
 
 import styles from "assets/jss/material-dashboard-pro-react/views/userProfileStyles.js";
@@ -48,6 +49,7 @@ function intersection(a, b) {
 
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { formioComplementoLoading } from 'actions/FormioComplementoAction';
 
 
 export const ProgramasForm = () => {
@@ -82,12 +84,17 @@ export const ProgramasForm = () => {
 
   const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
   const [archivoPrograma, setArchivoPrograma] = React.useState([]);
+  const formioComplemento = useSelector(state => state.formioComplemento.formioComplemento);
+  const [selectedPlantilla, setSelectedPlantilla] = useState([]);
 
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getRegionMunicipios('a3de85a7-6c23-46a4-847b-d79b3a90963d')
     getDocumentos();
+    const cargarFormioComplemento = () => dispatch(formioComplementoLoading());
+    cargarFormioComplemento();
+    console.log("Esto es lo que trae la consulta formioComplemento", formioComplemento);
   }, []);
 
   useEffect(() => {
@@ -187,10 +194,10 @@ export const ProgramasForm = () => {
     validationSchema: Yup.object({
       nombrePrograma: Yup.string().nullable()
         .required('El nombre del programa  es obligatorio')
-        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+        .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       clavePrograma: Yup.string().nullable()
         .required('La clave del programa es obligatoria')
-        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+        .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       vigenciaDesde: Yup.string().nullable()
         .required('La vigencia desde es obligatorio'),
       vigenciaHasta: Yup.date().nullable()
@@ -206,24 +213,21 @@ export const ProgramasForm = () => {
         .required('El periodo del registro presencial hasta es obligatorio'),
       desripcionPrograma: Yup.string().nullable()
         .required('La descripcion del pograma de apoyo  es obligatorio')
-        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+        .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       criterioPrograma: Yup.string()
-        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+        .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       actividadesPrograma: Yup.string()
-        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+        .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       obervacionesPrograma: Yup.string()
-        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+        .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       idBeneficiario: Yup.string()
         .required('El tipo de beneficiario es obligatorio'),
       idRangoEdadBeneficiario: Yup.string()
         .required('El rango de edad es obligatorio'),
-      dsidentificadorplantilla: Yup.string()
-        .required('El identificador plantilla es obligatorio'),
-      dsnombreplantilla: Yup.string()
-        .required('El nombre de la plantilla es obligatorio'),
+
       dsobjetivo: Yup.string()
         .required('El objetivo es obligatorio'),
-        dsurl: Yup.string()
+      dsurl: Yup.string()
         .required('URL pública es obligatorio'),
 
     }),
@@ -260,7 +264,7 @@ export const ProgramasForm = () => {
       idBeneficiario,
       idRangoEdadBeneficiario,
       dsidentificadorplantilla,
-      dsnombreplantilla,
+      
       dsobjetivo,
       dsurl
 
@@ -275,7 +279,12 @@ export const ProgramasForm = () => {
     console.log(lstmunSeleccionados);
 
     console.log('archivoPrograma', archivoPrograma)
-
+    let nmplantilla  ='';
+    formioComplemento.map(e=>{
+      if(e._id ===dsidentificadorplantilla ){
+        nmplantilla = e.title
+      }
+    })
     const blobpgr = new Blob([archivoPrograma], { type: 'image/png' });
     console.log('blobpgr', blobpgr)
     let programas = {
@@ -299,7 +308,7 @@ export const ProgramasForm = () => {
       documentosRequisitos: documentslst,
       file: archivoPrograma[0].data,
       dsidentificadorplantilla: dsidentificadorplantilla,
-      dsnombreplantilla: dsnombreplantilla,
+      dsnombreplantilla: nmplantilla,
       dsobjetivo: dsobjetivo,
       dsurl: dsurl
     }
@@ -330,6 +339,14 @@ export const ProgramasForm = () => {
     console.log("files=>>>", e);
     console.log(archivoPrograma)
 
+  }
+
+  const handleChangePlantilla = (event) => {
+    formik.values.dsidentificadorplantilla = event.target.value._id;
+    formik.values.dsnombreplantilla = event.target.value.path;
+    setSelectedPlantilla(event.target.value);
+    console.log("formik.values.dsidentificadorplantilla", formik.values.dsidentificadorplantilla);
+    console.log("formik.values.dsnombreplantilla", formik.values.dsnombreplantilla);
   }
 
   return (
@@ -384,7 +401,7 @@ export const ProgramasForm = () => {
                 </GridItem>
 
               </GridContainer>
-
+                  
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
                   <CardBody>
@@ -799,51 +816,36 @@ export const ProgramasForm = () => {
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
                   <TextField
-                    style={{ marginBottom: '20px' }}
-                    id="dsnombreplantilla"
-                    error={formik.errors.dsnombreplantilla}
-                    label="Nombre de la plantilla FR"
                     variant="outlined"
-                    name="dsnombreplantilla"
+                    label="Selecciona una plantilla"
+                    select
+                    style={{ marginBottom: '20px' }}
                     fullWidth
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.dsnombreplantilla}
-                    inputProps={{ maxLength: "100" }}
-                  />
-                  {formik.touched.dsnombreplantilla && formik.errors.dsnombreplantilla ? (
-                    <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.dsnombreplantilla}>
-                      {formik.errors.dsnombreplantilla}
-                    </FormHelperText>
-                  ) : null}
-                </GridItem>
-              </GridContainer>
-
-              <GridContainer>
-
-
-                <GridItem xs={12} sm={12} md={12}>
-                  <TextField
-                    style={{ marginBottom: '20px' }}
-                    id="dsidentificadorplantilla"
-                    error={formik.errors.dsidentificadorplantilla}
-                    label="Identificador de plantilla FR"
-                    variant="outlined"
                     name="dsidentificadorplantilla"
-                    fullWidth
+                    id="dsidentificadorplantilla"
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.dsidentificadorplantilla}
-                    inputProps={{ maxLength: "100" }}
-                  />
-                  {formik.touched.dsidentificadorplantilla && formik.errors.dsidentificadorplantilla ? (
-                    <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.dsidentificadorplantilla}>
-                      {formik.errors.dsidentificadorplantilla}
-                    </FormHelperText>
-                  ) : null}
+                    value={formik.values.dsidentificadorplantilla}                    
+                  >
+                    {
+                      formioComplemento.map(
+                        item => (
+                          <MenuItem
+                            key={item._id}
+                            value={item._id}>
+                            {item.path} -  {item.title}
+                          </MenuItem>
+                        )
+                      )
+                    }
+                    {formik.touched.dsnombreplantilla && formik.errors.dsnombreplantilla ? (
+                      <FormHelperText style={{ marginBottom: '20px' }} error={formik.errors.dsnombreplantilla}>
+                        {formik.errors.dsnombreplantilla}
+                      </FormHelperText>
+                    ) : null}
+                  </TextField>
                 </GridItem>
-
               </GridContainer>
+     
 
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
