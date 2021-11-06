@@ -194,10 +194,10 @@ export const ProgramasForm = () => {
     validationSchema: Yup.object({
       nombrePrograma: Yup.string().nullable()
         .required('El nombre del programa  es obligatorio')
-        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+        .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       clavePrograma: Yup.string().nullable()
         .required('La clave del programa es obligatoria')
-        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+        .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       vigenciaDesde: Yup.string().nullable()
         .required('La vigencia desde es obligatorio'),
       vigenciaHasta: Yup.date().nullable()
@@ -213,13 +213,13 @@ export const ProgramasForm = () => {
         .required('El periodo del registro presencial hasta es obligatorio'),
       desripcionPrograma: Yup.string().nullable()
         .required('La descripcion del pograma de apoyo  es obligatorio')
-        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+        .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       criterioPrograma: Yup.string()
-        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+        .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       actividadesPrograma: Yup.string()
-        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+        .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       obervacionesPrograma: Yup.string()
-        .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+        .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       idBeneficiario: Yup.string()
         .required('El tipo de beneficiario es obligatorio'),
       idRangoEdadBeneficiario: Yup.string()
@@ -401,7 +401,7 @@ export const ProgramasForm = () => {
                 </GridItem>
 
               </GridContainer>
-
+                  
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
                   <CardBody>

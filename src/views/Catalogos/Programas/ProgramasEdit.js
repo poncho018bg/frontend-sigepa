@@ -240,10 +240,10 @@ export const ProgramasEdit = () => {
   const schemaValidacion = Yup.object({
     dsprograma: Yup.string().nullable()
       .required('El nombre del programa  es obligatorio')
-      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+      .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
     dsclaveprograma: Yup.string().nullable()
       .required('La clave del programa es obligatoria')
-      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+      .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
     /*  vigenciaDesde: Yup.string()
           .required('La vigencia desde es obligatorio'),
       vigenciaHasta: Yup.string()
@@ -258,13 +258,13 @@ export const ProgramasEdit = () => {
         .required('El periodo del registro presencial hasta es obligatorio'),*/
     dsdescripcion: Yup.string().nullable()
       .required('La descripcion del pograma de apoyo  es obligatorio')
-      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+      .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
     dscriterioelegibilidad: Yup.string().nullable()
-      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+      .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
     dscontinuidad: Yup.string()
-      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+      .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
     dsobservaciones: Yup.string()
-      .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+      .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
 
     
     dsobjetivo: Yup.string()
