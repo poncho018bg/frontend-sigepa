@@ -30,7 +30,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 export const RegistroDireccion = forwardRef((props, ref) => {
     const classes = useStyles();
-    const { beneficiario, obtenerDireccion, direccionBeneficiario } = props;
+    const { beneficiario, obtenerDireccion, direccionBeneficiario, setActivar, activar } = props;
 
     console.log("LLEGA EL ID DEL BENEFICIARIO ---> ", beneficiario);
 
@@ -56,6 +56,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
 
 
     useEffect(() => {
+
         console.log("ESTO LLEGO DE LA CONSULTA DE LA DIRECCION DEL BENEFICIARIO -----> ", direccionBeneficiario);
         if (direccionBeneficiario !== undefined) {
             console.log("DIRECCION DEL BENEFICIARIO -----> ", direccionBeneficiario[0]);
@@ -168,6 +169,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
 
     const onChange = event => {
         console.log("target direccion ===> ", event.target.name);
+        console.log(event.target.value);
         //llenado de los datos a registrar
         switch (event.target.name) {
             case "calle":
@@ -201,6 +203,46 @@ export const RegistroDireccion = forwardRef((props, ref) => {
         }
     }
 
+    const [calleStatus, setCalleStatus] = useState("");
+    const [exteriorStatus, setExteriorStatus] = useState("");
+    const [interiorStatus, setInteriorStatus] = useState("");
+    const [coloniaStatus, setColoniaStatus] = useState("");
+    const [entreCalleStatus, setEntreCalleStatus] = useState("");
+    const [ycalleStatus, setYCalleStatus] = useState("");
+    const [codigoPostalStatus, setCodigoPostalStatus] = useState("");
+    const [localidadStatus, setLocalidadStatus] = useState("");
+
+    const next = () => {
+        if (activar || activar === undefined) {
+            console.log("activar es true o indefinido oblur", calle);
+            if (calle !== "" && noExterior !== "" && noInterior !== "" && colonia !== "" && entreCalle !== "" && yCalle !== "" && idLocalidad !== "") {
+                return true;
+            } else {
+                if (calle === "") {
+                    return false;
+                }
+                if (noExterior === "") {
+                    return false;
+                }
+                if (noInterior === "") {
+                    return false;
+                }
+                if (colonia === "") {
+                    return false;
+                }
+                if (entreCalle === "") {
+                    return false;
+                }
+                if (yCalle === "") {
+                    return false;
+                }
+                if (idLocalidad === "") {
+                    return false;
+                }
+            }
+        }
+    }
+
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>
@@ -223,32 +265,76 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 onChange={onChange}
                                 inputProps={{ maxLength: 150, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                                 value={calle}
+                                success={calleStatus === 'success'}
+                                error={calleStatus === 'error'}
+                                inputProps={{
+                                    onChange: (event) => {
+                                        if (event.target.value === "") {
+                                            setCalleStatus("error");
+                                            setActivar(false);
+                                        } else {
+                                            console.log("entra aqui calle");
+                                            setCalleStatus("success");
+                                            setActivar(next())
+                                        }
+                                    }
+                                }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={3}>
                             <TextField
                                 style={{ marginBottom: '20px' }}
                                 id="numeroExterior"
-                                label="Número Exterior"
+                                label="Número exterior"
                                 variant="outlined"
                                 name="numeroExterior"
                                 fullWidth
                                 onChange={onChange}
+                                inputProps={{ maxLength: 40, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                                 value={noExterior}
-                                inputProps={{ maxLength: 40, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/'  }}
+                                success={exteriorStatus === 'success'}
+                                error={exteriorStatus === 'error'}
+                                inputProps={{
+                                    onChange: (event) => {
+                                        console.log("evento exterior", event);
+                                        if (event.target.value === "") {
+                                            setExteriorStatus("error");
+                                            setActivar(false);
+                                        } else {
+                                            console.log("numero exterior");
+                                            setExteriorStatus("success");
+                                            setActivar(next())
+                                        }
+                                    }
+                                }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={3}>
                             <TextField
                                 style={{ marginBottom: '20px' }}
                                 id="numeroInterior"
-                                label="Número Interior"
+                                label="Número interior"
                                 variant="outlined"
                                 name="numeroInterior"
                                 fullWidth
                                 onChange={onChange}
+                                inputProps={{ maxLength: 40, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                                 value={noInterior}
-                                inputProps={{ maxLength: 40, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/'  }}
+                                success={interiorStatus === 'success'}
+                                error={interiorStatus === 'error'}
+                                inputProps={{
+                                    onChange: (event) => {
+                                        console.log("interior", event)
+                                        if (event.target.value === "") {
+                                            setInteriorStatus("error");
+                                            setActivar(false);
+                                        } else {
+                                            console.log("entra aqui numero interior");
+                                            setInteriorStatus("success");
+                                            setActivar(next())
+                                        }
+                                    }
+                                }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={7}>
@@ -260,8 +346,23 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="colonia"
                                 fullWidth
                                 onChange={onChange}
-                                value={colonia}
                                 inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                                value={colonia}
+                                success={coloniaStatus === 'success'}
+                                error={coloniaStatus === 'error'}
+                                inputProps={{
+                                    onChange: (event) => {
+                                        console.log("colonia", event)
+                                        if (event.target.value === "") {
+                                            setColoniaStatus("error");
+                                            setActivar(false);
+                                        } else {
+                                            console.log("entra aqui colonia");
+                                            setColoniaStatus("success");
+                                            setActivar(next())
+                                        }
+                                    }
+                                }}
                             />
                         </GridItem>
 
@@ -270,13 +371,27 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                             <TextField
                                 style={{ marginBottom: '20px' }}
                                 id="entreCalle"
-                                label="Entre Calle"
+                                label="Entre calle"
                                 variant="outlined"
                                 name="entreCalle"
                                 onChange={onChange}
+                                inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                                 fullWidth
                                 value={entreCalle}
-                                inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                                success={entreCalleStatus === 'success'}
+                                error={entreCalleStatus === 'error'}
+                                inputProps={{
+                                    onChange: (event) => {
+                                        if (event.target.value === "") {
+                                            setEntreCalleStatus("error");
+                                            setActivar(false);
+                                        } else {
+                                            console.log("entra aqui entre calle");
+                                            setEntreCalleStatus("success");
+                                            setActivar(next())
+                                        }
+                                    }
+                                }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={5}>
@@ -288,15 +403,29 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="yCalle"
                                 fullWidth
                                 onChange={onChange}
-                                value={yCalle}
                                 inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                                value={yCalle}
+                                success={ycalleStatus === 'success'}
+                                error={ycalleStatus === 'error'}
+                                inputProps={{
+                                    onChange: (event) => {
+                                        if (event.target.value === "") {
+                                            setYCalleStatus("error");
+                                            setActivar(false);
+                                        } else {
+                                            console.log("entra aqui y calle");
+                                            setYCalleStatus("success");
+                                            setActivar(next())
+                                        }
+                                    }
+                                }}
                             />
                         </GridItem>
                         <GridItem xs={12} sm={3}>
                             <TextField
                                 style={{ marginBottom: '20px' }}
                                 id="entidadFederativa"
-                                label="Entidad Federativa"
+                                label="Entidad federativa"
                                 variant="outlined"
                                 name="entidadFederativa"
                                 fullWidth
@@ -346,7 +475,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                             <TextField
                                 style={{ marginBottom: '20px' }}
                                 id="codigoPostal"
-                                label="Código Postal"
+                                label="Código postal"
                                 variant="outlined"
                                 name="codigoPostal"
                                 fullWidth
@@ -368,6 +497,20 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 select
                                 onChange={onChange}
                                 value={idLocalidad}
+                                success={localidadStatus === 'success'}
+                                error={localidadStatus === 'error'}
+                                inputProps={{
+                                    onChange: (event) => {
+                                        if (event.target.value === "") {
+                                            setLocalidadStatus("error");
+                                            setActivar(false);
+                                        } else {
+                                            console.log("entra aqui localidad");
+                                            setLocalidadStatus("success");
+                                            setActivar(next())
+                                        }
+                                    }
+                                }}
                             >
                                 {
                                     localidadesList.map(

@@ -14,7 +14,7 @@ import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 const useStyles = makeStyles(stylesArchivo);
 
 export const RegistroSolicitudContacto = forwardRef((props, ref) => {
-    const { direccionB, beneficiario } = props;
+    const { direccionB, beneficiario, setActivar, activar } = props;
     console.log("direccionB en forward ref--->", direccionB, beneficiario);
     const classes = useStyles();
     // 
@@ -28,9 +28,9 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
 
     useEffect(() => {
         console.log("DIRECCION B USSE EFFECT -----> ", direccionB);
-        if(direccionB !== undefined){
+        if (direccionB !== undefined) {
             console.log("DIRECCION B DEFINED -----> ", direccionB[0]);
-            if(direccionB[0] !== undefined){
+            if (direccionB[0] !== undefined) {
                 console.log("DIRECCION B 0 DEFINED ====> ", direccionB[0]);
                 setCelular(direccionB[0].telefonoCelular);
                 setTelefonoCasa(direccionB[0].telefonoCasa);
@@ -107,6 +107,39 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                 break;
         }
     }
+    const [celularStatus, setCelularStatus] = useState('');
+    const [telefonoCasaStatus, setTeleCasaStatus] = useState('');
+    const [telefonoContactoStatus, setTelefonoContatoStatus] = useState('');
+    const [emailStatus, setEmailStatus] = useState('');
+
+    const verifyEmail = (value) => {
+        var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (emailRex.test(value)) {
+            return true;
+        }
+        return false;
+    };
+
+    const next = () => {
+        if (activar || activar === undefined) {
+            if (celular !== "" && telefonoCasa !== "" && telefonoContacto !== "" && email !== "") {
+                return true;
+            } else {
+                if (celular === "") {
+                    return false;
+                }
+                if (telefonoCasa === "") {
+                    return false;
+                }
+                if (telefonoContacto === "") {
+                    return false;
+                }
+                if (email === "") {
+                    return false;
+                }
+            }
+        }
+    }
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -124,8 +157,22 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="celular"
                             fullWidth
                             onChange={onChange}
-                            value={celular}
                             inputProps={{ maxLength: 10, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                            value={celular}
+                            success={celularStatus === 'success'}
+                            error={celularStatus === 'error'}
+                            inputProps={{
+                                onChange: (event) => {
+                                    if (event.target.value === "") {
+                                        setCelularStatus("error");
+                                        setActivar(false);
+                                    } else {
+                                        console.log("entra aqui calle");
+                                        setCelularStatus("success");
+                                        setActivar(next())
+                                    }
+                                }
+                            }}
                         />
                     </CardBody>
                     <CardBody>
@@ -137,8 +184,22 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="telefono"
                             fullWidth
                             onChange={onChange}
-                            value={telefonoCasa}
                             inputProps={{ maxLength: 10, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                            value={telefonoCasa}
+                            success={telefonoCasaStatus === 'success'}
+                            error={telefonoCasaStatus === 'error'}
+                            inputProps={{
+                                onChange: (event) => {
+                                    if (event.target.value === "") {
+                                        setTeleCasaStatus("error");
+                                        setActivar(false);
+                                    } else {
+                                        console.log("entra aqui calle");
+                                        setTeleCasaStatus("success");
+                                        setActivar(next())
+                                    }
+                                }
+                            }}
                         />
                     </CardBody>
                     <CardBody>
@@ -149,8 +210,22 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="telefonocontacto"
                             fullWidth
                             onChange={onChange}
-                            value={telefonoContacto}
                             inputProps={{ maxLength: 10, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                            value={telefonoContacto}
+                            success={telefonoContactoStatus === 'success'}
+                            error={telefonoContactoStatus === 'error'}
+                            inputProps={{
+                                onChange: (event) => {
+                                    if (event.target.value === "") {
+                                        setTelefonoContatoStatus("error");
+                                        setActivar(false);
+                                    } else {
+                                        console.log("entra aqui calle");
+                                        setTelefonoContatoStatus("success");
+                                        setActivar(next())
+                                    }
+                                }
+                            }}
                         />
                     </CardBody>
                     <CardBody>
@@ -161,8 +236,23 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="email"
                             fullWidth
                             onChange={onChange}
+                            inputProps={{ maxLength: 80,
+                                pattern: '/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/'}}
                             value={email}
-                            inputProps={{ maxLength: 80 }}
+                            success={emailStatus === 'success'}
+                            error={emailStatus === 'error'}
+                            inputProps={{
+                                onChange: (event) => {
+                                    if (event.target.value === "") {
+                                        setEmailStatus("error");
+                                        setActivar(false);
+                                    } else {
+                                        console.log("entra aqui calle");
+                                        setEmailStatus("success");
+                                        setActivar(next())
+                                    }
+                                }
+                            }}
                         />
                     </CardBody>
                     <CardBody>

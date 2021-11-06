@@ -234,7 +234,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                         <TextField
                                             style={{ marginBottom: '20px' }}
                                             id="curp"
-                                            label="Curp"
+                                            label="CURP"
                                             variant="outlined"
                                             name="curp"
                                             fullWidth
@@ -245,7 +245,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                         <TextField
                                             style={{ marginBottom: '20px' }}
                                             id="apellidoPaterno"
-                                            label="Apellido Paterno"
+                                            label="Apellido paterno"
                                             variant="outlined"
                                             name="nombre"
                                             fullWidth
@@ -257,7 +257,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                         <TextField
                                             style={{ marginBottom: '20px' }}
                                             id="apellidoMaterno"
-                                            label="Apellido Materno"
+                                            label="Apellido materno"
                                             variant="outlined"
                                             name="apellidoMaterno"
                                             fullWidth
@@ -294,7 +294,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                         <TextField
                                             style={{ marginBottom: '20px' }}
                                             id="genero"
-                                            label="Genero"
+                                            label="Género"
                                             variant="outlined"
                                             name="genero"
                                             fullWidth
@@ -322,7 +322,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                         <TextField
                                             style={{ marginBottom: '20px' }}
                                             id="fechaNacimientoAxu"
-                                            label="Fecha Nacimiento"
+                                            label="Fecha nacimiento"
                                             variant="outlined"
                                             name="fechaNacimientoAxu"
                                             fullWidth
@@ -378,7 +378,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="estadoCivil"
-                                    label="Estado Civil"
+                                    label="Estado civil"
                                     variant="outlined"
                                     name="estadoCivil"
                                     fullWidth
@@ -410,7 +410,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                         <TextField
                                             style={{ marginBottom: '20px' }}
                                             id="ine"
-                                            label="Identificación Oficial"
+                                            label="Identificación oficial"
                                             variant="outlined"
                                             name="identificacion"
                                             fullWidth

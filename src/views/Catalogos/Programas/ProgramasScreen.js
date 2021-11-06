@@ -38,22 +38,14 @@ export const ProgramasScreen = () => {
   const [pagina, setPagina] = useState(0);
 
   const { programasList, get,
-    sizeP,
-    pageP,
-    totalP,
-    changePageSize,
-    changePage, getByParametros} = useContext(ProgramasContext);
+    size,
+    page,
+    total,
+    changePage, getByParametros, changePageSizes } = useContext(ProgramasContext);
 
   const { getTipoBeneficiarios } = useContext(TiposBeneficiariosContext);
   const { getEdadesBeneficiarios } = useContext(EdadesBeneficiariosContext);
 
-
-
-  const handleChangePage = (event, newPage) => {
-    setLoading(true);
-    changePage(newPage)
-    setPagina(newPage);
-  };
 
   useEffect(() => {
 
@@ -64,12 +56,19 @@ export const ProgramasScreen = () => {
     getTipoBeneficiarios();
     getEdadesBeneficiarios();
 
-  }, [pagina])
+  }, [size,page])
 
-  const handleChangeRowsPerPage = event => {
-    changePageSize(+event.target.value);
-    changePage(0)
-  };
+
+  const handleChangePage = (event, newPage) => {        
+    changePage(newPage)       
+};
+
+const handleChangeRowsPerPage = event => {              
+    changePageSizes(+event.target.value);
+    changePage(0)       
+    
+};
+
 
 
   useEffect(() => {
@@ -81,9 +80,6 @@ export const ProgramasScreen = () => {
 
   }, []);
 
-  const showForm = () => {
-
-  }
 
 
 
@@ -130,13 +126,17 @@ export const ProgramasScreen = () => {
   }
 
   const buscaPorParametros = (search) => {
-    if(search === ''){
+    if (search === '') {
       get();
-    }else{
+    } else {
       getByParametros(search)
     }
-   
-}
+
+  }
+
+  const showForm = () => {
+
+  }
 
 
   return (
@@ -234,9 +234,9 @@ export const ProgramasScreen = () => {
                 rowsPerPageOptions={[5, 10, 15]}
                 component="div"
                 labelRowsPerPage={t('dgv.registrospaginas')}
-                count={totalP}
-                rowsPerPage={sizeP}
-                page={pageP}
+                count={total}
+                rowsPerPage={size}
+                page={page}
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
               />
