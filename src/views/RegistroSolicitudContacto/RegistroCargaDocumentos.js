@@ -210,7 +210,7 @@ export const RegistroCargaDocumentos = (props) => {
                                             acceptedFiles={['application/pdf']}
                                             filesLimit='1'
                                             onChange={handleChange}
-                                            dropzoneText={"Arrastra un pdf aqui o da clic para agregar un archivo"}
+                                            dropzoneText={"Arrastra un pdf aquí o da clic para agregar un archivo"}
                                             getPreviewIcon={handlePreviewIcon}
                                         />
                                     </Grid>
