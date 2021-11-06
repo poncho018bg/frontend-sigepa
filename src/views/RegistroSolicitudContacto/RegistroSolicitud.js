@@ -30,13 +30,13 @@ import { Loading } from 'components/Personalizados/Loading';
 const useStyles = makeStyles(stylesArchivo);
 
 const pasos = [
-    'Curp',
-    'Datos Del Solicitante',
-    'Direccion',
-    'Registro de Contacto',
-    'Carga de Documentos',
+    'CURP',
+    'Datos del solicitante',
+    'Dirección',
+    'Registro de contacto',
+    'Carga de documentos',
     'Características adicionales de la solicitante',
-    'Registro Finalizado'
+    'Registro finalizado'
 ];
 
 export const RegistroSolicitud = () => {
