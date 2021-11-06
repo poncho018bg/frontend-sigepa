@@ -205,9 +205,9 @@ export const LocalidadesContextProvider = props => {
     }
 
 
-    const getLocalidadesMunicipio = async idMunicipio => {
+    const getLocalidadesMunicipio = async (idMunicipio,codigoPostal) => {
         try {
-            const result = await axiosGet(`localidadMunicipio/municipio/${idMunicipio}`);
+            const result = await axiosGet(`localidadMunicipio/municipio/${idMunicipio}/${codigoPostal}`);
             console.log("localidades municipio_id ",result)
             dispatch({
                 type: GET_LOCALIDADES_MUNICIPIO,

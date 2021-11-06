@@ -72,9 +72,9 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                 setIdEstado(direccionBeneficiario[0].idEstado);
                 getMunicipioEstado(direccionBeneficiario[0].idEstado);
                 setIdMunicipio(direccionBeneficiario[0].idMunicipio);
-                getLocalidadesMunicipio(direccionBeneficiario[0].idMunicipio);
-                setIdLocalidad(direccionBeneficiario[0].idLocalidad);
                 setCodigoPostal(direccionBeneficiario[0].codigoPostal);
+                getLocalidadesMunicipio(direccionBeneficiario[0].idMunicipio,direccionBeneficiario[0].codigoPostal);
+                setIdLocalidad(direccionBeneficiario[0].idLocalidad);   
             }
         }
         getEstadosAll();
@@ -164,7 +164,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
     const onChangeMunicipio = event => {
         console.log("entro al onchange municipio");
         setIdMunicipio(event.target.value);
-        getLocalidadesMunicipio(event.target.value);
+        //getLocalidadesMunicipio(event.target.value);
     }
 
     const onChange = event => {
@@ -192,6 +192,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                 break;
             case "codigoPostal":
                 setCodigoPostal(event.target.value);
+                buscarLocalidadCP(event.target.value)
                 break;
             case "localidad":
                 console.log("target value ==>", event.target.value)
@@ -241,6 +242,12 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                 }
             }
         }
+    }
+
+    const buscarLocalidadCP = target => {
+        console.log("municipio =========>", idMunicipio);
+        console.log("codigo postal =====>", target);
+        getLocalidadesMunicipio(idMunicipio, target);
     }
 
     return (
