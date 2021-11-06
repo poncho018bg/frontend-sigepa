@@ -36,8 +36,9 @@ export const RegistroCargaDocumentos = (props) => {
         documentosBoveda,
         registrarDatosBoveda } = useContext(RegistroCargaDocumentosContext);
     const { beneficiario } = props;
-    const { idPrograma} = props;
+    const { idPrograma } = props;
     const { identPrograma } = props;
+    const { setValidarDocs, validarDocs, setActivar } = props;
     const [archivo, setArchivos] = useState([]);
     const [sesion, setSesion] = useState("");
 
@@ -65,6 +66,27 @@ export const RegistroCargaDocumentos = (props) => {
         getLogin();
     }, []);
 
+    useEffect(() => {
+        console.log('validarDocs', validarDocs)
+        console.log('documentosApoyoList', documentosApoyoList)
+
+        if (documentosApoyoList.length > 0) {
+            let docsval = []
+            documentosApoyoList.map(e => {
+                docsval.push({ id: e.idDocumentoRequisito, validcarga: false })
+            })
+            setValidarDocs(docsval)
+        }
+
+    }, [documentosApoyoList]);
+    useEffect(() => {
+       
+        validarDocs.map(e=>{
+            if(!e.validcarga){
+                setActivar(false)
+            }
+        })
+    }, [validarDocs]);
     /**
      * funciones del dropzone
      */
@@ -121,6 +143,7 @@ export const RegistroCargaDocumentos = (props) => {
         }
         getGuardar(documentoApoyo);
         setOpenSnackbar(false);
+
     }
 
     const guardarDatosBoveda = (documentoApoyo, result) => {
@@ -151,7 +174,7 @@ export const RegistroCargaDocumentos = (props) => {
 
     const SubirArchivo = ({ documentos }) => {
         console.log("row del documento ", documentos);
-        
+
         const [existe, setExiste] = useState();
         const baseUrl = process.env.REACT_APP_API_PUBLICO_URL;
         useEffect(() => {
@@ -164,9 +187,9 @@ export const RegistroCargaDocumentos = (props) => {
                         Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                     }
                 }).then(response => {
-                   
-                    validar(response.data);
-                   
+
+                    validar(response.data, documentos.idDocumentoRequisito);
+
                     return response.data;
                 });
                 return promise;
@@ -176,39 +199,47 @@ export const RegistroCargaDocumentos = (props) => {
 
         }, []);
 
-        const validar = (b) => {
+        const validar = (b, c) => {
             console.log(b);
+            console.log('c=>',c);
             setExiste(b);
+            let dcs = validarDocs
+            dcs.map(e => {
+                if (e.id === c) {
+                    e.validcarga = b
+                }
+            })
+            setValidarDocs(dcs)
         }
 
-        
+
 
         console.log(existe);
-        
+
         if (existe) {
             return (
                 <>El documento ya se registro</>
             )
         } else {
-         
 
-           
-            return  (
+
+
+            return (
                 <Grid item xs={2}>
                     <Button
                         type="submit"
                         onClick={() => submit(documentos)}>
                         Subir
                     </Button>
-                   
+
                 </Grid>
-               
+
             )
-           
-            
+
+
         }
 
-       
+
     }
 
     return (
@@ -222,6 +253,8 @@ export const RegistroCargaDocumentos = (props) => {
                     ).map((row, i) => {
                         return (
                             <Grid container spacing={1} key={i}>
+                                {console.log('1DOCS=>>', validarDocs)}
+                                {console.log('2DOCS=>>', setValidarDocs)}
                                 <Grid item xs={12}>
                                     <h4>{row.nombreDocumento}</h4>
                                 </Grid>
@@ -244,11 +277,11 @@ export const RegistroCargaDocumentos = (props) => {
                 </CardBody>
             </Card>
             <Mensaje
-                    setOpen={setOpenSnackbar}
-                    open={openSnackbar}
-                    severity={error ? "error" : "success"}
-                    message={msjConfirmacion}
-                />
+                setOpen={setOpenSnackbar}
+                open={openSnackbar}
+                severity={error ? "error" : "success"}
+                message={msjConfirmacion}
+            />
         </GridItem>
     )
 }
