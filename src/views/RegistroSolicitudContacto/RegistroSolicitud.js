@@ -190,6 +190,7 @@ export const RegistroSolicitud = () => {
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        getBeneficiario(curp)
     };
 
     const handleSkip = () => {
