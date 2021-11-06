@@ -18,25 +18,27 @@ const baseUrlFormio = process.env.REACT_APP_API_FORMIO_URL;
 const useStyles = makeStyles(stylesArchivo);
 
 export const RegistroPreguntas = (props) => {
-    const { programa, getByID } = useContext(ProgramasContext);
     const classes = useStyles();
     const { beneficiario } = props;
     const { idPrograma } = props;
+    const { programa, getByID } = useContext(ProgramasContext);
     const { getComplementoFurs, registrarComplementoFurs, actualizarComplementoFurs } = useContext(ComplementoFursContext);
-
+    let ruta = '';
     useEffect(() => {
         getByID(idPrograma);
     }, []);
-    
-    const ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
-    console.log("ruta", ruta);
-    
+
+    if (programa !== null) {
+        ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
+        console.log("ruta", ruta);
+    }
+
     const handleSubmit = (event) => {
-        console.log("Aqui es donde vamos a mandar a guardar", event);
+        console.log("Aqui es donde vamos a mandar a guardar event-------", event);
         let complementoFur = {
             programas: idPrograma,
-            beneficiarios: beneficiario,
-            jsComplemento: event.target
+            beneficiarios: beneficiario.id,
+            jsComplemento: event
         }
         console.log("Esto es lo que mandamos guardar", complementoFur);
         //registrarComplementoFurs(complementoFur);
