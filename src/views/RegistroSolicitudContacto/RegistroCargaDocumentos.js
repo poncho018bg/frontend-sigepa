@@ -21,6 +21,7 @@ import axios from "axios";
 import { axiosGet } from 'helpers/axiosPublico';
 
 import { PictureAsPdf } from '@material-ui/icons';
+import { Mensaje } from 'components/Personalizados/Mensaje';
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -41,6 +42,9 @@ export const RegistroCargaDocumentos = (props) => {
     const [sesion, setSesion] = useState("");
 
     const [boveda, setBoveda] = useState();
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
     //let idPrograma = '8cbd2101-ef40-4fad-8698-5911ccecaf54';
 
@@ -112,8 +116,11 @@ export const RegistroCargaDocumentos = (props) => {
 
             console.log("AQUI LLEGA EL GUARDAR EN LA BOVEDA")
             guardarDatosBoveda(documentoApoyo, result);
+            setOpenSnackbar(true);
+            setMsjConfirmacion(`Archivo guardado`);
         }
         getGuardar(documentoApoyo);
+        setOpenSnackbar(false);
     }
 
     const guardarDatosBoveda = (documentoApoyo, result) => {
@@ -144,7 +151,7 @@ export const RegistroCargaDocumentos = (props) => {
 
     const SubirArchivo = ({ documentos }) => {
         console.log("row del documento ", documentos);
-
+        
         const [existe, setExiste] = useState();
         const baseUrl = process.env.REACT_APP_API_PUBLICO_URL;
         useEffect(() => {
@@ -157,7 +164,9 @@ export const RegistroCargaDocumentos = (props) => {
                         Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                     }
                 }).then(response => {
+                   
                     validar(response.data);
+                   
                     return response.data;
                 });
                 return promise;
@@ -172,22 +181,34 @@ export const RegistroCargaDocumentos = (props) => {
             setExiste(b);
         }
 
+        
+
         console.log(existe);
+        
         if (existe) {
             return (
-                <>El Documento ya se registro en el Expediente</>
+                <>El documento ya se registro</>
             )
         } else {
-            return (
+         
+
+           
+            return  (
                 <Grid item xs={2}>
                     <Button
                         type="submit"
                         onClick={() => submit(documentos)}>
                         Subir
                     </Button>
+                   
                 </Grid>
+               
             )
+           
+            
         }
+
+       
     }
 
     return (
@@ -222,6 +243,12 @@ export const RegistroCargaDocumentos = (props) => {
                     }
                 </CardBody>
             </Card>
+            <Mensaje
+                    setOpen={setOpenSnackbar}
+                    open={openSnackbar}
+                    severity={error ? "error" : "success"}
+                    message={msjConfirmacion}
+                />
         </GridItem>
     )
 }
