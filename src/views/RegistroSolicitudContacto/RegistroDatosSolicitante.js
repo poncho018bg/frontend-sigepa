@@ -434,27 +434,16 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             }
                                         </TextField>
                                     </GridItem>
-                                    {/*
-                                    <GridItem xs={12} sm={4}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="folio"
-                                            label="Folio"
-                                            variant="outlined"
-                                            nombre="folio"
-                                            fullWidth
-                                        />
-                                    </GridItem>
-                                    */}
                                 </GridContainer>
                             </GridItem>
                         </GridContainer>
                     </CardBody>
                 </Card>
             </GridItem>
+            {/*
             <Loading
                 loading={loading}
-            />
+            />*/}
         </div>
     );
 });
