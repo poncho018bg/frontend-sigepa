@@ -36,7 +36,7 @@ export const RegistroCargaDocumentos = (props) => {
         documentosBoveda,
         registrarDatosBoveda } = useContext(RegistroCargaDocumentosContext);
     const { beneficiario } = props;
-    const { idPrograma } = props;
+    //const { idPrograma } = props;
     const { identPrograma } = props;
     const { setValidarDocs, validarDocs, setActivar } = props;
     const [archivo, setArchivos] = useState([]);
@@ -47,7 +47,7 @@ export const RegistroCargaDocumentos = (props) => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
-    //let idPrograma = '8cbd2101-ef40-4fad-8698-5911ccecaf54';
+    let idPrograma = '8cbd2101-ef40-4fad-8698-5911ccecaf54';
 
 
     useEffect(() => {
@@ -66,6 +66,7 @@ export const RegistroCargaDocumentos = (props) => {
         getLogin();
     }, []);
 
+    /*
     useEffect(() => {
         console.log('validarDocs', validarDocs)
         console.log('documentosApoyoList', documentosApoyoList)
@@ -77,8 +78,9 @@ export const RegistroCargaDocumentos = (props) => {
             })
             setValidarDocs(docsval)
         }
-
     }, [documentosApoyoList]);
+*/
+    /*
     useEffect(() => {
        
         validarDocs.map(e=>{
@@ -87,6 +89,7 @@ export const RegistroCargaDocumentos = (props) => {
             }
         })
     }, [validarDocs]);
+    */
     /**
      * funciones del dropzone
      */
@@ -201,15 +204,8 @@ export const RegistroCargaDocumentos = (props) => {
 
         const validar = (b, c) => {
             console.log(b);
-            console.log('c=>',c);
+            console.log('c=>', c);
             setExiste(b);
-            let dcs = validarDocs
-            dcs.map(e => {
-                if (e.id === c) {
-                    e.validcarga = b
-                }
-            })
-            setValidarDocs(dcs)
         }
 
 
@@ -217,6 +213,21 @@ export const RegistroCargaDocumentos = (props) => {
         console.log(existe);
 
         if (existe) {
+            let dcs = validarDocs
+            dcs.map(e => {
+                if (e.id === documentos.idDocumentoRequisito) {
+                    e.validcarga = existe
+                }
+            })
+            console.log("DCS ========>", dcs);
+            dcs.forEach(function (item, index) {
+                if(item.validcarga){
+                    setActivar(true);
+                }else{
+                    setActivar(false);
+                }
+            })
+            //setValidarDocs(dcs)
             return (
                 <>El documento ya se registro</>
             )
