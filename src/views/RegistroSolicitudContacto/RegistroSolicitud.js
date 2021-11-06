@@ -232,7 +232,7 @@ export const RegistroSolicitud = () => {
 
     return (
 
-        //<ValidarPrograma idPrograma={query.state?.mobNo}>
+        <ValidarPrograma idPrograma={query.state?.mobNo}>
             < Box sx={{ width: '100%' }
             }>
                 <Stepper activeStep={activeStep}>
@@ -302,6 +302,6 @@ export const RegistroSolicitud = () => {
                     loading={loading}
                 />
             </Box >
-        //</ValidarPrograma >
+        </ValidarPrograma >
     )
 }
