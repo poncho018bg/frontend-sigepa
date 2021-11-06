@@ -66,7 +66,7 @@ export const RegistroCargaDocumentos = (props) => {
         getLogin();
     }, []);
 
-    /*
+    
     useEffect(() => {
         console.log('validarDocs', validarDocs)
         console.log('documentosApoyoList', documentosApoyoList)
@@ -79,7 +79,7 @@ export const RegistroCargaDocumentos = (props) => {
             setValidarDocs(docsval)
         }
     }, [documentosApoyoList]);
-*/
+
     /*
     useEffect(() => {
        
@@ -146,6 +146,13 @@ export const RegistroCargaDocumentos = (props) => {
         }
         getGuardar(documentoApoyo);
         setOpenSnackbar(false);
+
+        
+        let valdcs = true
+        validarDocs.map(e => { if (!e.validcarga) { valdcs = e.validcarga } })
+        console.log('validarDocs=>',validarDocs)
+        console.log('valdcs=>',valdcs)
+        setActivar(valdcs)
 
     }
 
@@ -218,16 +225,8 @@ export const RegistroCargaDocumentos = (props) => {
                 if (e.id === documentos.idDocumentoRequisito) {
                     e.validcarga = existe
                 }
-            })
-            console.log("DCS ========>", dcs);
-            dcs.forEach(function (item, index) {
-                if(item.validcarga){
-                    setActivar(true);
-                }else{
-                    setActivar(false);
-                }
-            })
-            //setValidarDocs(dcs)
+            })       
+            setValidarDocs(dcs)
             return (
                 <>El documento ya se registro</>
             )

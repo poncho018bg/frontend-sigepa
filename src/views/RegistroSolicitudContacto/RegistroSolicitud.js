@@ -186,6 +186,15 @@ export const RegistroSolicitud = () => {
         }
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         setSkipped(newSkipped);
+        console.log('5 validarDocs=>',validarDocs)
+        console.log('5 activeStep=>',activeStep)
+        if (activeStep === 3) {
+            let valdcs = true
+            validarDocs.map(e => { if (!e.validcarga) { valdcs = e.validcarga } })
+            console.log('validarDocs=>',validarDocs)
+            console.log('valdcs=>',valdcs)
+            setActivar(valdcs)
+        }
     };
 
     const handleBack = () => {
@@ -229,6 +238,8 @@ export const RegistroSolicitud = () => {
                 </Button>
             )
         }
+
+
     }
 
     return (
@@ -270,7 +281,7 @@ export const RegistroSolicitud = () => {
                                         : activeStep === 3 ?
                                             <RegistroSolicitudContacto activar={activar} setActivar={setActivar} direccionB={direccion} beneficiario={beneficiario} ref={contacto} />
                                             : activeStep === 4 ?
-                                                <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo} identPrograma={identPrograma}  setValidarDocs={setValidarDocs} validarDocs={validarDocs} setActivar={setActivar} />
+                                                <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo} identPrograma={identPrograma} setValidarDocs={setValidarDocs} validarDocs={validarDocs} setActivar={setActivar} />
                                                 : activeStep === 5 ?
                                                     <RegistroPreguntas beneficiario={beneficiario} idPrograma={query.state?.mobNo} />
                                                     :
