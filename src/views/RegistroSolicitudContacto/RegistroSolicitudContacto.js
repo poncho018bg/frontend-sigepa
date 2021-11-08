@@ -39,6 +39,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                 setObservaciones(direccionB[0].dsobservaciones);
             }
         }
+        setActivar(next());
     }, [direccionB]);
 
     const llenado = () => {
@@ -140,6 +141,11 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
             }
         }
     }
+
+    useEffect(() => {
+        console.log("entro al USEEFFECT ====>", activar);
+        setActivar(next());
+    }, [celular,telefonoCasa,telefonoContacto,email]);
 
     return (
         <GridItem xs={12} sm={12} md={12}>

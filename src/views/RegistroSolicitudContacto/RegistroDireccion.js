@@ -17,6 +17,7 @@ import { EstadosContext } from "contexts/catalogos/EstadosContext";
 import { MunicipiosContext } from "contexts/catalogos/MunicipiosContext";
 import { LocalidadesContext } from "contexts/catalogos/Localidades/localidadesContext";
 import { RegistroSolicitudContext } from "contexts/registroSolicitudContext";
+import { ActividadesContinuarContext } from "contexts/catalogos/ActividadesContinuarContext";
 
 const styles = {
     infoText: {
@@ -75,6 +76,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                 setIdLocalidad(direccionBeneficiario[0].idLocalidad);
             }
         }
+        setActivar(next());
     }, [direccionBeneficiario]);
 
 
@@ -246,6 +248,12 @@ export const RegistroDireccion = forwardRef((props, ref) => {
         console.log("codigo postal =====>", target);
         getLocalidadesMunicipio(idMunicipio, target);
     }
+
+
+    useEffect(() => {
+        console.log("entro al USEEFFECT ====>", activar);
+        setActivar(next())
+    }, [calle,noExterior, noInterior,colonia,entreCalle, yCalle, idLocalidad]);
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -510,6 +518,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                             setActivar(false);
                                         } else {
                                             console.log("entra aqui localidad");
+                                            setIdLocalidad(event.target.value);
                                             setLocalidadStatus("success");
                                             setActivar(next())
                                         }
