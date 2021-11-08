@@ -147,12 +147,13 @@ export const RegistroCargaDocumentos = (props) => {
         getGuardar(documentoApoyo);
         setOpenSnackbar(false);
 
-        
+        /*
         let valdcs = true
         validarDocs.map(e => { if (!e.validcarga) { valdcs = e.validcarga } })
         console.log('validarDocs=>',validarDocs)
         console.log('valdcs=>',valdcs)
         setActivar(valdcs)
+        */
 
     }
 
@@ -220,6 +221,7 @@ export const RegistroCargaDocumentos = (props) => {
         console.log(existe);
 
         if (existe) {
+            /*
             let dcs = validarDocs
             dcs.map(e => {
                 if (e.id === documentos.idDocumentoRequisito) {
@@ -227,6 +229,7 @@ export const RegistroCargaDocumentos = (props) => {
                 }
             })       
             setValidarDocs(dcs)
+            */
             return (
                 <>El documento ya se registro</>
             )
