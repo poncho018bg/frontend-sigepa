@@ -111,7 +111,7 @@ export const ProgramasEdit = () => {
 
     setSelected(lstmun)
 
-    
+
 
   }, [municipiosSelect]);
 
@@ -266,7 +266,7 @@ export const ProgramasEdit = () => {
     dsobservaciones: Yup.string()
       .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
 
-    
+
     dsobjetivo: Yup.string()
       .required('El objetivo es obligatorio'),
     dsurl: Yup.string()
@@ -291,12 +291,18 @@ export const ProgramasEdit = () => {
     })
 
     console.log('valores=>', valores)
-    valores.coberturaMunicipal= lstmunSeleccionados
-    valores.file= archivoPrograma
+    valores.coberturaMunicipal = lstmunSeleccionados
+    valores.file = archivoPrograma
     valores.activo = true
-    valores.documentosRequisitos= documentslst
+    valores.documentosRequisitos = documentslst
     console.log('valores=>', valores)
     const blobpgr = new Blob([archivoPrograma], { type: 'image/png' });
+    valores.fcvigenciainicio = moment(valores.fcvigenciainicio).format("YYYY-MM-DD")
+    valores.fcvigenciafin = moment(valores.fcvigenciafin).format("YYYY-MM-DD")
+    valores.fcregistropresencialinicio = moment(valores.fcregistropresencialinicio).format("YYYY-MM-DD")
+    valores.fcregistropresencialfin = moment(valores.fcregistropresencialfin).format("YYYY-MM-DD")
+    valores.fcregistrowebinicio = moment(valores.fcregistrowebinicio).format("YYYY-MM-DD")
+    valores.fcregistrowebfin = moment(valores.fcregistrowebfin).format("YYYY-MM-DD")
     actualizar(query.state?.mobNo, valores, blobpgr).then(response => {
 
       setOpenSnackbar(true);
@@ -358,7 +364,7 @@ export const ProgramasEdit = () => {
           <form
             className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
             onSubmit={props.handleSubmit}>
-              {console.log('ERRORES=>',props?.errors)}
+            {console.log('ERRORES=>', props?.errors)}
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <Card>
@@ -422,12 +428,12 @@ export const ProgramasEdit = () => {
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            value={moment(new Date(parseInt(props.values?.fcvigenciainicio))).format("YYYY-MM-DD")}
+                            value={moment(props.values?.fcvigenciainicio).format("YYYY-MM-DD")}
                             name="fcvigenciainicio"
                             onChange={props.handleChange}
                             InputProps={{
                               inputProps: {
-                                max: moment(new Date(parseInt(props.values?.fcvigenciafin))).format("YYYY-MM-DD")
+                                max: moment(props.values?.fcvigenciafin).format("YYYY-MM-DD")
                               }
                             }}
                           />
@@ -446,12 +452,12 @@ export const ProgramasEdit = () => {
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            value={moment(new Date(parseInt(props.values?.fcvigenciafin))).format("YYYY-MM-DD")}
+                            value={moment(props.values?.fcvigenciafin).format("YYYY-MM-DD")}
                             name="fcvigenciafin"
                             onChange={props.handleChange}
                             InputProps={{
                               inputProps: {
-                                min: moment(new Date(parseInt(props.values?.fcvigenciainicio))).format("YYYY-MM-DD")
+                                min: moment(props.values?.fcvigenciainicio).format("YYYY-MM-DD")
                               }
                             }}
                           />
@@ -472,12 +478,12 @@ export const ProgramasEdit = () => {
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            value={moment(new Date(parseInt(props.values?.fcregistropresencialinicio))).format("YYYY-MM-DD")}
+                            value={moment(props.values?.fcregistropresencialinicio).format("YYYY-MM-DD")}
                             name="fcregistropresencialinicio"
                             onChange={props.handleChange}
                             InputProps={{
                               inputProps: {
-                                max: moment(new Date(parseInt(props.values?.fcregistropresencialfin))).format("YYYY-MM-DD")
+                                max: moment(props.values?.fcregistropresencialfin).format("YYYY-MM-DD")
                               }
                             }}
                           />
@@ -496,12 +502,12 @@ export const ProgramasEdit = () => {
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            value={moment(new Date(parseInt(props.values?.fcregistropresencialfin))).format("YYYY-MM-DD")}
+                            value={moment(props.values?.fcregistropresencialfin).format("YYYY-MM-DD")}
                             name="fcregistropresencialfin"
                             onChange={props.handleChange}
                             InputProps={{
                               inputProps: {
-                                min: moment(new Date(parseInt(props.values?.fcregistropresencialinicio))).format("YYYY-MM-DD")
+                                min: moment(props.values?.fcregistropresencialinicio).format("YYYY-MM-DD")
                               }
                             }}
                           />
@@ -520,12 +526,12 @@ export const ProgramasEdit = () => {
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            value={moment(new Date(parseInt(props.values?.fcregistrowebinicio))).format("YYYY-MM-DD")}
+                            value={moment(props.values?.fcregistrowebinicio).format("YYYY-MM-DD")}
                             name="fcregistrowebinicio"
                             onChange={props.handleChange}
                             InputProps={{
                               inputProps: {
-                                max: moment(new Date(parseInt(props.values?.fcregistrowebfin))).format("YYYY-MM-DD")
+                                max: moment(props.values?.fcregistrowebfin).format("YYYY-MM-DD")
                               }
                             }}
                           />
@@ -544,12 +550,12 @@ export const ProgramasEdit = () => {
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            value={moment(new Date(parseInt(props.values?.fcregistrowebfin))).format("YYYY-MM-DD")}
+                            value={moment(props.values?.fcregistrowebfin).format("YYYY-MM-DD")}
                             name="fcregistrowebfin"
                             onChange={props.handleChange}
                             InputProps={{
                               inputProps: {
-                                min: moment(new Date(parseInt(props.values?.fcregistrowebinicio))).format("YYYY-MM-DD")
+                                min: moment(props.values?.fcregistrowebinicio).format("YYYY-MM-DD")
                               }
                             }}
                           />
@@ -799,17 +805,17 @@ export const ProgramasEdit = () => {
                       </GridItem>
 
                     </GridContainer>
-                        
+
                     <GridContainer>
-                      
+
                       <GridItem xs={12} sm={12} md={12}>
                         <TextField
                           variant="outlined"
                           label="Selecciona una plantilla"
                           select
                           style={{ marginBottom: '20px' }}
-                          fullWidth   
-                          name="dsidentificadorplantilla"                       
+                          fullWidth
+                          name="dsidentificadorplantilla"
                           id="dsnombreplantilla"
                           onChange={props.handleChange}
                           value={props?.values?.dsidentificadorplantilla}
@@ -835,8 +841,8 @@ export const ProgramasEdit = () => {
                     </GridContainer>
 
 
-                  
-                  
+
+
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
                         <TextField
@@ -869,7 +875,7 @@ export const ProgramasEdit = () => {
 
 
                     <GridContainer>
-                     
+
                       <GridItem xs={12} sm={12} md={6}>
                         <DropzoneAreaBase
                           acceptedFiles={['image/png']}

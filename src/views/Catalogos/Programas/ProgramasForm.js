@@ -282,7 +282,8 @@ export const ProgramasForm = () => {
     let nmplantilla  ='';
     formioComplemento.map(e=>{
       if(e._id ===dsidentificadorplantilla ){
-        nmplantilla = e.title
+        console.log('e.path', e.path)
+        nmplantilla = e.path
       }
     })
     const blobpgr = new Blob([archivoPrograma], { type: 'image/png' });
