@@ -66,7 +66,11 @@ export const RegistroCargaDocumentos = (props) => {
         getLogin();
     }, []);
 
-    
+    /**
+     * Se crea el array con los documentos para validar si ya estan cargados,
+     * se inicializan todos en false
+     */
+
     useEffect(() => {
         console.log('validarDocs', validarDocs)
         console.log('documentosApoyoList', documentosApoyoList)
@@ -80,16 +84,18 @@ export const RegistroCargaDocumentos = (props) => {
         }
     }, [documentosApoyoList]);
 
-    /*
+
     useEffect(() => {
-       
-        validarDocs.map(e=>{
-            if(!e.validcarga){
+        setActivar(true)
+        validarDocs.map(e => {
+            if (!e.validcarga) {
                 setActivar(false)
             }
         })
+        console.log('validarDocs x1 ', validarDocs)
     }, [validarDocs]);
-    */
+
+
     /**
      * funciones del dropzone
      */
@@ -110,12 +116,12 @@ export const RegistroCargaDocumentos = (props) => {
     }
 
     const handleChange = e => {
-        console.log("files", e);
+
         /**
          * Aqui se llenan los archivos que se van a subir a la boveda
          */
         if (e[0] != undefined) {
-            console.log("PRUEBA ", new File([e[0]], `${+new Date()}_${e[0].name}`, { type: e[0].type }));
+
             setArchivos(new File([e[0]], `${+new Date()}_${e[0].name}`, { type: e[0].type }));
         }
 
@@ -123,11 +129,11 @@ export const RegistroCargaDocumentos = (props) => {
 
     const submit = (documentoApoyo) => {
         //mandar llamar el inicio de sesión
-        console.log("sesion de la boveda ", sesion, idPrograma);
+
         //subir archivo
         const data = new FormData();
         //archivo o archivos a subir
-        console.log("archivo submit ====>", archivo);
+
         data.append("file", archivo);
         //id del usuario de la boveda
         data.append("userId", sesion.data.userId);
@@ -143,25 +149,32 @@ export const RegistroCargaDocumentos = (props) => {
             guardarDatosBoveda(documentoApoyo, result);
             setOpenSnackbar(true);
             setMsjConfirmacion(`Archivo guardado`);
+
+            //confirmar carga de docuemnto en el array de validaciones
+            console.log('Documento documentoApoyo=>>', documentoApoyo)
+            let dcs = validarDocs
+            dcs.map(e => {
+                if (e.id === documentoApoyo.idDocumentoRequisito) {
+                    e.validcarga = true
+                }
+            })
+            setValidarDocs(dcs)
+            console.log('validarDocs=>>', validarDocs)
+            validandodocs();
+
         }
         getGuardar(documentoApoyo);
         setOpenSnackbar(false);
 
-        /*
-        let valdcs = true
-        validarDocs.map(e => { if (!e.validcarga) { valdcs = e.validcarga } })
-        console.log('validarDocs=>',validarDocs)
-        console.log('valdcs=>',valdcs)
-        setActivar(valdcs)
-        */
+
+
+
 
     }
 
     const guardarDatosBoveda = (documentoApoyo, result) => {
         //var datos = JSON.parse(result.data);
-        console.log("beneficiarios ====> ", beneficiario);
-        console.log("Boveda ===========> ", result.data.fileId);
-        console.log("Documento Apoyo ==> ", documentoApoyo);
+
         let datosGuardar = {
             documentoId: documentoApoyo.idDocumentoRequisito,
             beneficiarioId: beneficiario.id,
@@ -184,7 +197,7 @@ export const RegistroCargaDocumentos = (props) => {
     }
 
     const SubirArchivo = ({ documentos }) => {
-        console.log("row del documento ", documentos);
+
 
         const [existe, setExiste] = useState();
         const baseUrl = process.env.REACT_APP_API_PUBLICO_URL;
@@ -198,45 +211,43 @@ export const RegistroCargaDocumentos = (props) => {
                         Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                     }
                 }).then(response => {
-
-                    validar(response.data, documentos.idDocumentoRequisito);
-
+                    validar(response.data);
                     return response.data;
                 });
                 return promise;
             }
             existeDoc();
-            console.log("funcion ", existeDoc());
+
 
         }, []);
 
-        const validar = (b, c) => {
-            console.log(b);
-            console.log('c=>', c);
+        const validar = (b) => {
+
             setExiste(b);
         }
 
 
+        let dcs = validarDocs
+        dcs.map(e => {
+            if (e.id === documentos.idDocumentoRequisito) {
+                e.validcarga = existe
+            }
+        })
+        setValidarDocs(dcs)
+        console.log('Despues de validar existencia=>', validarDocs)
 
-        console.log(existe);
+
+
+
+
 
         if (existe) {
-            /*
-            let dcs = validarDocs
-            dcs.map(e => {
-                if (e.id === documentos.idDocumentoRequisito) {
-                    e.validcarga = existe
-                }
-            })       
-            setValidarDocs(dcs)
-            */
+            console.log('DOCUEMNTO EXISTE')
+            validandodocs();
             return (
                 <>El documento ya se registro</>
             )
         } else {
-
-
-
             return (
                 <Grid item xs={2}>
                     <Button
@@ -248,13 +259,22 @@ export const RegistroCargaDocumentos = (props) => {
                 </Grid>
 
             )
-
-
         }
+
+
 
 
     }
 
+    const validandodocs = () => {
+        setActivar(true)
+        validarDocs.map(e => {
+            if (!e.validcarga) {
+                setActivar(false)
+            }
+        })
+        console.log('VALIDANDO DOCS', validarDocs)
+    }
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>
@@ -266,8 +286,7 @@ export const RegistroCargaDocumentos = (props) => {
                     ).map((row, i) => {
                         return (
                             <Grid container spacing={1} key={i}>
-                                {console.log('1DOCS=>>', validarDocs)}
-                                {console.log('2DOCS=>>', setValidarDocs)}
+
                                 <Grid item xs={12}>
                                     <h4>{row.nombreDocumento}</h4>
                                 </Grid>
