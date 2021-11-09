@@ -33,7 +33,7 @@ const Input = styled('input')({
 export const RegistroCargaDocumentos = (props) => {
     const classes = useStyles();
     const { documentosApoyoList, getDocumentosApoyo,
-        documentosBoveda,
+        existeDocumento,existedoc,
         registrarDatosBoveda } = useContext(RegistroCargaDocumentosContext);
     const { beneficiario } = props;
     const { idPrograma } = props;
@@ -52,9 +52,9 @@ export const RegistroCargaDocumentos = (props) => {
 
     useEffect(() => {
         if (identPrograma !== undefined) {
-            getDocumentosApoyo(identPrograma);
+            getDocumentosApoyo(identPrograma, beneficiario.id);
         } else {
-            getDocumentosApoyo(idPrograma);
+            getDocumentosApoyo(idPrograma, beneficiario.id);
         }
 
         console.log("documentos ", documentosApoyoList);
@@ -72,28 +72,20 @@ export const RegistroCargaDocumentos = (props) => {
      */
 
     useEffect(() => {
-        console.log('validarDocs', validarDocs)
-        console.log('documentosApoyoList', documentosApoyoList)
-
-        if (documentosApoyoList.length > 0) {
-            let docsval = []
+        setActivar(true)
+        if (documentosApoyoList.length > 0) {           
             documentosApoyoList.map(e => {
-                docsval.push({ id: e.idDocumentoRequisito, validcarga: false })
-            })
-            setValidarDocs(docsval)
+              if(!e.validarCarga){
+                setActivar(false)
+              }
+            })            
         }
+
+        setValidarDocs(documentosApoyoList)
     }, [documentosApoyoList]);
 
 
-    useEffect(() => {
-        setActivar(true)
-        validarDocs.map(e => {
-            if (!e.validcarga) {
-                setActivar(false)
-            }
-        })
-        console.log('validarDocs x1 ', validarDocs)
-    }, [validarDocs]);
+
 
 
     /**
@@ -151,23 +143,14 @@ export const RegistroCargaDocumentos = (props) => {
             setMsjConfirmacion(`Archivo guardado`);
 
             //confirmar carga de docuemnto en el array de validaciones
-            console.log('Documento documentoApoyo=>>', documentoApoyo)
-            let dcs = validarDocs
-            dcs.map(e => {
-                if (e.id === documentoApoyo.idDocumentoRequisito) {
-                    e.validcarga = true
-                }
-            })
-            setValidarDocs(dcs)
-            console.log('validarDocs=>>', validarDocs)
+            
+            getDocumentosApoyo(idPrograma, beneficiario.id);
+
             validandodocs();
 
         }
         getGuardar(documentoApoyo);
         setOpenSnackbar(false);
-
-
-
 
 
     }
@@ -196,84 +179,16 @@ export const RegistroCargaDocumentos = (props) => {
         }
     }
 
-    const SubirArchivo = ({ documentos }) => {
 
-
-        const [existe, setExiste] = useState();
-        const baseUrl = process.env.REACT_APP_API_PUBLICO_URL;
-        useEffect(() => {
-            const existeDoc = async () => {
-                let url = `${baseUrl}bovedaDocumentosOverride/existeDocumento?idDocumento=${documentos.idDocumentoRequisito}&idBeneficiario=${beneficiario.id}`
-                const promise = await axios({
-                    method: 'GET',
-                    url,
-                    headers: {
-                        Authorization: 'Bearer ' + sessionStorage.getItem('token'),
-                    }
-                }).then(response => {
-                    validar(response.data);
-                    return response.data;
-                });
-                return promise;
-            }
-            existeDoc();
-
-
-        }, []);
-
-        const validar = (b) => {
-
-            setExiste(b);
-        }
-
-
-        let dcs = validarDocs
-        dcs.map(e => {
-            if (e.id === documentos.idDocumentoRequisito) {
-                e.validcarga = existe
-            }
-        })
-        setValidarDocs(dcs)
-        console.log('Despues de validar existencia=>', validarDocs)
-
-
-
-
-
-
-        if (existe) {
-            console.log('DOCUEMNTO EXISTE')
-            validandodocs();
-            return (
-                <>El documento ya se registro</>
-            )
-        } else {
-            return (
-                <Grid item xs={2}>
-                    <Button
-                        type="submit"
-                        onClick={() => submit(documentos)}>
-                        Subir
-                    </Button>
-
-                </Grid>
-
-            )
-        }
-
-
-
-
-    }
 
     const validandodocs = () => {
         setActivar(true)
-        validarDocs.map(e => {
-            if (!e.validcarga) {
+        documentosApoyoList.map(e => {
+            if (!e?.validarCarga) {
                 setActivar(false)
             }
         })
-        console.log('VALIDANDO DOCS', validarDocs)
+        console.log('VALIDANDO DOCS', documentosApoyoList)
     }
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -300,7 +215,11 @@ export const RegistroCargaDocumentos = (props) => {
                                             getPreviewIcon={handlePreviewIcon}
                                         />
                                     </Grid>
-                                    <SubirArchivo documentos={row} />
+                                   
+
+                                    <Button variant="contained" color="primary" disabled={row.validarCarga}   onClick={() => submit(row)}>
+                                        Subir
+                                    </Button>
                                 </Grid>
                             </Grid>
                         );

@@ -1,6 +1,8 @@
 import {
     GET_DOCUMENTOS_APOYO,
-    GUARDAR_DATOS_BOVEDA
+    GUARDAR_DATOS_BOVEDA,
+    GET_EXISTE_DOCUMENTO,
+    ERROR_DOCUMENTO_BOVEDA
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -9,6 +11,16 @@ export default (state, action) => {
             return {
                 ...state,
                 documentosApoyoList: action.payload
+            }
+        case GET_EXISTE_DOCUMENTO:
+            return {
+                ...state,
+                existedoc: action.payload
+            }
+        case ERROR_DOCUMENTO_BOVEDA:           
+            return {
+                ...state,
+                error: action.payload
             }
         case GUARDAR_DATOS_BOVEDA:
             return {
