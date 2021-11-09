@@ -193,7 +193,7 @@ export const RegistroSolicitud = () => {
         if (activeStep === 3) {
             /*
             let valdcs = true
-            validarDocs.map(e => { if (!e.validcarga) { valdcs = e.validcarga } })
+            validarDocs.map(e => { if (!e.validarCarga) { valdcs = e.validarCarga } })
             console.log('validarDocs=>',validarDocs)
             console.log('valdcs=>',valdcs)
             setActivar(valdcs)
@@ -207,15 +207,7 @@ export const RegistroSolicitud = () => {
         obtenerDireccionBeneficiario(beneficiario.id);
     };
 
-    useEffect(() => {
-        setActivar(true)
-        validarDocs.map(e=>{
-            if(!e.validcarga){
-                setActivar(false)
-            }
-        })
-        console.log('validando desde el padre ',validarDocs)
-    }, [validarDocs,setValidarDocs]);
+   
 
     const handleSkip = () => {
         if (!isStepOptional(activeStep)) {
