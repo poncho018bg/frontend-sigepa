@@ -105,15 +105,19 @@ export const ProgramasEdit = () => {
 
     const lstmun = []
     programasMunicipiosList?.map(mp => {
-      const mpi = municipiosSelect.filter(e => e.value === mp.municipio_id)
-      lstmun.push({ label: mpi[0]?.label, value: mp.id })
+      const mpi = municipiosList.filter(e => e.id === mp.municipio_id)
+      console.log('mpi',mpi)
+      lstmun.push({ label: mpi[0].dsmunicipio, value: mpi[0].id })
     })
-
+    console.log('programasMunicipiosList',programasMunicipiosList)
+    console.log('lstmun',lstmun)
+    console.log('municipiosSelect',municipiosSelect)
+    console.log('municipiosList',municipiosList)
     setSelected(lstmun)
 
 
 
-  }, [municipiosSelect]);
+  }, [municipiosList]);
 
 
   useEffect(() => {
