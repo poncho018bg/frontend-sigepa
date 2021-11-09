@@ -24,6 +24,7 @@ import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 import Button from "components/CustomButtons/Button.js";
 
 import ValidarPrograma from './ValidarPrograma';
+import ValidarEdadBeneficiario from './ValidarEdadBeneficiario';
 import { Loading } from 'components/Personalizados/Loading';
 
 
@@ -51,6 +52,7 @@ export const RegistroSolicitud = () => {
     const { beneficiario, registrarBeneficiario, direccion,
         registrarDireccionBeneficiario, getBeneficiario, actualizarBeneficiario,
         obtenerDireccionBeneficiario, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
+    const [edadValida, setEdadValida] = useState();
     //
     const child = useRef();
     const direccionChild = useRef();
@@ -186,14 +188,16 @@ export const RegistroSolicitud = () => {
         }
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         setSkipped(newSkipped);
-        console.log('5 validarDocs=>',validarDocs)
-        console.log('5 activeStep=>',activeStep)
+        console.log('5 validarDocs=>', validarDocs)
+        console.log('5 activeStep=>', activeStep)
         if (activeStep === 3) {
+            /*
             let valdcs = true
             validarDocs.map(e => { if (!e.validcarga) { valdcs = e.validcarga } })
             console.log('validarDocs=>',validarDocs)
             console.log('valdcs=>',valdcs)
             setActivar(valdcs)
+            */
         }
     };
 
@@ -245,6 +249,7 @@ export const RegistroSolicitud = () => {
     return (
 
         <ValidarPrograma idPrograma={query.state?.mobNo}>
+        <ValidarEdadBeneficiario idPrograma={query.state?.mobNo} curp={curp} edadValida={edadValida}>
             < Box sx={{ width: '100%' }
             }>
                 <Stepper activeStep={activeStep}>
@@ -275,13 +280,14 @@ export const RegistroSolicitud = () => {
                                         ref={child}
                                         beneficiario={beneficiario}
                                         setIdentPrograma={setIdentPrograma}
-                                        idPrograma={query.state?.mobNo} />
+                                        idPrograma={query.state?.mobNo} 
+                                        setEdadValida={setEdadValida}/>
                                     : activeStep === 2 ?
                                         <RegistroDireccion activar={activar} setActivar={setActivar} beneficiario={beneficiario} obtenerDireccion={obtenerDireccion} ref={direccionChild} direccionBeneficiario={direccion} />
                                         : activeStep === 3 ?
                                             <RegistroSolicitudContacto activar={activar} setActivar={setActivar} direccionB={direccion} beneficiario={beneficiario} ref={contacto} />
                                             : activeStep === 4 ?
-                                                <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo} identPrograma={identPrograma} setValidarDocs={setValidarDocs} validarDocs={validarDocs} setActivar={setActivar} />
+                                                <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo} identPrograma={identPrograma} setValidarDocs={setValidarDocs} validarDocs={validarDocs} setActivar={setActivar} activar={activar} />
                                                 : activeStep === 5 ?
                                                     <RegistroPreguntas beneficiario={beneficiario} idPrograma={query.state?.mobNo} />
                                                     :
@@ -314,6 +320,7 @@ export const RegistroSolicitud = () => {
                     loading={loading}
                 />
             </Box >
+        </ValidarEdadBeneficiario>
         </ValidarPrograma >
     )
 }
