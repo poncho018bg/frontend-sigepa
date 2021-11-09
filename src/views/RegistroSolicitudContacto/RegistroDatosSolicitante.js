@@ -46,7 +46,7 @@ const baseUrl = process.env.REACT_APP_AP_CURP_URL;
 export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     console.log('aqui');
     console.log(props);
-    const { curpR, llenarDatosBeneficiario, beneficiario, setIdentPrograma, idPrograma } = props;
+    const { curpR, llenarDatosBeneficiario, beneficiario, setIdentPrograma, idPrograma, setEdadValida } = props;
     //console.log(props.allStates.about);
     const classes = useStyles();
     const [nombre, setNombre] = useState("")
@@ -80,7 +80,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
 
         axios.get(`${baseUrl}${curpR}`)
             .then(response => {
-                console.log('X=>',response);
+                console.log('X=>', response);
                 setNombre(response.data.response[0].nombre);
                 setCurp(response.data.response[0].curp);
                 setApellidoPaterno(response.data.response[0].apellidoPaterno);
@@ -95,10 +95,13 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                 setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
                 setFechaNacimientoAxu(response.data.response[0].fechaNacimientoAxu);
                 setEdad(response.data.response[0].edad);
-
+                console.log("EDAD ===>",response.data.response[0].edad)
+                if (response.data.response[0].edad !== null) {
+                    setEdadValida(response.data.response[0].edad);
+                }
             });
         if (beneficiario !== undefined) {
-            console.log("se llenando los datos del beneficiario",beneficiario);
+            console.log("se llenando los datos del beneficiario", beneficiario);
             //setNombre(beneficiario.dsnombre);
             setGenero(beneficiario.idgenero);
             setEstudios(beneficiario.idgradoestudios);
@@ -118,15 +121,15 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
 
     }, [beneficiario]);
 
-    const generoCurp = (generocrp) => {    
-        console.log('',generocrp)    
+    const generoCurp = (generocrp) => {
+        console.log('', generocrp)
         let gen = '';
         generosList.map(e => {
             console.log('e=>', e)
             if (e.dsabreviatura === generocrp) {
                 gen = e.id;
             }
-        })        
+        })
         return gen
     };
 
@@ -250,7 +253,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             name="nombre"
                                             fullWidth
                                             value={apellidoPaterno}
-                                            inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }} 
+                                            inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                                         />
                                     </GridItem>
                                     <GridItem xs={12} sm={12}>
