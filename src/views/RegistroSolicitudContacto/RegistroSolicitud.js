@@ -203,6 +203,16 @@ export const RegistroSolicitud = () => {
         obtenerDireccionBeneficiario(beneficiario.id);
     };
 
+    useEffect(() => {
+        setActivar(true)
+        validarDocs.map(e=>{
+            if(!e.validcarga){
+                setActivar(false)
+            }
+        })
+        console.log('validando desde el padre ',validarDocs)
+    }, [validarDocs,setValidarDocs]);
+
     const handleSkip = () => {
         if (!isStepOptional(activeStep)) {
             // You probably want to guard against something like this,
