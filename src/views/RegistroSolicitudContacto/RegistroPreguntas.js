@@ -19,13 +19,14 @@ const useStyles = makeStyles(stylesArchivo);
 
 export const RegistroPreguntas = (props) => {
     const classes = useStyles();
-    const { beneficiario } = props;
+    const { beneficiario, setActivar } = props;
     const { idPrograma } = props;
     const { programa, getByID } = useContext(ProgramasContext);
     const { getComplementoFurs, registrarComplementoFurs, actualizarComplementoFurs } = useContext(ComplementoFursContext);
     let ruta = '';
     useEffect(() => {
         getByID(idPrograma);
+        setActivar(false)
     }, []);
 
     if (programa !== null) {
@@ -42,6 +43,7 @@ export const RegistroPreguntas = (props) => {
         }
         console.log("Esto es lo que mandamos guardar", complementoFur);
         //registrarComplementoFurs(complementoFur);
+        setActivar(true)
     }
 
     return (
