@@ -291,7 +291,7 @@ export const RegistroSolicitud = () => {
                                                 : activeStep === 4 ?
                                                     <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo} identPrograma={identPrograma} setValidarDocs={setValidarDocs} validarDocs={validarDocs} setActivar={setActivar} activar={activar} />
                                                     : activeStep === 5 ?
-                                                        <RegistroPreguntas beneficiario={beneficiario} idPrograma={query.state?.mobNo} />
+                                                        <RegistroPreguntas beneficiario={beneficiario} idPrograma={query.state?.mobNo} setActivar={setActivar} />
                                                         :
                                                         <RegistroFinalizado beneficiario={beneficiario} idPrograma={query.state?.mobNo} />}
 
