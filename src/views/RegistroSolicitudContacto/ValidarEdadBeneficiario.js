@@ -12,7 +12,7 @@ import { ProgramasContext } from "contexts/catalogos/Programas/programasContext"
  * @returns 
  */
 const ValidarEdadBeneficiario = ({ idPrograma, curp, edadValida, children }) => {
-    console.log("programa " + idPrograma + " curp " + curp + " EDAD " + edadValida);
+    console.log("PROGRAMA DATOS " + idPrograma + " curp " + curp + " EDAD " + edadValida);
 
     const { getByID, programa } = useContext(ProgramasContext);
 
@@ -23,48 +23,44 @@ const ValidarEdadBeneficiario = ({ idPrograma, curp, edadValida, children }) => 
          * Consultamos el programa para traer el id de la edad
          */
         useEffect(() => {
-            console.log("use effect de programa validar")
             getByID(idPrograma);
-            console.log("programa que me trae ===>", programa);
         }, [edadValida])
 
         if (programa !== null && edadValida !== undefined) {
-            const validarEdades = {
-                'Menores de 15 años':
-                    () => {
-                        if (edadValida > 15) {
-                            console.log("edadValida ", edadValida);
-                            return (<h1>Debes de seleccionar un programa de apoyo acorde a la edad</h1>)
-                        } else { return children }
-                    }
-                ,
-                'De 18 a 59 años':
-                    () => {
-                        if (edadValida < 18 || edadValida > 59) {
-                            console.log("edadValida ", edadValida);
-                            return (<h1>Debes de seleccionar un programa de apoyo acorde a la edad</h1>)
-                        } else { return children }
-                    },
-                'Mayores de 60 años':
-                    () => {
-                        if (edadValida < 60) {
-                            console.log("edadValida ", edadValida);
-                            return (<h1>Debes de seleccionar un programa de apoyo acorde a la edad</h1>)
-                        } else { return children }
-                    },
+            console.log("PROGRAMA DATOS ===>", programa);
+            if (programa.norangomaximo === null && programa.norangomaximo === undefined) {
+                console.log("PROGRAMA DATOS MAXIMO NULL");
+                if (edadValida <= programa.norangominimo) {
+                    console.log("PROGRAMA DATOS MAXIMO CUMPLE MINIMO");
+                    return children;
+                } else {
+                    console.log("PROGRAMA DATOS MAXIMO NO CUMPLE MINIMO");
+                    return (<>Elegir un programa correcto a la edad que requerida</>)
+                }
+            } else if (programa.norangominimo === null && programa.norangominimo === undefined) {
+                console.log("PROGRAMA DATOS MINIMO NULL");
+                if (edadValida >= programa.norangomaximo) {
+                    console.log("PROGRAMA DATOS MINIMO CUMPLE MAXIMO");
+                    return children;
+                } else {
+                    console.log("PROGRAMA DATOS MINIMO NO CUMPLE MAXIMO");
+                    return (<>Elegir un programa correcto a la edad que requerida</>)
+                }
+            } else if (programa.norangominimo === null && programa.norangominimo === undefined
+                && programa.norangomaximo === null && programa.norangomaximo === undefined) {
+                console.log("PROGRAMA DATOS NULL TODO");
+                return children;
+            } else {
+                console.log("PROGRAMA DATOS NINGUNO NULL", programa.norangominimo, edadValida, programa.norangomaximo);
+                if (edadValida >= programa.norangominimo && edadValida <= programa.norangomaximo) {
+                    console.log("PROGRAMA DATOS NINGUNO NULL CUMPLE 1", programa.norangominimo);
+                    console.log("PROGRAMA DATOS NINGUNO NULL CUMPLE 2", programa.norangomaximo);
+                    return children;
+                } else {
+                    console.log("PROGRAMA DATOS NINGUNO NULL NO CUMPLE");
+                    return (<>Elegir un programa correcto a la edad que requerida</>)
+                }
             }
-
-            const validarEdadesDefault =
-                () => {
-                    console.log("edadValida ", edadValida);
-                    return children
-                };
-
-            const validacion = validarEdades[programa.dsedadbeneficiario] ?
-                validarEdades[programa.dsedadbeneficiario]()
-                : validarEdadesDefault()
-            console.log("RESULTADO VALIDACION ====>", validacion);
-            return validacion;
         } else {
             return children;
         }
