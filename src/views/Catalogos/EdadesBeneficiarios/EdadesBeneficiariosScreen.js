@@ -141,6 +141,8 @@ export const EdadesBeneficiariosScreen = () => {
                             < TableRow key="ta1" >
                                 < TableCell align="center"> Estatus</TableCell >
                                 < TableCell align="center"> Edad beneficiario</TableCell >
+                                < TableCell align="center"> Rango mínimo</TableCell >
+                                < TableCell align="center"> Rango máximo</TableCell >
                                 < TableCell align="center"> Fecha registro</TableCell >
                                 < TableCell colSpan={2} align="center"> Acciones</TableCell >
                             </TableRow >
@@ -154,6 +156,8 @@ export const EdadesBeneficiariosScreen = () => {
                                                 {row.activo ? 'Activo' : 'Inactivo'}
                                             </TableCell>
                                             <TableCell align="center">{row.dsedadbeneficiario}</TableCell >
+                                            <TableCell align="center">{row.norangominimo}</TableCell >
+                                            <TableCell align="center">{row.norangomaximo}</TableCell >
                                             <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>

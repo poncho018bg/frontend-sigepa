@@ -30,14 +30,16 @@ export const EdadesBeneficiariosForm = () => {
     }
 
     const handleRegistrar = () => {
-        const { dsedadbeneficiario } = valores
+        const { dsedadbeneficiario, norangominimo, norangomaximo} = valores
 
         console.log(dsedadbeneficiario);
 
 
         let edadesBeneficiarios = {
             dsedadbeneficiario: dsedadbeneficiario,
-            boactivo: true
+            boactivo: true,
+            norangominimo:norangominimo,
+            norangomaximo:norangomaximo
         }
         registrarEdadesBeneficiarios(edadesBeneficiarios).then(response => {
             setOpenSnackbar(true);
@@ -63,12 +65,16 @@ export const EdadesBeneficiariosForm = () => {
 
     const formik = useFormik({
         initialValues: {
-            dsedadbeneficiario: ''
+            dsedadbeneficiario: '',
+            norangominimo:0,
+            norangomaximo:0,
         },
         validationSchema: Yup.object({
             dsedadbeneficiario: Yup.string()
                 .required('El modulo  es obligatorio')
-                .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`)
+                .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
+                norangominimo: Yup.number().required('Rango de edad es obligatorio'),
+                norangomaximo: Yup.number().required('Rango de edad es obligatorio')
 
         }),
         onSubmit: async valores => {
@@ -95,6 +101,40 @@ export const EdadesBeneficiariosForm = () => {
                 />
                 {formik.touched.dsedadbeneficiario && formik.errors.dsedadbeneficiario ? (
                     <FormHelperText error={formik.errors.dsedadbeneficiario}>{formik.errors.dsedadbeneficiario}</FormHelperText>
+                ) : null}
+            </DialogContent>
+
+            <DialogContent>
+                <TextField
+                    id="norangominimo"
+                    label="Rango de edad mínimo"
+                    variant="outlined"
+                    name="norangominimo"
+                    fullWidth
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.norangominimo}
+                    
+                />
+                {formik.touched.norangominimo && formik.errors.norangominimo ? (
+                    <FormHelperText error={formik.errors.norangominimo}>{formik.errors.norangominimo}</FormHelperText>
+                ) : null}
+            </DialogContent>
+
+            <DialogContent>
+                <TextField
+                    id="norangomaximo"
+                    label="Rango de edad máximo"
+                    variant="outlined"
+                    name="norangomaximo"
+                    fullWidth
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.norangomaximo}
+                   
+                />
+                {formik.touched.norangomaximo && formik.errors.norangomaximo ? (
+                    <FormHelperText error={formik.errors.norangomaximo}>{formik.errors.norangomaximo}</FormHelperText>
                 ) : null}
             </DialogContent>
 
