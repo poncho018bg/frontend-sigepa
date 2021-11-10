@@ -297,7 +297,6 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="calle"
                                 fullWidth
                                 onChange={onChange}
-                                inputProps={{ maxLength: 150, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                                 value={calle}
                                 success={calleStatus === 'success'}
                                 error={calleStatus === 'error'}
@@ -311,7 +310,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                             setCalleStatus("success");
                                             setActivar(next())
                                         }
-                                    }
+                                    }, maxLength: 20
                                 }}
                             />
                         </GridItem>
@@ -324,7 +323,6 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="numeroExterior"
                                 fullWidth
                                 onChange={onChange}
-                                inputProps={{ maxLength: 40, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                                 value={noExterior}
                                 success={exteriorStatus === 'success'}
                                 error={exteriorStatus === 'error'}
@@ -339,7 +337,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                             setExteriorStatus("success");
                                             setActivar(next())
                                         }
-                                    }
+                                    },maxLength: 40
                                 }}
                             />
                         </GridItem>
@@ -352,7 +350,6 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="numeroInterior"
                                 fullWidth
                                 onChange={onChange}
-                                inputProps={{ maxLength: 40, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                                 value={noInterior}
                                 success={interiorStatus === 'success'}
                                 error={interiorStatus === 'error'}
@@ -367,7 +364,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                             setInteriorStatus("success");
                                             setActivar(next())
                                         }
-                                    }
+                                    },maxLength: 40
                                 }}
                             />
                         </GridItem>
@@ -380,7 +377,6 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="colonia"
                                 fullWidth
                                 onChange={onChange}
-                                inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                                 value={colonia}
                                 success={coloniaStatus === 'success'}
                                 error={coloniaStatus === 'error'}
@@ -395,7 +391,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                             setColoniaStatus("success");
                                             setActivar(next())
                                         }
-                                    }
+                                    },maxLength: 80
                                 }}
                             />
                         </GridItem>
@@ -409,7 +405,6 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 variant="outlined"
                                 name="entreCalle"
                                 onChange={onChange}
-                                inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                                 fullWidth
                                 value={entreCalle}
                                 success={entreCalleStatus === 'success'}
@@ -424,7 +419,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                             setEntreCalleStatus("success");
                                             setActivar(next())
                                         }
-                                    }
+                                    },maxLength: 80
                                 }}
                             />
                         </GridItem>
@@ -437,7 +432,6 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="yCalle"
                                 fullWidth
                                 onChange={onChange}
-                                inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                                 value={yCalle}
                                 success={ycalleStatus === 'success'}
                                 error={ycalleStatus === 'error'}
@@ -451,7 +445,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                             setYCalleStatus("success");
                                             setActivar(next())
                                         }
-                                    }
+                                    },maxLength: 80
                                 }}
                             />
                         </GridItem>

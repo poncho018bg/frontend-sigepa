@@ -171,7 +171,6 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="celular"
                             fullWidth
                             onChange={onChange}
-                            inputProps={{ maxLength: 10, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                             value={celular}
                             success={celularStatus === 'success'}
                             error={celularStatus === 'error'}
@@ -185,7 +184,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                                         setCelularStatus("success");
                                         setActivar(next())
                                     }
-                                }
+                                },maxLength: 10
                             }}
                         />
                     </CardBody>
@@ -198,7 +197,6 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="telefono"
                             fullWidth
                             onChange={onChange}
-                            inputProps={{ maxLength: 10, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                             value={telefonoCasa}
                             success={telefonoCasaStatus === 'success'}
                             error={telefonoCasaStatus === 'error'}
@@ -212,7 +210,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                                         setTeleCasaStatus("success");
                                         setActivar(next())
                                     }
-                                }
+                                },maxLength: 10
                             }}
                         />
                     </CardBody>
@@ -224,7 +222,6 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="telefonocontacto"
                             fullWidth
                             onChange={onChange}
-                            inputProps={{ maxLength: 10, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                             value={telefonoContacto}
                             success={telefonoContactoStatus === 'success'}
                             error={telefonoContactoStatus === 'error'}
@@ -238,7 +235,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                                         setTelefonoContatoStatus("success");
                                         setActivar(next())
                                     }
-                                }
+                                },maxLength: 10
                             }}
                         />
                     </CardBody>
@@ -250,10 +247,6 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="email"
                             fullWidth
                             onChange={onChange}
-                            inputProps={{
-                                maxLength: 80,
-                                pattern: '/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/'
-                            }}
                             value={email}
                             success={emailStatus === 'success'}
                             error={emailStatus === 'error'}
@@ -267,7 +260,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                                         setEmailStatus("success");
                                         setActivar(next())
                                     }
-                                }
+                                },maxLength: 80
                             }}
                         />
                     </CardBody>
@@ -280,6 +273,9 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             fullWidth
                             onChange={onChange}
                             value={observaciones}
+                            inputProps={{
+                                maxLength: 200
+                            }}
                         />
                     </CardBody>
                 </CardBody>
