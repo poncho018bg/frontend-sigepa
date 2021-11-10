@@ -93,8 +93,8 @@ export const ProgramasEdit = () => {
   useEffect(() => {
 
     if (query.state?.mobNo) {
-      getByID(query.state.mobNo);
       getMunicipiosProg(query.state.mobNo)
+      getByID(query.state.mobNo);      
       getDocumentosProg(query.state.mobNo)
       getImgDocumentosProg(query.state.mobNo)
     }
@@ -103,16 +103,21 @@ export const ProgramasEdit = () => {
 
   useEffect(() => {
 
+
+    
     const lstmun = []
     programasMunicipiosList?.map(mp => {
-      const mpi = municipiosList.filter(e => e.id === mp.municipio_id)
-      console.log('mpi',mpi)
-      lstmun.push({ label: mpi[0].dsmunicipio, value: mpi[0].id })
+      if(mp.activo){
+        const mpi = municipiosList.filter(e => e.id === mp.municipio_id)
+        console.log('mpi',mpi)
+        lstmun.push({ label: mpi[0].dsmunicipio, value: mpi[0].id })
+      }
+     
     })
     console.log('programasMunicipiosList',programasMunicipiosList)
-    console.log('lstmun',lstmun)
-    console.log('municipiosSelect',municipiosSelect)
     console.log('municipiosList',municipiosList)
+    console.log('lstmun',lstmun)
+    
     setSelected(lstmun)
 
 
@@ -135,7 +140,9 @@ export const ProgramasEdit = () => {
 
 
 
-
+  /**
+   * Documentos del programa
+   */
 
   useEffect(() => {
     const lstDocsRg = []
@@ -369,6 +376,7 @@ export const ProgramasEdit = () => {
             className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
             onSubmit={props.handleSubmit}>
             {console.log('ERRORES=>', props?.errors)}
+            {console.log('1.-programasMunicipiosList=>>',programasMunicipiosList)}
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <Card>

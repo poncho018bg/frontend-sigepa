@@ -190,7 +190,7 @@ export const MunicipiosContextProvider = props => {
         try {
             
             const resultado = await axiosGet(`municipios?page=0&size=100000`);
-            console.log(resultado._embedded.municipios);
+            console.log('getMunicipiosAll=>',resultado._embedded.municipios);
             dispatch({
                 type: GET_MUNICIPIOS,
                 payload: resultado
