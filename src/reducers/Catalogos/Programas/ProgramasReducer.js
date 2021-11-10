@@ -74,7 +74,7 @@ export default (state, action) => {
 
             return {
                 ...state,
-                programasMunicipiosList: action.payload._embedded.coberturaApoyoses
+                programasMunicipiosList: action.payload._embedded.coberturaApoyos
 
             };
         case GET_DOCUMENTOS_PROGRAMAS:

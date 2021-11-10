@@ -210,6 +210,7 @@ export const ProgramasContextProvider = props => {
         try {
            
             const result = await axiosGet(`programas/${idPrograma}/crcCoberturaapoyos`);
+            console.log('1result=>',result)
             dispatch({
                 type: GET_MUNICIPIOS_PROGRAMAS,
                 payload: result
