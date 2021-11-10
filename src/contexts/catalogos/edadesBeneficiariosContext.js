@@ -84,11 +84,13 @@ export const EdadesBeneficiariosContextProvider = props => {
      * @param {edadesBeneficiarios} edadesBeneficiarios 
      */
     const actualizarEdadesBeneficiarios = async edadesBeneficiarios => {
-        const { dsedadbeneficiario, boactivo, _links: { edadesBeneficiarios: { href } } } = edadesBeneficiarios;
+        const { dsedadbeneficiario, boactivo,norangominimo,norangomaximo, _links: { edadesBeneficiarios: { href } } } = edadesBeneficiarios;
 
         let edadesBeneficiariosEnviar = {
             dsedadbeneficiario,
-            boactivo
+            boactivo,
+            norangominimo,
+            norangomaximo
         };
 
         console.log(edadesBeneficiariosEnviar);

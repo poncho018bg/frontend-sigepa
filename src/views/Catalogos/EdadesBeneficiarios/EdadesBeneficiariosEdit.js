@@ -40,34 +40,36 @@ export const EdadesBeneficiariosEdit = ({ edadesBeneficiariosSeleccionado }) => 
 
         actualizarEdadesBeneficiarios(valores).then(response => {
             setOpenSnackbar(true);
-             
+
             setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
-           
-           const timer = setTimeout(() => {
-        
-            setError(false);
-            setShowModalConfirmacion(false);
-            setShowModalUpdate(false);
-        
+
+            const timer = setTimeout(() => {
+
+                setError(false);
+                setShowModalConfirmacion(false);
+                setShowModalUpdate(false);
+
             }, 1500);
             return () => clearTimeout(timer);
         })
-        .catch(err => {   
-            setOpenSnackbar(true);
-            setError(true);
-            setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+            .catch(err => {
+                setOpenSnackbar(true);
+                setError(true);
+                setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
 
-            setShowModalConfirmacion(false);
-            setShowModalUpdate(false);
-        });
-        
+                setShowModalConfirmacion(false);
+                setShowModalUpdate(false);
+            });
+
     }
 
 
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsedadbeneficiario: Yup.string()
-            .required('El modulo  es obligatorio')
+            .required('El modulo  es obligatorio'),
+        norangominimo: Yup.number().required('Rango de edad es obligatorio'),
+        norangomaximo: Yup.number().required('Rango de edad es obligatorio')
     });
 
     const actualizarInfoEdadesBeneficiarios = async valores => {
@@ -110,23 +112,56 @@ export const EdadesBeneficiariosEdit = ({ edadesBeneficiariosSeleccionado }) => 
                                 <FormHelperText error={props.errors.dsedadbeneficiario}>{props.errors.dsedadbeneficiario}</FormHelperText>
                             ) : null}
                         </DialogContent>
+                        <DialogContent>
+                            <TextField
+                                id="norangominimo"
+                                label="Rango de edad mínimo"
+                                variant="outlined"
+                                name="norangominimo"
+                                fullWidth
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
+                                value={props.values.norangominimo}
+                                inputProps={{ maxLength: 80 }}
+                            />
+                            {props.touched.norangominimo && props.errors.norangominimo ? (
+                                <FormHelperText error={props.errors.norangominimo}>{props.errors.norangominimo}</FormHelperText>
+                            ) : null}
+                        </DialogContent>
+
+                        <DialogContent>
+                            <TextField
+                                id="norangomaximo"
+                                label="Rango de edad máximo"
+                                variant="outlined"
+                                name="norangomaximo"
+                                fullWidth
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
+                                value={props.values.norangomaximo}
+                                inputProps={{ maxLength: 80 }}
+                            />
+                            {props.touched.norangomaximo && props.errors.norangomaximo ? (
+                                <FormHelperText error={props.errors.norangomaximo}>{props.errors.norangomaximo}</FormHelperText>
+                            ) : null}
+                        </DialogContent>
 
                         <DialogContent >
                             <Grid container justify="flex-end">
                                 <Button variant="contained" color="primary" type='submit'>
-                                {t('btn.guardar')}
+                                    {t('btn.guardar')}
                                 </Button>
                             </Grid>
                         </DialogContent>
                         <ModalConfirmacion
                             handleRegistrar={handleRegistrar} evento="Editar"
                         />
-                     <Mensaje
-                        setOpen={setOpenSnackbar}
-                        open={openSnackbar}
-                        severity={error?"error":"success"}
-                        message={msjConfirmacion}
-                    />
+                        <Mensaje
+                            setOpen={setOpenSnackbar}
+                            open={openSnackbar}
+                            severity={error ? "error" : "success"}
+                            message={msjConfirmacion}
+                        />
                     </form>
                 )
             }}
