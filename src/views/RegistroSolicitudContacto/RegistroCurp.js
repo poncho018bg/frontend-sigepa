@@ -31,7 +31,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export const RegistroCurp = ({ setActivar, setCurp }) => {
+export const RegistroCurp = ({ setActivar, setCurp, curp }) => {
     const classes = useStyles();
 
     const [email, setemail] = React.useState("");
@@ -88,13 +88,25 @@ export const RegistroCurp = ({ setActivar, setCurp }) => {
                                 variant="outlined"
                                 name="curp"
                                 fullWidth
-                                onChange={event => {
-                                    const { value } = event.target;
-                                    setCurp(value);
+                                value={curp}
+                                onClick={event => {
+                                    let testCurp = /^[a-zA-Z0-9_.-\sñÑ]*$/;
+                                    if (testCurp.test(event.target.value)) {
+                                        const { value } = event.target;
+                                        setCurp(value);
+                                    }
                                 }}
+                                onChange={event => {
+                                    let testCurp = /^[a-zA-Z0-9_.-\sñÑ]*$/;
+                                    if (testCurp.test(event.target.value)) {
+                                        const { value } = event.target;
+                                        setCurp(value);
+                                    }
+                                }}
+                                inputProps={{ maxlength: 18, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                             />
                         </GridItem>
-                        <GridItem xs={12} sm={12} md={12} lg={10}>                            
+                        <GridItem xs={12} sm={12} md={12} lg={10}>
                             <a href="https://www.gob.mx/curp/">¿No conoces tu CURP?</a>
                         </GridItem>
                     </GridContainer>

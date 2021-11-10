@@ -90,15 +90,23 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
     );
 
     const onChange = event => {
+        let textSoloNum = /^[0-9]*$/;
+        var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         switch (event.target.name) {
             case 'celular':
-                setCelular(event.target.value);
+                if (textSoloNum.test(event.target.value)) {
+                    setCelular(event.target.value);
+                }
                 break;
             case 'telefono':
-                setTelefonoCasa(event.target.value);
+                if (textSoloNum.test(event.target.value)) {
+                    setTelefonoCasa(event.target.value);
+                }
                 break;
             case 'telefonocontacto':
-                setTelefonoContato(event.target.value);
+                if (textSoloNum.test(event.target.value)) {
+                    setTelefonoContato(event.target.value);
+                }
                 break;
             case 'email':
                 setEmail(event.target.value);
@@ -145,7 +153,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
     useEffect(() => {
         console.log("entro al USEEFFECT ====>", activar);
         setActivar(next());
-    }, [celular,telefonoCasa,telefonoContacto,email]);
+    }, [celular, telefonoCasa, telefonoContacto, email]);
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -242,8 +250,10 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="email"
                             fullWidth
                             onChange={onChange}
-                            inputProps={{ maxLength: 80,
-                                pattern: '/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/'}}
+                            inputProps={{
+                                maxLength: 80,
+                                pattern: '/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/'
+                            }}
                             value={email}
                             success={emailStatus === 'success'}
                             error={emailStatus === 'error'}

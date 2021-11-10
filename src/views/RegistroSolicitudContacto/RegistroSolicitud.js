@@ -274,7 +274,7 @@ export const RegistroSolicitud = () => {
                         ) : (
                             <>
                                 {activeStep === 0 ?
-                                    <RegistroCurp setActivar={setActivar} setCurp={setCurp} />
+                                    <RegistroCurp setActivar={setActivar} curp={curp} setCurp={setCurp} />
                                     : activeStep === 1 ?
                                         <RegistroDatosSolicitante
                                             curpR={curp}

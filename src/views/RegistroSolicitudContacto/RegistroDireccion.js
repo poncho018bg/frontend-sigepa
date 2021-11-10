@@ -166,39 +166,61 @@ export const RegistroDireccion = forwardRef((props, ref) => {
         //getLocalidadesMunicipio(event.target.value);
     }
 
+    /**
+     * Esta función llena los datos
+     * @param {event} event 
+     */
     const onChange = event => {
         console.log("target direccion ===> ", event.target.name);
         console.log(event.target.value);
         //llenado de los datos a registrar
+        let testLetrasNum = /^[a-zA-Z0-9_.-\sñÑ]*$/;
+        let textSoloNum = /^[0-9]*$/;
         switch (event.target.name) {
             case "calle":
-                setCalle(event.target.value);
+                if (testLetrasNum.test(event.target.value)) {
+                    setCalle(event.target.value);
+                }
                 break;
             case "numeroExterior":
-                setNoExterior(event.target.value);
+                if (testLetrasNum.test(event.target.value)) {
+                    setNoExterior(event.target.value);
+                }
                 break;
             case "numeroInterior":
-                setNoInterior(event.target.value);
+                if (testLetrasNum.test(event.target.value)) {
+                    setNoInterior(event.target.value);
+                }
                 break;
             case "colonia":
-                setColonia(event.target.value);
+                if (testLetrasNum.test(event.target.value)) {
+                    setColonia(event.target.value);
+                }
                 break;
             case "entreCalle":
-                setEntreCalle(event.target.value);
+                if (testLetrasNum.test(event.target.value)) {
+                    setEntreCalle(event.target.value);
+                }
                 break;
             case "yCalle":
-                setYCalle(event.target.value);
+                if (testLetrasNum.test(event.target.value)) {
+                    setYCalle(event.target.value);
+                }
                 break;
             case "codigoPostal":
-                setCodigoPostal(event.target.value);
-                buscarLocalidadCP(event.target.value)
+                if (textSoloNum.test(event.target.value)) {
+                    setCodigoPostal(event.target.value);
+                    buscarLocalidadCP(event.target.value);
+                }
                 break;
             case "localidad":
                 console.log("target value ==>", event.target.value)
                 setIdLocalidad(event.target.value);
                 break;
             case "otraReferencia":
-                setOtraReferencia(event.target.value);
+                if (testLetrasNum.test(event.target.value)) {
+                    setOtraReferencia(event.target.value);
+                }
                 break;
         }
     }
@@ -253,7 +275,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
     useEffect(() => {
         console.log("entro al USEEFFECT ====>", activar);
         setActivar(next())
-    }, [calle,noExterior, noInterior,colonia,entreCalle, yCalle, idLocalidad]);
+    }, [calle, noExterior, noInterior, colonia, entreCalle, yCalle, idLocalidad]);
 
     return (
         <GridItem xs={12} sm={12} md={12}>

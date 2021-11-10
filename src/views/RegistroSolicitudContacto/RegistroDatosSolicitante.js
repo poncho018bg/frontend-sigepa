@@ -95,7 +95,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                 setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
                 setFechaNacimientoAxu(response.data.response[0].fechaNacimientoAxu);
                 setEdad(response.data.response[0].edad);
-                console.log("EDAD ===>",response.data.response[0].edad)
+                console.log("EDAD ===>", response.data.response[0].edad)
                 if (response.data.response[0].edad !== null) {
                     setEdadValida(response.data.response[0].edad);
                 }
@@ -161,10 +161,13 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
 
     const onChange = event => {
         console.log("nombre del evento ==>", event.target);
+        let testLetrasNum = /^[a-zA-Z0-9_.-\sñÑ]*$/;
         switch (event.target.name) {
             case 'rfc':
-                setRfc(event.target.value);
-                console.log("RFC ==>", rfc);
+                if (testLetrasNum.test(event.target.value)) {
+                    setRfc(event.target.value);
+                    console.log("RFC ==>", rfc);
+                }
                 break;
             case 'programa':
                 setIdentPrograma(event.target.value);
@@ -290,6 +293,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             fullWidth
                                             onChange={onChange}
                                             value={rfc}
+                                            inputProps={{ maxLength: 13, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                                         />
                                     </GridItem>
                                     <GridItem xs={12} sm={6}>
