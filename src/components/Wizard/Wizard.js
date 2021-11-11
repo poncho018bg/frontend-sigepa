@@ -333,7 +333,7 @@ Wizard.defaultProps = {
   nextButtonClasses: "",
   nextButtonText: "Siguiente",
   finishButtonClasses: "",
-  finishButtonText: "Fiaalizar",
+  finishButtonText: "Finalizar",
 };
 
 Wizard.propTypes = {

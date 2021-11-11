@@ -17,7 +17,7 @@ export const RegistroPrueba = () => {
                 <Card>
                     <CardBody>
                         <div className="container" id="main">
-                            <Form src="http://617c5f9034c5aaccebf28d64.localhost:3001/regingresos" onSubmit={handleSubmit} />
+                            <Form src="http://10.4.2.44:3001/becaeducativa" onSubmit={handleSubmit} />
                         </div>
                     </CardBody>
                 </Card>

@@ -10,6 +10,7 @@ $gray-800: #373a3c;
 $gray-900: #212529;
 $black:    #000;
 
+$grey:    #404447;
 $blue:    #127ABF;
 $indigo:  #6610f2;
 $purple:  #613d7c;
@@ -20,7 +21,7 @@ $yellow:  #f6c23e;
 $green:   #449414;
 $teal:    #36b9cc;
 $cyan:    #9954BB;
-$lightblue: lighten($blue, 20%);
+$lightblue: lighten($grey, 20%);
 
 $primary:       $blue;
 $secondary:     $orange;
@@ -31,7 +32,7 @@ $danger:        $red;
 $light:         $gray-100;
 $dark:          $gray-800;
 
-$brand-primary: #127ABF;
+$brand-primary: #404447;
 $brand-secondary: #449414;
 
 @import '~bootswatch/dist/cosmo/_variables.scss';

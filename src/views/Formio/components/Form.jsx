@@ -5,6 +5,7 @@ import AllComponents from 'formiojs/components';
 import Components from 'formiojs/components/Components';
 Components.setComponents(AllComponents);
 import FormioForm from 'formiojs/Form';
+//import FormioForm from '../../Formio/assets/Form';
 
  const Form = (props) => {
   let instance;

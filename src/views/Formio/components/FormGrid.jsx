@@ -190,12 +190,12 @@ FormGrid.defaultProps = {
     {
       key: 'title',
       sort: true,
-      title: 'Form',
+      title: 'Formulario',
       width: 8,
     },
     {
       key: 'operations',
-      title: 'Operations',
+      title: 'Operaciones',
       width: 4,
     },
   ],
@@ -223,7 +223,7 @@ FormGrid.defaultProps = {
       permissionsResolver() {
         return true;
       },
-      title: 'Enter Data',
+      title: 'Ingresar Datos',
     },
     {
       action: 'submission',
@@ -232,7 +232,7 @@ FormGrid.defaultProps = {
       permissionsResolver() {
         return true;
       },
-      title: 'View Data',
+      title: 'Ver Datos',
     },
     {
       action: 'edit',
@@ -241,7 +241,7 @@ FormGrid.defaultProps = {
       permissionsResolver() {
         return true;
       },
-      title: 'Edit Form',
+      title: 'Editar Formulario',
     },
     {
       action: 'delete',
