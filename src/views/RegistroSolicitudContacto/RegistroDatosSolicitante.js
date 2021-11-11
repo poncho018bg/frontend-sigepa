@@ -62,6 +62,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     const [estadoCivil, setEstadoCivil] = useState("");
     const [identificacion, setIdentificacion] = useState("");
     const [rfc, setRfc] = useState("");
+    const [idIdentificaion, setIdIdentificaion] = useState("");
     //const [identPrograma, setIdentPrograma] = useState();
 
     const { getGeneros, generosList,
@@ -95,6 +96,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                 setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
                 setFechaNacimientoAxu(response.data.response[0].fechaNacimientoAxu);
                 setEdad(response.data.response[0].edad);
+
                 console.log("EDAD ===>", response.data.response[0].edad)
                 if (response.data.response[0].edad !== null) {
                     setEdadValida(response.data.response[0].edad);
@@ -108,6 +110,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
             setEstadoCivil(beneficiario.idestadocivil);
             setIdentificacion(beneficiario.ididentificacionoficial);
             setRfc(beneficiario.rfc);
+            setIdIdentificaion(beneficiario.dsiddocumento)
 
         }
         getCien().then(data => {
@@ -150,7 +153,8 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
             estudios,
             estadoCivil,
             identificacion,
-            rfc);
+            rfc,
+            idIdentificaion);
     }
     useImperativeHandle(ref, () => ({
         registroBeneficiario() {
@@ -167,6 +171,11 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                 if (testLetrasNum.test(event.target.value)) {
                     setRfc(event.target.value);
                     console.log("RFC ==>", rfc);
+                }
+                break;
+            case 'idIdentificaion':
+                if (testLetrasNum.test(event.target.value)) {
+                    setIdIdentificaion(event.target.value);
                 }
                 break;
             case 'programa':
@@ -349,7 +358,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
 
                                         />
                                     </GridItem>
-                                    <GridItem xs={12} sm={6}>
+                                    <GridItem xs={12} sm={12}>
                                         <TextField
                                             style={{ marginBottom: '20px' }}
                                             id="estudios"
@@ -413,7 +422,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                         <GridContainer justify="center">
                             <GridItem xs={12} sm={12} md={12} lg={10}>
                                 <GridContainer>
-                                    <GridItem xs={12} sm={4}>
+                                    <GridItem xs={12} sm={6}>
                                         <TextField
                                             style={{ marginBottom: '20px' }}
                                             id="ine"
@@ -441,9 +450,23 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             }
                                         </TextField>
                                     </GridItem>
+                                    <GridItem xs={12} sm={6}>
+                                        <TextField
+                                            style={{ marginBottom: '20px' }}
+                                            id="idIdentificaion"
+                                            label="Folio de la identificación"
+                                            variant="outlined"
+                                            name="idIdentificaion"
+                                            fullWidth
+                                            onChange={onChange}
+                                            value={idIdentificaion}
+
+                                        />
+                                    </GridItem>
                                 </GridContainer>
                             </GridItem>
                         </GridContainer>
+
                     </CardBody>
                 </Card>
             </GridItem>

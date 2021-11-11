@@ -72,8 +72,9 @@ export const RegistroSolicitud = () => {
      * @param {estudios} estudios
      * @param {estadoCivil} estadoCivil
      * @param {identificacion} identificacion
+     * @param {idIdentificaion} idIdentificaion
      */
-    const llenarDatosBeneficiario = (id, nombre, apellidoPaterno, apellidoMaterno, curp, genero, fechaNacimientoReal, edad, estudios, estadoCivil, identificacion, rfc) => {
+    const llenarDatosBeneficiario = (id, nombre, apellidoPaterno, apellidoMaterno, curp, genero, fechaNacimientoReal, edad, estudios, estadoCivil, identificacion, rfc, idIdentificaion) => {
         /**
          * se guarda al ejecutar esta función
          */
@@ -87,7 +88,7 @@ export const RegistroSolicitud = () => {
             estudios,
             estadoCivil,
             identificacion,
-            rfc);
+            rfc,idIdentificaion);
 
         console.log("ID DEL BENEFICIARIO", id);
         if (id == undefined) {
@@ -102,7 +103,8 @@ export const RegistroSolicitud = () => {
                 idestadocivil: estadoCivil,
                 idgradoestudios: estudios,
                 ididentificacionoficial: identificacion,
-                rfc: rfc
+                rfc: rfc,
+                dsiddocumento:idIdentificaion
             }
             console.log("datos enviados ---> ", datosEnviar);
             /**
@@ -123,7 +125,8 @@ export const RegistroSolicitud = () => {
                 idestadocivil: estadoCivil,
                 idgradoestudios: estudios,
                 ididentificacionoficial: identificacion,
-                rfc: rfc
+                rfc: rfc,
+                dsiddocumento:idIdentificaion
             }
             /**
              * si se hace algun edición se guarda aquí
