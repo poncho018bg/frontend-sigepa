@@ -71,7 +71,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
         getIdentificaciones, identificacionesList
     } = useContext(RegistroSolicitudContext);
 
-    const { programasList, get } = useContext(ProgramasContext);
+    const { programasList, get,getCien } = useContext(ProgramasContext);
 
     useEffect(() => {
         setLoading(true);
@@ -113,7 +113,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
             setIdIdentificaion(beneficiario.dsiddocumento)
 
         }
-        get().then(data => {
+        getCien().then(data => {
             setTimeout(() => setLoading(false), 500);
 
         });
