@@ -48,6 +48,21 @@ export const ProgramasContextProvider = props => {
         }
     }
 
+    const getCien = async () => {
+        try {
+            
+            const { page, size } = state;
+            const result = await axiosGet(`programas?page=0&size=1000`);
+            console.log("resultado programas cien",result);
+            dispatch({
+                type: GET_PROGRAMAS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const getProgramasActivos = async vigencia => {
         try {
 
@@ -273,7 +288,8 @@ export const ProgramasContextProvider = props => {
                 getMunicipiosProg,
                 getDocumentosProg,
                 getImgDocumentosProg,
-                imagenprg:state.imagenprg
+                imagenprg:state.imagenprg,
+                getCien
             }}
         >
             {props.children}
