@@ -131,12 +131,13 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
 
     const next = () => {
         if (activar || activar === undefined) {
-            if (celular !== "" && telefonoCasa !== "" && telefonoContacto !== "" && email !== "") {
+            if (celular !== "" ) {
                 return true;
             } else {
                 if (celular === "") {
                     return false;
                 }
+                /*
                 if (telefonoCasa === "") {
                     return false;
                 }
@@ -146,6 +147,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                 if (email === "") {
                     return false;
                 }
+                */
             }
         }
     }
@@ -153,7 +155,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
     useEffect(() => {
         console.log("entro al USEEFFECT ====>", activar);
         setActivar(next());
-    }, [celular, telefonoCasa, telefonoContacto, email]);
+    }, [celular]);
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -171,6 +173,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="celular"
                             fullWidth
                             onChange={onChange}
+                            onBlur={() => setActivar(next())}
                             value={celular}
                             success={celularStatus === 'success'}
                             error={celularStatus === 'error'}
@@ -197,10 +200,12 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="telefono"
                             fullWidth
                             onChange={onChange}
+                            onBlur={() => setActivar(next())}
                             value={telefonoCasa}
                             success={telefonoCasaStatus === 'success'}
                             error={telefonoCasaStatus === 'error'}
                             inputProps={{
+                                /*
                                 onChange: (event) => {
                                     if (event.target.value === "") {
                                         setTeleCasaStatus("error");
@@ -210,7 +215,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                                         setTeleCasaStatus("success");
                                         setActivar(next())
                                     }
-                                },maxLength: 10
+                                },*/maxLength: 10
                             }}
                         />
                     </CardBody>
@@ -222,10 +227,12 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="telefonocontacto"
                             fullWidth
                             onChange={onChange}
+                            onBlur={() => setActivar(next())}
                             value={telefonoContacto}
                             success={telefonoContactoStatus === 'success'}
                             error={telefonoContactoStatus === 'error'}
                             inputProps={{
+                                /*
                                 onChange: (event) => {
                                     if (event.target.value === "") {
                                         setTelefonoContatoStatus("error");
@@ -235,7 +242,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                                         setTelefonoContatoStatus("success");
                                         setActivar(next())
                                     }
-                                },maxLength: 10
+                                },*/maxLength: 10
                             }}
                         />
                     </CardBody>
@@ -247,10 +254,12 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="email"
                             fullWidth
                             onChange={onChange}
+                            onBlur={() => setActivar(next())}
                             value={email}
                             success={emailStatus === 'success'}
                             error={emailStatus === 'error'}
                             inputProps={{
+                                /*
                                 onChange: (event) => {
                                     if (event.target.value === "") {
                                         setEmailStatus("error");
@@ -260,7 +269,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                                         setEmailStatus("success");
                                         setActivar(next())
                                     }
-                                },maxLength: 80
+                                },*/maxLength: 80
                             }}
                         />
                     </CardBody>
@@ -272,6 +281,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                             name="observaciones"
                             fullWidth
                             onChange={onChange}
+                            onBlur={() => setActivar(next())}
                             value={observaciones}
                             inputProps={{
                                 maxLength: 200

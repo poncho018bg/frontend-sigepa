@@ -237,16 +237,13 @@ export const RegistroDireccion = forwardRef((props, ref) => {
     const next = () => {
         if (activar || activar === undefined) {
             console.log("activar es true o indefinido oblur", calle);
-            if (calle !== "" && noExterior !== "" && noInterior !== "" && colonia !== "" && entreCalle !== "" && yCalle !== "" && idLocalidad !== "") {
+            if (calle !== "" && noExterior !== ""  && colonia !== "" && entreCalle !== "" && yCalle !== "" && idLocalidad !== "") {
                 return true;
             } else {
                 if (calle === "") {
                     return false;
                 }
                 if (noExterior === "") {
-                    return false;
-                }
-                if (noInterior === "") {
                     return false;
                 }
                 if (colonia === "") {
@@ -275,7 +272,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
     useEffect(() => {
         console.log("entro al USEEFFECT ====>", activar);
         setActivar(next())
-    }, [calle, noExterior, noInterior, colonia, entreCalle, yCalle, idLocalidad]);
+    }, [calle, noExterior, colonia, entreCalle, yCalle, idLocalidad]);
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -297,6 +294,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="calle"
                                 fullWidth
                                 onChange={onChange}
+                                onBlur={() => setActivar(next())}
                                 value={calle}
                                 success={calleStatus === 'success'}
                                 error={calleStatus === 'error'}
@@ -323,6 +321,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="numeroExterior"
                                 fullWidth
                                 onChange={onChange}
+                                onBlur={() => setActivar(next())}
                                 value={noExterior}
                                 success={exteriorStatus === 'success'}
                                 error={exteriorStatus === 'error'}
@@ -351,9 +350,8 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 fullWidth
                                 onChange={onChange}
                                 value={noInterior}
-                                success={interiorStatus === 'success'}
-                                error={interiorStatus === 'error'}
                                 inputProps={{
+                                    /*
                                     onChange: (event) => {
                                         console.log("interior", event)
                                         if (event.target.value === "") {
@@ -364,7 +362,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                             setInteriorStatus("success");
                                             setActivar(next())
                                         }
-                                    },maxLength: 40
+                                    },*/maxLength: 40
                                 }}
                             />
                         </GridItem>
@@ -377,6 +375,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="colonia"
                                 fullWidth
                                 onChange={onChange}
+                                onBlur={() => setActivar(next())}
                                 value={colonia}
                                 success={coloniaStatus === 'success'}
                                 error={coloniaStatus === 'error'}
@@ -405,6 +404,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 variant="outlined"
                                 name="entreCalle"
                                 onChange={onChange}
+                                onBlur={() => setActivar(next())}
                                 fullWidth
                                 value={entreCalle}
                                 success={entreCalleStatus === 'success'}
@@ -432,6 +432,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 name="yCalle"
                                 fullWidth
                                 onChange={onChange}
+                                onBlur={() => setActivar(next())}
                                 value={yCalle}
                                 success={ycalleStatus === 'success'}
                                 error={ycalleStatus === 'error'}
@@ -524,6 +525,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 fullWidth
                                 select
                                 onChange={onChange}
+                                onBlur={() => setActivar(next())}
                                 value={idLocalidad}
                                 success={localidadStatus === 'success'}
                                 error={localidadStatus === 'error'}
