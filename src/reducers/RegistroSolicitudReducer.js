@@ -10,7 +10,8 @@ import {
     OBTENER_DIRECCION,
     MODIFICAR_DIRECCION_BENEFICIARIO,
     GUARDAR_SOLICITUD_FOLIO,
-    AGREGAR_SOLICITUD_FOLIO_ERROR
+    AGREGAR_SOLICITUD_FOLIO_ERROR,
+    BUSCAR_SOLICITUD_POR_PARAMETROS
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -32,6 +33,11 @@ export default (state, action) => {
                 ...state,
                 estudiosList: action.payload._embedded.gradoEstudios,
                 total: action.payload.page.totalElements
+            };
+        case BUSCAR_SOLICITUD_POR_PARAMETROS:
+            return {
+                ...state,
+                solicitudParametros: action.payload
             };
         case GET_ESTADO_CIVIL:
             return {
@@ -56,7 +62,7 @@ export default (state, action) => {
                 direccion: [...state.direccion, action.payload]
             };
 
-        case GUARDAR_SOLICITUD_FOLIO:            
+        case GUARDAR_SOLICITUD_FOLIO:
             return {
                 ...state,
                 solicitudFolio: action.payload
