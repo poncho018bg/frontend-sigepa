@@ -35,6 +35,7 @@ export const RegistroPreguntas = (props) => {
     }
 
     const handleSubmit = (event) => {
+        window.scrollTo(0, 0)
         console.log("Aqui es donde vamos a mandar a guardar event-------", event);
         let complementoFur = {
             programas: idPrograma,
@@ -44,6 +45,7 @@ export const RegistroPreguntas = (props) => {
         console.log("Esto es lo que mandamos guardar", complementoFur);
         //registrarComplementoFurs(complementoFur);
         setActivar(true)
+       
     }
 
     return (
