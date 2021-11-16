@@ -30,7 +30,8 @@ export const RegistroSolicitudContextProvider = props => {
         identificacionesList: [],
         beneficiario:undefined,
         direccion: [],
-        solicitudFolio:null
+        solicitudFolio:null,
+        solicitudParametros:[]
     }
 
 
@@ -219,6 +220,32 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
+    const getSolicitudesPorParametros = async parametros => {
+        
+        try {
+            const url = `${baseUrlPublico}solicitudOverride/consultarSolicitudes`;
+            return new Promise((resolve, reject) => {
+                axios.get(url,parametros, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {                    
+                    resolve(response);
+                    dispatch({
+                        type: BUSCAR_SOLICITUD_POR_PARAMETROS,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            dispatch({
+                type: AGREGAR_SOLICITUD_FOLIO_ERROR,
+                payload: true
+            })
+        }
+    }
+
     return (
         <RegistroSolicitudContext.Provider value={{
             generosList: state.generosList,
@@ -228,6 +255,7 @@ export const RegistroSolicitudContextProvider = props => {
             beneficiario: state.beneficiario,
             direccion: state.direccion,
             solicitudFolio:state.solicitudFolio,
+            solicitudParametros:state.solicitudParametros,
             getGeneros,
             getEstudios,
             getEstadoCivil,
@@ -238,7 +266,8 @@ export const RegistroSolicitudContextProvider = props => {
             getBeneficiario,
             actualizarBeneficiario,
             obtenerDireccionBeneficiario,
-            registrarSolicitudFolio
+            registrarSolicitudFolio,
+            getSolicitudesPorParametros
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>
