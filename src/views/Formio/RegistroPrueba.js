@@ -3,8 +3,13 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
-import './index.scss';
-import  Form from '../Formio/components/Form';
+import './assets/index.scss';
+import Form from '../Formio/components/Form';
+import './i18n';
+//import { i18n } from 'lingui-i18n';
+//import './i18next';
+
+
 export const RegistroPrueba = () => {
 
     const handleSubmit = (event) => {

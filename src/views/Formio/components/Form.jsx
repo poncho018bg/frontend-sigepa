@@ -1,17 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import EventEmitter from 'eventemitter2';
+import EventEmitter from 'formiojs/EventEmitter';
 import AllComponents from 'formiojs/components';
 import Components from 'formiojs/components/Components';
 Components.setComponents(AllComponents);
 import FormioForm from 'formiojs/Form';
-//import FormioForm from '../../Formio/assets/Form';
+import '../i18n';
 
- const Form = (props) => {
+const Form = (props) => {
   let instance;
   let createPromise;
   let element;
   const [formio, setFormio] = useState(undefined);
+  //res.cookie('locale', serverLocaleVariableHere, { expires: new Date(Date.now() + settings.server.cookieTTL), httpOnly: false });
 
   useEffect(() => () => formio ? formio.destroy(true) : null, [formio]);
 
@@ -29,9 +30,9 @@ import FormioForm from 'formiojs/Form';
   };
 
   const onAnyEvent = (event, ...args) => {
-     if (event.startsWith('formio.')) {
+    if (event.startsWith('formio.')) {
       const funcName = `on${event.charAt(7).toUpperCase()}${event.slice(8)}`;
-       // eslint-disable-next-line no-prototype-builtins
+      // eslint-disable-next-line no-prototype-builtins
       if (props.hasOwnProperty(funcName) && typeof (props[funcName]) === 'function') {
         props[funcName](...args);
       }
@@ -39,7 +40,7 @@ import FormioForm from 'formiojs/Form';
   };
 
   const initializeFormio = () => {
-    const {submission} = props;
+    const { submission } = props;
     if (createPromise) {
       instance.onAny(onAnyEvent);
       createPromise.then(() => {
@@ -51,7 +52,7 @@ import FormioForm from 'formiojs/Form';
   };
 
   useEffect(() => {
-    const {src} = props;
+    const { src } = props;
     if (src) {
       createWebformInstance(src).then(() => {
         if (formio) {
@@ -63,30 +64,30 @@ import FormioForm from 'formiojs/Form';
   }, [props.src]);
 
   useEffect(() => {
-    const {form, url} = props;
+    const { form, url } = props;
     if (form) {
       createWebformInstance(form).then(() => {
-      if (formio) {
-        formio.form = form;
-        if (url) {
-          formio.url = url;
+        if (formio) {
+          formio.form = form;
+          if (url) {
+            formio.url = url;
+          }
+          return formio;
         }
-        return formio;
-      }
       });
       initializeFormio();
     }
   }, [props.form]);
 
   useEffect(() => {
-    const {options = {}} = props;
+    const { options = {} } = props;
     if (!options.events) {
       options.events = Form.getDefaultEmitter();
     }
   }, [props.options]);
 
   useEffect(() => {
-    const {submission} = props;
+    const { submission } = props;
     if (formio && submission) {
       formio.submission = submission;
     }

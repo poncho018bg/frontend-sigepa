@@ -4,11 +4,9 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import '../Formio/index.scss';
-//import { Form } from '@formio/react/lib/components';
+import '../Formio/assets/index.scss';
 import Form from '../Formio/components/Form';
 import { ComplementoFursContext } from "contexts/complementoFurContext";
-
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
