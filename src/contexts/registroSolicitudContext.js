@@ -223,12 +223,13 @@ export const RegistroSolicitudContextProvider = props => {
     const getSolicitudesPorParametros = async parametros => {
         
         try {
-            const url = `${baseUrlPublico}solicitudOverride/consultarSolicitudes`;
+            const url = `${baseUrlPublico}solicitudOverride/consultarSolicitudes/${parametros.paterno}/${parametros.materno}/${parametros.nombre}/${parametros.idPrograma}/${parametros.folio}/${parametros.idEstatus}`;
             return new Promise((resolve, reject) => {
-                axios.get(url,parametros, {
+                axios.get(url, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {                    
                     resolve(response);
+                    console.log('RESPONSE=>',response.data)
                     dispatch({
                         type: BUSCAR_SOLICITUD_POR_PARAMETROS,
                         payload: response.data

@@ -65,6 +65,7 @@ import { ModalContextConfirmacionProvider } from "contexts/modalContextConfirmac
 import { RegistroCargaDocumentosContextProvider } from "contexts/registroCargaDocumentosContext"
 import { RegistroSolicitudContextProvider } from "contexts/registroSolicitudContext";
 import { ComplementoFursContextProvider } from "contexts/complementoFurContext";
+import { EstatusRegistroContextProvider } from "contexts/catalogos/EstatusRegistroContext";
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
@@ -107,11 +108,13 @@ ReactDOM.render(
                                                                   <RegistroCargaDocumentosContextProvider>
                                                                     <RegistroSolicitudContextProvider>
                                                                       <ComplementoFursContextProvider>
-                                                                        <Switch>
-                                                                          <Route path="/admin" component={Admin} />
-                                                                          <Route path="/public" component={Auth} />
-                                                                          <Redirect from="/" to="/admin/dashboard" />
-                                                                        </Switch>
+                                                                        <EstatusRegistroContextProvider>
+                                                                          <Switch>
+                                                                            <Route path="/admin" component={Admin} />
+                                                                            <Route path="/public" component={Auth} />
+                                                                            <Redirect from="/" to="/admin/dashboard" />
+                                                                          </Switch>
+                                                                        </EstatusRegistroContextProvider>
                                                                       </ComplementoFursContextProvider>
                                                                     </RegistroSolicitudContextProvider>
                                                                   </RegistroCargaDocumentosContextProvider>
