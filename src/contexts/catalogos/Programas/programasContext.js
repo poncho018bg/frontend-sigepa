@@ -51,7 +51,7 @@ export const ProgramasContextProvider = props => {
     const getCien = async () => {
         try {
             
-            const { page, size } = state;
+            
             const result = await axiosGet(`programas?page=0&size=1000`);
             console.log("resultado programas cien",result);
             dispatch({
