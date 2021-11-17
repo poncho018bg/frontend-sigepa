@@ -252,15 +252,15 @@ const dashboardRoutes = [
   },
   {
     collapse: true,
-    name: "Bandeja General de Solicitudes ",
+    name: "Bandeja general de solicitudes",
     rtlName: "bgs",
     icon: MoveToInboxIcon,
     state: "pageCollapse",
     views: [
       {
         path: "/busquedasolicitudes",
-        name: "Búsqueda de Solicitudes",
-        rtlName: "Búsqueda de Solicitudes",
+        name: "Búsqueda de solicitudes",
+        rtlName: "Búsqueda de solicitudes",
         mini: "bs",
         rtlMini: "bs",
         component: BandejaSolicitudes,

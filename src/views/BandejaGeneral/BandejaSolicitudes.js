@@ -6,8 +6,9 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid, TextField, MenuItem } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
-
+import moment from 'moment';
 import 'moment/locale/es';
+
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -193,7 +194,7 @@ export const BandejaSolicitudes = () => {
 
                     </Grid>
                     <Grid container spacing={3}>
-                        <Grid item xs={2}>
+                        <Grid item xs={2} style={{textAlign:'right', float:'right'}}>
                             <Button variant="contained" color="primary" fullWidth onClick={buscarSolitudes}>
                                 Buscar
                             </Button>
@@ -216,13 +217,15 @@ export const BandejaSolicitudes = () => {
                         < TableBody >
                             {
                                 
-                                solicitudParametros.map(row => {
+                                solicitudParametros.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                                     return (                                        
                                         < TableRow key={row.id}>                                           
                                             <TableCell align="center">{row.nombre}</TableCell >
                                             <TableCell align="center">{row.dsprograma}</TableCell >
                                             <TableCell align="center">{row.dsfoliosolicitud}</TableCell >
                                             <TableCell align="center">{row.dsestatusregistro}</TableCell >
+                                      
+                                            <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">{row.observaciones}</TableCell >
                                             <TableCell align="center">{row.motivobaja}</TableCell >
                                             <TableCell align="center">
@@ -238,7 +241,7 @@ export const BandejaSolicitudes = () => {
                         </TableBody >
                     </ Table>
                     < TablePagination
-                        rowsPerPageOptions={[5, 10, 15]}
+                        rowsPerPageOptions={[25, 50, 75,100]}
                         component="div"
                         labelRowsPerPage={t('dgv.registrospaginas')}
                         count={solicitudParametros.length}
@@ -246,6 +249,7 @@ export const BandejaSolicitudes = () => {
                         page={page}
                         onChangePage={handleChangePage}
                         onChangeRowsPerPage={handleChangeRowsPerPage}
+                        labelDisplayedRows= {({ from, to, count }) => `${from}-${to} de un total ${count} registros`}
                     />
                 </CardBody>
             </Card>

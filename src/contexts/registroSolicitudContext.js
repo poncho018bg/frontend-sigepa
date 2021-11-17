@@ -13,7 +13,7 @@ import {
     OBTENER_DIRECCION,
     MODIFICAR_DIRECCION_BENEFICIARIO,
     GUARDAR_SOLICITUD_FOLIO,
-    AGREGAR_SOLICITUD_FOLIO_ERROR
+    AGREGAR_SOLICITUD_FOLIO_ERROR,BUSCAR_SOLICITUD_POR_PARAMETROS
 } from 'types/actionTypes';
 
 import { axiosGet, axiosPost,  axiosPut } from 'helpers/axiosPublico';
@@ -227,23 +227,21 @@ export const RegistroSolicitudContextProvider = props => {
             return new Promise((resolve, reject) => {
                 axios.get(url, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
-                }).then(response => {                    
-                    resolve(response);
-                    console.log('RESPONSE=>',response.data)
+                }).then(response => {      
+                    console.log('RESPONSE=>',response.data)              
+                    resolve(response);                   
                     dispatch({
                         type: BUSCAR_SOLICITUD_POR_PARAMETROS,
                         payload: response.data
                     })
                 }).catch(error => {
+                    console.log('Err',error);
                     reject(error);
                 });
             });
 
         } catch (error) {
-            dispatch({
-                type: AGREGAR_SOLICITUD_FOLIO_ERROR,
-                payload: true
-            })
+            console.log('Err',error);
         }
     }
 

@@ -23,7 +23,7 @@ export default (state, action) => {
                 total: action.payload.page.totalElements
             };
         case AGREGAR_SOLICITUD_FOLIO_ERROR:
-            console.log(action.type);
+            console.log('err',action.type);
             return {
                 ...state,
                 error: action.payload
