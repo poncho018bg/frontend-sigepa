@@ -2,6 +2,7 @@ import React, { createContext, useReducer } from 'react';
 import MunicipiosReducer from 'reducers/Catalogos/MunicipiosReducer';
 
 import { axiosGet, axiosPost,  axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
+import { axiosGetSinTokenAdmin } from 'helpers/axiosPublico';
 import {
     GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO,
     AGREGAR_MUNICIPIOS_ERROR,
@@ -173,7 +174,7 @@ export const MunicipiosContextProvider = props => {
 
     const getMunicipioEstado = async idEstado => {
         try {
-            const resultado = await axiosGet(`municipiosRegion/municipiosEstado/${idEstado}`);
+            const resultado = await axiosGetSinTokenAdmin(`municipiosRegion/municipiosEstado/${idEstado}`);
             console.log("resultado de la consulta ", resultado);
             dispatch({
                 type: GET_MUNICIPIOS_ID,

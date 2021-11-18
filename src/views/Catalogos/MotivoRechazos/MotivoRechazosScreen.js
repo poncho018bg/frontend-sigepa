@@ -192,6 +192,7 @@ export const MotivoRechazosScreen = () => {
                         page={page}
                         onChangePage={handleChangePage}
                         onChangeRowsPerPage={handleChangeRowsPerPage}
+                        labelDisplayedRows= {({ from, to, count }) => `${from}-${to} de un total ${count} registros`}
                     />
                 </CardBody>
             </Card>

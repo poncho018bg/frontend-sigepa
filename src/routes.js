@@ -68,6 +68,7 @@ import { RegistroPrueba } from "views/Formio/RegistroPrueba";
 import { RegistroProgramas } from "views/UsuarioPublico/RegistroProgramas.js"
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
+import { BandejaSolicitudes } from "views/BandejaGeneral/BandejaSolicitudes";
 
 
 const dashboardRoutes = [
@@ -250,12 +251,19 @@ const dashboardRoutes = [
   },
   {
     collapse: true,
-    name: "Bandeja General de Solicitudes ",
+    name: "Bandeja general de solicitudes",
     rtlName: "bgs",
     icon: MoveToInboxIcon,
     state: "pageCollapse",
     views: [
       {
+        path: "/busquedasolicitudes",
+        name: "Búsqueda de solicitudes",
+        rtlName: "Búsqueda de solicitudes",
+        mini: "bs",
+        rtlMini: "bs",
+        component: BandejaSolicitudes,
+        layout: "/admin"
       }
     ]
   }

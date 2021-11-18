@@ -1,6 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 
 import { axiosGet, axiosPostHetoas } from 'helpers/axios';
+import { axiosGetSinTokenAdmin } from 'helpers/axiosPublico';
 import {
     GET_LOCALIDADES,
     REGISTRAR_LOCALIDADES,
@@ -207,7 +208,7 @@ export const LocalidadesContextProvider = props => {
 
     const getLocalidadesMunicipio = async (idMunicipio,codigoPostal) => {
         try {
-            const result = await axiosGet(`localidadMunicipio/municipio/${idMunicipio}/${codigoPostal}`);
+            const result = await axiosGetSinTokenAdmin(`localidadMunicipio/municipio/${idMunicipio}/${codigoPostal}`);
             console.log("localidades municipio_id ",result)
             dispatch({
                 type: GET_LOCALIDADES_MUNICIPIO,

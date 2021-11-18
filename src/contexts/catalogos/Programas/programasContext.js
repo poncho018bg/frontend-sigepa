@@ -3,6 +3,7 @@ import React, { createContext, useReducer } from 'react';
 const baseUrl = process.env.REACT_APP_API_URL;
 import axios from "axios";
 import { axiosGet,  axiosDeleteTipo } from 'helpers/axios';
+import { axiosGetSinTokenAdmin } from 'helpers/axiosPublico';
 import {
     REGISTRAR_PROGRAMAS,
     MODIFICAR_PROGRAMAS,
@@ -52,7 +53,7 @@ export const ProgramasContextProvider = props => {
         try {
             
             const { page, size } = state;
-            const result = await axiosGet(`programas?page=0&size=1000`);
+            const result = await axiosGetSinTokenAdmin(`programas?page=0&size=1000`);
             console.log("resultado programas cien",result);
             dispatch({
                 type: GET_PROGRAMAS,

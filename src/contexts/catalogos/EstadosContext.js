@@ -9,6 +9,7 @@ import {
     CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
 import { axiosGet, axiosPost,  axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
+import { axiosGetSinTokenAdmin } from 'helpers/axiosPublico';
 
 
 
@@ -164,7 +165,7 @@ export const EstadosContextProvider = props => {
         try {
 
             
-            const resultado = await axiosGet(`estados?page=${0}&size=${50}`);
+            const resultado = await axiosGetSinTokenAdmin(`estados?page=${0}&size=${50}`);
             console.log(resultado._embedded.estados);
             dispatch({
                 type: GET_ESTADOS,

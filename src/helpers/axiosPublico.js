@@ -2,6 +2,7 @@ import axios from "axios";
 
 
 const baseUrl = process.env.REACT_APP_API_PUBLICO_URL;
+const baseUrl2 = process.env.REACT_APP_API_URL;
 const UserService = sessionStorage.getItem('token')
 const baseUrlExpediente = process.env.REACT_APP_API_EXPEDIENTE_URL;
 
@@ -13,9 +14,6 @@ async function axiosGet(endpoint) {
         const promise = await axios({
             method: 'GET',
             url,
-            headers: {
-                Authorization: 'Bearer ' + UserService,
-            }
         }).then(response => {
             return response.data
         });
@@ -34,11 +32,12 @@ async function axiosPost(endpoint, data, method) {
             method: 'POST',
             url,
             data,
-
+/*
             headers: {
                 Authorization: 'Bearer ' + UserService,
                 'Content-Type': 'application/json'
             }
+            */
         }).then(response => {
             return response.data
         });
@@ -57,11 +56,12 @@ async function axiosPut(endpoint, data, method) {
             method: 'PUT',
             url,
             data,
-
+/*
             headers: {
                 Authorization: 'Bearer ' + UserService,
                 'Content-Type': 'application/json'
             }
+            */
         }).then(response => {
             return response.data
         });
@@ -73,7 +73,7 @@ async function axiosPut(endpoint, data, method) {
 }
 
 async function axiosGetSinToken(endpoint) {
-    const url = `${endpoint}`;
+    const url = `${baseUrl}${endpoint}`;
     try {
         const promise = await axios({
             method: 'GET',
@@ -95,9 +95,11 @@ async function axiosGetExpediente(endpoint) {
         const promise = await axios({
             method: 'GET',
             url,
+            /*
             headers: {
                 Authorization: 'Bearer ' + UserService,
             }
+            */
         }).then(response => {
             return response.data
         });
@@ -117,9 +119,11 @@ async function axiosExpedienteToken(endpoint, method) {
         const promise = await axios({
             method,
             url,
+            /*
             headers: {
                 Authorization: 'Bearer ' + UserService,
             }
+            */
         }).then(response => {
             return response.data
         });
@@ -137,9 +141,11 @@ async function axiosPostExpediente(endpoint, data, method) {
             method,
             data,
             url,
+            /*
             headers: {
                 Authorization: 'Bearer ' + UserService,
             }
+            */
         }).then(response => {
             return response.data
         });
@@ -156,9 +162,11 @@ async function axiosGetTipo(endpoint) {
         const promise = await axios({
             method: 'GET',
             url,
+            /*
             headers: {
                 Authorization: 'Bearer ' + UserService,
             }
+            */
         }).then(response => {
             return response.data
         });
@@ -177,11 +185,12 @@ async function axiosPostTipo(endpoint, data, method) {
             method,
             url,
             data,
-
+/*
             headers: {
                 Authorization: 'Bearer ' + UserService,
                 'Content-Type': 'application/json'
             }
+            */
         }).then(response => {
             return response.data
         });
@@ -199,9 +208,11 @@ async function axiosDeleteTipo(endpoint) {
         const promise = await axios({
             method: 'DELETE',
             url,
+            /*
             headers: {
                 Authorization: 'Bearer ' + UserService,
             }
+            */
         }).then(response => {
             return response.data
         });
@@ -220,11 +231,12 @@ async function axiosPostHetoas(endpoint, data, method) {
             method,
             url,
             data,
-
+/*
             headers: {
                 Authorization: 'Bearer ' + UserService,
                 'Content-Type': 'application/json'
             }
+            */
         }).then(response => {
             return response.data
         });
@@ -241,9 +253,27 @@ async function axiosGetHetoas(endpoint) {
         const promise = await axios({
             method: 'GET',
             url,
+            /*
             headers: {
                 Authorization: 'Bearer ' + UserService,
             }
+            */
+        }).then(response => {
+            return response.data
+        });
+        return promise;
+    } catch (error) {
+        console.error('There was an error!', error);
+        return Promise.reject(error)
+    }
+}
+
+async function axiosGetSinTokenAdmin(endpoint) {
+    const url = `${baseUrl2}${endpoint}`;
+    try {
+        const promise = await axios({
+            method: 'GET',
+            url
         }).then(response => {
             return response.data
         });
@@ -266,5 +296,6 @@ export {
     axiosExpedienteToken,
     axiosPostHetoas,
     axiosGetHetoas,
-    axiosPut
+    axiosPut,
+    axiosGetSinTokenAdmin
 }
