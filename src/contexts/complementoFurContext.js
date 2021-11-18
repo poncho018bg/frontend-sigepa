@@ -3,8 +3,8 @@ import complementoFursReducer from '../reducers/complementoFursReducer';
 import { GET_COMPLEMENTO_FURS, REGISTRAR_COMPLEMENTO_FURS, ACTUALIZAR_COMPLEMENTO_FURS } from '../types/actionTypes';
 
 import { axiosGet } from 'helpers/axios';
-import { axiosPost} from 'helpers/axiosPublico';
-import { axiosPut} from 'helpers/axiosPublico';
+import { axiosPost, axiosPut} from 'helpers/axiosPublico';
+
 
 export const ComplementoFursContext = createContext();
 

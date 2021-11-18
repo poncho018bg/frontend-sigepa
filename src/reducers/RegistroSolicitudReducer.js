@@ -23,7 +23,7 @@ export default (state, action) => {
                 total: action.payload.page.totalElements
             };
         case AGREGAR_SOLICITUD_FOLIO_ERROR:
-            console.log(action.type);
+            console.log('err',action.type);
             return {
                 ...state,
                 error: action.payload
@@ -35,6 +35,7 @@ export default (state, action) => {
                 total: action.payload.page.totalElements
             };
         case BUSCAR_SOLICITUD_POR_PARAMETROS:
+            console.log('action.payload',action.payload)
             return {
                 ...state,
                 solicitudParametros: action.payload
