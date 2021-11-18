@@ -1,25 +1,27 @@
 import React, { createContext, useReducer } from 'react';
-import EstatusRegistroReducer from 'reducers/Catalogos/EstatusRegistroReducer';
+import IdentificacionesOficialesReducer from 'reducers/Catalogos/IdentificacionesOficialesReducer';
 import { axiosGet, axiosPut } from 'helpers/axiosPublico';
 import { axiosPostHetoas } from 'helpers/axios';
 import {
-    GET_ESTATUS_REGISTRO,
-    REGISTRAR_ESTATUS_REGISTRO,
-    ELIMINAR_ESTATUS_REGISTRO,
-    MODIFICAR_ESTATUS_REGISTRO,
-    ESTATUS_REGISTRO_ERROR,
+    GET_IDENTIFICACIONES_OFICIALES,
+    REGISTRAR_IDENTIFICACIONES_OFICIALES,
+    ELIMINAR_IDENTIFICACIONES_OFICIALES,
+    MODIFICAR_IDENTIFICACIONES_OFICIALES,
+    IDENTIFICACIONES_OFICIALES_ERROR,
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
 
-export const EstatusRegistroContext = createContext();
+
+
+export const IdentificacionesOficialesContext = createContext();
 
 const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL
 
-export const EstatusRegistroContextProvider = props => {
+export const IdentificacionesOficialesContextProvider = props => {
 
     const initialState = {
-        estatusRegistroList: [],
+        identificacionesOficialesList: [],
         error: false,
         page: 0,
         size: 10,
@@ -27,16 +29,16 @@ export const EstatusRegistroContextProvider = props => {
 
     }
 
-    const [state, dispatch] = useReducer(EstatusRegistroReducer, initialState);
+    const [state, dispatch] = useReducer(IdentificacionesOficialesReducer, initialState);
 
 
-    const getEstatusRegistro = async () => {
+    const getIdentificacionesOficiales = async () => {
 
         try {
             const { page, size } = state;
-            const resultado = await axiosGet(`estatusRegistros?page=${page}&size=${size}`);
+            const resultado = await axiosGet(`identificacionesOficiales?page=${page}&size=${size}`);
             dispatch({
-                type: GET_ESTATUS_REGISTRO,
+                type: GET_IDENTIFICACIONES_OFICIALES,
                 payload: resultado
             })
         } catch (error) {
@@ -45,17 +47,17 @@ export const EstatusRegistroContextProvider = props => {
     }
 
 
-    const registrarEstatusRegistros = async estatusRegistros => {
+    const registrarIdentificacionesOficiales = async identificacionesOficiales => {
 
         try {
-            const url = `${baseUrlPublico}estatusRegistros`;
+            const url = `${baseUrlPublico}identificacionesOficiales`;
             return new Promise((resolve, reject) => {
-                axios.post(url, estatusRegistros, {
+                axios.post(url, identificacionesOficiales, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
                     resolve(response);
                     dispatch({
-                        type: REGISTRAR_ESTATUS_REGISTRO,
+                        type: REGISTRAR_IDENTIFICACIONES_OFICIALES,
                         payload: response.data
                     })
                 }).catch(error => {
@@ -65,18 +67,18 @@ export const EstatusRegistroContextProvider = props => {
 
         } catch (error) {
             dispatch({
-                type: ESTATUS_REGISTRO_ERROR,
+                type: IDENTIFICACIONES_OFICIALES_ERROR,
                 payload: true
             })
         }
     }
 
-    const actualizarEstatusRegistros = async estatusRegistros => {
+    const actualizarIdentificacionesOficiales = async identificacionesOficiales => {
         try {
-            const resultado = await axiosPut('estatusRegistros', estatusRegistros);
+            const resultado = await axiosPut('identificacionesOficiales', identificacionesOficiales);
 
             dispatch({
-                type: MODIFICAR_ESTATUS_REGISTRO,
+                type: MODIFICAR_IDENTIFICACIONES_OFICIALES,
                 payload: resultado
             });
         } catch (error) {
@@ -84,20 +86,22 @@ export const EstatusRegistroContextProvider = props => {
         }
     }
 
-    const eliminarEstatusRegistros = async estatusRegistros => {
-        const { activo, _links: { estatusRegistros: { href } } } = estatusRegistros
+    const eliminarIdentificacionesOficiales = async identificacionesOficiales => {
+        const { activo, _links: { identificacionesOficiales: { href } } } = identificacionesOficiales
         const act = !activo
-        estatusRegistros.activo = act
+        identificacionesOficiales.activo = act
         try {
-            const result = await axiosPostHetoas(href, estatusRegistros, 'PUT');
+            const result = await axiosPostHetoas(href, identificacionesOficiales, 'PUT');
             dispatch({
-                type: ELIMINAR_ESTATUS_REGISTRO,
+                type: ELIMINAR_IDENTIFICACIONES_OFICIALES,
                 payload: result,
             })
         } catch (error) {
             console.log(error);
         }
     }
+
+
 
     //Paginacion
     const changePage = async (pages) => {
@@ -129,13 +133,14 @@ export const EstatusRegistroContextProvider = props => {
     })
 
     return (
-        <EstatusRegistroContext.Provider
+        <IdentificacionesOficialesContext.Provider
             value={{
-                estatusRegistroList: state.estatusRegistroList,
-                getEstatusRegistro,
-                registrarEstatusRegistros,
-                actualizarEstatusRegistros,
-                eliminarEstatusRegistros,
+                identificacionesOficialesList: state.identificacionesOficialesList,
+                getIdentificacionesOficiales,
+                registrarIdentificacionesOficiales,
+                actualizarIdentificacionesOficiales,
+                eliminarIdentificacionesOficiales,
+
 
                 error: state.error,
                 page: state.page,
@@ -148,7 +153,7 @@ export const EstatusRegistroContextProvider = props => {
             }}
         >
             {props.children}
-        </EstatusRegistroContext.Provider>
+        </IdentificacionesOficialesContext.Provider>
     )
 
 }

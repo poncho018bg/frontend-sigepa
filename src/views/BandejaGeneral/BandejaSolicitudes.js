@@ -12,7 +12,7 @@ import 'moment/locale/es';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton';
 
-import SearchBar from "material-ui-search-bar";
+import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
@@ -230,7 +230,7 @@ export const BandejaSolicitudes = () => {
                                             <TableCell align="center">{row.motivobaja}</TableCell >
                                             <TableCell align="center">
                                                 <IconButton aria-label="create" onClick={() => onSelect(row)}>
-                                                    <CreateIcon />
+                                                    <RemoveRedEyeIcon />
                                                 </IconButton>
                                             </TableCell>
 
