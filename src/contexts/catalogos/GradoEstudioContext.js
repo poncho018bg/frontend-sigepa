@@ -1,7 +1,8 @@
 import React, { createContext, useReducer } from 'react';
 import GradosEstudioReducer from 'reducers/Catalogos/GradosEstudioReducer';
-import { axiosGet, axiosPut } from 'helpers/axiosPublico';
+import { axiosGet } from 'helpers/axiosPublico';
 import { axiosPostHetoas } from 'helpers/axios';
+import axios from "axios";
 import {
     GET_GRADO_ESTUDIOS,
     REGISTRAR_GRADO_ESTUDIOS,
@@ -73,9 +74,11 @@ export const GradoEstudioContextProvider = props => {
         }
     }
 
-    const actualizarGradoEstudio = async gradoEstudios => {
+    const actualizarGradoEstudio = async gradoEstudiosw => {
         try {
-            const resultado = await axiosPut('gradoEstudios', gradoEstudios);
+                  
+            const { _links: { gradoEstudios: { href } } } = gradoEstudiosw;
+            const resultado = await axiosPostHetoas(href, gradoEstudiosw, 'PUT');  
 
             dispatch({
                 type: MODIFICAR_GRADO_ESTUDIOS,
@@ -91,7 +94,7 @@ export const GradoEstudioContextProvider = props => {
         const act = !activo
         gradoEstudios.activo = act
         try {
-            const result = await axiosPostHetoas(href, idEdadesBeneficiarios, 'PUT');
+            const result = await axiosPostHetoas(href, gradoEstudios, 'PUT');
             dispatch({
                 type: ELIMINAR_GRADO_ESTUDIOS,
                 payload: result,
@@ -101,6 +104,20 @@ export const GradoEstudioContextProvider = props => {
         }
     }
 
+
+    const getGradoEstudioyParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`gradoEstudios/search/findByDsgradoContaining?dsgrado=${search}`);
+            
+            dispatch({
+                type: GET_GRADO_ESTUDIOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
     //Paginacion
@@ -140,7 +157,7 @@ export const GradoEstudioContextProvider = props => {
                 registrarGradoEstudio,
                 actualizarGradoEstudio,
                 eliminarGradoEstudio,
-
+                getGradoEstudioyParametros,
 
                 error: state.error,
                 page: state.page,

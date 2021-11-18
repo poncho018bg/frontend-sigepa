@@ -1,7 +1,8 @@
 import React, { createContext, useReducer } from 'react';
 import IdentificacionesOficialesReducer from 'reducers/Catalogos/IdentificacionesOficialesReducer';
-import { axiosGet, axiosPut } from 'helpers/axiosPublico';
+import { axiosGet } from 'helpers/axiosPublico';
 import { axiosPostHetoas } from 'helpers/axios';
+import axios from "axios";
 import {
     GET_IDENTIFICACIONES_OFICIALES,
     REGISTRAR_IDENTIFICACIONES_OFICIALES,
@@ -73,10 +74,12 @@ export const IdentificacionesOficialesContextProvider = props => {
         }
     }
 
-    const actualizarIdentificacionesOficiales = async identificacionesOficiales => {
+    const actualizarIdentificacionesOficiales = async identificacionesOficialesw => {
         try {
-            const resultado = await axiosPut('identificacionesOficiales', identificacionesOficiales);
-
+          
+            const { _links: { identificacionesOficiales: { href } } } = identificacionesOficialesw;
+            const resultado = await axiosPostHetoas(href, identificacionesOficialesw, 'PUT');  
+            
             dispatch({
                 type: MODIFICAR_IDENTIFICACIONES_OFICIALES,
                 payload: resultado
@@ -102,6 +105,17 @@ export const IdentificacionesOficialesContextProvider = props => {
     }
 
 
+    const getIdentificacionesOficialesByParametros = async (search) => {
+        try {            
+            const result = await axiosGet(`identificacionesOficiales/search/findByDsidentificacionContaining?dsidentificacion=${search}`);            
+            dispatch({
+                type: GET_IDENTIFICACIONES_OFICIALES,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     //Paginacion
     const changePage = async (pages) => {
@@ -140,7 +154,7 @@ export const IdentificacionesOficialesContextProvider = props => {
                 registrarIdentificacionesOficiales,
                 actualizarIdentificacionesOficiales,
                 eliminarIdentificacionesOficiales,
-
+                getIdentificacionesOficialesByParametros,
 
                 error: state.error,
                 page: state.page,

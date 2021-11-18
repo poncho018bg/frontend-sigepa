@@ -15,7 +15,7 @@ export default (state, action) => {
         case GET_ESTATUS_REGISTRO:
             return {
                 ...state,
-                estatusRegistroList: action.payload._embedded.gradoEstudios,
+                estatusRegistroList: action.payload._embedded.estatusRegistros,
                 total: action.payload?.page?.totalElements
             };
         case ESTATUS_REGISTRO_ERROR:

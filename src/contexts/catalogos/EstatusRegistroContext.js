@@ -1,7 +1,8 @@
 import React, { createContext, useReducer } from 'react';
 import EstatusRegistroReducer from 'reducers/Catalogos/EstatusRegistroReducer';
-import { axiosGet, axiosPut } from 'helpers/axiosPublico';
+import { axiosGet } from 'helpers/axiosPublico';
 import { axiosPostHetoas } from 'helpers/axios';
+import axios from "axios";
 import {
     GET_ESTATUS_REGISTRO,
     REGISTRAR_ESTATUS_REGISTRO,
@@ -71,9 +72,10 @@ export const EstatusRegistroContextProvider = props => {
         }
     }
 
-    const actualizarEstatusRegistros = async estatusRegistros => {
+    const actualizarEstatusRegistros = async estatusRegistrosw => {
         try {
-            const resultado = await axiosPut('estatusRegistros', estatusRegistros);
+            const { _links: { estatusRegistros: { href } } } = estatusRegistrosw;
+            const resultado = await axiosPostHetoas(href, estatusRegistrosw, 'PUT');           
 
             dispatch({
                 type: MODIFICAR_ESTATUS_REGISTRO,
@@ -85,6 +87,7 @@ export const EstatusRegistroContextProvider = props => {
     }
 
     const eliminarEstatusRegistros = async estatusRegistros => {
+        console.log('xxestatusRegistros',estatusRegistros)
         const { activo, _links: { estatusRegistros: { href } } } = estatusRegistros
         const act = !activo
         estatusRegistros.activo = act
@@ -93,6 +96,20 @@ export const EstatusRegistroContextProvider = props => {
             dispatch({
                 type: ELIMINAR_ESTATUS_REGISTRO,
                 payload: result,
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const getEstatusRegistrosByParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`estatusRegistros/search/findByDsestatusregistroContaining?dsestatusregistro=${search}`);
+            
+            dispatch({
+                type: GET_ESTATUS_REGISTRO,
+                payload: result
             })
         } catch (error) {
             console.log(error);
@@ -136,6 +153,7 @@ export const EstatusRegistroContextProvider = props => {
                 registrarEstatusRegistros,
                 actualizarEstatusRegistros,
                 eliminarEstatusRegistros,
+                getEstatusRegistrosByParametros,
 
                 error: state.error,
                 page: state.page,

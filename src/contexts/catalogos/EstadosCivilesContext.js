@@ -1,7 +1,8 @@
 import React, { createContext, useReducer } from 'react';
 import EstadosCivilesReducer from 'reducers/Catalogos/EstadosCivilesReducer';
-import { axiosGet, axiosPut } from 'helpers/axiosPublico';
+import { axiosGet } from 'helpers/axiosPublico';
 import { axiosPostHetoas } from 'helpers/axios';
+import axios from "axios";
 import {
     GET_ESTADOS_CIVIL,
     REGISTRAR_ESTADOS_CIVIL,
@@ -72,9 +73,10 @@ export const EstadosCivilesContextProvider = props => {
         }
     }
 
-    const actualizarEstadosCiviles = async estadosCiviles => {
+    const actualizarEstadosCiviles = async estadosCivilesw => {
         try {
-            const resultado = await axiosPut('estadosCiviles', estadosCiviles);
+            const { _links: { estadosCiviles: { href } } } = estadosCivilesw;
+            const resultado = await axiosPostHetoas(href, estadosCivilesw, 'PUT');
 
             dispatch({
                 type: MODIFICAR_ESTADOS_CIVIL,
@@ -90,7 +92,7 @@ export const EstadosCivilesContextProvider = props => {
         const act = !activo
         estadosCiviles.activo = act
         try {
-            const result = await axiosPostHetoas(href, idEdadesBeneficiarios, 'PUT');
+            const result = await axiosPostHetoas(href, estadosCiviles, 'PUT');
             dispatch({
                 type: ELIMINAR_ESTADOS_CIVIL,
                 payload: result,
@@ -100,6 +102,19 @@ export const EstadosCivilesContextProvider = props => {
         }
     }
 
+    const getEstadoCivilByParametros = async (search) => {
+        try {
+
+            const result = await axiosGet(`estadosCiviles/search/findByDsestadocivilContaining?dsestadocivil=${search}`);
+
+            dispatch({
+                type: GET_ESTADOS_CIVIL,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
     //Paginacion
@@ -139,7 +154,7 @@ export const EstadosCivilesContextProvider = props => {
                 registrarEstadosCiviles,
                 actualizarEstadosCiviles,
                 eliminarEstadosCiviles,
-
+                getEstadoCivilByParametros,
 
                 error: state.error,
                 page: state.page,

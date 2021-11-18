@@ -69,6 +69,11 @@ import { RegistroProgramas } from "views/UsuarioPublico/RegistroProgramas.js"
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import { BandejaSolicitudes } from "views/BandejaGeneral/BandejaSolicitudes";
+import { EstadoCivilScreen } from "views/Catalogos/EstadosCiviles/EstadoCivilScreen";
+import { EstatusRegistroScreen } from "views/Catalogos/EstatusRegistro/EstatusRegistroScreen";
+import { GeneroScreen } from "views/Catalogos/Generos/GeneroScreen";
+import { GradoEstudioScreen } from "views/Catalogos/GradoEstudios/GradoEstudioScreen";
+import { IdentificacioneScreen } from "views/Catalogos/Identificaciones/IdentificacioneScreen";
 
 
 const dashboardRoutes = [
@@ -528,6 +533,51 @@ const dashboardRoutes = [
         layout: "/admin"
       },
 
+      {
+        path: "/estadoCivil",
+        name: "Estado civil",
+        rtlName: "Estado civil",
+        mini: "ec",
+        rtlMini: "ec",
+        component: EstadoCivilScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/estatusRegistro",
+        name: "Estatus Registro",
+        rtlName: "Estatus Registro",
+        mini: "erg",
+        rtlMini: "erg",
+        component: EstatusRegistroScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/genero",
+        name: "Género",
+        rtlName: "Género",
+        mini: "gn",
+        rtlMini: "gn",
+        component: GeneroScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/gradoEstudio",
+        name: "Grado Estudio",
+        rtlName: "Grado Estudio",
+        mini: "gres",
+        rtlMini: "gres",
+        component: GradoEstudioScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/identificacione",
+        name: "Identificacione",
+        rtlName: "Identificacione",
+        mini: "IDT",
+        rtlMini: "IDT",
+        component: IdentificacioneScreen,
+        layout: "/admin"
+      },
       //aqui ponemos la ruta que quiere poncho pero cambiamos el componete porque el que pone no existe
       //funcionaria con esta ruta http://localhost:3000/public/registroProgramas
       {

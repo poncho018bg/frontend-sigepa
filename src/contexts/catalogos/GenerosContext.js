@@ -1,7 +1,8 @@
 import React, { createContext, useReducer } from 'react';
 import GenerosReducer from 'reducers/Catalogos/GenerosReducer';
-import { axiosGet, axiosPut } from 'helpers/axiosPublico';
+import { axiosGet } from 'helpers/axiosPublico';
 import { axiosPostHetoas } from 'helpers/axios';
+import axios from "axios";
 import {
     GET_GENERO,
     REGISTRAR_GENERO,
@@ -73,9 +74,11 @@ export const GenerosContextProvider = props => {
         }
     }
 
-    const actualizarGeneros = async generos => {
+    const actualizarGeneros = async generosw => {
         try {
-            const resultado = await axiosPut('generos', generos);
+     
+            const { _links: { generos: { href } } } = generosw;
+            const resultado = await axiosPostHetoas(href, generosw, 'PUT');   
 
             dispatch({
                 type: MODIFICAR_GENERO,
@@ -101,6 +104,20 @@ export const GenerosContextProvider = props => {
         }
     }
 
+
+    const getGenerosByParametros = async (search) => {
+        try {
+            
+            const result = await axiosGet(`generos/search/findByDsgeneroContaining?dsgenero=${search}`);
+            
+            dispatch({
+                type: GET_GENERO,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
     //Paginacion
@@ -140,7 +157,7 @@ export const GenerosContextProvider = props => {
                 registrarGeneros,
                 actualizarGeneros,
                 eliminarGeneros,
-
+                getGenerosByParametros,
 
                 error: state.error,
                 page: state.page,
