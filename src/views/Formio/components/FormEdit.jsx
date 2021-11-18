@@ -9,13 +9,7 @@ const reducer = (form, {type, value}) => {
   const formCopy = _cloneDeep(form);
   switch (type) {
     case 'formChange':
-      for (let prop in value) {
-        // eslint-disable-next-line no-prototype-builtins
-        if (value.hasOwnProperty(prop)) {
-          form[prop] = value[prop];
-        }
-      }
-      return form;
+      return {...form, ...value};
     case 'replaceForm':
       return _cloneDeep(value);
     case 'title':
@@ -24,6 +18,8 @@ const reducer = (form, {type, value}) => {
         formCopy.path = _camelCase(value).toLowerCase();
       }
       break;
+    default:
+      return form;
   }
   _set(formCopy, type, value);
   return formCopy;
@@ -60,7 +56,7 @@ const FormEdit = (props) => {
       <div className="row">
         <div className="col-lg-2 col-md-4 col-sm-4">
           <div id="form-group-title" className="form-group">
-            <label htmlFor="title" className="control-label field-required">Titulo</label>
+            <label htmlFor="title" className="control-label field-required">Title</label>
             <input
               type="text"
               className="form-control" id="title"
@@ -72,7 +68,7 @@ const FormEdit = (props) => {
         </div>
         <div className="col-lg-2 col-md-4 col-sm-4">
           <div id="form-group-name" className="form-group">
-            <label htmlFor="name" className="control-label field-required">Nombre</label>
+            <label htmlFor="name" className="control-label field-required">Name</label>
             <input
               type="text"
               className="form-control"
@@ -94,7 +90,7 @@ const FormEdit = (props) => {
                 value={form.display || ''}
                 onChange={event => handleChange('display', event)}
               >
-                <option label="Form" value="form">Formulario</option>
+                <option label="Form" value="form">Form</option>
                 <option label="Wizard" value="wizard">Wizard</option>
                 <option label="PDF" value="pdf">PDF</option>
               </select>

@@ -7,7 +7,7 @@ export const clearSubmissionError = (name) => ({
   name,
 });
 
-const requestSubmission = (name, id, formId,  url) => ({
+const requestSubmission = (name, id, formId, url) => ({
   type: types.SUBMISSION_REQUEST,
   name,
   id,
@@ -38,7 +38,7 @@ export const resetSubmission = (name) => ({
   name,
 });
 
-export const getSubmission = (name, id, formId, done = () => {}) => (dispatch, getState) => {
+export const getSubmission = (name, id, formId, done = () => { }) => (dispatch, getState) => {
   // Check to see if the submission is already loaded.
   if (getState().id === id) {
     return;
@@ -60,7 +60,9 @@ export const getSubmission = (name, id, formId, done = () => {}) => (dispatch, g
     });
 };
 
-export const saveSubmission = (name, data, formId, done = () => {}) => (dispatch) => {
+export const saveSubmission = (name, data, formId, done = () => { }) => (dispatch) => {
+  //Aqui es donde se supone que guarda todo este show
+  console.log("Entra a guardar el form.io -----***** {},{},{},{}", name, data, formId);
   dispatch(sendSubmission(name, data));
 
   const id = data._id;
@@ -79,7 +81,7 @@ export const saveSubmission = (name, data, formId, done = () => {}) => (dispatch
     });
 };
 
-export const deleteSubmission = (name, id, formId, done = () => {}) => (dispatch, getState) => {
+export const deleteSubmission = (name, id, formId, done = () => { }) => (dispatch, getState) => {
   const formio = new Formiojs(`${Formiojs.getProjectUrl()}/${formId ? `form/${formId}` : name}/submission/${id}`);
 
   return formio.deleteSubmission()

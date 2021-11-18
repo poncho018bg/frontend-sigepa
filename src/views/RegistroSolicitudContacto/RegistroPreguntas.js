@@ -17,7 +17,7 @@ const useStyles = makeStyles(stylesArchivo);
 
 export const RegistroPreguntas = (props) => {
     const classes = useStyles();
-    const { beneficiario, setActivar } = props;
+    const { beneficiario, setActivar, fomularioLleno, setFomularioLleno } = props;
     const { idPrograma } = props;
     const { programa, getByID } = useContext(ProgramasContext);
     const { getComplementoFurs, registrarComplementoFurs, actualizarComplementoFurs } = useContext(ComplementoFursContext);
@@ -28,22 +28,27 @@ export const RegistroPreguntas = (props) => {
     }, []);
 
     if (programa !== null) {
-        ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
+        if (fomularioLleno == undefined) {
+            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
+        } else {
+            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${fomularioLleno._id}`;
+        }
         console.log("ruta", ruta);
     }
 
     const handleSubmit = (event) => {
         window.scrollTo(0, 0)
+        setFomularioLleno(event);
         console.log("Aqui es donde vamos a mandar a guardar event-------", event);
+
         let complementoFur = {
             programas: idPrograma,
             beneficiarios: beneficiario.id,
             jsComplemento: event
         }
         console.log("Esto es lo que mandamos guardar", complementoFur);
-        //registrarComplementoFurs(complementoFur);
+        registrarComplementoFurs(complementoFur);
         setActivar(true)
-       
     }
 
     return (

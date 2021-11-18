@@ -48,6 +48,7 @@ export const RegistroSolicitud = () => {
     const [skipped, setSkipped] = useState(new Set());
     const [activar, setActivar] = useState();
     const [curp, setCurp] = useState();
+    const [fomularioLleno, setFomularioLleno] = useState();
     const [loading, setLoading] = useState(true);
     const { beneficiario, registrarBeneficiario, direccion,
         registrarDireccionBeneficiario, getBeneficiario, actualizarBeneficiario,
@@ -232,8 +233,8 @@ export const RegistroSolicitud = () => {
     };
 
     const NextButton = () => {
-        console.log("aqio esta el activar ---->>", activar, curp);
-        console.log("BENEFICIARIO --->", beneficiario);
+       // console.log("aqio esta el activar ---->>", activar, curp);
+      //  console.log("BENEFICIARIO --->", beneficiario);
         if (activar && curp != undefined && curp != '') {
             return (
                 <Button onClick={handleNext}>
@@ -294,7 +295,7 @@ export const RegistroSolicitud = () => {
                                                 : activeStep === 4 ?
                                                     <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo} identPrograma={identPrograma} setValidarDocs={setValidarDocs} validarDocs={validarDocs} setActivar={setActivar} activar={activar} />
                                                     : activeStep === 5 ?
-                                                        <RegistroPreguntas beneficiario={beneficiario} idPrograma={query.state?.mobNo} setActivar={setActivar} />
+                                                        <RegistroPreguntas beneficiario={beneficiario} idPrograma={query.state?.mobNo} setActivar={setActivar} fomularioLleno={fomularioLleno} setFomularioLleno={setFomularioLleno}  />
                                                         :
                                                         <RegistroFinalizado beneficiario={beneficiario} idPrograma={query.state?.mobNo} />}
 

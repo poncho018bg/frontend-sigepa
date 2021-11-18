@@ -65,7 +65,6 @@ import { CarouselProgramas } from "views/CarouselProgramas/CarouselProgramas";
 import { RegistroSolicitud } from "views/RegistroSolicitudContacto/RegistroSolicitud";
 import { LocalidadScreen } from "views/Catalogos/Localidad/LocalidadScreen";
 import { RegistroPrueba } from "views/Formio/RegistroPrueba";
-import { EventsPage } from "views/Formio/events/components/EventsPage";
 import { RegistroProgramas } from "views/UsuarioPublico/RegistroProgramas.js"
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
@@ -518,15 +517,6 @@ const dashboardRoutes = [
         mini: "TAPY",
         rtlMini: "TAPY",
         component: RegistroPrueba,
-        layout: "/admin"
-      },
-      {
-        path: "/formatosFur",
-        name: "Formatos Fur",
-        rtlName: "Formatos Fur",
-        mini: "TAPY",
-        rtlMini: "TAPY",
-        component: EventsPage,
         layout: "/admin"
       },
 
