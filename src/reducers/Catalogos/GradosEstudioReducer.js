@@ -1,9 +1,9 @@
 import {
-    GET_ESTATUS_REGISTRO,
-    REGISTRAR_ESTATUS_REGISTRO,
-    ELIMINAR_ESTATUS_REGISTRO,
-    MODIFICAR_ESTATUS_REGISTRO,
-    ESTATUS_REGISTRO_ERROR,
+    GET_GRADO_ESTUDIOS,
+    REGISTRAR_GRADO_ESTUDIOS,
+    ELIMINAR_GRADO_ESTUDIOS,
+    MODIFICAR_GRADO_ESTUDIOS,
+    GRADO_ESTUDIOS_ERROR,
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
@@ -12,33 +12,33 @@ import {
 export default (state, action) => {
 
     switch (action.type) {
-        case GET_ESTATUS_REGISTRO:
+        case GET_GRADO_ESTUDIOS:
             return {
                 ...state,
-                estatusRegistroList: action.payload._embedded.gradoEstudios,
+                gradoEstudiosList: action.payload._embedded.gradoEstudios,
                 total: action.payload?.page?.totalElements
             };
-        case ESTATUS_REGISTRO_ERROR:
+        case GRADO_ESTUDIOS_ERROR:
             return {
                 ...state,
                 error: action.payload
             }
-        case REGISTRAR_ESTATUS_REGISTRO:
+        case REGISTRAR_GRADO_ESTUDIOS:
             return {
                 ...state,
-                estatusRegistroList: [...state.estatusRegistroList, action.payload]
+                gradoEstudiosList: [...state.gradoEstudiosList, action.payload]
             };
-        case MODIFICAR_ESTATUS_REGISTRO:
+        case MODIFICAR_GRADO_ESTUDIOS:
             return {
                 ...state,
-                estatusRegistroList: state.estatusRegistroList.map(
-                    estatusRegistro => estatusRegistro.id === action.payload.id ? action.payload : estatusRegistro
+                gradoEstudiosList: state.gradoEstudiosList.map(
+                    gradoEstudios => gradoEstudios.id === action.payload.id ? action.payload : gradoEstudios
                 )
             };
-        case ELIMINAR_ESTATUS_REGISTRO:
+        case ELIMINAR_GRADO_ESTUDIOS:
             return {
                 ...state,
-                estatusRegistroList: state.estatusRegistroList.filter(estatusRegistro => estatusRegistro.id !== action.payload)
+                gradoEstudiosList: state.gradoEstudiosList.filter(gradoEstudios => gradoEstudios.id !== action.payload)
             };
         case CAMBIAR_PAGINA:
             return {

@@ -1,25 +1,26 @@
 import React, { createContext, useReducer } from 'react';
-import EstatusRegistroReducer from 'reducers/Catalogos/EstatusRegistroReducer';
+import EstadosCivilesReducer from 'reducers/Catalogos/EstadosCivilesReducer';
 import { axiosGet, axiosPut } from 'helpers/axiosPublico';
 import { axiosPostHetoas } from 'helpers/axios';
 import {
-    GET_ESTATUS_REGISTRO,
-    REGISTRAR_ESTATUS_REGISTRO,
-    ELIMINAR_ESTATUS_REGISTRO,
-    MODIFICAR_ESTATUS_REGISTRO,
-    ESTATUS_REGISTRO_ERROR,
+    GET_ESTADOS_CIVIL,
+    REGISTRAR_ESTADOS_CIVIL,
+    ELIMINAR_ESTADOS_CIVIL,
+    MODIFICAR_ESTADOS_CIVIL,
+    ESTADOS_CIVIL_ERROR,
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
 
-export const EstatusRegistroContext = createContext();
+
+export const EstadosCivilesContext = createContext();
 
 const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL
 
-export const EstatusRegistroContextProvider = props => {
+export const EstadosCivilesContextProvider = props => {
 
     const initialState = {
-        estatusRegistroList: [],
+        estadoCivilList: [],
         error: false,
         page: 0,
         size: 10,
@@ -27,16 +28,16 @@ export const EstatusRegistroContextProvider = props => {
 
     }
 
-    const [state, dispatch] = useReducer(EstatusRegistroReducer, initialState);
+    const [state, dispatch] = useReducer(EstadosCivilesReducer, initialState);
 
 
-    const getEstatusRegistro = async () => {
+    const getEstadosCiviles = async () => {
 
         try {
             const { page, size } = state;
-            const resultado = await axiosGet(`estatusRegistros?page=${page}&size=${size}`);
+            const resultado = await axiosGet(`estadosCiviles?page=${page}&size=${size}`);
             dispatch({
-                type: GET_ESTATUS_REGISTRO,
+                type: GET_ESTADOS_CIVIL,
                 payload: resultado
             })
         } catch (error) {
@@ -45,17 +46,17 @@ export const EstatusRegistroContextProvider = props => {
     }
 
 
-    const registrarEstatusRegistros = async estatusRegistros => {
+    const registrarEstadosCiviles = async estadosCiviles => {
 
         try {
-            const url = `${baseUrlPublico}estatusRegistros`;
+            const url = `${baseUrlPublico}estadosCiviles`;
             return new Promise((resolve, reject) => {
-                axios.post(url, estatusRegistros, {
+                axios.post(url, estadosCiviles, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
                     resolve(response);
                     dispatch({
-                        type: REGISTRAR_ESTATUS_REGISTRO,
+                        type: REGISTRAR_ESTADOS_CIVIL,
                         payload: response.data
                     })
                 }).catch(error => {
@@ -65,18 +66,18 @@ export const EstatusRegistroContextProvider = props => {
 
         } catch (error) {
             dispatch({
-                type: ESTATUS_REGISTRO_ERROR,
+                type: ESTADOS_CIVIL_ERROR,
                 payload: true
             })
         }
     }
 
-    const actualizarEstatusRegistros = async estatusRegistros => {
+    const actualizarEstadosCiviles = async estadosCiviles => {
         try {
-            const resultado = await axiosPut('estatusRegistros', estatusRegistros);
+            const resultado = await axiosPut('estadosCiviles', estadosCiviles);
 
             dispatch({
-                type: MODIFICAR_ESTATUS_REGISTRO,
+                type: MODIFICAR_ESTADOS_CIVIL,
                 payload: resultado
             });
         } catch (error) {
@@ -84,20 +85,22 @@ export const EstatusRegistroContextProvider = props => {
         }
     }
 
-    const eliminarEstatusRegistros = async estatusRegistros => {
-        const { activo, _links: { estatusRegistros: { href } } } = estatusRegistros
+    const eliminarEstadosCiviles = async estadosCiviles => {
+        const { activo, _links: { estadosCiviles: { href } } } = estadosCiviles
         const act = !activo
-        estatusRegistros.activo = act
+        estadosCiviles.activo = act
         try {
-            const result = await axiosPostHetoas(href, estatusRegistros, 'PUT');
+            const result = await axiosPostHetoas(href, idEdadesBeneficiarios, 'PUT');
             dispatch({
-                type: ELIMINAR_ESTATUS_REGISTRO,
+                type: ELIMINAR_ESTADOS_CIVIL,
                 payload: result,
             })
         } catch (error) {
             console.log(error);
         }
     }
+
+
 
     //Paginacion
     const changePage = async (pages) => {
@@ -129,13 +132,14 @@ export const EstatusRegistroContextProvider = props => {
     })
 
     return (
-        <EstatusRegistroContext.Provider
+        <EstadosCivilesContext.Provider
             value={{
-                estatusRegistroList: state.estatusRegistroList,
-                getEstatusRegistro,
-                registrarEstatusRegistros,
-                actualizarEstatusRegistros,
-                eliminarEstatusRegistros,
+                estadoCivilList: state.estadoCivilList,
+                getEstadosCiviles,
+                registrarEstadosCiviles,
+                actualizarEstadosCiviles,
+                eliminarEstadosCiviles,
+
 
                 error: state.error,
                 page: state.page,
@@ -148,7 +152,7 @@ export const EstatusRegistroContextProvider = props => {
             }}
         >
             {props.children}
-        </EstatusRegistroContext.Provider>
+        </EstadosCivilesContext.Provider>
     )
 
 }
