@@ -1,7 +1,8 @@
 import React from "react";
 
 const ValidarPrograma = ({ idPrograma, children }) => {
-    if (idPrograma === undefined)
+    console.log("ValidarPrograma ===>", idPrograma)
+    if (idPrograma === undefined || idPrograma === "")
         return (
             <h1>Debes de seleccionar un programa de apoyo</h1>
         );

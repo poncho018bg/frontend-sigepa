@@ -31,7 +31,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 export const RegistroDireccion = forwardRef((props, ref) => {
     const classes = useStyles();
-    const { beneficiario, obtenerDireccion, direccionBeneficiario, setActivar, activar } = props;
+    const { beneficiario, obtenerDireccion, direccionBeneficiario, setActivar, activar,nombrePrograma } = props;
 
     console.log("LLEGA EL ID DEL BENEFICIARIO ---> ", beneficiario);
 
@@ -283,7 +283,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                 <CardBody>
                     <GridContainer justify="center">
                         <GridItem xs={12} sm={12}>
-                            <h4 className={classes.infoText}></h4>
+                            <h4 className={classes.infoText}>{nombrePrograma}</h4>
                         </GridItem>
                         <GridItem xs={12} sm={7}>
                             <TextField

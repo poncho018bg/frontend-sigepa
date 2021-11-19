@@ -18,7 +18,7 @@ const useStyles = makeStyles(stylesArchivo);
 export const RegistroPreguntas = (props) => {
     const classes = useStyles();
     const { beneficiario, setActivar } = props;
-    const { idPrograma } = props;
+    const { idPrograma, nombrePrograma } = props;
     const { programa, getByIDSinToken } = useContext(ProgramasContext);
     const { getComplementoFurs, registrarComplementoFurs, actualizarComplementoFurs } = useContext(ComplementoFursContext);
     let ruta = '';
@@ -43,12 +43,18 @@ export const RegistroPreguntas = (props) => {
         console.log("Esto es lo que mandamos guardar", complementoFur);
         //registrarComplementoFurs(complementoFur);
         setActivar(true)
-       
+
     }
 
     return (
         <GridContainer>
+
             <GridItem xs={12} sm={12} md={12}>
+                <GridItem xs={12} sm={12} justify="center">
+                    <h4 className={classes.infoText}>
+                        {nombrePrograma}
+                    </h4>
+                </GridItem>
                 <Card>
                     <CardHeader color="primary">
                         <h4 className={classes.cardTitleWhite}>Características adicionales de la solicitante</h4>

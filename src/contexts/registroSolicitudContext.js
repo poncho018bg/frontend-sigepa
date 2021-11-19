@@ -16,7 +16,7 @@ import {
     AGREGAR_SOLICITUD_FOLIO_ERROR,BUSCAR_SOLICITUD_POR_PARAMETROS
 } from 'types/actionTypes';
 
-import { axiosGet, axiosPost,  axiosPut } from 'helpers/axiosPublico';
+import { axiosGet, axiosPost,  axiosPut,axiosGetSinToken } from 'helpers/axiosPublico';
 const baseUrl = process.env.REACT_APP_API_URL;
 const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL
 const baseUrlCurp = process.env.REACT_APP_API_PUBLICO_URL
@@ -40,7 +40,7 @@ export const RegistroSolicitudContextProvider = props => {
     const getGeneros = async () => {
         try {
            
-            const result = await axiosGet(`generos`);
+            const result = await axiosGetSinToken(`generos`);
             console.log("RESULT GENEROS -->", result);
             dispatch({
                 type: GET_GENEROS,
@@ -53,7 +53,7 @@ export const RegistroSolicitudContextProvider = props => {
     const getEstudios = async () => {
         try {
            
-            const result = await axiosGet(`gradoEstudios`);
+            const result = await axiosGetSinToken(`gradoEstudios`);
             console.log("RESULT Estudios -->", result);
             dispatch({
                 type: GET_GRADO_ESTUDIOS,
@@ -67,7 +67,7 @@ export const RegistroSolicitudContextProvider = props => {
     const getEstadoCivil = async () => {
         try {
            
-            const result = await axiosGet(`estadosCiviles`);
+            const result = await axiosGetSinToken(`estadosCiviles`);
             console.log("RESULT Estudios -->", result);
             dispatch({
                 type: GET_ESTADO_CIVIL,
@@ -81,7 +81,7 @@ export const RegistroSolicitudContextProvider = props => {
     const getIdentificaciones = async () => {
         try {
             
-            const result = await axiosGet(`identificacionesOficiales`);
+            const result = await axiosGetSinToken(`identificacionesOficiales`);
             console.log("RESULT Estudios -->", result);
             dispatch({
                 type: GET_IDENTIFICACIONES_OFICIALES,
@@ -182,7 +182,7 @@ export const RegistroSolicitudContextProvider = props => {
     const obtenerDireccionBeneficiario = async idBeneficiario => {
         try {
             console.log("LLEGA EL ID DEL BENEFICIARIO DIRECCION ====>",idBeneficiario);
-            const resultado = await axiosGet(`domicilioOverride/domicilio/${idBeneficiario}`);
+            const resultado = await axiosGetSinToken(`domicilioOverride/domicilio/${idBeneficiario}`);
             console.log("resultado CONSULTA DE DIRECCION--->", resultado);
             dispatch({
                 type: OBTENER_DIRECCION,

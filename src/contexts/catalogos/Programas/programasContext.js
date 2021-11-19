@@ -173,7 +173,7 @@ export const ProgramasContextProvider = props => {
     const getByID = async id => {
         try {
             console.log("entra a consultar programa por id");
-            const result = await axiosGet(`programasOverride/consultaId/${id}`);
+            const result = await axiosGetSinTokenAdmin(`programasOverride/consultaId/${id}`);
             dispatch({
                 type: GET_PROGRAMAS_BY_ID,
                 payload: result

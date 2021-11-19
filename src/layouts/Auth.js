@@ -150,12 +150,12 @@ export default function Pages(props) {
   return (
     <div className={classes.wrapper}>
       <div className={mainPanelClasses} ref={mainPanel}>
-        <AdminNavbar
+        {/*<AdminNavbar
           sidebarMinimize={sidebarMinimize.bind(this)}
           miniActive={miniActive}
           brandText={getActiveRoute(routes)}
           handleDrawerToggle={handleDrawerToggle}
-          {...rest} />
+          {...rest} />*/}
         {/*<AuthNavbar brandText={getActiveRoute(routes)} {...rest} />*/}
         <div className={classes.content}>
           <div className={classes.container}>

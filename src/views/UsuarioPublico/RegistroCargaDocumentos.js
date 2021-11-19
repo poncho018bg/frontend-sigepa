@@ -33,9 +33,9 @@ const Input = styled('input')({
 export const RegistroCargaDocumentos = (props) => {
     const classes = useStyles();
     const { documentosApoyoList, getDocumentosApoyo,
-        existeDocumento,existedoc,
+        existeDocumento, existedoc,
         registrarDatosBoveda } = useContext(RegistroCargaDocumentosContext);
-    const { beneficiario } = props;
+    const { beneficiario,nombrePrograma } = props;
     const { idPrograma } = props;
     const { identPrograma } = props;
     const { setValidarDocs, validarDocs, setActivar } = props;
@@ -73,12 +73,12 @@ export const RegistroCargaDocumentos = (props) => {
 
     useEffect(() => {
         setActivar(true)
-        if (documentosApoyoList.length > 0) {           
+        if (documentosApoyoList.length > 0) {
             documentosApoyoList.map(e => {
-              if(!e.validarCarga){
-                setActivar(false)
-              }
-            })            
+                if (!e.validarCarga) {
+                    setActivar(false)
+                }
+            })
         }
 
         setValidarDocs(documentosApoyoList)
@@ -143,7 +143,7 @@ export const RegistroCargaDocumentos = (props) => {
             setMsjConfirmacion(`Archivo guardado`);
 
             //confirmar carga de docuemnto en el array de validaciones
-            
+
             getDocumentosApoyo(idPrograma, beneficiario.id);
 
             validandodocs();
@@ -196,6 +196,11 @@ export const RegistroCargaDocumentos = (props) => {
                 <CardHeader color="primary">
                     <h4 className={classes.cardTitleWhite}>Carga de documentos</h4>
                 </CardHeader>
+                <GridItem xs={12} sm={12} justify="center">
+                    <h4 className={classes.infoText}>
+                        {nombrePrograma}
+                    </h4>
+                </GridItem>
                 <CardBody>
                     {(documentosApoyoList
                     ).map((row, i) => {
@@ -215,9 +220,9 @@ export const RegistroCargaDocumentos = (props) => {
                                             getPreviewIcon={handlePreviewIcon}
                                         />
                                     </Grid>
-                                   
 
-                                    <Button variant="contained" color="primary" disabled={row.validarCarga}   onClick={() => submit(row)}>
+
+                                    <Button variant="contained" color="primary" disabled={row.validarCarga} onClick={() => submit(row)}>
                                         Subir
                                     </Button>
                                 </Grid>

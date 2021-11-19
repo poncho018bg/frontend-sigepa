@@ -53,7 +53,7 @@ export const RegistroProgramas = () => {
     const [activar, setActivar] = useState();
     const [curp, setCurp] = useState();
     const [loading, setLoading] = useState(true);
-    const { getProgramaByUrlParameter, idPrograma } = useContext(ProgramasContext);
+    const { getProgramaByUrlParameter, idPrograma, programa, getByID } = useContext(ProgramasContext);
     const { beneficiario, registrarBeneficiario, direccion,
         registrarDireccionBeneficiario, getBeneficiario, actualizarBeneficiario,
         obtenerDireccionBeneficiario, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
@@ -83,6 +83,10 @@ export const RegistroProgramas = () => {
     useEffect(() => {
         getProgramaByUrlParameter(parametroPrograma);
     }, [parametroPrograma]);
+
+    useEffect(() => {
+        getByID(idPrograma);
+    }, [idPrograma])
     const llenarDatosBeneficiario = (id, nombre, apellidoPaterno, apellidoMaterno, curp, genero, fechaNacimientoReal, edad, estudios, estadoCivil, identificacion, rfc, idIdentificaion) => {
         /**
          * se guarda al ejecutar esta función
@@ -260,6 +264,7 @@ export const RegistroProgramas = () => {
 
     }
 
+    //console.log("Programa ========>", programa);
     return (
         <ValidarPrograma idPrograma={idPrograma}>
             <ValidarEdadBeneficiario idPrograma={idPrograma} curp={curp} edadValida={edadValida}>
@@ -285,7 +290,8 @@ export const RegistroProgramas = () => {
                         ) : (
                             <>
                                 {activeStep === 0 ?
-                                    <RegistroCurp setActivar={setActivar} curp={curp} setCurp={setCurp} />
+                                    <RegistroCurp setActivar={setActivar} curp={curp} setCurp={setCurp} 
+                                    nombrePrograma={programa.dsprograma}/>
                                     : activeStep === 1 ?
                                         <RegistroDatosSolicitante
                                             curpR={curp}
@@ -294,7 +300,8 @@ export const RegistroProgramas = () => {
                                             beneficiario={beneficiario}
                                             setIdentPrograma={setIdentPrograma}
                                             idPrograma={idPrograma}
-                                            setEdadValida={setEdadValida} />
+                                            setEdadValida={setEdadValida} 
+                                            nombrePrograma={programa.dsprograma}/>
                                         : activeStep === 2 ?
                                             <RegistroDireccion
                                                 activar={activar}
@@ -302,14 +309,16 @@ export const RegistroProgramas = () => {
                                                 beneficiario={beneficiario}
                                                 obtenerDireccion={obtenerDireccion}
                                                 ref={direccionChild}
-                                                direccionBeneficiario={direccion} />
+                                                direccionBeneficiario={direccion} 
+                                                nombrePrograma={programa.dsprograma}/>
                                             : activeStep === 3 ?
                                                 <RegistroSolicitudContacto
                                                     activar={activar}
                                                     setActivar={setActivar}
                                                     direccionB={direccion}
                                                     beneficiario={beneficiario}
-                                                    ref={contacto} />
+                                                    ref={contacto} 
+                                                    nombrePrograma={programa.dsprograma}/>
                                                 : activeStep === 4 ?
                                                     <RegistroCargaDocumentos
                                                         beneficiario={beneficiario}
@@ -318,16 +327,19 @@ export const RegistroProgramas = () => {
                                                         setValidarDocs={setValidarDocs}
                                                         validarDocs={validarDocs}
                                                         setActivar={setActivar}
-                                                        activar={activar} />
+                                                        activar={activar} 
+                                                        nombrePrograma={programa.dsprograma}/>
                                                     : activeStep === 5 ?
                                                         <RegistroPreguntas
                                                             beneficiario={beneficiario}
                                                             idPrograma={idPrograma}
-                                                            setActivar={setActivar} />
+                                                            setActivar={setActivar} 
+                                                            nombrePrograma={programa.dsprograma}/>
                                                         :
                                                         <RegistroFinalizado
                                                             beneficiario={beneficiario}
-                                                            idPrograma={idPrograma} />}
+                                                            idPrograma={idPrograma} 
+                                                            nombrePrograma={programa.dsprograma}/>}
                                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                     <Button
                                         color="inherit"

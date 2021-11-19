@@ -14,7 +14,7 @@ import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 const useStyles = makeStyles(stylesArchivo);
 
 export const RegistroSolicitudContacto = forwardRef((props, ref) => {
-    const { direccionB, beneficiario, setActivar, activar } = props;
+    const { direccionB, beneficiario, setActivar, activar, nombrePrograma } = props;
     console.log("direccionB en forward ref--->", direccionB, beneficiario);
     const classes = useStyles();
     // 
@@ -131,7 +131,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
 
     const next = () => {
         if (activar || activar === undefined) {
-            if (celular !== "" ) {
+            if (celular !== "") {
                 return true;
             } else {
                 if (celular === "") {
@@ -164,6 +164,11 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                     <h4 className={classes.cardTitleWhite}>Información de contacto</h4>
                 </CardHeader>
                 <CardBody>
+                    <GridItem xs={12} sm={12} justify="center">
+                        <h4 className={classes.infoText}>
+                            {nombrePrograma}
+                        </h4>
+                    </GridItem>
                     <CardBody>
                         <TextField
                             variant="outlined"
@@ -187,7 +192,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                                         setCelularStatus("success");
                                         setActivar(next())
                                     }
-                                },maxLength: 10
+                                }, maxLength: 10
                             }}
                         />
                     </CardBody>

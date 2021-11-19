@@ -31,7 +31,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export const RegistroCurp = ({ setActivar, setCurp, curp }) => {
+export const RegistroCurp = ({ setActivar, setCurp, curp,nombrePrograma }) => {
     const classes = useStyles();
 
     const [email, setemail] = React.useState("");
@@ -76,7 +76,7 @@ export const RegistroCurp = ({ setActivar, setCurp, curp }) => {
                     <GridContainer justify="center">
                         <GridItem xs={12} sm={12}>
                             <h4 className={classes.infoText}>
-
+                                {nombrePrograma}
                             </h4>
                         </GridItem>
 

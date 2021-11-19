@@ -46,7 +46,7 @@ const baseUrl = process.env.REACT_APP_AP_CURP_URL;
 export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     console.log('aqui');
     console.log(props);
-    const { curpR, llenarDatosBeneficiario, beneficiario, setIdentPrograma, idPrograma, setEdadValida } = props;
+    const { curpR, llenarDatosBeneficiario, beneficiario, setIdentPrograma, idPrograma, setEdadValida,nombrePrograma } = props;
     //console.log(props.allStates.about);
     const classes = useStyles();
     const [nombre, setNombre] = useState("")
@@ -113,10 +113,12 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
             setIdIdentificaion(beneficiario.dsiddocumento)
 
         }
+        /*
         getCien().then(data => {
             setTimeout(() => setLoading(false), 500);
 
         });
+        */
         getGeneros();
         getEstudios();
         getEstadoCivil();
@@ -218,33 +220,13 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                     </CardHeader>
                     <CardBody>
                         <GridContainer justify="center">
+                        <GridItem xs={12} sm={12}>
+                            <h4 className={classes.infoText}>
+                                {nombrePrograma}
+                            </h4>
+                        </GridItem>
                             <GridItem xs={12} sm={12} md={12} lg={10}>
                                 <GridContainer>
-                                    <GridItem xs={12} sm={12}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="programa"
-                                            label="Programa"
-                                            variant="outlined"
-                                            name="programa"
-                                            fullWidth
-                                            select
-                                            onChange={onChange}
-                                            value={idPrograma}
-                                        >
-                                            {
-                                                programasList.map(
-                                                    (g, i) => (
-                                                        <MenuItem
-                                                            key={i}
-                                                            value={g.id}>
-                                                            {g.dsprograma}
-                                                        </MenuItem>
-                                                    )
-                                                )
-                                            }
-                                        </TextField>
-                                    </GridItem>
                                     <GridItem xs={12} sm={12}>
                                         <TextField
                                             style={{ marginBottom: '20px' }}
