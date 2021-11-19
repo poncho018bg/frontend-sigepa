@@ -70,6 +70,8 @@ import { EstadosCivilesContextProvider } from "contexts/catalogos/EstadosCiviles
 import { GenerosContextProvider } from "contexts/catalogos/GenerosContext";
 import { IdentificacionesOficialesContextProvider } from "contexts/catalogos/IdentificacionesOficialesContext";
 import { GradoEstudioContextProvider } from "contexts/catalogos/GradoEstudioContext";
+import { OrigenSolicitudContextProvider } from "contexts/catalogos/OrigenSolicitudContext";
+
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
@@ -118,11 +120,13 @@ ReactDOM.render(
                                                                               <GenerosContextProvider>
                                                                                 <GradoEstudioContextProvider>
                                                                                   <IdentificacionesOficialesContextProvider>
-                                                                                    <Switch>
-                                                                                      <Route path="/admin" component={Admin} />
-                                                                                      <Route path="/public" component={Auth} />
-                                                                                      <Redirect from="/" to="/admin/dashboard" />
-                                                                                    </Switch>
+                                                                                    <OrigenSolicitudContextProvider>
+                                                                                      <Switch>
+                                                                                        <Route path="/admin" component={Admin} />
+                                                                                        <Route path="/public" component={Auth} />
+                                                                                        <Redirect from="/" to="/admin/dashboard" />
+                                                                                      </Switch>
+                                                                                    </OrigenSolicitudContextProvider>
                                                                                   </IdentificacionesOficialesContextProvider>
                                                                                 </GradoEstudioContextProvider>
                                                                               </GenerosContextProvider>
