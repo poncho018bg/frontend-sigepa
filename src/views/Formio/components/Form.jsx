@@ -1,29 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import EventEmitter from 'formiojs/EventEmitter';
 import AllComponents from 'formiojs/components';
 import Components from 'formiojs/components/Components';
 Components.setComponents(AllComponents);
 import FormioForm from 'formiojs/Form';
-import '../i18n';
+import i18n from '../i18n';
 
 const Form = (props) => {
   let instance;
   let createPromise;
   let element;
-  const [formio, setFormio] = useState(undefined);
-  //res.cookie('locale', serverLocaleVariableHere, { expires: new Date(Date.now() + settings.server.cookieTTL), httpOnly: false });
+  let formio;
 
   useEffect(() => () => formio ? formio.destroy(true) : null, [formio]);
 
   const createWebformInstance = (srcOrForm) => {
-    const {options = {}, formioform, formReady} = props;
+    const { options = {}, formioform } = props;
     instance = new (formioform || FormioForm)(element, srcOrForm, options);
     createPromise = instance.ready.then(formioInstance => {
-      setFormio(formioInstance);
-      if (formReady) {
-        formReady(formioInstance);
-      }
+      formio = formioInstance;
     });
 
     return createPromise;
@@ -32,7 +28,6 @@ const Form = (props) => {
   const onAnyEvent = (event, ...args) => {
     if (event.startsWith('formio.')) {
       const funcName = `on${event.charAt(7).toUpperCase()}${event.slice(8)}`;
-      // eslint-disable-next-line no-prototype-builtins
       if (props.hasOwnProperty(funcName) && typeof (props[funcName]) === 'function') {
         props[funcName](...args);
       }
@@ -44,8 +39,10 @@ const Form = (props) => {
     if (createPromise) {
       instance.onAny(onAnyEvent);
       createPromise.then(() => {
-        if (formio && submission) {
+        if (submission) {
+          console.log('entra al guardado ');
           formio.submission = submission;
+          console.log('genera una respuesta al guardado ',formio.submission);
         }
       });
     }
@@ -55,9 +52,7 @@ const Form = (props) => {
     const { src } = props;
     if (src) {
       createWebformInstance(src).then(() => {
-        if (formio) {
-          formio.src = src;
-        }
+        formio.src = src;
       });
       initializeFormio();
     }
@@ -67,13 +62,11 @@ const Form = (props) => {
     const { form, url } = props;
     if (form) {
       createWebformInstance(form).then(() => {
-        if (formio) {
-          formio.form = form;
-          if (url) {
-            formio.url = url;
-          }
-          return formio;
+        formio.form = form;
+        if (url) {
+          formio.url = url;
         }
+        return formio;
       });
       initializeFormio();
     }
@@ -89,13 +82,16 @@ const Form = (props) => {
   useEffect(() => {
     const { submission } = props;
     if (formio && submission) {
+      console.log('entra al guardado 2 a ver cual es');
       formio.submission = submission;
+      console.log('genera una respuesta al guardado ',formio.submission);
     }
-  }, [props.submission, formio]);
+  }, [props.submission]);
 
   return <div ref={el => element = el} />;
 };
 
+console.log ('PropTypes.object');
 Form.propTypes = {
   src: PropTypes.string,
   url: PropTypes.string,
@@ -104,7 +100,7 @@ Form.propTypes = {
   options: PropTypes.shape({
     readOnly: PropTypes.boolean,
     noAlerts: PropTypes.boolean,
-    i18n: PropTypes.object,
+    i18n: i18n,
     template: PropTypes.string,
     saveDraft: PropTypes.boolean,
   }),
@@ -124,11 +120,11 @@ Form.propTypes = {
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   onInitialized: PropTypes.func,
-  formReady: PropTypes.func,
   formioform: PropTypes.any
 };
 
 Form.getDefaultEmitter = () => {
+  console.log('entra al getDefaultEmitter ');
   return new EventEmitter({
     wildcard: false,
     maxListeners: 0

@@ -1,9 +1,9 @@
 import {
-    GET_ESTATUS_REGISTRO,
-    REGISTRAR_ESTATUS_REGISTRO,
-    ELIMINAR_ESTATUS_REGISTRO,
-    MODIFICAR_ESTATUS_REGISTRO,
-    ESTATUS_REGISTRO_ERROR,
+    GET_ESTADOS_CIVIL,
+    REGISTRAR_ESTADOS_CIVIL,
+    ELIMINAR_ESTADOS_CIVIL,
+    MODIFICAR_ESTADOS_CIVIL,
+    ESTADOS_CIVIL_ERROR,
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
@@ -12,33 +12,33 @@ import {
 export default (state, action) => {
 
     switch (action.type) {
-        case GET_ESTATUS_REGISTRO:
+        case GET_ESTADOS_CIVIL:
             return {
                 ...state,
-                estatusRegistroList: action.payload._embedded.estatusRegistros,
+                estadoCivilList: action.payload._embedded.estadosCiviles,
                 total: action.payload?.page?.totalElements
             };
-        case ESTATUS_REGISTRO_ERROR:
+        case ESTADOS_CIVIL_ERROR:
             return {
                 ...state,
                 error: action.payload
             }
-        case REGISTRAR_ESTATUS_REGISTRO:
+        case REGISTRAR_ESTADOS_CIVIL:
             return {
                 ...state,
-                estatusRegistroList: [...state.estatusRegistroList, action.payload]
+                estadoCivilList: [...state.estadoCivilList, action.payload]
             };
-        case MODIFICAR_ESTATUS_REGISTRO:
+        case MODIFICAR_ESTADOS_CIVIL:
             return {
                 ...state,
-                estatusRegistroList: state.estatusRegistroList.map(
-                    estatusRegistro => estatusRegistro.id === action.payload.id ? action.payload : estatusRegistro
+                estadoCivilList: state.estadoCivilList.map(
+                    estadoCivil => estadoCivil.id === action.payload.id ? action.payload : estadoCivil
                 )
             };
-        case ELIMINAR_ESTATUS_REGISTRO:
+        case ELIMINAR_ESTADOS_CIVIL:
             return {
                 ...state,
-                estatusRegistroList: state.estatusRegistroList.filter(estatusRegistro => estatusRegistro.id !== action.payload)
+                estadoCivilList: state.estadoCivilList.filter(estadoCivil => estadoCivil.id !== action.payload)
             };
         case CAMBIAR_PAGINA:
             return {

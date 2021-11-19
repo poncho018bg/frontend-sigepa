@@ -16,7 +16,7 @@ import {
   getComponentDefaultColumn,
   setColumnsWidth,
   stopPropagationWrapper,
-} from '../WizardSteps/utils';
+} from '../utils';
 
 import Grid from './Grid';
 

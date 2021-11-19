@@ -1,26 +1,28 @@
 import React, { createContext, useReducer } from 'react';
-import EstatusRegistroReducer from 'reducers/Catalogos/EstatusRegistroReducer';
+import GradosEstudioReducer from 'reducers/Catalogos/GradosEstudioReducer';
 import { axiosGet } from 'helpers/axiosPublico';
 import { axiosPostHetoas } from 'helpers/axios';
 import axios from "axios";
 import {
-    GET_ESTATUS_REGISTRO,
-    REGISTRAR_ESTATUS_REGISTRO,
-    ELIMINAR_ESTATUS_REGISTRO,
-    MODIFICAR_ESTATUS_REGISTRO,
-    ESTATUS_REGISTRO_ERROR,
+    GET_GRADO_ESTUDIOS,
+    REGISTRAR_GRADO_ESTUDIOS,
+    ELIMINAR_GRADO_ESTUDIOS,
+    MODIFICAR_GRADO_ESTUDIOS,
+    GRADO_ESTUDIOS_ERROR,
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
 
-export const EstatusRegistroContext = createContext();
+
+
+export const GradoEstudioContext = createContext();
 
 const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL
 
-export const EstatusRegistroContextProvider = props => {
+export const GradoEstudioContextProvider = props => {
 
     const initialState = {
-        estatusRegistroList: [],
+        gradoEstudiosList: [],
         error: false,
         page: 0,
         size: 10,
@@ -28,16 +30,16 @@ export const EstatusRegistroContextProvider = props => {
 
     }
 
-    const [state, dispatch] = useReducer(EstatusRegistroReducer, initialState);
+    const [state, dispatch] = useReducer(GradosEstudioReducer, initialState);
 
 
-    const getEstatusRegistro = async () => {
+    const getGradoEstudio= async () => {
 
         try {
             const { page, size } = state;
-            const resultado = await axiosGet(`estatusRegistros?page=${page}&size=${size}`);
+            const resultado = await axiosGet(`gradoEstudios?page=${page}&size=${size}`);
             dispatch({
-                type: GET_ESTATUS_REGISTRO,
+                type: GET_GRADO_ESTUDIOS,
                 payload: resultado
             })
         } catch (error) {
@@ -46,17 +48,17 @@ export const EstatusRegistroContextProvider = props => {
     }
 
 
-    const registrarEstatusRegistros = async estatusRegistros => {
+    const registrarGradoEstudio = async gradoEstudios => {
 
         try {
-            const url = `${baseUrlPublico}estatusRegistros`;
+            const url = `${baseUrlPublico}gradoEstudios`;
             return new Promise((resolve, reject) => {
-                axios.post(url, estatusRegistros, {
+                axios.post(url, gradoEstudios, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
                     resolve(response);
                     dispatch({
-                        type: REGISTRAR_ESTATUS_REGISTRO,
+                        type: REGISTRAR_GRADO_ESTUDIOS,
                         payload: response.data
                     })
                 }).catch(error => {
@@ -66,19 +68,20 @@ export const EstatusRegistroContextProvider = props => {
 
         } catch (error) {
             dispatch({
-                type: ESTATUS_REGISTRO_ERROR,
+                type: GRADO_ESTUDIOS_ERROR,
                 payload: true
             })
         }
     }
 
-    const actualizarEstatusRegistros = async estatusRegistrosw => {
+    const actualizarGradoEstudio = async gradoEstudiosw => {
         try {
-            const { _links: { estatusRegistros: { href } } } = estatusRegistrosw;
-            const resultado = await axiosPostHetoas(href, estatusRegistrosw, 'PUT');           
+                  
+            const { _links: { gradoEstudios: { href } } } = gradoEstudiosw;
+            const resultado = await axiosPostHetoas(href, gradoEstudiosw, 'PUT');  
 
             dispatch({
-                type: MODIFICAR_ESTATUS_REGISTRO,
+                type: MODIFICAR_GRADO_ESTUDIOS,
                 payload: resultado
             });
         } catch (error) {
@@ -86,15 +89,14 @@ export const EstatusRegistroContextProvider = props => {
         }
     }
 
-    const eliminarEstatusRegistros = async estatusRegistros => {
-        console.log('xxestatusRegistros',estatusRegistros)
-        const { activo, _links: { estatusRegistros: { href } } } = estatusRegistros
+    const eliminarGradoEstudio = async gradoEstudios => {
+        const { activo, _links: { gradoEstudios: { href } } } = gradoEstudios
         const act = !activo
-        estatusRegistros.activo = act
+        gradoEstudios.activo = act
         try {
-            const result = await axiosPostHetoas(href, estatusRegistros, 'PUT');
+            const result = await axiosPostHetoas(href, gradoEstudios, 'PUT');
             dispatch({
-                type: ELIMINAR_ESTATUS_REGISTRO,
+                type: ELIMINAR_GRADO_ESTUDIOS,
                 payload: result,
             })
         } catch (error) {
@@ -102,19 +104,21 @@ export const EstatusRegistroContextProvider = props => {
         }
     }
 
-    const getEstatusRegistrosByParametros = async (search) => {
+
+    const getGradoEstudioyParametros = async (search) => {
         try {
             
-            const result = await axiosGet(`estatusRegistros/search/findByDsestatusregistroContaining?dsestatusregistro=${search}`);
+            const result = await axiosGet(`gradoEstudios/search/findByDsgradoContaining?dsgrado=${search}`);
             
             dispatch({
-                type: GET_ESTATUS_REGISTRO,
+                type: GET_GRADO_ESTUDIOS,
                 payload: result
             })
         } catch (error) {
             console.log(error);
         }
     }
+
 
     //Paginacion
     const changePage = async (pages) => {
@@ -146,14 +150,14 @@ export const EstatusRegistroContextProvider = props => {
     })
 
     return (
-        <EstatusRegistroContext.Provider
+        <GradoEstudioContext.Provider
             value={{
-                estatusRegistroList: state.estatusRegistroList,
-                getEstatusRegistro,
-                registrarEstatusRegistros,
-                actualizarEstatusRegistros,
-                eliminarEstatusRegistros,
-                getEstatusRegistrosByParametros,
+                gradoEstudiosList: state.gradoEstudiosList,
+                getGradoEstudio,
+                registrarGradoEstudio,
+                actualizarGradoEstudio,
+                eliminarGradoEstudio,
+                getGradoEstudioyParametros,
 
                 error: state.error,
                 page: state.page,
@@ -166,7 +170,7 @@ export const EstatusRegistroContextProvider = props => {
             }}
         >
             {props.children}
-        </EstatusRegistroContext.Provider>
+        </GradoEstudioContext.Provider>
     )
 
 }

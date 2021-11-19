@@ -1,9 +1,9 @@
 import {
-    GET_ESTATUS_REGISTRO,
-    REGISTRAR_ESTATUS_REGISTRO,
-    ELIMINAR_ESTATUS_REGISTRO,
-    MODIFICAR_ESTATUS_REGISTRO,
-    ESTATUS_REGISTRO_ERROR,
+    GET_GENERO,
+    REGISTRAR_GENERO,
+    ELIMINAR_GENERO,
+    MODIFICAR_GENERO,
+    GENERO_ERROR,
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
@@ -12,33 +12,33 @@ import {
 export default (state, action) => {
 
     switch (action.type) {
-        case GET_ESTATUS_REGISTRO:
+        case GET_GENERO:
             return {
                 ...state,
-                estatusRegistroList: action.payload._embedded.estatusRegistros,
+                generosList: action.payload._embedded.generos,
                 total: action.payload?.page?.totalElements
             };
-        case ESTATUS_REGISTRO_ERROR:
+        case GENERO_ERROR:
             return {
                 ...state,
                 error: action.payload
             }
-        case REGISTRAR_ESTATUS_REGISTRO:
+        case REGISTRAR_GENERO:
             return {
                 ...state,
-                estatusRegistroList: [...state.estatusRegistroList, action.payload]
+                generosList: [...state.generosList, action.payload]
             };
-        case MODIFICAR_ESTATUS_REGISTRO:
+        case MODIFICAR_GENERO:
             return {
                 ...state,
-                estatusRegistroList: state.estatusRegistroList.map(
-                    estatusRegistro => estatusRegistro.id === action.payload.id ? action.payload : estatusRegistro
+                generosList: state.generosList.map(
+                    genero => genero.id === action.payload.id ? action.payload : genero
                 )
             };
-        case ELIMINAR_ESTATUS_REGISTRO:
+        case ELIMINAR_GENERO:
             return {
                 ...state,
-                estatusRegistroList: state.estatusRegistroList.filter(estatusRegistro => estatusRegistro.id !== action.payload)
+                generosList: state.generosList.filter(genero => genero.id !== action.payload)
             };
         case CAMBIAR_PAGINA:
             return {

@@ -66,6 +66,10 @@ import { RegistroCargaDocumentosContextProvider } from "contexts/registroCargaDo
 import { RegistroSolicitudContextProvider } from "contexts/registroSolicitudContext";
 import { ComplementoFursContextProvider } from "contexts/complementoFurContext";
 import { EstatusRegistroContextProvider } from "contexts/catalogos/EstatusRegistroContext";
+import { EstadosCivilesContextProvider } from "contexts/catalogos/EstadosCivilesContext";
+import { GenerosContextProvider } from "contexts/catalogos/GenerosContext";
+import { IdentificacionesOficialesContextProvider } from "contexts/catalogos/IdentificacionesOficialesContext";
+import { GradoEstudioContextProvider } from "contexts/catalogos/GradoEstudioContext";
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
@@ -109,11 +113,21 @@ ReactDOM.render(
                                                                     <RegistroSolicitudContextProvider>
                                                                       <ComplementoFursContextProvider>
                                                                         <EstatusRegistroContextProvider>
-                                                                          <Switch>
-                                                                            <Route path="/admin" component={Admin} />
-                                                                            <Route path="/public" component={Auth} />
-                                                                            <Redirect from="/" to="/admin/dashboard" />
-                                                                          </Switch>
+                                                                          <EstadosCivilesContextProvider>
+                                                                            <EstatusRegistroContextProvider>
+                                                                              <GenerosContextProvider>
+                                                                                <GradoEstudioContextProvider>
+                                                                                  <IdentificacionesOficialesContextProvider>
+                                                                                    <Switch>
+                                                                                      <Route path="/admin" component={Admin} />
+                                                                                      <Route path="/public" component={Auth} />
+                                                                                      <Redirect from="/" to="/admin/dashboard" />
+                                                                                    </Switch>
+                                                                                  </IdentificacionesOficialesContextProvider>
+                                                                                </GradoEstudioContextProvider>
+                                                                              </GenerosContextProvider>
+                                                                            </EstatusRegistroContextProvider>
+                                                                          </EstadosCivilesContextProvider>
                                                                         </EstatusRegistroContextProvider>
                                                                       </ComplementoFursContextProvider>
                                                                     </RegistroSolicitudContextProvider>

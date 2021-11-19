@@ -103,6 +103,60 @@ export const SubCatalogsBaseScreen = () => {
                             </Link>
                         </Card>
                     </GridItem>
+
+
+
+
+
+                    <GridItem xs={12} sm={6} md={3}>
+                        <Card>
+                            <Link to="../admin/estadoCivil">
+                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.estadocivil')}</p>
+                                </CardHeader>
+                            </Link>
+                        </Card>
+                    </GridItem>
+
+                    <GridItem xs={12} sm={6} md={3}>
+                        <Card>
+                            <Link to="../admin/estatusRegistro">
+                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.estatusregistro')}</p>
+                                </CardHeader>
+                            </Link>
+                        </Card>
+                    </GridItem>
+
+                    <GridItem xs={12} sm={6} md={3}>
+                        <Card>
+                            <Link to="../admin/genero">
+                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.genero')}</p>
+                                </CardHeader>
+                            </Link>
+                        </Card>
+                    </GridItem>
+
+                    <GridItem xs={12} sm={6} md={3}>
+                        <Card>
+                            <Link to="../admin/gradoEstudio">
+                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.gradoestudios')}</p>
+                                </CardHeader>
+                            </Link>
+                        </Card>
+                    </GridItem>
+
+                    <GridItem xs={12} sm={6} md={3}>
+                        <Card>
+                            <Link to="../admin/identificacione">
+                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}>{t('btn.identificaciónoficial')}</p>
+                                </CardHeader>
+                            </Link>
+                        </Card>
+                    </GridItem>
 {/*
                      <GridItem xs={12} sm={6} md={3}>
                         <Card>

@@ -1,26 +1,28 @@
 import React, { createContext, useReducer } from 'react';
-import EstatusRegistroReducer from 'reducers/Catalogos/EstatusRegistroReducer';
+import GenerosReducer from 'reducers/Catalogos/GenerosReducer';
 import { axiosGet } from 'helpers/axiosPublico';
 import { axiosPostHetoas } from 'helpers/axios';
 import axios from "axios";
 import {
-    GET_ESTATUS_REGISTRO,
-    REGISTRAR_ESTATUS_REGISTRO,
-    ELIMINAR_ESTATUS_REGISTRO,
-    MODIFICAR_ESTATUS_REGISTRO,
-    ESTATUS_REGISTRO_ERROR,
+    GET_GENERO,
+    REGISTRAR_GENERO,
+    ELIMINAR_GENERO,
+    MODIFICAR_GENERO,
+    GENERO_ERROR,
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
 
-export const EstatusRegistroContext = createContext();
+
+
+export const GenerosContext = createContext();
 
 const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL
 
-export const EstatusRegistroContextProvider = props => {
+export const GenerosContextProvider = props => {
 
     const initialState = {
-        estatusRegistroList: [],
+        generosList: [],
         error: false,
         page: 0,
         size: 10,
@@ -28,16 +30,16 @@ export const EstatusRegistroContextProvider = props => {
 
     }
 
-    const [state, dispatch] = useReducer(EstatusRegistroReducer, initialState);
+    const [state, dispatch] = useReducer(GenerosReducer, initialState);
 
 
-    const getEstatusRegistro = async () => {
+    const getGeneros = async () => {
 
         try {
             const { page, size } = state;
-            const resultado = await axiosGet(`estatusRegistros?page=${page}&size=${size}`);
+            const resultado = await axiosGet(`generos?page=${page}&size=${size}`);
             dispatch({
-                type: GET_ESTATUS_REGISTRO,
+                type: GET_GENERO,
                 payload: resultado
             })
         } catch (error) {
@@ -46,17 +48,17 @@ export const EstatusRegistroContextProvider = props => {
     }
 
 
-    const registrarEstatusRegistros = async estatusRegistros => {
+    const registrarGeneros = async generos => {
 
         try {
-            const url = `${baseUrlPublico}estatusRegistros`;
+            const url = `${baseUrlPublico}generos`;
             return new Promise((resolve, reject) => {
-                axios.post(url, estatusRegistros, {
+                axios.post(url, generos, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
                     resolve(response);
                     dispatch({
-                        type: REGISTRAR_ESTATUS_REGISTRO,
+                        type: REGISTRAR_GENERO,
                         payload: response.data
                     })
                 }).catch(error => {
@@ -66,19 +68,20 @@ export const EstatusRegistroContextProvider = props => {
 
         } catch (error) {
             dispatch({
-                type: ESTATUS_REGISTRO_ERROR,
+                type: GENERO_ERROR,
                 payload: true
             })
         }
     }
 
-    const actualizarEstatusRegistros = async estatusRegistrosw => {
+    const actualizarGeneros = async generosw => {
         try {
-            const { _links: { estatusRegistros: { href } } } = estatusRegistrosw;
-            const resultado = await axiosPostHetoas(href, estatusRegistrosw, 'PUT');           
+     
+            const { _links: { generos: { href } } } = generosw;
+            const resultado = await axiosPostHetoas(href, generosw, 'PUT');   
 
             dispatch({
-                type: MODIFICAR_ESTATUS_REGISTRO,
+                type: MODIFICAR_GENERO,
                 payload: resultado
             });
         } catch (error) {
@@ -86,15 +89,14 @@ export const EstatusRegistroContextProvider = props => {
         }
     }
 
-    const eliminarEstatusRegistros = async estatusRegistros => {
-        console.log('xxestatusRegistros',estatusRegistros)
-        const { activo, _links: { estatusRegistros: { href } } } = estatusRegistros
+    const eliminarGeneros = async generos => {
+        const { activo, _links: { generos: { href } } } = generos
         const act = !activo
-        estatusRegistros.activo = act
+        generos.activo = act
         try {
-            const result = await axiosPostHetoas(href, estatusRegistros, 'PUT');
+            const result = await axiosPostHetoas(href, generos, 'PUT');
             dispatch({
-                type: ELIMINAR_ESTATUS_REGISTRO,
+                type: ELIMINAR_GENERO,
                 payload: result,
             })
         } catch (error) {
@@ -102,19 +104,21 @@ export const EstatusRegistroContextProvider = props => {
         }
     }
 
-    const getEstatusRegistrosByParametros = async (search) => {
+
+    const getGenerosByParametros = async (search) => {
         try {
             
-            const result = await axiosGet(`estatusRegistros/search/findByDsestatusregistroContaining?dsestatusregistro=${search}`);
+            const result = await axiosGet(`generos/search/findByDsgeneroContaining?dsgenero=${search}`);
             
             dispatch({
-                type: GET_ESTATUS_REGISTRO,
+                type: GET_GENERO,
                 payload: result
             })
         } catch (error) {
             console.log(error);
         }
     }
+
 
     //Paginacion
     const changePage = async (pages) => {
@@ -146,14 +150,14 @@ export const EstatusRegistroContextProvider = props => {
     })
 
     return (
-        <EstatusRegistroContext.Provider
+        <GenerosContext.Provider
             value={{
-                estatusRegistroList: state.estatusRegistroList,
-                getEstatusRegistro,
-                registrarEstatusRegistros,
-                actualizarEstatusRegistros,
-                eliminarEstatusRegistros,
-                getEstatusRegistrosByParametros,
+                generosList: state.generosList,
+                getGeneros,
+                registrarGeneros,
+                actualizarGeneros,
+                eliminarGeneros,
+                getGenerosByParametros,
 
                 error: state.error,
                 page: state.page,
@@ -166,7 +170,7 @@ export const EstatusRegistroContextProvider = props => {
             }}
         >
             {props.children}
-        </EstatusRegistroContext.Provider>
+        </GenerosContext.Provider>
     )
 
 }

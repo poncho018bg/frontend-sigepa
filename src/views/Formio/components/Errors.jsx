@@ -19,7 +19,6 @@ const Errors = (props) => {
       return error.map(formatError);
     }
 
-    // eslint-disable-next-line no-prototype-builtins
     if (error.hasOwnProperty('errors')) {
       return Object.keys(error.errors).map((key, index) => {
         const item = error.errors[key];
@@ -32,7 +31,6 @@ const Errors = (props) => {
     }
 
     // If this is a standard error.
-    // eslint-disable-next-line no-prototype-builtins
     if (error.hasOwnProperty('message')) {
       return error.message;
     }
@@ -49,7 +47,6 @@ const Errors = (props) => {
     }
 
     // If a conflict error occurs on a form, the form is returned.
-    // eslint-disable-next-line no-prototype-builtins
     if (error.hasOwnProperty('_id') && error.hasOwnProperty('display')) {
       return 'Another user has saved this form already. Please reload and re-apply your changes.';
     }

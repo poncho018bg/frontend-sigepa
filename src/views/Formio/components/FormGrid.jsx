@@ -1,6 +1,7 @@
 import _get from 'lodash/get';
 import _isFunction from 'lodash/isFunction';
 import _isString from 'lodash/isString';
+import _map from 'lodash/map';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -10,7 +11,7 @@ import {
   Operations,
   PageSizes,
 } from '../types';
-import {stopPropagationWrapper} from '../WizardSteps/utils';
+import {stopPropagationWrapper} from '../utils';
 
 import Grid from './Grid';
 
@@ -50,7 +51,7 @@ const FormGrid = (props) => {
     });
   };
 
-  const TitleCell = ({access, form, onAction}) => (
+  const TitleCell = ({access, form}) => (
     <span
       style={{cursor: 'pointer'}}
       onClick={stopPropagationWrapper(() => {
@@ -83,7 +84,7 @@ const FormGrid = (props) => {
     >
       {
         icon
-          ? <Icon icon={icon} />
+          ? <Icon icon={icon}></Icon>
           : null
       }
       {title}
@@ -100,7 +101,7 @@ const FormGrid = (props) => {
     const access = formAccess(form);
 
     if (column.key === 'title') {
-      return <TitleCell access={access} form={form} onAction={onAction} />;
+      return <TitleCell access={access} form={form}></TitleCell>;
     }
     else if (column.key === 'operations') {
       return (
@@ -190,12 +191,12 @@ FormGrid.defaultProps = {
     {
       key: 'title',
       sort: true,
-      title: 'Formulario',
+      title: 'Form',
       width: 8,
     },
     {
       key: 'operations',
-      title: 'Operaciones',
+      title: 'Operations',
       width: 4,
     },
   ],
@@ -223,7 +224,7 @@ FormGrid.defaultProps = {
       permissionsResolver() {
         return true;
       },
-      title: 'Ingresar Datos',
+      title: 'Enter Data',
     },
     {
       action: 'submission',
@@ -232,7 +233,7 @@ FormGrid.defaultProps = {
       permissionsResolver() {
         return true;
       },
-      title: 'Ver Datos',
+      title: 'View Data',
     },
     {
       action: 'edit',
@@ -241,7 +242,7 @@ FormGrid.defaultProps = {
       permissionsResolver() {
         return true;
       },
-      title: 'Editar Formulario',
+      title: 'Edit Form',
     },
     {
       action: 'delete',
