@@ -14,6 +14,9 @@ async function axiosGet(endpoint) {
         const promise = await axios({
             method: 'GET',
             url,
+            headers: {
+                Authorization: 'Bearer ' + UserService,
+            }
         }).then(response => {
             return response.data
         });
