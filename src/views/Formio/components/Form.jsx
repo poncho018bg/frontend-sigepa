@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import EventEmitter from 'eventemitter2';
+import EventEmitter from 'formiojs/EventEmitter';
 import AllComponents from 'formiojs/components';
 import Components from 'formiojs/components/Components';
 Components.setComponents(AllComponents);
