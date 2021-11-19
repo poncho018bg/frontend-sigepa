@@ -19,11 +19,11 @@ export const RegistroPreguntas = (props) => {
     const classes = useStyles();
     const { beneficiario, setActivar } = props;
     const { idPrograma } = props;
-    const { programa, getByID } = useContext(ProgramasContext);
+    const { programa, getByIDSinToken } = useContext(ProgramasContext);
     const { getComplementoFurs, registrarComplementoFurs, actualizarComplementoFurs } = useContext(ComplementoFursContext);
     let ruta = '';
     useEffect(() => {
-        getByID(idPrograma);
+        getByIDSinToken(idPrograma);
         setActivar(false)
     }, []);
 

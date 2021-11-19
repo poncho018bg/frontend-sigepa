@@ -3,7 +3,7 @@ import {
     REGISTRAR_PROGRAMAS, MODIFICAR_PROGRAMAS
     , ELIMINAR_PROGRAMAS, GET_PROGRAMAS, AGREGAR_PROGRAMA_ERROR, GET_PROGRAMAS_BY_ID,
     CAMBIAR_PAGINA, CAMBIAR_TAMANIO_PAGINA, GET_PROGRAMASACTIVOS,
-    GET_DOCUMENTOS_PROGRAMAS,GET_MUNICIPIOS_PROGRAMAS,GET_IMAGEN_PROGRAMAS
+    GET_DOCUMENTOS_PROGRAMAS, GET_MUNICIPIOS_PROGRAMAS, GET_IMAGEN_PROGRAMAS, GET_PROGRAMAS_BY_URL
 } from 'types/actionTypes';
 
 
@@ -60,21 +60,21 @@ export default (state, action) => {
                 programa: action.payload
             };
 
-            case CAMBIAR_PAGINA:
-                return {
-                    ...state,
-                    page: action.payload
-                }
-            case CAMBIAR_TAMANIO_PAGINA:
-                return {
-                    ...state,
-                    size: action.payload
-                }
+        case CAMBIAR_PAGINA:
+            return {
+                ...state,
+                page: action.payload
+            }
+        case CAMBIAR_TAMANIO_PAGINA:
+            return {
+                ...state,
+                size: action.payload
+            }
         case GET_MUNICIPIOS_PROGRAMAS:
 
             return {
                 ...state,
-                programasMunicipiosList: action.payload._embedded.coberturaApoyos === undefined ? action.payload._embedded.coberturaApoyoses: action.payload._embedded.coberturaApoyos
+                programasMunicipiosList: action.payload._embedded.coberturaApoyos === undefined ? action.payload._embedded.coberturaApoyoses : action.payload._embedded.coberturaApoyos
 
             };
         case GET_DOCUMENTOS_PROGRAMAS:
@@ -84,10 +84,15 @@ export default (state, action) => {
                 programasDocumentosList: action.payload._embedded.documentosRequisitos
 
             };
-            case GET_IMAGEN_PROGRAMAS:
+        case GET_IMAGEN_PROGRAMAS:
             return {
                 ...state,
                 imagenprg: action.payload
+            };
+        case GET_PROGRAMAS_BY_URL:
+            return {
+                ...state,
+                idPrograma: action.payload
             };
         default:
             return state;

@@ -8,7 +8,7 @@ import {
 } from '../types/actionTypes';
 
 import { axiosGet } from 'helpers/axios';
-import { axiosPost } from 'helpers/axiosPublico';
+import { axiosPost,axiosGetSinTokenAdmin } from 'helpers/axiosPublico';
 import axios from "axios";
 export const RegistroCargaDocumentosContext = createContext();
 
@@ -24,7 +24,7 @@ export const RegistroCargaDocumentosContextProvider = props => {
     const getDocumentosApoyo = async (idApoyo,idBeneficiario) => {
         try {
             console.log("idApoyo ", idApoyo);
-            const result = await axiosGet(`documentosprogramaapoyo/${idApoyo}/${idBeneficiario}`);
+            const result = await axiosGetSinTokenAdmin(`documentosprogramaapoyo/${idApoyo}/${idBeneficiario}`);
             console.log(result);
             dispatch({
                 type: GET_DOCUMENTOS_APOYO,

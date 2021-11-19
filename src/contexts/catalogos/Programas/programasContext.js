@@ -9,7 +9,8 @@ import {
     MODIFICAR_PROGRAMAS,
     ELIMINAR_PROGRAMAS,
     GET_PROGRAMAS, CAMBIAR_PAGINA, CAMBIAR_TAMANIO_PAGINA, GET_PROGRAMASACTIVOS,
-    GET_DOCUMENTOS_PROGRAMAS,GET_MUNICIPIOS_PROGRAMAS,GET_IMAGEN_PROGRAMAS,GET_PROGRAMAS_BY_ID
+    GET_DOCUMENTOS_PROGRAMAS,GET_MUNICIPIOS_PROGRAMAS,GET_IMAGEN_PROGRAMAS,GET_PROGRAMAS_BY_ID,
+    GET_PROGRAMAS_BY_URL
 }
     from 'types/actionTypes';
 import ProgramasReducer from 'reducers/Catalogos/Programas/ProgramasReducer';
@@ -29,6 +30,7 @@ export const ProgramasContextProvider = props => {
         page: 0,
         size: 10,
         total: 0,
+        idPrograma: null,
        
     }
 
@@ -181,6 +183,19 @@ export const ProgramasContextProvider = props => {
         }
     }
 
+    const getByIDSinToken = async id => {
+        try {
+            console.log("entra a consultar programa por id");
+            const result = await axiosGetSinTokenAdmin(`programasOverride/consultaId/${id}`);
+            dispatch({
+                type: GET_PROGRAMAS_BY_ID,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     //Paginacion
 
     const changePage = async (pages) => {  
@@ -263,6 +278,19 @@ export const ProgramasContextProvider = props => {
         }
     }
 
+    const getProgramaByUrlParameter = async url => {
+        try {
+            console.log("parametro que llega de la URL ====>",url);
+            const result = await axiosGetSinTokenAdmin(`programasOverride/url/${url}`);
+            dispatch({
+                type: GET_PROGRAMAS_BY_URL,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <ProgramasContext.Provider
             value={{
@@ -275,6 +303,7 @@ export const ProgramasContextProvider = props => {
                 total: state.total,
                 programasMunicipiosList:state.programasMunicipiosList,
                 programasDocumentosList:state.programasDocumentosList,
+                idPrograma: state.idPrograma,
                 get,
                 registrar,
                 actualizar,
@@ -290,7 +319,9 @@ export const ProgramasContextProvider = props => {
                 getDocumentosProg,
                 getImgDocumentosProg,
                 imagenprg:state.imagenprg,
-                getCien
+                getCien,
+                getByIDSinToken,
+                getProgramaByUrlParameter
             }}
         >
             {props.children}
