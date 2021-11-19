@@ -26,6 +26,8 @@ import Button from "components/CustomButtons/Button.js";
 import ValidarPrograma from './ValidarPrograma';
 import ValidarEdadBeneficiario from './ValidarEdadBeneficiario';
 import { Loading } from 'components/Personalizados/Loading';
+import { OrigenSolicitudContext } from 'contexts/catalogos/OrigenSolicitudContext';
+
 
 
 const useStyles = makeStyles(stylesArchivo);
@@ -39,7 +41,7 @@ const pasos = [
     'Características adicionales de la solicitante',
     'Registro finalizado'
 ];
-
+const ORIGEN_SOLICITUD_AGENTE_MODULO = 'MODULO'
 export const RegistroSolicitud = () => {
     //id del programa
     let query = useLocation();
@@ -53,6 +55,7 @@ export const RegistroSolicitud = () => {
     const { beneficiario, registrarBeneficiario, direccion,
         registrarDireccionBeneficiario, getBeneficiario, actualizarBeneficiario,
         obtenerDireccionBeneficiario, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
+    const { getOrigenesByParametros, origenesList } = useContext(OrigenSolicitudContext);
     const [edadValida, setEdadValida] = useState();
     //
     const child = useRef();
@@ -89,7 +92,7 @@ export const RegistroSolicitud = () => {
             estudios,
             estadoCivil,
             identificacion,
-            rfc,idIdentificaion);
+            rfc, idIdentificaion);
 
         console.log("ID DEL BENEFICIARIO", id);
         if (id == undefined) {
@@ -105,7 +108,7 @@ export const RegistroSolicitud = () => {
                 idgradoestudios: estudios,
                 ididentificacionoficial: identificacion,
                 rfc: rfc,
-                dsiddocumento:idIdentificaion
+                dsiddocumento: idIdentificaion
             }
             console.log("datos enviados ---> ", datosEnviar);
             /**
@@ -127,7 +130,7 @@ export const RegistroSolicitud = () => {
                 idgradoestudios: estudios,
                 ididentificacionoficial: identificacion,
                 rfc: rfc,
-                dsiddocumento:idIdentificaion
+                dsiddocumento: idIdentificaion
             }
             /**
              * si se hace algun edición se guarda aquí
@@ -211,6 +214,9 @@ export const RegistroSolicitud = () => {
         obtenerDireccionBeneficiario(beneficiario.id);
     };
 
+    useEffect(() => {
+        getOrigenesByParametros(ORIGEN_SOLICITUD_AGENTE_MODULO);
+    }, []);
 
 
     const handleSkip = () => {
@@ -233,8 +239,8 @@ export const RegistroSolicitud = () => {
     };
 
     const NextButton = () => {
-       // console.log("aqio esta el activar ---->>", activar, curp);
-      //  console.log("BENEFICIARIO --->", beneficiario);
+        // console.log("aqio esta el activar ---->>", activar, curp);
+        //  console.log("BENEFICIARIO --->", beneficiario);
         if (activar && curp != undefined && curp != '') {
             return (
                 <Button onClick={handleNext}>
@@ -295,9 +301,9 @@ export const RegistroSolicitud = () => {
                                                 : activeStep === 4 ?
                                                     <RegistroCargaDocumentos beneficiario={beneficiario} idPrograma={query.state?.mobNo} identPrograma={identPrograma} setValidarDocs={setValidarDocs} validarDocs={validarDocs} setActivar={setActivar} activar={activar} />
                                                     : activeStep === 5 ?
-                                                        <RegistroPreguntas beneficiario={beneficiario} idPrograma={query.state?.mobNo} setActivar={setActivar} fomularioLleno={fomularioLleno} setFomularioLleno={setFomularioLleno}  />
+                                                        <RegistroPreguntas beneficiario={beneficiario} idPrograma={query.state?.mobNo} setActivar={setActivar} fomularioLleno={fomularioLleno} setFomularioLleno={setFomularioLleno} />
                                                         :
-                                                        <RegistroFinalizado beneficiario={beneficiario} idPrograma={query.state?.mobNo} />}
+                                                        <RegistroFinalizado beneficiario={beneficiario} idPrograma={query.state?.mobNo} origen={origenesList[0]} />}
 
                                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                     <Button

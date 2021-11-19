@@ -37,7 +37,7 @@ export const RegistroFinalizado = (props) => {
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
     const [open, setOpen] = React.useState(false);
     const componentRef = useRef();
-    const { beneficiario, idPrograma } = props;
+    const { beneficiario, idPrograma , origen} = props;
 
     let history = useHistory();
     const styles = StyleSheet.create({
@@ -79,10 +79,13 @@ export const RegistroFinalizado = (props) => {
 
     useEffect(() => {
         console.log('Finalizar')
+        console.log('origen=>',origen)
         let folios = {
             idPrograma: idPrograma,
             idBeneficiario: beneficiario.id,
-            idUsuario: sessionStorage.getItem('idUSuario')
+            idUsuario: sessionStorage.getItem('idUSuario'),
+            idOrigen:origen?.id
+
         }
         registrarSolicitudFolio(folios).then(response => {
 
