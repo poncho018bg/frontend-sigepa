@@ -74,6 +74,7 @@ import { EstatusRegistroScreen } from "views/Catalogos/EstatusRegistro/EstatusRe
 import { GeneroScreen } from "views/Catalogos/Generos/GeneroScreen";
 import { GradoEstudioScreen } from "views/Catalogos/GradoEstudios/GradoEstudioScreen";
 import { IdentificacioneScreen } from "views/Catalogos/Identificaciones/IdentificacioneScreen";
+import { BitacoraScreen } from "views/Catalogos/BitacoraActividades/BitacoraScreen";
 
 
 const dashboardRoutes = [
@@ -395,6 +396,15 @@ const dashboardRoutes = [
         mini: "BA",
         rtlMini: "BA",
         component: BitacoraActividadesScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/bitacora",
+        name: "Bitácora",
+        rtlName: "bit",
+        mini: "bit",
+        rtlMini: "bit",
+        component: BitacoraScreen,
         layout: "/admin"
       },
       {
