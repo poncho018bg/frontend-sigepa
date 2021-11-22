@@ -16,7 +16,8 @@ import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
-
+import { DialogEstatusGeneral } from './DialogEstatusGeneral';
+import { DialogEstatusSeleccionadas } from './DialogEstatusSeleccionadas';
 
 import { useTranslation } from 'react-i18next';
 import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
@@ -28,8 +29,7 @@ const useStyles = makeStyles(stylesArchivo);
 
 export const BandejaSolicitudesValidadas = () => {
     const { t } = useTranslation();
-    const { getSolicitudesPorParametrosBandeja, solicitudParametrosBandeja } = useContext(RegistroSolicitudContext);
-    const { getCien, programasList } = useContext(ProgramasContext);
+    const { getSolicitudesPorParametrosBandeja, solicitudParametrosBandeja, bandejaCambioEstatus, bandejaCambioEstatusGeneral } = useContext(RegistroSolicitudContext);
     const { getEstatusRegistro, estatusRegistroList } = useContext(EstatusRegistroContext);
     const { getMunicipios, municipiosList } = useContext(MunicipiosContext);
     const classes = useStyles();
@@ -42,6 +42,9 @@ export const BandejaSolicitudesValidadas = () => {
     const [programa, setPrograma] = useState('');
     const [estatus, setEstatus] = useState('');
     const [selected, setSelected] = React.useState([]);
+    const [showDialogEstatusGeneral, setShowDialogEstatusGeneral] = useState(false);
+    const [showDialogEstatusSeleccionadas, setShowDialogEstatusSeleccionadas] = useState(false);
+    const [totalRegistros, setTotalRegistros] = useState('');
 
     useEffect(() => {
         getCien()
@@ -68,11 +71,31 @@ export const BandejaSolicitudesValidadas = () => {
         getSolicitudesPorParametrosBandeja(solicitudFilter);
     }
 
-
     const pendienteAprobarSeleccionadas = () => {
         console.log("Manda pendiente de aprobar las seleccionadas")
+        setShowDialogEstatusMultiple(true);
     }
 
+    const pendienteAprobarGeneral = () => {
+        console.log("cambio estatus multiple");
+        setTotalRegistros(solicitudParametrosBandeja.length);
+        setShowDialogEstatusGeneral(true);
+    }
+
+    // Cambio de estatus seleccioandas
+    const handleCambiarEstatusSeleccionada = () => {
+        bandejaCambioEstatus(selected);
+        setShowDialogEstatusSeleccionadas(true);
+        getSolicitudesPorParametrosBandeja(solicitudFilter);
+    }
+
+    //cambio de estatus general
+    const handleCambiarGeneral = () => {
+        bandejaCambioEstatusGeneral(solicitudParametrosBandeja);
+        setShowDialogEstatusGeneral(false);
+        getSolicitudesPorParametrosBandeja(solicitudFilter);
+
+    }
 
     const handleClick = (event, solicitud) => {
         const selectedIndex = selected.indexOf(solicitud);
@@ -282,9 +305,29 @@ export const BandejaSolicitudesValidadas = () => {
                         onChangeRowsPerPage={handleChangeRowsPerPage}
                         labelDisplayedRows={({ from, to, count }) => `${from}-${to} de un total ${count} registros`}
                     />
+
+                    <Grid container spacing={2}>
+                        <GridItem xs={12} sm={12} md={12}>
+                            <Grid item xs={3} style={{ textAlign: 'center', float: 'right' }}>
+                                <Button color="primary" fullWidth onClick={pendienteAprobarGeneral}>
+                                    Pendientes de aprobar {solicitudParametrosBandeja.length} Seleccionadas
+                                </Button>
+                            </Grid>
+                        </GridItem>
+                    </Grid>
                 </CardBody>
             </Card>
-
+            <DialogEstatusGeneral
+                showDialogEstatusGeneral={showDialogEstatusGeneral}
+                setShowDialogEstatusGeneral={setShowDialogEstatusGeneral}
+                totalRegistros={totalRegistros}
+                handleCambiarGeneral={handleCambiarGeneral}
+            />
+            <DialogEstatusSeleccionadas
+                showDialogEstatusSeleccionadas={showDialogEstatusSeleccionadas}
+                setShowDialogEstatusSeleccionadas={setShowDialogEstatusSeleccionadas}
+                handleCambiarEstatusSeleccionada={handleCambiarEstatusSeleccionada}
+            />
         </GridItem>
 
     )

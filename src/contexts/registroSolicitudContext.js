@@ -37,9 +37,7 @@ export const RegistroSolicitudContextProvider = props => {
         solicitudParametros: [],
         beneficiarioMonetario: null,
         beneficiarioCancelado: null,
-        solicitudFolio:null,
-        solicitudParametros:[],
-        solicitudParametrosBandeja:[]
+        solicitudParametrosBandeja: []
     }
 
 
@@ -315,27 +313,77 @@ export const RegistroSolicitudContextProvider = props => {
 
 
     const getSolicitudesPorParametrosBandeja = async parametros => {
-        
+
         try {
             const url = `${baseUrlPublico}solicitudOverride/consultarSolicitudesBandeja/${parametros.idPrograma}/${parametros.idMunicipio}/${parametros.idEstatus}`;
             return new Promise((resolve, reject) => {
                 axios.get(url, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
-                }).then(response => {      
-                    console.log('RESPONSE=>',response.data)              
-                    resolve(response);                   
+                }).then(response => {
+                    console.log('RESPONSE=>', response.data)
+                    resolve(response);
                     dispatch({
                         type: BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA,
                         payload: response.data
                     })
                 }).catch(error => {
-                    console.log('Err',error);
+                    console.log('Err', error);
                     reject(error);
                 });
             });
 
         } catch (error) {
-            console.log('Err',error);
+            console.log('Err', error);
+        }
+    }
+
+    const bandejaCambioEstatus = async (SolicitudesSeleted) => {
+
+        try {
+            const url = `${baseUrlPublico}solicitudOverride/cambiarEstatus/${SolicitudesSeleted}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    console.log('RESPONSE=>', response.data)
+                    resolve(response);
+                    dispatch({
+                        type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log('Err', error);
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            console.log('Err', error);
+        }
+    }
+
+    const bandejaCambioEstatusGeneral = async (solicitudParametros) => {
+
+        try {
+            const url = `${baseUrlPublico}solicitudOverride/cambiarEstatusGeneral/${solicitudParametros}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    console.log('RESPONSE=>', response.data)
+                    resolve(response);
+                    dispatch({
+                        type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_GENERAL,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log('Err', error);
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            console.log('Err', error);
         }
     }
 
@@ -351,9 +399,7 @@ export const RegistroSolicitudContextProvider = props => {
             solicitudParametros: state.solicitudParametros,
             beneficiarioMonetario: state.beneficiarioMonetario,
             beneficiarioCancelado: state.beneficiarioCancelado,
-            solicitudFolio:state.solicitudFolio,
-            solicitudParametros:state.solicitudParametros,
-            solicitudParametrosBandeja:state.solicitudParametrosBandeja,
+            solicitudParametrosBandeja: state.solicitudParametrosBandeja,
             getGeneros,
             getEstudios,
             getEstadoCivil,
@@ -368,7 +414,9 @@ export const RegistroSolicitudContextProvider = props => {
             getSolicitudesPorParametros,
             getBeneficiarioMonetario,
             getBeneficiarioCancelado,
-            getSolicitudesPorParametrosBandeja
+            getSolicitudesPorParametrosBandeja,
+            bandejaCambioEstatus,
+            bandejaCambioEstatusGeneral,
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>
