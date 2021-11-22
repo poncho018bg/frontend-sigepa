@@ -13,7 +13,8 @@ import {
     AGREGAR_SOLICITUD_FOLIO_ERROR,
     BUSCAR_SOLICITUD_POR_PARAMETROS,
     GET_BENEFICIARIO_MONETARIO,
-    GET_BENEFICIARIO_CANCELADO
+    GET_BENEFICIARIO_CANCELADO,
+    BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -35,6 +36,12 @@ export default (state, action) => {
                 ...state,
                 estudiosList: action.payload._embedded.gradoEstudios,
                 total: action.payload.page.totalElements
+            };
+        case BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA:
+            console.log('action.payload', action.payload)
+            return {
+                ...state,
+                solicitudParametrosBandeja: action.payload
             };
         case BUSCAR_SOLICITUD_POR_PARAMETROS:
             console.log('action.payload', action.payload)
@@ -92,12 +99,12 @@ export default (state, action) => {
                 ...state,
                 direccion: action.payload
             };
-            case GET_BENEFICIARIO_MONETARIO:
+        case GET_BENEFICIARIO_MONETARIO:
             return {
                 ...state,
                 beneficiarioMonetario: action.payload
             };
-            case GET_BENEFICIARIO_CANCELADO:
+        case GET_BENEFICIARIO_CANCELADO:
             return {
                 ...state,
                 beneficiarioCancelado: action.payload

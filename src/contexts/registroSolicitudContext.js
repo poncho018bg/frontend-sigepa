@@ -15,7 +15,10 @@ import {
     GUARDAR_SOLICITUD_FOLIO,
     AGREGAR_SOLICITUD_FOLIO_ERROR, BUSCAR_SOLICITUD_POR_PARAMETROS,
     GET_BENEFICIARIO_MONETARIO,
-    GET_BENEFICIARIO_CANCELADO
+    GET_BENEFICIARIO_CANCELADO,
+    AGREGAR_SOLICITUD_FOLIO_ERROR,
+    BUSCAR_SOLICITUD_POR_PARAMETROS,
+    BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA
 } from 'types/actionTypes';
 
 import { axiosGet, axiosPost, axiosPut, axiosGetSinToken } from 'helpers/axiosPublico';
@@ -35,7 +38,10 @@ export const RegistroSolicitudContextProvider = props => {
         solicitudFolio: null,
         solicitudParametros: [],
         beneficiarioMonetario: null,
-        beneficiarioCancelado: null
+        beneficiarioCancelado: null,
+        solicitudFolio:null,
+        solicitudParametros:[],
+        solicitudParametrosBandeja:[]
     }
 
 
@@ -309,6 +315,32 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
+
+    const getSolicitudesPorParametrosBandeja = async parametros => {
+        
+        try {
+            const url = `${baseUrlPublico}solicitudOverride/consultarSolicitudesBandeja/${parametros.idPrograma}/${parametros.idMunicipio}/${parametros.idEstatus}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {      
+                    console.log('RESPONSE=>',response.data)              
+                    resolve(response);                   
+                    dispatch({
+                        type: BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log('Err',error);
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            console.log('Err',error);
+        }
+    }
+
     return (
         <RegistroSolicitudContext.Provider value={{
             generosList: state.generosList,
@@ -321,6 +353,9 @@ export const RegistroSolicitudContextProvider = props => {
             solicitudParametros: state.solicitudParametros,
             beneficiarioMonetario: state.beneficiarioMonetario,
             beneficiarioCancelado: state.beneficiarioCancelado,
+            solicitudFolio:state.solicitudFolio,
+            solicitudParametros:state.solicitudParametros,
+            solicitudParametrosBandeja:state.solicitudParametrosBandeja,
             getGeneros,
             getEstudios,
             getEstadoCivil,
@@ -334,7 +369,8 @@ export const RegistroSolicitudContextProvider = props => {
             registrarSolicitudFolio,
             getSolicitudesPorParametros,
             getBeneficiarioMonetario,
-            getBeneficiarioCancelado
+            getBeneficiarioCancelado,
+            getSolicitudesPorParametrosBandeja
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>
