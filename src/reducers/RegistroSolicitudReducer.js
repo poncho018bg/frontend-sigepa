@@ -11,7 +11,9 @@ import {
     MODIFICAR_DIRECCION_BENEFICIARIO,
     GUARDAR_SOLICITUD_FOLIO,
     AGREGAR_SOLICITUD_FOLIO_ERROR,
-    BUSCAR_SOLICITUD_POR_PARAMETROS
+    BUSCAR_SOLICITUD_POR_PARAMETROS,
+    GET_BENEFICIARIO_MONETARIO,
+    GET_BENEFICIARIO_CANCELADO
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -23,7 +25,7 @@ export default (state, action) => {
                 total: action.payload.page.totalElements
             };
         case AGREGAR_SOLICITUD_FOLIO_ERROR:
-            console.log('err',action.type);
+            console.log('err', action.type);
             return {
                 ...state,
                 error: action.payload
@@ -35,7 +37,7 @@ export default (state, action) => {
                 total: action.payload.page.totalElements
             };
         case BUSCAR_SOLICITUD_POR_PARAMETROS:
-            console.log('action.payload',action.payload)
+            console.log('action.payload', action.payload)
             return {
                 ...state,
                 solicitudParametros: action.payload
@@ -89,6 +91,16 @@ export default (state, action) => {
             return {
                 ...state,
                 direccion: action.payload
+            };
+            case GET_BENEFICIARIO_MONETARIO:
+            return {
+                ...state,
+                beneficiarioMonetario: action.payload
+            };
+            case GET_BENEFICIARIO_CANCELADO:
+            return {
+                ...state,
+                beneficiarioCancelado: action.payload
             };
         default:
             return state;

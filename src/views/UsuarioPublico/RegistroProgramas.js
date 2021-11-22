@@ -24,9 +24,11 @@ import Button from "components/CustomButtons/Button.js";
 
 import ValidarPrograma from '../RegistroSolicitudContacto/ValidarPrograma';
 import ValidarEdadBeneficiario from '../RegistroSolicitudContacto/ValidarEdadBeneficiario';
+import ValidarProgramaMonetario from '../RegistroSolicitudContacto/ValidarProgramaMonetario';
 
 //
 import { RegistroCurp } from './RegistroCurp';
+
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -177,9 +179,7 @@ export const RegistroProgramas = () => {
             /**
              * consulta para traer el id y datos del beneficiario
              */
-
             getBeneficiario(curp)
-
         }
         if (activeStep == 1) {
             child.current.registroBeneficiario();
@@ -265,99 +265,105 @@ export const RegistroProgramas = () => {
     }
 
     //console.log("Programa ========>", programa);
-    return (
-        <ValidarPrograma idPrograma={idPrograma}>
-            <ValidarEdadBeneficiario idPrograma={idPrograma} curp={curp} edadValida={edadValida}>
-                < Box sx={{ width: '100%' }
-                }>
-                    <Stepper activeStep={activeStep}>
-                        {pasos.map((label) => (
-                            <Step key={label}>
-                                <StepLabel>{label}</StepLabel>
-                            </Step>
-                        ))}
-                    </Stepper>
-                    {
-                        activeStep === pasos.length ? (
-                            <span>
-                                Has completado todos los pasos
+    if (programa !== null) {
+        return (
+            <ValidarPrograma idPrograma={idPrograma}>
+                {/*<ValidarProgramaMonetario curp={curp} edadValida={edadValida}>*/}
+                <ValidarEdadBeneficiario idPrograma={idPrograma} curp={curp} edadValida={edadValida}>
+                    < Box sx={{ width: '100%' }
+                    }>
+                        <Stepper activeStep={activeStep}>
+                            {pasos.map((label) => (
+                                <Step key={label}>
+                                    <StepLabel>{label}</StepLabel>
+                                </Step>
+                            ))}
+                        </Stepper>
+                        {
+                            activeStep === pasos.length ? (
+                                <span>
+                                    Has completado todos los pasos
 
-                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                    <Box sx={{ flex: '1 1 auto' }} />
-                                    <Button onClick={handleReset}>Reiniciar</Button>
-                                </Box>
-                            </span>
-                        ) : (
-                            <>
-                                {activeStep === 0 ?
-                                    <RegistroCurp setActivar={setActivar} curp={curp} setCurp={setCurp} 
-                                    nombrePrograma={programa.dsprograma}/>
-                                    : activeStep === 1 ?
-                                        <RegistroDatosSolicitante
-                                            curpR={curp}
-                                            llenarDatosBeneficiario={llenarDatosBeneficiario}
-                                            ref={child}
-                                            beneficiario={beneficiario}
-                                            setIdentPrograma={setIdentPrograma}
-                                            idPrograma={idPrograma}
-                                            setEdadValida={setEdadValida} 
-                                            nombrePrograma={programa.dsprograma}/>
-                                        : activeStep === 2 ?
-                                            <RegistroDireccion
-                                                activar={activar}
-                                                setActivar={setActivar}
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                        <Box sx={{ flex: '1 1 auto' }} />
+                                        <Button onClick={handleReset}>Reiniciar</Button>
+                                    </Box>
+                                </span>
+                            ) : (
+                                <>
+                                    {activeStep === 0 ?
+                                        <RegistroCurp setActivar={setActivar} curp={curp} setCurp={setCurp}
+                                            nombrePrograma={programa.dsprograma} />
+                                        : activeStep === 1 ?
+                                            <RegistroDatosSolicitante
+                                                curpR={curp}
+                                                llenarDatosBeneficiario={llenarDatosBeneficiario}
+                                                ref={child}
                                                 beneficiario={beneficiario}
-                                                obtenerDireccion={obtenerDireccion}
-                                                ref={direccionChild}
-                                                direccionBeneficiario={direccion} 
-                                                nombrePrograma={programa.dsprograma}/>
-                                            : activeStep === 3 ?
-                                                <RegistroSolicitudContacto
+                                                setIdentPrograma={setIdentPrograma}
+                                                idPrograma={idPrograma}
+                                                setEdadValida={setEdadValida}
+                                                nombrePrograma={programa.dsprograma} />
+                                            : activeStep === 2 ?
+                                                <RegistroDireccion
                                                     activar={activar}
                                                     setActivar={setActivar}
-                                                    direccionB={direccion}
                                                     beneficiario={beneficiario}
-                                                    ref={contacto} 
-                                                    nombrePrograma={programa.dsprograma}/>
-                                                : activeStep === 4 ?
-                                                    <RegistroCargaDocumentos
-                                                        beneficiario={beneficiario}
-                                                        idPrograma={idPrograma}
-                                                        identPrograma={identPrograma}
-                                                        setValidarDocs={setValidarDocs}
-                                                        validarDocs={validarDocs}
+                                                    obtenerDireccion={obtenerDireccion}
+                                                    ref={direccionChild}
+                                                    direccionBeneficiario={direccion}
+                                                    nombrePrograma={programa.dsprograma} />
+                                                : activeStep === 3 ?
+                                                    <RegistroSolicitudContacto
+                                                        activar={activar}
                                                         setActivar={setActivar}
-                                                        activar={activar} 
-                                                        nombrePrograma={programa.dsprograma}/>
-                                                    : activeStep === 5 ?
-                                                        <RegistroPreguntas
+                                                        direccionB={direccion}
+                                                        beneficiario={beneficiario}
+                                                        ref={contacto}
+                                                        nombrePrograma={programa.dsprograma} />
+                                                    : activeStep === 4 ?
+                                                        <RegistroCargaDocumentos
                                                             beneficiario={beneficiario}
                                                             idPrograma={idPrograma}
-                                                            setActivar={setActivar} 
-                                                            nombrePrograma={programa.dsprograma}/>
-                                                        :
-                                                        <RegistroFinalizado
-                                                            beneficiario={beneficiario}
-                                                            idPrograma={idPrograma} 
-                                                            nombrePrograma={programa.dsprograma}/>}
-                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                    <Button
-                                        color="inherit"
-                                        disabled={activeStep === 0}
-                                        onClick={handleBack}
-                                        sx={{ mr: 1 }}
-                                    >
-                                        Regresar
-                                    </Button>
-                                    <Box sx={{ flex: '1 1 auto' }} />
+                                                            identPrograma={identPrograma}
+                                                            setValidarDocs={setValidarDocs}
+                                                            validarDocs={validarDocs}
+                                                            setActivar={setActivar}
+                                                            activar={activar}
+                                                            nombrePrograma={programa.dsprograma} />
+                                                        : activeStep === 5 ?
+                                                            <RegistroPreguntas
+                                                                beneficiario={beneficiario}
+                                                                idPrograma={idPrograma}
+                                                                setActivar={setActivar}
+                                                                nombrePrograma={programa.dsprograma} />
+                                                            :
+                                                            <RegistroFinalizado
+                                                                beneficiario={beneficiario}
+                                                                idPrograma={idPrograma}
+                                                                nombrePrograma={programa.dsprograma} />}
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                        <Button
+                                            color="inherit"
+                                            disabled={activeStep === 0}
+                                            onClick={handleBack}
+                                            sx={{ mr: 1 }}
+                                        >
+                                            Regresar
+                                        </Button>
+                                        <Box sx={{ flex: '1 1 auto' }} />
 
-                                    <NextButton />
-                                </Box>
-                            </>
-                        )
-                    }
-                </Box>
-            </ValidarEdadBeneficiario>
-        </ValidarPrograma >
-    )
+                                        <NextButton />
+                                    </Box>
+                                </>
+                            )
+                        }
+                    </Box>
+                </ValidarEdadBeneficiario>
+                {/*</ValidarProgramaMonetario>*/}
+            </ValidarPrograma >
+        )
+    } else {
+        return (<>Iniciando</>)
+    }
 }

@@ -13,10 +13,12 @@ import {
     OBTENER_DIRECCION,
     MODIFICAR_DIRECCION_BENEFICIARIO,
     GUARDAR_SOLICITUD_FOLIO,
-    AGREGAR_SOLICITUD_FOLIO_ERROR,BUSCAR_SOLICITUD_POR_PARAMETROS
+    AGREGAR_SOLICITUD_FOLIO_ERROR, BUSCAR_SOLICITUD_POR_PARAMETROS,
+    GET_BENEFICIARIO_MONETARIO,
+    GET_BENEFICIARIO_CANCELADO
 } from 'types/actionTypes';
 
-import { axiosGet, axiosPost,  axiosPut,axiosGetSinToken } from 'helpers/axiosPublico';
+import { axiosGet, axiosPost, axiosPut, axiosGetSinToken } from 'helpers/axiosPublico';
 const baseUrl = process.env.REACT_APP_API_URL;
 const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL
 const baseUrlCurp = process.env.REACT_APP_API_PUBLICO_URL
@@ -28,10 +30,12 @@ export const RegistroSolicitudContextProvider = props => {
         estudiosList: [],
         estadoCivilList: [],
         identificacionesList: [],
-        beneficiario:undefined,
+        beneficiario: undefined,
         direccion: [],
-        solicitudFolio:null,
-        solicitudParametros:[]
+        solicitudFolio: null,
+        solicitudParametros: [],
+        beneficiarioMonetario: null,
+        beneficiarioCancelado: null
     }
 
 
@@ -39,7 +43,7 @@ export const RegistroSolicitudContextProvider = props => {
 
     const getGeneros = async () => {
         try {
-           
+
             const result = await axiosGetSinToken(`generos`);
             console.log("RESULT GENEROS -->", result);
             dispatch({
@@ -52,7 +56,7 @@ export const RegistroSolicitudContextProvider = props => {
     }
     const getEstudios = async () => {
         try {
-           
+
             const result = await axiosGetSinToken(`gradoEstudios`);
             console.log("RESULT Estudios -->", result);
             dispatch({
@@ -66,7 +70,7 @@ export const RegistroSolicitudContextProvider = props => {
 
     const getEstadoCivil = async () => {
         try {
-           
+
             const result = await axiosGetSinToken(`estadosCiviles`);
             console.log("RESULT Estudios -->", result);
             dispatch({
@@ -80,7 +84,7 @@ export const RegistroSolicitudContextProvider = props => {
 
     const getIdentificaciones = async () => {
         try {
-            
+
             const result = await axiosGetSinToken(`identificacionesOficiales`);
             console.log("RESULT Estudios -->", result);
             dispatch({
@@ -142,7 +146,7 @@ export const RegistroSolicitudContextProvider = props => {
                 axios.get(url, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
-                    console.log("AXIOS RESPONSE BENEFICIARIOS: ",response.data);
+                    console.log("AXIOS RESPONSE BENEFICIARIOS: ", response.data);
                     resolve(response);
                     dispatch({
                         type: GET_BENEFICIARIO,
@@ -181,7 +185,7 @@ export const RegistroSolicitudContextProvider = props => {
 
     const obtenerDireccionBeneficiario = async idBeneficiario => {
         try {
-            console.log("LLEGA EL ID DEL BENEFICIARIO DIRECCION ====>",idBeneficiario);
+            console.log("LLEGA EL ID DEL BENEFICIARIO DIRECCION ====>", idBeneficiario);
             const resultado = await axiosGetSinToken(`domicilioOverride/domicilio/${idBeneficiario}`);
             console.log("resultado CONSULTA DE DIRECCION--->", resultado);
             dispatch({
@@ -221,27 +225,87 @@ export const RegistroSolicitudContextProvider = props => {
     }
 
     const getSolicitudesPorParametros = async parametros => {
-        
+
         try {
             const url = `${baseUrlPublico}solicitudOverride/consultarSolicitudes/${parametros.paterno}/${parametros.materno}/${parametros.nombre}/${parametros.idPrograma}/${parametros.folio}/${parametros.idEstatus}`;
             return new Promise((resolve, reject) => {
                 axios.get(url, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
-                }).then(response => {      
-                    console.log('RESPONSE=>',response.data)              
-                    resolve(response);                   
+                }).then(response => {
+                    console.log('RESPONSE=>', response.data)
+                    resolve(response);
                     dispatch({
                         type: BUSCAR_SOLICITUD_POR_PARAMETROS,
                         payload: response.data
                     })
                 }).catch(error => {
-                    console.log('Err',error);
+                    console.log('Err', error);
                     reject(error);
                 });
             });
 
         } catch (error) {
-            console.log('Err',error);
+            console.log('Err', error);
+        }
+    }
+
+    const getBeneficiarioMonetario = async curp => {
+        try {
+            const url = `${baseUrlPublico}beneficiarioOverride/beneficiarioPrograma/${curp}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    console.log("AXIOS RESPONSE BENEFICIARIOS: ", response.data);
+                    resolve(response);
+                    dispatch({
+                        type: GET_BENEFICIARIO_MONETARIO,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            if (error.response) {
+                console.log("Error response ------------->")
+            } else if (error.request) {
+                console.log("Error request ------------->")
+            } else {
+                console.log("Error otro ------------->")
+            }
+            console.log("Descripción del error ------------->:", error)
+        }
+    }
+
+    const getBeneficiarioCancelado = async curp => {
+        try {
+            const url = `${baseUrlPublico}beneficiarioOverride/beneficiarioProgramaCancela/${curp}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    console.log("AXIOS RESPONSE BENEFICIARIOS: ", response.data);
+                    resolve(response);
+                    dispatch({
+                        type: GET_BENEFICIARIO_CANCELADO,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            if (error.response) {
+                console.log("Error response ------------->")
+            } else if (error.request) {
+                console.log("Error request ------------->")
+            } else {
+                console.log("Error otro ------------->")
+            }
+            console.log("Descripción del error ------------->:", error)
         }
     }
 
@@ -253,8 +317,10 @@ export const RegistroSolicitudContextProvider = props => {
             identificacionesList: state.identificacionesList,
             beneficiario: state.beneficiario,
             direccion: state.direccion,
-            solicitudFolio:state.solicitudFolio,
-            solicitudParametros:state.solicitudParametros,
+            solicitudFolio: state.solicitudFolio,
+            solicitudParametros: state.solicitudParametros,
+            beneficiarioMonetario: state.beneficiarioMonetario,
+            beneficiarioCancelado: state.beneficiarioCancelado,
             getGeneros,
             getEstudios,
             getEstadoCivil,
@@ -266,7 +332,9 @@ export const RegistroSolicitudContextProvider = props => {
             actualizarBeneficiario,
             obtenerDireccionBeneficiario,
             registrarSolicitudFolio,
-            getSolicitudesPorParametros
+            getSolicitudesPorParametros,
+            getBeneficiarioMonetario,
+            getBeneficiarioCancelado
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>
