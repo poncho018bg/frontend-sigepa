@@ -86,6 +86,7 @@ export const ProgramasContextProvider = props => {
      * @param {motivoRechazos} motivoRechazos 
      */
     const registrar = async (programas, file) => {
+        programas.idUsuario=sessionStorage.getItem('idUSuario')
         const formData = new FormData();
         const programaDTO = new Blob([JSON.stringify(programas)], {
             type: 'application/json',
@@ -125,7 +126,7 @@ export const ProgramasContextProvider = props => {
      * @param {motivoRechazos} motivoRechazos 
      */
     const actualizar = async (id,objetoActualizar,file) => {
-
+        objetoActualizar.idUsuario=sessionStorage.getItem('idUSuario')
         objetoActualizar.id=id   
         console.log("objeto actualizar --->", objetoActualizar);                    
 

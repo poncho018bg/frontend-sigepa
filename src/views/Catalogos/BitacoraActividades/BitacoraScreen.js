@@ -167,7 +167,7 @@ export const BitacoraScreen = () => {
                         </TableBody >
                     </ Table>
                     < TablePagination
-                        rowsPerPageOptions={[5, 10, 15]}
+                        rowsPerPageOptions={[25, 50, 75]}
                         component="div"
                         labelRowsPerPage={t('dgv.registrospaginas')}
                         count={btActividadesList.length}
