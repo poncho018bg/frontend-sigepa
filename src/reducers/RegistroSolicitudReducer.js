@@ -11,7 +11,8 @@ import {
     MODIFICAR_DIRECCION_BENEFICIARIO,
     GUARDAR_SOLICITUD_FOLIO,
     AGREGAR_SOLICITUD_FOLIO_ERROR,
-    BUSCAR_SOLICITUD_POR_PARAMETROS
+    BUSCAR_SOLICITUD_POR_PARAMETROS,
+    BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -23,7 +24,7 @@ export default (state, action) => {
                 total: action.payload.page.totalElements
             };
         case AGREGAR_SOLICITUD_FOLIO_ERROR:
-            console.log('err',action.type);
+            console.log('err', action.type);
             return {
                 ...state,
                 error: action.payload
@@ -34,8 +35,14 @@ export default (state, action) => {
                 estudiosList: action.payload._embedded.gradoEstudios,
                 total: action.payload.page.totalElements
             };
+        case BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA:
+            console.log('action.payload', action.payload)
+            return {
+                ...state,
+                solicitudParametrosBandeja: action.payload
+            };
         case BUSCAR_SOLICITUD_POR_PARAMETROS:
-            console.log('action.payload',action.payload)
+            console.log('action.payload', action.payload)
             return {
                 ...state,
                 solicitudParametros: action.payload

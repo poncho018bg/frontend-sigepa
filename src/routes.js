@@ -75,7 +75,9 @@ import { GeneroScreen } from "views/Catalogos/Generos/GeneroScreen";
 import { GradoEstudioScreen } from "views/Catalogos/GradoEstudios/GradoEstudioScreen";
 import { IdentificacioneScreen } from "views/Catalogos/Identificaciones/IdentificacioneScreen";
 import { BitacoraScreen } from "views/Catalogos/BitacoraActividades/BitacoraScreen";
-
+import { BandejaSolicitudesRegistradas } from "views/BandejaGeneral/BandejaSolicitudesRegistradas";
+import { BandejaSolicitudesValidadas } from "views/BandejaGeneral/BandejaSolicitudesValidadas";
+import { BandejaAutorizaSolicitudes } from "views/BandejaGeneral/BandejaAutorizaSolicitudes";
 
 const dashboardRoutes = [
   {
@@ -269,6 +271,33 @@ const dashboardRoutes = [
         mini: "bs",
         rtlMini: "bs",
         component: BandejaSolicitudes,
+        layout: "/admin"
+      },
+      {
+        path: "/bandejasolicitudesregistradas",
+        name: "Bandeja de solicitudes registradas",
+        rtlName: "Bandeja de solicitudes registradas",
+        mini: "bsr",
+        rtlMini: "bsr",
+        component: BandejaSolicitudesRegistradas,
+        layout: "/admin"
+      },
+      {
+        path: "/bandejasolicitudesvalidadas",
+        name: "Bandeja de solicitudes validadas",
+        rtlName: "Bandeja de solicitudes validadas",
+        mini: "bsr",
+        rtlMini: "bsr",
+        component: BandejaSolicitudesValidadas,
+        layout: "/admin"
+      },
+      {
+        path: "/bandejaautorizasolicitudes",
+        name: "Bandeja general autorización de solicitudes",
+        rtlName: "Bandeja general autorización de solicitudes",
+        mini: "bsr",
+        rtlMini: "bsr",
+        component: BandejaAutorizaSolicitudes,
         layout: "/admin"
       }
     ]

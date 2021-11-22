@@ -13,7 +13,9 @@ import {
     OBTENER_DIRECCION,
     MODIFICAR_DIRECCION_BENEFICIARIO,
     GUARDAR_SOLICITUD_FOLIO,
-    AGREGAR_SOLICITUD_FOLIO_ERROR,BUSCAR_SOLICITUD_POR_PARAMETROS
+    AGREGAR_SOLICITUD_FOLIO_ERROR,
+    BUSCAR_SOLICITUD_POR_PARAMETROS,
+    BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA
 } from 'types/actionTypes';
 
 import { axiosGet, axiosPost,  axiosPut,axiosGetSinToken } from 'helpers/axiosPublico';
@@ -31,7 +33,8 @@ export const RegistroSolicitudContextProvider = props => {
         beneficiario:undefined,
         direccion: [],
         solicitudFolio:null,
-        solicitudParametros:[]
+        solicitudParametros:[],
+        solicitudParametrosBandeja:[]
     }
 
 
@@ -245,6 +248,32 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
+
+    const getSolicitudesPorParametrosBandeja = async parametros => {
+        
+        try {
+            const url = `${baseUrlPublico}solicitudOverride/consultarSolicitudesBandeja/${parametros.idPrograma}/${parametros.idMunicipio}/${parametros.idEstatus}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {      
+                    console.log('RESPONSE=>',response.data)              
+                    resolve(response);                   
+                    dispatch({
+                        type: BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log('Err',error);
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            console.log('Err',error);
+        }
+    }
+
     return (
         <RegistroSolicitudContext.Provider value={{
             generosList: state.generosList,
@@ -255,6 +284,7 @@ export const RegistroSolicitudContextProvider = props => {
             direccion: state.direccion,
             solicitudFolio:state.solicitudFolio,
             solicitudParametros:state.solicitudParametros,
+            solicitudParametrosBandeja:state.solicitudParametrosBandeja,
             getGeneros,
             getEstudios,
             getEstadoCivil,
@@ -266,7 +296,8 @@ export const RegistroSolicitudContextProvider = props => {
             actualizarBeneficiario,
             obtenerDireccionBeneficiario,
             registrarSolicitudFolio,
-            getSolicitudesPorParametros
+            getSolicitudesPorParametros,
+            getSolicitudesPorParametrosBandeja
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>
