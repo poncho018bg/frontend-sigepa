@@ -255,12 +255,12 @@ export const RegistroSolicitudContextProvider = props => {
 
     const getBeneficiarioMonetario = async curp => {
         try {
-            const url = `${baseUrlPublico}beneficiarioOverride/beneficiarioPrograma/${curp}`;
+            const url = `${baseUrlPublico}beneficiarioOverride/beneficiarioProgramaMon/${curp}`;
             return new Promise((resolve, reject) => {
                 axios.get(url, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
-                    console.log("AXIOS RESPONSE BENEFICIARIOS: ", response.data);
+                    console.log("Monetario response: ", response.data);
                     resolve(response);
                     dispatch({
                         type: GET_BENEFICIARIO_MONETARIO,
