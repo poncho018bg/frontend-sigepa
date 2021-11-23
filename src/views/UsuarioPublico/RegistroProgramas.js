@@ -333,13 +333,7 @@ export const RegistroProgramas = () => {
                                                             setActivar={setActivar}
                                                             activar={activar}
                                                             nombrePrograma={programa.dsprograma} />
-                                                        : activeStep === 5 ?
-                                                            <RegistroPreguntas
-                                                                beneficiario={beneficiario}
-                                                                idPrograma={idPrograma}
-                                                                setActivar={setActivar}
-                                                                nombrePrograma={programa.dsprograma} />
-                                                            :
+                                                        : 
                                                             <RegistroFinalizado
                                                                 beneficiario={beneficiario}
                                                                 idPrograma={idPrograma}

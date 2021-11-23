@@ -37,7 +37,7 @@ export const RegistroFinalizado = (props) => {
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
     const [open, setOpen] = React.useState(false);
     const componentRef = useRef();
-    const { beneficiario, idPrograma,nombrePrograma } = props;
+    const { beneficiario, idPrograma, nombrePrograma } = props;
 
     let history = useHistory();
     const styles = StyleSheet.create({
@@ -78,11 +78,12 @@ export const RegistroFinalizado = (props) => {
     });
 
     useEffect(() => {
-        console.log('Finalizar')
+        console.log('Finalizar', sessionStorage.getItem('idUSuario'))
         let folios = {
             idPrograma: idPrograma,
             idBeneficiario: beneficiario.id,
-            idUsuario: sessionStorage.getItem('idUSuario')
+            idUsuario: '1fd03e93-887c-4c48-9a25-71097e7f71f4',
+            dsorigen: 'Registro por URL',
         }
         registrarSolicitudFolio(folios).then(response => {
 
@@ -119,14 +120,14 @@ export const RegistroFinalizado = (props) => {
 
 
 
-    
+
 
 
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Registro de la solicitud Exitosa {nombrePrograma}  para más información consultar la página.</h4>
+                    <h4 className={classes.cardTitleWhite}>Registro Finalizado de la solicitud Exitosa {nombrePrograma}  para más información consultar la página.</h4>
                 </CardHeader>
                 <CardBody>
 
