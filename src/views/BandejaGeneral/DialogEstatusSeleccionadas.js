@@ -38,7 +38,7 @@ export const DialogEstatusSeleccionadas = (props) => {
                 <Button onClick={handleClose} color="primary">
                     No
                 </Button>
-                <Button onClick={props.handleCambiarEstatus} color="primary" autoFocus>
+                <Button onClick={props.handleCambiarEstatusSeleccionada} color="primary" autoFocus>
                     Sí
                 </Button>
             </DialogActions>

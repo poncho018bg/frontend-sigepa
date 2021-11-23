@@ -86,6 +86,7 @@ export const BandejaSolicitudesRegistradas = () => {
 
     // Cambio de estatus seleccioandas
     const handleCambiarEstatusSeleccionada = () => {
+        console.log("entra a handleCambiarEstatusSeleccionada");
         bandejaCambioEstatus(selected);
         setShowDialogEstatusSeleccionadas(true);
         getSolicitudesPorParametrosBandeja(solicitudFilter);
@@ -93,6 +94,7 @@ export const BandejaSolicitudesRegistradas = () => {
 
     //cambio de estatus general
     const handleCambiarGeneral = () => {
+        console.log("entra a handleCambiarGeneral");
         bandejaCambioEstatusGeneral(solicitudParametrosBandeja);
         setShowDialogEstatusGeneral(false);
         getSolicitudesPorParametrosBandeja(solicitudFilter);
