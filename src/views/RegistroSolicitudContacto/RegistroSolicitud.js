@@ -25,6 +25,7 @@ import Button from "components/CustomButtons/Button.js";
 
 import ValidarPrograma from './ValidarPrograma';
 import ValidarEdadBeneficiario from './ValidarEdadBeneficiario';
+import ValidarProgramaMonetario from './ValidarProgramaMonetario';
 import { Loading } from 'components/Personalizados/Loading';
 import { OrigenSolicitudContext } from 'contexts/catalogos/OrigenSolicitudContext';
 
@@ -286,14 +287,16 @@ export const RegistroSolicitud = () => {
                                 {activeStep === 0 ?
                                     <RegistroCurp setActivar={setActivar} curp={curp} setCurp={setCurp} />
                                     : activeStep === 1 ?
-                                        <RegistroDatosSolicitante
-                                            curpR={curp}
-                                            llenarDatosBeneficiario={llenarDatosBeneficiario}
-                                            ref={child}
-                                            beneficiario={beneficiario}
-                                            setIdentPrograma={setIdentPrograma}
-                                            idPrograma={query.state?.mobNo}
-                                            setEdadValida={setEdadValida} />
+                                        <ValidarProgramaMonetario curp={curp} edadValida={edadValida} setActivar={setActivar}>
+                                            <RegistroDatosSolicitante
+                                                curpR={curp}
+                                                llenarDatosBeneficiario={llenarDatosBeneficiario}
+                                                ref={child}
+                                                beneficiario={beneficiario}
+                                                setIdentPrograma={setIdentPrograma}
+                                                idPrograma={query.state?.mobNo}
+                                                setEdadValida={setEdadValida} />
+                                        </ValidarProgramaMonetario>
                                         : activeStep === 2 ?
                                             <RegistroDireccion activar={activar} setActivar={setActivar} beneficiario={beneficiario} obtenerDireccion={obtenerDireccion} ref={direccionChild} direccionBeneficiario={direccion} />
                                             : activeStep === 3 ?
