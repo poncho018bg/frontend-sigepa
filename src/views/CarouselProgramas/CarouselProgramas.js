@@ -60,7 +60,7 @@ export const CarouselProgramas = () => {
 
     useEffect(() => {
 
-        getProgramasActivos('3').then(data => {
+        getProgramasActivos('1').then(data => {
             setTimeout(() => setLoading(false), 500);
 
         })
@@ -158,7 +158,7 @@ export const CarouselProgramas = () => {
 
                     </DialogContent>
                     <DialogActions>
-                        <Button autoFocus onClick={() => redirectRegister(programDetail)} color="primary">
+                        <Button autoFocus onClick={() => redirectRegister(programDetail)} color="primary" disabled={!programDetail?.registroPresencial}>
                             Registro solicitud de apoyo
                         </Button>
                     </DialogActions>
