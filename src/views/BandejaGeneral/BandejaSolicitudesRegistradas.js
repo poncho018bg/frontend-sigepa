@@ -89,25 +89,25 @@ export const BandejaSolicitudesRegistradas = () => {
         console.log("entra a handleCambiarEstatusSeleccionada");
         bandejaCambioEstatus(selected);
         setShowDialogEstatusSeleccionadas(true);
-        getSolicitudesPorParametrosBandeja(solicitudFilter);
+       // buscarSolitudes();
     }
 
     //cambio de estatus general
     const handleCambiarGeneral = () => {
         console.log("entra a handleCambiarGeneral");
+        {console.log('sol=>', solicitudParametrosBandeja)}
         bandejaCambioEstatusGeneral(solicitudParametrosBandeja);
         setShowDialogEstatusGeneral(false);
-        getSolicitudesPorParametrosBandeja(solicitudFilter);
-        
+        //buscarSolitudes();
     }
 
 
-    const handleClick = (event, dsfoliosolicitud) => {
-        const selectedIndex = selected.indexOf(dsfoliosolicitud);
+    const handleClick = (event, solicitud) => {
+        const selectedIndex = selected.indexOf(solicitud);
         let newSelected = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, dsfoliosolicitud);
+            newSelected = newSelected.concat(selected, solicitud);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -244,7 +244,7 @@ export const BandejaSolicitudesRegistradas = () => {
                             </Grid>
                         </GridItem>
                     </Grid>
-                    {console.log('sol=>', solicitudParametrosBandeja)}
+                   
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
@@ -261,19 +261,18 @@ export const BandejaSolicitudesRegistradas = () => {
                         </TableHead >
                         < TableBody >
                             {
-
                                 solicitudParametrosBandeja.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                                    const isItemSelected = isSelected(row.dsfoliosolicitud);
+                                    const isItemSelected = isSelected(row);
                                     const labelId = `${index}`;
 
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.dsfoliosolicitud)}
+                                            onClick={(event) => handleClick(event, row)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
-                                            key={row.dsfoliosolicitud}
+                                            key={row.id}
                                             selected={isItemSelected}
                                         >
 

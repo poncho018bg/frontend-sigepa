@@ -16,7 +16,9 @@ import {
     AGREGAR_SOLICITUD_FOLIO_ERROR, BUSCAR_SOLICITUD_POR_PARAMETROS,
     GET_BENEFICIARIO_MONETARIO,
     GET_BENEFICIARIO_CANCELADO,
-    BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA
+    BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA,
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA,
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_GENERAL
 } from 'types/actionTypes';
 
 import { axiosGet, axiosPost, axiosPut, axiosGetSinToken } from 'helpers/axiosPublico';
@@ -315,7 +317,7 @@ export const RegistroSolicitudContextProvider = props => {
     const getSolicitudesPorParametrosBandeja = async parametros => {
 
         try {
-            const url = `${baseUrlPublico}solicitudOverride/consultarSolicitudesBandeja/${parametros.idPrograma}/${parametros.idMunicipio}/${parametros.idEstatus}`;
+            const url = `${baseUrlPublico}bandejaSolicitudOverride/consultarSolicitudesBandeja/${parametros.idPrograma}/${parametros.idMunicipio}/${parametros.idEstatus}`;
             return new Promise((resolve, reject) => {
                 axios.get(url, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
@@ -340,9 +342,9 @@ export const RegistroSolicitudContextProvider = props => {
     const bandejaCambioEstatus = async (SolicitudesSeleted) => {
 
         try {
-            const url = `${baseUrlPublico}solicitudOverride/cambiarEstatus/${SolicitudesSeleted}`;
+            const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatus`;
             return new Promise((resolve, reject) => {
-                axios.get(url, {
+                axios.post(url, SolicitudesSeleted,  {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
                     console.log('RESPONSE=>', response.data)
@@ -365,9 +367,9 @@ export const RegistroSolicitudContextProvider = props => {
     const bandejaCambioEstatusGeneral = async (solicitudParametros) => {
 
         try {
-            const url = `${baseUrlPublico}solicitudOverride/cambiarEstatusGeneral/${solicitudParametros}`;
+            const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusGeneral`;
             return new Promise((resolve, reject) => {
-                axios.get(url, {
+                axios.post(url, solicitudParametros, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
                     console.log('RESPONSE=>', response.data)
