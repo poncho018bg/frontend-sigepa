@@ -268,7 +268,6 @@ export const RegistroProgramas = () => {
     if (programa !== null) {
         return (
             <ValidarPrograma idPrograma={idPrograma}>
-                {/*<ValidarProgramaMonetario curp={curp} edadValida={edadValida}>*/}
                 <ValidarEdadBeneficiario idPrograma={idPrograma} curp={curp} edadValida={edadValida}>
                     < Box sx={{ width: '100%' }
                     }>
@@ -295,15 +294,17 @@ export const RegistroProgramas = () => {
                                         <RegistroCurp setActivar={setActivar} curp={curp} setCurp={setCurp}
                                             nombrePrograma={programa.dsprograma} />
                                         : activeStep === 1 ?
-                                            <RegistroDatosSolicitante
-                                                curpR={curp}
-                                                llenarDatosBeneficiario={llenarDatosBeneficiario}
-                                                ref={child}
-                                                beneficiario={beneficiario}
-                                                setIdentPrograma={setIdentPrograma}
-                                                idPrograma={idPrograma}
-                                                setEdadValida={setEdadValida}
-                                                nombrePrograma={programa.dsprograma} />
+                                            <ValidarProgramaMonetario curp={curp} edadValida={edadValida} setActivar={setActivar}>
+                                                <RegistroDatosSolicitante
+                                                    curpR={curp}
+                                                    llenarDatosBeneficiario={llenarDatosBeneficiario}
+                                                    ref={child}
+                                                    beneficiario={beneficiario}
+                                                    setIdentPrograma={setIdentPrograma}
+                                                    idPrograma={idPrograma}
+                                                    setEdadValida={setEdadValida}
+                                                    nombrePrograma={programa.dsprograma} />
+                                            </ValidarProgramaMonetario>
                                             : activeStep === 2 ?
                                                 <RegistroDireccion
                                                     activar={activar}
@@ -352,7 +353,6 @@ export const RegistroProgramas = () => {
                                             Regresar
                                         </Button>
                                         <Box sx={{ flex: '1 1 auto' }} />
-
                                         <NextButton />
                                     </Box>
                                 </>
@@ -360,7 +360,6 @@ export const RegistroProgramas = () => {
                         }
                     </Box>
                 </ValidarEdadBeneficiario>
-                {/*</ValidarProgramaMonetario>*/}
             </ValidarPrograma >
         )
     } else {
