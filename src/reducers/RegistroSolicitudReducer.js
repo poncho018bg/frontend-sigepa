@@ -14,7 +14,9 @@ import {
     BUSCAR_SOLICITUD_POR_PARAMETROS,
     GET_BENEFICIARIO_MONETARIO,
     GET_BENEFICIARIO_CANCELADO,
-    BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA
+    BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA,
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA,
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_GENERAL
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -108,6 +110,17 @@ export default (state, action) => {
             return {
                 ...state,
                 beneficiarioCancelado: action.payload
+            };
+        case CAMBIAR_ESTATUS_SOLICITUD_BANDEJA:
+            return {
+                ...state,
+                solicitudes: state.solicitudes.filter(solicitudes => solicitudes.id !== action.payload)
+            };
+
+        case CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_GENERAL:
+            return {
+                ...state,
+                solicitudParametrosBandeja: state.solicitudParametrosBandeja.filter(solicitudParametrosBandeja => solicitudParametrosBandeja.id !== action.payload)
             };
         default:
             return state;

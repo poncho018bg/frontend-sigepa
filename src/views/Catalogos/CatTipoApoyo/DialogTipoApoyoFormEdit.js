@@ -108,7 +108,6 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
         getApoyoServicio();
 
         setSelectedTipApoy(personaSeleccionada.idTipoApoyo)
-        setSelected(personaSeleccionada.coberturaMunicipal)
         setSelectedActividadesContinuar(personaSeleccionada.idActividadContinuidadApoyo)
         console.log('personaSeleccionada', personaSeleccionada)
     }, []);

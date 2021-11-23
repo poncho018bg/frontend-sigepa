@@ -16,6 +16,8 @@ import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
+import { DialogEstatusGeneral } from './DialogEstatusGeneral';
+import { DialogEstatusSeleccionadas } from './DialogEstatusSeleccionadas';
 
 import { useTranslation } from 'react-i18next';
 import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
@@ -28,7 +30,7 @@ const useStyles = makeStyles(stylesArchivo);
 
 export const BandejaAutorizaSolicitudes = () => {
     const { t } = useTranslation();
-    const { getSolicitudesPorParametrosBandeja, solicitudParametrosBandeja } = useContext(RegistroSolicitudContext);
+    const { getSolicitudesPorParametrosBandeja, solicitudParametrosBandeja, bandejaCambioEstatus, bandejaCambioEstatusGeneral } = useContext(RegistroSolicitudContext);
     const { getCien, programasList } = useContext(ProgramasContext);
     const { getEstatusRegistro, estatusRegistroList } = useContext(EstatusRegistroContext);
     const { getMunicipios, municipiosList } = useContext(MunicipiosContext);
@@ -44,6 +46,9 @@ export const BandejaAutorizaSolicitudes = () => {
     const [estatus, setEstatus] = useState('');
     const [comite, setComite] = useState('');
     const [selected, setSelected] = React.useState([]);
+    const [showDialogEstatusGeneral, setShowDialogEstatusGeneral] = useState(false);
+    const [showDialogEstatusSeleccionadas, setShowDialogEstatusSeleccionadas] = useState(false);
+    const [totalRegistros, setTotalRegistros] = useState('');
 
     useEffect(() => {
         getCien()
@@ -71,11 +76,31 @@ export const BandejaAutorizaSolicitudes = () => {
         getSolicitudesPorParametrosBandeja(solicitudFilter);
     }
 
-
     const aprobarSeleccionadas = () => {
-        console.log("Entra a aprobar solicitudes seleccionadas")
+        console.log("Entra a validar seleccionadas")
+        setShowDialogEstatusSeleccionadas(true);
     }
 
+    const aprobarSeleccionadasGeneral = () => {
+        console.log("cambio estatus multiple");
+        setTotalRegistros(solicitudParametrosBandeja.length);
+        setShowDialogEstatusGeneral(true);
+    }
+
+    // Cambio de estatus seleccioandas
+    const handleCambiarEstatusSeleccionada = () => {
+        bandejaCambioEstatus(selected);
+        setShowDialogEstatusSeleccionadas(true);
+        getSolicitudesPorParametrosBandeja(solicitudFilter);
+    }
+
+    //cambio de estatus general
+    const handleCambiarGeneral = () => {
+        bandejaCambioEstatusGeneral(solicitudParametrosBandeja);
+        setShowDialogEstatusGeneral(false);
+        getSolicitudesPorParametrosBandeja(solicitudFilter);
+
+    }
 
     const handleClick = (event, solicitud) => {
         const selectedIndex = selected.indexOf(solicitud);
@@ -176,7 +201,7 @@ export const BandejaAutorizaSolicitudes = () => {
                                 }
                             </TextField>
                         </Grid>
-                     
+
                         <Grid item xs={3}>
                             <TextField
                                 variant="outlined"
@@ -219,7 +244,6 @@ export const BandejaAutorizaSolicitudes = () => {
                             </Grid>
                         </GridItem>
                     </Grid>
-                    {console.log('sol=>', solicitudParametrosBandeja)}
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
@@ -285,9 +309,30 @@ export const BandejaAutorizaSolicitudes = () => {
                         onChangeRowsPerPage={handleChangeRowsPerPage}
                         labelDisplayedRows={({ from, to, count }) => `${from}-${to} de un total ${count} registros`}
                     />
+
+                    <Grid container spacing={2}>
+                        <GridItem xs={12} sm={12} md={12}>
+                            <Grid item xs={3} style={{ textAlign: 'center', float: 'right' }}>
+                                <Button color="primary" fullWidth onClick={aprobarSeleccionadasGeneral}>
+                                    Aprobar {solicitudParametrosBandeja.length} Seleccionadas
+                                </Button>
+                            </Grid>
+                        </GridItem>
+                    </Grid>
                 </CardBody>
             </Card>
 
+            <DialogEstatusGeneral
+                showDialogEstatusGeneral={showDialogEstatusGeneral}
+                setShowDialogEstatusGeneral={setShowDialogEstatusGeneral}
+                totalRegistros={totalRegistros}
+                handleCambiarGeneral={handleCambiarGeneral}
+            />
+            <DialogEstatusSeleccionadas
+                showDialogEstatusSeleccionadas={showDialogEstatusSeleccionadas}
+                setShowDialogEstatusSeleccionadas={setShowDialogEstatusSeleccionadas}
+                handleCambiarEstatusSeleccionada={handleCambiarEstatusSeleccionada}
+            />
         </GridItem>
 
     )
