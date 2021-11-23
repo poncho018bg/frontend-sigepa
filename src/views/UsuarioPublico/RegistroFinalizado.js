@@ -37,7 +37,7 @@ export const RegistroFinalizado = (props) => {
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
     const [open, setOpen] = React.useState(false);
     const componentRef = useRef();
-    const { beneficiario, idPrograma } = props;
+    const { beneficiario, idPrograma,nombrePrograma } = props;
 
     let history = useHistory();
     const styles = StyleSheet.create({
@@ -119,67 +119,19 @@ export const RegistroFinalizado = (props) => {
 
 
 
-    const MyDocument = () => (
-        <Document>
-            <Page style={styles.body}>
-                <Text style={styles.header} fixed>
-                </Text>
-                <Text style={styles.title}>Registro de solicitud exitosa</Text>
-
-                <Text style={styles.title}>
-                    Número de Folio de Solicitud:  {sessionStorage.getItem('foliosol')}
-                </Text>
-                <Text >
-                    Para darle continuidad a tu trámite, es necesario conservar el número de folio
-                </Text>
-            </Page>
-        </Document>
-    );
+    
 
 
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Registro Exitoso</h4>
+                    <h4 className={classes.cardTitleWhite}>Registro de la solicitud Exitosa {nombrePrograma}  para más información consultar la página.</h4>
                 </CardHeader>
                 <CardBody>
 
                 </CardBody>
             </Card>
-
-            <Mensaje
-                setOpen={setOpenSnackbar}
-                open={openSnackbar}
-                severity={error ? "error" : "success"}
-                message={msjConfirmacion}
-            />
-
-            <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="xs" fullWidth={true}>
-
-          
-                <DialogContent >
-
-                    <ComponentToPrint ref={componentRef} />
-                </DialogContent>
-                <DialogActions>
-                    <Button autoFocus color="primary">
-                        <PDFDownloadLink document={<MyDocument />} fileName={`${solicitudFolio?.dsfoliosolicitud}.pdf`} onClick={() => descargarFolio()}>
-                            {() =>
-                                'Descargar'
-                            }
-                        </PDFDownloadLink>
-                    </Button>
-
-
-                    <ReactToPrint
-                        trigger={() => <Button autoFocus color="primary">Imprimir</Button>}
-                        content={() => componentRef.current}
-                    />
-
-
-                </DialogActions>
-            </Dialog>
         </GridItem>
     )
 }

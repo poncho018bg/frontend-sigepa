@@ -303,7 +303,8 @@ export const RegistroProgramas = () => {
                                                     setIdentPrograma={setIdentPrograma}
                                                     idPrograma={idPrograma}
                                                     setEdadValida={setEdadValida}
-                                                    nombrePrograma={programa.dsprograma} />
+                                                    nombrePrograma={programa.dsprograma} 
+                                                    setActivar={setActivar}/>
                                             </ValidarProgramaMonetario>
                                             : activeStep === 2 ?
                                                 <RegistroDireccion

@@ -261,8 +261,8 @@ export const RegistroSolicitud = () => {
 
     return (
 
-        <ValidarPrograma idPrograma={query.state?.mobNo}>
-            <ValidarEdadBeneficiario idPrograma={query.state?.mobNo} curp={curp} edadValida={edadValida}>
+        <ValidarPrograma idPrograma={"8cbd2101-ef40-4fad-8698-5911ccecaf54"}>
+            <ValidarEdadBeneficiario idPrograma={"8cbd2101-ef40-4fad-8698-5911ccecaf54"} curp={curp} edadValida={edadValida}>
                 < Box sx={{ width: '100%' }
                 }>
                     <Stepper activeStep={activeStep}>
@@ -295,7 +295,8 @@ export const RegistroSolicitud = () => {
                                                 beneficiario={beneficiario}
                                                 setIdentPrograma={setIdentPrograma}
                                                 idPrograma={query.state?.mobNo}
-                                                setEdadValida={setEdadValida} />
+                                                setEdadValida={setEdadValida}
+                                                setActivar={setActivar} />
                                         </ValidarProgramaMonetario>
                                         : activeStep === 2 ?
                                             <RegistroDireccion activar={activar} setActivar={setActivar} beneficiario={beneficiario} obtenerDireccion={obtenerDireccion} ref={direccionChild} direccionBeneficiario={direccion} />

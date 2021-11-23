@@ -23,6 +23,8 @@ import { RegistroSolicitudContext } from "contexts/registroSolicitudContext";
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
 import { Loading } from "components/Personalizados/Loading";
 
+import ValidarCurp from "./ValidarCurp";
+
 const styles = {
     infoText: {
         fontWeight: "300",
@@ -46,7 +48,7 @@ const baseUrl = process.env.REACT_APP_AP_CURP_URL;
 export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     console.log('aqui');
     console.log(props);
-    const { curpR, llenarDatosBeneficiario, beneficiario, setIdentPrograma, idPrograma, setEdadValida } = props;
+    const { curpR, llenarDatosBeneficiario, beneficiario, setIdentPrograma, idPrograma, setEdadValida,setActivar } = props;
     //console.log(props.allStates.about);
     const classes = useStyles();
     const [nombre, setNombre] = useState("")
@@ -65,13 +67,15 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     const [idIdentificaion, setIdIdentificaion] = useState("");
     //const [identPrograma, setIdentPrograma] = useState();
 
+    const [datosCorrectos, setDatosCorrectos] = useState(true);
+
     const { getGeneros, generosList,
         estudiosList, getEstudios,
         estadoCivilList, getEstadoCivil,
         getIdentificaciones, identificacionesList
     } = useContext(RegistroSolicitudContext);
 
-    const { programasList, get,getCien } = useContext(ProgramasContext);
+    const { programasList, get, getCien } = useContext(ProgramasContext);
 
     useEffect(() => {
         setLoading(true);
@@ -101,6 +105,36 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                 if (response.data.response[0].edad !== null) {
                     setEdadValida(response.data.response[0].edad);
                 }
+                setDatosCorrectos(true);
+                setActivar(true);
+            }).catch(error => {
+                console.log("Error ", error)
+                if (error.response) {
+                    console.log("--------------------------------------------------")
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.log("ERROR DATA", error.response.data);
+                    console.log("ERROR STATUS", error.response.status);
+                    console.log("ERROR HEADERS", error.response.headers);
+                    setDatosCorrectos(false);
+                    setActivar(false);
+                } else if (error.request) {
+                    console.log("*************************")
+
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    console.log("ERROR REQUEST", error.request);
+                    setDatosCorrectos(false);
+                    setActivar(false);
+                } else {
+                    console.log("++++++++++++++++++++++++")
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error MESSAGE ', error.message);
+                    setDatosCorrectos(false);
+                    setActivar(false);
+                }
+                console.log(error.config);
             });
         if (beneficiario !== undefined) {
             console.log("se llenando los datos del beneficiario", beneficiario);
@@ -209,271 +243,273 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
 
 
     return (
-        <div>
-            <h4 className={classes.infoText}></h4>
-            <GridItem xs={12} sm={12} md={12}>
-                <Card>
-                    <CardHeader color="primary">
-                        <h4 className={classes.cardTitleWhite}>Datos del Solicitante</h4>
-                    </CardHeader>
-                    <CardBody>
-                        <GridContainer justify="center">
-                            <GridItem xs={12} sm={12} md={12} lg={10}>
-                                <GridContainer>
-                                    <GridItem xs={12} sm={12}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="programa"
-                                            label="Programa"
-                                            variant="outlined"
-                                            name="programa"
-                                            fullWidth
-                                            select
-                                            onChange={onChange}
-                                            value={idPrograma}
-                                        >
-                                            {
-                                                programasList.map(
-                                                    (g, i) => (
-                                                        <MenuItem
-                                                            key={i}
-                                                            value={g.id}>
-                                                            {g.dsprograma}
-                                                        </MenuItem>
+        <ValidarCurp datosCorrectos={datosCorrectos}>
+            <div>
+                <h4 className={classes.infoText}></h4>
+                <GridItem xs={12} sm={12} md={12}>
+                    <Card>
+                        <CardHeader color="primary">
+                            <h4 className={classes.cardTitleWhite}>Datos del Solicitante</h4>
+                        </CardHeader>
+                        <CardBody>
+                            <GridContainer justify="center">
+                                <GridItem xs={12} sm={12} md={12} lg={10}>
+                                    <GridContainer>
+                                        <GridItem xs={12} sm={12}>
+                                            <TextField
+                                                style={{ marginBottom: '20px' }}
+                                                id="programa"
+                                                label="Programa"
+                                                variant="outlined"
+                                                name="programa"
+                                                fullWidth
+                                                select
+                                                onChange={onChange}
+                                                value={idPrograma}
+                                            >
+                                                {
+                                                    programasList.map(
+                                                        (g, i) => (
+                                                            <MenuItem
+                                                                key={i}
+                                                                value={g.id}>
+                                                                {g.dsprograma}
+                                                            </MenuItem>
+                                                        )
                                                     )
-                                                )
-                                            }
-                                        </TextField>
-                                    </GridItem>
-                                    <GridItem xs={12} sm={12}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="curp"
-                                            label="CURP"
-                                            variant="outlined"
-                                            name="curp"
-                                            fullWidth
-                                            value={curp}
-                                        />
-                                    </GridItem>
-                                    <GridItem xs={12} sm={12}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="apellidoPaterno"
-                                            label="Apellido paterno"
-                                            variant="outlined"
-                                            name="nombre"
-                                            fullWidth
-                                            value={apellidoPaterno}
-                                            inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
-                                        />
-                                    </GridItem>
-                                    <GridItem xs={12} sm={12}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="apellidoMaterno"
-                                            label="Apellido materno"
-                                            variant="outlined"
-                                            name="apellidoMaterno"
-                                            fullWidth
-                                            value={apellidoMaterno}
-                                            inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
-                                        />
-                                    </GridItem>
-                                    <GridItem xs={12} sm={12}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="nombre"
-                                            label="Nombre"
-                                            variant="outlined"
-                                            name="nombre"
-                                            fullWidth
-                                            value={nombre}
-                                            inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
-                                        />
-                                    </GridItem>
-                                    <GridItem xs={12} sm={6}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="rfc"
-                                            label="RFC"
-                                            variant="outlined"
-                                            name="rfc"
-                                            fullWidth
-                                            onChange={onChange}
-                                            value={rfc}
-                                            inputProps={{ maxLength: 13, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
-                                        />
-                                    </GridItem>
-                                    <GridItem xs={12} sm={6}>
+                                                }
+                                            </TextField>
+                                        </GridItem>
+                                        <GridItem xs={12} sm={12}>
+                                            <TextField
+                                                style={{ marginBottom: '20px' }}
+                                                id="curp"
+                                                label="CURP"
+                                                variant="outlined"
+                                                name="curp"
+                                                fullWidth
+                                                value={curp}
+                                            />
+                                        </GridItem>
+                                        <GridItem xs={12} sm={12}>
+                                            <TextField
+                                                style={{ marginBottom: '20px' }}
+                                                id="apellidoPaterno"
+                                                label="Apellido paterno"
+                                                variant="outlined"
+                                                name="nombre"
+                                                fullWidth
+                                                value={apellidoPaterno}
+                                                inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                                            />
+                                        </GridItem>
+                                        <GridItem xs={12} sm={12}>
+                                            <TextField
+                                                style={{ marginBottom: '20px' }}
+                                                id="apellidoMaterno"
+                                                label="Apellido materno"
+                                                variant="outlined"
+                                                name="apellidoMaterno"
+                                                fullWidth
+                                                value={apellidoMaterno}
+                                                inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                                            />
+                                        </GridItem>
+                                        <GridItem xs={12} sm={12}>
+                                            <TextField
+                                                style={{ marginBottom: '20px' }}
+                                                id="nombre"
+                                                label="Nombre"
+                                                variant="outlined"
+                                                name="nombre"
+                                                fullWidth
+                                                value={nombre}
+                                                inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                                            />
+                                        </GridItem>
+                                        <GridItem xs={12} sm={6}>
+                                            <TextField
+                                                style={{ marginBottom: '20px' }}
+                                                id="rfc"
+                                                label="RFC"
+                                                variant="outlined"
+                                                name="rfc"
+                                                fullWidth
+                                                onChange={onChange}
+                                                value={rfc}
+                                                inputProps={{ maxLength: 13, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                                            />
+                                        </GridItem>
+                                        <GridItem xs={12} sm={6}>
 
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="genero"
-                                            label="Género"
-                                            variant="outlined"
-                                            name="genero"
-                                            fullWidth
-                                            select
-                                            onChange={onChange}
-                                            value={genero}
-                                        >
-                                            <MenuItem value="0">
-                                                <em>Seleccionar</em>
-                                            </MenuItem>
-                                            {
-                                                generosList.map(
-                                                    (g, i) => (
-                                                        <MenuItem
-                                                            key={i}
-                                                            value={g.id}>
-                                                            {g.dsgenero}
-                                                        </MenuItem>
-                                                    )
-                                                )
-                                            }
-                                        </TextField>
-                                    </GridItem>
-                                    <GridItem xs={12} sm={6}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="fechaNacimientoAxu"
-                                            label="Fecha nacimiento"
-                                            variant="outlined"
-                                            name="fechaNacimientoAxu"
-                                            fullWidth
-                                            value={fechaNacimientoAxu}
-
-                                        />
-                                    </GridItem>
-                                    <GridItem xs={12} sm={6}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="edad"
-                                            label="Edad"
-                                            variant="outlined"
-                                            name="edad"
-                                            fullWidth
-                                            value={edad}
-
-                                        />
-                                    </GridItem>
-                                    <GridItem xs={12} sm={12}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="estudios"
-                                            label="Grado de estudios"
-                                            variant="outlined"
-                                            name="estudios"
-                                            fullWidth
-                                            select
-                                            onChange={onChange}
-                                            value={estudios}
-                                        >
-                                            <MenuItem value="0">
-                                                <em>Seleccionar</em>
-                                            </MenuItem>
-                                            {
-                                                estudiosList.map(
-                                                    (g, i) => (
-                                                        <MenuItem
-                                                            key={i}
-                                                            value={g.id}>
-                                                            {g.dsgrado}
-                                                        </MenuItem>
-                                                    )
-                                                )
-                                            }
-                                        </TextField>
-                                    </GridItem>
-                                </GridContainer>
-                            </GridItem>
-                        </GridContainer>
-                        <GridContainer justify="center">
-                            <GridItem xs={12} sm={12} md={12} lg={10}>
-                                <TextField
-                                    style={{ marginBottom: '20px' }}
-                                    id="estadoCivil"
-                                    label="Estado civil"
-                                    variant="outlined"
-                                    name="estadoCivil"
-                                    fullWidth
-                                    select
-                                    onChange={onChange}
-                                    value={estadoCivil}
-                                >
-                                    <MenuItem value="0">
-                                        <em>Seleccionar</em>
-                                    </MenuItem>
-                                    {
-                                        estadoCivilList.map(
-                                            (g, i) => (
-                                                <MenuItem
-                                                    key={i}
-                                                    value={g.id}>
-                                                    {g.dsestadocivil}
+                                            <TextField
+                                                style={{ marginBottom: '20px' }}
+                                                id="genero"
+                                                label="Género"
+                                                variant="outlined"
+                                                name="genero"
+                                                fullWidth
+                                                select
+                                                onChange={onChange}
+                                                value={genero}
+                                            >
+                                                <MenuItem value="0">
+                                                    <em>Seleccionar</em>
                                                 </MenuItem>
-                                            )
-                                        )
-                                    }
-                                </TextField>
-                            </GridItem>
-                        </GridContainer>
-                        <GridContainer justify="center">
-                            <GridItem xs={12} sm={12} md={12} lg={10}>
-                                <GridContainer>
-                                    <GridItem xs={12} sm={6}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="ine"
-                                            label="Identificación oficial"
-                                            variant="outlined"
-                                            name="identificacion"
-                                            fullWidth
-                                            select
-                                            onChange={onChange}
-                                            value={identificacion}
-                                        >
-                                            <MenuItem value="0">
-                                                <em>Seleccionar</em>
-                                            </MenuItem>
-                                            {
-                                                identificacionesList.map(
-                                                    (g, i) => (
-                                                        <MenuItem
-                                                            key={i}
-                                                            value={g.id}>
-                                                            {g.dsidentificacion}
-                                                        </MenuItem>
+                                                {
+                                                    generosList.map(
+                                                        (g, i) => (
+                                                            <MenuItem
+                                                                key={i}
+                                                                value={g.id}>
+                                                                {g.dsgenero}
+                                                            </MenuItem>
+                                                        )
                                                     )
+                                                }
+                                            </TextField>
+                                        </GridItem>
+                                        <GridItem xs={12} sm={6}>
+                                            <TextField
+                                                style={{ marginBottom: '20px' }}
+                                                id="fechaNacimientoAxu"
+                                                label="Fecha nacimiento"
+                                                variant="outlined"
+                                                name="fechaNacimientoAxu"
+                                                fullWidth
+                                                value={fechaNacimientoAxu}
+
+                                            />
+                                        </GridItem>
+                                        <GridItem xs={12} sm={6}>
+                                            <TextField
+                                                style={{ marginBottom: '20px' }}
+                                                id="edad"
+                                                label="Edad"
+                                                variant="outlined"
+                                                name="edad"
+                                                fullWidth
+                                                value={edad}
+
+                                            />
+                                        </GridItem>
+                                        <GridItem xs={12} sm={12}>
+                                            <TextField
+                                                style={{ marginBottom: '20px' }}
+                                                id="estudios"
+                                                label="Grado de estudios"
+                                                variant="outlined"
+                                                name="estudios"
+                                                fullWidth
+                                                select
+                                                onChange={onChange}
+                                                value={estudios}
+                                            >
+                                                <MenuItem value="0">
+                                                    <em>Seleccionar</em>
+                                                </MenuItem>
+                                                {
+                                                    estudiosList.map(
+                                                        (g, i) => (
+                                                            <MenuItem
+                                                                key={i}
+                                                                value={g.id}>
+                                                                {g.dsgrado}
+                                                            </MenuItem>
+                                                        )
+                                                    )
+                                                }
+                                            </TextField>
+                                        </GridItem>
+                                    </GridContainer>
+                                </GridItem>
+                            </GridContainer>
+                            <GridContainer justify="center">
+                                <GridItem xs={12} sm={12} md={12} lg={10}>
+                                    <TextField
+                                        style={{ marginBottom: '20px' }}
+                                        id="estadoCivil"
+                                        label="Estado civil"
+                                        variant="outlined"
+                                        name="estadoCivil"
+                                        fullWidth
+                                        select
+                                        onChange={onChange}
+                                        value={estadoCivil}
+                                    >
+                                        <MenuItem value="0">
+                                            <em>Seleccionar</em>
+                                        </MenuItem>
+                                        {
+                                            estadoCivilList.map(
+                                                (g, i) => (
+                                                    <MenuItem
+                                                        key={i}
+                                                        value={g.id}>
+                                                        {g.dsestadocivil}
+                                                    </MenuItem>
                                                 )
-                                            }
-                                        </TextField>
-                                    </GridItem>
-                                    <GridItem xs={12} sm={6}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="idIdentificaion"
-                                            label="Folio de la identificación"
-                                            variant="outlined"
-                                            name="idIdentificaion"
-                                            fullWidth
-                                            onChange={onChange}
-                                            value={idIdentificaion}
+                                            )
+                                        }
+                                    </TextField>
+                                </GridItem>
+                            </GridContainer>
+                            <GridContainer justify="center">
+                                <GridItem xs={12} sm={12} md={12} lg={10}>
+                                    <GridContainer>
+                                        <GridItem xs={12} sm={6}>
+                                            <TextField
+                                                style={{ marginBottom: '20px' }}
+                                                id="ine"
+                                                label="Identificación oficial"
+                                                variant="outlined"
+                                                name="identificacion"
+                                                fullWidth
+                                                select
+                                                onChange={onChange}
+                                                value={identificacion}
+                                            >
+                                                <MenuItem value="0">
+                                                    <em>Seleccionar</em>
+                                                </MenuItem>
+                                                {
+                                                    identificacionesList.map(
+                                                        (g, i) => (
+                                                            <MenuItem
+                                                                key={i}
+                                                                value={g.id}>
+                                                                {g.dsidentificacion}
+                                                            </MenuItem>
+                                                        )
+                                                    )
+                                                }
+                                            </TextField>
+                                        </GridItem>
+                                        <GridItem xs={12} sm={6}>
+                                            <TextField
+                                                style={{ marginBottom: '20px' }}
+                                                id="idIdentificaion"
+                                                label="Folio de la identificación"
+                                                variant="outlined"
+                                                name="idIdentificaion"
+                                                fullWidth
+                                                onChange={onChange}
+                                                value={idIdentificaion}
 
-                                        />
-                                    </GridItem>
-                                </GridContainer>
-                            </GridItem>
-                        </GridContainer>
+                                            />
+                                        </GridItem>
+                                    </GridContainer>
+                                </GridItem>
+                            </GridContainer>
 
-                    </CardBody>
-                </Card>
-            </GridItem>
-            {/*
+                        </CardBody>
+                    </Card>
+                </GridItem>
+                {/*
             <Loading
                 loading={loading}
             />*/}
-        </div>
+            </div>
+        </ValidarCurp>
     );
 });
