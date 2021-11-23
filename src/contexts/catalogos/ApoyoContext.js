@@ -34,7 +34,7 @@ export const ApoyoContextProvider = props => {
 
 
     const registrarApoyo = async apoyo => {
-
+        apoyo.idUsuario= sessionStorage.getItem('idUSuario')
         try {
             const url = `${baseUrl}tipoApoyoOverride`;
             return new Promise((resolve, reject) => {
@@ -62,7 +62,7 @@ export const ApoyoContextProvider = props => {
 
 
     const actualizarApoyo = async apoyo => {
-
+        apoyo.idUsuario= sessionStorage.getItem('idUSuario')
         return new Promise((resolve, reject) => {
             axios.put(`${baseUrl}tipoApoyoOverride`, apoyo, {
                 headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
