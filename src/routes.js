@@ -17,7 +17,7 @@ import FolderIcon from '@material-ui/icons/Folder';
 import MoveToInboxIcon from '@material-ui/icons/MoveToInbox';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
-import DescriptionIcon from '@material-ui/icons/Description';
+
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import MarkunreadMailboxIcon from '@material-ui/icons/MarkunreadMailbox';
@@ -130,6 +130,15 @@ const dashboardRoutes = [
         icon: WidgetsIcon,
         component: RegistroProgramasApoyoScreen,
         layout: "/admin",
+      },
+      {
+        path: "/bitacora",
+        name: "Bitácora",
+        rtlName: "bit",
+        mini: "bit",
+        rtlMini: "bit",
+        component: BitacoraScreen,
+        layout: "/admin"
       },
 
     ]
@@ -324,17 +333,7 @@ const dashboardRoutes = [
       }
     ]
   },
-  {
-    collapse: true,
-    name: "Bitácora",
-    rtlName: "صفحات",
-    icon: DescriptionIcon,
-    state: "pageCollapse",
-    views: [
-      {
-      }
-    ]
-  },
+
   {
     collapse: true,
     name: "Dashboard",
@@ -427,15 +426,7 @@ const dashboardRoutes = [
         component: BitacoraActividadesScreen,
         layout: "/admin"
       },
-      {
-        path: "/bitacora",
-        name: "Bitácora",
-        rtlName: "bit",
-        mini: "bit",
-        rtlMini: "bit",
-        component: BitacoraScreen,
-        layout: "/admin"
-      },
+
       {
         path: "/apoyoservicio",
         name: "Apoyo servicios",
