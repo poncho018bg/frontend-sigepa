@@ -71,7 +71,6 @@ export const BandejaSolicitudesRegistradas = () => {
             'idPrograma': programa === '' ? 'NULL' : programa,
             'idMunicipio': municipio === '' ? 'NULL' : municipio
         }
-        console.log(solicitudFilter)
         getSolParametrosBandeja(solicitudFilter);
     }
 
@@ -91,7 +90,7 @@ export const BandejaSolicitudesRegistradas = () => {
     const handleCambiarEstatusSeleccionada = () => {
         console.log("entra a handleCambiarEstatusSeleccionada");
         for (let i = 0; i < selected.length; i++) {
-            selected[i].setIdUsuario = sessionStorage.getItem('idUSuario');
+            selected[i].idUsuario = sessionStorage.getItem('idUSuario');
         }
         bandejaCambioEstatusValidada(selected);
         setShowDialogEstatusSeleccionadas(false);
@@ -102,7 +101,7 @@ export const BandejaSolicitudesRegistradas = () => {
     const handleCambiarGeneral = () => {
         console.log("entra a handleCambiarGeneral");
         for (let i = 0; i < solicitudParametrosBandeja.length; i++) {
-            solicitudParametrosBandeja[i].setIdUsuario = sessionStorage.getItem('idUSuario');
+            solicitudParametrosBandeja[i].idUsuario = sessionStorage.getItem('idUSuario');
         }
         bandejaCambioEstatusValidada(solicitudParametrosBandeja);
         setShowDialogEstatusGeneral(false);

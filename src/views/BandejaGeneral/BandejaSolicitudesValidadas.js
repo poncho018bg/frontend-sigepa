@@ -90,7 +90,7 @@ export const BandejaSolicitudesValidadas = () => {
     const handleCambiarEstatusSeleccionada = () => {
         console.log("entra a handleCambiarEstatusSeleccionada");
         for (let i = 0; i < selected.length; i++) {
-            selected[i].setIdUsuario = sessionStorage.getItem('idUSuario');
+            selected[i].idUsuario = sessionStorage.getItem('idUSuario');
         }
         bandejaCambioEstatusPendiente(selected);
         setShowDialogEstatusSeleccionadas(false);
@@ -101,7 +101,7 @@ export const BandejaSolicitudesValidadas = () => {
     const handleCambiarGeneral = () => {
         console.log("entra a handleCambiarGeneral");
         for (let i = 0; i < solicitudParametrosBandeja.length; i++) {
-            solicitudParametrosBandeja[i].setIdUsuario = sessionStorage.getItem('idUSuario');
+            solicitudParametrosBandeja[i].idUsuario = sessionStorage.getItem('idUSuario');
         }
         bandejaCambioEstatusPendiente(solicitudParametrosBandeja);
         setShowDialogEstatusGeneral(false);
