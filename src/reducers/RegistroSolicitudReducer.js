@@ -15,8 +15,10 @@ import {
     GET_BENEFICIARIO_MONETARIO,
     GET_BENEFICIARIO_CANCELADO,
     BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA,
-    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA,
-    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_GENERAL
+    BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA_APROBAR,
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_VALIDADA,
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_PENDIENTE,
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -40,6 +42,12 @@ export default (state, action) => {
                 total: action.payload.page.totalElements
             };
         case BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA:
+            console.log('action.payload', action.payload)
+            return {
+                ...state,
+                solicitudParametrosBandeja: action.payload
+            };
+        case BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA_APROBAR:
             console.log('action.payload', action.payload)
             return {
                 ...state,
@@ -111,17 +119,24 @@ export default (state, action) => {
                 ...state,
                 beneficiarioCancelado: action.payload
             };
-        case CAMBIAR_ESTATUS_SOLICITUD_BANDEJA:
-            return {
-                ...state,
-                solicitudes: state.solicitudes.filter(solicitudes => solicitudes.id !== action.payload)
-            };
-
-        case CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_GENERAL:
+        case CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_VALIDADA:
             return {
                 ...state,
                 solicitudParametrosBandeja: state.solicitudParametrosBandeja.filter(solicitudParametrosBandeja => solicitudParametrosBandeja.id !== action.payload)
             };
+
+        case CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_PENDIENTE:
+            return {
+                ...state,
+                solicitudParametrosBandeja: state.solicitudParametrosBandeja.filter(solicitudParametrosBandeja => solicitudParametrosBandeja.id !== action.payload)
+            };
+        case CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR:
+            return {
+                ...state,
+                solicitudParametrosBandeja: state.solicitudParametrosBandeja.filter(solicitudParametrosBandeja => solicitudParametrosBandeja.id !== action.payload)
+            };
+
+
         default:
             return state;
     }

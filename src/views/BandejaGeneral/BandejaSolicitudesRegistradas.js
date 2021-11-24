@@ -10,7 +10,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import moment from 'moment';
 import 'moment/locale/es';
 
-import CreateIcon from '@material-ui/icons/Create';
+import ReplayIcon from '@material-ui/icons/Replay';
+import SearchIcon from '@material-ui/icons/Search';
+
+import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from '@material-ui/core/IconButton';
 import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
 import CardActions from '@material-ui/core/CardActions';
@@ -29,7 +32,7 @@ const useStyles = makeStyles(stylesArchivo);
 
 export const BandejaSolicitudesRegistradas = () => {
     const { t } = useTranslation();
-    const { getSolicitudesPorParametrosBandeja, solicitudParametrosBandeja, bandejaCambioEstatus, bandejaCambioEstatusGeneral } = useContext(RegistroSolicitudContext);
+    const { getSolParametrosBandeja, solicitudParametrosBandeja, bandejaCambioEstatusValidada } = useContext(RegistroSolicitudContext);
     const { getCien, programasList } = useContext(ProgramasContext);
     const { getEstatusRegistro, estatusRegistroList } = useContext(EstatusRegistroContext);
     const { getMunicipios, municipiosList } = useContext(MunicipiosContext);
@@ -69,7 +72,7 @@ export const BandejaSolicitudesRegistradas = () => {
             'idMunicipio': municipio === '' ? 'NULL' : municipio
         }
         console.log(solicitudFilter)
-        getSolicitudesPorParametrosBandeja(solicitudFilter);
+        getSolParametrosBandeja(solicitudFilter);
     }
 
 
@@ -78,7 +81,7 @@ export const BandejaSolicitudesRegistradas = () => {
         setShowDialogEstatusSeleccionadas(true);
     }
 
-    const validarSeleccionadasGeneral= () => {
+    const validarSeleccionadasGeneral = () => {
         console.log("cambio estatus multiple");
         setTotalRegistros(solicitudParametrosBandeja.length);
         setShowDialogEstatusGeneral(true);
@@ -87,16 +90,21 @@ export const BandejaSolicitudesRegistradas = () => {
     // Cambio de estatus seleccioandas
     const handleCambiarEstatusSeleccionada = () => {
         console.log("entra a handleCambiarEstatusSeleccionada");
-        bandejaCambioEstatus(selected);
-        setShowDialogEstatusSeleccionadas(true);
-       // buscarSolitudes();
+        for (let i = 0; i < selected.length; i++) {
+            selected[i].setIdUsuario = sessionStorage.getItem('idUSuario');
+        }
+        bandejaCambioEstatusValidada(selected);
+        setShowDialogEstatusSeleccionadas(false);
+        // buscarSolitudes();
     }
 
     //cambio de estatus general
     const handleCambiarGeneral = () => {
         console.log("entra a handleCambiarGeneral");
-        {console.log('sol=>', solicitudParametrosBandeja)}
-        bandejaCambioEstatusGeneral(solicitudParametrosBandeja);
+        for (let i = 0; i < solicitudParametrosBandeja.length; i++) {
+            solicitudParametrosBandeja[i].setIdUsuario = sessionStorage.getItem('idUSuario');
+        }
+        bandejaCambioEstatusValidada(solicitudParametrosBandeja);
         setShowDialogEstatusGeneral(false);
         //buscarSolitudes();
     }
@@ -230,6 +238,7 @@ export const BandejaSolicitudesRegistradas = () => {
                         </Grid>
                         <Grid item xs={2} style={{ textAlign: 'right', float: 'right' }}>
                             <Button variant="contained" color="primary" fullWidth onClick={buscarSolitudes}>
+                                <SearchIcon />
                                 Buscar
                             </Button>
                         </Grid>
@@ -244,7 +253,7 @@ export const BandejaSolicitudesRegistradas = () => {
                             </Grid>
                         </GridItem>
                     </Grid>
-                   
+
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
@@ -292,9 +301,24 @@ export const BandejaSolicitudesRegistradas = () => {
                                             <TableCell align="center">{row.observaciones}</TableCell >
                                             <TableCell align="center">{row.motivobaja}</TableCell >
                                             <TableCell align="center">
-                                                <IconButton aria-label="create" onClick={() => onSelect(row)}>
-                                                    <RemoveRedEyeIcon />
-                                                </IconButton>
+                                                <Tooltip
+                                                    id="tooltip-expediente"
+                                                    title="Ver expediente"
+                                                    placement="top"
+                                                >
+                                                    <IconButton aria-label="view" onClick={() => onSelect(row)}>
+                                                        <RemoveRedEyeIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip
+                                                    id="tooltip-regresar"
+                                                    title="Reasignar"
+                                                    placement="top"
+                                                >
+                                                    <IconButton aria-label="return" onClick={() => onSelect(row)}>
+                                                        <ReplayIcon />
+                                                    </IconButton>
+                                                </Tooltip>
                                             </TableCell>
                                         </TableRow >
                                     );
@@ -327,10 +351,10 @@ export const BandejaSolicitudesRegistradas = () => {
             <DialogEstatusGeneral
                 showDialogEstatusGeneral={showDialogEstatusGeneral}
                 setShowDialogEstatusGeneral={setShowDialogEstatusGeneral}
-                totalRegistros= {totalRegistros}
-                handleCambiarGeneral ={handleCambiarGeneral}
+                totalRegistros={totalRegistros}
+                handleCambiarGeneral={handleCambiarGeneral}
             />
-             <DialogEstatusSeleccionadas
+            <DialogEstatusSeleccionadas
                 showDialogEstatusSeleccionadas={showDialogEstatusSeleccionadas}
                 setShowDialogEstatusSeleccionadas={setShowDialogEstatusSeleccionadas}
                 handleCambiarEstatusSeleccionada={handleCambiarEstatusSeleccionada}

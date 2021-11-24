@@ -10,7 +10,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import moment from 'moment';
 import 'moment/locale/es';
 
-import CreateIcon from '@material-ui/icons/Create';
+import ReplayIcon from '@material-ui/icons/Replay';
+import SearchIcon from '@material-ui/icons/Search';
+
+import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from '@material-ui/core/IconButton';
 import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
 import CardActions from '@material-ui/core/CardActions';
@@ -29,7 +32,8 @@ const useStyles = makeStyles(stylesArchivo);
 
 export const BandejaSolicitudesValidadas = () => {
     const { t } = useTranslation();
-    const { getSolicitudesPorParametrosBandeja, solicitudParametrosBandeja, bandejaCambioEstatus, bandejaCambioEstatusGeneral } = useContext(RegistroSolicitudContext);
+    const { getSolParametrosBandeja, solicitudParametrosBandeja, bandejaCambioEstatusPendiente } = useContext(RegistroSolicitudContext);
+    const { getCien, programasList } = useContext(ProgramasContext);
     const { getEstatusRegistro, estatusRegistroList } = useContext(EstatusRegistroContext);
     const { getMunicipios, municipiosList } = useContext(MunicipiosContext);
     const classes = useStyles();
@@ -68,7 +72,7 @@ export const BandejaSolicitudesValidadas = () => {
             'idMunicipio': municipio === '' ? 'NULL' : municipio
         }
         console.log(solicitudFilter)
-        getSolicitudesPorParametrosBandeja(solicitudFilter);
+        getSolParametrosBandeja(solicitudFilter);
     }
 
     const pendienteAprobarSeleccionadas = () => {
@@ -77,25 +81,33 @@ export const BandejaSolicitudesValidadas = () => {
     }
 
     const pendienteAprobarGeneral = () => {
-        console.log("cambio estatus multiple");
+        console.log("cambio estatus multiple");        
         setTotalRegistros(solicitudParametrosBandeja.length);
         setShowDialogEstatusGeneral(true);
     }
 
     // Cambio de estatus seleccioandas
     const handleCambiarEstatusSeleccionada = () => {
-        bandejaCambioEstatus(selected);
-        setShowDialogEstatusSeleccionadas(true);
-        getSolicitudesPorParametrosBandeja(solicitudFilter);
+        console.log("entra a handleCambiarEstatusSeleccionada");
+        for (let i = 0; i < selected.length; i++) {
+            selected[i].setIdUsuario = sessionStorage.getItem('idUSuario');
+        }
+        bandejaCambioEstatusPendiente(selected);
+        setShowDialogEstatusSeleccionadas(false);
+        // buscarSolitudes();
     }
 
     //cambio de estatus general
     const handleCambiarGeneral = () => {
-        bandejaCambioEstatusGeneral(solicitudParametrosBandeja);
+        console.log("entra a handleCambiarGeneral");
+        for (let i = 0; i < solicitudParametrosBandeja.length; i++) {
+            solicitudParametrosBandeja[i].setIdUsuario = sessionStorage.getItem('idUSuario');
+        }
+        bandejaCambioEstatusPendiente(solicitudParametrosBandeja);
         setShowDialogEstatusGeneral(false);
-        getSolicitudesPorParametrosBandeja(solicitudFilter);
-
+        //buscarSolitudes();
     }
+
 
     const handleClick = (event, solicitud) => {
         const selectedIndex = selected.indexOf(solicitud);
@@ -119,14 +131,14 @@ export const BandejaSolicitudesValidadas = () => {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n);
+            const newSelecteds = rows.map((n) => n.dsfoliosolicitud);
             setSelected(newSelecteds);
             return;
         }
         setSelected([]);
     };
 
-    const isSelected = (name) => selected.indexOf(name) !== -1;
+    const isSelected = (dsfoliosolicitud) => selected.indexOf(dsfoliosolicitud) !== -1;
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -225,6 +237,7 @@ export const BandejaSolicitudesValidadas = () => {
                         </Grid>
                         <Grid item xs={2} style={{ textAlign: 'right', float: 'right' }}>
                             <Button variant="contained" color="primary" fullWidth onClick={buscarSolitudes}>
+                                <SearchIcon />
                                 Buscar
                             </Button>
                         </Grid>
@@ -239,7 +252,7 @@ export const BandejaSolicitudesValidadas = () => {
                             </Grid>
                         </GridItem>
                     </Grid>
-                    {console.log('sol=>', solicitudParametrosBandeja)}
+
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
@@ -256,10 +269,10 @@ export const BandejaSolicitudesValidadas = () => {
                         </TableHead >
                         < TableBody >
                             {
-
                                 solicitudParametrosBandeja.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                                     const isItemSelected = isSelected(row);
-                                    const labelId = `enhanced-table-checkbox-${index}`;
+                                    const labelId = `${index}`;
+
                                     return (
                                         <TableRow
                                             hover
@@ -270,13 +283,16 @@ export const BandejaSolicitudesValidadas = () => {
                                             key={row.id}
                                             selected={isItemSelected}
                                         >
+
                                             <TableCell padding="checkbox">
                                                 <Checkbox
                                                     checked={isItemSelected}
                                                     inputProps={{ 'aria-labelledby': labelId }}
                                                 />
                                             </TableCell>
-                                            <TableCell align="center">{row.dsfoliosolicitud}</TableCell >
+                                            <TableCell component="th" id={labelId} scope="row" padding="none">
+                                                {row.dsfoliosolicitud}
+                                            </TableCell>
                                             <TableCell align="center">{row.dsestatusregistro}</TableCell >
                                             <TableCell align="center">{row.nombre}</TableCell >
                                             <TableCell align="center">{row.dsprograma}</TableCell >
@@ -284,9 +300,24 @@ export const BandejaSolicitudesValidadas = () => {
                                             <TableCell align="center">{row.observaciones}</TableCell >
                                             <TableCell align="center">{row.motivobaja}</TableCell >
                                             <TableCell align="center">
-                                                <IconButton aria-label="create" onClick={() => onSelect(row)}>
-                                                    <RemoveRedEyeIcon />
-                                                </IconButton>
+                                                <Tooltip
+                                                    id="tooltip-expediente"
+                                                    title="Ver expediente"
+                                                    placement="top"
+                                                >
+                                                    <IconButton aria-label="view" onClick={() => onSelect(row)}>
+                                                        <RemoveRedEyeIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip
+                                                    id="tooltip-regresar"
+                                                    title="Reasignar"
+                                                    placement="top"
+                                                >
+                                                    <IconButton aria-label="return" onClick={() => onSelect(row)}>
+                                                        <ReplayIcon />
+                                                    </IconButton>
+                                                </Tooltip>
                                             </TableCell>
                                         </TableRow >
                                     );
@@ -305,7 +336,6 @@ export const BandejaSolicitudesValidadas = () => {
                         onChangeRowsPerPage={handleChangeRowsPerPage}
                         labelDisplayedRows={({ from, to, count }) => `${from}-${to} de un total ${count} registros`}
                     />
-
                     <Grid container spacing={2}>
                         <GridItem xs={12} sm={12} md={12}>
                             <Grid item xs={3} style={{ textAlign: 'center', float: 'right' }}>

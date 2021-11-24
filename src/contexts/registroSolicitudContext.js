@@ -17,8 +17,10 @@ import {
     GET_BENEFICIARIO_MONETARIO,
     GET_BENEFICIARIO_CANCELADO,
     BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA,
-    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA,
-    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_GENERAL
+    BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA_APROBAR,
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_VALIDADA,
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_PENDIENTE,
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR
 } from 'types/actionTypes';
 
 import { axiosGet, axiosPost, axiosPut, axiosGetSinToken } from 'helpers/axiosPublico';
@@ -314,10 +316,10 @@ export const RegistroSolicitudContextProvider = props => {
     }
 
 
-    const getSolicitudesPorParametrosBandeja = async parametros => {
+    const getSolParametrosBandeja = async parametros => {
 
         try {
-            const url = `${baseUrlPublico}bandejaSolicitudOverride/consultarSolicitudesBandeja/${parametros.idPrograma}/${parametros.idMunicipio}/${parametros.idEstatus}`;
+            const url = `${baseUrlPublico}bandejaSolicitudOverride/consultarSolicitudesRegistrada/${parametros.idPrograma}/${parametros.idMunicipio}/${parametros.idEstatus}`;
             return new Promise((resolve, reject) => {
                 axios.get(url, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
@@ -339,18 +341,18 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
-    const bandejaCambioEstatus = async (SolicitudesSeleted) => {
+    const getSolParametrosBandejaAprobar = async parametros => {
 
         try {
-            const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatus`;
+            const url = `${baseUrlPublico}bandejaSolicitudOverride/consultarSolicitudesPendientesBandeja/${parametros.idPrograma}/${parametros.idEstatus}`;
             return new Promise((resolve, reject) => {
-                axios.post(url, SolicitudesSeleted,  {
+                axios.get(url, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
                     console.log('RESPONSE=>', response.data)
                     resolve(response);
                     dispatch({
-                        type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA,
+                        type: BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA_APROBAR,
                         payload: response.data
                     })
                 }).catch(error => {
@@ -364,10 +366,34 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
-    const bandejaCambioEstatusGeneral = async (solicitudParametros) => {
 
+    const bandejaCambioEstatusValidada = async (SolicitudesSeleted) => {
         try {
-            const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusGeneral`;
+            const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusValidada`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, SolicitudesSeleted, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    console.log('RESPONSE=>', response.data)
+                    resolve(response);
+                    dispatch({
+                        type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_VALIDADA,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log('Err', error);
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            console.log('Err', error);
+        }
+    }
+
+    const bandejaCambioEstatusPendiente = async (solicitudParametros) => {
+        try {
+            const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusPendiente`;
             return new Promise((resolve, reject) => {
                 axios.post(url, solicitudParametros, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
@@ -375,7 +401,31 @@ export const RegistroSolicitudContextProvider = props => {
                     console.log('RESPONSE=>', response.data)
                     resolve(response);
                     dispatch({
-                        type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_GENERAL,
+                        type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_PENDIENTE,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log('Err', error);
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            console.log('Err', error);
+        }
+    }
+
+    const bandejaCambioEstatusAprobar = async (solicitudParametros) => {
+        try {
+            const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusAprobar`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, solicitudParametros, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    console.log('RESPONSE=>', response.data)
+                    resolve(response);
+                    dispatch({
+                        type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR,
                         payload: response.data
                     })
                 }).catch(error => {
@@ -416,9 +466,11 @@ export const RegistroSolicitudContextProvider = props => {
             getSolicitudesPorParametros,
             getBeneficiarioMonetario,
             getBeneficiarioCancelado,
-            getSolicitudesPorParametrosBandeja,
-            bandejaCambioEstatus,
-            bandejaCambioEstatusGeneral,
+            getSolParametrosBandeja,
+            getSolParametrosBandejaAprobar,
+            bandejaCambioEstatusValidada,
+            bandejaCambioEstatusPendiente,
+            bandejaCambioEstatusAprobar,
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>
