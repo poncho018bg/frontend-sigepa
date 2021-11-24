@@ -4,15 +4,18 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid, TextField, MenuItem } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid, FormHelperText, TextField, MenuItem } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Checkbox from '@material-ui/core/Checkbox';
 import moment from 'moment';
 import 'moment/locale/es';
 
-import CreateIcon from '@material-ui/icons/Create';
-import IconButton from '@material-ui/core/IconButton';
+import ReplayIcon from '@material-ui/icons/Replay';
+import SearchIcon from '@material-ui/icons/Search';
 import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
+
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from '@material-ui/core/IconButton';
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
@@ -30,7 +33,7 @@ const useStyles = makeStyles(stylesArchivo);
 
 export const BandejaAutorizaSolicitudes = () => {
     const { t } = useTranslation();
-    const { getSolicitudesPorParametrosBandeja, solicitudParametrosBandeja, bandejaCambioEstatus, bandejaCambioEstatusGeneral } = useContext(RegistroSolicitudContext);
+    const { getSolParametrosBandejaAprobar, solicitudParametrosBandeja, bandejaCambioEstatusAprobar } = useContext(RegistroSolicitudContext);
     const { getCien, programasList } = useContext(ProgramasContext);
     const { getEstatusRegistro, estatusRegistroList } = useContext(EstatusRegistroContext);
     const { getMunicipios, municipiosList } = useContext(MunicipiosContext);
@@ -40,10 +43,10 @@ export const BandejaAutorizaSolicitudes = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
-
-    const [municipio, setMunicipio] = useState('');
     const [programa, setPrograma] = useState('');
     const [estatus, setEstatus] = useState('');
+    const [fecha, setFecha] = useState('');
+    const [errors, setErrors] = useState({});
     const [comite, setComite] = useState('');
     const [selected, setSelected] = React.useState([]);
     const [showDialogEstatusGeneral, setShowDialogEstatusGeneral] = useState(false);
@@ -51,6 +54,7 @@ export const BandejaAutorizaSolicitudes = () => {
     const [totalRegistros, setTotalRegistros] = useState('');
 
     useEffect(() => {
+        setErrors({});
         getCien()
         getEstatusRegistro()
         getMunicipios()
@@ -67,39 +71,92 @@ export const BandejaAutorizaSolicitudes = () => {
     };
 
     const buscarSolitudes = () => {
+        setErrors({});
         let solicitudFilter = {
-            'idEstatus': estatus === '' ? 'NULL' : estatus,
             'idPrograma': programa === '' ? 'NULL' : programa,
-            'idMunicipio': municipio === '' ? 'NULL' : municipio
+            'idEstatus': estatus === '' ? 'NULL' : estatus,
         }
+        setFecha('')
+        setComite('')
         console.log(solicitudFilter)
-        getSolicitudesPorParametrosBandeja(solicitudFilter);
+        getSolParametrosBandejaAprobar(solicitudFilter);
     }
 
+    const isObjEmpty = (obj) => {
+        return Object.keys(obj).length === 0 && obj.constructor === Object;
+    }
+
+    const handleSeleccionarFecha = (event) => {
+        //Aqui en donde vamos a mandar el valor por default a todos los registros de la solicitud
+        console.log("Selecionar y asignar fecha")
+        setFecha(event.target.value)
+        for (let i = 0; i < solicitudParametrosBandeja.length; i++) {
+            solicitudParametrosBandeja[i].fechaSesionComiteSecretarias = event.target.value;
+        }
+
+    }
+
+    const handleSeleccionarComite = (event) => {
+        //Aqui en donde vamos a mandar el valor por default a todos los registros de la solicitud el comite
+        console.log("Selecionar y asignar comite")
+        setComite(event.target.value)
+        console.log("event.target.value.dssecretaria",event.target.value )
+        for (let i = 0; i < solicitudParametrosBandeja.length; i++) {
+            solicitudParametrosBandeja[i].sesionComiteId = event.target.value.id;
+            solicitudParametrosBandeja[i].sesionComiteNombre = event.target.value.dssecretaria;
+            solicitudParametrosBandeja[i].idUsuario = sessionStorage.getItem('idUSuario');
+        }
+
+    }
+
+
     const aprobarSeleccionadas = () => {
-        console.log("Entra a validar seleccionadas")
+        console.log("Entra a aprobar seleccionadas")
+        const errors = {};
+        if (comite === '') {
+            errors.comite = "Debe selecionar un comite!";
+        }
+        if (fecha === '') {
+            errors.fecha = "Debe selecionar una fecha de comite!";
+        }
+        if (!isObjEmpty(errors)) {
+            setErrors(errors);
+            return;
+        }
+        setErrors({});
         setShowDialogEstatusSeleccionadas(true);
     }
 
     const aprobarSeleccionadasGeneral = () => {
-        console.log("cambio estatus multiple");
+        console.log("Entra a aprobar General")
+        const errors = {};
+        if (comite === '') {
+            errors.comite = "Debe selecionar un comite!";
+        }
+        if (fecha === '') {
+            errors.fecha = "Debe selecionar una fecha de comite!";
+        }
+        if (!isObjEmpty(errors)) {
+            setErrors(errors);
+            return;
+        }
+        setErrors({});
         setTotalRegistros(solicitudParametrosBandeja.length);
         setShowDialogEstatusGeneral(true);
     }
 
     // Cambio de estatus seleccioandas
     const handleCambiarEstatusSeleccionada = () => {
-        bandejaCambioEstatus(selected);
+        bandejaCambioEstatusAprobar(selected);
         setShowDialogEstatusSeleccionadas(true);
-        getSolicitudesPorParametrosBandeja(solicitudFilter);
+        //buscarSolitudes();
     }
 
     //cambio de estatus general
     const handleCambiarGeneral = () => {
-        bandejaCambioEstatusGeneral(solicitudParametrosBandeja);
+        bandejaCambioEstatusAprobar(solicitudParametrosBandeja);
         setShowDialogEstatusGeneral(false);
-        getSolicitudesPorParametrosBandeja(solicitudFilter);
-
+        //buscarSolitudes();
     }
 
     const handleClick = (event, solicitud) => {
@@ -148,32 +205,6 @@ export const BandejaAutorizaSolicitudes = () => {
                 </CardHeader>
                 <CardBody>
                     <Grid container spacing={3}>
-                        <Grid item xs={3}>
-                            <TextField
-                                variant="outlined"
-                                label="Selecciona un estatus"
-                                select
-                                fullWidth
-                                name="estatus"
-                                value={estatus}
-                                onChange={(e) => setEstatus(e.target.value)}
-                            >
-                                <MenuItem value="">
-                                    <em>{t('cmb.ninguno')}</em>
-                                </MenuItem>
-                                {
-                                    estatusRegistroList.map(
-                                        item => (
-                                            <MenuItem
-                                                key={item.id}
-                                                value={item.id}>
-                                                {item.dsestatusregistro}
-                                            </MenuItem>
-                                        )
-                                    )
-                                }
-                            </TextField>
-                        </Grid>
 
                         <Grid item xs={3}>
                             <TextField
@@ -201,7 +232,15 @@ export const BandejaAutorizaSolicitudes = () => {
                                 }
                             </TextField>
                         </Grid>
+                        <Grid item xs={2} style={{ textAlign: 'right', float: 'right' }}>
+                            <Button variant="contained" color="primary" fullWidth onClick={buscarSolitudes}>
+                                <SearchIcon />
+                                Buscar
+                            </Button>
+                        </Grid>
+                    </Grid>
 
+                    <Grid container spacing={3} style={{ marginTop: 30 }}>
                         <Grid item xs={3}>
                             <TextField
                                 variant="outlined"
@@ -210,7 +249,7 @@ export const BandejaAutorizaSolicitudes = () => {
                                 fullWidth
                                 name="comite"
                                 value={comite}
-                                onChange={(e) => setComite(e.target.value)}
+                                onChange={handleSeleccionarComite}
                             >
                                 <MenuItem value="">
                                     <em>{t('cmb.ninguno')}</em>
@@ -220,41 +259,58 @@ export const BandejaAutorizaSolicitudes = () => {
                                         item => (
                                             <MenuItem
                                                 key={item.id}
-                                                value={item.id}>
+                                                value={item}>
                                                 {item.dssecretaria}
                                             </MenuItem>
                                         )
                                     )
                                 }
                             </TextField>
+                            {errors.comite && <FormHelperText error={errors.comite}>{errors.comite}</FormHelperText>}
                         </Grid>
-                        <Grid item xs={2} style={{ textAlign: 'right', float: 'right' }}>
-                            <Button variant="contained" color="primary" fullWidth onClick={buscarSolitudes}>
-                                Buscar
+                        <Grid item xs={3}>
+                            <TextField
+                                id="fcsesionComite"
+                                label="Fecha de sesión del comité"
+                                type="date"
+                                fullWidth
+                                className={classes.textField}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={fecha}
+                                name={fecha}
+                                onChange={handleSeleccionarFecha}
+                                InputProps={{
+                                    inputProps: {
+
+                                    }
+                                }}
+                            />
+                            {errors.fecha && <FormHelperText error={errors.fecha}>{errors.fecha}</FormHelperText>}
+                        </Grid>
+                        <Grid item xs={3}>
+                        </Grid>
+                        <Grid item xs={3} style={{ textAlign: 'center', float: 'right' }}>
+                            <Button color="primary" fullWidth onClick={aprobarSeleccionadas}>
+                                Aprobar Seleccionadas
                             </Button>
                         </Grid>
                     </Grid>
 
-                    <Grid container spacing={2}>
-                        <GridItem xs={12} sm={12} md={12}>
-                            <Grid item xs={3} style={{ textAlign: 'center', float: 'right' }}>
-                                <Button color="primary" fullWidth onClick={aprobarSeleccionadas}>
-                                    Aprobar Seleccionadas
-                                </Button>
-                            </Grid>
-                        </GridItem>
-                    </Grid>
-                    < Table stickyHeader aria-label="sticky table" >
+                    < Table stickyHeader aria-label="sticky table" style={{ marginTop: 30 }}>
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell align="center">checkbox  </TableCell >
+                                < TableCell align="center"> </TableCell >
                                 < TableCell align="center"> Folio  </TableCell >
                                 < TableCell align="center"> Estatus  </TableCell >
                                 < TableCell align="center"> Solicitante </TableCell >
                                 < TableCell align="center"> Programa de apoyo  </TableCell >
                                 < TableCell align="center"> Fecha de registro </TableCell >
                                 < TableCell align="center"> Observaciones </TableCell >
-                                < TableCell align="center"> Motivo de baja/rechazo </TableCell >
+                                < TableCell align="center"> Firmas de autorización </TableCell >
+                                < TableCell align="center"> Sesión del cómite </TableCell >
+                                < TableCell align="center"> Fecha de sesión del cómite </TableCell >
                                 < TableCell align="center"> {t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
@@ -286,11 +342,28 @@ export const BandejaAutorizaSolicitudes = () => {
                                             <TableCell align="center">{row.dsprograma}</TableCell >
                                             <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">{row.observaciones}</TableCell >
-                                            <TableCell align="center">{row.motivobaja}</TableCell >
+                                            <TableCell align="center">{row.firmaAutorizacion}</TableCell >
+                                            <TableCell align="center">{row.sesionComiteNombre}</TableCell >
+                                            <TableCell align="center">{moment(row.fechaSesionComiteSecretarias).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                             <TableCell align="center">
-                                                <IconButton aria-label="create" onClick={() => onSelect(row)}>
-                                                    <RemoveRedEyeIcon />
-                                                </IconButton>
+                                                <Tooltip
+                                                    id="tooltip-expediente"
+                                                    title="Ver expediente"
+                                                    placement="top"
+                                                >
+                                                    <IconButton aria-label="view" onClick={() => onSelect(row)}>
+                                                        <RemoveRedEyeIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip
+                                                    id="tooltip-regresar"
+                                                    title="Reasignar"
+                                                    placement="top"
+                                                >
+                                                    <IconButton aria-label="return" onClick={() => onSelect(row)}>
+                                                        <ReplayIcon />
+                                                    </IconButton>
+                                                </Tooltip>
                                             </TableCell>
                                         </TableRow >
                                     );
