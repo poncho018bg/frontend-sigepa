@@ -112,11 +112,11 @@ export const CarouselProgramas = () => {
                             <GridContainer>
                                 <GridItem xs={12} sm={12} md={10}>
                                     <Card product className={classes.cardHover}>
-                                       
+
                                         <CardBody>
-                                           
+
                                             <h4 className={classes.cardProductTitle}>
-                                              {prog.dsprograma}
+                                                {prog.dsprograma}
                                             </h4>
                                             <p className={classes.cardProductDesciprion} >
                                                 {prog.dsdescripcion}
@@ -136,7 +136,7 @@ export const CarouselProgramas = () => {
 
                 <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="lg" fullWidth={true}>
                     <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                        {console.log('x=>',programDetail)}
+                        {console.log('x=>', programDetail)}
                         <h2> {programDetail?.dsclaveprograma} - {programDetail?.dsprograma} </h2>
                     </DialogTitle>
                     <DialogContent >
@@ -155,6 +155,15 @@ export const CarouselProgramas = () => {
                             al {moment(programDetail?.fcregistropresencialfin).format(" DD [de] MMMM  YYYY ")}</p>
                         <p>Periodo de registro Web del {moment(programDetail?.fcregistrowebinicio).format(" DD [de] MMMM ")}
                             al  {moment(programDetail?.fcregistrowebfin).format(" DD [de] MMMM  YYYY ")}</p>
+
+                        <Card>
+                            <CardHeader color="primary">
+                                <h4 className={classes.cardTitleWhite}>URL del programa</h4>
+                            </CardHeader>
+                            <CardBody>
+                                <h5>{window.location.origin}/frontend-sigepa/public/registroProgramas?programa={programDetail?.dsurl}</h5>
+                            </CardBody>
+                        </Card>
 
                     </DialogContent>
                     <DialogActions>
