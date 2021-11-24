@@ -303,8 +303,8 @@ export const RegistroProgramas = () => {
                                                     setIdentPrograma={setIdentPrograma}
                                                     idPrograma={idPrograma}
                                                     setEdadValida={setEdadValida}
-                                                    nombrePrograma={programa.dsprograma} 
-                                                    setActivar={setActivar}/>
+                                                    nombrePrograma={programa.dsprograma}
+                                                    setActivar={setActivar} />
                                             </ValidarProgramaMonetario>
                                             : activeStep === 2 ?
                                                 <RegistroDireccion
@@ -333,7 +333,13 @@ export const RegistroProgramas = () => {
                                                             setActivar={setActivar}
                                                             activar={activar}
                                                             nombrePrograma={programa.dsprograma} />
-                                                        : 
+                                                        : activeStep === 5 ?
+                                                            <RegistroPreguntas
+                                                                beneficiario={beneficiario}
+                                                                idPrograma={idPrograma}
+                                                                setActivar={setActivar}
+                                                                nombrePrograma={programa.dsprograma} />
+                                                            :
                                                             <RegistroFinalizado
                                                                 beneficiario={beneficiario}
                                                                 idPrograma={idPrograma}

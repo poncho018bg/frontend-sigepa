@@ -83,7 +83,7 @@ export const RegistroFinalizado = (props) => {
             idPrograma: idPrograma,
             idBeneficiario: beneficiario.id,
             idUsuario: '1fd03e93-887c-4c48-9a25-71097e7f71f4',
-            dsorigen: 'Registro por URL',
+            dsorigen: 'URL',
         }
         registrarSolicitudFolio(folios).then(response => {
 
