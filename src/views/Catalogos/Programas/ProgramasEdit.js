@@ -94,7 +94,7 @@ export const ProgramasEdit = () => {
 
     if (query.state?.mobNo) {
       getMunicipiosProg(query.state.mobNo)
-      getByID(query.state.mobNo);      
+      getByID(query.state.mobNo);
       getDocumentosProg(query.state.mobNo)
       getImgDocumentosProg(query.state.mobNo)
     }
@@ -104,20 +104,20 @@ export const ProgramasEdit = () => {
   useEffect(() => {
 
 
-    
+
     const lstmun = []
     programasMunicipiosList?.map(mp => {
-      if(mp.activo){
+      if (mp.activo) {
         const mpi = municipiosList.filter(e => e.id === mp.municipio_id)
-        console.log('mpi',mpi)
+        console.log('mpi', mpi)
         lstmun.push({ label: mpi[0].dsmunicipio, value: mpi[0].id })
       }
-     
+
     })
-    console.log('programasMunicipiosList',programasMunicipiosList)
-    console.log('municipiosList',municipiosList)
-    console.log('lstmun',lstmun)
-    
+    console.log('programasMunicipiosList', programasMunicipiosList)
+    console.log('municipiosList', municipiosList)
+    console.log('lstmun', lstmun)
+
     setSelected(lstmun)
 
 
@@ -376,7 +376,7 @@ export const ProgramasEdit = () => {
             className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
             onSubmit={props.handleSubmit}>
             {console.log('ERRORES=>', props?.errors)}
-            {console.log('1.-programasMunicipiosList=>>',programasMunicipiosList)}
+            {console.log('1.-programasMunicipiosList=>>', programasMunicipiosList)}
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <Card>
@@ -578,6 +578,7 @@ export const ProgramasEdit = () => {
 
 
                       <GridItem xs={12} sm={12} md={12}>
+                        <label>URL: </label>{window.location.origin}/frontend-sigepa/public/registroProgramas?programa={props.values?.dsurl}
                         <TextField
                           style={{ marginBottom: '20px' }}
                           id="dsurl"

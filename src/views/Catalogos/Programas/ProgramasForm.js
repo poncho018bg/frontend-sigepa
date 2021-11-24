@@ -264,7 +264,7 @@ export const ProgramasForm = () => {
       idBeneficiario,
       idRangoEdadBeneficiario,
       dsidentificadorplantilla,
-      
+
       dsobjetivo,
       dsurl
 
@@ -279,9 +279,9 @@ export const ProgramasForm = () => {
     console.log(lstmunSeleccionados);
 
     console.log('archivoPrograma', archivoPrograma)
-    let nmplantilla  ='';
-    formioComplemento.map(e=>{
-      if(e._id ===dsidentificadorplantilla ){
+    let nmplantilla = '';
+    formioComplemento.map(e => {
+      if (e._id === dsidentificadorplantilla) {
         console.log('e.path', e.path)
         nmplantilla = e.path
       }
@@ -402,7 +402,7 @@ export const ProgramasForm = () => {
                 </GridItem>
 
               </GridContainer>
-                  
+
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
                   <CardBody>
@@ -589,6 +589,7 @@ export const ProgramasForm = () => {
                 </GridItem>
 
                 <GridItem xs={12} sm={12} md={12}>
+                  <label>URL: </label>{window.location.origin}/frontend-sigepa/public/registroProgramas?programa={formik.values.dsurl}
                   <TextField
                     style={{ marginBottom: '20px' }}
                     id="dsurl"
@@ -825,7 +826,7 @@ export const ProgramasForm = () => {
                     name="dsidentificadorplantilla"
                     id="dsidentificadorplantilla"
                     onChange={formik.handleChange}
-                    value={formik.values.dsidentificadorplantilla}                    
+                    value={formik.values.dsidentificadorplantilla}
                   >
                     {
                       formioComplemento.map(
@@ -846,7 +847,7 @@ export const ProgramasForm = () => {
                   </TextField>
                 </GridItem>
               </GridContainer>
-     
+
 
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
