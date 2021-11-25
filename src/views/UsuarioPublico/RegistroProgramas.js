@@ -41,6 +41,7 @@ const pasos = [
     'Características adicionales de la solicitante',
     'Registro finalizado'
 ];
+const ORIGEN_SOLICITUD_AGENTE_MODULO = 'URL'
 
 export const RegistroProgramas = () => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -59,6 +60,9 @@ export const RegistroProgramas = () => {
     const { beneficiario, registrarBeneficiario, direccion,
         registrarDireccionBeneficiario, getBeneficiario, actualizarBeneficiario,
         obtenerDireccionBeneficiario, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
+
+    const { getOrigenesByParametros, origenesList } = useContext(OrigenSolicitudContext);
+
     const [edadValida, setEdadValida] = useState();
     //
     const child = useRef();
@@ -223,6 +227,10 @@ export const RegistroProgramas = () => {
         obtenerDireccionBeneficiario(beneficiario.id);
     };
 
+    useEffect(() => {
+        getOrigenesByParametros(ORIGEN_SOLICITUD_AGENTE_MODULO);
+    }, []);
+
 
 
     const handleSkip = () => {
@@ -343,7 +351,8 @@ export const RegistroProgramas = () => {
                                                             <RegistroFinalizado
                                                                 beneficiario={beneficiario}
                                                                 idPrograma={idPrograma}
-                                                                nombrePrograma={programa.dsprograma} />}
+                                                                nombrePrograma={programa.dsprograma}
+                                                                origen={origenesList[0]} />}
                                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                         <Button
                                             color="inherit"
