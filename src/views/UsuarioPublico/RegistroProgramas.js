@@ -17,6 +17,7 @@ import { RegistroFinalizado } from './RegistroFinalizado';
 import { RegistroPreguntas } from './RegistroPreguntas';
 
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
+import { OrigenSolicitudContext } from 'contexts/catalogos/OrigenSolicitudContext';
 import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 
 import Button from "components/CustomButtons/Button.js";

@@ -33,13 +33,13 @@ const Input = styled('input')({
 export const RegistroCargaDocumentos = (props) => {
     const classes = useStyles();
     const { documentosApoyoList, getDocumentosApoyo,
-        existeDocumento,existedoc,
+        existeDocumento, existedoc,
         registrarDatosBoveda } = useContext(RegistroCargaDocumentosContext);
     const { beneficiario } = props;
     const { idPrograma } = props;
     const { identPrograma } = props;
     const { setValidarDocs, validarDocs, setActivar } = props;
-    const [archivo, setArchivos] = useState([]);
+    const [archivo, setArchivos] = useState();
     const [sesion, setSesion] = useState("");
 
     const [boveda, setBoveda] = useState();
@@ -73,16 +73,16 @@ export const RegistroCargaDocumentos = (props) => {
 
     useEffect(() => {
         setActivar(true)
-        if (documentosApoyoList.length > 0) {           
+        if (documentosApoyoList.length > 0) {
             documentosApoyoList.map(e => {
-              if(!e.validarCarga){
-                setActivar(false)
-              }
-            })            
+                if (!e.validarCarga) {
+                    setActivar(false)
+                }
+            })
         }
 
         setValidarDocs(documentosApoyoList)
-    }, [documentosApoyoList]);
+    }, [documentosApoyoList, archivo]);
 
 
 
@@ -143,7 +143,7 @@ export const RegistroCargaDocumentos = (props) => {
             setMsjConfirmacion(`Archivo guardado`);
 
             //confirmar carga de docuemnto en el array de validaciones
-            
+
             getDocumentosApoyo(idPrograma, beneficiario.id);
 
             validandodocs();
@@ -151,6 +151,7 @@ export const RegistroCargaDocumentos = (props) => {
         }
         getGuardar(documentoApoyo);
         setOpenSnackbar(false);
+        setArchivos();
 
 
     }
@@ -190,6 +191,30 @@ export const RegistroCargaDocumentos = (props) => {
         })
         console.log('VALIDANDO DOCS', documentosApoyoList)
     }
+
+    const BotonSubir = ({ row }) => {
+        if (archivo != undefined) {
+            console.log("archivo boton subir activo boton", archivo);
+            if (!row.validarCarga) {
+                return (
+                    <Button key={row.id}
+                        variant="contained"
+                        color="primary"
+                        disabled={row.validarCarga}
+                        onClick={() => submit(row)}>
+                        Subir
+                    </Button>
+                );
+            } else {
+                return (
+                    <label>Su archivo se encuentra en expediente</label>
+                )
+            }
+        } else {
+            console.log("archivo boton subir no activo el boton", archivo);
+            return (<label>Selecciona un archivo</label>);
+        }
+    }
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>
@@ -208,6 +233,7 @@ export const RegistroCargaDocumentos = (props) => {
                                 <Grid item xs={12}>
                                     <Grid item xs={6}>
                                         <DropzoneArea
+                                            key={row.id}
                                             acceptedFiles={['application/pdf']}
                                             filesLimit='1'
                                             onChange={handleChange}
@@ -215,11 +241,9 @@ export const RegistroCargaDocumentos = (props) => {
                                             getPreviewIcon={handlePreviewIcon}
                                         />
                                     </Grid>
-                                   
 
-                                    <Button variant="contained" color="primary" disabled={row.validarCarga}   onClick={() => submit(row)}>
-                                        Subir
-                                    </Button>
+
+                                    <BotonSubir row={row} />
                                 </Grid>
                             </Grid>
                         );
