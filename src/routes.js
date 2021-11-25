@@ -79,6 +79,8 @@ import { BandejaSolicitudesRegistradas } from "views/BandejaGeneral/BandejaSolic
 import { BandejaSolicitudesValidadas } from "views/BandejaGeneral/BandejaSolicitudesValidadas";
 import { BandejaAutorizaSolicitudes } from "views/BandejaGeneral/BandejaAutorizaSolicitudes";
 import { ConsultaExpediente } from "views/Expediente/ConsultaExpediente"
+import { PadronBeneficiariasScreen } from "views/PadronBeneficiarios/PadronBeneficiariasScreen";
+
 
 const dashboardRoutes = [
   {
@@ -384,6 +386,16 @@ const dashboardRoutes = [
         mini: "sM",
         rtlMini: "sm",
         component: CarouselProgramas,
+        layout: "/admin"
+      },
+
+      {
+        path: "/padron",
+        name: "Padrón de beneficiarias",
+        rtlName: "pbf",
+        mini: "pbf",
+        rtlMini: "pbf",
+        component: PadronBeneficiariasScreen,
         layout: "/admin"
       },
 
