@@ -67,7 +67,7 @@ export const BandejaSolicitudesRegistradas = () => {
 
     const buscarSolitudes = () => {
         let solicitudFilter = {
-            'idEstatus': estatus === '' ? 'NULL' : estatus,
+            'idEstatus': estatus === '' ? 'Registradas' : estatus,
             'idPrograma': programa === '' ? 'NULL' : programa,
             'idMunicipio': municipio === '' ? 'NULL' : municipio
         }
@@ -155,7 +155,7 @@ export const BandejaSolicitudesRegistradas = () => {
                 </CardHeader>
                 <CardBody>
                     <Grid container spacing={3}>
-                        <Grid item xs={3}>
+                        {/*<Grid item xs={3}>
                             <TextField
                                 variant="outlined"
                                 label="Selecciona un estatus"
@@ -180,7 +180,7 @@ export const BandejaSolicitudesRegistradas = () => {
                                     )
                                 }
                             </TextField>
-                        </Grid>
+                        </Grid>*/}
 
                         <Grid item xs={3}>
                             <TextField
