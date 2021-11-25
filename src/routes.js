@@ -78,6 +78,7 @@ import { BitacoraScreen } from "views/Catalogos/BitacoraActividades/BitacoraScre
 import { BandejaSolicitudesRegistradas } from "views/BandejaGeneral/BandejaSolicitudesRegistradas";
 import { BandejaSolicitudesValidadas } from "views/BandejaGeneral/BandejaSolicitudesValidadas";
 import { BandejaAutorizaSolicitudes } from "views/BandejaGeneral/BandejaAutorizaSolicitudes";
+import { ConsultaExpediente } from "views/Expediente/ConsultaExpediente"
 
 const dashboardRoutes = [
   {
@@ -386,6 +387,15 @@ const dashboardRoutes = [
         layout: "/admin"
       },
 
+      {
+        path: "/consultaExpediente",
+        name: "Consulta de expedientes",
+        rtlName: "ce",
+        mini: "sM",
+        rtlMini: "sm",
+        component: ConsultaExpediente,
+        layout: "/admin"
+      },
     ]
   },
 
