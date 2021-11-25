@@ -71,6 +71,8 @@ import { GenerosContextProvider } from "contexts/catalogos/GenerosContext";
 import { IdentificacionesOficialesContextProvider } from "contexts/catalogos/IdentificacionesOficialesContext";
 import { GradoEstudioContextProvider } from "contexts/catalogos/GradoEstudioContext";
 import { OrigenSolicitudContextProvider } from "contexts/catalogos/OrigenSolicitudContext";
+import { BeneficiariosContextProvider } from "contexts/BeneficiariosContext";
+import { BandejaRechazosContextProvider } from "contexts/BandejaRechazosContext";
 
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
@@ -121,11 +123,15 @@ ReactDOM.render(
                                                                                 <GradoEstudioContextProvider>
                                                                                   <IdentificacionesOficialesContextProvider>
                                                                                     <OrigenSolicitudContextProvider>
-                                                                                      <Switch>
-                                                                                        <Route path="/admin" component={Admin} />
-                                                                                        <Route path="/public" component={Auth} />
-                                                                                        <Redirect from="/" to="/admin/dashboard" />
-                                                                                      </Switch>
+                                                                                      <BeneficiariosContextProvider>
+                                                                                        <BandejaRechazosContextProvider>
+                                                                                          <Switch>
+                                                                                            <Route path="/admin" component={Admin} />
+                                                                                            <Route path="/public" component={Auth} />
+                                                                                            <Redirect from="/" to="/admin/dashboard" />
+                                                                                          </Switch>
+                                                                                        </BandejaRechazosContextProvider>
+                                                                                      </BeneficiariosContextProvider>
                                                                                     </OrigenSolicitudContextProvider>
                                                                                   </IdentificacionesOficialesContextProvider>
                                                                                 </GradoEstudioContextProvider>

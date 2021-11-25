@@ -78,6 +78,8 @@ import { BitacoraScreen } from "views/Catalogos/BitacoraActividades/BitacoraScre
 import { BandejaSolicitudesRegistradas } from "views/BandejaGeneral/BandejaSolicitudesRegistradas";
 import { BandejaSolicitudesValidadas } from "views/BandejaGeneral/BandejaSolicitudesValidadas";
 import { BandejaAutorizaSolicitudes } from "views/BandejaGeneral/BandejaAutorizaSolicitudes";
+import { PadronBeneficiariasScreen } from "views/PadronBeneficiarios/PadronBeneficiariasScreen";
+
 
 const dashboardRoutes = [
   {
@@ -383,6 +385,16 @@ const dashboardRoutes = [
         mini: "sM",
         rtlMini: "sm",
         component: CarouselProgramas,
+        layout: "/admin"
+      },
+
+      {
+        path: "/padron",
+        name: "Padrón de beneficiarias",
+        rtlName: "pbf",
+        mini: "pbf",
+        rtlMini: "pbf",
+        component: PadronBeneficiariasScreen,
         layout: "/admin"
       },
 
