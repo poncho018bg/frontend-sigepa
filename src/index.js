@@ -124,17 +124,17 @@ ReactDOM.render(
                                                                                 <GradoEstudioContextProvider>
                                                                                   <IdentificacionesOficialesContextProvider>
                                                                                     <OrigenSolicitudContextProvider>
-                                                                                    <ExpedienteContextProvider>
-                                                                                     <BeneficiariosContextProvider>
-                                                                                                                                                                            <BandejaRechazosContextProvider>
-                                                                                      <Switch>
-                                                                                        <Route path="/admin" component={Admin} />
-                                                                                        <Route path="/public" component={Auth} />
-                                                                                        <Redirect from="/" to="/admin/dashboard" />
-                                                                                      </Switch>
-                                                                                       </BandejaRechazosContextProvider>
-                                                                                                                                                                            </BeneficiariosContextProvider>
-                                                                                       </ExpedienteContextProvider>
+                                                                                      <ExpedienteContextProvider>
+                                                                                        <BeneficiariosContextProvider>
+                                                                                          <BandejaRechazosContextProvider>
+                                                                                            <Switch>
+                                                                                              <Route path="/admin" component={Admin} />
+                                                                                              <Route path="/public" component={Auth} />
+                                                                                              <Redirect from="/" to="/admin/dashboard" />
+                                                                                            </Switch>
+                                                                                          </BandejaRechazosContextProvider>
+                                                                                        </BeneficiariosContextProvider>
+                                                                                      </ExpedienteContextProvider>
                                                                                     </OrigenSolicitudContextProvider>
                                                                                   </IdentificacionesOficialesContextProvider>
                                                                                 </GradoEstudioContextProvider>
