@@ -6,9 +6,8 @@ export default (state, action) => {
             console.log('action.payload', action.payload)
             return {
                 ...state,
-                solicitudParametrosExpediente: action.payload
+                beneficiariosList: action.payload
             };
-
         case ACTUALIZAR_EXPEDIENTE:
             return {
                 ...state,

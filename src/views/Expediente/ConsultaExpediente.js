@@ -6,7 +6,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import Dialog from "@material-ui/core/Dialog";
 import { DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
-import { Grid, FormHelperText, TextField} from '@material-ui/core';
+import { Grid, FormHelperText, TextField } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import moment from 'moment';
 import 'moment/locale/es';
@@ -17,6 +17,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 import { ExpedienteContext } from 'contexts/expedienteContext';
 
+
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@material-ui/core';
+
+import BeneficiariosExpediente from './BeneficiariosExpediente';
+
 import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
@@ -24,10 +29,12 @@ const useStyles = makeStyles(stylesArchivo);
 export const ConsultaExpediente = () => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const { getExpedienteParametros, solicitudParametrosExpediente } = useContext(ExpedienteContext);
+    const { getExpedienteParametros, solicitudParametrosExpediente, beneficiariosList } = useContext(ExpedienteContext);
     const [showDialogError, setShowDialogError] = useState(false);
 
-    const [nombre, setNombre] = useState("")
+    const [nombre, setNombre] = useState("");
+    const [apellidoPat, setApellidoPat] = useState("");
+    const [apellidoMat, setApellidoMat] = useState("");
     const [curp, setCurp] = useState("");
     const [errors, setErrors] = useState({});
 
@@ -43,10 +50,12 @@ export const ConsultaExpediente = () => {
         setErrors({});
         const errors = {};
 
-        if (nombre === '' && curp === '') {
+
+        if (nombre === '' && apellidoPat === '') {
             errors.nombre = "Debe ingresar un nombre!";
-            errors.curp = "Debe ingresar una Curp!";
+            errors.apellidoPat = "Debes de ingresar un apellido paterno";
         }
+
         if (!isObjEmpty(errors)) {
             setErrors(errors);
             return;
@@ -60,6 +69,8 @@ export const ConsultaExpediente = () => {
 
         let expedienteFilter = {
             'nombre': nombre === '' ? 'NULL' : nombre,
+            'apellidoPaterno': apellidoPat === '' ? 'NULL' : apellidoPat,
+            'apellidoMaterno': apellidoMat === '' ? 'NULL' : apellidoMat,
             'curp': curp === '' ? 'NULL' : curp,
         }
         console.log(expedienteFilter)
@@ -68,13 +79,13 @@ export const ConsultaExpediente = () => {
         if (solicitudParametrosExpediente === null) {
             setShowDialogError(true)
         }
-
     }
 
     const handleClose = () => {
         setShowDialogError(false);
     }
 
+    console.log("expediente lista beneficiario ==>", beneficiariosList);
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>
@@ -94,13 +105,49 @@ export const ConsultaExpediente = () => {
                                 variant="outlined"
                                 name="nombre"
                                 fullWidth
+                                value={nombre}
                                 onChange={event => {
                                     const { value } = event.target;
                                     setNombre(value);
                                 }}
+                                inputProps={{ maxlength: 50, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                             />
 
                             {errors.nombre && <FormHelperText error={errors.nombre}>{errors.nombre}</FormHelperText>}
+                        </Grid>
+                        <Grid item xs={3}>
+                            <TextField
+                                style={{ marginBottom: '20px' }}
+                                id="apellidoPat"
+                                label="Apellido Paterno"
+                                variant="outlined"
+                                name="apellidoPat"
+                                fullWidth
+                                value={apellidoPat}
+                                onChange={event => {
+                                    const { value } = event.target;
+                                    setApellidoPat(value);
+                                }}
+                                inputProps={{ maxlength: 50, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                            />
+
+                            {errors.apellidoPat && <FormHelperText error={errors.apellidoPat}>{errors.apellidoPat}</FormHelperText>}
+                        </Grid>
+                        <Grid item xs={3}>
+                            <TextField
+                                style={{ marginBottom: '20px' }}
+                                id="apellidoMat"
+                                label="Apellido Materno"
+                                variant="outlined"
+                                name="apellidoMat"
+                                fullWidth
+                                value={apellidoMat}
+                                onChange={event => {
+                                    const { value } = event.target;
+                                    setApellidoMat(value);
+                                }}
+                                inputProps={{ maxlength: 50, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                            />
                         </Grid>
 
                         <Grid item xs={3}>
@@ -128,17 +175,45 @@ export const ConsultaExpediente = () => {
                                 }}
                                 inputProps={{ maxlength: 18, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
                             />
-                            {errors.curp && <FormHelperText error={errors.curp}>{errors.curp}</FormHelperText>}
                         </Grid>
-                        <Grid item xs={3}>
-                        </Grid>
-                        <Grid item xs={3} style={{ textAlign: 'right', float: 'right' }}>
-                            <Button variant="contained" color="primary" fullWidth onClick={validarDatos}>
+                        <Grid item xs={12} style={{ textAlign: 'right', float: 'right' }}>
+                            <Button variant="contained" color="primary" onClick={validarDatos}>
                                 <SearchIcon />
                                 Buscar Expediente
                             </Button>
                         </Grid>
                     </Grid>
+                </CardBody>
+            </Card>
+
+            <Card>
+                <CardHeader color="primary">
+                    <h4 className={classes.cardTitleWhite}>Resultados de la busqueda</h4>
+                    <CardActions>
+                    </CardActions>
+                </CardHeader>
+                <CardBody>
+                    < Table stickyHeader aria-label="sticky table" >
+                        < TableHead >
+                            < TableRow key="898as" >
+                                < TableCell align="center"> Nombre</TableCell >
+                                < TableCell align="center"> Apellido Paterno</TableCell >
+                                < TableCell align="center"> Apellido Materno</TableCell >
+                                < TableCell align="center"> CURP</TableCell >
+                                < TableCell align="center"> Ver Datos</TableCell >
+                            </TableRow >
+                        </TableHead>
+                        < TableBody >
+                            {beneficiariosList.length >0 ?
+                                beneficiariosList.map((b, i) => {
+                                    return (
+                                        <BeneficiariosExpediente i={i} b={b} />
+                                    )
+                                })
+                                : <h4>No se encontraron datos</h4>
+                            }
+                        </TableBody>
+                    </Table>
                 </CardBody>
             </Card>
 
