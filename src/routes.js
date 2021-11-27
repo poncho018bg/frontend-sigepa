@@ -80,7 +80,7 @@ import { BandejaSolicitudesValidadas } from "views/BandejaGeneral/BandejaSolicit
 import { BandejaAutorizaSolicitudes } from "views/BandejaGeneral/BandejaAutorizaSolicitudes";
 import { ConsultaExpediente } from "views/Expediente/ConsultaExpediente"
 import { PadronBeneficiariasScreen } from "views/PadronBeneficiarios/PadronBeneficiariasScreen";
-
+import { Expediente } from "views/Expediente/Expediente"
 
 const dashboardRoutes = [
   {
@@ -406,6 +406,15 @@ const dashboardRoutes = [
         mini: "sM",
         rtlMini: "sm",
         component: ConsultaExpediente,
+        layout: "/admin"
+      },
+      {
+        path: "/expediente",
+        name: "Expediente",
+        rtlName: "ce",
+        mini: "sM",
+        rtlMini: "sm",
+        component: Expediente,
         layout: "/admin"
       },
     ]
