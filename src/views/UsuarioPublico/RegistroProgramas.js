@@ -26,6 +26,7 @@ import Button from "components/CustomButtons/Button.js";
 import ValidarPrograma from '../RegistroSolicitudContacto/ValidarPrograma';
 import ValidarEdadBeneficiario from '../RegistroSolicitudContacto/ValidarEdadBeneficiario';
 import ValidarProgramaMonetario from '../RegistroSolicitudContacto/ValidarProgramaMonetario';
+import ValidarBeneficiarioGuardado from '../RegistroSolicitudContacto/ValidarBeneficiarioGuardado';
 
 //
 import { RegistroCurp } from './RegistroCurp';
@@ -316,14 +317,16 @@ export const RegistroProgramas = () => {
                                                     setActivar={setActivar} />
                                             </ValidarProgramaMonetario>
                                             : activeStep === 2 ?
-                                                <RegistroDireccion
-                                                    activar={activar}
-                                                    setActivar={setActivar}
-                                                    beneficiario={beneficiario}
-                                                    obtenerDireccion={obtenerDireccion}
-                                                    ref={direccionChild}
-                                                    direccionBeneficiario={direccion}
-                                                    nombrePrograma={programa.dsprograma} />
+                                                <ValidarBeneficiarioGuardado beneficiario={beneficiario} setActivar={setActivar}>
+                                                    <RegistroDireccion
+                                                        activar={activar}
+                                                        setActivar={setActivar}
+                                                        beneficiario={beneficiario}
+                                                        obtenerDireccion={obtenerDireccion}
+                                                        ref={direccionChild}
+                                                        direccionBeneficiario={direccion}
+                                                        nombrePrograma={programa.dsprograma} />
+                                                </ValidarBeneficiarioGuardado>
                                                 : activeStep === 3 ?
                                                     <RegistroSolicitudContacto
                                                         activar={activar}

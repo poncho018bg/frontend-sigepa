@@ -27,10 +27,13 @@ const styles = {
     ...customCheckboxRadioSwitch,
 };
 
-const ValidarPrograma = ({ idPrograma, children }) => {
+const ValidarBeneficiarioGuardado = ({ beneficiario, setActivar, children }) => {
     const classes = useStyles();
-    console.log("ValidarPrograma ===>", idPrograma)
-    if (idPrograma === undefined || idPrograma === "")
+    console.log("validar beneficiario ===>", beneficiario)
+    console.log("validar beneficiario ===>", beneficiario.status)
+    if (beneficiario === "" || beneficiario.statis !== undefined) {
+        console.log("validar beneficiario viene vacio");
+        setActivar(false);
         return (
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
@@ -39,13 +42,17 @@ const ValidarPrograma = ({ idPrograma, children }) => {
                     </CardHeader>
                     <CardBody>
                         <Typography variant="body1" color="text.secondary">
-                            Debes de seleccionar un programa de apoyo
+                            El registro no pudo ser guardado, verifique que se llenaron todos los campos
                         </Typography>
                     </CardBody>
                 </Card>
             </GridItem>
         );
-    return children;
+    } else {
+        console.log("validar beneficiario no viene vacio");
+        setActivar(true);
+        return children;
+    }
 }
 
-export default ValidarPrograma;
+export default ValidarBeneficiarioGuardado;
