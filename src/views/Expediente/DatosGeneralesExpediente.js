@@ -43,6 +43,9 @@ const useStyles = makeStyles(styles);
 
 export const DatosGeneralesExpediente = forwardRef((props, ref) => {
 
+    console.log("LLEGA EL DatosGeneralesExpediente ---> ", props);
+    const { curpR, beneficiario, setIdentPrograma } = props;
+
     const classes = useStyles();
     const [nombre, setNombre] = useState("")
     const [curp, setCurp] = useState("");
@@ -58,10 +61,8 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
     const [identificacion, setIdentificacion] = useState("");
     const [rfc, setRfc] = useState("");
     const [idIdentificaion, setIdIdentificaion] = useState("");
-    const [identPrograma, setIdentPrograma] = useState();
     const [idPrograma, setIdPrograma] = useState();
     const [datosCorrectos, setDatosCorrectos] = useState(true);
-    const { beneficiario } = {};
 
     const { getGeneros, generosList,
         estudiosList, getEstudios,
@@ -74,13 +75,11 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
     useEffect(() => {
         setLoading(true);
         if (beneficiario !== undefined) {
-            console.log('X=>', response);
             setNombre(beneficiario.dsnombre);
             setCurp(beneficiario.dscurp);
             setApellidoPaterno(beneficiario.dsapellido1);
             setapellidoMaterno(beneficiario.dsapellido2);
-            //setGenero(generoCurp(beneficiario.data.response[0].sexo))
-            console.log("fecha --->", beneficiario.data.response[0].fechaNacimientoAxu)
+            console.log("fecha --->", beneficiario.fechaNacimientoAxu)
             var dateParts = beneficiario.fcfechanacimiento.split("/");
             console.log("date parts ", +dateParts[2], dateParts[1] - 1, dateParts[0])
             var date = new Date(+dateParts[2], dateParts[1] - 1, dateParts[0]);
@@ -88,7 +87,6 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
             console.log("fomateada fecha ---> ", moment(date).format("YYYY-MM-DD"))
             setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
             setFechaNacimientoAxu(beneficiario.fcfechanacimiento);
-            //setEdad(response.data.response[0].edad);
             setGenero(beneficiario.idgenero);
             setEstudios(beneficiario.idgradoestudios);
             setEstadoCivil(beneficiario.idestadocivil);
@@ -134,6 +132,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
             rfc,
             idIdentificaion);
     }
+
     useImperativeHandle(ref, () => ({
         registroBeneficiario() {
             llenado();
@@ -182,7 +181,6 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
     const isValidated = () => {
         return true;
     };
-
 
     return (
         <div>

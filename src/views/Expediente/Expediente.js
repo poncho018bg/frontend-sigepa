@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React from "react";
+import React, { useContext, useEffect, useState, useRef } from 'react';
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -11,24 +11,51 @@ import Cloud from "@material-ui/icons/Cloud";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import styles from "assets/jss/material-dashboard-react/cardImagesStyles"
+import styles from "assets/jss/material-dashboard-react/cardImagesStyles";
+import { useLocation } from "react-router-dom";
+import { useHistory } from "react-router";
 
 import { FormularioExpediente } from './FormularioExpediente';
 import { DatosGeneralesExpediente } from './DatosGeneralesExpediente';
 import { DireccionExpediente } from './DireccionExpediente';
-import { ContactoExpediente} from "./ContactoExpediente"
-import { ApoyosRecibidosExpediente} from "./ApoyosRecibidosExpediente"
-import { ObservacionesExpediente} from "./ObservacionesExpediente"
+import { ContactoExpediente } from "./ContactoExpediente"
+import { ApoyosRecibidosExpediente } from "./ApoyosRecibidosExpediente"
+import { ObservacionesExpediente } from "./ObservacionesExpediente"
 
 import { widgetStories, bugs, website, server } from "variables/general.js";
 import { ExpedienteDocumentos } from "./ExpedienteDocumentos";
 import CustomTabs from "components/CustomTabs/CustomTabs";
+
+import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 
 const useStyles = makeStyles(styles);
 
 export const Expediente = () => {
 
     const [value, setValue] = React.useState(0);
+    const { beneficiario, registrarBeneficiario, direccion,
+        registrarDireccionBeneficiario, getBeneficiario, actualizarBeneficiario,
+        obtenerDireccionBeneficiario, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
+
+    const child = useRef();
+    const direccionChild = useRef();
+    const contacto = useRef();
+    const [activar, setActivar] = useState();
+    const [curp, setCurp] = useState();
+    const [identPrograma, setIdentPrograma] = useState();
+    const [idBeneficiario, setIdBeneficiario] = useState();
+
+    let query = useLocation();
+    let history = useHistory();
+
+    useEffect(() => {
+        if (query.state?.curp) {
+            setCurp(query.state?.curp);
+            setIdBeneficiario(query.state?.id)
+            obtenerDireccionBeneficiario(query.state?.id);
+            getBeneficiario(query.state?.curp)
+        }
+    }, []);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -48,11 +75,16 @@ export const Expediente = () => {
                                 tabIcon: Store,
                                 tabContent: (
                                     <GridItem xs={12} sm={12}>
-                                        <DatosGeneralesExpediente />
-                                        <DireccionExpediente />
-                                        <ContactoExpediente/>
-                                        <ApoyosRecibidosExpediente/>
-                                        <ObservacionesExpediente/>
+                                        <DatosGeneralesExpediente
+                                            curpR={curp}
+                                            ref={child}
+                                            beneficiario={beneficiario}
+                                            setIdentPrograma={setIdentPrograma}
+                                            setActivar={setActivar} />
+                                        <DireccionExpediente activar={activar} setActivar={setActivar} direccionBeneficiario={direccion} idBeneficiario={idBeneficiario} ref={contacto} />
+                                        <ContactoExpediente  direccionB={direccion} ref={contacto} />
+                                        <ApoyosRecibidosExpediente />
+                                        <ObservacionesExpediente />
                                     </GridItem>
                                 ),
                             },

@@ -3,9 +3,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import Add from '@material-ui/icons/Add';
+import { useHistory } from "react-router";
 
 const BeneficiariosExpediente = ({ i, b }) => {
 
+    let history = useHistory();
+    
     const onClick = (linea) => {
         console.log("expediente beneficiario ===>", linea);
         history.push("/admin/expediente", { id: linea.id, curp:linea.dscurp });

@@ -12,8 +12,8 @@ import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 const useStyles = makeStyles(stylesArchivo);
 
 export const ContactoExpediente = forwardRef((props, ref) => {
-    const { direccionB, beneficiario } = props;
-    console.log("direccionB en forward ref--->", direccionB, beneficiario);
+    const { direccionB, idBeneficiario } = props;
+    console.log("direccionB en forward ref--->", direccionB, idBeneficiario);
     const classes = useStyles();
     // 
     const [celular, setCelular] = useState('');
@@ -43,18 +43,10 @@ export const ContactoExpediente = forwardRef((props, ref) => {
 
     const llenado = () => {
         if (direccionB != undefined) {
-            if (beneficiario != undefined) {
-                var idBen = "";
-                if (beneficiario[0] !== undefined) {
-                    console.log("LLEGA EL ID DEL BENEFICIARIO AL LLENAR LOS DATOS? ---> ", direccionB[0].id, beneficiario[0].id);
-                    idBen = beneficiario[0].id;
-                } else {
-                    idBen = beneficiario.id
-                }
-
+            if (idBeneficiario != undefined) {  
                 let datosDireccion = {
                     id: direccionB[0].id,
-                    idBeneficiario: idBen,
+                    idBeneficiario: idBeneficiario,
                     calle: direccionB[0].calle,
                     noExterior: direccionB[0].noExterior,
                     noInterior: direccionB[0].noInterior,

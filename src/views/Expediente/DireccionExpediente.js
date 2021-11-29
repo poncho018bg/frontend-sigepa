@@ -31,7 +31,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
     const classes = useStyles();
     const { idBeneficiario, obtenerDireccion, direccionBeneficiario } = props;
 
-    console.log("LLEGA EL ID DEL BENEFICIARIO ---> ", idBeneficiario);
+    console.log("LLEGA EL direccionBeneficiario ---> ", direccionBeneficiario);
 
     const [simpleSelect, setsimpleSelect] = React.useState("");
     const { getEstadosAll, estadosList } = useContext(EstadosContext);
@@ -49,8 +49,6 @@ export const DireccionExpediente = forwardRef((props, ref) => {
     const [idEstado, setIdEstado] = useState("");
     const [idMunicipio, setIdMunicipio] = useState("");
     const [activar, setActivar] = useState("");
-
-
 
 
     useEffect(() => {
@@ -80,54 +78,26 @@ export const DireccionExpediente = forwardRef((props, ref) => {
 
 
     const llenado = () => {
-        if (beneficiario != undefined) {
-            console.log("beneficiario ===>", beneficiario);
-            var id = "";
-            if (beneficiario[0] !== undefined) {
-                console.log("LLEGA EL ID DEL BENEFICIARIO AL LLENAR LOS DATOS? ---> ", beneficiario[0].id);
-                id = beneficiario[0].id;
-            } else {
-                console.log("USA EL BEN como id");
-                id = beneficiario.id;
-            }
+        if (idBeneficiario != undefined) {
+            console.log("idBeneficiario ===>", idBeneficiario);
             let datosDireccion = {};
-            if (direccionBeneficiario[0] === undefined) {
-                datosDireccion = {
-                    idBeneficiario: id,
-                    calle: calle,
-                    noExterior: noExterior,
-                    noInterior: noInterior,
-                    colonia: colonia,
-                    entreCalle: entreCalle,
-                    yCalle: yCalle,
-                    codigoPostal: codigoPostal,
-                    idLocalidad: idLocalidad,
-                    otraReferencia: otraReferencia,
-                    telefonoCasa: '',
-                    telefonoCelular: '',
-                    telefonoContacto: '',
-                    correo: '',
-                    dsobservaciones: ''
-                }
-            } else {
-                datosDireccion = {
-                    id: direccionBeneficiario[0].id,
-                    idBeneficiario: id,
-                    calle: calle,
-                    noExterior: noExterior,
-                    noInterior: noInterior,
-                    colonia: colonia,
-                    entreCalle: entreCalle,
-                    yCalle: yCalle,
-                    codigoPostal: codigoPostal,
-                    idLocalidad: idLocalidad,
-                    otraReferencia: otraReferencia,
-                    telefonoCasa: direccionBeneficiario[0].telefonoCasa,
-                    telefonoCelular: direccionBeneficiario[0].telefonoCelular,
-                    telefonoContacto: direccionBeneficiario[0].telefonoContacto,
-                    correo: direccionBeneficiario[0].correo,
-                    dsobservaciones: direccionBeneficiario[0].dsobservaciones
-                }
+            datosDireccion = {
+                id: direccionBeneficiario[0].id,
+                idBeneficiario: idBeneficiario,
+                calle: calle,
+                noExterior: noExterior,
+                noInterior: noInterior,
+                colonia: colonia,
+                entreCalle: entreCalle,
+                yCalle: yCalle,
+                codigoPostal: codigoPostal,
+                idLocalidad: idLocalidad,
+                otraReferencia: otraReferencia,
+                telefonoCasa: direccionBeneficiario[0].telefonoCasa,
+                telefonoCelular: direccionBeneficiario[0].telefonoCelular,
+                telefonoContacto: direccionBeneficiario[0].telefonoContacto,
+                correo: direccionBeneficiario[0].correo,
+                dsobservaciones: direccionBeneficiario[0].dsobservaciones
             }
             console.log("Datos que debe guardar", datosDireccion);
             /**
@@ -138,7 +108,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
              */
             obtenerDireccion(datosDireccion);
         } else {
-            console.log("llega ben ---->", beneficiario);
+            console.log("llega ben ---->", idBeneficiario);
         }
 
     }
@@ -146,7 +116,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
     useImperativeHandle(ref, () => ({
         registroDireccion(beneficiario1) {
             console.log("REGISTRO DIRECCION BEN ---->", beneficiario1);
-            console.log("SE LLENO BENeficiario --->", beneficiario);
+            console.log("SE LLENO BENeficiario --->", idBeneficiario);
             llenado();
         }
     })

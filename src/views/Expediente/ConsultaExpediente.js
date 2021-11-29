@@ -10,6 +10,7 @@ import { Grid, FormHelperText, TextField } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import moment from 'moment';
 import 'moment/locale/es';
+import { useHistory } from "react-router";
 
 import SearchIcon from '@material-ui/icons/Search';
 import CardActions from '@material-ui/core/CardActions';
@@ -29,6 +30,7 @@ const useStyles = makeStyles(stylesArchivo);
 export const ConsultaExpediente = () => {
     const { t } = useTranslation();
     const classes = useStyles();
+    let history = useHistory();
     const { getExpedienteParametros, solicitudParametrosExpediente, beneficiariosList } = useContext(ExpedienteContext);
     const [showDialogError, setShowDialogError] = useState(false);
 
