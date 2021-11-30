@@ -155,21 +155,26 @@ export const CarouselProgramas = () => {
                             al {moment(programDetail?.fcregistropresencialfin).format(" DD [de] MMMM  YYYY ")}</p>
                         <p>Periodo de registro Web del {moment(programDetail?.fcregistrowebinicio).format(" DD [de] MMMM ")}
                             al  {moment(programDetail?.fcregistrowebfin).format(" DD [de] MMMM  YYYY ")}</p>
-
-                        <Card>
-                            <CardHeader color="primary">
-                                <h4 className={classes.cardTitleWhite}>URL del programa</h4>
-                            </CardHeader>
-                            <CardBody>
-                                <h5>{window.location.origin}/frontend-sigepa/public/registroProgramas?programa={programDetail?.dsurl}</h5>
-                            </CardBody>
-                        </Card>
-
+                        {programDetail?.existeTipoApoyoPrograma === true ?
+                            <Card>
+                                <CardHeader color="primary">
+                                    <h4 className={classes.cardTitleWhite}>URL del programa {programDetail?.existeTipoApoyoPrograma}</h4>
+                                </CardHeader>
+                                <CardBody>
+                                    <h5>{window.location.origin}/frontend-sigepa/public/registroProgramas?programa={programDetail?.dsurl}</h5>
+                                </CardBody>
+                            </Card>
+                            : <h5>No se guardo el tipo de apoyo del programa</h5>
+                        }
                     </DialogContent>
                     <DialogActions>
-                        <Button autoFocus onClick={() => redirectRegister(programDetail)} color="primary" disabled={!programDetail?.registroPresencial}>
-                            Registro solicitud de apoyo
-                        </Button>
+                        {programDetail?.existeTipoApoyoPrograma === true ?
+                            <Button autoFocus onClick={() => redirectRegister(programDetail)} color="primary" disabled={!programDetail?.registroPresencial}>
+                                Registro solicitud de apoyo
+                            </Button>
+                            : <Button color="primary" disabled='True'>
+                                Registro solicitud de apoyo
+                            </Button>}
                     </DialogActions>
                 </Dialog>
 

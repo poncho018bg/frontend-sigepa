@@ -27,6 +27,7 @@ import ValidarPrograma from '../RegistroSolicitudContacto/ValidarPrograma';
 import ValidarEdadBeneficiario from '../RegistroSolicitudContacto/ValidarEdadBeneficiario';
 import ValidarProgramaMonetario from '../RegistroSolicitudContacto/ValidarProgramaMonetario';
 import ValidarBeneficiarioGuardado from '../RegistroSolicitudContacto/ValidarBeneficiarioGuardado';
+import ValidarProgramaTipoApoyo from './ValidarProgramaTipoApoyo';
 
 //
 import { RegistroCurp } from './RegistroCurp';
@@ -301,8 +302,10 @@ export const RegistroProgramas = () => {
                             ) : (
                                 <>
                                     {activeStep === 0 ?
-                                        <RegistroCurp setActivar={setActivar} curp={curp} setCurp={setCurp}
-                                            nombrePrograma={programa.dsprograma} />
+                                        <ValidarProgramaTipoApoyo programa={programa} setActivar={setActivar}>
+                                            <RegistroCurp setActivar={setActivar} curp={curp} setCurp={setCurp}
+                                                nombrePrograma={programa.dsprograma} />
+                                        </ValidarProgramaTipoApoyo>
                                         : activeStep === 1 ?
                                             <ValidarProgramaMonetario curp={curp} edadValida={edadValida} setActivar={setActivar}>
                                                 <RegistroDatosSolicitante
