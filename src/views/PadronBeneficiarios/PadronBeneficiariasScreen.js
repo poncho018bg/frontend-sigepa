@@ -4,7 +4,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid, TextField, MenuItem } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Grid, TextField, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
 import moment from 'moment';
 import 'moment/locale/es';
@@ -56,10 +56,13 @@ export const PadronBeneficiariasScreen = () => {
     const [idMotivoBaja, setIdMotivoBaja] = useState('');
     const [masprogramas, setMasprogramas] = useState(true);
 
+    const [llMotivoBaja, setLlMotivoBaja] = useState('');
+    const [dsMotivoBaja, setDsMotivoBaja] = useState('');
+    const [idMvBandejaSol, setIdMvBandejaSol] = useState('');
     const [error, setError] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
-
+    const [open, setOpen] = React.useState(false);
     useEffect(() => {
         getCien()
         getTiposApoyos()
@@ -67,7 +70,9 @@ export const PadronBeneficiariasScreen = () => {
 
     }, []);
 
-
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -109,20 +114,13 @@ export const PadronBeneficiariasScreen = () => {
 
     }, [beneficiariaList]);
 
-    const cambiarMotivoBaja = (row, dta) => {     
-        row.idMotivoBaja = dta
-        row.activo = true
-        padronList.map(e=>{
-            if(e.id === row.id){
-                e.idMotivoBaja =dta
-                e.activo = true
-            }
-        })
-       
+    const redirectRegister = () => {
+
+
         let bandejaRechz = {
-            'dsobservaciones': '',
-            'motivo_rechazo_id': dta,
-            'mv_bandeja_id': `${row.idMvBandejaSol}`
+            'dsobservaciones': dsMotivoBaja,
+            'motivo_rechazo_id': llMotivoBaja,
+            'mv_bandeja_id': `${idMvBandejaSol}`
         }
 
         registrarBandejaRechazos(bandejaRechz).then(response => {
@@ -132,8 +130,8 @@ export const PadronBeneficiariasScreen = () => {
 
             const timer = setTimeout(() => {
 
-                setError(false);                
-               
+                setError(false);
+                setOpen(false);
 
             }, 1500);
             return () => clearTimeout(timer);
@@ -144,6 +142,21 @@ export const PadronBeneficiariasScreen = () => {
                 setError(true);
                 setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
             });
+    }
+
+    const cambiarMotivoBaja = (row, dta) => {
+        setOpen(true);
+        row.idMotivoBaja = dta
+        row.activo = true
+        setLlMotivoBaja(dta)
+        setIdMvBandejaSol(row.idMvBandejaSol)
+        padronList.map(e => {
+            if (e.id === row.id) {
+                e.idMotivoBaja = dta
+                e.activo = true
+            }
+        })
+
 
     }
 
@@ -426,6 +439,39 @@ export const PadronBeneficiariasScreen = () => {
                 severity={error ? "error" : "success"}
                 message={msjConfirmacion}
             />
+
+
+            <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="lg" fullWidth={true}>
+                <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+
+                    <h2> Motivo de baja </h2>
+                </DialogTitle>
+                <DialogContent >
+                    <DialogContent >
+                        <TextField
+                            id="dsMotivoBaja"
+                            label="Motivo de baja"
+                            variant="outlined"
+                            fullWidth
+                            name={dsMotivoBaja}
+                            fullWidth
+                            value={dsMotivoBaja}
+                            onChange={(e) => setDsMotivoBaja(e.target.value)}
+                        />
+
+                    </DialogContent>
+
+
+                </DialogContent>
+                <DialogActions>
+                    <Button autoFocus onClick={() => redirectRegister()} color="primary">
+                        Guardar
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+
+
         </GridItem>
 
     )
