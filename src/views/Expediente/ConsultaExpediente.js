@@ -87,7 +87,7 @@ export const ConsultaExpediente = () => {
         setShowDialogError(false);
     }
 
-    console.log("expediente lista beneficiario ==>", beneficiariosList);
+    
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>

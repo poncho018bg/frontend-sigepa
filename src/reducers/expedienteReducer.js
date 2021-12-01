@@ -1,4 +1,4 @@
-import { GET_EXPEDIENTE_PARAMETROS, ACTUALIZAR_EXPEDIENTE } from '../types/actionTypes';
+import { GET_EXPEDIENTE_PARAMETROS, ACTUALIZAR_EXPEDIENTE, GET_ULTIMO_PROGRAMA_BENEFICIARIO } from '../types/actionTypes';
 
 export default (state, action) => {
     switch (action.type) {
@@ -12,6 +12,11 @@ export default (state, action) => {
             return {
                 ...state,
                 expediente: action.payload
+            };
+        case GET_ULTIMO_PROGRAMA_BENEFICIARIO:
+            return {
+                ...state,
+                programaList: action.payload
             };
     }
 }

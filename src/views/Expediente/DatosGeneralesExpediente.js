@@ -11,7 +11,6 @@ import CardBody from "components/Card/CardBody.js";
 
 import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle.js";
 import customCheckboxRadioSwitch from "assets/jss/material-dashboard-pro-react/customCheckboxRadioSwitch.js";
-import axios from "axios";
 import { Grid, TextField, MenuItem } from "@material-ui/core";
 
 import moment from 'moment';
@@ -19,7 +18,7 @@ import 'moment/locale/es';
 
 import { RegistroSolicitudContext } from "contexts/registroSolicitudContext";
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
-import { Loading } from "components/Personalizados/Loading";
+import { ExpedienteContext } from 'contexts/expedienteContext';
 
 const styles = {
     infoText: {
@@ -44,7 +43,7 @@ const useStyles = makeStyles(styles);
 export const DatosGeneralesExpediente = forwardRef((props, ref) => {
 
     console.log("LLEGA EL DatosGeneralesExpediente ---> ", props);
-    const { curpR, beneficiario, setIdentPrograma } = props;
+    const { beneficiario, setIdentPrograma,setIdProgramaExpediente } = props;
 
     const classes = useStyles();
     const [nombre, setNombre] = useState("")
@@ -72,19 +71,23 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
 
     const { programasList, get, getCien } = useContext(ProgramasContext);
 
+    const { BeneficiarioPrograma, programaList } = useContext(ExpedienteContext);
+
     useEffect(() => {
         setLoading(true);
+        console.log("expediente beneficiario ==>", beneficiario)
         if (beneficiario !== undefined) {
             setNombre(beneficiario.dsnombre);
             setCurp(beneficiario.dscurp);
             setApellidoPaterno(beneficiario.dsapellido1);
             setapellidoMaterno(beneficiario.dsapellido2);
-            console.log("fecha --->", beneficiario.fechaNacimientoAxu)
-            var dateParts = beneficiario.fcfechanacimiento.split("/");
-            console.log("date parts ", +dateParts[2], dateParts[1] - 1, dateParts[0])
-            var date = new Date(+dateParts[2], dateParts[1] - 1, dateParts[0]);
-            console.log("chale -->", date);
-            console.log("fomateada fecha ---> ", moment(date).format("YYYY-MM-DD"))
+            console.log("fecha --->", beneficiario.fcfechanacimiento)
+            var dateParts = beneficiario.fcfechanacimiento.split("-");
+            var dateParts2 = dateParts[2].split(" ");
+            //console.log("date parts", +dateParts2[0], dateParts[1] - 1, dateParts[0])
+            var date = new Date(dateParts[0], dateParts[1] - 1, +dateParts2[0]);
+            console.log("date parts chale -->", date);
+            console.log("date parts fomateada fecha ---> ", moment(date).format("YYYY-MM-DD"))
             setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
             setFechaNacimientoAxu(beneficiario.fcfechanacimiento);
             setGenero(beneficiario.idgenero);
@@ -92,7 +95,13 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
             setEstadoCivil(beneficiario.idestadocivil);
             setIdentificacion(beneficiario.ididentificacionoficial);
             setRfc(beneficiario.rfc);
-            setIdIdentificaion(beneficiario.dsiddocumento)
+            setIdIdentificaion(beneficiario.dsiddocumento);
+            let fechaDif = Date.now() - date.getTime();
+            let ageDate = new Date(fechaDif);
+            console.log("date parts fechaDif ====>", fechaDif, ageDate);
+            console.log("date parts EDAD ===>", Math.abs(ageDate.getUTCFullYear() - 1970))
+            setEdad(Math.abs(ageDate.getUTCFullYear() - 1970));
+            BeneficiarioPrograma(beneficiario.id);
         }
         getCien().then(data => {
             setTimeout(() => setLoading(false), 500);
@@ -101,8 +110,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
         getEstudios();
         getEstadoCivil();
         getIdentificaciones();
-
-    }, []);
+    }, [beneficiario]);
 
     const generoCurp = (generocrp) => {
         console.log('', generocrp)
@@ -182,6 +190,9 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
         return true;
     };
 
+    if(programaList.length > 0){
+        setIdProgramaExpediente(programaList[0].programa_id);
+    }
     return (
         <div>
             <h4 className={classes.infoText}></h4>
@@ -289,6 +300,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                         id="fechaNacimientoAxu"
                                         label="Fecha nacimiento"
                                         variant="outlined"
+                                        type="datetime-local"
                                         name="fechaNacimientoAxu"
                                         fullWidth
                                         value={fechaNacimientoAxu}
@@ -380,34 +392,48 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     />
                                 </GridItem>
                             </Grid>
+                            {programaList.length > 0 &&
 
-                            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                                <GridItem xs={12} sm={3}>
-                                    <TextField
-                                        style={{ marginBottom: '20px' }}
-                                        id="programa"
-                                        label="Programa"
-                                        variant="outlined"
-                                        name="programa"
-                                        fullWidth
-                                        select
-                                        onChange={onChange}
-                                        value={idPrograma}
-                                    >
-                                        {
-                                            programasList.map(
-                                                (g, i) => (
-                                                    <MenuItem
-                                                        key={i}
-                                                        value={g.id}>
-                                                        {g.dsprograma}
-                                                    </MenuItem>
+                                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                                    <GridItem xs={12} sm={3}>
+                                        <TextField
+                                            style={{ marginBottom: '20px' }}
+                                            id="dsfolio"
+                                            label="Folio"
+                                            variant="outlined"
+                                            name="dsfolio"
+                                            fullWidth
+                                            value={programaList[0].dsfolio}
+                                        >
+                                        </TextField>
+                                    </GridItem>
+                                    <GridItem xs={12} sm={3}>
+                                        <TextField
+                                            style={{ marginBottom: '20px' }}
+                                            id="programa"
+                                            label="Programa"
+                                            variant="outlined"
+                                            name="programa"
+                                            fullWidth
+                                            select
+                                            onChange={onChange}
+                                            value={programaList[0].programa_id}
+                                        >
+                                            {
+                                                programasList.map(
+                                                    (g, i) => (
+                                                        <MenuItem
+                                                            key={i}
+                                                            value={g.id}>
+                                                            {g.dsprograma}
+                                                        </MenuItem>
+                                                    )
                                                 )
-                                            )
-                                        }
-                                    </TextField>
-                                </GridItem>
-                            </Grid>
+                                            }
+                                        </TextField>
+                                    </GridItem>
+                                </Grid>
+                            }
                         </GridContainer>
                     </CardBody >
                 </Card >

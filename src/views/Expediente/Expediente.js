@@ -44,11 +44,13 @@ export const Expediente = () => {
     const [curp, setCurp] = useState();
     const [identPrograma, setIdentPrograma] = useState();
     const [idBeneficiario, setIdBeneficiario] = useState();
+    const [idProgramaExpediente, setIdProgramaExpediente] = useState();
 
     let query = useLocation();
     let history = useHistory();
 
     useEffect(() => {
+        console.log("expediente ==>", query.state);
         if (query.state?.curp) {
             setCurp(query.state?.curp);
             setIdBeneficiario(query.state?.id)
@@ -76,13 +78,20 @@ export const Expediente = () => {
                                 tabContent: (
                                     <GridItem xs={12} sm={12}>
                                         <DatosGeneralesExpediente
-                                            curpR={curp}
                                             ref={child}
                                             beneficiario={beneficiario}
                                             setIdentPrograma={setIdentPrograma}
-                                            setActivar={setActivar} />
-                                        <DireccionExpediente activar={activar} setActivar={setActivar} direccionBeneficiario={direccion} idBeneficiario={idBeneficiario} ref={contacto} />
-                                        <ContactoExpediente  direccionB={direccion} ref={contacto} />
+                                            setActivar={setActivar} 
+                                            setIdProgramaExpediente={setIdProgramaExpediente}/>
+                                        <DireccionExpediente
+                                            activar={activar}
+                                            setActivar={setActivar}
+                                            direccionBeneficiario={direccion}
+                                            idBeneficiario={idBeneficiario}
+                                            ref={contacto} />
+                                        <ContactoExpediente
+                                            direccionB={direccion}
+                                            ref={contacto} />
                                         <ApoyosRecibidosExpediente />
                                         <ObservacionesExpediente />
                                     </GridItem>
