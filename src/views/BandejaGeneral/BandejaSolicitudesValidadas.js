@@ -76,19 +76,18 @@ export const BandejaSolicitudesValidadas = () => {
     }
 
     const pendienteAprobarSeleccionadas = () => {
-        console.log("Manda pendiente de aprobar las seleccionadas")
-        setShowDialogEstatusMultiple(true);
+        setShowDialogEstatusSeleccionadas(true);
     }
 
     const pendienteAprobarGeneral = () => {
-        console.log("cambio estatus multiple");        
+        console.log("cambio estatus general");        
         setTotalRegistros(solicitudParametrosBandeja.length);
         setShowDialogEstatusGeneral(true);
     }
 
     // Cambio de estatus seleccioandas
     const handleCambiarEstatusSeleccionada = () => {
-        console.log("entra a handleCambiarEstatusSeleccionada");
+        console.log("entra a handleCambiarEstatusSeleccionada", selected.length);
         for (let i = 0; i < selected.length; i++) {
             selected[i].idUsuario = sessionStorage.getItem('idUSuario');
         }
