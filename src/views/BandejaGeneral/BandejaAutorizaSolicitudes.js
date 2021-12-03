@@ -26,7 +26,6 @@ import { useTranslation } from 'react-i18next';
 import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
 import { EstatusRegistroContext } from 'contexts/catalogos/EstatusRegistroContext';
-import { MunicipiosContext } from "contexts/catalogos/MunicipiosContext";
 import { ComiteSecretariasContext } from "contexts/catalogos/comiteSecretariasContext";
 const useStyles = makeStyles(stylesArchivo);
 
@@ -36,7 +35,6 @@ export const BandejaAutorizaSolicitudes = () => {
     const { getSolParametrosBandejaAprobar, solicitudParametrosBandeja, bandejaCambioEstatusAprobar } = useContext(RegistroSolicitudContext);
     const { getCien, programasList } = useContext(ProgramasContext);
     const { getEstatusRegistro, estatusRegistroList } = useContext(EstatusRegistroContext);
-    const { getMunicipios, municipiosList } = useContext(MunicipiosContext);
     const { getComiteSecretarias, comiteSecretariasList } = useContext(ComiteSecretariasContext);
     const classes = useStyles();
 
@@ -57,7 +55,6 @@ export const BandejaAutorizaSolicitudes = () => {
         setErrors({});
         getCien()
         getEstatusRegistro()
-        getMunicipios()
         getComiteSecretarias();
     }, []);
 
