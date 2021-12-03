@@ -440,6 +440,7 @@ export const ProgramasForm = () => {
                       label="Vigencia del programa hasta"
                       type="date"
                       fullWidth
+                      disabled={formik.values.vigenciaDesde === null}
                       className={classes.textField}
                       InputLabelProps={{
                         shrink: true,
@@ -471,6 +472,7 @@ export const ProgramasForm = () => {
                       label="Periodo registro presencial desde"
                       type="date"
                       fullWidth
+                      disabled={formik.values.vigenciaDesde === null}
                       className={classes.textField}
                       InputLabelProps={{
                         shrink: true,
@@ -480,7 +482,8 @@ export const ProgramasForm = () => {
                       onChange={formik.handleChange}
                       InputProps={{
                         inputProps: {
-
+                          min: formik.values.vigenciaDesde,
+                          max: formik.values.vigenciaHasta
                         }
                       }}
                     />
@@ -504,6 +507,7 @@ export const ProgramasForm = () => {
                       label="Periodo registro presencial hasta"
                       type="date"
                       fullWidth
+                      disabled={formik.values.periodoRegistroPresencialDesde === null}
                       className={classes.textField}
                       InputLabelProps={{
                         shrink: true,
@@ -513,7 +517,8 @@ export const ProgramasForm = () => {
                       onChange={formik.handleChange}
                       InputProps={{
                         inputProps: {
-                          min: formik.values.periodoRegistroPresencialDesde
+                          min: formik.values.periodoRegistroPresencialDesde,
+                          max: formik.values.vigenciaHasta
                         }
                       }}
                     />
@@ -537,6 +542,7 @@ export const ProgramasForm = () => {
                       label="Periodo registro web desde"
                       type="date"
                       fullWidth
+                      disabled={formik.values.vigenciaDesde === null}
                       className={classes.textField}
                       InputLabelProps={{
                         shrink: true,
@@ -546,7 +552,8 @@ export const ProgramasForm = () => {
                       onChange={formik.handleChange}
                       InputProps={{
                         inputProps: {
-
+                          min: formik.values.vigenciaDesde,
+                          max: formik.values.vigenciaHasta
                         }
                       }}
                     />
@@ -566,6 +573,7 @@ export const ProgramasForm = () => {
                       label="Periodo registro web hasta"
                       type="date"
                       fullWidth
+                      disabled={formik.values.periodoRegistroWebDesde === null}
                       className={classes.textField}
                       InputLabelProps={{
                         shrink: true,
@@ -575,7 +583,8 @@ export const ProgramasForm = () => {
                       onChange={formik.handleChange}
                       InputProps={{
                         inputProps: {
-                          min: formik.values.periodoRegistroWebDesde
+                          min: formik.values.periodoRegistroWebDesde,
+                          max: formik.values.vigenciaHasta
                         }
                       }}
                     />
