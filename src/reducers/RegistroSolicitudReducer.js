@@ -18,7 +18,8 @@ import {
     BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA_APROBAR,
     CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_VALIDADA,
     CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_PENDIENTE,
-    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR,
+    GET_BENEFICIARIO_REGISTRADO_PROGRAMA
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -118,6 +119,11 @@ export default (state, action) => {
             return {
                 ...state,
                 beneficiarioCancelado: action.payload
+            };
+        case GET_BENEFICIARIO_REGISTRADO_PROGRAMA:
+            return {
+                ...state,
+                beneficiarioRegistrado: action.payload
             };
         case CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_VALIDADA:
             return {

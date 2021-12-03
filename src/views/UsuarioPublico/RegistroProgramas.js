@@ -307,7 +307,7 @@ export const RegistroProgramas = () => {
                                                 nombrePrograma={programa.dsprograma} />
                                         </ValidarProgramaTipoApoyo>
                                         : activeStep === 1 ?
-                                            <ValidarProgramaMonetario curp={curp} edadValida={edadValida} setActivar={setActivar}>
+                                            <ValidarProgramaMonetario curp={curp} edadValida={edadValida} idPrograma={idPrograma} setActivar={setActivar}>
                                                 <RegistroDatosSolicitante
                                                     curpR={curp}
                                                     llenarDatosBeneficiario={llenarDatosBeneficiario}
