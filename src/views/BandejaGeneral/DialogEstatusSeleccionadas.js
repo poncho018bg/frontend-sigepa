@@ -15,7 +15,6 @@ export const DialogEstatusSeleccionadas = (props) => {
     const dispatch = useDispatch();
     const useStyles = makeStyles(styles);
     const classes = useStyles();
-    console.log("props ->>>>>", props);
 
     const handleClose = () => {
         props.setShowDialogEstatusSeleccionadas(false);
