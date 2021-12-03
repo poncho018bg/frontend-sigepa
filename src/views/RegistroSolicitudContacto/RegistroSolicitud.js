@@ -287,7 +287,7 @@ export const RegistroSolicitud = () => {
                                 {activeStep === 0 ?
                                     <RegistroCurp setActivar={setActivar} curp={curp} setCurp={setCurp} />
                                     : activeStep === 1 ?
-                                        <ValidarProgramaMonetario curp={curp} edadValida={edadValida} setActivar={setActivar}>
+                                        <ValidarProgramaMonetario curp={curp} idPrograma={query.state?.mobNo} edadValida={edadValida} setActivar={setActivar}>
                                             <RegistroDatosSolicitante
                                                 curpR={curp}
                                                 llenarDatosBeneficiario={llenarDatosBeneficiario}

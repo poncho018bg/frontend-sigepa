@@ -11,17 +11,23 @@ import { useTranslation } from 'react-i18next';
 import { Grid, TextField } from '@material-ui/core'
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
-import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
+import { ExpedienteContext } from 'contexts/expedienteContext';
 const useStyles = makeStyles(stylesArchivo);
 
-export const ApoyosRecibidosExpediente = forwardRef((props, ref) => {
+export const ApoyosRecibidosExpediente = forwardRef((props) => {
     const classes = useStyles();
     const { t } = useTranslation();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [apoyosList, setApoyosList] = useState([]);
-    const [activar, setActivar] = useState("");
+    const { expedienteBeneficiario, programaList } = useContext(ExpedienteContext);
 
+    const { idBeneficiario } = props;
+
+    useEffect(() => {
+        console.log("consulta");
+        expedienteBeneficiario(idBeneficiario);
+    }, [idBeneficiario]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -49,14 +55,14 @@ export const ApoyosRecibidosExpediente = forwardRef((props, ref) => {
                         </TableHead >
                         < TableBody >
                             {
-                                apoyosList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                                programaList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                                     const isItemSelected = isSelected(row);
                                     const labelId = `enhanced-table-checkbox-${index}`;
                                     return (
-                                        < TableRow key={row.id}>
-                                            <TableCell align="center"></TableCell >
-                                            <TableCell align="center"></TableCell >
-                                            <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
+                                        < TableRow key={index}>
+                                            <TableCell align="center">{row.dsprograma}</TableCell >
+                                            <TableCell align="center">{row.dstipoapoyo}</TableCell >
+                                            <TableCell align="center">{moment(row.fcvigenciainicio).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
                                         </TableRow >
                                     );
                                 })

@@ -20,7 +20,8 @@ import {
     BUSCAR_SOLICITUD_POR_PARAMETROS_BANDEJA_APROBAR,
     CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_VALIDADA,
     CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_PENDIENTE,
-    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR,
+    GET_BENEFICIARIO_REGISTRADO_PROGRAMA
 } from 'types/actionTypes';
 
 import { axiosGet, axiosPost, axiosPut, axiosGetSinToken } from 'helpers/axiosPublico';
@@ -41,6 +42,7 @@ export const RegistroSolicitudContextProvider = props => {
         solicitudParametros: [],
         beneficiarioMonetario: null,
         beneficiarioCancelado: null,
+        beneficiarioRegistrado: null,
         solicitudParametrosBandeja: []
     }
 
@@ -313,6 +315,36 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
+    const getBeneficiarioRegistradoPrograma = async (curp, idPrograma) => {
+        try {
+            const url = `${baseUrlPublico}beneficiarioOverride/beneficiarioProgramaRegistrado/${curp}/${idPrograma}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    console.log("Monetario response: ", response.data);
+                    resolve(response);
+                    dispatch({
+                        type: GET_BENEFICIARIO_REGISTRADO_PROGRAMA,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            if (error.response) {
+                console.log("Error response ------------->")
+            } else if (error.request) {
+                console.log("Error request ------------->")
+            } else {
+                console.log("Error otro ------------->")
+            }
+            console.log("Descripción del error ------------->:", error)
+        }
+    }
+
     const getBeneficiarioCancelado = async curp => {
         try {
             const url = `${baseUrlPublico}beneficiarioOverride/beneficiarioProgramaCancela/${curp}`;
@@ -480,6 +512,7 @@ export const RegistroSolicitudContextProvider = props => {
             beneficiarioMonetario: state.beneficiarioMonetario,
             beneficiarioCancelado: state.beneficiarioCancelado,
             solicitudParametrosBandeja: state.solicitudParametrosBandeja,
+            beneficiarioRegistrado: state.beneficiarioRegistrado,
             getGeneros,
             getEstudios,
             getEstadoCivil,
@@ -499,6 +532,7 @@ export const RegistroSolicitudContextProvider = props => {
             bandejaCambioEstatusValidada,
             bandejaCambioEstatusPendiente,
             bandejaCambioEstatusAprobar,
+            getBeneficiarioRegistradoPrograma,
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>

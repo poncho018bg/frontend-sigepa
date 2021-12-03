@@ -1,7 +1,10 @@
 import React, { createContext, useReducer } from 'react';
 import expedienteReducer from '../reducers/expedienteReducer.js';
 import axios from "axios";
-import { GET_EXPEDIENTE_PARAMETROS, ACTUALIZAR_EXPEDIENTE,GET_ULTIMO_PROGRAMA_BENEFICIARIO } from '../types/actionTypes';
+import {
+    GET_EXPEDIENTE_PARAMETROS, ACTUALIZAR_EXPEDIENTE,
+    GET_ULTIMO_PROGRAMA_BENEFICIARIO, GET_SOLICITUDES_EXPEDIENTE_BENEFICIARIO
+} from '../types/actionTypes';
 
 import { axiosPost, axiosPut } from 'helpers/axiosPublico';
 const UserService = sessionStorage.getItem('token')
@@ -118,6 +121,49 @@ export const ExpedienteContextProvider = props => {
         }
     }
 
+    const expedienteBeneficiario = async idBeneficiario => {
+        const url = `${baseUrlPublico}solicitudOverride/solicitudesExpediente/${idBeneficiario}`;
+        try {
+            console.log("expediente idBeneficiario =>", idBeneficiario);
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json', Authorization: 'Bearer ' + UserService }
+                }).then(response => {
+                    console.log('Expediente Response=>', response.data)
+                    resolve(response);
+                    dispatch({
+                        type: GET_SOLICITUDES_EXPEDIENTE_BENEFICIARIO,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log("Error ", error)
+                    if (error.response) {
+                        console.log("--------------------------------------------------")
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+                        console.log("ERROR DATA", error.response.data);
+                        console.log("ERROR STATUS", error.response.status);
+                        console.log("ERROR HEADERS", error.response.headers);
+                    } else if (error.request) {
+                        console.log("*************************")
+
+                        // The request was made but no response was received
+                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                        // http.ClientRequest in node.js
+                        console.log("ERROR REQUEST", error.request);
+                    } else {
+                        console.log("++++++++++++++++++++++++")
+                        // Something happened in setting up the request that triggered an Error
+                        console.log('Error MESSAGE ', error.message);
+                    }
+                    console.log(error.config);
+                });
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <ExpedienteContext.Provider
             value={{
@@ -127,7 +173,8 @@ export const ExpedienteContextProvider = props => {
                 programaList: state.programaList,
                 getExpedienteParametros,
                 actualizarExpediente,
-                BeneficiarioPrograma
+                BeneficiarioPrograma,
+                expedienteBeneficiario
             }}
         >
             {props.children}

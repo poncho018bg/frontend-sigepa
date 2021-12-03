@@ -9,18 +9,21 @@ import CardBody from "components/Card/CardBody.js";
 import Typography from '@material-ui/core/Typography';
 
 
-const ValidarProgramaMonetario = ({ curp, edadValida, children, setActivar }) => {
-    const { beneficiarioMonetario, getBeneficiarioMonetario } = useContext(RegistroSolicitudContext)
+const ValidarProgramaMonetario = ({ curp, idPrograma, edadValida, children, setActivar }) => {
+    const { beneficiarioMonetario, getBeneficiarioMonetario,
+        beneficiarioRegistrado, getBeneficiarioRegistradoPrograma } = useContext(RegistroSolicitudContext)
     if (edadValida !== undefined) {
         console.log("Monetario curp", curp)
 
         useEffect(() => {
+            getBeneficiarioRegistradoPrograma(curp, idPrograma)
             getBeneficiarioMonetario(curp);
         }, [edadValida])
 
         console.log("Monetario resultado", beneficiarioMonetario);
 
-        if (beneficiarioMonetario) {
+        if (beneficiarioRegistrado) {
+            console.log("beneficiario A registrado")
             setActivar(false);
             return (
                 <GridItem xs={12} sm={12} md={12}>
@@ -30,14 +33,33 @@ const ValidarProgramaMonetario = ({ curp, edadValida, children, setActivar }) =>
                         </CardHeader>
                         <CardBody>
                             <Typography variant="body1" color="text.secondary">
-                                Ya se encuentra registrado en un programa
+                                Ya se encuentra registrado en un Programa
                             </Typography>
                         </CardBody>
                     </Card>
                 </GridItem>
             );
         } else {
-            return children;
+            if (beneficiarioMonetario) {
+                console.log("beneficiario A monetario")
+                setActivar(false);
+                return (
+                    <GridItem xs={12} sm={12} md={12}>
+                        <Card>
+                            <CardHeader color="primary">
+                                <h4>Registro de Programa de Apoyo</h4>
+                            </CardHeader>
+                            <CardBody>
+                                <Typography variant="body1" color="text.secondary">
+                                    Ya se encuentra registrado en un programa
+                                </Typography>
+                            </CardBody>
+                        </Card>
+                    </GridItem>
+                );
+            } else {
+                return children;
+            }
         }
     } else {
         return children;

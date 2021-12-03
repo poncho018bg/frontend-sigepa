@@ -100,7 +100,7 @@ export const Expediente = () => {
                                             direccionB={direccion}
                                             idBeneficiario={idBeneficiario}
                                             ref={contacto} />
-                                        <ApoyosRecibidosExpediente />
+                                        <ApoyosRecibidosExpediente idBeneficiario={idBeneficiario}/>
                                         <ObservacionesExpediente />
                                     </GridItem>
                                 ),
