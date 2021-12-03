@@ -495,7 +495,8 @@ export const ProgramasEdit = () => {
                             onChange={props.handleChange}
                             InputProps={{
                               inputProps: {
-                                max: moment(props.values?.fcregistropresencialfin).format("YYYY-MM-DD")
+                                min: moment(props.values?.fcvigenciainicio).format("YYYY-MM-DD"),
+                                max: moment(props.values?.fcvigenciafin).format("YYYY-MM-DD")
                               }
                             }}
                           />
@@ -519,7 +520,8 @@ export const ProgramasEdit = () => {
                             onChange={props.handleChange}
                             InputProps={{
                               inputProps: {
-                                min: moment(props.values?.fcregistropresencialinicio).format("YYYY-MM-DD")
+                                min: moment(props.values?.fcregistropresencialinicio).format("YYYY-MM-DD"),
+                                max: moment(props.values?.fcvigenciafin).format("YYYY-MM-DD")
                               }
                             }}
                           />
@@ -543,7 +545,8 @@ export const ProgramasEdit = () => {
                             onChange={props.handleChange}
                             InputProps={{
                               inputProps: {
-                                max: moment(props.values?.fcregistrowebfin).format("YYYY-MM-DD")
+                                min: moment(props.values?.fcvigenciainicio).format("YYYY-MM-DD"),
+                                max: moment(props.values?.fcvigenciafin).format("YYYY-MM-DD")
                               }
                             }}
                           />
@@ -567,7 +570,8 @@ export const ProgramasEdit = () => {
                             onChange={props.handleChange}
                             InputProps={{
                               inputProps: {
-                                min: moment(props.values?.fcregistrowebinicio).format("YYYY-MM-DD")
+                                min: moment(props.values?.fcregistrowebinicio).format("YYYY-MM-DD"),
+                                max: moment(props.values?.fcvigenciafin).format("YYYY-MM-DD")
                               }
                             }}
                           />
