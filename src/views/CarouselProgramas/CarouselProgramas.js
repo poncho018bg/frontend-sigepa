@@ -164,7 +164,7 @@ export const CarouselProgramas = () => {
                                     <h5>{window.location.origin}/frontend-sigepa/public/registroProgramas?programa={programDetail?.dsurl}</h5>
                                 </CardBody>
                             </Card>
-                            : <h5>No se guardo el tipo de apoyo del programa</h5>
+                            : <h5>No se ha guardodo el tipo de apoyo del programa</h5>
                         }
                     </DialogContent>
                     <DialogActions>

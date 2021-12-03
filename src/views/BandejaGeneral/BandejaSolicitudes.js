@@ -87,7 +87,7 @@ export const BandejaSolicitudes = () => {
                 </CardHeader>
                 <CardBody>
                     <Grid container spacing={3}>
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             <TextField
                                 id="paterno"
                                 label="Apellido paterno"
@@ -98,7 +98,7 @@ export const BandejaSolicitudes = () => {
                                 onChange={(e) => setApellidopaterno(e.target.value)}
                             />
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             <TextField
                                 id="materno"
                                 label="Apellido materno"
@@ -110,7 +110,7 @@ export const BandejaSolicitudes = () => {
                             />
                         </Grid>
 
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             <TextField
                                 id="nombre"
                                 label="Nombre"
@@ -123,7 +123,7 @@ export const BandejaSolicitudes = () => {
                         </Grid>
 
 
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             <TextField
                                 variant="outlined"
                                 label="Selecciona un programa"
@@ -150,7 +150,7 @@ export const BandejaSolicitudes = () => {
                             </TextField>
                         </Grid>
 
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             <TextField
                                 id="folio"
                                 label="Folio"
@@ -162,7 +162,7 @@ export const BandejaSolicitudes = () => {
                             />
                         </Grid>
 
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             <TextField
                                 variant="outlined"
                                 label="Selecciona un estatus"
@@ -189,18 +189,18 @@ export const BandejaSolicitudes = () => {
                             </TextField>
                         </Grid>
 
-
-
-
-                    </Grid>
-                    <Grid container spacing={3}>
                         <Grid item xs={2} style={{textAlign:'right', float:'right'}}>
                             <Button variant="contained" color="primary" fullWidth onClick={buscarSolitudes}>
                                 Buscar
                             </Button>
                         </Grid>
+
+
+
                     </Grid>
-                    {console.log('sol=>',solicitudParametros)}
+                   </CardBody>
+                   <CardBody>
+                  
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >

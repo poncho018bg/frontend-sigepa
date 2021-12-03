@@ -37,7 +37,7 @@ export default function Dashboard() {
                 <Home className={classes.iconRose} />
               </div>
               <h5 className={classes.description}>
-                Aqui podras realizar todos los tramites que requieras
+                Aquí podrás realizar todos los trámites que requieras
               </h5>
             </CardBody>
           </Card>

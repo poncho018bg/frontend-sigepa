@@ -5,6 +5,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import { MenuItem, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, TextField, Grid, FormLabel } from '@material-ui/core';
 import Button from "components/CustomButtons/Button.js";
+import moment from 'moment';
 import 'moment/locale/es';
 
 
@@ -71,7 +72,7 @@ export const BitacoraScreen = () => {
                 </CardHeader>
                 <CardBody>
                     <Grid container spacing={3}>
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             <TextField
                                 id="nombre"
                                 label="Nombre del funcionario"
@@ -85,12 +86,13 @@ export const BitacoraScreen = () => {
                         <Grid item xs={8}>
 
                           
-                                <div><FormLabel component="legend"> Fecha de Movimiento </FormLabel></div>
+                                
                                 <GridContainer>
                                     <GridItem xs={4} sm={4} md={4}>
                                         <TextField
+                                       
                                             id="fechainicio"
-                                            label="Desde"
+                                            label="Fecha de movimiento desde"
                                             type="date"
                                             fullWidth
                                             className={classes.textField}
@@ -110,9 +112,10 @@ export const BitacoraScreen = () => {
                                     <GridItem xs={4} sm={4} md={4}>
                                         <TextField
                                             id="fechafin"
-                                            label="Hasta"
+                                            label="Fecha de movimiento hasta"
                                             type="date"
                                             fullWidth
+                                            disabled={fechainicio === ''}
                                             className={classes.textField}
                                             InputLabelProps={{
                                                 shrink: true,
@@ -122,7 +125,7 @@ export const BitacoraScreen = () => {
                                             onChange={(e) => setFechafin(e.target.value)}
                                             InputProps={{
                                                 inputProps: {
-
+                                                    min: moment(fechainicio).format("yyyy-MM-DD")
                                                 }
                                             }}
                                         />
@@ -158,7 +161,8 @@ export const BitacoraScreen = () => {
                                         < TableRow key={row.idbitacoraactividad}>
 
                                             <TableCell align="center">{row.dsaccion}</TableCell >
-                                            <TableCell align="center">{row.fcfecharegistro}</TableCell >
+                                            
+                                            <TableCell align="center">{moment(row.fcfecharegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
 
                                         </TableRow >
                                     );

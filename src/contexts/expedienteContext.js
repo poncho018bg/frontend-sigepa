@@ -1,12 +1,13 @@
 import React, { createContext, useReducer } from 'react';
 import expedienteReducer from '../reducers/expedienteReducer.js';
 import axios from "axios";
-import { GET_EXPEDIENTE_PARAMETROS, ACTUALIZAR_EXPEDIENTE,GET_ULTIMO_PROGRAMA_BENEFICIARIO } from '../types/actionTypes';
+import { GET_EXPEDIENTE_PARAMETROS, ACTUALIZAR_EXPEDIENTE,GET_ULTIMO_PROGRAMA_BENEFICIARIO,GET_ETAPAS_BY_PLANTILLA } from '../types/actionTypes';
 
 import { axiosPost, axiosPut } from 'helpers/axiosPublico';
 const UserService = sessionStorage.getItem('token')
 
 const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL
+const baseApiExpediente = process.env.REACT_APP_API_EXPEDIENTE_URL
 
 export const ExpedienteContext = createContext();
 
@@ -15,6 +16,7 @@ export const ExpedienteContextProvider = props => {
         expedienteList: [],
         beneficiariosList: [],
         programaList: [],
+        etapasPlantilla:[]
     }
 
     const [state, dispatch] = useReducer(expedienteReducer, initialState);
@@ -118,6 +120,28 @@ export const ExpedienteContextProvider = props => {
         }
     }
 
+
+    const getEtapasByPlantilla = async idEtapa => {
+        try {
+            const url = `${baseApiExpediente}/etapas/etapasByPlantilla/${idEtapa}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json', Authorization: 'Bearer ' + UserService }
+                }).then(response => {                   
+                    resolve(response);
+                    dispatch({
+                        type: GET_ETAPAS_BY_PLANTILLA,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log("Error ", error)
+                });
+            });
+        } catch (error) {
+            console.log('Err', error);
+        }
+    }
+
     return (
         <ExpedienteContext.Provider
             value={{
@@ -125,9 +149,11 @@ export const ExpedienteContextProvider = props => {
                 expedienteList: state.expedienteList,
                 solicitudParametrosExpediente: state.solicitudParametrosExpediente,
                 programaList: state.programaList,
+                etapasPlantilla:state.etapasPlantilla,
                 getExpedienteParametros,
                 actualizarExpediente,
-                BeneficiarioPrograma
+                BeneficiarioPrograma,
+                getEtapasByPlantilla
             }}
         >
             {props.children}
