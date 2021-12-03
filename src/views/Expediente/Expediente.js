@@ -33,7 +33,7 @@ const useStyles = makeStyles(styles);
 export const Expediente = () => {
 
     const [value, setValue] = React.useState(0);
-    const { beneficiario, registrarBeneficiario, direccion,
+    const { beneficiario, direccion,
         registrarDireccionBeneficiario, getBeneficiario, actualizarBeneficiario,
         obtenerDireccionBeneficiario, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
 
@@ -63,6 +63,12 @@ export const Expediente = () => {
         setValue(newValue);
     };
 
+    const guardarDireccion = datosDireccion => {
+        console.log("guardar direccion");
+        actualizarDireccionBeneficiario(datosDireccion);
+        obtenerDireccionBeneficiario(query.state?.id);
+    }
+
     const classes = useStyles();
     return (
         <div>
@@ -78,19 +84,21 @@ export const Expediente = () => {
                                 tabContent: (
                                     <GridItem xs={12} sm={12}>
                                         <DatosGeneralesExpediente
-                                            ref={child}
-                                            beneficiario={beneficiario}
+                                            //ref={child}
+                                            beneficiarioPadre={beneficiario}
                                             setIdentPrograma={setIdentPrograma}
-                                            setActivar={setActivar} 
-                                            setIdProgramaExpediente={setIdProgramaExpediente}/>
-                                        <DireccionExpediente
-                                            activar={activar}
                                             setActivar={setActivar}
+                                            setIdProgramaExpediente={setIdProgramaExpediente} />
+                                        <DireccionExpediente
+                                            //activar={activar}
+                                            //setActivar={setActivar}
                                             direccionBeneficiario={direccion}
                                             idBeneficiario={idBeneficiario}
-                                            ref={contacto} />
+                                            //ref={contacto}
+                                            guardarDireccion={guardarDireccion} />
                                         <ContactoExpediente
                                             direccionB={direccion}
+                                            idBeneficiario={idBeneficiario}
                                             ref={contacto} />
                                         <ApoyosRecibidosExpediente />
                                         <ObservacionesExpediente />

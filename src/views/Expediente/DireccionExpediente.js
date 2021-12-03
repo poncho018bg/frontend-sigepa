@@ -8,6 +8,8 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import Button from "components/CustomButtons/Button.js";
+import CardActions from '@material-ui/core/CardActions';
 
 import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle.js";
 import { Grid, TextField, MenuItem } from "@material-ui/core";
@@ -29,7 +31,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 export const DireccionExpediente = forwardRef((props, ref) => {
     const classes = useStyles();
-    const { idBeneficiario, obtenerDireccion, direccionBeneficiario } = props;
+    const { idBeneficiario, direccionBeneficiario, guardarDireccion } = props;
 
     console.log("LLEGA EL direccionBeneficiario ---> ", direccionBeneficiario);
 
@@ -49,11 +51,11 @@ export const DireccionExpediente = forwardRef((props, ref) => {
     const [idEstado, setIdEstado] = useState("");
     const [idMunicipio, setIdMunicipio] = useState("");
     const [activar, setActivar] = useState("");
-
+    const [activaGuardar, setActivaGuardar] = useState(false);
 
     useEffect(() => {
         getEstadosAll();
-        console.log("ESTO LLEGO DE LA CONSULTA DE LA DIRECCION DEL BENEFICIARIO -----> ", direccionBeneficiario);
+        console.log("Expediente direccion DEL BENEFICIARIO -----> ", direccionBeneficiario);
         if (direccionBeneficiario !== undefined) {
             console.log("DIRECCION DEL BENEFICIARIO -----> ", direccionBeneficiario[0]);
             if (direccionBeneficiario[0] !== undefined) {
@@ -65,15 +67,19 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                 setEntreCalle(direccionBeneficiario[0].entreCalle);
                 setYCalle(direccionBeneficiario[0].ycalle);
                 setOtraReferencia(direccionBeneficiario[0].otraReferencia);
-                setIdEstado(direccionBeneficiario[0].idEstado);
-                getMunicipioEstado(direccionBeneficiario[0].idEstado);
-                setIdMunicipio(direccionBeneficiario[0].idMunicipio);
-                setCodigoPostal(direccionBeneficiario[0].codigoPostal);
-                getLocalidadesMunicipio(direccionBeneficiario[0].idMunicipio, direccionBeneficiario[0].codigoPostal);
-                setIdLocalidad(direccionBeneficiario[0].idLocalidad);
+                if (direccionBeneficiario[0].idEstado != null) {
+                    setIdEstado(direccionBeneficiario[0].idEstado);
+                    getMunicipioEstado(direccionBeneficiario[0].idEstado);
+                    setIdMunicipio(direccionBeneficiario[0].idMunicipio);
+                    getLocalidadesMunicipio(direccionBeneficiario[0].idMunicipio, direccionBeneficiario[0].codigoPostal);
+                    setIdLocalidad(direccionBeneficiario[0].idLocalidad);
+                    setCodigoPostal(direccionBeneficiario[0].codigoPostal);
+                }
+
+
             }
         }
-        setActivar(next());
+        //setActivar(next());
     }, [direccionBeneficiario]);
 
 
@@ -100,27 +106,12 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                 dsobservaciones: direccionBeneficiario[0].dsobservaciones
             }
             console.log("Datos que debe guardar", datosDireccion);
-            /**
-             * Aqui hacemos el guardar
-             */
-            /**
-             * mandamos llenar la funcion padre
-             */
-            obtenerDireccion(datosDireccion);
+            guardarDireccion(datosDireccion);
         } else {
             console.log("llega ben ---->", idBeneficiario);
         }
 
     }
-
-    useImperativeHandle(ref, () => ({
-        registroDireccion(beneficiario1) {
-            console.log("REGISTRO DIRECCION BEN ---->", beneficiario1);
-            console.log("SE LLENO BENeficiario --->", idBeneficiario);
-            llenado();
-        }
-    })
-    );
 
     const onChangeEstado = event => {
         console.log("entro al onchagen estado", event.target.value);
@@ -140,6 +131,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
      * @param {event} event 
      */
     const onChange = event => {
+        //setActivaGuardar(true);
         console.log("target direccion ===> ", event.target.name);
         console.log(event.target.value);
         //llenado de los datos a registrar
@@ -243,11 +235,19 @@ export const DireccionExpediente = forwardRef((props, ref) => {
         setActivar(next())
     }, [calle, noExterior, colonia, entreCalle, yCalle, idLocalidad]);
 
+    /*
+    const onClickGuardar = () => {
+        console.log("GUARDA LOS CAMBIOS");
+        setActivaGuardar(false);
+    }
+*/
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>
                 <CardHeader color="primary">
                     <h4 className={classes.cardTitleWhite}>Referencia domiciliaria</h4>
+                    <CardActions>
+                    </CardActions>
                 </CardHeader>
                 <CardBody>
                     <GridContainer justify="center">
@@ -265,6 +265,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                     value={calle}
                                     success={calleStatus === 'success'}
                                     error={calleStatus === 'error'}
+                                    disabled="true"
                                     inputProps={{
                                         onChange: (event) => {
                                             if (event.target.value === "") {
@@ -292,6 +293,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                     value={noExterior}
                                     success={exteriorStatus === 'success'}
                                     error={exteriorStatus === 'error'}
+                                    disabled="true"
                                     inputProps={{
                                         onChange: (event) => {
                                             console.log("evento exterior", event);
@@ -318,6 +320,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                     onChange={onChange}
                                     value={noInterior}
                                     inputProps={{ maxLength: 40 }}
+                                    disabled="true"
                                 />
                             </GridItem>
                         </Grid>
@@ -335,6 +338,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                     value={colonia}
                                     success={coloniaStatus === 'success'}
                                     error={coloniaStatus === 'error'}
+                                    disabled="true"
                                     inputProps={{
                                         onChange: (event) => {
                                             console.log("colonia", event)
@@ -363,6 +367,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                     value={entreCalle}
                                     success={entreCalleStatus === 'success'}
                                     error={entreCalleStatus === 'error'}
+                                    disabled="true"
                                     inputProps={{
                                         onChange: (event) => {
                                             if (event.target.value === "") {
@@ -392,6 +397,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                     value={yCalle}
                                     success={ycalleStatus === 'success'}
                                     error={ycalleStatus === 'error'}
+                                    disabled="true"
                                     inputProps={{
                                         onChange: (event) => {
                                             if (event.target.value === "") {
@@ -417,6 +423,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                     select
                                     onChange={onChangeEstado}
                                     value={idEstado}
+                                    disabled="true"
                                 >
                                     {
                                         estadosList.map(
@@ -442,6 +449,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                     select
                                     onChange={onChangeMunicipio}
                                     value={idMunicipio}
+                                    disabled="true"
                                 >
                                     {
                                         municipiosListId.map(
@@ -469,6 +477,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                     onChange={onChange}
                                     value={codigoPostal}
                                     inputProps={{ maxLength: 5, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                                    disabled="true"
                                 />
                             </GridItem>
 
@@ -487,6 +496,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                     value={idLocalidad}
                                     success={localidadStatus === 'success'}
                                     error={localidadStatus === 'error'}
+                                    disabled="true"
                                     inputProps={{
                                         onChange: (event) => {
                                             if (event.target.value === "") {
@@ -526,6 +536,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                     onChange={onChange}
                                     value={otraReferencia}
                                     inputProps={{ maxLength: 100, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                                    disabled="true"
                                 />
                             </GridItem>
                         </Grid>

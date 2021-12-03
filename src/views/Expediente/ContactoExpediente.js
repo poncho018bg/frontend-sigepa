@@ -4,6 +4,8 @@ import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import Button from "components/CustomButtons/Button.js";
+import CardActions from '@material-ui/core/CardActions';
 
 import { Grid, TextField } from '@material-ui/core'
 import { makeStyles } from "@material-ui/core/styles";
@@ -22,6 +24,7 @@ export const ContactoExpediente = forwardRef((props, ref) => {
     const [email, setEmail] = useState('');
     const [observaciones, setObservaciones] = useState('');
     const [activar, setActivar] = useState("");
+    const [activaGuardar, setActivaGuardar] = useState(false);
 
     const { direccion, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
 
@@ -43,7 +46,7 @@ export const ContactoExpediente = forwardRef((props, ref) => {
 
     const llenado = () => {
         if (direccionB != undefined) {
-            if (idBeneficiario != undefined) {  
+            if (idBeneficiario != undefined) {
                 let datosDireccion = {
                     id: direccionB[0].id,
                     idBeneficiario: idBeneficiario,
@@ -81,6 +84,7 @@ export const ContactoExpediente = forwardRef((props, ref) => {
     );
 
     const onChange = event => {
+        setActivaGuardar(true);
         let textSoloNum = /^[0-9]*$/;
         var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         switch (event.target.name) {
@@ -137,11 +141,20 @@ export const ContactoExpediente = forwardRef((props, ref) => {
         setActivar(next());
     }, [celular]);
 
+    /*
+    const onClickGuardar = () => {
+        console.log("GUARDA LOS CAMBIOS");
+        setActivaGuardar(false);
+    }
+    */
+
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>
                 <CardHeader color="primary">
                     <h4 className={classes.cardTitleWhite}>Información de contacto</h4>
+                    <CardActions>
+                    </CardActions>
                 </CardHeader>
                 <CardBody>
                     <GridContainer justify="center">
@@ -160,6 +173,7 @@ export const ContactoExpediente = forwardRef((props, ref) => {
                                     value={celular}
                                     success={celularStatus === 'success'}
                                     error={celularStatus === 'error'}
+                                    disabled="true"
                                     inputProps={{
                                         onChange: (event) => {
                                             if (event.target.value === "") {
@@ -189,6 +203,7 @@ export const ContactoExpediente = forwardRef((props, ref) => {
                                     success={telefonoCasaStatus === 'success'}
                                     error={telefonoCasaStatus === 'error'}
                                     inputProps={{ maxLength: 10 }}
+                                    disabled="true"
                                 />
                             </GridItem>
                             <GridItem xs={12} sm={3}>
@@ -205,6 +220,7 @@ export const ContactoExpediente = forwardRef((props, ref) => {
                                     success={telefonoContactoStatus === 'success'}
                                     error={telefonoContactoStatus === 'error'}
                                     inputProps={{ maxLength: 10 }}
+                                    disabled="true"
                                 />
                             </GridItem>
                             <GridItem xs={12} sm={3}>
@@ -221,6 +237,7 @@ export const ContactoExpediente = forwardRef((props, ref) => {
                                     success={emailStatus === 'success'}
                                     error={emailStatus === 'error'}
                                     inputProps={{ maxLength: 80 }}
+                                    disabled="true"
                                 />
                             </GridItem>
                         </Grid>

@@ -8,10 +8,12 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import Button from "components/CustomButtons/Button.js";
+import CardActions from '@material-ui/core/CardActions';
 
 import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle.js";
 import customCheckboxRadioSwitch from "assets/jss/material-dashboard-pro-react/customCheckboxRadioSwitch.js";
-import { Grid, TextField, MenuItem } from "@material-ui/core";
+import { Grid, TextField, MenuItem, Breadcrumbs } from "@material-ui/core";
 
 import moment from 'moment';
 import 'moment/locale/es';
@@ -43,7 +45,7 @@ const useStyles = makeStyles(styles);
 export const DatosGeneralesExpediente = forwardRef((props, ref) => {
 
     console.log("LLEGA EL DatosGeneralesExpediente ---> ", props);
-    const { beneficiario, setIdentPrograma,setIdProgramaExpediente } = props;
+    const { beneficiarioPadre, setIdentPrograma, setIdProgramaExpediente } = props;
 
     const classes = useStyles();
     const [nombre, setNombre] = useState("")
@@ -61,47 +63,49 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
     const [rfc, setRfc] = useState("");
     const [idIdentificaion, setIdIdentificaion] = useState("");
     const [idPrograma, setIdPrograma] = useState();
+    const [folioInterno, setFolioInterno] = useState("");
     const [datosCorrectos, setDatosCorrectos] = useState(true);
+
+    const [activaGuardar, setActivaGuardar] = useState(false);
 
     const { getGeneros, generosList,
         estudiosList, getEstudios,
         estadoCivilList, getEstadoCivil,
-        getIdentificaciones, identificacionesList
-    } = useContext(RegistroSolicitudContext);
+        getIdentificaciones, identificacionesList,
+        actualizarBeneficiario, beneficiario } = useContext(RegistroSolicitudContext);
 
     const { programasList, get, getCien } = useContext(ProgramasContext);
 
     const { BeneficiarioPrograma, programaList } = useContext(ExpedienteContext);
-
     useEffect(() => {
         setLoading(true);
-        console.log("expediente beneficiario ==>", beneficiario)
-        if (beneficiario !== undefined) {
-            setNombre(beneficiario.dsnombre);
-            setCurp(beneficiario.dscurp);
-            setApellidoPaterno(beneficiario.dsapellido1);
-            setapellidoMaterno(beneficiario.dsapellido2);
-            console.log("fecha --->", beneficiario.fcfechanacimiento)
-            var dateParts = beneficiario.fcfechanacimiento.split("-");
+        console.log("expediente beneficiario ==>", beneficiarioPadre)
+        if (beneficiarioPadre !== undefined) {
+            setNombre(beneficiarioPadre.dsnombre);
+            setCurp(beneficiarioPadre.dscurp);
+            setApellidoPaterno(beneficiarioPadre.dsapellido1);
+            setapellidoMaterno(beneficiarioPadre.dsapellido2);
+            console.log("fecha --->", beneficiarioPadre.fcfechanacimiento)
+            var dateParts = beneficiarioPadre.fcfechanacimiento.split("-");
             var dateParts2 = dateParts[2].split(" ");
             //console.log("date parts", +dateParts2[0], dateParts[1] - 1, dateParts[0])
             var date = new Date(dateParts[0], dateParts[1] - 1, +dateParts2[0]);
             console.log("date parts chale -->", date);
             console.log("date parts fomateada fecha ---> ", moment(date).format("YYYY-MM-DD"))
             setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
-            setFechaNacimientoAxu(beneficiario.fcfechanacimiento);
-            setGenero(beneficiario.idgenero);
-            setEstudios(beneficiario.idgradoestudios);
-            setEstadoCivil(beneficiario.idestadocivil);
-            setIdentificacion(beneficiario.ididentificacionoficial);
-            setRfc(beneficiario.rfc);
-            setIdIdentificaion(beneficiario.dsiddocumento);
+            setFechaNacimientoAxu(beneficiarioPadre.fcfechanacimiento);
+            setGenero(beneficiarioPadre.idgenero);
+            setEstudios(beneficiarioPadre.idgradoestudios);
+            setEstadoCivil(beneficiarioPadre.idestadocivil);
+            setIdentificacion(beneficiarioPadre.ididentificacionoficial);
+            setRfc(beneficiarioPadre.rfc);
+            setIdIdentificaion(beneficiarioPadre.dsiddocumento);
             let fechaDif = Date.now() - date.getTime();
             let ageDate = new Date(fechaDif);
             console.log("date parts fechaDif ====>", fechaDif, ageDate);
             console.log("date parts EDAD ===>", Math.abs(ageDate.getUTCFullYear() - 1970))
             setEdad(Math.abs(ageDate.getUTCFullYear() - 1970));
-            BeneficiarioPrograma(beneficiario.id);
+            BeneficiarioPrograma(beneficiarioPadre.id);
         }
         getCien().then(data => {
             setTimeout(() => setLoading(false), 500);
@@ -110,7 +114,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
         getEstudios();
         getEstadoCivil();
         getIdentificaciones();
-    }, [beneficiario]);
+    }, [beneficiarioPadre]);
 
     const generoCurp = (generocrp) => {
         console.log('', generocrp)
@@ -125,74 +129,53 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
     };
 
     const llenado = () => {
-        llenarDatosBeneficiario(
-            beneficiario.id,
-            nombre,
-            apellidoPaterno,
-            apellidoMaterno,
-            curp,
-            genero,
-            fechaNacimientoReal,
-            edad,
-            estudios,
-            estadoCivil,
-            identificacion,
-            rfc,
-            idIdentificaion);
+        let datosEnviar = {
+            id: beneficiarioPadre.id,
+            dsnombre: nombre,
+            dsapellido1: apellidoPaterno,
+            dsapellido2: apellidoMaterno,
+            dscurp: curp,
+            idgenero: genero,
+            fcfechanacimiento: fechaNacimientoReal,
+            idestadocivil: estadoCivil,
+            idgradoestudios: estudios,
+            ididentificacionoficial: identificacion,
+            rfc: rfc,
+            dsiddocumento: idIdentificaion
+        }
+
+        console.log("expediente actualizar beneficiario ===>", datosEnviar);
+        actualizarBeneficiario(datosEnviar);
     }
 
-    useImperativeHandle(ref, () => ({
-        registroBeneficiario() {
-            llenado();
-        }
-    })
-    );
-
     const onChange = event => {
+        setActivaGuardar(true);
         console.log("nombre del evento ==>", event.target);
         let testLetrasNum = /^[a-zA-Z0-9_.-\sñÑ]*$/;
         switch (event.target.name) {
-            case 'rfc':
-                if (testLetrasNum.test(event.target.value)) {
-                    setRfc(event.target.value);
-                    console.log("RFC ==>", rfc);
-                }
-                break;
-            case 'idIdentificaion':
-                if (testLetrasNum.test(event.target.value)) {
-                    setIdIdentificaion(event.target.value);
-                }
-                break;
             case 'programa':
-                setIdentPrograma(event.target.value);
+                console.log("programa value", event.target.value);
+                setIdPrograma(event.target.value);
                 break;
-            case 'genero':
-                setGenero(event.target.value);
-                console.log("genero onchange", genero);
-                break;
-            case 'estudios':
-                setEstudios(event.target.value);
-                console.log("estudios onchange", estudios);
-                break;
-            case 'estadoCivil':
-                setEstadoCivil(event.target.value);
-                console.log("civil ", estadoCivil);
-                break;
-            case 'identificacion':
-                setIdentificacion(event.target.value);
-                console.log("identificacion ", identificacion);
+            case 'folioInterno':
+                console.log("programa value", event.target.value);
+                setFolioInterno(event.target.value);
                 break;
         }
 
     }
 
-    const isValidated = () => {
-        return true;
-    };
-
-    if(programaList.length > 0){
+    if (programaList.length > 0) {
         setIdProgramaExpediente(programaList[0].programa_id);
     }
+
+    const onClickGuardar = () => {
+        //console.log("GUARDA LOS CAMBIOS");
+        //llenado();
+        setActivaGuardar(false);
+    }
+
+    console.log("Beneficiario bem ==> ", beneficiario);
     return (
         <div>
             <h4 className={classes.infoText}></h4>
@@ -200,6 +183,18 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                 <Card>
                     <CardHeader color="primary">
                         <h4 className={classes.cardTitleWhite}>Datos del beneficiario</h4>
+                        <CardActions>
+                            {activaGuardar &&
+                                <Grid item xs={1}>
+                                    <Button
+                                        round
+                                        onClick={onClickGuardar}
+                                    >
+                                        Guardar Cambios
+                                    </Button>
+                                </Grid>
+                            }
+                        </CardActions>
                     </CardHeader>
                     <CardBody>
                         <GridContainer justify="center">
@@ -214,6 +209,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                         fullWidth
                                         value={apellidoPaterno}
                                         inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                                        disabled="True"
                                     />
                                 </GridItem>
                                 <GridItem xs={12} sm={3}>
@@ -226,6 +222,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                         fullWidth
                                         value={apellidoMaterno}
                                         inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                                        disabled="True"
                                     />
                                 </GridItem>
                                 <GridItem xs={12} sm={3}>
@@ -238,6 +235,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                         fullWidth
                                         value={nombre}
                                         inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                                        disabled="True"
                                     />
                                 </GridItem>
                                 <GridItem xs={12} sm={3}>
@@ -249,6 +247,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                         name="curp"
                                         fullWidth
                                         value={curp}
+                                        disabled="True"
                                     />
                                 </GridItem>
                             </Grid>
@@ -264,6 +263,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                         onChange={onChange}
                                         value={rfc}
                                         inputProps={{ maxLength: 13, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                                        disabled="True"
                                     />
                                 </GridItem>
                                 <GridItem xs={12} sm={3}>
@@ -277,6 +277,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                         select
                                         onChange={onChange}
                                         value={genero}
+                                        disabled="True"
                                     >
                                         <MenuItem value="0">
                                             <em>Seleccionar</em>
@@ -304,7 +305,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                         name="fechaNacimientoAxu"
                                         fullWidth
                                         value={fechaNacimientoAxu}
-
+                                        disabled="True"
                                     />
                                 </GridItem>
                                 <GridItem xs={12} sm={3}>
@@ -316,7 +317,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                         name="edad"
                                         fullWidth
                                         value={edad}
-
+                                        disabled="True"
                                     />
                                 </GridItem>
                             </Grid>
@@ -333,6 +334,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                         select
                                         onChange={onChange}
                                         value={estadoCivil}
+                                        disabled="True"
                                     >
                                         <MenuItem value="0">
                                             <em>Seleccionar</em>
@@ -361,6 +363,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                         select
                                         onChange={onChange}
                                         value={identificacion}
+                                        disabled="True"
                                     >
                                         <MenuItem value="0">
                                             <em>Seleccionar</em>
@@ -388,7 +391,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                         fullWidth
                                         onChange={onChange}
                                         value={idIdentificaion}
-
+                                        disabled="True"
                                     />
                                 </GridItem>
                             </Grid>
@@ -404,6 +407,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                             name="dsfolio"
                                             fullWidth
                                             value={programaList[0].dsfolio}
+                                            disabled="True"
                                         >
                                         </TextField>
                                     </GridItem>
@@ -431,6 +435,19 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                                 )
                                             }
                                         </TextField>
+                                    </GridItem>
+                                    <GridItem xs={12} sm={3}>
+                                        <TextField
+                                            style={{ marginBottom: '20px' }}
+                                            id="folioInterno"
+                                            label="Folio Interno SEDESEM"
+                                            variant="outlined"
+                                            name="folioInterno"
+                                            fullWidth
+                                            value={folioInterno}
+                                            inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                                            onChange={onChange}
+                                        />
                                     </GridItem>
                                 </Grid>
                             }
