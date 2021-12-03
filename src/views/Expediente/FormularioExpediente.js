@@ -16,20 +16,21 @@ const baseUrlFormio = process.env.REACT_APP_API_FORMIO_URL;
 const useStyles = makeStyles(stylesArchivo);
 
 export const FormularioExpediente = (props) => {
+    console.log ("props FormularioExpediente --->", props);
     const classes = useStyles();
-    const { beneficiario, fomularioLleno, setFomularioLleno } = props;
+    const { beneficiario, programaNuevo, setProgramaNuevo } = props;
     const [activar, setActivar] = useState("");
-    const { idPrograma } = props;
+    const { idProgramaExpediente } = props;
     const { programa, getByID } = useContext(ProgramasContext);
     const { actualizarComplementoFurs } = useContext(ComplementoFursContext);
     let ruta = '';
     useEffect(() => {
-        getByID(idPrograma);
+        getByID(idProgramaExpediente);
         setActivar(false)
     }, []);
 
     if (programa !== null) {
-        if (fomularioLleno == undefined) {
+        if (programaNuevo == undefined) {
             ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
         } else {
             ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${fomularioLleno._id}`;
@@ -43,7 +44,7 @@ export const FormularioExpediente = (props) => {
         console.log("Aqui es donde vamos a mandar a guardar event-------", event);
 
         let complementoFur = {
-            programas: idPrograma,
+            programas: idProgramaExpediente,
             beneficiarios: beneficiario.id,
             jsComplemento: event
         }

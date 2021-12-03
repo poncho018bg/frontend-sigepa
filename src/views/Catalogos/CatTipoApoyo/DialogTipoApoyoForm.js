@@ -88,7 +88,7 @@ export const DialogTipoApoyoForm = (props) => {
     const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);
 
     const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
-    const { programasList, get } = useContext(ProgramasContext);
+    const { programasList, getCien } = useContext(ProgramasContext);
     const { apoyoservicioList, getApoyoServicio } = useContext(ApoyoServicioContext);
     const { numeroApoyosList, getNumeroApoyos } = useContext(NumeroApoyosContext);
 
@@ -132,7 +132,7 @@ export const DialogTipoApoyoForm = (props) => {
         getTiposApoyos();
         getActividadesContinuar();
         getPeriodicidadApoyos();
-        get();
+        getCien();
         getNumeroApoyos();
         getApoyoServicio();
 
@@ -176,7 +176,10 @@ export const DialogTipoApoyoForm = (props) => {
             fechaFin: ''
         }
         formik.values.enServicio[index] = serv
+
         console.log('agregarServicioFormik 1=>', formik.values.enServicio)
+        console.log('Lista apoyoservicioList=>',apoyoservicioList)
+        getApoyoServicio();
     }
 
     const formik = useFormik({
@@ -476,8 +479,8 @@ export const DialogTipoApoyoForm = (props) => {
                                     >
                                         <FormControlLabel
                                             aria-label="Acknowledge"
-                                            onClick={agregarServicioFormik(apyo, i)}
-                                            control={<Checkbox />}
+                                            
+                                            control={<Checkbox  onClick={agregarServicioFormik(apyo, i)}/>}
                                             label={apyo.dsservicio}
                                         />
                                     </AccordionSummary>
@@ -499,6 +502,7 @@ export const DialogTipoApoyoForm = (props) => {
                                                         name={fechaInicioq}
                                                         value={formik.values.enServicio.fechaInicio}
                                                         onChange={formik.handleChange}
+                                                
 
                                                     />
                                                 </GridItem>

@@ -1,7 +1,5 @@
-import {
-    GET_EXPEDIENTE_PARAMETROS, ACTUALIZAR_EXPEDIENTE,
-    GET_ULTIMO_PROGRAMA_BENEFICIARIO, GET_SOLICITUDES_EXPEDIENTE_BENEFICIARIO
-} from '../types/actionTypes';
+import { GET_EXPEDIENTE_PARAMETROS, ACTUALIZAR_EXPEDIENTE, 
+    GET_ULTIMO_PROGRAMA_BENEFICIARIO, GET_ETAPAS_BY_PLANTILLA,GET_SOLICITUDES_EXPEDIENTE_BENEFICIARIO } from '../types/actionTypes';
 
 export default (state, action) => {
     switch (action.type) {
@@ -25,6 +23,11 @@ export default (state, action) => {
             return {
                 ...state,
                 programaList: action.payload
+            };
+        case GET_ETAPAS_BY_PLANTILLA:
+            return {
+                ...state,
+                etapasPlantilla: action.payload
             };
     }
 }
