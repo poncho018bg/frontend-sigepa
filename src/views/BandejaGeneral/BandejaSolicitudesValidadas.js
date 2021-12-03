@@ -35,7 +35,7 @@ export const BandejaSolicitudesValidadas = () => {
     const { getSolParametrosBandeja, solicitudParametrosBandeja, bandejaCambioEstatusPendiente } = useContext(RegistroSolicitudContext);
     const { getCien, programasList } = useContext(ProgramasContext);
     const { getEstatusRegistro, estatusRegistroList } = useContext(EstatusRegistroContext);
-    const { getMunicipios, municipiosList } = useContext(MunicipiosContext);
+    const { getMunicipiosAll, municipiosList } = useContext(MunicipiosContext);
     const classes = useStyles();
 
     const [page, setPage] = useState(0);
@@ -53,7 +53,7 @@ export const BandejaSolicitudesValidadas = () => {
     useEffect(() => {
         getCien()
         getEstatusRegistro()
-        getMunicipios()
+        getMunicipiosAll()
     }, []);
 
     const handleChangePage = (event, newPage) => {
