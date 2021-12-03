@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import OrigenSolicitudReducer from 'reducers/Catalogos/OrigenSolicitudReducer';
-import { axiosGet } from 'helpers/axiosPublico';
+import { axiosGet,axiosGetSinToken } from 'helpers/axiosPublico';
 import { axiosPostHetoas } from 'helpers/axios';
 import axios from "axios";
 import {
@@ -37,7 +37,7 @@ export const OrigenSolicitudContextProvider = props => {
 
         try {
             const { page, size } = state;
-            const resultado = await axiosGet(`origensolicitudes?page=${page}&size=${size}`);
+            const resultado = await axiosGetSinToken(`origensolicitudes?page=${page}&size=${size}`);
             dispatch({
                 type: GET_ORIGENES_SOLICITUD,
                 payload: resultado
@@ -107,7 +107,7 @@ export const OrigenSolicitudContextProvider = props => {
 
     const getOrigenesByParametros = async (search) => {
         try {            
-            const result = await axiosGet(`origensolicitudes/search/findByDsorigensolicitudContaining?dsorigensolicitud=${search}`);    
+            const result = await axiosGetSinToken(`origensolicitudes/search/findByDsorigensolicitudContaining?dsorigensolicitud=${search}`);    
             console.log('getOrigenesByParametros',result)        
             dispatch({
                 type: GET_ORIGENES_SOLICITUD,
