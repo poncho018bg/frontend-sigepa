@@ -360,7 +360,7 @@ function Sidebar(props) {
                 )
               ) : (
                 <span className={collapseItemMini}>
-
+                  
                 </span>
               )}
               <ListItemText
@@ -632,6 +632,7 @@ function Sidebar(props) {
     setOpenDialog(true);
   }
   function handleDeshabilitar() {
+    history.replace("/admin/dashboard")
     kcc.keycloak.logout();
     setOpenProfile(null);
     sessionStorage.removeItem("token");
@@ -641,7 +642,7 @@ function Sidebar(props) {
     sessionStorage.removeItem("lastName");
     sessionStorage.removeItem("roles");
     sessionStorage.removeItem("groups");
-
+   
   }
 
   function roles() {
