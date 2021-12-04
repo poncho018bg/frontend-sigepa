@@ -1,16 +1,18 @@
 
-import React, {  useState } from 'react';
+import React, {  useState,useContext,useEffect } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 import { useSelector } from 'react-redux';
 import { Box, Button } from '@material-ui/core';
-import {DetalleExpDig} from '../consultaExpDig/DetalleExpDig'
+import {DetalleExpDig} from './DetalleExpDig'
+import { ExpedienteContext } from 'contexts/expedienteContext';
 
-export const DetallePlantilla = () => {
+export const Expedienteapi = () => {
 
 
-  const { etapasPlantilla } = useSelector(state => state.etapa);
+ 
+  const { etapasPlantilla, getEtapasByPlantilla } = useContext(ExpedienteContext);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [showDialogForm, setShowDialogForm] = useState(false);
@@ -34,6 +36,11 @@ export const DetallePlantilla = () => {
     console.log('Etapa selecionada=>', e)
     setEtapa(e)
   }
+
+  
+  useEffect(() => {
+    getEtapasByPlantilla('ded0aebb-542e-48d8-91ad-917b8f592aba')
+}, []);
 
   const plantillas = etapasPlantilla.map((item) => (
     <div className="list__card">
@@ -82,12 +89,24 @@ export const DetallePlantilla = () => {
                 size="large"
                 onClick={() => onSelect(null)}
               >
-                Información General
+                Datos generales
+              </Button>
+            </Box>
+            <Box display="flex" flexDirection="column" >
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ backgroundColor: 'purple' }}
+                size="large"
+                onClick={() => onSelect(null)}
+              >
+                Información de la beneficiaria
               </Button>
             </Box>
           </div>
           {plantillas}
         </Grid>
+        {console.log('ETAPASS=>>',etapasPlantilla)}
         <DetalleExpDig 
             etapaSeleccionada={etapa}></DetalleExpDig>
 

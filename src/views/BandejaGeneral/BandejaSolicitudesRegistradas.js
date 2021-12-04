@@ -252,7 +252,7 @@ export const BandejaSolicitudesRegistradas = () => {
                             </Grid>
                         </GridItem>
                     </Grid>
-
+                    {console.log("xx", selected)}
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
