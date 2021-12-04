@@ -81,6 +81,7 @@ import { BandejaAutorizaSolicitudes } from "views/BandejaGeneral/BandejaAutoriza
 import { ConsultaExpediente } from "views/Expediente/ConsultaExpediente"
 import { PadronBeneficiariasScreen } from "views/PadronBeneficiarios/PadronBeneficiariasScreen";
 import { Expediente } from "views/Expediente/Expediente"
+import { Expedienteapi } from "views/Expediente/Expedienteapi";
 
 const dashboardRoutes = [
   {
@@ -96,7 +97,7 @@ const dashboardRoutes = [
     name: "Administración General",
     rtlName: "ag",
     icon: FolderIcon,
-    state: "pageCollapse",
+    state: "adminCollapse",
     views: [
       {
         path: "/roles",
@@ -151,7 +152,7 @@ const dashboardRoutes = [
     name: "Catálogos administrativos",
     rtlName: "ag",
     icon: FolderIcon,
-    state: "pageCollapse",
+    state: "catalogosAdminCollapse",
     views: [
       {
         path: "/modulos",
@@ -274,7 +275,7 @@ const dashboardRoutes = [
     name: "Bandeja general de solicitudes",
     rtlName: "bgs",
     icon: MoveToInboxIcon,
-    state: "pageCollapse",
+    state: "bandejaSolgrlCollapse",
     views: [
       {
         path: "/busquedasolicitudes",
@@ -319,7 +320,7 @@ const dashboardRoutes = [
     name: "Entrega de Apoyos",
     rtlName: "صفحات",
     icon: LocalShippingIcon,
-    state: "pageCollapse",
+    state: "entrgApoyosCollapse",
     views: [
       {
       }
@@ -330,7 +331,7 @@ const dashboardRoutes = [
     name: "Módulos de dispersión",
     rtlName: "صفحات",
     icon: CreditCardIcon,
-    state: "pageCollapse",
+    state: "modDispCollapse",
     views: [
       {
       }
@@ -342,7 +343,7 @@ const dashboardRoutes = [
     name: "Dashboard",
     rtlName: "صفحات",
     icon: EqualizerIcon,
-    state: "pageCollapse",
+    state: "dashCollapse",
     views: [
       {
       }
@@ -353,7 +354,7 @@ const dashboardRoutes = [
     name: "Reportes",
     rtlName: "صفحات",
     icon: TimelineIcon,
-    state: "pageCollapse",
+    state: "reportesCollapse",
     views: [
       {
       }
@@ -364,7 +365,7 @@ const dashboardRoutes = [
     name: "Buzón de Notificaciones",
     rtlName: "صفحات",
     icon: MarkunreadMailboxIcon,
-    state: "pageCollapse",
+    state: "buzoNotificacionesCollapse",
     views: [
       {
       }
@@ -376,7 +377,7 @@ const dashboardRoutes = [
     name: "Módulo de atención",
     rtlName: "mda",
     icon: MarkunreadMailboxIcon,
-    state: "pageCollapse",
+    state: "modAtencionCollapse",
     views: [
 
       {
@@ -417,6 +418,16 @@ const dashboardRoutes = [
         component: Expediente,
         layout: "/admin"
       },
+
+      {
+        path: "/expedienteapi",
+        name: "Expediente api",
+        rtlName: "ce",
+        mini: "sM",
+        rtlMini: "sm",
+        component: Expedienteapi,
+        layout: "/admin"
+      },
     ]
   },
 
@@ -426,7 +437,7 @@ const dashboardRoutes = [
     name: "Catalogos",
     rtlName: "صفحات",
     icon: Image,
-    state: "pageCollapse",
+    state: "catCollapse",
     views: [
       {
         path: "/motivosRechazos",
