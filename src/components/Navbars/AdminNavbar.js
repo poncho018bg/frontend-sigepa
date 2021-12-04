@@ -26,7 +26,7 @@ export default function AdminNavbar(props) {
     require("assets/img/Edomex_logo_escudo.png").default
   );
   const [logosigepa, setLogosigepa] = React.useState(
-    require("assets/img/logo_sigepa.png").default
+    require("assets/img/Logo-SIGEPAv6.gif").default
   );
   const [logoEdomex, setLogoEdomex] = React.useState(
     require("assets/img/edomexLogo.png").default
@@ -44,14 +44,14 @@ export default function AdminNavbar(props) {
     <AppBar className={classes.appBar + appBarClasses}>
       <Toolbar className={classes.container}>
         <Hidden smDown implementation="css">
-          <img src={logo} width="140" height="89" />
+          
         </Hidden>
         <div className={classes.flex}>
-          <center> <img src={logosigepa} alt="EDOMEX" width="230" height="70" />
+          <center> <img src={logosigepa} alt="EDOMEX" width="100%" />
           </center>
         </div>
         <Hidden smDown implementation="css">
-          <img src={logoEdomex} width="230" height="60" />
+          
         </Hidden>
         {/*<Hidden smDown implementation="css">
           <AdminNavbarLinks rtlActive={rtlActive} />
