@@ -18,11 +18,11 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
     console.log("direccionB en forward ref--->", direccionB, beneficiario);
     const classes = useStyles();
     // 
-    const [celular, setCelular] = useState('');
-    const [telefonoCasa, setTelefonoCasa] = useState('');
-    const [telefonoContacto, setTelefonoContato] = useState('');
-    const [email, setEmail] = useState('');
-    const [observaciones, setObservaciones] = useState('');
+    const [celular, setCelular] = useState("");
+    const [telefonoCasa, setTelefonoCasa] = useState("");
+    const [telefonoContacto, setTelefonoContato] = useState("");
+    const [email, setEmail] = useState("");
+    const [observaciones, setObservaciones] = useState("");
 
     const { direccion, registrarDireccionBeneficiario, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
 

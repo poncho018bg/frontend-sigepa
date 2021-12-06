@@ -78,6 +78,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
 
     useEffect(() => {
         setLoading(true);
+        setActivar(false);
         console.log("curp que llega --> ", curpR);
 
         console.log("BENEFICIARIO DEL USE EFFECT ====>", beneficiario);
