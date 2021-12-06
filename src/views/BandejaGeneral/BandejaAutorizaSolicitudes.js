@@ -145,15 +145,15 @@ export const BandejaAutorizaSolicitudes = () => {
     // Cambio de estatus seleccioandas
     const handleCambiarEstatusSeleccionada = () => {
         bandejaCambioEstatusAprobar(selected);
-        setShowDialogEstatusSeleccionadas(true);
-        //buscarSolitudes();
+        setShowDialogEstatusSeleccionadas(false);
+        buscarSolitudes();
     }
 
     //cambio de estatus general
     const handleCambiarGeneral = () => {
         bandejaCambioEstatusAprobar(solicitudParametrosBandeja);
         setShowDialogEstatusGeneral(false);
-        //buscarSolitudes();
+        buscarSolitudes();
     }
 
     const handleClick = (event, solicitud) => {
