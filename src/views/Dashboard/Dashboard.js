@@ -20,10 +20,10 @@ const useStyles = makeStyles(styles);
 export default function Dashboard() {
   const classes = useStyles();
   return (
-    <div className={classes.container}>
+    <div className={classes.container} style={{paddingTop:'10%'}}>
       <GridContainer justify="center">
         <GridItem xs={12} sm={12} md={6}>
-          <h1 className={classes.title}>SIGEPA</h1>
+         
           <h3 className={classes.description}>
             Bienvenido al sistema
           </h3>

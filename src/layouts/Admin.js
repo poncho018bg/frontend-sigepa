@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getSubmodulosByPerfilId } from "actions/perfilSubmoduloAction";
 import { obtenerRolesAction } from "actions/rolesKeycloakAction";
 import AdminNavbar from "components/Navbars/AdminNavbar";
+import { useHistory } from "react-router";
 
 const keyCloakConfig = process.env.REACT_APP_KEYCLOAK_CONFIG;
 
@@ -35,6 +36,7 @@ export default function Admin({ ...rest }) {
   const dispatch = useDispatch();
   const [keycloak, setKeycloak] = React.useState(null);
   const [authenticated, setAuthenticated] = React.useState(false);
+  let history = useHistory();
   // styles
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
@@ -184,6 +186,7 @@ export default function Admin({ ...rest }) {
 
     keycloak.init({ onLoad: 'login-required', checkLoginIframeInterval: 1, enableLogging: true }).then(authenticated => {
       if (keycloak.authenticated) {
+        
         sessionStorage.setItem('token', keycloak.token);
         sessionStorage.setItem('idUSuario', keycloak.tokenParsed.sub);
         sessionStorage.setItem('username', keycloak.tokenParsed.preferred_username);
@@ -225,6 +228,8 @@ export default function Admin({ ...rest }) {
             keycloak.logout()
           })
         }, 15000);
+
+       
       
       } else {
         keycloak.login();
