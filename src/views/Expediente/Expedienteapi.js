@@ -39,7 +39,7 @@ export const Expedienteapi = () => {
 
   
   useEffect(() => {
-    getEtapasByPlantilla('ded0aebb-542e-48d8-91ad-917b8f592aba')
+    getEtapasByPlantilla('829c38d6-a46d-4534-91a9-3bd6e88b2ba2')
 }, []);
 
   const plantillas = etapasPlantilla.map((item) => (
@@ -76,18 +76,17 @@ export const Expedienteapi = () => {
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{paddingTop:'7%'}}>
       <Grid container spacing={3}>
-
         <Grid item xs={3}>
           <div className="list__card">
             <Box display="flex" flexDirection="column" >
               <Button
                 variant="contained"
                 color="primary"
-                style={{ backgroundColor: 'green' }}
+                style={{ backgroundColor: '#8cc706' }}
                 size="large"
-                onClick={() => onSelect(null)}
+                onClick={() => onSelect('00000000-0000-0000-0000-000000000000')}
               >
                 Datos generales
               </Button>
@@ -96,9 +95,9 @@ export const Expedienteapi = () => {
               <Button
                 variant="contained"
                 color="primary"
-                style={{ backgroundColor: 'purple' }}
+                style={{ backgroundColor: '#ff9f05' }}
                 size="large"
-                onClick={() => onSelect(null)}
+                onClick={() => onSelect('00000000-0000-0000-0000-000000000001')}
               >
                 Información de la beneficiaria
               </Button>

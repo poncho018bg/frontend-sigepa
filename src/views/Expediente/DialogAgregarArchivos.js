@@ -6,7 +6,7 @@ import {
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import Button from "components/CustomButtons/Button.js";
 import TextField from '@material-ui/core/TextField';
@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import MenuItem from '@material-ui/core/MenuItem';
 import moment from 'moment';
 import 'moment/locale/es';
+import { ExpedienteContext } from 'contexts/expedienteContext';
+import { RegistroCargaDocumentosContext } from 'contexts/registroCargaDocumentosContext';
 
 
 
@@ -52,8 +54,13 @@ const dataModel = {
 }
 export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
     const classes = useStyles();
+    const { expDigDocuments, agregarcontenidoDocumento } = useContext(ExpedienteContext);
+    const { documentosApoyoList, getDocumentosApoyo,
+        existeDocumento, existedoc,
+        registrarDatosBoveda } = useContext(RegistroCargaDocumentosContext);
     const [formValues, setFormValues] = useState(initExpDig);
-    const { activeExpDig } = useSelector(state => state.expDig);
+    //const { activeExpDig } = useSelector(state => state.expDig);
+    const  activeExpDig =false;
     const dispatch = useDispatch();
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
@@ -90,7 +97,7 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
                         method: 'get',
                         url: urlEndpointNumHojas + props.idExpediente,
                         headers: {
-                            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+                          
                         }
                     })
                     setNumHojas(result.data + 1);
@@ -108,7 +115,7 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
                         method: 'get',
                         url: urlEndpointEtapasHija + props.etapaSeleccionada.idEtapa,
                         headers: {
-                            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+                            
                         }
                     })
 
@@ -122,6 +129,7 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
             }
             GetNumHojas();
             GetSubEtapas();
+            getDocumentosApoyo('ca5d7e25-b173-4e8c-a475-222fcb04c270','be7dabda-e343-4c24-aca4-aa34326179c1')
         }
 
 
@@ -146,7 +154,7 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
 
     }, [props.showDialogForm]);
 
-    const initvalues = () =>{
+    const initvalues = () => {
         setEstapaHi('');
         setNombreDocs('');
         setObservaciones();
@@ -187,7 +195,7 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
                 method: 'get',
                 url: urlEndpointTipoDoc + eHija,
                 headers: {
-                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+                   
                 }
             })
 
@@ -229,6 +237,7 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
 
     const handleChangeFileAdd = (event) => {
 
+        console.log('tipoDocument=>',tipoDocument)
         const errors = {};
         if (event.target.files[0].type == tipoDocument.extension) {
             setSelectedFile(event.target.files[0])
@@ -280,10 +289,7 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
             console.log("Fecha de documento es requerido");
         }
 
-        if (initExpDig.observaciones == '') {
-            errors.observaciones = "Observaciones es requerido";
-            console.log("Observaciones es requerido");
-        }
+  
 
 
 
@@ -297,14 +303,21 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
 
         //llamar metodo para agregar file
 
-
-
+        var namedoc;
+        documentosApoyoList.map(ee=>{
+            if(ee.id === initExpDig.nombreDoc){
+                namedoc= ee;
+            }
+        })
+        console.log('documentosApoyoList',documentosApoyoList)
+        console.log('namedoc',namedoc)
+        console.log('initExpDig.nombreDoc',initExpDig.nombreDoc)
         dataModel.id = null,
             dataModel.dsruta = '',
             dataModel.idExpediente = props.idExpediente
         dataModel.dsmime = tipoDocument.extension,
             dataModel.dsnombredocumento = initExpDig.nombreDoc,
-            dataModel.dsobservaciones = initExpDig.observaciones,
+            dataModel.dsobservaciones = namedoc.nombreDocumento,
             dataModel.fcfechadocumento = initExpDig.fechaDocumento,
             dataModel.llexpedienteboveda = null,
             dataModel.nohoja = numHojas,
@@ -313,7 +326,10 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
             dataModel.idEtapa = initExpDig.subClasificacion
         dataModel.document = ''
 
-     //   dispatch(expDigDocuments(dataModel, bas64));
+        console.log('Model=>',dataModel)
+        console.log('Document=>',bas64)
+        //   dispatch(expDigDocuments(dataModel, bas64));
+        expDigDocuments(dataModel, bas64)
 
         props.setShowDialogForm(false);
         setFormValues(initExpDig);
@@ -334,7 +350,7 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
 
                     <DialogTitle id="form-dialog-title">Registrar Información de expediente </DialogTitle>
                     <DialogContent>
-                        <TextField disabled id="numHoja" label="Número de hoja" defaultValue={numHojas} fullWidth />
+                        <TextField disabled id="numHoja" label="Número de hoja" defaultValue={numHojas} fullWidth hidden={true} />
                     </DialogContent>
 
                     <DialogContent>
@@ -371,26 +387,43 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
                         {errors.subClasificacion && <FormHelperText error={errors.subClasificacion}>{errors.subClasificacion}</FormHelperText>}
 
                     </DialogContent>
-
+                    
 
                     <DialogContent>
-                        <TextField
-                            margin="dense"
-                            id="nombreDoc"
-                            label="Nombre de documento"
-                            type="text"
-                            name="nombreDoc"
-                            value={nombreDocs}
-                            error={errors.nombreDoc}
-                            onChange={handleInputNombre}
-                            fullWidth
-                        />
+
+                    <TextField
+                        variant="outlined"
+                        label="Selecciona un documento"
+                        select
+                        fullWidth
+                        name="nombreDoc"
+                        value={nombreDocs}
+                        onChange={handleInputNombre}
+                    >
+                        <MenuItem value="0">
+                            <em>Ninguno</em>
+                        </MenuItem>
+                        {
+                            documentosApoyoList.map(
+                                item => (
+                                    <MenuItem
+                                        key={item.id}
+                                        value={item.id}>
+                                        {item.nombreDocumento} 
+                                    </MenuItem>
+                                )
+                            )
+                        }
+
+                    </TextField>
+                       
                         {errors.nombreDoc && <FormHelperText error={errors.nombreDoc}>{errors.nombreDoc}</FormHelperText>}
                     </DialogContent>
                     <DialogContent>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <KeyboardDatePicker
                                 disableToolbar
+                                hidden={true}
                                 variant="inline"
                                 format="MMMM/dd/yyyy"
                                 margin="normal"
@@ -412,6 +445,7 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
                             id="outlined-multiline-static"
                             label="Observaciones"
                             multiline
+                            hidden={true}
                             rows={4}
                             defaultValue=""
                             variant="outlined"
@@ -442,7 +476,7 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
                     <DialogActions>
                         <Button onClick={handleClose} color="primary">
                             Cancelar
-            </Button>
+                        </Button>
                         <Button type="submit" color="primary">
                             {(activeExpDig) ? 'Guardar' : 'Agregar'}
                         </Button>
@@ -451,7 +485,7 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
                 </form>
             </Dialog>
 
-         
+
 
         </>
     )
