@@ -155,7 +155,11 @@ export const RegistroCargaDocumentos = (props) => {
 
             //confirmar carga de docuemnto en el array de validaciones
 
-            getDocumentosApoyo(idPrograma, beneficiario?.id);
+            if (beneficiario.id !== undefined) {
+                getDocumentosApoyo(idPrograma, beneficiario?.id);
+            } else {
+                getDocumentosApoyo(idPrograma, beneficiario[0]?.id);
+            }
 
             validandodocs();
 
@@ -169,10 +173,19 @@ export const RegistroCargaDocumentos = (props) => {
     const guardarDatosBoveda = (documentoApoyo, result) => {
         //var datos = JSON.parse(result.data);
 
-        let datosGuardar = {
-            documentoId: documentoApoyo.idDocumentoRequisito,
-            beneficiarioId: beneficiario.id,
-            documentoBovedaId: result.data.fileId
+        let datosGuardar;
+        if (beneficiario.id !== undefined) {
+            datosGuardar = {
+                documentoId: documentoApoyo.idDocumentoRequisito,
+                beneficiarioId: beneficiario?.id,
+                documentoBovedaId: result.data.fileId
+            }
+        } else {
+            datosGuardar = {
+                documentoId: documentoApoyo.idDocumentoRequisito,
+                beneficiarioId: beneficiario[0]?.id,
+                documentoBovedaId: result.data.fileId
+            }
         }
         registrarDatosBoveda(datosGuardar);
     }
