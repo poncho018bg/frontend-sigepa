@@ -49,12 +49,24 @@ export const RegistroCargaDocumentos = (props) => {
 
     //let idPrograma = '8cbd2101-ef40-4fad-8698-5911ccecaf54';
 
-
+    console.log("carga documentos beneficiario ===>", beneficiario)
     useEffect(() => {
+        console.log("carga documentos beneficiario useefect", beneficiario)
         if (identPrograma !== undefined) {
-            getDocumentosApoyo(identPrograma, beneficiario?.id);
+            console.log("carga documentos ident", beneficiario.id)
+            if (beneficiario.id !== undefined) {
+                getDocumentosApoyo(identPrograma, beneficiario?.id);
+            } else {
+                getDocumentosApoyo(identPrograma, beneficiario[0]?.id);
+            }
+
         } else {
-            getDocumentosApoyo(idPrograma, beneficiario?.id);
+            console.log("carga documentos no ident", beneficiario.id)
+            if (beneficiario.id !== undefined) {
+                getDocumentosApoyo(idPrograma, beneficiario?.id);
+            } else {
+                getDocumentosApoyo(idPrograma, beneficiario[0]?.id);
+            }
         }
 
         console.log("documentos ", documentosApoyoList);
@@ -64,7 +76,7 @@ export const RegistroCargaDocumentos = (props) => {
             setSesion(result);
         }
         getLogin();
-    }, []);
+    }, [beneficiario]);
 
     /**
      * Se crea el array con los documentos para validar si ya estan cargados,

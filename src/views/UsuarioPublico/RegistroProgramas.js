@@ -194,7 +194,9 @@ export const RegistroProgramas = () => {
              * hacemos una consulta para obtener el domicilio del beneficiario, si es que tiene datos
              */
             console.log("BENEFICIARIO ID DIRECCION ====>", beneficiario.id);
-            obtenerDireccionBeneficiario(beneficiario?.id);
+            if (beneficiario.id !== undefined) {
+                obtenerDireccionBeneficiario(beneficiario?.id);
+            }
         }
         if (activeStep == 2) {
             console.log("ACtive STEP 2", beneficiario)
@@ -227,7 +229,9 @@ export const RegistroProgramas = () => {
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
         getBeneficiario(curp)
-        obtenerDireccionBeneficiario(beneficiario?.id);
+        if (beneficiario.id !== undefined) {
+            obtenerDireccionBeneficiario(beneficiario?.id);
+        }
     };
 
     useEffect(() => {
