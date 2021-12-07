@@ -80,11 +80,21 @@ export const RegistroFinalizado = (props) => {
     useEffect(() => {
         console.log('Finalizar')
         console.log('origen=>', origen)
-        let folios = {
-            idPrograma: idPrograma,
-            idBeneficiario: beneficiario.id,
-            idUsuario: '1fd03e93-887c-4c48-9a25-71097e7f71f4',
-            idOrigen:origen?.id
+        let folios;
+        if (beneficiario.id !== undefined) {
+            let folios = {
+                idPrograma: idPrograma,
+                idBeneficiario: beneficiario?.id,
+                idUsuario: '1fd03e93-887c-4c48-9a25-71097e7f71f4',
+                idOrigen: origen?.id
+            }
+        } else {
+            let folios = {
+                idPrograma: idPrograma,
+                idBeneficiario: beneficiario[0]?.id,
+                idUsuario: '1fd03e93-887c-4c48-9a25-71097e7f71f4',
+                idOrigen: origen?.id
+            }
         }
         registrarSolicitudFolio(folios).then(response => {
 
