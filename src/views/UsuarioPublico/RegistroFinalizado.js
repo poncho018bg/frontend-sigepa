@@ -82,14 +82,14 @@ export const RegistroFinalizado = (props) => {
         console.log('origen=>', origen)
         let folios;
         if (beneficiario.id !== undefined) {
-            let folios = {
+            folios = {
                 idPrograma: idPrograma,
                 idBeneficiario: beneficiario?.id,
                 idUsuario: '1fd03e93-887c-4c48-9a25-71097e7f71f4',
                 idOrigen: origen?.id
             }
         } else {
-            let folios = {
+            folios = {
                 idPrograma: idPrograma,
                 idBeneficiario: beneficiario[0]?.id,
                 idUsuario: '1fd03e93-887c-4c48-9a25-71097e7f71f4',

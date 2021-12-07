@@ -235,6 +235,7 @@ export const RegistroSolicitudContextProvider = props => {
 
     const registrarSolicitudFolio = async solFolios => {
         try {
+            console.log("registrar solicitud folios ==> ", solFolios);
             const url = `${baseUrlPublico}solicitudOverride`;
             return new Promise((resolve, reject) => {
                 axios.post(url, solFolios, {
