@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from "react-router-dom";
 import { Box, Button, Container, Table, TableBody, TableCell, TablePagination, TableRow } from '@material-ui/core';
@@ -6,14 +6,15 @@ import { DialogAgregarArchivos } from './DialogAgregarArchivos'
 //import { expDigDocumentosStartLoading, expDigDocStartLoading } from 'actions/expediente/expedienteAction';
 import Grid from '@material-ui/core/Grid';
 import Drawer from '@material-ui/core/Drawer';
-
+import { pdfjs } from 'react-pdf';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import GridItem from 'components/Grid/GridItem';
 import moment from 'moment';
 import 'moment/locale/es';
-import { Document, Page } from '@react-pdf/renderer';
+import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
+import { ExpedienteContext } from 'contexts/expedienteContext';
 
-//pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 moment.locale('es');
 
 export const DetalleExpDig = (props) => {
@@ -24,14 +25,17 @@ export const DetalleExpDig = (props) => {
     const [showCambio, setShowCambio] = useState(false);
     const [infoGral, setInfoGral] = useState(false);
 
+    const { expDigDocumentosStartLoading, documentosExpedienteLst, expDigDocStartLoading, contenidoDocumento } = useContext(ExpedienteContext);
+
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(1);
     const [showDialogForm, setShowDialogForm] = useState(false);
-
+    const idExpediente = 'ee58eb73-39eb-40da-8298-e784a3bfc1ff'
     const handleChangePage = (event, newPage) => {
-       // dispatch(expDigDocStartLoading(documentos[newPage].id))
+        // dispatch(expDigDocStartLoading(documentos[newPage].id))
+        expDigDocStartLoading(documentos[newPage].id)
         setPage(newPage);
     };
 
@@ -40,17 +44,19 @@ export const DetalleExpDig = (props) => {
         setPage(0);
     };
 
+
+
     useEffect(() => {
 
-     //   if (props.etapaSeleccionada === null || props.etapaSeleccionada === undefined) {
-           // dispatch(expDigDocumentosStartLoading(null, null));
-     //   } else {
-           // dispatch(expDigDocumentosStartLoading(props.etapaSeleccionada.idEtapa, location.state.idExpediente));
-      //  }
+        if (props.etapaSeleccionada === null || props.etapaSeleccionada === undefined) {
+            // dispatch(expDigDocumentosStartLoading(null, null));
+        } else {
+            expDigDocumentosStartLoading(props.etapaSeleccionada.idEtapa, idExpediente);
+        }
         setShowCambio(true);
     }, [props.etapaSeleccionada]);
 
-    const documentos = null //useSelector((state) => state.expDig.lsDocumentos);
+    const documentos = documentosExpedienteLst //useSelector((state) => state.expDig.lsDocumentos);
 
     useEffect(() => {
         if (documentos !== null && documentos !== undefined && documentos.length === 1) {
@@ -78,21 +84,35 @@ export const DetalleExpDig = (props) => {
     const [pageNumber, setPageNumber] = useState(1);
 
 
-    const archivo = null // useSelector(state => state.expDig.archivo);
-    const fileContent = 'data:application/pdf;base64, ' + (archivo === null ? ' ' : archivo.base64);
+    const archivo = contenidoDocumento // useSelector(state => state.expDig.archivo);
+    const fileContent = 'data:application/pdf;base64, ' + (archivo === null ? ' ' : archivo?.base64);
 
-    if (props.etapaSeleccionada === null || props.etapaSeleccionada === undefined) {
+    if (props.etapaSeleccionada === '00000000-0000-0000-0000-000000000000' || props.etapaSeleccionada === null || props.etapaSeleccionada === undefined) {
         return (
             <Box display="flex" justifyContent="center" borderColor="black" border={5} flex="auto">
                 <Grid item xs={11} border={10} borderColor="primary.main" >
                     <h3>Datos generales</h3>
                 </Grid>
-                
+
             </Box>
 
 
         )
     }
+
+    if (props.etapaSeleccionada === '00000000-0000-0000-0000-000000000001' ) {
+        return (
+            <Box display="flex" justifyContent="center" borderColor="black" border={5} flex="auto">
+                <Grid item xs={11} border={10} borderColor="primary.main" >
+                    <h3>Información de la beneficiaria</h3>
+                </Grid>
+
+            </Box>
+
+
+        )
+    }
+
     return (
         <Box display="flex" justifyContent="center" borderColor="black" border={5} flex="auto">
 
@@ -163,18 +183,14 @@ export const DetalleExpDig = (props) => {
                                                     <GridItem xs={12} sm={12} md={12}>
                                                         <strong>Nombre documento</strong>
                                                         <br />
-                                                        {row.dsnombredocumento}
+                                                        {row.dsobservaciones}
                                                     </GridItem>
                                                     <GridItem xs={12} sm={12} md={12}>
                                                         <strong>Subclasificación</strong>
                                                         <br />
                                                         {row.etapa}
                                                     </GridItem>
-                                                    <GridItem xs={12} sm={12} md={12}>
-                                                        <strong>Observaciones</strong>
-                                                        <br />
-                                                        {row.dsobservaciones}
-                                                    </GridItem>
+                                                    
                                                 </Container>
                                             </Drawer>
                                         </TableCell>
@@ -198,7 +214,7 @@ export const DetalleExpDig = (props) => {
                     showDialogForm={showDialogForm}
                     setShowDialogForm={setShowDialogForm}
                     etapaSeleccionada={props.etapaSeleccionada}
-                    idExpediente={location.state.idExpediente}
+                    idExpediente={idExpediente}
                 />
             </Grid>
 

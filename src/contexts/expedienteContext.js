@@ -3,7 +3,8 @@ import expedienteReducer from '../reducers/expedienteReducer.js';
 import axios from "axios";
 import {
     GET_EXPEDIENTE_PARAMETROS, ACTUALIZAR_EXPEDIENTE,
-    GET_ULTIMO_PROGRAMA_BENEFICIARIO, GET_ETAPAS_BY_PLANTILLA, GET_SOLICITUDES_EXPEDIENTE_BENEFICIARIO
+    GET_ULTIMO_PROGRAMA_BENEFICIARIO, GET_ETAPAS_BY_PLANTILLA, GET_SOLICITUDES_EXPEDIENTE_BENEFICIARIO,
+    GET_DOCUMENTOS_BY_ETAPA_EXPEDIENTE, GET_CONTENIDO_DOCUMENTO, AGREGAR_CONTENIDO_DOCUMENTO
 } from '../types/actionTypes';
 
 import { axiosPost, axiosPut } from 'helpers/axiosPublico';
@@ -19,7 +20,8 @@ export const ExpedienteContextProvider = props => {
         expedienteList: [],
         beneficiariosList: [],
         programaList: [],
-        etapasPlantilla: []
+        etapasPlantilla: [],
+        documentosExpedienteLst: []
     }
 
     const [state, dispatch] = useReducer(expedienteReducer, initialState);
@@ -171,7 +173,7 @@ export const ExpedienteContextProvider = props => {
             const url = `${baseApiExpediente}/etapas/etapasByPlantilla/${idEtapa}`;
             return new Promise((resolve, reject) => {
                 axios.get(url, {
-                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json', Authorization: 'Bearer ' + UserService }
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
                     resolve(response);
                     dispatch({
@@ -187,6 +189,72 @@ export const ExpedienteContextProvider = props => {
         }
     }
 
+    const expDigDocumentosStartLoading = async (idEtapa, idExpediente) => {
+        try {
+            const url = `${baseApiExpediente}/documentosExpediente/findDocumentosByEtapaAndExpediente/${idEtapa}/${idExpediente}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: GET_DOCUMENTOS_BY_ETAPA_EXPEDIENTE,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log("Error ", error)
+                });
+            });
+        } catch (error) {
+            console.log('Err', error);
+        }
+    }
+
+    const expDigDocStartLoading = async (idDocumento) => {
+        try {
+            const url = `${baseApiExpediente}/documentosExpediente/obtenerContenidoDocumento/${idDocumento}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: GET_CONTENIDO_DOCUMENTO,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log("Error ", error)
+                });
+            });
+        } catch (error) {
+            console.log('Err', error);
+        }
+    }
+
+    const expDigDocuments = async (documentExp, files) => {
+        const formData = new FormData();
+        const blobOverrides = new Blob([JSON.stringify(documentExp)], {
+            type: 'application/json',
+        });
+
+        formData.append('file', files)
+        formData.append('documentosExp', blobOverrides)
+
+
+        const url = `${baseApiExpediente}/documentosExpediente/guardarDocumentosExpediente`;
+        axios.post(url, formData, {
+            headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+        }).then(response => {
+            resolve(response);
+            dispatch({
+                type: AGREGAR_CONTENIDO_DOCUMENTO,
+                payload: response
+            })
+        }).catch(error => {
+            console.log('Err', error);
+        });
+    }
+
     return (
         <ExpedienteContext.Provider
             value={{
@@ -195,11 +263,18 @@ export const ExpedienteContextProvider = props => {
                 solicitudParametrosExpediente: state.solicitudParametrosExpediente,
                 programaList: state.programaList,
                 etapasPlantilla: state.etapasPlantilla,
+                documentosExpedienteLst: state.documentosExpedienteLst,
+                contenidoDocumento: state.contenidoDocumento,
+                agregarcontenidoDocumento: state.agregarcontenidoDocumento,
                 getExpedienteParametros,
                 actualizarExpediente,
                 BeneficiarioPrograma,
                 expedienteBeneficiario,
-                getEtapasByPlantilla
+                getEtapasByPlantilla,
+                expDigDocumentosStartLoading,
+                expDigDocStartLoading,
+                expDigDocuments
+
             }}
         >
             {props.children}
