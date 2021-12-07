@@ -48,6 +48,7 @@ const ValidarBeneficiarioGuardado = ({ beneficiario, setActivar, children }) => 
                 </Card>
             </GridItem>
         );
+        
     } else {
         if (beneficiario.id === undefined) {
             console.log("el id del beneficiario viene undefinded");
