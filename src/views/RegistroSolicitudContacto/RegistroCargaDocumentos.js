@@ -52,9 +52,20 @@ export const RegistroCargaDocumentos = (props) => {
 
     useEffect(() => {
         if (identPrograma !== undefined) {
-            getDocumentosApoyo(identPrograma, beneficiario?.id);
+            console.log("carga documentos ident", beneficiario.id)
+            if (beneficiario.id !== undefined) {
+                getDocumentosApoyo(identPrograma, beneficiario?.id);
+            } else {
+                getDocumentosApoyo(identPrograma, beneficiario[0]?.id);
+            }
+
         } else {
-            getDocumentosApoyo(idPrograma, beneficiario?.id);
+            console.log("carga documentos no ident", beneficiario.id)
+            if (beneficiario.id !== undefined) {
+                getDocumentosApoyo(idPrograma, beneficiario?.id);
+            } else {
+                getDocumentosApoyo(idPrograma, beneficiario[0]?.id);
+            }
         }
 
         console.log("documentos ", documentosApoyoList);
