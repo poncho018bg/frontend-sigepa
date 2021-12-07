@@ -31,7 +31,7 @@ const ValidarBeneficiarioGuardado = ({ beneficiario, setActivar, children }) => 
     const classes = useStyles();
     console.log("validar beneficiario ===>", beneficiario)
     console.log("validar beneficiario ===>", beneficiario.status)
-    if (beneficiario === "" || beneficiario.statis !== undefined) {
+    if (beneficiario === "" || beneficiario.status !== undefined) {
         console.log("validar beneficiario viene vacio");
         setActivar(false);
         return (
@@ -49,9 +49,28 @@ const ValidarBeneficiarioGuardado = ({ beneficiario, setActivar, children }) => 
             </GridItem>
         );
     } else {
-        console.log("validar beneficiario no viene vacio");
-        setActivar(true);
-        return children;
+        if (beneficiario.id !== undefined) {
+            console.log("el id del beneficiario viene undefinded");
+            setActivar(false);
+            return (
+                <GridItem xs={12} sm={12} md={12}>
+                    <Card>
+                        <CardHeader color="primary">
+                            <h4 className={classes.cardTitleWhite}>Registro de Programa de Apoyo</h4>
+                        </CardHeader>
+                        <CardBody>
+                            <Typography variant="body1" color="text.secondary">
+                                El registro no pudo ser guardado, verifique que se llenaron todos los campos
+                            </Typography>
+                        </CardBody>
+                    </Card>
+                </GridItem>
+            );
+        } else {
+            console.log("validar beneficiario no viene vacio");
+            setActivar(true);
+            return children;
+        }
     }
 }
 
