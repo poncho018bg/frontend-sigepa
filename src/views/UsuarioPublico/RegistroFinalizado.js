@@ -96,6 +96,10 @@ export const RegistroFinalizado = (props) => {
                 idOrigen: origen?.id
             }
         }
+        
+        /**
+         * registra el folio de la solicitud
+         */
         registrarSolicitudFolio(folios).then(response => {
 
 
