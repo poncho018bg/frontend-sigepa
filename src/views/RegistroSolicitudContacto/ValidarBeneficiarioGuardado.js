@@ -48,8 +48,9 @@ const ValidarBeneficiarioGuardado = ({ beneficiario, setActivar, children }) => 
                 </Card>
             </GridItem>
         );
-        
+
     } else {
+        /**
         if (beneficiario.id === undefined) {
             console.log("el id del beneficiario viene undefinded");
             setActivar(false);
@@ -68,10 +69,11 @@ const ValidarBeneficiarioGuardado = ({ beneficiario, setActivar, children }) => 
                 </GridItem>
             );
         } else {
-            console.log("validar beneficiario no viene vacio");
-            setActivar(true);
-            return children;
-        }
+            */
+        console.log("validar beneficiario no viene vacio");
+        setActivar(true);
+        return children;
+        /*}*/
     }
 }
 
