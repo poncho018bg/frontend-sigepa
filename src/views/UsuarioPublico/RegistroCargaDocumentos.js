@@ -52,9 +52,9 @@ export const RegistroCargaDocumentos = (props) => {
 
     useEffect(() => {
         if (identPrograma !== undefined) {
-            getDocumentosApoyo(identPrograma, beneficiario.id);
+            getDocumentosApoyo(identPrograma, beneficiario?.id);
         } else {
-            getDocumentosApoyo(idPrograma, beneficiario.id);
+            getDocumentosApoyo(idPrograma, beneficiario?.id);
         }
 
         console.log("documentos ", documentosApoyoList);
@@ -143,7 +143,7 @@ export const RegistroCargaDocumentos = (props) => {
 
             //confirmar carga de docuemnto en el array de validaciones
 
-            getDocumentosApoyo(idPrograma, beneficiario.id);
+            getDocumentosApoyo(idPrograma, beneficiario?.id);
 
             validandodocs();
 

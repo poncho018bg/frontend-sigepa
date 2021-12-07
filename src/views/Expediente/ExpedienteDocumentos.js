@@ -53,7 +53,7 @@ export const ExpedienteDocumentos = (props) => {
 
     useEffect(() => {
        // if (identPrograma !== undefined) {
-        //    getDocumentosApoyo(identPrograma, beneficiario.id);
+        //    getDocumentosApoyo(identPrograma, beneficiario?.id);
       //  }
 
         console.log("documentos ", documentosApoyoList);
@@ -143,7 +143,7 @@ export const ExpedienteDocumentos = (props) => {
 
             //confirmar carga de docuemnto en el array de validaciones
             
-            getDocumentosApoyo(idPrograma, beneficiario.id);
+            getDocumentosApoyo(idPrograma, beneficiario?.id);
 
             validandodocs();
 
