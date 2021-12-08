@@ -21,7 +21,9 @@ export const Expedienteapi = () => {
     registrarDireccionBeneficiario, getBeneficiario, actualizarBeneficiario,
     obtenerDireccionBeneficiario, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
   const [identPrograma, setIdentPrograma] = useState();
+  //idBeneficiario
   const [idBeneficiario, setIdBeneficiario] = useState();
+  //idPrograma de ultimo al que se inscribio el beneficiario
   const [idProgramaExpediente, setIdProgramaExpediente] = useState();
   const [curp, setCurp] = useState();
   /**
