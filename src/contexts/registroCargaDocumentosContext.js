@@ -35,6 +35,21 @@ export const RegistroCargaDocumentosContextProvider = props => {
         }
     }
 
+    const getDocumentosApoyoByTipoReq = async (idApoyo,idBeneficiario,idTipoReq) => {
+        try {
+            console.log("idApoyo ", idApoyo);
+            const result = await axiosGetSinTokenAdmin(`documentosprogramaapoyo/obtenerProgramasByDocumentoByTipoReq/${idApoyo}/${idBeneficiario}/${idTipoReq}`);
+            console.log(result);
+            dispatch({
+                type: GET_DOCUMENTOS_APOYO,
+                payload: result
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
     const registrarDatosBoveda = async datos => {
         try {
             console.log("datos a guardar ---->", datos)
@@ -75,7 +90,8 @@ export const RegistroCargaDocumentosContextProvider = props => {
                 existedoc:state.existedoc,
                 getDocumentosApoyo,
                 registrarDatosBoveda,
-                existeDocumento
+                existeDocumento,
+                getDocumentosApoyoByTipoReq
             }}
         >
             {props.children}
