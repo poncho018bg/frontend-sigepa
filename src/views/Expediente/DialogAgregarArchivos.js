@@ -316,8 +316,8 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
             dataModel.dsruta = '',
             dataModel.idExpediente = props.idExpediente
         dataModel.dsmime = tipoDocument.extension,
-            dataModel.dsnombredocumento = initExpDig.nombreDoc,
-            dataModel.dsobservaciones = namedoc.nombreDocumento,
+            dataModel.dsnombredocumento = namedoc.nombreDocumento,
+            dataModel.dsobservaciones = initExpDig.nombreDoc,
             dataModel.fcfechadocumento = initExpDig.fechaDocumento,
             dataModel.llexpedienteboveda = null,
             dataModel.nohoja = numHojas,

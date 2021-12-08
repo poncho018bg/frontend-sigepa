@@ -1,7 +1,7 @@
 import {
     GET_EXPEDIENTE_PARAMETROS, ACTUALIZAR_EXPEDIENTE,
     GET_ULTIMO_PROGRAMA_BENEFICIARIO, GET_ETAPAS_BY_PLANTILLA, GET_SOLICITUDES_EXPEDIENTE_BENEFICIARIO, GET_DOCUMENTOS_BY_ETAPA_EXPEDIENTE,
-    GET_CONTENIDO_DOCUMENTO, AGREGAR_CONTENIDO_DOCUMENTO
+    GET_CONTENIDO_DOCUMENTO, AGREGAR_CONTENIDO_DOCUMENTO, DESHABILITAR_DOCUMENTO_EXPEDIENTE
 } from '../types/actionTypes';
 
 export default (state, action) => {
@@ -44,6 +44,11 @@ export default (state, action) => {
             return {
                 ...state,
                 agregarcontenidoDocumento: action.payload
+            };
+        case DESHABILITAR_DOCUMENTO_EXPEDIENTE:
+            return {
+                ...state,
+                deshabilitarDocumento: action.payload
             };
     }
 }

@@ -4,10 +4,10 @@ import axios from "axios";
 import {
     GET_EXPEDIENTE_PARAMETROS, ACTUALIZAR_EXPEDIENTE,
     GET_ULTIMO_PROGRAMA_BENEFICIARIO, GET_ETAPAS_BY_PLANTILLA, GET_SOLICITUDES_EXPEDIENTE_BENEFICIARIO,
-    GET_DOCUMENTOS_BY_ETAPA_EXPEDIENTE, GET_CONTENIDO_DOCUMENTO, AGREGAR_CONTENIDO_DOCUMENTO
+    GET_DOCUMENTOS_BY_ETAPA_EXPEDIENTE, GET_CONTENIDO_DOCUMENTO, AGREGAR_CONTENIDO_DOCUMENTO,DESHABILITAR_DOCUMENTO_EXPEDIENTE
 } from '../types/actionTypes';
 
-import { axiosPost, axiosPut } from 'helpers/axiosPublico';
+import {  axiosPut } from 'helpers/axiosPublico';
 const UserService = sessionStorage.getItem('token')
 
 const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL
@@ -21,7 +21,8 @@ export const ExpedienteContextProvider = props => {
         beneficiariosList: [],
         programaList: [],
         etapasPlantilla: [],
-        documentosExpedienteLst: []
+        documentosExpedienteLst: [],
+        deshabilitarDocumento:null
     }
 
     const [state, dispatch] = useReducer(expedienteReducer, initialState);
@@ -241,7 +242,7 @@ export const ExpedienteContextProvider = props => {
         formData.append('documentosExp', blobOverrides)
 
 
-        const url = `${baseApiExpediente}/documentosExpediente/guardarDocumentosExpediente`;
+        const url = `${baseApiExpediente}/documentosExpediente/guardarDocumentosExpedienteSinHistorico`;
         axios.post(url, formData, {
             headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
         }).then(response => {
@@ -252,6 +253,23 @@ export const ExpedienteContextProvider = props => {
             })
         }).catch(error => {
             console.log('Err', error);
+        });
+    }
+
+    const deshabilitarDocumentoExpediente  = async(idDocumentoExpediente)=>{
+        const url = `${baseApiExpediente}/documentosExpediente/deshabilitarDocumentosExpediente/${idDocumentoExpediente}`;
+        return new Promise((resolve, reject) => {
+            axios.put(url,  {
+                headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+            }).then(response => {
+                resolve(response);
+                dispatch({
+                    type: DESHABILITAR_DOCUMENTO_EXPEDIENTE,
+                    payload: response.data
+                })
+            }).catch(error => {
+                reject(error);
+            });
         });
     }
 
@@ -266,6 +284,7 @@ export const ExpedienteContextProvider = props => {
                 documentosExpedienteLst: state.documentosExpedienteLst,
                 contenidoDocumento: state.contenidoDocumento,
                 agregarcontenidoDocumento: state.agregarcontenidoDocumento,
+                deshabilitarDocumento:state.deshabilitarDocumento,
                 getExpedienteParametros,
                 actualizarExpediente,
                 BeneficiarioPrograma,
@@ -273,7 +292,8 @@ export const ExpedienteContextProvider = props => {
                 getEtapasByPlantilla,
                 expDigDocumentosStartLoading,
                 expDigDocStartLoading,
-                expDigDocuments
+                expDigDocuments,
+                deshabilitarDocumentoExpediente
 
             }}
         >

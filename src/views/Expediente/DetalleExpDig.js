@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from "react-router-dom";
-import { Box, Button, Container, Table, TableBody, TableCell, TablePagination, TableRow } from '@material-ui/core';
+import { Box, Button, Container, DialogContent, IconButton, Table, TableBody, TableCell, TablePagination, TableRow } from '@material-ui/core';
 import { DialogAgregarArchivos } from './DialogAgregarArchivos'
 //import { expDigDocumentosStartLoading, expDigDocStartLoading } from 'actions/expediente/expedienteAction';
 import Grid from '@material-ui/core/Grid';
@@ -11,8 +11,11 @@ import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import GridItem from 'components/Grid/GridItem';
 import moment from 'moment';
 import 'moment/locale/es';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import { ExpedienteContext } from 'contexts/expedienteContext';
+import GridContainer from 'components/Grid/GridContainer';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 moment.locale('es');
@@ -25,7 +28,7 @@ export const DetalleExpDig = (props) => {
     const [showCambio, setShowCambio] = useState(false);
     const [infoGral, setInfoGral] = useState(false);
 
-    const { expDigDocumentosStartLoading, documentosExpedienteLst, expDigDocStartLoading, contenidoDocumento } = useContext(ExpedienteContext);
+    const { expDigDocumentosStartLoading, documentosExpedienteLst, expDigDocStartLoading, contenidoDocumento, deshabilitarDocumentoExpediente,deshabilitarDocumento } = useContext(ExpedienteContext);
 
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
@@ -48,10 +51,8 @@ export const DetalleExpDig = (props) => {
 
     useEffect(() => {
 
-        if (props.etapaSeleccionada === null || props.etapaSeleccionada === undefined) {
-            // dispatch(expDigDocumentosStartLoading(null, null));
-        } else {
-            expDigDocumentosStartLoading(props.etapaSeleccionada.idEtapa, idExpediente);
+        if (props.etapaSeleccionada !== '00000000-0000-0000-0000-000000000000' || props.etapaSeleccionada !== '00000000-0000-0000-0000-000000000001') {
+            expDigDocumentosStartLoading(props.etapaSeleccionada?.idEtapa, idExpediente);
         }
         setShowCambio(true);
     }, [props.etapaSeleccionada]);
@@ -71,6 +72,29 @@ export const DetalleExpDig = (props) => {
 
         setInfoGral(open);
     };
+    const downloadPDF = (bytes, nombredoc, folio) => {
+        const downloadLink = document.createElement("a");
+        const fileName = `${nombredoc}_${folio}.pdf`;
+        downloadLink.href = bytes;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
+    const deshabilitarDocumentos = (idDocumentoexp) => {
+        console.log('idDocumentoexp=>',idDocumentoexp)
+        deshabilitarDocumentoExpediente(idDocumentoexp.id) .then(response => {
+
+          
+            const timer = setTimeout(() => {
+                expDigDocumentosStartLoading(props.etapaSeleccionada?.idEtapa, idExpediente);
+
+            }, 1000);
+
+            return () => clearTimeout(timer);
+        }).catch(err => {
+           console.log(err)
+        })
+    }
 
     const addDialog = () => {
         console.log('abriendo');
@@ -100,7 +124,7 @@ export const DetalleExpDig = (props) => {
         )
     }
 
-    if (props.etapaSeleccionada === '00000000-0000-0000-0000-000000000001' ) {
+    if (props.etapaSeleccionada === '00000000-0000-0000-0000-000000000001') {
         return (
             <Box display="flex" justifyContent="center" borderColor="black" border={5} flex="auto">
                 <Grid item xs={11} border={10} borderColor="primary.main" >
@@ -127,6 +151,8 @@ export const DetalleExpDig = (props) => {
                     size="large"
                 >Registrar expediente
                 </Button>
+
+
                 < TablePagination
                     rowsPerPageOptions={[1]}
                     component="div"
@@ -142,59 +168,76 @@ export const DetalleExpDig = (props) => {
                         {
                             documentos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                                 return (
-                                    < TableRow key={row.id}>
-                                        <TableCell>
-                                            <div style={{ width: '100%' }}>
-                                                <Button
-                                                    style={{ right: '0', position: 'fixed', top: '50%', zIndex: '1000' }}
-                                                    color="primary"
-                                                    variant="contained"
-                                                    onClick={toggleDrawer(true)}
-                                                    size="large"
-                                                    aria-label="Ver Metadatos" component="span"
-                                                ><ArrowBackIos />
-                                                </Button >
-                                                {archivo !== null &&
-                                                    <Document file={fileContent}
-                                                        onLoadSuccess={onDocumentLoadSuccess}
-                                                    >
-                                                        <Page pageNumber={pageNumber} />
-                                                    </Document>}
-                                                {/* <p>Page {pageNumber} of {numPages}</p> */}
-                                            </div>
-                                            <Drawer anchor={'right'} open={infoGral} onClose={toggleDrawer(false)}>
-                                                <Container maxWidth="lg">
-                                                    <h3>Información General</h3>
-                                                    <GridItem xs={12} sm={12} md={12}>
-                                                        <strong>Número de hoja</strong>
-                                                        <br />
-                                                        {row.nohoja}
-                                                    </GridItem>
-                                                    <GridItem xs={12} sm={12} md={12}>
-                                                        <strong>Fecha de creación</strong>
-                                                        <br />
-                                                        {moment(row.fcfecharegistro).format("DD/MMM/YYYY")}
-                                                    </GridItem>
-                                                    <GridItem xs={12} sm={12} md={12}>
-                                                        <strong>Fecha de documento</strong>
-                                                        <br />
-                                                        {moment(row.fcfechadocumento).format("DD/MMM/YYYY")}
-                                                    </GridItem>
-                                                    <GridItem xs={12} sm={12} md={12}>
-                                                        <strong>Nombre documento</strong>
-                                                        <br />
-                                                        {row.dsobservaciones}
-                                                    </GridItem>
-                                                    <GridItem xs={12} sm={12} md={12}>
-                                                        <strong>Subclasificación</strong>
-                                                        <br />
-                                                        {row.etapa}
-                                                    </GridItem>
-                                                    
-                                                </Container>
-                                            </Drawer>
-                                        </TableCell>
-                                    </TableRow >
+                                    <>
+                                        <GridContainer>
+                                            <GridItem xs={12} sm={12} md={1}>
+                                            <IconButton aria-label="delete" onClick={() => downloadPDF(fileContent, row.dsnombredocumento, moment(new Date()).format("yyyy_MM_DD_HH_mm_ss"))}>
+                                                <GetAppIcon fontSize="large" />
+                                            </IconButton>
+                                            </GridItem> 
+                                            <GridItem xs={12} sm={12} md={1}>
+                                            <IconButton aria-label="delete" onClick={() => deshabilitarDocumentos(row)}>
+                                                <DeleteIcon fontSize="large" />
+                                            </IconButton>
+                                            </GridItem>
+                                            <GridItem xs={12} sm={12} md={3}>
+                                                <h5> {row.dsnombredocumento}</h5>
+                                            </GridItem>
+                                        </GridContainer>
+                                        
+                                        < TableRow key={row.id}>
+
+
+
+                                            <TableCell>
+                                                <div style={{ width: '100%' }}>
+                                                    <Button
+                                                        style={{ right: '0', position: 'fixed', top: '50%', zIndex: '1000' }}
+                                                        color="primary"
+                                                        variant="contained"
+                                                        onClick={toggleDrawer(true)}
+                                                        size="large"
+                                                        aria-label="Ver Metadatos" component="span"
+                                                    ><ArrowBackIos />
+                                                    </Button >
+                                                    {archivo !== null &&
+                                                        <Document file={fileContent}
+                                                            onLoadSuccess={onDocumentLoadSuccess}
+                                                        >
+                                                            <Page pageNumber={pageNumber} />
+                                                        </Document>}
+                                                    {/* <p>Page {pageNumber} of {numPages}</p> */}
+                                                </div>
+                                                <Drawer anchor={'right'} open={infoGral} onClose={toggleDrawer(false)}>
+                                                    <Container maxWidth="lg">
+                                                        <h3>Información General</h3>
+                                                       
+                                                        <GridItem xs={12} sm={12} md={12}>
+                                                            <strong>Fecha de creación</strong>
+                                                            <br />
+                                                            {moment(row.fcfecharegistro).format("DD/MMM/YYYY")}
+                                                        </GridItem>
+                                                        <GridItem xs={12} sm={12} md={12}>
+                                                            <strong>Fecha de documento</strong>
+                                                            <br />
+                                                            {moment(row.fcfechadocumento).format("DD/MMM/YYYY")}
+                                                        </GridItem>
+                                                        <GridItem xs={12} sm={12} md={12}>
+                                                            <strong>Nombre documento</strong>
+                                                            <br />
+                                                            {row.dsnombredocumento}
+                                                        </GridItem>
+                                                        <GridItem xs={12} sm={12} md={12}>
+                                                            <strong>Subclasificación</strong>
+                                                            <br />
+                                                            {row.etapa}
+                                                        </GridItem>
+
+                                                    </Container>
+                                                </Drawer>
+                                            </TableCell>
+                                        </TableRow >
+                                    </>
                                 );
                             })
                         }
