@@ -5,6 +5,7 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@material-ui/core';
+import moment from 'moment';
 import 'moment/locale/es';
 import { useTranslation } from 'react-i18next';
 
@@ -56,8 +57,8 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
                         < TableBody >
                             {
                                 programaList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                                    const isItemSelected = isSelected(row);
-                                    const labelId = `enhanced-table-checkbox-${index}`;
+                                    //const isItemSelected = isSelected(row);
+                                    //const labelId = `enhanced-table-checkbox-${index}`;
                                     return (
                                         < TableRow key={index}>
                                             <TableCell align="center">{row.dsprograma}</TableCell >

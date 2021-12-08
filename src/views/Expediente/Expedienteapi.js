@@ -1,17 +1,35 @@
 
-import React, {  useState,useContext,useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { useLocation } from "react-router-dom";
 
 import Grid from '@material-ui/core/Grid';
 import { useSelector } from 'react-redux';
 import { Box, Button } from '@material-ui/core';
-import {DetalleExpDig} from './DetalleExpDig'
+import { DetalleExpDig } from './DetalleExpDig'
+//context
 import { ExpedienteContext } from 'contexts/expedienteContext';
+import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 
 export const Expedienteapi = () => {
 
+  /**
+   * datos para obtener beneficiario
+   */
+  let query = useLocation();
+  const { beneficiario, direccion,
+    registrarDireccionBeneficiario, getBeneficiario, actualizarBeneficiario,
+    obtenerDireccionBeneficiario, actualizarDireccionBeneficiario } = useContext(RegistroSolicitudContext);
+  const [identPrograma, setIdentPrograma] = useState();
+  const [idBeneficiario, setIdBeneficiario] = useState();
+  const [idProgramaExpediente, setIdProgramaExpediente] = useState();
+  const [curp, setCurp] = useState();
+  /**
+   * se terminan datos del beneficiario
+   */
 
- 
+
+
   const { etapasPlantilla, getEtapasByPlantilla } = useContext(ExpedienteContext);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
@@ -37,10 +55,20 @@ export const Expedienteapi = () => {
     setEtapa(e)
   }
 
-  
+
   useEffect(() => {
     getEtapasByPlantilla('829c38d6-a46d-4534-91a9-3bd6e88b2ba2')
-}, []);
+  }, []);
+
+  useEffect(() => {
+    console.log("expediente ==>", query.state);
+    if (query.state?.curp) {
+      setCurp(query.state?.curp);
+      setIdBeneficiario(query.state?.id)
+      obtenerDireccionBeneficiario(query.state?.id);
+      getBeneficiario(query.state?.curp)
+    }
+  }, []);
 
   const plantillas = etapasPlantilla.map((item) => (
     <div className="list__card">
@@ -70,13 +98,13 @@ export const Expedienteapi = () => {
     console.log('abriendo');
     setShowDialogForm(true);
     //setEtapa(etapa)
-    
-    console.log('p>',etapa)
-    
+
+    console.log('p>', etapa)
+
   }
 
   return (
-    <div className={classes.root} style={{paddingTop:'7%'}}>
+    <div className={classes.root} style={{ paddingTop: '7%' }}>
       <Grid container spacing={3}>
         <Grid item xs={3}>
           <div className="list__card">
@@ -105,9 +133,16 @@ export const Expedienteapi = () => {
           </div>
           {plantillas}
         </Grid>
-        {console.log('ETAPASS=>>',etapasPlantilla)}
-        <DetalleExpDig 
-            etapaSeleccionada={etapa}></DetalleExpDig>
+        {console.log('ETAPASS=>>', etapasPlantilla)}
+        <Grid item xs={9}>
+          <DetalleExpDig
+            idBeneficiario={idBeneficiario}
+            etapaSeleccionada={etapa}
+            beneficiarioPadre={beneficiario}
+            setIdentPrograma={setIdentPrograma}
+            setIdProgramaExpediente={setIdProgramaExpediente}
+            direccionBeneficiario={direccion}></DetalleExpDig>
+        </Grid>
 
       </Grid>
     </div>

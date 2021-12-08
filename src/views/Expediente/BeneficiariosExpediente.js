@@ -11,7 +11,8 @@ const BeneficiariosExpediente = ({ i, b }) => {
     
     const onClick = (linea) => {
         console.log("expediente beneficiario ===>", linea);
-        history.push("/admin/expediente", { id: linea.id, curp:linea.dscurp });
+        //history.push("/admin/expediente", { id: linea.id, curp:linea.dscurp });
+        history.push("/admin/expedienteapi", { id: linea.id, curp:linea.dscurp });
     }
 
     return (
