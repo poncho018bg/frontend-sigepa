@@ -13,6 +13,7 @@ import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { useTranslation } from 'react-i18next';
+import { TipoRequisitosContext } from 'contexts/catalogos/TipoRequisitosContext';
 
 const BootstrapInput = withStyles((theme) => ({
     root: {
@@ -54,6 +55,7 @@ export const DocumentosForm = () => {
     const { setShowModal } = useContext(ModalContext);
 
     const { getVigencias, todasVigencias, registrarDocumento } = useContext(DocumentosContext);
+    const { getTipoRequisitos, tipoRequisitosList } = useContext(TipoRequisitosContext);
 
 
     const [valores, setValores] = useState();
@@ -71,7 +73,7 @@ export const DocumentosForm = () => {
 
     const handleRegistrar = () => {
         console.log("aqui hace el registro no deshabilita nada");
-        const { idVigencia, dsdocumento, dsdescripcion } = valores
+        const { idVigencia, dsdocumento, dsdescripcion, tipoRequisitos} = valores
 
         console.log("vemos que llega ---> ", idVigencia, dsdocumento, dsdescripcion);
 
@@ -81,6 +83,7 @@ export const DocumentosForm = () => {
             dsdescripcion: dsdescripcion,
             vigencias: `${process.env.REACT_APP_API_URL}vigencias/${idVigencia}`,
             boactivo: true,
+            tipoRequisitos:`/${tipoRequisitos}`,
             'programas': []
         }
 
@@ -105,6 +108,7 @@ export const DocumentosForm = () => {
 
     useEffect(() => {
         getVigencias();
+        getTipoRequisitos();
         // eslint-disable-next-line
         console.log("documentos", todasVigencias);
     }, []);
@@ -113,7 +117,8 @@ export const DocumentosForm = () => {
         initialValues: {
             idVigencia: '',
             dsdocumento: '',
-            dsdescripcion: ''
+            dsdescripcion: '',
+            tipoRequisitos:''
         },
         validationSchema: Yup.object({
             dsdescripcion: Yup.string()
@@ -182,6 +187,37 @@ export const DocumentosForm = () => {
                                     key={item.id}
                                     value={item.id}>
                                     {item.dsvigencia}
+                                </MenuItem>
+                            )
+                        )
+                    }
+                </TextField>
+
+
+            </DialogContent>
+
+            <DialogContent>
+                <TextField
+                    id="tipoRequisitos"
+                    variant="outlined"
+                    label="Selecciona un tipo de requisito"
+                    select
+                    fullWidth
+                    name="tipoRequisitos"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.tipoRequisitos}
+                >
+                    <MenuItem value="0">
+                        <em>{t('cmb.ninguno')}</em>
+                    </MenuItem>
+                    {
+                        tipoRequisitosList.map(
+                            item => (
+                                <MenuItem
+                                    key={item.id}
+                                    value={item.id}>
+                                    {item.dstiporequisito}
                                 </MenuItem>
                             )
                         )

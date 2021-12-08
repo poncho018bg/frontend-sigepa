@@ -72,10 +72,17 @@ export const ProgramasEdit = () => {
   const [archivo, setArchivos] = React.useState();
   const [documentslst, setDocumentslst] = React.useState([]);
 
+  const [leftComplement, setLeftComplement] = React.useState([]);
+  const [rightComplement, setRightComplement] = React.useState([]);
+  const [checkedComplement, setCheckedComplement] = React.useState([]);
+  const leftCheckedComplement = intersection(checkedComplement, leftComplement);
+  const rightCheckedComplement = intersection(checkedComplement, rightComplement);
+  const [documentslstComplement, setDocumentslstComplement] = React.useState([]);
+
   const [dataEditar] = useState({});
 
   const { getMunicipiosAll, municipiosList } = useContext(MunicipiosContext)
-  const { getDocumentos, documentosList } = useContext(DocumentosContext);
+  const { documentosList, getDocumentosByRequisito, getDocumentosByComplementarios, documentosComplementariosList } = useContext(DocumentosContext);
   const [archivoPrograma, setArchivoPrograma] = React.useState([]);
   const [selectedPlantilla, setSelectedPlantilla] = useState([]);
   const formioComplemento = useSelector(state => state.formioComplemento.formioComplemento);
@@ -84,7 +91,8 @@ export const ProgramasEdit = () => {
 
   useEffect(() => {
     getMunicipiosAll()
-    getDocumentos();
+    getDocumentosByRequisito('c946c03b-eae1-4ee1-aa93-d99c08825f97')
+    getDocumentosByComplementarios('36bd3924-24aa-4ce6-bbad-2c4bdbf5ed82')
     getTipoBeneficiarios();
     const cargarFormioComplemento = () => dispatch(formioComplementoLoading());
     cargarFormioComplemento();
@@ -147,6 +155,8 @@ export const ProgramasEdit = () => {
   useEffect(() => {
     const lstDocsRg = []
     const lstDocsLf = []
+    const lstDocsRgComplement = []
+    const lstDocsLfComplement = []
 
     documentosList.map((mp1) => {
       const docsagr = programasDocumentosList.filter(e => e.id === mp1.id)
@@ -166,6 +176,26 @@ export const ProgramasEdit = () => {
     setLeft(not(lstDocsLf, leftChecked))
     setChecked(not(checked, leftChecked))
 
+    // Documentos Complementarios
+
+    documentosComplementariosList.map((mp1) => {
+      const docsagr = programasDocumentosList.filter(e => e.id === mp1.id)
+      if (docsagr.length > 0) {
+        lstDocsRgComplement.push(mp1)
+      } else {
+        lstDocsLfComplement.push(mp1)
+      }
+
+    })
+
+    setCheckedComplement(lstDocsRgComplement)
+    setRightComplement(lstDocsRgComplement);
+    setLeftComplement(lstDocsLfComplement);
+    setLeftComplement(not(lstDocsLfComplement, leftCheckedComplement))
+    setCheckedComplement(not(checkedComplement, leftCheckedComplement))
+
+
+
   }, [programasDocumentosList]);
 
   let data = programa;
@@ -179,9 +209,7 @@ export const ProgramasEdit = () => {
     setMunicipiosSelect(lstmun)
   }, [municipiosList]);
 
-  useEffect(() => {
-    setLeft(documentosList)
-  }, [documentosList]);
+
 
   useEffect(() => {
     var docslst = []
@@ -190,6 +218,14 @@ export const ProgramasEdit = () => {
     })
     setDocumentslst(docslst)
   }, [right]);
+
+  useEffect(() => {
+    var docslst = []
+    rightComplement.map((mp) => {
+      docslst.push(mp.id)
+    })
+    setDocumentslstComplement(docslst)
+  }, [rightComplement]);
 
 
   const handleToggle = (value) => () => {
@@ -205,10 +241,23 @@ export const ProgramasEdit = () => {
     setChecked(newChecked);
   };
 
+  const handleToggleComplement = (value) => () => {
+    const currentIndex = checkedComplement.indexOf(value);
+    const newChecked = [...checkedComplement];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setCheckedComplement(newChecked);
+  };
 
 
 
-  console.log("data", dataEditar);
+
+
   const handleCheckedRight = () => {
     setRight(right.concat(leftChecked));
     setLeft(not(left, leftChecked));
@@ -219,6 +268,18 @@ export const ProgramasEdit = () => {
     setLeft(left.concat(rightChecked));
     setRight(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
+  };
+
+  const handleCheckedRightComplement = () => {
+    setRightComplement(rightComplement.concat(leftCheckedComplement));
+    setLeftComplement(not(leftComplement, leftCheckedComplement));
+    setCheckedComplement(not(checkedComplement, leftCheckedComplement));
+  };
+
+  const handleCheckedLeftComplement = () => {
+    setLeftComplement(leftComplement.concat(rightCheckedComplement));
+    setRightComplement(not(rightComplement, rightCheckedComplement));
+    setCheckedComplement(not(checkedComplement, rightCheckedComplement));
   };
 
   const customList = (items) => (
@@ -232,6 +293,31 @@ export const ProgramasEdit = () => {
               <ListItemIcon>
                 <Checkbox
                   checked={checked.indexOf(value) !== -1}
+                  tabIndex={-1}
+                  disableRipple
+                  inputProps={{ 'aria-labelledby': labelId }}
+                />
+              </ListItemIcon>
+              <ListItemText id={labelId} primary={`${value.dsdocumento}`} />
+            </ListItem>
+          );
+        })}
+        <ListItem />
+      </List>
+    </Paper>
+  );
+
+  const customListComplementarios = (items) => (
+    <Paper className={classes.paper}>
+      <List dense component="div" role="list">
+        {items.map((value) => {
+          const labelId = `transfer-list-item-${value}-label`;
+
+          return (
+            <ListItem key={value} role="listitem" button onClick={handleToggleComplement(value)}>
+              <ListItemIcon>
+                <Checkbox
+                  checked={checkedComplement.indexOf(value) !== -1}
                   tabIndex={-1}
                   disableRipple
                   inputProps={{ 'aria-labelledby': labelId }}
@@ -306,6 +392,7 @@ export const ProgramasEdit = () => {
     valores.file = archivoPrograma
     valores.activo = true
     valores.documentosRequisitos = documentslst
+    valores.documentosComplementarios=documentslstComplement
     console.log('valores=>', valores)
     const blobpgr = new Blob([archivoPrograma], { type: 'image/png' });
     valores.fcvigenciainicio = moment(valores.fcvigenciainicio).format("YYYY-MM-DD")
@@ -713,7 +800,7 @@ export const ProgramasEdit = () => {
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={12} style={{ marginBottom: '20px' }}>
-                        <FormLabel style={{ marginBottom: '20px' }} component="legend">Documentación y formatos requeridos para el tipo de apoyo</FormLabel>
+                        <FormLabel style={{ marginBottom: '20px' }} component="legend">Documentos y formatos requeridos</FormLabel>
                         <Grid
                           container
                           spacing={2}
@@ -751,6 +838,48 @@ export const ProgramasEdit = () => {
                             </Grid>
                           </Grid>
                           <Grid item>{customList(right)}</Grid>
+                        </Grid>
+                      </GridItem>
+
+                      <GridItem xs={12} sm={12} md={12} style={{ marginBottom: '20px' }}>
+                        <FormLabel style={{ marginBottom: '20px' }} component="legend">Documentos y formatos requeridos para complementar el expediente</FormLabel>
+                        <Grid
+                          container
+                          spacing={2}
+                          style={{ marginBottom: '20px' }}
+                          justifyContent="center"
+                          alignItems="center"
+                          className={classes.root}
+                          fullWidth
+                        >
+                          <Grid item>{customListComplementarios(leftComplement)}</Grid>
+                          <Grid item>
+                            <Grid container direction="column" alignItems="center">
+
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                className={classes.button}
+                                onClick={handleCheckedRightComplement}
+                                disabled={leftCheckedComplement.length === 0}
+                                aria-label="move selected right"
+                              >
+                                &gt;
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                className={classes.button}
+                                onClick={handleCheckedLeftComplement}
+                                disabled={rightCheckedComplement.length === 0}
+                                aria-label="move selected left"
+                              >
+                                &lt;
+                              </Button>
+
+                            </Grid>
+                          </Grid>
+                          <Grid item>{customListComplementarios(rightComplement)}</Grid>
                         </Grid>
                       </GridItem>
                     </GridContainer>
