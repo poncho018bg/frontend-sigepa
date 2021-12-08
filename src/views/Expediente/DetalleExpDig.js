@@ -17,8 +17,26 @@ import { ExpedienteContext } from 'contexts/expedienteContext';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 moment.locale('es');
 
+//imports de los datos generales del expediente 
+import { DatosGeneralesExpediente } from './DatosGeneralesExpediente';
+import { DireccionExpediente } from './DireccionExpediente';
+import { ContactoExpediente } from "./ContactoExpediente"
+import { ApoyosRecibidosExpediente } from "./ApoyosRecibidosExpediente"
+import { ObservacionesExpediente } from "./ObservacionesExpediente"
+
+
+/**
+ * Aqui se va a mostrar el detalle del expediente del beneficiario
+ * @param {props} props 
+ * @returns 
+ */
+
 export const DetalleExpDig = (props) => {
 
+    /**
+     * props beneficiario
+     */
+    const { idBeneficiario, beneficiarioPadre, setIdentPrograma, setIdProgramaExpediente, direccionBeneficiario } = props;
 
     const location = useLocation();
     const dispatch = useDispatch();
@@ -89,20 +107,30 @@ export const DetalleExpDig = (props) => {
 
     if (props.etapaSeleccionada === '00000000-0000-0000-0000-000000000000' || props.etapaSeleccionada === null || props.etapaSeleccionada === undefined) {
         return (
-            <Box display="flex" justifyContent="center" borderColor="black" border={5} flex="auto">
-                <Grid item xs={11} border={10} borderColor="primary.main" >
+            <Box display="flex" justifyContent="center" borderColor="black" border={1} flex="auto">
+                <Grid item xs={12} border={10} borderColor="primary.main" >
                     <h3>Datos generales</h3>
+                    <DatosGeneralesExpediente
+                        beneficiarioPadre={beneficiarioPadre}
+                        setIdentPrograma={setIdentPrograma}
+                        setIdProgramaExpediente={setIdProgramaExpediente} />
+                    <DireccionExpediente
+                        direccionBeneficiario={direccionBeneficiario}
+                        idBeneficiario={idBeneficiario} />
+                    <ContactoExpediente
+                        direccionB={direccionBeneficiario}
+                        idBeneficiario={idBeneficiario} />
+                    <ApoyosRecibidosExpediente
+                        idBeneficiario={idBeneficiario} />
+                    <ObservacionesExpediente />
                 </Grid>
-
             </Box>
-
-
         )
     }
 
-    if (props.etapaSeleccionada === '00000000-0000-0000-0000-000000000001' ) {
+    if (props.etapaSeleccionada === '00000000-0000-0000-0000-000000000001') {
         return (
-            <Box display="flex" justifyContent="center" borderColor="black" border={5} flex="auto">
+            <Box display="flex" justifyContent="center" borderColor="black" border={1} flex="auto">
                 <Grid item xs={11} border={10} borderColor="primary.main" >
                     <h3>Información de la beneficiaria</h3>
                 </Grid>
@@ -114,7 +142,7 @@ export const DetalleExpDig = (props) => {
     }
 
     return (
-        <Box display="flex" justifyContent="center" borderColor="black" border={5} flex="auto">
+        <Box display="flex" justifyContent="center" borderColor="black" border={1} flex="auto">
 
             <Grid item xs={11} border={10} borderColor="primary.main" >
 
@@ -190,7 +218,7 @@ export const DetalleExpDig = (props) => {
                                                         <br />
                                                         {row.etapa}
                                                     </GridItem>
-                                                    
+
                                                 </Container>
                                             </Drawer>
                                         </TableCell>
