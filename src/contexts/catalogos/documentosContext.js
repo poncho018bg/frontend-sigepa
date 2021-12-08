@@ -2,7 +2,7 @@ import React, { createContext, useReducer } from 'react';
 import DocumentosReducer from 'reducers/Catalogos/DocumentosReducer';
 import axios from "axios";
 import { GET_DOCUMENTOS_REQUISITOS, REGISTRAR_DOCUMENTOS_REQUISITOS, MODIFICAR_DOCUMENTOS_REQUISITOS, VIGENCIA_DOCUMENTOS_REQUISITOS, GET_VIGENCIAS, 
-    AGREGAR_DOCUMENTOS_ERROR,GET_PROGRAMAS_DOCUMENTO } from "../../types/actionTypes";
+    AGREGAR_DOCUMENTOS_ERROR,GET_PROGRAMAS_DOCUMENTO,GET_DOCUMENTOS_COMPLEMENTARIOS } from "../../types/actionTypes";
 
 import { axiosGet,  axiosPostHetoas, axiosGetHetoas } from 'helpers/axios';
 
@@ -16,6 +16,7 @@ export const DocumentosContextProvider = props => {
         vigenciaList: '',
         todasVigencias: [],
         programasDocumento: [],
+        documentosComplementariosList:[]
         
     }
 
@@ -206,6 +207,32 @@ export const DocumentosContextProvider = props => {
         }
     }
 
+    const getDocumentosByRequisito = async (search) => {
+        try {
+            const result = await axiosGet(`documentosRequisitos/search/findByTiporequisitoid?tiporequisitoid=${search}`);
+           
+            dispatch({
+                type: GET_DOCUMENTOS_REQUISITOS,
+                payload: result._embedded.documentosRequisitos
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const getDocumentosByComplementarios = async (search) => {
+        try {
+            const result = await axiosGet(`documentosRequisitos/search/findByTiporequisitoid?tiporequisitoid=${search}`);
+           
+            dispatch({
+                type: GET_DOCUMENTOS_COMPLEMENTARIOS,
+                payload: result._embedded.documentosRequisitos
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <DocumentosContext.Provider
             value={{
@@ -213,6 +240,7 @@ export const DocumentosContextProvider = props => {
                 vigenciaList: state.vigenciaList,
                 todasVigencias: state.todasVigencias,
                 programasDocumento: state.programasDocumento,
+                documentosComplementariosList:state.documentosComplementariosList,
                 getDocumentos,
                 getVigenciaDocumentos,
                 getVigencias,
@@ -220,7 +248,9 @@ export const DocumentosContextProvider = props => {
                 getProgramaDocumentos,
                 actualizarDocumento,
                 eliminarDocumentos,
-                getDocumentosByParametros
+                getDocumentosByParametros,
+                getDocumentosByRequisito,
+                getDocumentosByComplementarios
             }}
         >
             {props.children}

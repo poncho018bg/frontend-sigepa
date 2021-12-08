@@ -1,4 +1,4 @@
-import { GET_DOCUMENTOS_REQUISITOS, REGISTRAR_DOCUMENTOS_REQUISITOS, MODIFICAR_DOCUMENTOS_REQUISITOS, VIGENCIA_DOCUMENTOS_REQUISITOS, GET_VIGENCIAS, GET_PROGRAMAS_DOCUMENTO, AGREGAR_DOCUMENTOS_ERROR,ELIMINAR_DOCUMENTOS_REQUISITOS } from "../../types/actionTypes";
+import { GET_DOCUMENTOS_REQUISITOS, REGISTRAR_DOCUMENTOS_REQUISITOS, MODIFICAR_DOCUMENTOS_REQUISITOS, VIGENCIA_DOCUMENTOS_REQUISITOS, GET_VIGENCIAS, GET_PROGRAMAS_DOCUMENTO, AGREGAR_DOCUMENTOS_ERROR, ELIMINAR_DOCUMENTOS_REQUISITOS, GET_DOCUMENTOS_COMPLEMENTARIOS } from "../../types/actionTypes";
 
 export default (state, action) => {
     switch (action.type) {
@@ -6,6 +6,11 @@ export default (state, action) => {
             return {
                 ...state,
                 documentosList: action.payload
+            };
+        case GET_DOCUMENTOS_COMPLEMENTARIOS:
+            return {
+                ...state,
+                documentosComplementariosList: action.payload
             };
         case AGREGAR_DOCUMENTOS_ERROR:
             console.log(action.type);

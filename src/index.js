@@ -74,6 +74,7 @@ import { OrigenSolicitudContextProvider } from "contexts/catalogos/OrigenSolicit
 import { ExpedienteContextProvider } from "contexts/expedienteContext"
 import { BeneficiariosContextProvider } from "contexts/BeneficiariosContext";
 import { BandejaRechazosContextProvider } from "contexts/BandejaRechazosContext";
+import { TipoRequisitosContextProvider } from "contexts/catalogos/TipoRequisitosContext";
 
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
@@ -127,11 +128,13 @@ ReactDOM.render(
                                                                                       <ExpedienteContextProvider>
                                                                                         <BeneficiariosContextProvider>
                                                                                           <BandejaRechazosContextProvider>
-                                                                                            <Switch>
-                                                                                              <Route path="/admin" component={Admin} />
-                                                                                              <Route path="/public" component={Auth} />
-                                                                                              <Redirect from="/" to="/admin/dashboard" />
-                                                                                            </Switch>
+                                                                                            <TipoRequisitosContextProvider>
+                                                                                              <Switch>
+                                                                                                <Route path="/admin" component={Admin} />
+                                                                                                <Route path="/public" component={Auth} />
+                                                                                                <Redirect from="/" to="/admin/dashboard" />
+                                                                                              </Switch>
+                                                                                            </TipoRequisitosContextProvider>
                                                                                           </BandejaRechazosContextProvider>
                                                                                         </BeneficiariosContextProvider>
                                                                                       </ExpedienteContextProvider>
