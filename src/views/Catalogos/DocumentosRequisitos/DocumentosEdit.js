@@ -11,6 +11,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { ModalConfirmacion } from 'commons/ModalConfirmacion';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { Mensaje } from 'components/Personalizados/Mensaje';
+import { TipoRequisitosContext } from 'contexts/catalogos/TipoRequisitosContext';
 
 const BootstrapInput = withStyles((theme) => ({
 
@@ -53,6 +54,7 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
     const { t } = useTranslation();
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
     const { getVigencias, todasVigencias, actualizarDocumento } = useContext(DocumentosContext);
+    const { getTipoRequisitos, tipoRequisitosList } = useContext(TipoRequisitosContext);
 
     //dialog confirmacion
     const [valores, setValores] = useState();
@@ -74,7 +76,7 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
      * Edita el elemento
      */
     const handleRegistrar = () => {
-        
+        valores.tipoRequisitos=`/${valores.tiporequisitoid}`
         actualizarDocumento(valores).then(response => {
             setOpenSnackbar(true);
              
@@ -113,6 +115,7 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
 
     useEffect(() => {
         getVigencias();
+        getTipoRequisitos();
         // eslint-disable-next-line
         console.log("documentos", todasVigencias);
     }, []);
@@ -165,8 +168,6 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
                             ) : null}
                         </DialogContent>
                         <DialogContent>
-                     
-
                             <TextField
                                 id="idVigencia"
                                 variant="outlined"
@@ -188,6 +189,35 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
                                                 key={item.id}
                                                 value={item.id}>
                                                 {item.dsvigencia}
+                                            </MenuItem>
+                                        )
+                                    )
+                                }
+                            </TextField>
+                        </DialogContent>
+
+                        <DialogContent>
+                            <TextField
+                                id="tiporequisitoid"
+                                variant="outlined"
+                                label="Selecciona un tipo de requisito"
+                                select
+                                fullWidth
+                                name="tiporequisitoid"
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
+                                value={props.values.tiporequisitoid}
+                            >
+                                <MenuItem value="0">
+                                    <em>{t('cmb.ninguno')}</em>
+                                </MenuItem>
+                                {
+                                    tipoRequisitosList.map(
+                                        item => (
+                                            <MenuItem
+                                                key={item.id}
+                                                value={item.id}>
+                                                {item.dstiporequisito}
                                             </MenuItem>
                                         )
                                     )
