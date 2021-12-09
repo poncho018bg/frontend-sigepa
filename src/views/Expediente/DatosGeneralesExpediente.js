@@ -72,7 +72,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
         estudiosList, getEstudios,
         estadoCivilList, getEstadoCivil,
         getIdentificaciones, identificacionesList,
-        actualizarBeneficiario, beneficiario } = useContext(RegistroSolicitudContext);
+        actualizarBeneficiario, beneficiario,actualizarBeneficiarioFolio } = useContext(RegistroSolicitudContext);
 
     const { programasList, get, getCien } = useContext(ProgramasContext);
 
@@ -141,11 +141,12 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
             idgradoestudios: estudios,
             ididentificacionoficial: identificacion,
             rfc: rfc,
-            dsiddocumento: idIdentificaion
+            dsiddocumento: idIdentificaion,
+            folioInterno:folioInterno
         }
 
         console.log("expediente actualizar beneficiario ===>", datosEnviar);
-        actualizarBeneficiario(datosEnviar);
+        actualizarBeneficiarioFolio(datosEnviar);
     }
 
     const onChange = event => {
@@ -171,7 +172,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
 
     const onClickGuardar = () => {
         //console.log("GUARDA LOS CAMBIOS");
-        //llenado();
+        llenado();
         setActivaGuardar(false);
     }
 
@@ -421,6 +422,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                             fullWidth
                                             select
                                             onChange={onChange}
+                                            disabled="True"
                                             value={programaList[0].programa_id}
                                         >
                                             {

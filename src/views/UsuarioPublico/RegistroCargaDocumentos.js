@@ -268,6 +268,7 @@ export const RegistroCargaDocumentos = (props) => {
                                             onChange={handleChange}
                                             dropzoneText={"Arrastra un pdf aquí o da clic para agregar un archivo"}
                                             getPreviewIcon={handlePreviewIcon}
+                                            maxFileSize='5242880'
                                         />
                                     </Grid>
 

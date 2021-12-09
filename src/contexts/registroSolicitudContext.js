@@ -219,6 +219,24 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
+     /**
+     * 
+     * @param {beneficiario} beneficiario 
+     */
+      const actualizarBeneficiarioFolio = async beneficiario => {
+        try {
+            console.log(beneficiario);
+            const resultado = await axiosPut('beneficiarioOverride/beneficiarioExpediente', beneficiario);
+            console.log("resultado --->", resultado);
+            dispatch({
+                type: ACTUALIZAR_BENEFICIARIO,
+                payload: resultado
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const obtenerDireccionBeneficiario = async idBeneficiario => {
         try {
             console.log("LLEGA EL ID DEL BENEFICIARIO DIRECCION ====>", idBeneficiario);
@@ -534,6 +552,7 @@ export const RegistroSolicitudContextProvider = props => {
             bandejaCambioEstatusPendiente,
             bandejaCambioEstatusAprobar,
             getBeneficiarioRegistradoPrograma,
+            actualizarBeneficiarioFolio
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>
