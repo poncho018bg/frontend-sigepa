@@ -9,14 +9,13 @@ export default (state, action) => {
         case GET_COMPLEMENTO_FURS:
             return {
                 ...state,
-                complementoList: action.payload._embedded.compelmento,
-                total: action.payload.page.totalElements
+                complementoList: action.payload.complemento
             };
 
         case REGISTRAR_COMPLEMENTO_FURS:
             return {
                 ...state,
-                direccion: [...state.direccion, action.payload]
+                complemento: [...state.complemento, action.payload]
             };
         default:
             return state;
