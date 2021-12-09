@@ -54,7 +54,7 @@ const dataModel = {
 }
 export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
     const classes = useStyles();
-    const { idBeneficiario,  setIdentPrograma } = props;
+    const { idBeneficiario,  idprogramaexpediente } = props;
     const { expDigDocuments } = useContext(ExpedienteContext);
     const { documentosApoyoList, getDocumentosApoyoByTipoReq } = useContext(RegistroCargaDocumentosContext);
     const [formValues, setFormValues] = useState(initExpDig);
@@ -129,7 +129,7 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
             let idTipoRequerimiento = props.etapaSeleccionada.idEtapa === '05fcf1ef-b99d-46a2-974f-f04f5419d5ac' ? 'c946c03b-eae1-4ee1-aa93-d99c08825f97': '36bd3924-24aa-4ce6-bbad-2c4bdbf5ed82'
             GetNumHojas();
             GetSubEtapas();
-            getDocumentosApoyoByTipoReq(setIdentPrograma, idBeneficiario, idTipoRequerimiento)
+            getDocumentosApoyoByTipoReq(idprogramaexpediente, idBeneficiario, idTipoRequerimiento)
         }
 
 

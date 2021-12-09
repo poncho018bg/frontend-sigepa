@@ -293,7 +293,7 @@ export const DetalleExpDig = (props) => {
                     etapaSeleccionada={props.etapaSeleccionada}
                     idExpediente={idExpediente}
                     idBeneficiario={idBeneficiario}
-                    setIdentPrograma={setIdentPrograma}
+                    idprogramaexpediente={idprogramaexpediente}
                    
                 />
             </Grid>
