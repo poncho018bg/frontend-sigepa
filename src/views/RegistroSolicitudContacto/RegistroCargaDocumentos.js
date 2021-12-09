@@ -29,10 +29,11 @@ const Input = styled('input')({
     display: 'none',
 });
 
+const IDTIPOREQUERIMIENTO = 'c946c03b-eae1-4ee1-aa93-d99c08825f97'
 
 export const RegistroCargaDocumentos = (props) => {
     const classes = useStyles();
-    const { documentosApoyoList, getDocumentosApoyo,
+    const { documentosApoyoList, getDocumentosApoyoByTipoReq,
         existeDocumento, existedoc,
         registrarDatosBoveda } = useContext(RegistroCargaDocumentosContext);
     const { beneficiario } = props;
@@ -54,17 +55,17 @@ export const RegistroCargaDocumentos = (props) => {
         if (identPrograma !== undefined) {
             console.log("carga documentos ident", beneficiario.id)
             if (beneficiario.id !== undefined) {
-                getDocumentosApoyo(identPrograma, beneficiario?.id);
+                getDocumentosApoyoByTipoReq(identPrograma, beneficiario?.id,IDTIPOREQUERIMIENTO);
             } else {
-                getDocumentosApoyo(identPrograma, beneficiario[0]?.id);
+                getDocumentosApoyoByTipoReq(identPrograma, beneficiario[0]?.id,IDTIPOREQUERIMIENTO);
             }
 
         } else {
             console.log("carga documentos no ident", beneficiario.id)
             if (beneficiario.id !== undefined) {
-                getDocumentosApoyo(idPrograma, beneficiario?.id);
+                getDocumentosApoyoByTipoReq(idPrograma, beneficiario?.id,IDTIPOREQUERIMIENTO);
             } else {
-                getDocumentosApoyo(idPrograma, beneficiario[0]?.id);
+                getDocumentosApoyoByTipoReq(idPrograma, beneficiario[0]?.id,IDTIPOREQUERIMIENTO);
             }
         }
 
@@ -156,9 +157,9 @@ export const RegistroCargaDocumentos = (props) => {
             //confirmar carga de docuemnto en el array de validaciones
 
             if (beneficiario.id !== undefined) {
-                getDocumentosApoyo(idPrograma, beneficiario?.id);
+                getDocumentosApoyoByTipoReq(idPrograma, beneficiario?.id,IDTIPOREQUERIMIENTO);
             } else {
-                getDocumentosApoyo(idPrograma, beneficiario[0]?.id);
+                getDocumentosApoyoByTipoReq(idPrograma, beneficiario[0]?.id,IDTIPOREQUERIMIENTO);
             }
 
             validandodocs();

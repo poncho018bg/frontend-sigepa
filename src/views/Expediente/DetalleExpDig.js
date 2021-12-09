@@ -26,7 +26,7 @@ import { DireccionExpediente } from './DireccionExpediente';
 import { ContactoExpediente } from "./ContactoExpediente"
 import { ApoyosRecibidosExpediente } from "./ApoyosRecibidosExpediente"
 import { ObservacionesExpediente } from "./ObservacionesExpediente"
-
+import { FormularioExpediente } from './FormularioExpediente';
 
 /**
  * Aqui se va a mostrar el detalle del expediente del beneficiario
@@ -39,7 +39,7 @@ export const DetalleExpDig = (props) => {
     /**
      * props beneficiario
      */
-    const { idBeneficiario, beneficiarioPadre, setIdentPrograma, idProgramaExpediente,setIdProgramaExpediente, direccionBeneficiario } = props;
+    const { idBeneficiario, beneficiarioPadre, setIdentPrograma, idProgramaExpediente, setIdProgramaExpediente, direccionBeneficiario } = props;
 
     const location = useLocation();
     const dispatch = useDispatch();
@@ -65,9 +65,9 @@ export const DetalleExpDig = (props) => {
         setPage(0);
     };
 
-   
+
     useEffect(() => {
-        expDigDocumentosStartLoading(props.etapaSeleccionada?.idEtapa, idExpediente);        
+        expDigDocumentosStartLoading(props.etapaSeleccionada?.idEtapa, idExpediente);
     }, [showDialogForm]);
 
     useEffect(() => {
@@ -151,8 +151,8 @@ export const DetalleExpDig = (props) => {
                     <ApoyosRecibidosExpediente
                         idBeneficiario={idBeneficiario} />
                     <ObservacionesExpediente idBeneficiario={idBeneficiario}
-                    idProgramaExpediente={idProgramaExpediente}
-                     />
+                        idProgramaExpediente={idProgramaExpediente}
+                    />
                 </Grid>
             </Box>
         )
@@ -163,8 +163,10 @@ export const DetalleExpDig = (props) => {
             <Box display="flex" justifyContent="center" borderColor="black" border={1} flex="auto">
                 <Grid item xs={11} border={10} borderColor="primary.main" >
                     <h3>Información de la beneficiaria</h3>
-                </Grid>
-
+                    <FormularioExpediente
+                    idBeneficiario={idBeneficiario}
+                    idProgramaExpediente={idProgramaExpediente}/>
+                </Grid>                
             </Box>
 
 
@@ -292,7 +294,9 @@ export const DetalleExpDig = (props) => {
                     setShowDialogForm={setShowDialogForm}
                     etapaSeleccionada={props.etapaSeleccionada}
                     idExpediente={idExpediente}
-                   
+                    idBeneficiario={idBeneficiario}
+                    idprogramaexpediente={idprogramaexpediente}
+
                 />
             </Grid>
 

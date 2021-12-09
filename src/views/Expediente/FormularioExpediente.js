@@ -18,22 +18,27 @@ const useStyles = makeStyles(stylesArchivo);
 export const FormularioExpediente = (props) => {
     console.log ("props FormularioExpediente --->", props);
     const classes = useStyles();
-    const { beneficiario, programaNuevo, setProgramaNuevo } = props;
+    const { idBeneficiario, idProgramaExpediente} = props;
     const [activar, setActivar] = useState("");
-    const { idProgramaExpediente } = props;
     const { programa, getByID } = useContext(ProgramasContext);
-    const { actualizarComplementoFurs } = useContext(ComplementoFursContext);
+    const { actualizarComplementoFurs, getComplementoFurs, complementoFursList } = useContext(ComplementoFursContext);
     let ruta = '';
+
     useEffect(() => {
         getByID(idProgramaExpediente);
+        getComplementoFurs(idBeneficiario, idProgramaExpediente)       
         setActivar(false)
     }, []);
 
+    const jsonGuardado= JSON.stringify(complementoFursList);
+    const jsonParseado=JSON.parse(jsonGuardado);
+
+
     if (programa !== null) {
-        if (programaNuevo == undefined) {
+        if (complementoFursList.length === 0) {
             ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
         } else {
-            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${fomularioLleno._id}`;
+            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${jsonParseado._id}`;
         }
         console.log("ruta", ruta);
     }
@@ -45,12 +50,11 @@ export const FormularioExpediente = (props) => {
 
         let complementoFur = {
             programas: idProgramaExpediente,
-            beneficiarios: beneficiario.id,
+            beneficiarios: idBeneficiario,
             jsComplemento: event
         }
         console.log("Esto es lo que mandamos guardar", complementoFur);
         actualizarComplementoFurs(complementoFur);
-        setActivar(true)
     }
 
     return (
