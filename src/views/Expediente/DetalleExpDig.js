@@ -65,12 +65,16 @@ export const DetalleExpDig = (props) => {
         setPage(0);
     };
 
-
+   
+    useEffect(() => {
+        expDigDocumentosStartLoading(props.etapaSeleccionada?.idEtapa, idExpediente);        
+    }, [showDialogForm]);
 
     useEffect(() => {
-
-        if (props.etapaSeleccionada !== '00000000-0000-0000-0000-000000000000' || props.etapaSeleccionada !== '00000000-0000-0000-0000-000000000001') {
+        console.log('CAMBIO DE ETAPA', props.etapaSeleccionada)
+        if (props.etapaSeleccionada !== '00000000-0000-0000-0000-000000000000' && props.etapaSeleccionada !== '00000000-0000-0000-0000-000000000001') {
             expDigDocumentosStartLoading(props.etapaSeleccionada?.idEtapa, idExpediente);
+            console.log('CAMBIO DE ETAPA EXIT', props.etapaSeleccionada)
         }
         setShowCambio(true);
     }, [props.etapaSeleccionada]);
@@ -288,6 +292,7 @@ export const DetalleExpDig = (props) => {
                     setShowDialogForm={setShowDialogForm}
                     etapaSeleccionada={props.etapaSeleccionada}
                     idExpediente={idExpediente}
+                   
                 />
             </Grid>
 

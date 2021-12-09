@@ -248,17 +248,21 @@ export const ExpedienteContextProvider = props => {
 
 
         const url = `${baseApiExpediente}/documentosExpediente/guardarDocumentosExpedienteSinHistorico`;
-        axios.post(url, formData, {
-            headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
-        }).then(response => {
-            resolve(response);
-            dispatch({
-                type: AGREGAR_CONTENIDO_DOCUMENTO,
-                payload: response
-            })
-        }).catch(error => {
-            console.log('Err', error);
-        });
+        return new Promise((resolve, reject) => {
+            axios.post(url, formData, {
+                headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+            }).then(response => {
+                resolve(response);
+                dispatch({
+                    type: AGREGAR_CONTENIDO_DOCUMENTO,
+                    payload: response
+                })
+            }).catch(error => {
+                console.log('Err', error);
+                reject(error);
+            });
+        })
+       
     }
 
     const deshabilitarDocumentoExpediente  = async(idDocumentoExpediente)=>{

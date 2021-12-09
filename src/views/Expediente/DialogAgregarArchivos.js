@@ -54,12 +54,9 @@ const dataModel = {
 }
 export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
     const classes = useStyles();
-    const { expDigDocuments, agregarcontenidoDocumento } = useContext(ExpedienteContext);
-    const { documentosApoyoList, getDocumentosApoyo,
-        existeDocumento, existedoc,
-        registrarDatosBoveda } = useContext(RegistroCargaDocumentosContext);
+    const { expDigDocuments } = useContext(ExpedienteContext);
+    const { documentosApoyoList, getDocumentosApoyoByTipoReq } = useContext(RegistroCargaDocumentosContext);
     const [formValues, setFormValues] = useState(initExpDig);
-    //const { activeExpDig } = useSelector(state => state.expDig);
     const  activeExpDig =false;
     const dispatch = useDispatch();
     const [fullWidth, setFullWidth] = React.useState(true);
@@ -127,9 +124,11 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
 
 
             }
+            console.log('ETAPA SELECCIONADA=>',props.etapaSeleccionada.idEtapa)
+            let idTipoRequerimiento = props.etapaSeleccionada.idEtapa === '05fcf1ef-b99d-46a2-974f-f04f5419d5ac' ? 'c946c03b-eae1-4ee1-aa93-d99c08825f97': '36bd3924-24aa-4ce6-bbad-2c4bdbf5ed82'
             GetNumHojas();
             GetSubEtapas();
-            getDocumentosApoyo('ca5d7e25-b173-4e8c-a475-222fcb04c270','be7dabda-e343-4c24-aca4-aa34326179c1')
+            getDocumentosApoyoByTipoReq('ca5d7e25-b173-4e8c-a475-222fcb04c270','be7dabda-e343-4c24-aca4-aa34326179c1', idTipoRequerimiento)
         }
 
 
