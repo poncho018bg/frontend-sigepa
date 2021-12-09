@@ -143,7 +143,8 @@ export const Expedienteapi = () => {
             beneficiarioPadre={beneficiario}
             setIdentPrograma={setIdentPrograma}
             setIdProgramaExpediente={setIdProgramaExpediente}
-            direccionBeneficiario={direccion}></DetalleExpDig>
+            direccionBeneficiario={direccion}
+            idProgramaExpediente={idProgramaExpediente}></DetalleExpDig>
         </Grid>
 
       </Grid>

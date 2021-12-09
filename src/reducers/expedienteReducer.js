@@ -1,7 +1,9 @@
 import {
     GET_EXPEDIENTE_PARAMETROS, ACTUALIZAR_EXPEDIENTE,
     GET_ULTIMO_PROGRAMA_BENEFICIARIO, GET_ETAPAS_BY_PLANTILLA, GET_SOLICITUDES_EXPEDIENTE_BENEFICIARIO, GET_DOCUMENTOS_BY_ETAPA_EXPEDIENTE,
-    GET_CONTENIDO_DOCUMENTO, AGREGAR_CONTENIDO_DOCUMENTO, DESHABILITAR_DOCUMENTO_EXPEDIENTE
+    GET_CONTENIDO_DOCUMENTO, AGREGAR_CONTENIDO_DOCUMENTO, DESHABILITAR_DOCUMENTO_EXPEDIENTE, GET_SOLICITUD_BENEFICIARIO_PROGRAMA,
+    REGISTRAR_BANDEJA_MOTIVO_RECHAZO,
+    GET_BANDEJA_RECHAZOS, ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO
 } from '../types/actionTypes';
 
 export default (state, action) => {
@@ -50,5 +52,25 @@ export default (state, action) => {
                 ...state,
                 deshabilitarDocumento: action.payload
             };
+        case GET_SOLICITUD_BENEFICIARIO_PROGRAMA:
+            return {
+                ...state,
+                mvbandejasolicitud: action.payload
+            };
+        case REGISTRAR_BANDEJA_MOTIVO_RECHAZO:
+            return {
+                ...state,
+                bandejaMotivoRechazo: action.payload
+            }
+        case GET_BANDEJA_RECHAZOS:
+            return {
+                ...state,
+                bandejaRechazo: action.payload
+            }
+        case ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO:
+            return {
+                ...state,
+                bandejaRechazo: action.payload
+            } 
     }
 }

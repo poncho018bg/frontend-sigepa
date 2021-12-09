@@ -4,10 +4,12 @@ import axios from "axios";
 import {
     GET_EXPEDIENTE_PARAMETROS, ACTUALIZAR_EXPEDIENTE,
     GET_ULTIMO_PROGRAMA_BENEFICIARIO, GET_ETAPAS_BY_PLANTILLA, GET_SOLICITUDES_EXPEDIENTE_BENEFICIARIO,
-    GET_DOCUMENTOS_BY_ETAPA_EXPEDIENTE, GET_CONTENIDO_DOCUMENTO, AGREGAR_CONTENIDO_DOCUMENTO,DESHABILITAR_DOCUMENTO_EXPEDIENTE
+    GET_DOCUMENTOS_BY_ETAPA_EXPEDIENTE, GET_CONTENIDO_DOCUMENTO, AGREGAR_CONTENIDO_DOCUMENTO,DESHABILITAR_DOCUMENTO_EXPEDIENTE,GET_SOLICITUD_BENEFICIARIO_PROGRAMA,
+    REGISTRAR_BANDEJA_MOTIVO_RECHAZO,
+    GET_BANDEJA_RECHAZOS,ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO
 } from '../types/actionTypes';
 
-import {  axiosPut } from 'helpers/axiosPublico';
+import {  axiosPut, axiosPost } from 'helpers/axiosPublico';
 const UserService = sessionStorage.getItem('token')
 
 const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL
@@ -22,7 +24,10 @@ export const ExpedienteContextProvider = props => {
         programaList: [],
         etapasPlantilla: [],
         documentosExpedienteLst: [],
-        deshabilitarDocumento:null
+        deshabilitarDocumento:null,
+        mvbandejasolicitud:null,
+        bandejaMotivoRechazo: null,
+        bandejaRechazo: null,
     }
 
     const [state, dispatch] = useReducer(expedienteReducer, initialState);
@@ -273,6 +278,122 @@ export const ExpedienteContextProvider = props => {
         });
     }
 
+    const solicitudBeneficiarioPrograma = async (idBeneficiario, idPrograma) => {
+        const url = `${baseUrlPublico}solicitudOverride/solicitudesBeneficiarioPrograma/${idBeneficiario}/${idPrograma}`;
+        try {
+            console.log("mv bandeja solicitud Expediente Solicitud idBeneficiario Programa =>", idBeneficiario, idPrograma);
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json', Authorization: 'Bearer ' + UserService }
+                }).then(response => {
+                    console.log('mv bandeja solicitud Expediente Response=>', response.data)
+                    resolve(response);
+                    dispatch({
+                        type: GET_SOLICITUD_BENEFICIARIO_PROGRAMA,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log("mv bandeja solicitud Error ", error)
+                    if (error.response) {
+                        console.log("--------------------------------------------------")
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+                        console.log("ERROR DATA", error.response.data);
+                        console.log("ERROR STATUS", error.response.status);
+                        console.log("ERROR HEADERS", error.response.headers);
+                    } else if (error.request) {
+                        console.log("*************************")
+
+                        // The request was made but no response was received
+                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                        // http.ClientRequest in node.js
+                        console.log("ERROR REQUEST", error.request);
+                    } else {
+                        console.log("++++++++++++++++++++++++")
+                        // Something happened in setting up the request that triggered an Error
+                        console.log('Error MESSAGE ', error.message);
+                    }
+                    console.log(error.config);
+                });
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const registrarBandejaMotivoRechazoExpediente = async datos => {
+        try {
+            console.log("mv bandeja solicitud expediente datos motivo rechazos ===>",datos);
+            const resultado = await axiosPost('bandejaRechazos', datos);
+            console.log("mv bandeja solicitud resultado guardado de bandeja rechazos ==>",resultado);
+            dispatch({
+                type: REGISTRAR_BANDEJA_MOTIVO_RECHAZO,
+                payload: resultado
+            })
+        } catch (error) {
+            console.log("mv bandeja solicitud ",error);
+        }
+    }
+    
+    const actualizarBandejaMotivoRechazoExpediente = async datos => {
+        try {
+            console.log("mv bandeja solicitud expediente datos motivo rechazos ===>",datos);
+            const resultado = await axiosPut('bandejaRechazosOverride', datos);
+            console.log("mv bandeja solicitud resultado guardado de bandeja rechazos ==>",resultado);
+            dispatch({
+                type: ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO,
+                payload: resultado
+            })
+        } catch (error) {
+            console.log("mv bandeja solicitud ",error);
+        }
+    }
+
+    const getBandejaRechazos = async idMvBandeja => {
+        console.log("mv bandeja solicitud BANDEJA RECHAZOS", idMvBandeja);
+        try {
+            const url = `${baseUrlPublico}bandejaRechazosOverride/bandejaSolicitud/${idMvBandeja}`;
+            console.log("mv bandeja solicitud BANDEJA RECHAZOS", url);
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json', Authorization: 'Bearer ' + UserService }
+                }).then(response => {
+                    console.log('mv bandeja solicitud CONSULTA BANDEJA RECHAZOS =>', response.data)
+                    resolve(response);
+                    dispatch({
+                        type: GET_BANDEJA_RECHAZOS,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log("mv bandeja solicitud Error consulta BANDEJA RECHAZOS =>", error)
+                    if (error.response) {
+                        console.log("--------------------------------------------------")
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+                        console.log("ERROR DATA", error.response.data);
+                        console.log("ERROR STATUS", error.response.status);
+                        console.log("ERROR HEADERS", error.response.headers);
+                    } else if (error.request) {
+                        console.log("*************************")
+
+                        // The request was made but no response was received
+                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                        // http.ClientRequest in node.js
+                        console.log("ERROR REQUEST", error.request);
+                    } else {
+                        console.log("++++++++++++++++++++++++")
+                        // Something happened in setting up the request that triggered an Error
+                        console.log('Error MESSAGE ', error.message);
+                    }
+                    console.log(error.config);
+                });
+            });
+        } catch (error) {
+            console.log('Err', error);
+        }
+    }
+
+
     return (
         <ExpedienteContext.Provider
             value={{
@@ -285,6 +406,9 @@ export const ExpedienteContextProvider = props => {
                 contenidoDocumento: state.contenidoDocumento,
                 agregarcontenidoDocumento: state.agregarcontenidoDocumento,
                 deshabilitarDocumento:state.deshabilitarDocumento,
+                mvbandejasolicitud: state.mvbandejasolicitud,
+                bandejaMotivoRechazo: state.bandejaMotivoRechazo,
+                bandejaRechazo: state.bandejaRechazo,
                 getExpedienteParametros,
                 actualizarExpediente,
                 BeneficiarioPrograma,
@@ -293,8 +417,11 @@ export const ExpedienteContextProvider = props => {
                 expDigDocumentosStartLoading,
                 expDigDocStartLoading,
                 expDigDocuments,
-                deshabilitarDocumentoExpediente
-
+                deshabilitarDocumentoExpediente,
+                solicitudBeneficiarioPrograma,
+                registrarBandejaMotivoRechazoExpediente,
+                getBandejaRechazos,
+                actualizarBandejaMotivoRechazoExpediente
             }}
         >
             {props.children}
