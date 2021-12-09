@@ -292,6 +292,8 @@ export const DetalleExpDig = (props) => {
                     setShowDialogForm={setShowDialogForm}
                     etapaSeleccionada={props.etapaSeleccionada}
                     idExpediente={idExpediente}
+                    idBeneficiario={idBeneficiario}
+                    setIdentPrograma={setIdentPrograma}
                    
                 />
             </Grid>
