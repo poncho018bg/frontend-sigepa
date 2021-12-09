@@ -174,19 +174,23 @@ export const RegistroCargaDocumentos = (props) => {
 
     const guardarDatosBoveda = (documentoApoyo, result) => {
         //var datos = JSON.parse(result.data);
-
+        console.log('documentos boveda =>>', documentoApoyo)
         let datosGuardar;
         if (beneficiario.id !== undefined) {
             datosGuardar = {
                 documentoId: documentoApoyo.idDocumentoRequisito,
                 beneficiarioId: beneficiario?.id,
-                documentoBovedaId: result.data.fileId
+                documentoBovedaId: result.data.fileId,
+                nombreDocumento:documentoApoyo.nombreDocumento,
+                idExpediente:'9039c9e8-6d4f-4ec8-88f4-01c6502acc9c'
             }
         } else {
             datosGuardar = {
                 documentoId: documentoApoyo.idDocumentoRequisito,
                 beneficiarioId: beneficiario[0]?.id,
-                documentoBovedaId: result.data.fileId
+                documentoBovedaId: result.data.fileId,
+                nombreDocumento:documentoApoyo.nombreDocumento,
+                idExpediente:'9039c9e8-6d4f-4ec8-88f4-01c6502acc9c'
             }
         }
         registrarDatosBoveda(datosGuardar);
