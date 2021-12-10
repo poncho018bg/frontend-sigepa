@@ -26,6 +26,7 @@ export const RegistroPrueba = () => {
     let ruta = '';
     let jsonGuardado = {};
     let jsonParseado = {};
+    let idBusqueda = '';
 
     useEffect(() => {
         getByID(idProgramaExpediente);
@@ -33,28 +34,25 @@ export const RegistroPrueba = () => {
         setActivar(false)
     }, []);
 
-    useEffect(() => {
-        if (complementoList.length > 0) {
-            jsonGuardado = JSON.stringify(complementoList[0]?.jsComplemento);
-            jsonParseado = JSON.parse(jsonGuardado);
 
-            console.log("jsonParseado -----------AAAAAAAAA " ,jsonParseado )
-            console.log("jsonParseado._id -----------AAAAAAAAAA" ,jsonParseado._id )
-        }
-    }, [complementoList]);
+    if (complementoList.length > 0) {
+        jsonParseado = JSON.parse(complementoList[0]?.jsComplemento);
+        console.log("idBusquedaasdfasdf ----------- ", jsonParseado._id)
+        idBusqueda = jsonParseado._id
+    }
 
-    useEffect(() => {
-        console.log("jsonParseado -----------ZZZZZZZZZ " ,jsonParseado )
-        console.log("jsonParseado._id -----------ZZZZZZZZZ " ,jsonParseado._id )
-        if (programa !== null) {
-            if (complementoList.length === 0) {
-                ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
-            } else {
-                ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${jsonParseado._id}`;
-            }
-            console.log("ruta", ruta);
+
+    if (programa !== null) {
+        console.log("idBusqueda ----------- ", idBusqueda)
+        if (complementoList.length === 0) {
+            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
+        } else {
+            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${jsonParseado._id}`;
         }
-    }, [jsonParseado]);
+        console.log("ruta", ruta);
+    }
+
+    console.log("ruta", ruta);
 
     const handleSubmit = (event) => {
         window.scrollTo(0, 0)
@@ -83,7 +81,8 @@ export const RegistroPrueba = () => {
     }
 
     return (
-        <GridContainer>
+        <GridContainer> 
+            {console.log("ruta 2----", {ruta})}           
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
                     <CardHeader color="primary">
