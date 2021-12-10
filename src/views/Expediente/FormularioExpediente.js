@@ -34,19 +34,27 @@ export const FormularioExpediente = (props) => {
     }, []);
 
 
-    if (complementoList.length > 0) {
-        jsonParseado = JSON.parse(complementoList[0]?.jsComplemento);
-        console.log("idBusquedaasdfasdf ----------- ", jsonParseado._id)
+    if (Array.isArray(complementoList)) {
+        if (complementoList.length > 0) {
+            jsonParseado = JSON.parse(complementoList[0]?.jsComplemento);
+            console.log("idBusquedaasdfasdf ----------- ", jsonParseado._id)
+            idBusqueda = jsonParseado._id
+        }
+
+    } else {
+        jsonParseado = JSON.parse(complementoList?.jsComplemento);
+        console.log("complementoList ----------- ", jsonParseado._id)
         idBusqueda = jsonParseado._id
     }
 
-
     if (programa !== null) {
         console.log("idBusqueda ----------- ", idBusqueda)
-        if (complementoList.length === 0) {
-            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
-        } else {
-            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${jsonParseado._id}`;
+        if (Array.isArray(complementoList)) {
+            if (complementoList.length === 0) {
+                ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
+            } else {
+                ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${jsonParseado._id}`;
+            }
         }
         console.log("ruta", ruta);
     }
@@ -81,7 +89,7 @@ export const FormularioExpediente = (props) => {
 
     return (
         <GridContainer>
-            {console.log("ruta 2----", {ruta})}     
+            {console.log("ruta 2----", { ruta })}
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
                     <CardHeader color="primary">

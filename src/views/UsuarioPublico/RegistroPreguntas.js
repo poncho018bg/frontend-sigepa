@@ -32,11 +32,14 @@ export const RegistroPreguntas = (props) => {
         setActivar(false)
     }, []);
 
-    if (complementoList.length > 0) {
-        jsonParseado = JSON.parse(complementoList[0]?.jsComplemento);
-        console.log("complementoList ----------- ", jsonParseado._id)
-        idBusqueda = jsonParseado._id
-    }else{
+    if (Array.isArray(complementoList)) {
+        if (complementoList.length > 0) {
+            console.log('1.-COMPLEMENTO=>', complementoList)
+            jsonParseado = JSON.parse(complementoList[0]?.jsComplemento);
+            console.log("complementoList ----------- ", jsonParseado._id)
+            idBusqueda = jsonParseado._id
+        }
+    } else {
         jsonParseado = JSON.parse(complementoList?.jsComplemento);
         console.log("complementoList ----------- ", jsonParseado._id)
         idBusqueda = jsonParseado._id
@@ -44,15 +47,24 @@ export const RegistroPreguntas = (props) => {
 
     if (programa !== null) {
         console.log("idBusqueda ----------- ", idBusqueda)
-        if (complementoList.length === 0) {
-            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
-        } else {
-            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${jsonParseado._id}`;
+        if (Array.isArray(complementoList)) {
+            if (complementoList.length === 0) {
+                ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
+            } else {
+                ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${jsonParseado._id}`;
+            }
         }
         console.log("ruta", ruta);
     }
 
     const handleSubmit = (event) => {
+        var beneficiarioIdfinal = '';
+        if (Array.isArray(beneficiario)) {
+            beneficiarioIdfinal = beneficiario[0].id
+        }else{
+            beneficiarioIdfinal = beneficiario.id
+        }
+
         window.scrollTo(0, 0)
         if (complementoList.length === 0) {
             console.log("Aqui es donde vamos a mandar a guardar event-------", event);
@@ -60,7 +72,7 @@ export const RegistroPreguntas = (props) => {
             let complementoFur = {
                 id: '',
                 idPrograma: idPrograma,
-                idBeneficiario: beneficiario.id,
+                idBeneficiario: beneficiarioIdfinal,
                 jsComplemento: jsonGuardado
             }
             console.log("Esto es lo que mandamos guardar", complementoFur);
@@ -70,7 +82,7 @@ export const RegistroPreguntas = (props) => {
             let complementoFur = {
                 id: complementoList[0].id,
                 idPrograma: idPrograma,
-                idBeneficiario: beneficiario.id,
+                idBeneficiario: beneficiarioIdfinal,
                 jsComplemento: jsonGuardado
             }
             console.log("Esto es lo que mandamos actualizar", complementoFur);
