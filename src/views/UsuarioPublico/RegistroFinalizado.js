@@ -16,6 +16,7 @@ import Button from "components/CustomButtons/Button.js";
 import ReactToPrint from "react-to-print";
 import { PDFDownloadLink, Page, Text, Font, Document, StyleSheet } from '@react-pdf/renderer';
 import { ComponentToPrint } from './folio';
+import Typography from '@material-ui/core/Typography';
 
 Font.register({
     family: 'Oswald',
@@ -96,7 +97,7 @@ export const RegistroFinalizado = (props) => {
                 idOrigen: origen?.id
             }
         }
-        
+
         /**
          * registra el folio de la solicitud
          */
@@ -142,10 +143,12 @@ export const RegistroFinalizado = (props) => {
         <GridItem xs={12} sm={12} md={12}>
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Registro Finalizado de la solicitud Exitosa {nombrePrograma}  para más información consultar la página.</h4>
+                    <h4 className={classes.cardTitleWhite}>Registro Exitoso</h4>
                 </CardHeader>
                 <CardBody>
-
+                    <Typography variant="body1" color="text.secondary">
+                        Registro de solicitud exitosa para el Programas “{nombrePrograma}", cualquier duda o aclaración favor de comunicarse a la Dirección General de Programas Sociales Estratégicos al 722 2 13 89 15 extensiones de la 808 a la 811 y en el Centro de Atención Telefónica del Gobierno del Estado de México (CATGEM) al 800 22 57 333 para el interior de la República y 070 para Toluca y zona conurbada, las 24 horas del día, los 365 días del año
+                    </Typography>
                 </CardBody>
             </Card>
         </GridItem>
