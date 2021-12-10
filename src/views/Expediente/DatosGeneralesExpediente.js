@@ -66,13 +66,16 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
     const [folioInterno, setFolioInterno] = useState("");
     const [datosCorrectos, setDatosCorrectos] = useState(true);
 
+    const [folioProgramaMostrar, setFolioProgramaMostrar] = useState("");
+    const [idProgramaMostrar, setIdProgramaMostrar] = useState("");
+
     const [activaGuardar, setActivaGuardar] = useState(false);
 
     const { getGeneros, generosList,
         estudiosList, getEstudios,
         estadoCivilList, getEstadoCivil,
         getIdentificaciones, identificacionesList,
-        actualizarBeneficiario, beneficiario,actualizarBeneficiarioFolio } = useContext(RegistroSolicitudContext);
+        actualizarBeneficiario, beneficiario, actualizarBeneficiarioFolio } = useContext(RegistroSolicitudContext);
 
     const { programasList, get, getCien } = useContext(ProgramasContext);
 
@@ -142,7 +145,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
             ididentificacionoficial: identificacion,
             rfc: rfc,
             dsiddocumento: idIdentificaion,
-            folioInterno:folioInterno
+            folioInterno: folioInterno
         }
 
         console.log("expediente actualizar beneficiario ===>", datosEnviar);
@@ -157,6 +160,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
             case 'programa':
                 console.log("programa value", event.target.value);
                 setIdPrograma(event.target.value);
+                setIdProgramaMostrar(event.target.value);
                 break;
             case 'folioInterno':
                 console.log("programa value", event.target.value);
@@ -166,9 +170,19 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
 
     }
 
-    if (programaList.length > 0) {
-        setIdProgramaExpediente(programaList[0].programa_id);
-    }
+    useEffect(() => {
+        if (programaList.length > 0) {
+            if (programaList.programa_id !== undefined) {
+                setFolioProgramaMostrar(programaList.dsfolio);
+                setIdProgramaMostrar(programaList.programa_id);
+                setIdProgramaExpediente(programaList.programa_id);
+            } else {
+                setFolioProgramaMostrar(programaList[0].dsfolio);
+                setIdProgramaMostrar(programaList[0].programa_id);
+                setIdProgramaExpediente(programaList[0].programa_id);
+            }
+        }
+    }, [programaList])
 
     const onClickGuardar = () => {
         //console.log("GUARDA LOS CAMBIOS");
@@ -396,63 +410,60 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     />
                                 </GridItem>
                             </Grid>
-                            {programaList.length > 0 &&
-
-                                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                                    <GridItem xs={12} sm={3}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="dsfolio"
-                                            label="Folio"
-                                            variant="outlined"
-                                            name="dsfolio"
-                                            fullWidth
-                                            value={programaList[0].dsfolio}
-                                            disabled="True"
-                                        >
-                                        </TextField>
-                                    </GridItem>
-                                    <GridItem xs={12} sm={3}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="programa"
-                                            label="Programa"
-                                            variant="outlined"
-                                            name="programa"
-                                            fullWidth
-                                            select
-                                            onChange={onChange}
-                                            disabled="True"
-                                            value={programaList[0].programa_id}
-                                        >
-                                            {
-                                                programasList.map(
-                                                    (g, i) => (
-                                                        <MenuItem
-                                                            key={i}
-                                                            value={g.id}>
-                                                            {g.dsprograma}
-                                                        </MenuItem>
-                                                    )
+                            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                                <GridItem xs={12} sm={3}>
+                                    <TextField
+                                        style={{ marginBottom: '20px' }}
+                                        id="dsfolio"
+                                        label="Folio"
+                                        variant="outlined"
+                                        name="dsfolio"
+                                        fullWidth
+                                        value={folioProgramaMostrar}
+                                        disabled="True"
+                                    >
+                                    </TextField>
+                                </GridItem>
+                                <GridItem xs={12} sm={3}>
+                                    <TextField
+                                        style={{ marginBottom: '20px' }}
+                                        id="programa"
+                                        label="Programa"
+                                        variant="outlined"
+                                        name="programa"
+                                        fullWidth
+                                        select
+                                        onChange={onChange}
+                                        disabled="True"
+                                        value={idProgramaMostrar}
+                                    >
+                                        {
+                                            programasList.map(
+                                                (g, i) => (
+                                                    <MenuItem
+                                                        key={i}
+                                                        value={g.id}>
+                                                        {g.dsprograma}
+                                                    </MenuItem>
                                                 )
-                                            }
-                                        </TextField>
-                                    </GridItem>
-                                    <GridItem xs={12} sm={3}>
-                                        <TextField
-                                            style={{ marginBottom: '20px' }}
-                                            id="folioInterno"
-                                            label="Folio Interno SEDESEM"
-                                            variant="outlined"
-                                            name="folioInterno"
-                                            fullWidth
-                                            value={folioInterno}
-                                            inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
-                                            onChange={onChange}
-                                        />
-                                    </GridItem>
-                                </Grid>
-                            }
+                                            )
+                                        }
+                                    </TextField>
+                                </GridItem>
+                                <GridItem xs={12} sm={3}>
+                                    <TextField
+                                        style={{ marginBottom: '20px' }}
+                                        id="folioInterno"
+                                        label="Folio Interno SEDESEM"
+                                        variant="outlined"
+                                        name="folioInterno"
+                                        fullWidth
+                                        value={folioInterno}
+                                        inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
+                                        onChange={onChange}
+                                    />
+                                </GridItem>
+                            </Grid>
                         </GridContainer>
                     </CardBody >
                 </Card >
