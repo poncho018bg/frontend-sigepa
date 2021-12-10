@@ -32,7 +32,7 @@ export const Expedienteapi = () => {
 
 
 
-  const { etapasPlantilla, getEtapasByPlantilla } = useContext(ExpedienteContext);
+  const { etapasPlantilla, getEtapasByPlantilla, getExpedienteBovedaByBeneficiario, expedienteBoveda } = useContext(ExpedienteContext);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [showDialogForm, setShowDialogForm] = useState(false);
@@ -69,6 +69,7 @@ export const Expedienteapi = () => {
       setIdBeneficiario(query.state?.id)
       obtenerDireccionBeneficiario(query.state?.id);
       getBeneficiario(query.state?.curp)
+      getExpedienteBovedaByBeneficiario(query.state?.id)
     }
   }, []);
 
@@ -144,7 +145,8 @@ export const Expedienteapi = () => {
             setIdentPrograma={setIdentPrograma}
             setIdProgramaExpediente={setIdProgramaExpediente}
             direccionBeneficiario={direccion}
-            idProgramaExpediente={idProgramaExpediente}></DetalleExpDig>
+            idProgramaExpediente={idProgramaExpediente}
+            idExpedienteBoveda={expedienteBoveda}></DetalleExpDig>
         </Grid>
 
       </Grid>

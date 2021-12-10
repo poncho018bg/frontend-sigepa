@@ -39,7 +39,7 @@ export const DetalleExpDig = (props) => {
     /**
      * props beneficiario
      */
-    const { idBeneficiario, beneficiarioPadre, setIdentPrograma, idProgramaExpediente, setIdProgramaExpediente, direccionBeneficiario } = props;
+    const { idBeneficiario, beneficiarioPadre, setIdentPrograma, idProgramaExpediente, setIdProgramaExpediente, direccionBeneficiario  ,idExpedienteBoveda} = props;
 
     const location = useLocation();
     const dispatch = useDispatch();
@@ -53,7 +53,7 @@ export const DetalleExpDig = (props) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(1);
     const [showDialogForm, setShowDialogForm] = useState(false);
-    const idExpediente = 'ee58eb73-39eb-40da-8298-e784a3bfc1ff'
+    const idExpediente = idExpedienteBoveda
     const handleChangePage = (event, newPage) => {
         // dispatch(expDigDocStartLoading(documentos[newPage].id))
         expDigDocStartLoading(documentos[newPage].id)
@@ -295,7 +295,7 @@ export const DetalleExpDig = (props) => {
                     etapaSeleccionada={props.etapaSeleccionada}
                     idExpediente={idExpediente}
                     idBeneficiario={idBeneficiario}
-                    idprogramaexpediente={idprogramaexpediente}
+                    idProgramaExpediente={idProgramaExpediente}
 
                 />
             </Grid>

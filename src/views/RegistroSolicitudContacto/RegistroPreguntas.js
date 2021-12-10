@@ -17,42 +17,70 @@ const useStyles = makeStyles(stylesArchivo);
 
 export const RegistroPreguntas = (props) => {
     const classes = useStyles();
-    const { beneficiario, setActivar, fomularioLleno, setFomularioLleno } = props;
-    const { idPrograma } = props;
+    const { beneficiario, setActivar, fomularioLleno, setFomularioLleno, idPrograma } = props;
     const { programa, getByID } = useContext(ProgramasContext);
-    const { getComplementoFurs, registrarComplementoFurs, actualizarComplementoFurs } = useContext(ComplementoFursContext);
+    const { actualizarComplementoFurs, getComplementoFurs, registrarComplementoFurs, complementoList } = useContext(ComplementoFursContext);
     let ruta = '';
+    let jsonGuardado = {};
+    let jsonParseado = {};
+    let idBusqueda = '';
+
     useEffect(() => {
         getByID(idPrograma);
+        getComplementoFurs(idPrograma, beneficiario.id)
         setActivar(false)
     }, []);
 
+
+    if (complementoList.length > 0) {
+        jsonParseado = JSON.parse(complementoList[0]?.jsComplemento);
+        console.log("idBusquedaasdfasdf ----------- ", jsonParseado._id)
+        idBusqueda = jsonParseado._id
+    }
+
+
     if (programa !== null) {
-        if (fomularioLleno == undefined) {
+        console.log("idBusqueda ----------- ", idBusqueda)
+        if (complementoList.length === 0) {
             ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
         } else {
-            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${fomularioLleno._id}`;
+            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${jsonParseado._id}`;
         }
         console.log("ruta", ruta);
     }
 
+    console.log("ruta", ruta);
+
     const handleSubmit = (event) => {
         window.scrollTo(0, 0)
-        setFomularioLleno(event);
-        console.log("Aqui es donde vamos a mandar a guardar event-------", event);
-
-        let complementoFur = {
-            programas: idPrograma,
-            beneficiarios: beneficiario.id,
-            jsComplemento: event
+        if (complementoList.length === 0) {
+            console.log("Aqui es donde vamos a mandar a guardar event-------", event);
+            const jsonGuardado = JSON.stringify(event);
+            let complementoFur = {
+                id: '',
+                idPrograma: idPrograma,
+                idBeneficiario: beneficiario.id,
+                jsComplemento: jsonGuardado
+            }
+            console.log("Esto es lo que mandamos guardar", complementoFur);
+            registrarComplementoFurs(complementoFur);
+        } else {
+            console.log("Aqui es donde vamos a mandar a actualizar event-------", event);
+            let complementoFur = {
+                id: complementoList[0].id,
+                idPrograma: idPrograma,
+                idBeneficiario: beneficiario.id,
+                jsComplemento: jsonGuardado
+            }
+            console.log("Esto es lo que mandamos actualizar", complementoFur);
+            actualizarComplementoFurs(complementoFur);
         }
-        console.log("Esto es lo que mandamos guardar", complementoFur);
-        registrarComplementoFurs(complementoFur);
         setActivar(true)
     }
 
     return (
         <GridContainer>
+            {console.log("ruta 2----", { ruta })}
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
                     <CardHeader color="primary">
