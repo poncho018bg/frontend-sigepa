@@ -195,7 +195,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                         <TextField
                             variant="outlined"
                             id="dstelefono"
-                            label="Teléfono de casa"
+                            label="Teléfono de casa (opcional)"
                             variant="outlined"
                             name="telefono"
                             fullWidth
@@ -222,7 +222,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                     <CardBody>
                         <TextField
                             id="dstelefonocontacto"
-                            label="Teléfono de contacto"
+                            label="Teléfono de contacto (opcional)"
                             variant="outlined"
                             name="telefonocontacto"
                             fullWidth
@@ -249,7 +249,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                     <CardBody>
                         <TextField
                             id="dsemail"
-                            label="Correo Electrónico"
+                            label="Correo Electrónico (opcional)"
                             variant="outlined"
                             name="email"
                             fullWidth
@@ -276,7 +276,7 @@ export const RegistroSolicitudContacto = forwardRef((props, ref) => {
                     <CardBody>
                         <TextField
                             id="dsobservaciones"
-                            label="Observaciones"
+                            label="Observaciones (opcional)"
                             variant="outlined"
                             name="observaciones"
                             fullWidth

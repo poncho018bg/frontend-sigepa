@@ -16,7 +16,7 @@ const BeneficiariosExpediente = ({ i, b }) => {
     }
 
     return (
-        <TableRow key={i}>
+        <TableRow key={b.id}>
             <TableCell align="center">{b.dsnombre}</TableCell>
             <TableCell align="center">{b.dsapellido1}</TableCell>
             <TableCell align="center">{b.dsapellido2}</TableCell>

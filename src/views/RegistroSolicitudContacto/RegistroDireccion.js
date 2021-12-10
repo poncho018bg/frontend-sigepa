@@ -344,7 +344,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                             <TextField
                                 style={{ marginBottom: '20px' }}
                                 id="numeroInterior"
-                                label="Número interior"
+                                label="Número interior (opcional)"
                                 variant="outlined"
                                 name="numeroInterior"
                                 fullWidth
