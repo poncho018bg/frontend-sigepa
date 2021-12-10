@@ -6,7 +6,7 @@ import {
     GET_ULTIMO_PROGRAMA_BENEFICIARIO, GET_ETAPAS_BY_PLANTILLA, GET_SOLICITUDES_EXPEDIENTE_BENEFICIARIO,
     GET_DOCUMENTOS_BY_ETAPA_EXPEDIENTE, GET_CONTENIDO_DOCUMENTO, AGREGAR_CONTENIDO_DOCUMENTO,DESHABILITAR_DOCUMENTO_EXPEDIENTE,GET_SOLICITUD_BENEFICIARIO_PROGRAMA,
     REGISTRAR_BANDEJA_MOTIVO_RECHAZO,
-    GET_BANDEJA_RECHAZOS,ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO
+    GET_BANDEJA_RECHAZOS,ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO,GET_EXPEDIENTE_BOVEDA_BY_BENEFICIARIO
 } from '../types/actionTypes';
 
 import {  axiosPut, axiosPost } from 'helpers/axiosPublico';
@@ -14,6 +14,7 @@ const UserService = sessionStorage.getItem('token')
 
 const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL
 const baseApiExpediente = process.env.REACT_APP_API_EXPEDIENTE_URL
+
 
 export const ExpedienteContext = createContext();
 
@@ -28,6 +29,7 @@ export const ExpedienteContextProvider = props => {
         mvbandejasolicitud:null,
         bandejaMotivoRechazo: null,
         bandejaRechazo: null,
+        expedienteBoveda:null
     }
 
     const [state, dispatch] = useReducer(expedienteReducer, initialState);
@@ -398,6 +400,27 @@ export const ExpedienteContextProvider = props => {
     }
 
 
+    const getExpedienteBovedaByBeneficiario = async idBeneficiario => {
+        try {
+            const url = `${baseApiExpediente}/expediente/obtenerExpedienteByUsuario/${idBeneficiario}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: GET_EXPEDIENTE_BOVEDA_BY_BENEFICIARIO,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log("Error ", error)
+                });
+            });
+        } catch (error) {
+            console.log('Err', error);
+        }
+    }
+
     return (
         <ExpedienteContext.Provider
             value={{
@@ -413,6 +436,7 @@ export const ExpedienteContextProvider = props => {
                 mvbandejasolicitud: state.mvbandejasolicitud,
                 bandejaMotivoRechazo: state.bandejaMotivoRechazo,
                 bandejaRechazo: state.bandejaRechazo,
+                expedienteBoveda:state.expedienteBoveda,
                 getExpedienteParametros,
                 actualizarExpediente,
                 BeneficiarioPrograma,
@@ -425,7 +449,8 @@ export const ExpedienteContextProvider = props => {
                 solicitudBeneficiarioPrograma,
                 registrarBandejaMotivoRechazoExpediente,
                 getBandejaRechazos,
-                actualizarBandejaMotivoRechazoExpediente
+                actualizarBandejaMotivoRechazoExpediente,
+                getExpedienteBovedaByBeneficiario
             }}
         >
             {props.children}
