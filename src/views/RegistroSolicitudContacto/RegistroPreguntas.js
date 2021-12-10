@@ -59,7 +59,7 @@ export const RegistroPreguntas = (props) => {
             let complementoFur = {
                 id: '',
                 idPrograma: idPrograma,
-                idBeneficiario: idBeneficiario,
+                idBeneficiario: beneficiario.id,
                 jsComplemento: jsonGuardado
             }
             console.log("Esto es lo que mandamos guardar", complementoFur);
@@ -69,7 +69,7 @@ export const RegistroPreguntas = (props) => {
             let complementoFur = {
                 id: complementoList[0].id,
                 idPrograma: idPrograma,
-                idBeneficiario: idBeneficiario,
+                idBeneficiario: beneficiario.id,
                 jsComplemento: jsonGuardado
             }
             console.log("Esto es lo que mandamos actualizar", complementoFur);
@@ -80,7 +80,7 @@ export const RegistroPreguntas = (props) => {
 
     return (
         <GridContainer>
-             {console.log("ruta 2----", {ruta})}     
+            {console.log("ruta 2----", { ruta })}
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
                     <CardHeader color="primary">
