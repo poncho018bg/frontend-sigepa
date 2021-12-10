@@ -34,14 +34,18 @@ export const RegistroPreguntas = (props) => {
 
     if (complementoList.length > 0) {
         jsonParseado = JSON.parse(complementoList[0]?.jsComplemento);
-        console.log("idBusquedaasdfasdf ----------- ", jsonParseado._id)
+        console.log("complementoList ----------- ", jsonParseado._id)
+        idBusqueda = jsonParseado._id
+    }else{
+        jsonParseado = JSON.parse(complementoList?.jsComplemento);
+        console.log("complementoList ----------- ", jsonParseado._id)
         idBusqueda = jsonParseado._id
     }
 
 
     if (programa !== null) {
         console.log("idBusqueda ----------- ", idBusqueda)
-        if (complementoList.length === 0) {
+        if ( complementoList.length === 0) {
             ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
         } else {
             ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${jsonParseado._id}`;
