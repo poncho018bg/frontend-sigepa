@@ -22,47 +22,60 @@ export const RegistroPrueba = () => {
     const classes = useStyles();
     const [activar, setActivar] = useState("");
     const { programa, getByID } = useContext(ProgramasContext);
-    const { actualizarComplementoFurs, getComplementoFurs, registrarComplementoFurs, complementoFursList } = useContext(ComplementoFursContext);
+    const { actualizarComplementoFurs, getComplementoFurs, registrarComplementoFurs, complementoList } = useContext(ComplementoFursContext);
     let ruta = '';
+    let jsonGuardado = {};
+    let jsonParseado = {};
 
     useEffect(() => {
         getByID(idProgramaExpediente);
-        getComplementoFurs(idProgramaExpediente,idBeneficiario)
+        getComplementoFurs(idProgramaExpediente, idBeneficiario)
         setActivar(false)
     }, []);
 
-    const jsonGuardado = JSON.stringify(complementoFursList);
-    const jsonParseado = JSON.parse(jsonGuardado);
+    useEffect(() => {
+        if (complementoList.length > 0) {
+            jsonGuardado = JSON.stringify(complementoList[0]?.jsComplemento);
+            jsonParseado = JSON.parse(jsonGuardado);
 
-
-    if (programa !== null) {
-        if (complementoFursList.length === 0) {
-            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
-        } else {
-            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${jsonParseado._id}`;
+            console.log("jsonParseado -----------AAAAAAAAA " ,jsonParseado )
+            console.log("jsonParseado._id -----------AAAAAAAAAA" ,jsonParseado._id )
         }
-        console.log("ruta", ruta);
-    }
+    }, [complementoList]);
+
+    useEffect(() => {
+        console.log("jsonParseado -----------ZZZZZZZZZ " ,jsonParseado )
+        console.log("jsonParseado._id -----------ZZZZZZZZZ " ,jsonParseado._id )
+        if (programa !== null) {
+            if (complementoList.length === 0) {
+                ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
+            } else {
+                ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${jsonParseado._id}`;
+            }
+            console.log("ruta", ruta);
+        }
+    }, [jsonParseado]);
 
     const handleSubmit = (event) => {
         window.scrollTo(0, 0)
-        if (complementoFursList.length === 0) {
+        if (complementoList.length === 0) {
             console.log("Aqui es donde vamos a mandar a guardar event-------", event);
+            const jsonGuardado = JSON.stringify(event);
             let complementoFur = {
                 id: '',
                 idPrograma: idProgramaExpediente,
                 idBeneficiario: idBeneficiario,
-                jsComplemento: event
+                jsComplemento: jsonGuardado
             }
             console.log("Esto es lo que mandamos guardar", complementoFur);
             registrarComplementoFurs(complementoFur);
         } else {
             console.log("Aqui es donde vamos a mandar a actualizar event-------", event);
             let complementoFur = {
-                id: complementoFursList[0].id,
+                id: complementoList[0].id,
                 idPrograma: idProgramaExpediente,
                 idBeneficiario: idBeneficiario,
-                jsComplemento: event
+                jsComplemento: jsonGuardado
             }
             console.log("Esto es lo que mandamos actualizar", complementoFur);
             actualizarComplementoFurs(complementoFur);

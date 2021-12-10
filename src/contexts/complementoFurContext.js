@@ -11,7 +11,7 @@ export const ComplementoFursContext = createContext();
 
 export const ComplementoFursContextProvider = props => {
     const initialState = {
-        complementoFursList: []
+        complementoList: []
     }
 
     const [state, dispatch] = useReducer(complementoFursReducer, initialState);
@@ -23,7 +23,7 @@ export const ComplementoFursContextProvider = props => {
                 axios.get(url, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json', Authorization: 'Bearer ' + UserService }
                 }).then(response => {
-                    console.log('complemento Response=>', response.data)
+                    console.log('complemento Response=> ++++++++++++++++++++++++++', response.data)
                     resolve(response);
                     dispatch({
                         type: GET_COMPLEMENTO_FURS,
@@ -69,7 +69,7 @@ export const ComplementoFursContextProvider = props => {
     return (
         <ComplementoFursContext.Provider
             value={{
-                complementoFursList: state.complementoFursList,
+                complementoList: state.complementoList,
                 getComplementoFurs,
                 registrarComplementoFurs,
                 actualizarComplementoFurs

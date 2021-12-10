@@ -9,7 +9,7 @@ export default (state, action) => {
         case GET_COMPLEMENTO_FURS:
             return {
                 ...state,
-                complementoList: action.payload.complemento
+                complementoList: action.payload
             };
 
         case REGISTRAR_COMPLEMENTO_FURS:

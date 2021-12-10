@@ -40,11 +40,11 @@ export const RegistroPreguntas = (props) => {
         window.scrollTo(0, 0)
         setFomularioLleno(event);
         console.log("Aqui es donde vamos a mandar a guardar event-------", event);
-
+        const jsonGuardado = JSON.stringify(event);
         let complementoFur = {
             programas: idPrograma,
             beneficiarios: beneficiario.id,
-            jsComplemento: event
+            jsComplemento: jsonGuardado
         }
         console.log("Esto es lo que mandamos guardar", complementoFur);
         registrarComplementoFurs(complementoFur);

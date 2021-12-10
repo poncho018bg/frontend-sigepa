@@ -21,24 +21,24 @@ export const FormularioExpediente = (props) => {
     const { idBeneficiario, idProgramaExpediente } = props;
     const [activar, setActivar] = useState("");
     const { programa, getByID } = useContext(ProgramasContext);
-    const { actualizarComplementoFurs, getComplementoFurs,registrarComplementoFurs, complementoFursList } = useContext(ComplementoFursContext);
+    const { actualizarComplementoFurs, getComplementoFurs, registrarComplementoFurs, complementoList } = useContext(ComplementoFursContext);
     let ruta = '';
 
     useEffect(() => {
         getByID(idProgramaExpediente);
-        getComplementoFurs(idProgramaExpediente,idBeneficiario)
+        getComplementoFurs(idProgramaExpediente, idBeneficiario)
         setActivar(false)
     }, []);
 
-    const jsonGuardado = JSON.stringify(complementoFursList);
+    const jsonGuardado = JSON.stringify(complementoList[0]);
     const jsonParseado = JSON.parse(jsonGuardado);
 
-
+    console.log("complementoFursList +++++++++++++++", complementoList);
     if (programa !== null) {
-        if (complementoFursList.length === 0) {
+        if (complementoList.length === 0) {
             ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
         } else {
-            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${jsonParseado._id}`;
+            ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${jsonParseado.jsComplemento._id}`;
         }
         console.log("ruta", ruta);
     }
@@ -47,21 +47,23 @@ export const FormularioExpediente = (props) => {
         window.scrollTo(0, 0)
         if (complementoFursList.length === 0) {
             console.log("Aqui es donde vamos a mandar a guardar event-------", event);
+            const jsonGuardado = JSON.stringify(event);
+
             let complementoFur = {
-                id : '',
+                id: '',
                 idPrograma: idProgramaExpediente,
                 idBeneficiario: idBeneficiario,
-                jsComplemento: event
+                jsComplemento: jsonGuardado
             }
             console.log("Esto es lo que mandamos guardar", complementoFur);
             registrarComplementoFurs(complementoFur);
         } else {
             console.log("Aqui es donde vamos a mandar a actualizar event-------", event);
             let complementoFur = {
-                id : complementoFursList[0].id,
+                id: complementoFursList[0].id,
                 idPrograma: idProgramaExpediente,
                 idBeneficiario: idBeneficiario,
-                jsComplemento: event
+                jsComplemento: jsonGuardado
             }
             console.log("Esto es lo que mandamos actualizar", complementoFur);
             actualizarComplementoFurs(complementoFur);
