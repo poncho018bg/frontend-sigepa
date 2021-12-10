@@ -58,7 +58,7 @@ export const RegistroPreguntas = (props) => {
             const jsonGuardado = JSON.stringify(event);
             let complementoFur = {
                 id: '',
-                idPrograma: idProgramaExpediente,
+                idPrograma: idPrograma,
                 idBeneficiario: idBeneficiario,
                 jsComplemento: jsonGuardado
             }
@@ -68,7 +68,7 @@ export const RegistroPreguntas = (props) => {
             console.log("Aqui es donde vamos a mandar a actualizar event-------", event);
             let complementoFur = {
                 id: complementoList[0].id,
-                idPrograma: idProgramaExpediente,
+                idPrograma: idPrograma,
                 idBeneficiario: idBeneficiario,
                 jsComplemento: jsonGuardado
             }
