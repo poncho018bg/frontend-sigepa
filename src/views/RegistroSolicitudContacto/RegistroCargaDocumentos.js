@@ -181,16 +181,16 @@ export const RegistroCargaDocumentos = (props) => {
                 documentoId: documentoApoyo.idDocumentoRequisito,
                 beneficiarioId: beneficiario?.id,
                 documentoBovedaId: result.data.fileId,
-                nombreDocumento:documentoApoyo.nombreDocumento,
-                idExpediente:'9039c9e8-6d4f-4ec8-88f4-01c6502acc9c'
+                nombreDocumento:documentoApoyo.nombreDocumento
+                
             }
         } else {
             datosGuardar = {
                 documentoId: documentoApoyo.idDocumentoRequisito,
                 beneficiarioId: beneficiario[0]?.id,
                 documentoBovedaId: result.data.fileId,
-                nombreDocumento:documentoApoyo.nombreDocumento,
-                idExpediente:'9039c9e8-6d4f-4ec8-88f4-01c6502acc9c'
+                nombreDocumento:documentoApoyo.nombreDocumento
+               
             }
         }
         registrarDatosBoveda(datosGuardar);

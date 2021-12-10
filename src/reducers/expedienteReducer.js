@@ -3,7 +3,7 @@ import {
     GET_ULTIMO_PROGRAMA_BENEFICIARIO, GET_ETAPAS_BY_PLANTILLA, GET_SOLICITUDES_EXPEDIENTE_BENEFICIARIO, GET_DOCUMENTOS_BY_ETAPA_EXPEDIENTE,
     GET_CONTENIDO_DOCUMENTO, AGREGAR_CONTENIDO_DOCUMENTO, DESHABILITAR_DOCUMENTO_EXPEDIENTE, GET_SOLICITUD_BENEFICIARIO_PROGRAMA,
     REGISTRAR_BANDEJA_MOTIVO_RECHAZO,
-    GET_BANDEJA_RECHAZOS, ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO
+    GET_BANDEJA_RECHAZOS, ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO, GET_EXPEDIENTE_BOVEDA_BY_BENEFICIARIO
 } from '../types/actionTypes';
 
 export default (state, action) => {
@@ -62,15 +62,18 @@ export default (state, action) => {
                 ...state,
                 bandejaMotivoRechazo: action.payload
             }
+        case ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO:
         case GET_BANDEJA_RECHAZOS:
             return {
                 ...state,
                 bandejaRechazo: action.payload
             }
-        case ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO:
+
+        case GET_EXPEDIENTE_BOVEDA_BY_BENEFICIARIO:
             return {
                 ...state,
-                bandejaRechazo: action.payload
-            } 
+                expedienteBoveda: action.payload
+            };
     }
+
 }
