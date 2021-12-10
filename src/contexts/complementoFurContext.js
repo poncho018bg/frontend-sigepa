@@ -11,7 +11,8 @@ export const ComplementoFursContext = createContext();
 
 export const ComplementoFursContextProvider = props => {
     const initialState = {
-        complementoList: []
+        complementoList: [],
+        complemento:null
     }
 
     const [state, dispatch] = useReducer(complementoFursReducer, initialState);
@@ -70,6 +71,7 @@ export const ComplementoFursContextProvider = props => {
         <ComplementoFursContext.Provider
             value={{
                 complementoList: state.complementoList,
+                complemento:state.complemento,
                 getComplementoFurs,
                 registrarComplementoFurs,
                 actualizarComplementoFurs

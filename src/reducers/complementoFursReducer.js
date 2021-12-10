@@ -13,9 +13,10 @@ export default (state, action) => {
             };
 
         case REGISTRAR_COMPLEMENTO_FURS:
+            console.log('REDUCER CONSOLE =>',state)
             return {
                 ...state,
-                complemento: [...state.complemento, action.payload]
+                complementoList: [...state.complementoList, action.payload]
             };
         default:
             return state;
