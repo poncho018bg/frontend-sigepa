@@ -126,18 +126,8 @@ export const RegistroFinalizado = (props) => {
 
     const handleClose = () => {
         setOpen(false);
-        history.push("/admin/consultaProgramas")
+        window.location.reload(false);
     };
-
-    const descargarFolio = () => {
-        setOpen(false)
-        history.push("/admin/consultaProgramas")
-    };
-
-
-
-
-
 
     return (
         <GridItem xs={12} sm={12} md={12}>
@@ -151,6 +141,20 @@ export const RegistroFinalizado = (props) => {
                     </Typography>
                 </CardBody>
             </Card>
+            <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="xs" fullWidth={true}>
+                <DialogContent >
+                    <Card>
+                        <CardHeader color="primary">
+                            <h4 className={classes.cardTitleWhite}>Registro Exitoso</h4>
+                        </CardHeader>
+                        <CardBody>
+                            <Typography variant="body1" color="text.secondary">
+                                Registro de solicitud exitosa para el Programas “{nombrePrograma}", cualquier duda o aclaración favor de comunicarse a la Dirección General de Programas Sociales Estratégicos al 722 2 13 89 15 extensiones de la 808 a la 811 y en el Centro de Atención Telefónica del Gobierno del Estado de México (CATGEM) al 800 22 57 333 para el interior de la República y 070 para Toluca y zona conurbada, las 24 horas del día, los 365 días del año
+                            </Typography>
+                        </CardBody>
+                    </Card>
+                </DialogContent>
+            </Dialog>
         </GridItem>
     )
 }
