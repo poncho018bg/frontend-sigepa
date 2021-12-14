@@ -54,7 +54,7 @@ const dataModel = {
 }
 export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
     const classes = useStyles();
-    const { idBeneficiario,  idProgramaExpediente } = props;
+    const { idBeneficiario,  idProgramaExpediente, setValidarCargaDocs } = props;
     const { expDigDocuments } = useContext(ExpedienteContext);
     const { documentosApoyoList, getDocumentosApoyoByTipoReq } = useContext(RegistroCargaDocumentosContext);
     const [formValues, setFormValues] = useState(initExpDig);
@@ -333,6 +333,7 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
 
         props.setShowDialogForm(false);
         setFormValues(initExpDig);
+        setValidarCargaDocs(true)
     }
 
 
