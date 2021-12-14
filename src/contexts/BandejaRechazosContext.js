@@ -77,6 +77,36 @@ export const BandejaRechazosContextProvider = props => {
         }
     }
 
+    const registrarBandejaRechazosPadron = async bandejaRechazos => {
+
+        try {
+            const UserService = sessionStorage.getItem('token')
+            const url = `${baseUrlPublico}bandejaRechazosOverride/rechazopadron`;
+            console.log('axios url  =>',url)
+            console.log('axios bandejaRechazos =>', bandejaRechazos)
+            return new Promise((resolve, reject) => {
+                axios.post(url, bandejaRechazos, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' ,  Authorization: 'Bearer ' + UserService}
+                }).then(response => {
+                    console.log('response',response)
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_BANDEJA_RECHAZOS,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            dispatch({
+                type: BANDEJA_RECHAZOS_ERROR,
+                payload: true
+            })
+        }
+    }
+
     const actualizarBandejaRechazos = async bandejaRechazosw => {
         try {
             const { _links: { bandejaRechazos: { href } } } = bandejaRechazosw;
@@ -144,6 +174,7 @@ export const BandejaRechazosContextProvider = props => {
                 registrarBandejaRechazos,
                 actualizarBandejaRechazos,
                 eliminarBandejaRechazos,
+                registrarBandejaRechazosPadron,
 
                 error: state.error,
                 page: state.page,
