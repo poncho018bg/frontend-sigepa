@@ -16,7 +16,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import { ExpedienteContext } from 'contexts/expedienteContext';
 import GridContainer from 'components/Grid/GridContainer';
-
+import { useTranslation } from 'react-i18next';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 moment.locale('es');
 
@@ -27,6 +27,9 @@ import { ContactoExpediente } from "./ContactoExpediente"
 import { ApoyosRecibidosExpediente } from "./ApoyosRecibidosExpediente"
 import { ObservacionesExpediente } from "./ObservacionesExpediente"
 import { FormularioExpediente } from './FormularioExpediente';
+import { Mensaje } from 'components/Personalizados/Mensaje';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
+import { ModalContext } from 'contexts/modalContex';
 
 /**
  * Aqui se va a mostrar el detalle del expediente del beneficiario
@@ -35,7 +38,7 @@ import { FormularioExpediente } from './FormularioExpediente';
  */
 
 export const DetalleExpDig = (props) => {
-
+    const { t } = useTranslation();
     /**
      * props beneficiario
      */
@@ -45,6 +48,7 @@ export const DetalleExpDig = (props) => {
     const dispatch = useDispatch();
     const [showCambio, setShowCambio] = useState(false);
     const [infoGral, setInfoGral] = useState(false);
+    const [validarCargaDocs, setValidarCargaDocs] = useState(false);
 
     const { expDigDocumentosStartLoading, documentosExpedienteLst, expDigDocStartLoading, contenidoDocumento, deshabilitarDocumentoExpediente, deshabilitarDocumento } = useContext(ExpedienteContext);
 
@@ -54,6 +58,13 @@ export const DetalleExpDig = (props) => {
     const [rowsPerPage, setRowsPerPage] = useState(1);
     const [showDialogForm, setShowDialogForm] = useState(false);
     const idExpediente = idExpedienteBoveda
+
+    const { setShowModal } = useContext(ModalContext);
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+    const [error, setError] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msjConfirmacion, setMsjConfirmacion] = useState('');
+
     const handleChangePage = (event, newPage) => {
         // dispatch(expDigDocStartLoading(documentos[newPage].id))
         expDigDocStartLoading(documentos[newPage].id)
@@ -67,12 +78,39 @@ export const DetalleExpDig = (props) => {
 
 
     useEffect(() => {
-        console.log('1 Actualizar docs', props.etapaSeleccionada?.idEtapa)
-        console.log('2 Actualizar docs', idExpediente)
-        console.log('3 Actualizar docs', idExpedienteBoveda)
-        expDigDocumentosStartLoading(props.etapaSeleccionada?.idEtapa, idExpediente);
-        expDigDocStartLoading(documentos[page]?.id)
-    }, [showDialogForm]);
+        if (validarCargaDocs) {
+
+            console.log('1 Actualizar docs', props.etapaSeleccionada?.idEtapa)
+            console.log('2 Actualizar docs', idExpediente)
+            console.log('3 Actualizar docs', idExpedienteBoveda)
+            expDigDocumentosStartLoading(props.etapaSeleccionada?.idEtapa, idExpediente).then(response => {
+                setOpenSnackbar(true);
+
+                setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
+
+                const timer = setTimeout(() => {
+                    setValidarCargaDocs(false)
+                    setError(false);
+                    setShowModalConfirmacion(false);
+                    setShowModal(false);
+
+                    console.log('4 Actualizar docs', documentos[page]?.id)
+                    expDigDocStartLoading(documentos[page]?.id)
+
+
+                }, 1500);
+                return () => clearTimeout(timer);
+            })
+                .catch(err => {
+                    console.log('err', err)
+                    setOpenSnackbar(true);
+                    setError(true);
+                    setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
+                });
+        }
+
+
+    }, [validarCargaDocs]);
 
     useEffect(() => {
         console.log('CAMBIO DE ETAPA', props.etapaSeleccionada)
@@ -334,7 +372,15 @@ export const DetalleExpDig = (props) => {
                     idExpediente={idExpediente}
                     idBeneficiario={idBeneficiario}
                     idProgramaExpediente={idProgramaExpediente}
+                    setValidarCargaDocs={setValidarCargaDocs}
 
+                />
+
+                <Mensaje
+                    setOpen={setOpenSnackbar}
+                    open={openSnackbar}
+                    severity={error ? "error" : "success"}
+                    message={msjConfirmacion}
                 />
 
                 <Dialog

@@ -53,8 +53,8 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
     const [apellidoPaterno, setApellidoPaterno] = useState("");
     const [apellidoMaterno, setapellidoMaterno] = useState("");
     const [genero, setGenero] = useState("");
-    const [fechaNacimientoAxu, setFechaNacimientoAxu] = useState("");
-    const [fechaNacimientoReal, setFechaNacimientoReal] = useState("");
+    const [fechaNacimientoAxu, setFechaNacimientoAxu] = useState(moment(new Date()).format("YYYY-MM-DD"));
+    const [fechaNacimientoReal, setFechaNacimientoReal] = useState(moment(new Date()).format("YYYY-MM-DD"));
     const [edad, setEdad] = useState("");
     const [loading, setLoading] = useState(true);
     const [estudios, setEstudios] = useState("");
@@ -96,7 +96,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
             console.log("date parts chale -->", date);
             console.log("date parts fomateada fecha ---> ", moment(date).format("YYYY-MM-DD"))
             setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
-            setFechaNacimientoAxu(beneficiarioPadre.fcfechanacimiento);
+            setFechaNacimientoAxu(moment(beneficiarioPadre.fcfechanacimiento).format("YYYY-MM-DD") );
             setGenero(beneficiarioPadre.idgenero);
             setEstudios(beneficiarioPadre.idgradoestudios);
             setEstadoCivil(beneficiarioPadre.idestadocivil);
@@ -313,15 +313,16 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     </TextField>
                                 </GridItem>
                                 <GridItem xs={12} sm={3}>
+                                    {console.log(fechaNacimientoAxu)}
                                     <TextField
                                         style={{ marginBottom: '20px' }}
                                         id="fechaNacimientoAxu"
                                         label="Fecha nacimiento"
                                         variant="outlined"
-                                        type="datetime-local"
-                                        name="fechaNacimientoAxu"
+                                        type="date"
+                                        name="fechaNacimientoReal"
                                         fullWidth
-                                        value={fechaNacimientoAxu}
+                                        value={fechaNacimientoReal}
                                         disabled="True"
                                     />
                                 </GridItem>
