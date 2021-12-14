@@ -71,7 +71,7 @@ export const DetalleExpDig = (props) => {
         console.log('2 Actualizar docs',idExpediente)
         console.log('3 Actualizar docs',idExpedienteBoveda)
         expDigDocumentosStartLoading(props.etapaSeleccionada?.idEtapa, idExpediente);
-    }, [showDialogForm]);
+    }, [showDialogForm,setShowDialogForm]);
 
     useEffect(() => {
         console.log('CAMBIO DE ETAPA', props.etapaSeleccionada)
