@@ -197,7 +197,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
                     <CardHeader color="primary">
-                        <h4 className={classes.cardTitleWhite}>Datos del beneficiario</h4>
+                        <h4 className={classes.cardTitleWhite}>Datos de la beneficiaria</h4>
                         <CardActions>
                             {activaGuardar &&
                                 <Grid item xs={1}>

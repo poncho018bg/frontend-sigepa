@@ -87,7 +87,7 @@ export const ConsultaExpediente = () => {
         setShowDialogError(false);
     }
 
-    
+
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>
@@ -206,7 +206,7 @@ export const ConsultaExpediente = () => {
                             </TableRow >
                         </TableHead>
                         < TableBody >
-                            {beneficiariosList.length >0 ?
+                            {beneficiariosList.length > 0 ?
                                 beneficiariosList.map((b, i) => {
                                     return (
                                         <BeneficiariosExpediente i={i} b={b} />
