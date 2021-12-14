@@ -27,9 +27,9 @@ export const Expedienteapi = () => {
   const [idProgramaExpediente, setIdProgramaExpediente] = useState();
   const [curp, setCurp] = useState();
   /**
-   * se terminan datos del beneficiario
+   * se consulta el ultimo programa del beneficiario
    */
-
+  const { BeneficiarioPrograma, programaList } = useContext(ExpedienteContext);
 
 
   const { etapasPlantilla, getEtapasByPlantilla, getExpedienteBovedaByBeneficiario, expedienteBoveda } = useContext(ExpedienteContext);
@@ -72,6 +72,24 @@ export const Expedienteapi = () => {
       getExpedienteBovedaByBeneficiario(query.state?.id)
     }
   }, []);
+
+  useEffect(() => {
+    BeneficiarioPrograma(idBeneficiario);
+  }, [idBeneficiario]);
+
+
+  /**
+   * use effect para llenar el id del ultimo programa del beneficiario
+   */
+  useEffect(() => {
+    if (programaList.length > 0) {
+      if (programaList.programa_id !== undefined) {
+        setIdProgramaExpediente(programaList.programa_id);
+      } else {
+        setIdProgramaExpediente(programaList[0].programa_id);
+      }
+    }
+  }, [programaList])
 
   const plantillas = etapasPlantilla.map((item) => (
     <div className="list__card">
@@ -143,7 +161,7 @@ export const Expedienteapi = () => {
             etapaSeleccionada={etapa}
             beneficiarioPadre={beneficiario}
             setIdentPrograma={setIdentPrograma}
-            setIdProgramaExpediente={setIdProgramaExpediente}
+            //setIdProgramaExpediente={setIdProgramaExpediente}
             direccionBeneficiario={direccion}
             idProgramaExpediente={idProgramaExpediente}
             idExpedienteBoveda={expedienteBoveda}></DetalleExpDig>

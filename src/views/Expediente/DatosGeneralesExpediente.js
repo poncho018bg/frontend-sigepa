@@ -45,7 +45,7 @@ const useStyles = makeStyles(styles);
 export const DatosGeneralesExpediente = forwardRef((props, ref) => {
 
     console.log("LLEGA EL DatosGeneralesExpediente ---> ", props);
-    const { beneficiarioPadre, setIdentPrograma, setIdProgramaExpediente } = props;
+    const { beneficiarioPadre} = props;
 
     const classes = useStyles();
     const [nombre, setNombre] = useState("")
@@ -62,7 +62,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
     const [identificacion, setIdentificacion] = useState("");
     const [rfc, setRfc] = useState("");
     const [idIdentificaion, setIdIdentificaion] = useState("");
-    const [idPrograma, setIdPrograma] = useState();
+    //const [idPrograma, setIdPrograma] = useState();
     const [folioInterno, setFolioInterno] = useState("");
     const [datosCorrectos, setDatosCorrectos] = useState(true);
 
@@ -159,7 +159,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
         switch (event.target.name) {
             case 'programa':
                 console.log("programa value", event.target.value);
-                setIdPrograma(event.target.value);
+                //setIdPrograma(event.target.value);
                 setIdProgramaMostrar(event.target.value);
                 break;
             case 'folioInterno':
@@ -173,13 +173,15 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
     useEffect(() => {
         if (programaList.length > 0) {
             if (programaList.programa_id !== undefined) {
+                console.log("folio ",programaList)
                 setFolioProgramaMostrar(programaList.dsfolio);
                 setIdProgramaMostrar(programaList.programa_id);
-                setIdProgramaExpediente(programaList.programa_id);
+                //setIdProgramaExpediente(programaList.programa_id);
             } else {
+                console.log("folio ",programaList[0])
                 setFolioProgramaMostrar(programaList[0].dsfolio);
                 setIdProgramaMostrar(programaList[0].programa_id);
-                setIdProgramaExpediente(programaList[0].programa_id);
+                //setIdProgramaExpediente(programaList[0].programa_id);
             }
         }
     }, [programaList])
