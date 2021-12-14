@@ -190,7 +190,7 @@ export const ConsultaExpediente = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Resultados de la busqueda</h4>
+                    <h4 className={classes.cardTitleWhite}>Resultados de la búsqueda</h4>
                     <CardActions>
                     </CardActions>
                 </CardHeader>
