@@ -39,7 +39,7 @@ export const DetalleExpDig = (props) => {
     /**
      * props beneficiario
      */
-    const { idBeneficiario, beneficiarioPadre, setIdentPrograma, idProgramaExpediente, setIdProgramaExpediente, direccionBeneficiario  ,idExpedienteBoveda} = props;
+    const { idBeneficiario, beneficiarioPadre, setIdentPrograma, idProgramaExpediente, direccionBeneficiario  ,idExpedienteBoveda} = props;
 
     const location = useLocation();
     const dispatch = useDispatch();
@@ -144,7 +144,8 @@ export const DetalleExpDig = (props) => {
                     <DatosGeneralesExpediente
                         beneficiarioPadre={beneficiarioPadre}
                         setIdentPrograma={setIdentPrograma}
-                        setIdProgramaExpediente={setIdProgramaExpediente} />
+                        //setIdProgramaExpediente={setIdProgramaExpediente} 
+                        />
                     <DireccionExpediente
                         direccionBeneficiario={direccionBeneficiario}
                         idBeneficiario={idBeneficiario} />
