@@ -71,6 +71,7 @@ export const DetalleExpDig = (props) => {
         console.log('2 Actualizar docs',idExpediente)
         console.log('3 Actualizar docs',idExpedienteBoveda)
         expDigDocumentosStartLoading(props.etapaSeleccionada?.idEtapa, idExpediente);
+        expDigDocStartLoading(documentos[page].id)
     }, [showDialogForm,setShowDialogForm]);
 
     useEffect(() => {
@@ -144,7 +145,7 @@ export const DetalleExpDig = (props) => {
                     <DatosGeneralesExpediente
                         beneficiarioPadre={beneficiarioPadre}
                         setIdentPrograma={setIdentPrograma}
-                        //setIdProgramaExpediente={setIdProgramaExpediente} 
+                        //setIdProgramaExpediente={setIdProgramaExpediente}
                         />
                     <DireccionExpediente
                         direccionBeneficiario={direccionBeneficiario}
