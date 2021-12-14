@@ -39,7 +39,7 @@ export const DetalleExpDig = (props) => {
     /**
      * props beneficiario
      */
-    const { idBeneficiario, beneficiarioPadre, setIdentPrograma, idProgramaExpediente, direccionBeneficiario  ,idExpedienteBoveda} = props;
+    const { idBeneficiario, beneficiarioPadre, setIdentPrograma, idProgramaExpediente, direccionBeneficiario, idExpedienteBoveda } = props;
 
     const location = useLocation();
     const dispatch = useDispatch();
@@ -67,9 +67,9 @@ export const DetalleExpDig = (props) => {
 
 
     useEffect(() => {
-        console.log('1 Actualizar docs',props.etapaSeleccionada?.idEtapa)
-        console.log('2 Actualizar docs',idExpediente)
-        console.log('3 Actualizar docs',idExpedienteBoveda)
+        console.log('1 Actualizar docs', props.etapaSeleccionada?.idEtapa)
+        console.log('2 Actualizar docs', idExpediente)
+        console.log('3 Actualizar docs', idExpedienteBoveda)
         expDigDocumentosStartLoading(props.etapaSeleccionada?.idEtapa, idExpediente);
         expDigDocStartLoading(documentos[page]?.id)
     }, [showDialogForm]);
@@ -106,6 +106,38 @@ export const DetalleExpDig = (props) => {
         downloadLink.click();
     }
 
+
+    const [showModalDelete, setShowModalDelete] = useState(false);
+    const [idDocumentoBorrar, setIdDocumentoBorrar] = useState("");
+    const deleteDialog = (e) => {
+        console.log("se selecciona este archivo ==>", e)
+        setShowModalDelete(true);
+        setIdDocumentoBorrar(e.id)
+    }
+
+    const handleClose = () => {
+        setShowModalDelete(false)
+    }
+
+    const handleAceptar = () => {
+        console.log('aceptar');
+        deshabilitarDocumentos();
+    }
+
+    const deshabilitarDocumentos = () => {
+        console.log('idDocumentoexp=>', idDocumentoBorrar)
+        deshabilitarDocumentoExpediente(idDocumentoBorrar).then(response => {
+            const timer = setTimeout(() => {
+                expDigDocumentosStartLoading(props.etapaSeleccionada?.idEtapa, idExpediente);
+            }, 1000);
+
+            return () => clearTimeout(timer);
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
+    /*
     const deshabilitarDocumentos = (idDocumentoexp) => {
         console.log('idDocumentoexp=>', idDocumentoexp)
         deshabilitarDocumentoExpediente(idDocumentoexp.id).then(response => {
@@ -121,6 +153,7 @@ export const DetalleExpDig = (props) => {
             console.log(err)
         })
     }
+    */
 
     const addDialog = () => {
         console.log('abriendo');
@@ -139,14 +172,14 @@ export const DetalleExpDig = (props) => {
 
     if (props.etapaSeleccionada === '00000000-0000-0000-0000-000000000000' || props.etapaSeleccionada === null || props.etapaSeleccionada === undefined) {
         return (
-            <Box display="flex" justifyContent="center" borderColor="black" border={1} flex="auto">{console.log('xp',idExpedienteBoveda) }{console.log('xp',idExpediente)}
+            <Box display="flex" justifyContent="center" borderColor="black" border={1} flex="auto">{console.log('xp', idExpedienteBoveda)}{console.log('xp', idExpediente)}
                 <Grid item xs={12} border={10} borderColor="primary.main" >
                     <h3>Datos generales</h3>
                     <DatosGeneralesExpediente
                         beneficiarioPadre={beneficiarioPadre}
                         setIdentPrograma={setIdentPrograma}
-                        //setIdProgramaExpediente={setIdProgramaExpediente}
-                        />
+                    //setIdProgramaExpediente={setIdProgramaExpediente}
+                    />
                     <DireccionExpediente
                         direccionBeneficiario={direccionBeneficiario}
                         idBeneficiario={idBeneficiario} />
@@ -169,9 +202,9 @@ export const DetalleExpDig = (props) => {
                 <Grid item xs={11} border={10} borderColor="primary.main" >
                     <h3>Información de la beneficiaria</h3>
                     <FormularioExpediente
-                    idBeneficiario={idBeneficiario}
-                    idProgramaExpediente={idProgramaExpediente}/>
-                </Grid>                
+                        idBeneficiario={idBeneficiario}
+                        idProgramaExpediente={idProgramaExpediente} />
+                </Grid>
             </Box>
 
 
@@ -217,7 +250,7 @@ export const DetalleExpDig = (props) => {
                                                 </IconButton>
                                             </GridItem>
                                             <GridItem xs={12} sm={12} md={1}>
-                                                <IconButton aria-label="delete" onClick={() => deshabilitarDocumentos(row)}>
+                                                <IconButton aria-label="delete" onClick={() => deleteDialog(row)}>
                                                     <DeleteIcon fontSize="large" />
                                                 </IconButton>
                                             </GridItem>
@@ -303,6 +336,28 @@ export const DetalleExpDig = (props) => {
                     idProgramaExpediente={idProgramaExpediente}
 
                 />
+
+                <Dialog
+                    open={showModalDelete}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"Confirmación"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            ¿Esta seguro que desea borrar el archivo?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary">
+                            Cancelar
+                        </Button>
+                        <Button onClick={handleAceptar} color="primary" autoFocus>
+                            Aceptar
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Grid>
 
         </Box>
