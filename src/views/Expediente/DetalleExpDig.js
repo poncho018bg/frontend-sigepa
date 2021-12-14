@@ -3,6 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from "react-router-dom";
 import { Box, Button, Container, DialogContent, IconButton, Table, TableBody, TableCell, TablePagination, TableRow } from '@material-ui/core';
 import { DialogAgregarArchivos } from './DialogAgregarArchivos'
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
 //import { expDigDocumentosStartLoading, expDigDocStartLoading } from 'actions/expediente/expedienteAction';
 import Grid from '@material-ui/core/Grid';
 import Drawer from '@material-ui/core/Drawer';
@@ -173,6 +178,7 @@ export const DetalleExpDig = (props) => {
         }).catch(err => {
             console.log(err)
         })
+        setShowModalDelete(false)
     }
 
     /*
