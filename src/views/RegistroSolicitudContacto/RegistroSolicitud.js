@@ -28,6 +28,7 @@ import ValidarEdadBeneficiario from './ValidarEdadBeneficiario';
 import ValidarProgramaMonetario from './ValidarProgramaMonetario';
 import { Loading } from 'components/Personalizados/Loading';
 import { OrigenSolicitudContext } from 'contexts/catalogos/OrigenSolicitudContext';
+import ValidarVigenciaPrograma from './ValidarVigenciaPrograma';
 
 
 

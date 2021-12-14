@@ -21,7 +21,8 @@ import {
     CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_VALIDADA,
     CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_PENDIENTE,
     CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR,
-    GET_BENEFICIARIO_REGISTRADO_PROGRAMA
+    GET_BENEFICIARIO_REGISTRADO_PROGRAMA,
+    PROGRAMA_VIGENTE
 } from 'types/actionTypes';
 
 import { axiosGet, axiosPost, axiosPut, axiosGetSinToken } from 'helpers/axiosPublico';
@@ -43,7 +44,8 @@ export const RegistroSolicitudContextProvider = props => {
         beneficiarioMonetario: null,
         beneficiarioCancelado: null,
         beneficiarioRegistrado: null,
-        solicitudParametrosBandeja: []
+        solicitudParametrosBandeja: [],
+        programaVigente: null
     }
 
 
@@ -219,11 +221,11 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
-     /**
-     * 
-     * @param {beneficiario} beneficiario 
-     */
-      const actualizarBeneficiarioFolio = async beneficiario => {
+    /**
+    * 
+    * @param {beneficiario} beneficiario 
+    */
+    const actualizarBeneficiarioFolio = async beneficiario => {
         try {
             console.log(beneficiario);
             const resultado = await axiosPut('beneficiarioOverride/beneficiarioExpediente', beneficiario);
@@ -518,6 +520,36 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
+    const getProgramaVigente = async (idPrograma,vigencia) => {
+        try {
+            const url = `${baseUrl}programasOverride/programaVigente/${idPrograma}/${vigencia}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    console.log("validar programa  response: ", response.data);
+                    resolve(response);
+                    dispatch({
+                        type: PROGRAMA_VIGENTE,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            if (error.response) {
+                console.log("Error response ------------->")
+            } else if (error.request) {
+                console.log("Error request ------------->")
+            } else {
+                console.log("Error otro ------------->")
+            }
+            console.log("Descripción del error ------------->:", error)
+        }
+    }
+
     return (
         <RegistroSolicitudContext.Provider value={{
             generosList: state.generosList,
@@ -532,6 +564,7 @@ export const RegistroSolicitudContextProvider = props => {
             beneficiarioCancelado: state.beneficiarioCancelado,
             solicitudParametrosBandeja: state.solicitudParametrosBandeja,
             beneficiarioRegistrado: state.beneficiarioRegistrado,
+            programaVigente: state.programaVigente,
             getGeneros,
             getEstudios,
             getEstadoCivil,
@@ -552,7 +585,8 @@ export const RegistroSolicitudContextProvider = props => {
             bandejaCambioEstatusPendiente,
             bandejaCambioEstatusAprobar,
             getBeneficiarioRegistradoPrograma,
-            actualizarBeneficiarioFolio
+            actualizarBeneficiarioFolio,
+            getProgramaVigente
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>
