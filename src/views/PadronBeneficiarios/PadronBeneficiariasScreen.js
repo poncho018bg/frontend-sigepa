@@ -11,6 +11,7 @@ import 'moment/locale/es';
 
 
 import { BeneficiariosContext } from 'contexts/BeneficiariosContext';
+import { BtActividadesContext } from 'contexts/catalogos/BtActividadesContext';
 import IconButton from '@material-ui/core/IconButton';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
@@ -37,10 +38,11 @@ const useStyles = makeStyles(stylesArchivo);
 export const PadronBeneficiariasScreen = () => {
     const { t } = useTranslation();
     const { padronList, getPadronBeneficiarios, getDetalleBeneficiarios, beneficiariaList } = useContext(BeneficiariosContext);
+    const { registrarBtActividades } = useContext(BtActividadesContext)
     const { getCien, programasList } = useContext(ProgramasContext);
     const { tiposApoyosList, getTiposApoyos } = useContext(TiposApoyosContext);
     const { motivoRechazosList, getMotivoRechazos } = useContext(MotivoRechazosContext);
-    const { registrarBandejaRechazos } = useContext(BandejaRechazosContext);
+    const { registrarBandejaRechazosPadron } = useContext(BandejaRechazosContext);
 
     const classes = useStyles();
 
@@ -118,12 +120,16 @@ export const PadronBeneficiariasScreen = () => {
 
 
         let bandejaRechz = {
-            'dsobservaciones': dsMotivoBaja,
-            'motivo_rechazo_id': llMotivoBaja,
-            'mv_bandeja_id': `${idMvBandejaSol}`
+
+           
+            dsobservaciones: dsMotivoBaja,
+            motivo_rechazo_id: llMotivoBaja,
+            mv_bandeja_id: `${idMvBandejaSol}`,
+            idUsuario: sessionStorage.getItem('idUSuario'),
+            idMvBandeja: `${idMvBandejaSol}`
         }
 
-        registrarBandejaRechazos(bandejaRechz).then(response => {
+        registrarBandejaRechazosPadron(bandejaRechz).then(response => {
             setOpenSnackbar(true);
 
             setMsjConfirmacion(`${t('msg.registroguardadoexitosamente')}`);
@@ -146,6 +152,7 @@ export const PadronBeneficiariasScreen = () => {
 
     const cambiarMotivoBaja = (row, dta) => {
         setOpen(true);
+        setDsMotivoBaja('')
         row.idMotivoBaja = dta
         row.activo = true
         setLlMotivoBaja(dta)
