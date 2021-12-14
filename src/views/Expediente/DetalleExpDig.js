@@ -67,6 +67,9 @@ export const DetalleExpDig = (props) => {
 
 
     useEffect(() => {
+        console.log('1 Actualizar docs',props.etapaSeleccionada?.idEtapa)
+        console.log('2 Actualizar docs',idExpediente)
+        console.log('3 Actualizar docs',idExpedienteBoveda)
         expDigDocumentosStartLoading(props.etapaSeleccionada?.idEtapa, idExpediente);
     }, [showDialogForm]);
 
@@ -135,7 +138,7 @@ export const DetalleExpDig = (props) => {
 
     if (props.etapaSeleccionada === '00000000-0000-0000-0000-000000000000' || props.etapaSeleccionada === null || props.etapaSeleccionada === undefined) {
         return (
-            <Box display="flex" justifyContent="center" borderColor="black" border={1} flex="auto">
+            <Box display="flex" justifyContent="center" borderColor="black" border={1} flex="auto">{console.log('xp',idExpedienteBoveda) }{console.log('xp',idExpediente)}
                 <Grid item xs={12} border={10} borderColor="primary.main" >
                     <h3>Datos generales</h3>
                     <DatosGeneralesExpediente
