@@ -19,7 +19,7 @@ const ValidarVigenciaPrograma = ({ idPrograma, children, setActivar, origen }) =
         console.log("validar programa idPrograma 2", idPrograma)
 
         useEffect(() => {
-            getProgramaVigente(idPrograma, '3');
+            getProgramaVigente(idPrograma, '2');
         }, [idPrograma])
 
         console.log("validar programa idPrograma 3", programaVigente);
