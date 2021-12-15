@@ -28,6 +28,7 @@ import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext'
 import { EstatusRegistroContext } from 'contexts/catalogos/EstatusRegistroContext';
 import { MunicipiosContext } from "contexts/catalogos/MunicipiosContext";
 import { useHistory } from "react-router";
+
 const useStyles = makeStyles(stylesArchivo);
 
 
@@ -81,7 +82,7 @@ export const BandejaSolicitudesValidadas = () => {
     }
 
     const pendienteAprobarGeneral = () => {
-        console.log("cambio estatus general");        
+        console.log("cambio estatus general");
         setTotalRegistros(solicitudParametrosBandeja.length);
         setShowDialogEstatusGeneral(true);
     }
@@ -138,9 +139,12 @@ export const BandejaSolicitudesValidadas = () => {
         setSelected([]);
     };
 
-    const onSelectVerExpediente=(row)=>{
-        console.log('EXPEDIENTE=>>',row)
-        history.push("/admin/expedienteapi", { id: row.idBeneficiario, curp:row.curp });
+    const onSelectVerExpediente = (row) => {
+        console.log('EXPEDIENTE=>>', row)
+        history.push("/admin/expedienteapi", { id: row.idBeneficiario, curp: row.curp });
+    }
+    const onSelectReasignarSol = (row) => {
+        console.log('EXPEDIENTE=>>', row)
     }
     const isSelected = (dsfoliosolicitud) => selected.indexOf(dsfoliosolicitud) !== -1;
 
@@ -301,7 +305,15 @@ export const BandejaSolicitudesValidadas = () => {
                                             <TableCell align="center">{row.nombre}</TableCell >
                                             <TableCell align="center">{row.dsprograma}</TableCell >
                                             <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
-                                            <TableCell align="center">{row.observaciones}</TableCell >
+                                            {(row.isObservaciones === '') ?
+                                                <TableCell align="center">NO</TableCell >
+                                                :
+                                                <TableCell align="center">
+                                                    <Tooltip title={row.observaciones}></Tooltip>
+                                                </TableCell >
+                                            }
+
+
                                             <TableCell align="center">{row.motivobaja}</TableCell >
                                             <TableCell align="center">
                                                 <Tooltip
@@ -318,7 +330,7 @@ export const BandejaSolicitudesValidadas = () => {
                                                     title="Reasignar"
                                                     placement="top"
                                                 >
-                                                    <IconButton aria-label="return" onClick={() => onSelect(row)}>
+                                                    <IconButton aria-label="return" onClick={() => onSelectReasignarSol(row)}>
                                                         <ReplayIcon />
                                                     </IconButton>
                                                 </Tooltip>
