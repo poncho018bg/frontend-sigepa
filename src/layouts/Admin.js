@@ -147,31 +147,18 @@ export default function Admin({ ...rest }) {
 
 
 
+
+
   React.useEffect(() => {
+  
     let groupssesion = JSON.parse(sessionStorage.getItem('groups'))
-    if(groupssesion !== null){
-
-      console.log('Todos los roles =>', rolesall?.roles)
-      console.log('groupssesion',groupssesion)
-      rolesall?.roles.forEach(element => {
-        console.log('KR', element.path,)
-        console.log('UR', groupssesion)
-        if (element.path === groupssesion[0]) {
-          setRolUser(element?.id)
-          console.log('rolUser', rolUser)
-        }
-      });
-    }
- 
-  }, [rolesall]);
-
-  React.useEffect(() => {
-    console.log('rolUserx=>',rolUser)
-    if (rolUser !== '') {
-      const cargarPerfilesActivos = () => dispatch(getSubmodulosByPerfilId(rolUser));
+    if (groupssesion !== null && groupssesion !==  undefined && groupssesion[0] !== '') {
+      let namegroup = groupssesion[0]?.replace('/','')
+      console.log('namegroup=>',namegroup)
+      const cargarPerfilesActivos = () => dispatch(getSubmodulosByPerfilId(namegroup, sessionStorage.getItem('idUSuario'), sessionStorage.getItem('token')));
       cargarPerfilesActivos();
     }
-  }, [rolUser]);
+  }, [sessionStorage.getItem('groups')]);
 
   const kcc = useSelector(state => state.auth)
 
@@ -186,7 +173,7 @@ export default function Admin({ ...rest }) {
 
     keycloak.init({ onLoad: 'login-required', checkLoginIframeInterval: 1, enableLogging: true }).then(authenticated => {
       if (keycloak.authenticated) {
-        
+
         sessionStorage.setItem('token', keycloak.token);
         sessionStorage.setItem('idUSuario', keycloak.tokenParsed.sub);
         sessionStorage.setItem('username', keycloak.tokenParsed.preferred_username);
@@ -205,7 +192,7 @@ export default function Admin({ ...rest }) {
         //obtiene los roles
         const cargarRolesActivos = () => dispatch(obtenerRolesAction(keycloak.token));
         cargarRolesActivos();
-       
+
         setInterval(() => {
           keycloak.updateToken(30).then(function (refreshed) {
             if (refreshed) {
@@ -229,8 +216,8 @@ export default function Admin({ ...rest }) {
           })
         }, 15000);
 
-       
-      
+
+
       } else {
         keycloak.login();
       }
@@ -267,7 +254,7 @@ export default function Admin({ ...rest }) {
 
   if (keycloak) {
     if (authenticated) {
-      {console.log('teststate',teststate)}
+      { console.log('teststate', teststate) }
       return (
         <div className={classes.wrapper}>
           <Sidebar

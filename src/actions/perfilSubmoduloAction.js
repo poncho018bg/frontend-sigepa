@@ -1,6 +1,7 @@
 
 
 import { axiosGet, axiosPost } from "helpers/axios";
+import { axiosGetSinTokenAdmin } from "helpers/axiosPublico";
 import { typesPerfilSubmodulo } from "../types/types";
 import axios from "axios";
 const baseUrl = process.env.REACT_APP_API_URL;
@@ -35,12 +36,12 @@ export const getSubmodulosByperfil = (idPerfil) => {
     }
 }
 
-export const getSubmodulosByPerfilId = (idPerfil) => {
+export const getSubmodulosByPerfilId = (idPerfil,idUsuario,token) => {
     console.log('entro al metodo getSubmodulosByperfilID', idPerfil)
     return async (dispatch) => {
         dispatch(descargarPerfilSubmodulo());
         try {
-            const data = await axiosGet(`perfilessubmodulosOverride/SubmodulosByPerfilId/${idPerfil}`);
+            const data = await axiosGetSinTokenAdmin(`perfilessubmodulosOverride/SubmodulosByPerfilIdky/${idPerfil}/${idUsuario}/${token}`);
             console.log(data);
             dispatch(descargaPerfilSubmoduloExitosa(data));
         } catch (error) {
