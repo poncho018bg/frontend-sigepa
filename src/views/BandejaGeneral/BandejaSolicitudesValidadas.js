@@ -27,6 +27,7 @@ import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
 import { EstatusRegistroContext } from 'contexts/catalogos/EstatusRegistroContext';
 import { MunicipiosContext } from "contexts/catalogos/MunicipiosContext";
+import { useHistory } from "react-router";
 const useStyles = makeStyles(stylesArchivo);
 
 
@@ -40,7 +41,7 @@ export const BandejaSolicitudesValidadas = () => {
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-
+    let history = useHistory();
 
     const [municipio, setMunicipio] = useState('');
     const [programa, setPrograma] = useState('');
@@ -137,6 +138,10 @@ export const BandejaSolicitudesValidadas = () => {
         setSelected([]);
     };
 
+    const onSelectVerExpediente=(row)=>{
+        console.log('EXPEDIENTE=>>',row)
+        history.push("/admin/expedienteapi", { id: row.idBeneficiario, curp:row.curp });
+    }
     const isSelected = (dsfoliosolicitud) => selected.indexOf(dsfoliosolicitud) !== -1;
 
     return (
@@ -304,7 +309,7 @@ export const BandejaSolicitudesValidadas = () => {
                                                     title="Ver expediente"
                                                     placement="top"
                                                 >
-                                                    <IconButton aria-label="view" onClick={() => onSelect(row)}>
+                                                    <IconButton aria-label="view" onClick={() => onSelectVerExpediente(row)}>
                                                         <RemoveRedEyeIcon />
                                                     </IconButton>
                                                 </Tooltip>
