@@ -42,6 +42,13 @@ export const ConsultaExpediente = () => {
 
     useEffect(() => {
         setErrors({});
+        let expedienteFilter ={
+            'nombre': '0',
+            'apellidoPaterno':'0',
+            'apellidoMaterno':'0',
+            'curp': '0',
+        }
+        getExpedienteParametros(expedienteFilter);
     }, []);
 
     const isObjEmpty = (obj) => {
