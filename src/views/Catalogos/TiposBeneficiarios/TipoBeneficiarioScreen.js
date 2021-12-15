@@ -115,9 +115,9 @@ export const TipoBeneficiarioScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Tipos de beneficiarios</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.tiposbeneficiarios')} </h4>
                     <p className={classes.cardCategoryWhite}>
-                        Esta pantalla permite agregar tipos de beneficiario
+                       
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -146,10 +146,10 @@ export const TipoBeneficiarioScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell align="center"> Estatus</TableCell >
-                                < TableCell align="center"> Tipo de beneficiario</TableCell >
-                                < TableCell align="center"> Fecha registro</TableCell >
-                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                < TableCell align="center"> {t('dgv.estatus')} </TableCell >
+                                < TableCell align="center"> {t('dgv.tipobeneficiario')}</TableCell >
+                                < TableCell align="center"> {t('dgv.fecharegistro')}  </TableCell >
+                                < TableCell colSpan={2} align="center"> {t('dgv.acciones')} </TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >

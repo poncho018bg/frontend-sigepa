@@ -67,10 +67,10 @@ export const IdentificacionesFormEdit = ({ identificacionSeleccionado }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsidentificacion: Yup.string()
-            .required('La identificación es obligatorio')
+            .required(`${t('msg.identificacionobligatorio')}`)
             .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
         dsidentificador: Yup.string()
-            .required('El identificador es obligatorio')
+            .required(`${t('msg.identificadorobligatorio')}`)
             .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
     });
 
@@ -99,7 +99,7 @@ export const IdentificacionesFormEdit = ({ identificacionSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dsidentificacion"
-                                label="Identificación"
+                                label={t('lbl.identificacion')}
                                 variant="outlined"
                                 name="dsidentificacion"
                                 fullWidth
@@ -115,7 +115,7 @@ export const IdentificacionesFormEdit = ({ identificacionSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dsidentificador"
-                                label="Identificador"
+                                label={t('lbl.identificador')}
                                 variant="outlined"
                                 name="dsidentificador"
                                 fullWidth

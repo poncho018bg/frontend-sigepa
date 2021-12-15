@@ -61,9 +61,9 @@ export const ClasificacionServiciosEdit = ({ clasificacionServiciosSeleccionado 
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsclasificacionservicio: Yup.string()
-            .required('La clasificacion es obligatoria'),
+            .required(`${t('msg.clasificacionobligatoria')}`),
         dsabreviatura: Yup.string()
-            .required('La abreviatura es obligatoria'),
+            .required(`${t('msg.abreviaturaobligatoria')}`),
     });
 
     const actualizarInfoClasificacionServicios = async valores => {
@@ -93,7 +93,7 @@ export const ClasificacionServiciosEdit = ({ clasificacionServiciosSeleccionado 
                         <DialogContent>
                             <TextField
                                 id="dsclasificacionservicio"
-                                label="Clasificacion del servicio"
+                                label={t('lbl.clasificacionservicio')}
                                 variant="outlined"
                                 name="dsclasificacionservicio"
                                 fullWidth
@@ -110,7 +110,7 @@ export const ClasificacionServiciosEdit = ({ clasificacionServiciosSeleccionado 
                         <DialogContent>
                             <TextField
                                 id="dsabreviatura"
-                                label="Abreviatura"
+                                label={t('lbl.abreviatura')}
                                 variant="outlined"
                                 name="dsabreviatura"
                                 fullWidth

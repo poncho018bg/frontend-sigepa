@@ -62,7 +62,7 @@ export const TipoBeneficiarioEdit = ({ tipoBeneficiarioSeleccionado }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         dstipobeneficiario: Yup.string()
-            .required('El modulo  es obligatorio')
+            .required(`${t('msg.descripcióntipobeneficiariorequerida')}`)
     });
 
     const actualizarInfoTipoBeneficiario = async valores => {
@@ -92,7 +92,7 @@ export const TipoBeneficiarioEdit = ({ tipoBeneficiarioSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dstipobeneficiario"
-                                label="Desc. Tipo de Beneficiario"
+                                label={t('lbl.desctipobeneficiario')}
                                 variant="outlined"
                                 name="dstipobeneficiario"
                                 fullWidth

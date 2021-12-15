@@ -59,7 +59,7 @@ export const ModuloFormEdit = ({ moduloSeleccionado }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsmodulo: Yup.string()
-            .required('El modulo  es obligatorio')
+            .required(`${t('msg.moduloobligatorio')}`)
     });
 
     const actualizarInfoModulo = async valores => {
@@ -91,7 +91,7 @@ export const ModuloFormEdit = ({ moduloSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dsmodulo"
-                                label="Desc. modulo"
+                                label={t('lbl.descmodulo')}
                                 variant="outlined"
                                 name="dsmodulo"
                                 fullWidth

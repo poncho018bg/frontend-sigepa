@@ -65,7 +65,7 @@ export const PeriodicidadApoyosForm = () => {
         },
         validationSchema: Yup.object({
             dsperiodicidad: Yup.string()
-                .required('La periodicidad es obligatoria')
+                .required(`${t('msg.periodicidadobligatoria')}`)
 
         }),
         onSubmit: async valores => {
@@ -81,7 +81,7 @@ export const PeriodicidadApoyosForm = () => {
             <DialogContent>
                 <TextField
                     id="dsperiodicidad"
-                    label="Desc. Periodicidad"
+                    label={t('lbl.descperiodicidad')}
                     variant="outlined"
                     name="dsperiodicidad"
                     fullWidth

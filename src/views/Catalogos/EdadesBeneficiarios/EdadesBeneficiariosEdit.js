@@ -68,8 +68,8 @@ export const EdadesBeneficiariosEdit = ({ edadesBeneficiariosSeleccionado }) => 
     const schemaValidacion = Yup.object({
         dsedadbeneficiario: Yup.string()
             .required('El modulo  es obligatorio'),
-        norangominimo: Yup.number().required('Rango de edad es obligatorio'),
-        norangomaximo: Yup.number().required('Rango de edad es obligatorio')
+        norangominimo: Yup.number().required(`${t('msg.rangoedadobligatorio')}`),
+        norangomaximo: Yup.number().required(`${t('msg.rangoedadobligatorio')}`)
     });
 
     const actualizarInfoEdadesBeneficiarios = async valores => {
@@ -99,7 +99,7 @@ export const EdadesBeneficiariosEdit = ({ edadesBeneficiariosSeleccionado }) => 
                         <DialogContent>
                             <TextField
                                 id="dsedadbeneficiario"
-                                label="Desc. comites de secretaría"
+                                label={t('lbl.descedadbeneficiarios')}
                                 variant="outlined"
                                 name="dsedadbeneficiario"
                                 fullWidth
@@ -115,7 +115,7 @@ export const EdadesBeneficiariosEdit = ({ edadesBeneficiariosSeleccionado }) => 
                         <DialogContent>
                             <TextField
                                 id="norangominimo"
-                                label="Rango de edad mínimo"
+                                label={t('lbl.rangoedadminimo')}
                                 variant="outlined"
                                 name="norangominimo"
                                 fullWidth
@@ -132,7 +132,7 @@ export const EdadesBeneficiariosEdit = ({ edadesBeneficiariosSeleccionado }) => 
                         <DialogContent>
                             <TextField
                                 id="norangomaximo"
-                                label="Rango de edad máximo"
+                                label={t('lbl.rangoedadmaximo')}
                                 variant="outlined"
                                 name="norangomaximo"
                                 fullWidth

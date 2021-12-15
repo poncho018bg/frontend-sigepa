@@ -66,7 +66,7 @@ export const NumeroApoyosForm = () => {
         },
         validationSchema: Yup.object({
             noapoyo: Yup.string()
-                .required('El modulo  es obligatorio')
+                .required(`${t('msg.noapoyorequerido')}`)
 
         }),
         onSubmit: async valores => {
@@ -83,7 +83,7 @@ export const NumeroApoyosForm = () => {
             <DialogContent>
                 <TextField
                     id="noapoyo"
-                    label="No. Apoyos"
+                    label={t('lbl.noapoyos')}
                     variant="outlined"
                     name="noapoyo"
                     fullWidth

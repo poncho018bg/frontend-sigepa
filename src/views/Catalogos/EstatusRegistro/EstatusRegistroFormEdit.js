@@ -67,7 +67,7 @@ export const EstatusRegistroFormEdit = ({ estatusRegistroSeleccionado }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsestatusregistro: Yup.string()
-            .required('El estatus registro  es obligatorio')
+            .required(`${t('msg.estatusregistroobligatorio')}`)
             .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
     });
 
@@ -96,7 +96,7 @@ export const EstatusRegistroFormEdit = ({ estatusRegistroSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dsestatusregistro"
-                                label="Estatus registro"
+                                label={t('lbl.estatusregistro')} 
                                 variant="outlined"
                                 name="dsestatusregistro"
                                 fullWidth

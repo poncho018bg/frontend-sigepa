@@ -67,7 +67,7 @@ export const EstadoCivilFormEdit = ({ estadoCivilSeleccionado }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsestadocivil: Yup.string()
-            .required('El estado civil  es obligatorio')
+            .required(`${t('msg.estadocivilobligatorio')}`)
             .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
     });
 
@@ -96,7 +96,7 @@ export const EstadoCivilFormEdit = ({ estadoCivilSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dsestadocivil"
-                                label="Estado civil"
+                                label={t('lbl.estadocivil')}
                                 variant="outlined"
                                 name="dsestadocivil"
                                 fullWidth

@@ -102,9 +102,9 @@ export const ModuloScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Módulos</h4>
+                    <h4 className={classes.cardTitleWhite}> {t('pnl.modulos')} </h4>
                     <p className={classes.cardCategoryWhite}>
-                        Pantalla que permite configurar los módulos
+                        
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -133,10 +133,10 @@ export const ModuloScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell align="center"> Estatus</TableCell >                                
-                                < TableCell align="center"> Descripción módulo</TableCell >
-                                < TableCell align="center"> Fecha registro</TableCell >
-                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                < TableCell align="center"> {t('dgv.estatus')} </TableCell >                                
+                                < TableCell align="center"> {t('dgv.descripciónmodulo')} </TableCell >
+                                < TableCell align="center"> {t('dgv.fecharegistro')} </TableCell >
+                                < TableCell colSpan={2} align="center"> {t('dgv.acciones')} </TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >

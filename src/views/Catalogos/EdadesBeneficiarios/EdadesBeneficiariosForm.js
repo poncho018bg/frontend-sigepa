@@ -73,8 +73,8 @@ export const EdadesBeneficiariosForm = () => {
             dsedadbeneficiario: Yup.string()
                 .required('El modulo  es obligatorio')
                 .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
-                norangominimo: Yup.number().required('Rango de edad es obligatorio'),
-                norangomaximo: Yup.number().required('Rango de edad es obligatorio')
+                norangominimo: Yup.number().required(`${t('msg.rangoedadobligatorio')}`),
+                norangomaximo: Yup.number().required(`${t('msg.rangoedadobligatorio')}`)
 
         }),
         onSubmit: async valores => {
@@ -90,7 +90,7 @@ export const EdadesBeneficiariosForm = () => {
             <DialogContent>
                 <TextField
                     id="dsedadbeneficiario"
-                    label="Desc. edad beneficiarios"
+                    label={t('lbl.descedadbeneficiarios')}
                     variant="outlined"
                     name="dsedadbeneficiario"
                     fullWidth
@@ -107,7 +107,7 @@ export const EdadesBeneficiariosForm = () => {
             <DialogContent>
                 <TextField
                     id="norangominimo"
-                    label="Rango de edad mínimo"
+                    label={t('lbl.rangoedadminimo')}
                     variant="outlined"
                     name="norangominimo"
                     fullWidth
@@ -124,7 +124,7 @@ export const EdadesBeneficiariosForm = () => {
             <DialogContent>
                 <TextField
                     id="norangomaximo"
-                    label="Rango de edad máximo"
+                    label={t('lbl.rangoedadmaximo')}
                     variant="outlined"
                     name="norangomaximo"
                     fullWidth

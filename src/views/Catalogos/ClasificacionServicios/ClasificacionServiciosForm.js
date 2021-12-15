@@ -73,10 +73,10 @@ export const ClasificacionServiciosForm = () => {
         },
         validationSchema: Yup.object({
             dsclasificacionservicio: Yup.string()
-                .required('La clasificacion es obligatoria')
+                .required(`${t('msg.clasificacionobligatoria')}`)
                 .matches(/^[a-zA-Z_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
             dsabreviatura: Yup.string()
-                .required('La abreviatura es obligatoria')
+                .required(`${t('msg.abreviaturaobligatoria')}`)
                 .matches(/^[a-zA-Z_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
 
         }),
@@ -93,7 +93,7 @@ export const ClasificacionServiciosForm = () => {
             <DialogContent>
                 <TextField
                     id="dsclasificacionservicio"
-                    label="Clasificacion del servicio"
+                    label= {t('lbl.clasificacionservicio')} 
                     variant="outlined"
                     name="dsclasificacionservicio"
                     fullWidth
@@ -110,7 +110,7 @@ export const ClasificacionServiciosForm = () => {
             <DialogContent>
                 <TextField
                     id="dsabreviatura"
-                    label="Abreviatura"
+                    label={t('lbl.abreviatura')}
                     variant="outlined"
                     name="dsabreviatura"
                     fullWidth

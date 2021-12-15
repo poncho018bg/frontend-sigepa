@@ -109,7 +109,7 @@ export const EstadoCivilScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Estados civiles</h4>
+                    <h4 className={classes.cardTitleWhite}> {t('pnl.estadosciviles')} </h4>
                     <p className={classes.cardCategoryWhite}>                        
                     </p>
                     <CardActions>
@@ -139,10 +139,10 @@ export const EstadoCivilScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell align="center"> Estatus</TableCell >
-                                < TableCell align="center"> Estado civil</TableCell >                              
-                                < TableCell align="center"> Fecha registro</TableCell >
-                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                < TableCell align="center"> {t('dgv.estatus')} </TableCell >
+                                < TableCell align="center"> {t('dgv.estadocivil')} </TableCell >                              
+                                < TableCell align="center"> {t('dgv.fecharegistro')} </TableCell >
+                                < TableCell colSpan={2} align="center"> {t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >

@@ -108,9 +108,9 @@ export const TipoApoyoScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Tipo de apoyo</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.tipoapoyo')} </h4>
                     <p className={classes.cardCategoryWhite}>
-                        Esta pantalla permite agregar tipos de apoyo
+                        
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -139,10 +139,10 @@ export const TipoApoyoScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell align="center"> Estatus</TableCell >
-                                < TableCell align="center"> Tipo apoyo</TableCell >
-                                < TableCell align="center"> Fecha registro</TableCell >
-                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                < TableCell align="center"> {t('dgv.estatus')}</TableCell >
+                                < TableCell align="center">{t('dgv.tipoapoyo')} </TableCell >
+                                < TableCell align="center">{t('dgv.fecharegistro')} </TableCell >
+                                < TableCell colSpan={2} align="center">{t('dgv.acciones')} </TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >

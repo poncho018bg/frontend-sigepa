@@ -66,7 +66,7 @@ export const TipoBeneficiarioForm = () => {
         },
         validationSchema: Yup.object({
             dstipobeneficiario: Yup.string()
-                .required('El modulo  es obligatorio')
+                .required(`${t('msg.descripcióntipobeneficiariorequerida')}`)
 
         }),
         onSubmit: async valores => {
@@ -83,7 +83,7 @@ export const TipoBeneficiarioForm = () => {
             <DialogContent>
                 <TextField
                     id="dstipobeneficiario"
-                    label="Desc. tipo de beneficiario"
+                    label={t('lbl.desctipobeneficiario')}
                     variant="outlined"
                     name="dstipobeneficiario"
                     fullWidth

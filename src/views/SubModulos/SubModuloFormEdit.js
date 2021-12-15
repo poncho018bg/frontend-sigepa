@@ -37,9 +37,9 @@ export const SubModuloFormEdit = ({ subModuloSeleccionado }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         dssubmodulo: Yup.string()
-            .required('El submodulo  es obligatorio'),
+            .required(`${t('msg.submoduloobligatorio')}`),
         crcModulosCollection: Yup.string()
-            .required('El modulo  es obligatorio')
+            .required(`${t('msg.moduloobligatorio')}`)
 
     });
 
@@ -77,7 +77,7 @@ export const SubModuloFormEdit = ({ subModuloSeleccionado }) => {
                             <TextField
                                 id="crcModulosCollection"
                                 variant="outlined"
-                                label="Selecciona un modulo"
+                                label={t('cmb.seleccionamodulo')} 
                                 select
                                 fullWidth
                                 error={props.errors.crcModulosCollection}
@@ -109,7 +109,7 @@ export const SubModuloFormEdit = ({ subModuloSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dssubmodulo"
-                                label="Desc. submodulo"
+                                label={t('lbl.descsubmodulo')} 
                                 variant="outlined"
                                 name="dssubmodulo"
                                 fullWidth

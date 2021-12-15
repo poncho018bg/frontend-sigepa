@@ -40,9 +40,9 @@ export const SubModuloForm = () => {
         },
         validationSchema: Yup.object({
             dssubmodulo: Yup.string()
-                .required('El submodulo  es obligatorio'),
+                .required(`${t('msg.submoduloobligatorio')}`),
             crcModulosCollection: Yup.string()
-                .required('El modulo  es obligatorio')
+                .required(`${t('msg.moduloobligatorio')}`)
 
         }),
         onSubmit: async valores => {
@@ -96,7 +96,7 @@ export const SubModuloForm = () => {
                 <TextField
                     id="crcModulosCollection"
                     variant="outlined"
-                    label="Selecciona un modulo"
+                    label={t('cmb.seleccionamodulo')} 
                     select
                     fullWidth
                     error={formik.errors.crcModulosCollection}
@@ -129,7 +129,7 @@ export const SubModuloForm = () => {
             <DialogContent>
                 <TextField
                     id="dssubmodulo"
-                    label="Desc. submodulo"
+                    label={t('lbl.descsubmodulo')} 
                     variant="outlined"
                     name="dssubmodulo"
                     fullWidth

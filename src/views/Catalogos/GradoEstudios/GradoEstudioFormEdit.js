@@ -67,7 +67,7 @@ export const GradoEstudioFormEdit = ({ gradoSeleccionado }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsgrado: Yup.string()
-        .required('El grado de estudio  es obligatorio')
+        .required(`${t('msg.gradoestudioobligatorio')}`)
         .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
     });
 
@@ -98,7 +98,7 @@ export const GradoEstudioFormEdit = ({ gradoSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dsgrado"
-                                label="Grado de estudios"
+                                label={t('lbl.gradoestudios')}
                                 variant="outlined"
                                 name="dsgrado"
                                 fullWidth

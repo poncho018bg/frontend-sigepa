@@ -66,10 +66,10 @@ export const GeneroForm = () => {
         },
         validationSchema: Yup.object({
             dsgenero: Yup.string()
-                .required('El género  es obligatorio')
+                .required(`${t('msg.generoobligatorio')}`)
                 .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
             dsabreviatura: Yup.string()
-                .required('La abreviatura  es obligatorio')
+                .required(`${t('msg.abreviaturaobligatorio')}`)
                 .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`),
 
         }),
@@ -86,7 +86,7 @@ export const GeneroForm = () => {
             <DialogContent>
                 <TextField
                     id="dsgenero"
-                    label="Género"
+                    label={t('lbl.genero')}
                     variant="outlined"
                     name="dsgenero"
                     fullWidth
@@ -103,7 +103,7 @@ export const GeneroForm = () => {
             <DialogContent>
                 <TextField
                     id="dsabreviatura"
-                    label="Abreviatura"
+                    label={t('lbl.abreviatura')}
                     variant="outlined"
                     name="dsabreviatura"
                     fullWidth

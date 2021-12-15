@@ -66,7 +66,7 @@ export const NumeroApoyosEdit = ({ numeroApoyosSeleccionado }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         noapoyo: Yup.string()
-            .required('El no. de apoyo  es obligatorio')
+            .required(`${t('msg.noapoyorequerido')}`)
     });
 
     const actualizarInfoNumeroApoyos = async valores => {
@@ -96,7 +96,7 @@ export const NumeroApoyosEdit = ({ numeroApoyosSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="noapoyo"
-                                label="No. Apoyos"
+                                label={t('lbl.noapoyos')}
                                 variant="outlined"
                                 name="noapoyo"
                                 fullWidth

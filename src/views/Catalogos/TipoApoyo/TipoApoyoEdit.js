@@ -62,7 +62,7 @@ export const TipoApoyoEdit = ({ tipoApoyoSeleccionado }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         dstipoapoyo: Yup.string()
-            .required('El modulo  es obligatorio')
+            .required(`${t('msg.moduloobligatorio')}`)
     });
 
     const actualizarInfoTipoApoyo = async valores => {
@@ -92,7 +92,7 @@ export const TipoApoyoEdit = ({ tipoApoyoSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dstipoapoyo"
-                                label="Desc. Tipo de apoyo"
+                                label={t('lbl.destipoapoyo')}
                                 variant="outlined"
                                 name="dstipoapoyo"
                                 fullWidth

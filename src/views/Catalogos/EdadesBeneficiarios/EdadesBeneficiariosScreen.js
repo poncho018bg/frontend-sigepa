@@ -108,9 +108,9 @@ export const EdadesBeneficiariosScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Edades beneficiarios</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.edadesbeneficiarios')} </h4>
                     <p className={classes.cardCategoryWhite}>
-                        Esta pantalla permite agregar las edades para beneficiarios
+                       
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -139,12 +139,12 @@ export const EdadesBeneficiariosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell align="center"> Estatus</TableCell >
-                                < TableCell align="center"> Edad beneficiario</TableCell >
-                                < TableCell align="center"> Rango mínimo</TableCell >
-                                < TableCell align="center"> Rango máximo</TableCell >
-                                < TableCell align="center"> Fecha registro</TableCell >
-                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                < TableCell align="center"> {t('dgv.estatus')} </TableCell >
+                                < TableCell align="center"> {t('dgv.edadbeneficiario')} </TableCell >
+                                < TableCell align="center"> {t('dgv.rangominimo')} </TableCell >
+                                < TableCell align="center"> {t('dgv.rangomaximo')} </TableCell >
+                                < TableCell align="center"> {t('dgv.fecharegistro')} </TableCell >
+                                < TableCell colSpan={2} align="center"> {t('dgv.acciones')} </TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >

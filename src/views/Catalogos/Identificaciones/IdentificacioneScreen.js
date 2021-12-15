@@ -109,7 +109,7 @@ export const IdentificacioneScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Identificaciones oficiales</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.identificacionesoficiales')}</h4>
                     <p className={classes.cardCategoryWhite}>                        
                     </p>
                     <CardActions>
@@ -139,11 +139,11 @@ export const IdentificacioneScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell align="center"> Estatus</TableCell >
-                                < TableCell align="center"> Identificación oficial </TableCell >    
-                                < TableCell align="center"> Identificador </TableCell >                           
-                                < TableCell align="center"> Fecha registro</TableCell >
-                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                < TableCell align="center"> {t('dgv.estatus')}</TableCell >
+                                < TableCell align="center"> {t('dgv.identificacionoficial')} </TableCell >    
+                                < TableCell align="center"> {t('dgv.identificador')} </TableCell >                           
+                                < TableCell align="center"> {t('dgv.fecharegistro')}</TableCell >
+                                < TableCell colSpan={2} align="center"> {t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >

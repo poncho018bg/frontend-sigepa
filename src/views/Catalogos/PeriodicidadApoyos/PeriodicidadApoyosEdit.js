@@ -64,7 +64,7 @@ export const PeriodicidadApoyosEdit = ({ periodicidadApoyosSeleccionado }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsperiodicidad: Yup.string()
-            .required('La periodicidad es obligatoria'),
+            .required(`${t('msg.periodicidadobligatoria')}`),
     });
 
     const actualizarInfoPeriodicidadApoyos = async valores => {
@@ -94,7 +94,7 @@ export const PeriodicidadApoyosEdit = ({ periodicidadApoyosSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dsperiodicidad"
-                                label="Desc. Periodicidad"
+                                label={t('lbl.descperiodicidad')}
                                 variant="outlined"
                                 name="dsperiodicidad"
                                 fullWidth

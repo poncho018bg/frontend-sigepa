@@ -110,7 +110,7 @@ export const GradoEstudioScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Grados de estudio</h4>
+                    <h4 className={classes.cardTitleWhite}> {t('pnl.gradosestudio')} </h4>
                     <p className={classes.cardCategoryWhite}>                        
                     </p>
                     <CardActions>
@@ -140,10 +140,10 @@ export const GradoEstudioScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell align="center"> Estatus</TableCell >
-                                < TableCell align="center"> Grado</TableCell >                              
-                                < TableCell align="center"> Fecha registro</TableCell >
-                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                < TableCell align="center"> {t('dgv.estatus')}</TableCell >
+                                < TableCell align="center"> {t('dgv.grado')} </TableCell >                              
+                                < TableCell align="center"> {t('dgv.fecharegistro')}</TableCell >
+                                < TableCell colSpan={2} align="center"> {t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
