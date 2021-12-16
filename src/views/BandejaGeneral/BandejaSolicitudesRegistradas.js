@@ -12,6 +12,7 @@ import 'moment/locale/es';
 
 import ReplayIcon from '@material-ui/icons/Replay';
 import SearchIcon from '@material-ui/icons/Search';
+import InfoIcon from '@material-ui/icons/Info';
 
 import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from '@material-ui/core/IconButton';
@@ -25,22 +26,20 @@ import { DialogEstatusSeleccionadas } from './DialogEstatusSeleccionadas';
 import { useTranslation } from 'react-i18next';
 import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
-import { EstatusRegistroContext } from 'contexts/catalogos/EstatusRegistroContext';
 import { MunicipiosContext } from "contexts/catalogos/MunicipiosContext";
+import { useHistory } from "react-router";
 const useStyles = makeStyles(stylesArchivo);
-
 
 export const BandejaSolicitudesRegistradas = () => {
     const { t } = useTranslation();
     const { getSolParametrosBandeja, solicitudParametrosBandeja, bandejaCambioEstatusValidada } = useContext(RegistroSolicitudContext);
     const { getCien, programasList } = useContext(ProgramasContext);
-    const { getEstatusRegistro, estatusRegistroList } = useContext(EstatusRegistroContext);
     const { getMunicipiosAll, municipiosList } = useContext(MunicipiosContext);
     const classes = useStyles();
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-
+    let history = useHistory();
 
     const [municipio, setMunicipio] = useState('');
     const [programa, setPrograma] = useState('');
@@ -52,7 +51,6 @@ export const BandejaSolicitudesRegistradas = () => {
 
     useEffect(() => {
         getCien()
-        getEstatusRegistro()
         getMunicipiosAll()
     }, []);
 
@@ -138,6 +136,14 @@ export const BandejaSolicitudesRegistradas = () => {
         setSelected([]);
     };
 
+    const onSelectVerExpediente = (row) => {
+        console.log('EXPEDIENTE=>>', row)
+        history.push("/admin/expedienteapi", { id: row.idBeneficiario, curp: row.curp });
+    }
+    const onSelectReasignarSol = (row) => {
+        console.log('EXPEDIENTE=>>', row)
+    }
+
     const isSelected = (dsfoliosolicitud) => selected.indexOf(dsfoliosolicitud) !== -1;
 
     return (
@@ -155,32 +161,6 @@ export const BandejaSolicitudesRegistradas = () => {
                 </CardHeader>
                 <CardBody>
                     <Grid container spacing={3}>
-                        {/*<Grid item xs={3}>
-                            <TextField
-                                variant="outlined"
-                                label="Selecciona un estatus"
-                                select
-                                fullWidth
-                                name="estatus"
-                                value={estatus}
-                                onChange={(e) => setEstatus(e.target.value)}
-                            >
-                                <MenuItem value="">
-                                    <em>{t('cmb.ninguno')}</em>
-                                </MenuItem>
-                                {
-                                    estatusRegistroList.map(
-                                        item => (
-                                            <MenuItem
-                                                key={item.id}
-                                                value={item.id}>
-                                                {item.dsestatusregistro}
-                                            </MenuItem>
-                                        )
-                                    )
-                                }
-                            </TextField>
-                        </Grid>*/}
 
                         <Grid item xs={3}>
                             <TextField
@@ -297,7 +277,17 @@ export const BandejaSolicitudesRegistradas = () => {
                                             <TableCell align="center">{row.nombre}</TableCell >
                                             <TableCell align="center">{row.dsprograma}</TableCell >
                                             <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
-                                            <TableCell align="center">{row.observaciones}</TableCell >
+                                            {(row.isObservaciones === '') ?
+                                                <TableCell align="center">NO</TableCell >
+                                                :
+                                                <TableCell align="center">
+                                                    <Tooltip title={row.observaciones}>
+                                                        <IconButton >
+                                                            <InfoIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </TableCell >
+                                            }
                                             <TableCell align="center">{row.motivobaja}</TableCell >
                                             <TableCell align="center">
                                                 <Tooltip
@@ -305,7 +295,7 @@ export const BandejaSolicitudesRegistradas = () => {
                                                     title="Ver expediente"
                                                     placement="top"
                                                 >
-                                                    <IconButton aria-label="view" onClick={() => onSelect(row)}>
+                                                    <IconButton aria-label="view" onClick={() => onSelectVerExpediente(row)}>
                                                         <RemoveRedEyeIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -314,7 +304,7 @@ export const BandejaSolicitudesRegistradas = () => {
                                                     title="Reasignar"
                                                     placement="top"
                                                 >
-                                                    <IconButton aria-label="return" onClick={() => onSelect(row)}>
+                                                    <IconButton aria-label="return" onClick={() => onSelectReasignarSol(row)}>
                                                         <ReplayIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -358,7 +348,7 @@ export const BandejaSolicitudesRegistradas = () => {
                 setShowDialogEstatusSeleccionadas={setShowDialogEstatusSeleccionadas}
                 handleCambiarEstatusSeleccionada={handleCambiarEstatusSeleccionada}
             />
-        </GridItem>
+        </GridItem >
 
     )
 }
