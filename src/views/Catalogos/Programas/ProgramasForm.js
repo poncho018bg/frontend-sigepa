@@ -265,26 +265,26 @@ export const ProgramasForm = () => {
     },
     validationSchema: Yup.object({
       nombrePrograma: Yup.string().nullable()
-        .required('El nombre del programa  es obligatorio')
+        .required(`${t('msg.nombreprogramaobligatorio')}`)
         .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       clavePrograma: Yup.string().nullable()
-        .required('La clave del programa es obligatoria')
+        .required(`${t('msg.claveprogramaobligatoria')}`)
         .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       vigenciaDesde: Yup.string().nullable()
-        .required('La vigencia desde es obligatorio'),
+        .required(`${t('msg.vigenciadesdeobligatorio')}`),
       vigenciaHasta: Yup.date().nullable()
-        .required('La vigencia hasta es obligatorio'),
+        .required(`${t('msg.vigenciahastaobligatorio')}`),
       periodoRegistroWebDesde: Yup.date().nullable()
-        .required('El periodo del registro web desde es obligatorio'),
+        .required(`${t('msg.periodoregistrowebdesdeobligatorio')}`),
       periodoRegistroWebHasta: Yup.date().nullable()
-        .required('El periodo del registro web hasta es obligatorio'),
+        .required(`${t('msg.periodoregistrowebhastaobligatorio')}`),
       periodoRegistroPresencialDesde: Yup.date().nullable()
-        .required('El periodo del registro presencial desde es obligatorio'),
+        .required(`${t('msg.periodoregistropresencialobligatorio')}`),
       periodoRegistroPresencialHasta: Yup.date()
         .nullable()
-        .required('El periodo del registro presencial hasta es obligatorio'),
+        .required(`${t('msg.periodoregistropresencialhastaobligatorio')}`),
       desripcionPrograma: Yup.string().nullable()
-        .required('La descripcion del pograma de apoyo  es obligatorio')
+        .required(`${t('msg.descripcionpogramaapoyoobligatorio')}`)
         .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       criterioPrograma: Yup.string()
         .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
@@ -293,14 +293,14 @@ export const ProgramasForm = () => {
       obervacionesPrograma: Yup.string()
         .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
       idBeneficiario: Yup.string()
-        .required('El tipo de beneficiario es obligatorio'),
+        .required(`${t('msg.tipobeneficiarioobligatorio')}`),
       idRangoEdadBeneficiario: Yup.string()
-        .required('El rango de edad es obligatorio'),
+        .required(`${t('msg.rangoedadobligatorio')}`),
 
       dsobjetivo: Yup.string()
-        .required('El objetivo es obligatorio'),
+        .required(`${t('msg.objetivoobligatorio')}`),
       dsurl: Yup.string()
-        .required('URL pública es obligatorio'),
+        .required(`${t('msg.urlpublicaobligatorio')}`),
 
     }),
     onSubmit: async valores => {
@@ -430,7 +430,7 @@ export const ProgramasForm = () => {
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <Card>
-            <CardHeader color="primary"> Programas </CardHeader>
+            <CardHeader color="primary"> {t('pnl.programas')} </CardHeader>
 
             <CardBody>
               <GridContainer>
@@ -439,7 +439,7 @@ export const ProgramasForm = () => {
                     style={{ marginBottom: '20px' }}
                     id="nombrePrograma"
                     error={formik.errors.nombrePrograma}
-                    label="Nombre del Programa de apoyo"
+                    label={t('lbl.nombreprogramaapoyo')}
                     variant="outlined"
                     name="nombrePrograma"
                     fullWidth
@@ -457,7 +457,7 @@ export const ProgramasForm = () => {
                 <GridItem xs={12} sm={12} md={12}>
                   <TextField
                     id="clavePrograma"
-                    label="Clave del Programa"
+                    label={t('lbl.claveprograma')}
                     name="clavePrograma"
                     variant="outlined"
                     style={{ marginBottom: '20px' }}
@@ -481,7 +481,7 @@ export const ProgramasForm = () => {
                   <CardBody>
                     <TextField
                       id="vigenciaDesde"
-                      label="Vigencia del programa desde"
+                      label={t('lbl.vigenciaprogramadesde')}
                       type="date"
                       fullWidth
                       className={classes.textField}
@@ -510,7 +510,7 @@ export const ProgramasForm = () => {
                   <CardBody>
                     <TextField
                       id="vigenciaHasta"
-                      label="Vigencia del programa hasta"
+                      label={t('lbl.vigenciaprogramahasta')}
                       type="date"
                       fullWidth
                       disabled={formik.values.vigenciaDesde === null}
@@ -542,7 +542,7 @@ export const ProgramasForm = () => {
                   <CardBody>
                     <TextField
                       id="periodoRegistroPresencialDesde"
-                      label="Periodo registro presencial desde"
+                      label={t('lbl.periodoregistropresencialdesde')}
                       type="date"
                       fullWidth
                       disabled={formik.values.vigenciaDesde === null}
@@ -577,7 +577,7 @@ export const ProgramasForm = () => {
 
                     <TextField
                       id="periodoRegistroPresencialHasta"
-                      label="Periodo registro presencial hasta"
+                      label={t('lbl.periodoregistropresencialhasta')}
                       type="date"
                       fullWidth
                       disabled={formik.values.periodoRegistroPresencialDesde === null}
@@ -612,7 +612,7 @@ export const ProgramasForm = () => {
                   <CardBody>
                     <TextField
                       id="periodoRegistroWebDesde"
-                      label="Periodo registro web desde"
+                      label={t('lbl.periodoregistrowebdesde')}
                       type="date"
                       fullWidth
                       disabled={formik.values.vigenciaDesde === null}
@@ -643,7 +643,7 @@ export const ProgramasForm = () => {
                   <CardBody>
                     <TextField
                       id="periodoRegistroWebHasta"
-                      label="Periodo registro web hasta"
+                      label={t('lbl.periodoregistrowebhasta')}
                       type="date"
                       fullWidth
                       disabled={formik.values.periodoRegistroWebDesde === null}
@@ -676,7 +676,7 @@ export const ProgramasForm = () => {
                     style={{ marginBottom: '20px' }}
                     id="dsurl"
                     error={formik.errors.dsurl}
-                    label="URL Pública para registro Web"
+                    label={t('lbl.urlpublicaregistroweb')}
                     variant="outlined"
                     name="dsurl"
                     fullWidth
@@ -696,7 +696,7 @@ export const ProgramasForm = () => {
                   <TextField
                     id="desripcionPrograma"
                     name="desripcionPrograma"
-                    label="Descripción del Programa de Apoyo"
+                    label={t('lbl.descripcionprogramaapoyo')}
                     style={{ marginBottom: '20px' }}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -721,7 +721,7 @@ export const ProgramasForm = () => {
                 <GridItem xs={12} sm={12} md={12}>
                   <TextField
                     variant="outlined"
-                    label="Selecciona un tipo de beneficiario"
+                    label={t('cmb.seleccionatipobeneficiario')}
                     select
                     style={{ marginBottom: '20px' }}
                     fullWidth
@@ -751,7 +751,7 @@ export const ProgramasForm = () => {
                 <GridItem xs={12} sm={12} md={12}>
                   <TextField
                     variant="outlined"
-                    label="Selecciona un rango de edad"
+                    label={t('cmb.seleccionarangoedad')}
                     select
                     style={{ marginBottom: '20px' }}
                     fullWidth
@@ -780,18 +780,18 @@ export const ProgramasForm = () => {
                   ) : null}
                 </GridItem>
                 <GridItem xs={12} sm={12} md={12}>
-                  <FormLabel component="legend">Cobertura municipal </FormLabel>
+                  <FormLabel component="legend">{t('pnl.coberturamunicipal')} </FormLabel>
                   <MultiSelect
                     style={{ marginBottom: '120px' }}
                     options={municipiosSelect}
                     value={selected}
                     onChange={setSelected}
-                    labelledBy="Seleccionar"
+                    labelledBy={t('cmb.seleccionar')}
                   />
                 </GridItem>
 
                 <GridItem xs={12} sm={12} md={12} style={{ marginBottom: '20px' }}>
-                  <FormLabel style={{ marginBottom: '20px' }} component="legend">Documentos y formatos requeridos</FormLabel>
+                  <FormLabel style={{ marginBottom: '20px' }} component="legend">{t('pnl.documentosformatosrequeridos')}</FormLabel>
                   <Grid
                     container
                     spacing={2}
@@ -833,7 +833,7 @@ export const ProgramasForm = () => {
                 </GridItem>
 
                 <GridItem xs={12} sm={12} md={12} style={{ marginBottom: '20px' }}>
-                  <FormLabel style={{ marginBottom: '20px' }} component="legend">Documentos y formatos requeridos para complementar el expediente </FormLabel>
+                  <FormLabel style={{ marginBottom: '20px' }} component="legend">{t('pnl.documentosformatosrequeridoscomplementarexpediente')} </FormLabel>
                   <Grid
                     container
                     spacing={2}
@@ -880,7 +880,7 @@ export const ProgramasForm = () => {
                     id="criterioPrograma"
                     name="criterioPrograma"
                     value={formik.values.criterioPrograma}
-                    label="Criterios de Elegibilidad del Programa (opcional)"
+                    label={t('lbl.criterioselegibilidadprogramaopcional')}
                     style={{ marginBottom: '20px' }}
                     fullWidth
                     multiline
@@ -903,7 +903,7 @@ export const ProgramasForm = () => {
                     id="actividadesPrograma,,"
                     name="actividadesPrograma"
                     value={formik.values.actividadesPrograma}
-                    label="Actividades por realizar para continuar con el programa (opcional)"
+                    label={t('lbl.actividadesrealizarcontinuarprogramaopcional')}
                     style={{ marginBottom: '20px' }}
                     fullWidth
                     multiline
@@ -926,7 +926,7 @@ export const ProgramasForm = () => {
                     id="obervacionesPrograma"
                     name="obervacionesPrograma"
                     value={formik.values.obervacionesPrograma}
-                    label="Observaciones (opcional)"
+                    label={t('lbl.observacionesopcional')}
                     style={{ marginBottom: '20px' }}
                     fullWidth
                     multiline
@@ -943,7 +943,7 @@ export const ProgramasForm = () => {
                 <GridItem xs={12} sm={12} md={12}>
                   <TextField
                     variant="outlined"
-                    label="Selecciona una plantilla"
+                    label={t('cmb.seleccionaplantilla')}
                     select
                     style={{ marginBottom: '20px' }}
                     fullWidth
@@ -979,7 +979,7 @@ export const ProgramasForm = () => {
                     id="dsobjetivo"
                     name="dsobjetivo"
                     value={formik.values.dsobjetivo}
-                    label="Texto descriptivo del programa (html)"
+                    label={t('lbl.textodescriptivoprogramahtml')}
                     style={{ marginBottom: '20px' }}
                     fullWidth
                     multiline
@@ -1032,7 +1032,7 @@ export const ProgramasForm = () => {
 
               <Button className={classes.updateProfileButton}
                 type='submit'>
-                Registrar
+               {t('btn.guardar')} 
               </Button>
               <Clearfix />
             </CardBody>
