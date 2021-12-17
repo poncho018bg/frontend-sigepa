@@ -152,7 +152,6 @@ export const BandejaSolicitudesRegistradas = () => {
         console.log("entra a handleCambiarEstatusReasiganda");
         for (let i = 0; i < selected.length; i++) {
             selected[i].idUsuario = sessionStorage.getItem('idUSuario');
-            selected[i].isObservaciones = 'false';
         }
         console.log('selected=>>', selected)
         bandejaCambioEstatusReasignada(selected);
@@ -292,7 +291,7 @@ export const BandejaSolicitudesRegistradas = () => {
                                             <TableCell align="center">{row.nombre}</TableCell >
                                             <TableCell align="center">{row.dsprograma}</TableCell >
                                             <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
-                                            {(row.isObservaciones === '') ?
+                                            {(row.validarObservaciones === '') ?
                                                 <TableCell align="center">NO</TableCell >
                                                 :
                                                 <TableCell align="center">

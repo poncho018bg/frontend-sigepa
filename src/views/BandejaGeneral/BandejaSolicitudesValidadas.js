@@ -305,7 +305,7 @@ export const BandejaSolicitudesValidadas = () => {
                                             <TableCell align="center">{row.nombre}</TableCell >
                                             <TableCell align="center">{row.dsprograma}</TableCell >
                                             <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
-                                            {(row.isObservaciones === '') ?
+                                            {(row.validarObservaciones === '') ?
                                                 <TableCell align="center">NO</TableCell >
                                                 :
                                                 <TableCell align="center">
