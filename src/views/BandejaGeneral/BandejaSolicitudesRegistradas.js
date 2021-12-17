@@ -22,6 +22,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 import { DialogEstatusGeneral } from './DialogEstatusGeneral';
 import { DialogEstatusSeleccionadas } from './DialogEstatusSeleccionadas';
+import { DialogEstatusReasignada } from './DialogEstatusReasignada';
 
 import { useTranslation } from 'react-i18next';
 import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
@@ -32,7 +33,7 @@ const useStyles = makeStyles(stylesArchivo);
 
 export const BandejaSolicitudesRegistradas = () => {
     const { t } = useTranslation();
-    const { getSolParametrosBandeja, solicitudParametrosBandeja, bandejaCambioEstatusValidada } = useContext(RegistroSolicitudContext);
+    const { getSolParametrosBandeja, solicitudParametrosBandeja, bandejaCambioEstatusValidada, bandejaCambioEstatusReasignada } = useContext(RegistroSolicitudContext);
     const { getCien, programasList } = useContext(ProgramasContext);
     const { getMunicipiosAll, municipiosList } = useContext(MunicipiosContext);
     const classes = useStyles();
@@ -46,6 +47,7 @@ export const BandejaSolicitudesRegistradas = () => {
     const [estatus, setEstatus] = useState('');
     const [selected, setSelected] = React.useState([]);
     const [showDialogEstatusGeneral, setShowDialogEstatusGeneral] = useState(false);
+    const [showDialogEstatusReasignada, setShowDialogEstatusReasignada] = useState(false);
     const [showDialogEstatusSeleccionadas, setShowDialogEstatusSeleccionadas] = useState(false);
     const [totalRegistros, setTotalRegistros] = useState('');
 
@@ -140,8 +142,21 @@ export const BandejaSolicitudesRegistradas = () => {
         console.log('EXPEDIENTE=>>', row)
         history.push("/admin/expedienteapi", { id: row.idBeneficiario, curp: row.curp });
     }
-    const onSelectReasignarSol = (row) => {
-        console.log('EXPEDIENTE=>>', row)
+
+    const confirmarReasignacion = (row) => {
+        console.log("Entra a confirmar reasigacion")
+        setShowDialogEstatusReasignada(true);
+    }
+
+    const handleCambiarEstatusReasignada = () => {
+        console.log("entra a handleCambiarEstatusReasiganda");
+        for (let i = 0; i < selected.length; i++) {
+            selected[i].idUsuario = sessionStorage.getItem('idUSuario');
+            selected[i].isObservaciones = 'false';
+        }
+        console.log('selected=>>', selected)
+        bandejaCambioEstatusReasignada(selected);
+        setShowDialogEstatusReasignada(false);
     }
 
     const isSelected = (dsfoliosolicitud) => selected.indexOf(dsfoliosolicitud) !== -1;
@@ -304,7 +319,7 @@ export const BandejaSolicitudesRegistradas = () => {
                                                     title="Reasignar"
                                                     placement="top"
                                                 >
-                                                    <IconButton aria-label="return" onClick={() => onSelectReasignarSol(row)}>
+                                                    <IconButton aria-label="return" onClick={() => confirmarReasignacion(row)}>
                                                         <ReplayIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -347,6 +362,11 @@ export const BandejaSolicitudesRegistradas = () => {
                 showDialogEstatusSeleccionadas={showDialogEstatusSeleccionadas}
                 setShowDialogEstatusSeleccionadas={setShowDialogEstatusSeleccionadas}
                 handleCambiarEstatusSeleccionada={handleCambiarEstatusSeleccionada}
+            />
+            <DialogEstatusReasignada
+                showDialogEstatusReasignada={showDialogEstatusReasignada}
+                setShowDialogEstatusReasignada={setShowDialogEstatusReasignada}
+                handleCambiarEstatusReasignada={handleCambiarEstatusReasignada}
             />
         </GridItem >
 

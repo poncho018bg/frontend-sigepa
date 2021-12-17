@@ -22,7 +22,8 @@ import {
     CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_PENDIENTE,
     CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR,
     GET_BENEFICIARIO_REGISTRADO_PROGRAMA,
-    PROGRAMA_VIGENTE
+    PROGRAMA_VIGENTE,
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA
 } from 'types/actionTypes';
 
 import { axiosGet, axiosPost, axiosPut, axiosGetSinToken } from 'helpers/axiosPublico';
@@ -520,7 +521,7 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
-    const getProgramaVigente = async (idPrograma,vigencia) => {
+    const getProgramaVigente = async (idPrograma, vigencia) => {
         try {
             const url = `${baseUrl}programasOverride/programaVigente/${idPrograma}/${vigencia}`;
             return new Promise((resolve, reject) => {
@@ -547,6 +548,30 @@ export const RegistroSolicitudContextProvider = props => {
                 console.log("Error otro ------------->")
             }
             console.log("Descripción del error ------------->:", error)
+        }
+    }
+
+    const bandejaCambioEstatusReasignada = async (SolicitudesSeleted) => {
+        try {
+            const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusReasignada`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, SolicitudesSeleted, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    console.log('RESPONSE=>', response.data)
+                    resolve(response);
+                    dispatch({
+                        type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log('Err', error);
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            console.log('Err', error);
         }
     }
 
@@ -586,7 +611,8 @@ export const RegistroSolicitudContextProvider = props => {
             bandejaCambioEstatusAprobar,
             getBeneficiarioRegistradoPrograma,
             actualizarBeneficiarioFolio,
-            getProgramaVigente
+            getProgramaVigente,
+            bandejaCambioEstatusReasignada
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>
