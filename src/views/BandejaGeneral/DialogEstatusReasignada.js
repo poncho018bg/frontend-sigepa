@@ -30,7 +30,7 @@ export const DialogEstatusReasignada = (props) => {
             <DialogTitle id="alert-dialog-title">{"Confirmación"}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    ¿Esta seguro de reasiganar la solicitud seleccionada ?
+                    ¿Esta seguro de reasignar la solicitud seleccionada ?
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

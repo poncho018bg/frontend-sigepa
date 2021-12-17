@@ -21,6 +21,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 import { DialogEstatusGeneral } from './DialogEstatusGeneral';
 import { DialogEstatusSeleccionadas } from './DialogEstatusSeleccionadas';
+import { DialogEstatusReasignada } from './DialogEstatusReasignada';
 
 import { useTranslation } from 'react-i18next';
 import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
@@ -32,7 +33,7 @@ const useStyles = makeStyles(stylesArchivo);
 
 export const BandejaAutorizaSolicitudes = () => {
     const { t } = useTranslation();
-    const { getSolParametrosBandejaAprobar, solicitudParametrosBandeja, bandejaCambioEstatusAprobar } = useContext(RegistroSolicitudContext);
+    const { getSolParametrosBandejaAprobar, solicitudParametrosBandeja, bandejaCambioEstatusAprobar, bandejaAprobarCambioEstatusReasignada } = useContext(RegistroSolicitudContext);
     const { getCien, programasList } = useContext(ProgramasContext);
     const { getEstatusRegistro, estatusRegistroList } = useContext(EstatusRegistroContext);
     const { getComiteSecretarias, comiteSecretariasList } = useContext(ComiteSecretariasContext);
@@ -48,6 +49,7 @@ export const BandejaAutorizaSolicitudes = () => {
     const [comite, setComite] = useState('');
     const [selected, setSelected] = React.useState([]);
     const [showDialogEstatusGeneral, setShowDialogEstatusGeneral] = useState(false);
+    const [showDialogEstatusReasignada, setShowDialogEstatusReasignada] = useState(false);
     const [showDialogEstatusSeleccionadas, setShowDialogEstatusSeleccionadas] = useState(false);
     const [totalRegistros, setTotalRegistros] = useState('');
 
@@ -146,14 +148,12 @@ export const BandejaAutorizaSolicitudes = () => {
     const handleCambiarEstatusSeleccionada = () => {
         bandejaCambioEstatusAprobar(selected);
         setShowDialogEstatusSeleccionadas(false);
-        buscarSolitudes();
     }
 
     //cambio de estatus general
     const handleCambiarGeneral = () => {
         bandejaCambioEstatusAprobar(solicitudParametrosBandeja);
         setShowDialogEstatusGeneral(false);
-        buscarSolitudes();
     }
 
     const handleClick = (event, solicitud) => {
@@ -184,6 +184,27 @@ export const BandejaAutorizaSolicitudes = () => {
         }
         setSelected([]);
     };
+
+
+    const onSelectVerExpediente = (row) => {
+        console.log('EXPEDIENTE=>>', row)
+        history.push("/admin/expedienteapi", { id: row.idBeneficiario, curp: row.curp });
+    }
+
+    const confirmarReasignacion = (row) => {
+        console.log("Entra a confirmar reasigacion")
+        setShowDialogEstatusReasignada(true);
+    }
+
+    const handleCambiarEstatusReasignada = () => {
+        console.log("entra a handleCambiarEstatusReasiganda");
+        for (let i = 0; i < selected.length; i++) {
+            selected[i].idUsuario = sessionStorage.getItem('idUSuario');
+        }
+        console.log('selected=>>', selected)
+        bandejaAprobarCambioEstatusReasignada(selected);
+        setShowDialogEstatusReasignada(false);
+    }
 
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -348,7 +369,7 @@ export const BandejaAutorizaSolicitudes = () => {
                                                     title="Ver expediente"
                                                     placement="top"
                                                 >
-                                                    <IconButton aria-label="view" onClick={() => onSelect(row)}>
+                                                    <IconButton aria-label="view" onClick={() => onSelectVerExpediente(row)}>
                                                         <RemoveRedEyeIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -357,7 +378,7 @@ export const BandejaAutorizaSolicitudes = () => {
                                                     title="Reasignar"
                                                     placement="top"
                                                 >
-                                                    <IconButton aria-label="return" onClick={() => onSelect(row)}>
+                                                    <IconButton aria-label="return" onClick={() => confirmarReasignacion(row)}>
                                                         <ReplayIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -402,6 +423,11 @@ export const BandejaAutorizaSolicitudes = () => {
                 showDialogEstatusSeleccionadas={showDialogEstatusSeleccionadas}
                 setShowDialogEstatusSeleccionadas={setShowDialogEstatusSeleccionadas}
                 handleCambiarEstatusSeleccionada={handleCambiarEstatusSeleccionada}
+            />
+             <DialogEstatusReasignada
+                showDialogEstatusReasignada={showDialogEstatusReasignada}
+                setShowDialogEstatusReasignada={setShowDialogEstatusReasignada}
+                handleCambiarEstatusReasignada={handleCambiarEstatusReasignada}
             />
         </GridItem>
 
