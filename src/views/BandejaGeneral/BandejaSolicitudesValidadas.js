@@ -309,7 +309,12 @@ export const BandejaSolicitudesValidadas = () => {
                                                 <TableCell align="center">NO</TableCell >
                                                 :
                                                 <TableCell align="center">
-                                                    <Tooltip title={row.observaciones}></Tooltip>
+                                                    <Tooltip 
+                                                    id="tooltip-expedienteobser"
+                                                    title={row?.observaciones}
+                                                    placement="top">
+                                                        <></>
+                                                    </Tooltip>
                                                 </TableCell >
                                             }
 
