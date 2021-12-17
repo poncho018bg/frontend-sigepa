@@ -149,7 +149,7 @@ const handleChangeRowsPerPage = event => {
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Programas</h4>
+              <h4 className={classes.cardTitleWhite}>{t('pnl.programas')}</h4>
 
               <CardActions>
                 <Grid container spacing={3}>
@@ -180,14 +180,14 @@ const handleChangeRowsPerPage = event => {
               < Table stickyHeader aria-label="sticky table" >
                 < TableHead >
                   < TableRow key="898as" >
-                    < TableCell align="center"> Estatus</TableCell >
-                    < TableCell align="center"> Programa  </TableCell >
-                    < TableCell align="center"> Clave  </TableCell >
-                    < TableCell align="center"> Vigencia del Programa</TableCell >
-                    < TableCell align="center">Periodo de Registro Web</TableCell>
-                    < TableCell align="center">Periodo de Registro Presencial</TableCell>
+                    < TableCell align="center"> {t('dgv.estatus')}</TableCell >
+                    < TableCell align="center"> {t('dgv.programa')} </TableCell >
+                    < TableCell align="center"> {t('dgv.clave')} </TableCell >
+                    < TableCell align="center"> {t('dgv.vigenciaprograma')} </TableCell >
+                    < TableCell align="center"> {t('dgv.periodoregistroweb')} </TableCell>
+                    < TableCell align="center"> {t('dgv.periodoregistropresencial')} </TableCell>
 
-                    < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                    < TableCell colSpan={2} align="center"> {t('dgv.acciones')}</TableCell >
                   </TableRow >
                 </TableHead >
                 < TableBody >
