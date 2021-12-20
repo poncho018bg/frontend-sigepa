@@ -182,7 +182,7 @@ export const PadronBeneficiariasScreen = () => {
                 </CardHeader>
                 <CardBody>
                     <Grid container spacing={3}>
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
 
                             <TextField
                                 id="nombre"
@@ -194,7 +194,7 @@ export const PadronBeneficiariasScreen = () => {
                                 onChange={(e) => setNombre(e.target.value)}
                             />
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             <TextField
                                 id="curp"
                                 label="CURP"
@@ -209,7 +209,7 @@ export const PadronBeneficiariasScreen = () => {
 
 
 
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             <TextField
                                 variant="outlined"
                                 label="Selecciona un programa"
@@ -237,7 +237,7 @@ export const PadronBeneficiariasScreen = () => {
                         </Grid>
 
 
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             <TextField
                                 variant="outlined"
                                 label="Selecciona un tipo de apoyo"
@@ -265,7 +265,7 @@ export const PadronBeneficiariasScreen = () => {
                         </Grid>
 
 
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             <TextField
                                 id="anio"
                                 label="Año de registro del programa"
@@ -278,7 +278,7 @@ export const PadronBeneficiariasScreen = () => {
                         </Grid>
 
 
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             <TextField
                                 variant="outlined"
                                 label="Selecciona un motivo de baja"
@@ -305,19 +305,17 @@ export const PadronBeneficiariasScreen = () => {
                             </TextField>
                         </Grid>
 
-
-
-
-                    </Grid>
-                    <Grid container spacing={3}>
-                        <Grid item xs={2} style={{ textAlign: 'right', float: 'right' }}>
+                        <Grid item xs={3} style={{ textAlign: 'right', float: 'right' }}>
                             <Button variant="contained" color="primary" fullWidth onClick={buscarSolitudes}>
                                 Buscar
                             </Button>
                         </Grid>
-                    </Grid>
 
-                    < Table stickyHeader aria-label="sticky table" >
+
+                    </Grid>
+                   
+
+                    < Table stickyHeader aria-label="sticky table"  style={{paddingTop: '20px'}}>
                         < TableHead >
                             < TableRow key="898as" >
                                 < TableCell align="center"> Consecutivo </TableCell >
