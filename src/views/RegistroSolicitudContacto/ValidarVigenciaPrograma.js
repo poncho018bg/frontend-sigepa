@@ -41,7 +41,7 @@ const ValidarVigenciaPrograma = ({ idPrograma, children, setActivar, origen }) =
                 setActivar(false);
                 return (
                     <GridItem xs={12} sm={12} md={12}>
-                        <Card>
+                        {/*<Card>
                             <CardHeader color="primary">
                                 <h4>Registro de Programa de Apoyo</h4>
                             </CardHeader>
@@ -51,6 +51,7 @@ const ValidarVigenciaPrograma = ({ idPrograma, children, setActivar, origen }) =
                                 </Typography>
                             </CardBody>
                         </Card>
+                        */}
                         <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="xs" fullWidth={true}>
                             <DialogContent >
                                 <Typography variant="body1" color="text.secondary">
