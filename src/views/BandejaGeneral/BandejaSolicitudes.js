@@ -16,12 +16,14 @@ import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
 import CardActions from '@material-ui/core/CardActions';
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
+import Tooltip from "@material-ui/core/Tooltip";
 
 
 import { useTranslation } from 'react-i18next';
 import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
-import { EstatusRegistroContext } from 'contexts/catalogos/EstatusRegistroContext';
+import { EstatusSolicitudContext} from 'contexts/catalogos/EstatusSolicitudContext';
+import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles(stylesArchivo);
 
 
@@ -29,12 +31,11 @@ export const BandejaSolicitudes = () => {
     const { t } = useTranslation();
     const { getSolicitudesPorParametros, solicitudParametros } = useContext(RegistroSolicitudContext);
     const { getCien, programasList } = useContext(ProgramasContext);
-    const { getEstatusRegistro, estatusRegistroList } = useContext(EstatusRegistroContext);
+    const { getEstatusSolicitud, estatusSolicitudList } = useContext(EstatusSolicitudContext);
     const classes = useStyles();
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-
 
     const [nombre, setNombre] = useState('');
     const [apellidopaterno, setApellidopaterno] = useState('');
@@ -42,13 +43,13 @@ export const BandejaSolicitudes = () => {
     const [folio, setFolio] = useState('');
     const [programa, setPrograma] = useState('');
     const [estatus, setEstatus] = useState('');
+    let history = useHistory();
 
     useEffect(() => {
         getCien()
-        getEstatusRegistro()
+        getEstatusSolicitud()
+        console.log('estatusSolicitudList ----->', estatusSolicitudList)
     }, []);
-
-
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -61,15 +62,20 @@ export const BandejaSolicitudes = () => {
 
     const buscarSolitudes = () => {
         let solcitudFilter = {
-            'paterno': apellidopaterno === '' ? 'NULL':apellidopaterno,
-            'materno': apellidoMaterno === '' ? 'NULL':apellidoMaterno,
-            'nombre': nombre === '' ? 'NULL':nombre,
-            'idPrograma': programa === '' ? 'NULL':programa,
-            'folio': folio === '' ? 'NULL':folio,
-            'idEstatus': estatus === '' ? 'NULL':estatus
+            'paterno': apellidopaterno === '' ? 'NULL' : apellidopaterno,
+            'materno': apellidoMaterno === '' ? 'NULL' : apellidoMaterno,
+            'nombre': nombre === '' ? 'NULL' : nombre,
+            'idPrograma': programa === '' ? 'NULL' : programa,
+            'folio': folio === '' ? 'NULL' : folio,
+            'idEstatus': estatus === '' ? 'NULL' : estatus
         }
         console.log(solcitudFilter)
         getSolicitudesPorParametros(solcitudFilter);
+    }
+
+    const onSelectBuscar = (linea) => {
+        console.log("expediente beneficiario ===>", linea);
+        history.push("/admin/expedienteapi", { id: linea.idBeneficiario, curp:linea.dscurp });
     }
 
     return (
@@ -77,13 +83,7 @@ export const BandejaSolicitudes = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Búsqueda de Solicitudes</h4>
-                    <p className={classes.cardCategoryWhite}>
-
-                    </p>
-                    <CardActions>
-
-                    </CardActions>
+                    <h4 className={classes.cardTitleWhite}>Búsqueda de Solicitudes</h4>                  
                 </CardHeader>
                 <CardBody>
                     <Grid container spacing={3}>
@@ -121,7 +121,6 @@ export const BandejaSolicitudes = () => {
                                 onChange={(e) => setNombre(e.target.value)}
                             />
                         </Grid>
-
 
                         <Grid item xs={3}>
                             <TextField
@@ -172,16 +171,16 @@ export const BandejaSolicitudes = () => {
                                 value={estatus}
                                 onChange={(e) => setEstatus(e.target.value)}
                             >
-                                <MenuItem value="0">
+                                <MenuItem value="">
                                     <em>{t('cmb.ninguno')}</em>
                                 </MenuItem>
                                 {
-                                    estatusRegistroList.map(
+                                    estatusSolicitudList.map(
                                         item => (
                                             <MenuItem
                                                 key={item.id}
                                                 value={item.id}>
-                                                {item.dsestatusregistro}
+                                                {item.dsestatussolicitud}
                                             </MenuItem>
                                         )
                                     )
@@ -189,18 +188,15 @@ export const BandejaSolicitudes = () => {
                             </TextField>
                         </Grid>
 
-                        <Grid item xs={2} style={{textAlign:'right', float:'right'}}>
+                        <Grid item xs={2} style={{ textAlign: 'right', float: 'right' }}>
                             <Button variant="contained" color="primary" fullWidth onClick={buscarSolitudes}>
                                 Buscar
                             </Button>
                         </Grid>
-
-
-
                     </Grid>
-                   </CardBody>
-                   <CardBody>
-                  
+                </CardBody>
+                <CardBody>
+
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
@@ -216,24 +212,30 @@ export const BandejaSolicitudes = () => {
                         </TableHead >
                         < TableBody >
                             {
-                                
+
                                 solicitudParametros.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-                                    return (                                        
-                                        < TableRow key={row.id}>                                           
+                                    return (
+                                        < TableRow key={row.id}>
                                             <TableCell align="center">{row.nombre}</TableCell >
                                             <TableCell align="center">{row.dsprograma}</TableCell >
                                             <TableCell align="center">{row.dsfoliosolicitud}</TableCell >
                                             <TableCell align="center">{row.dsestatusregistro}</TableCell >
-                                      
                                             <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
-                                            <TableCell align="center">{row.observaciones}</TableCell >
+                                            <TableCell align="center">
+                                                <Tooltip
+                                                    id="tooltip-observaciones"
+                                                    title={row.dsobservaciones}
+                                                    placement="top"
+                                                >
+                                                    <span style={{ color: "blue", borderBottom: "2px solid currentColor" }}>{row.observaciones}</span>
+                                                </Tooltip>
+                                            </TableCell >
                                             <TableCell align="center">{row.motivobaja}</TableCell >
                                             <TableCell align="center">
-                                                <IconButton aria-label="create" onClick={() => onSelect(row)}>
+                                                <IconButton aria-label="create" onClick={() => onSelectBuscar(row)}>
                                                     <RemoveRedEyeIcon />
                                                 </IconButton>
                                             </TableCell>
-
                                         </TableRow >
                                     );
                                 })
@@ -241,7 +243,7 @@ export const BandejaSolicitudes = () => {
                         </TableBody >
                     </ Table>
                     < TablePagination
-                        rowsPerPageOptions={[25, 50, 75,100]}
+                        rowsPerPageOptions={[25, 50, 75, 100]}
                         component="div"
                         labelRowsPerPage={t('dgv.registrospaginas')}
                         count={solicitudParametros.length}
@@ -249,7 +251,7 @@ export const BandejaSolicitudes = () => {
                         page={page}
                         onChangePage={handleChangePage}
                         onChangeRowsPerPage={handleChangeRowsPerPage}
-                        labelDisplayedRows= {({ from, to, count }) => `${from}-${to} de un total ${count} registros`}
+                        labelDisplayedRows={({ from, to, count }) => `${from}-${to} de un total ${count} registros`}
                     />
                 </CardBody>
             </Card>

@@ -21,6 +21,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 import { DialogEstatusGeneral } from './DialogEstatusGeneral';
 import { DialogEstatusSeleccionadas } from './DialogEstatusSeleccionadas';
+import { DialogEstatusReasignada } from './DialogEstatusReasignada';
 
 import { useTranslation } from 'react-i18next';
 import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
@@ -34,7 +35,7 @@ const useStyles = makeStyles(stylesArchivo);
 
 export const BandejaSolicitudesValidadas = () => {
     const { t } = useTranslation();
-    const { getSolParametrosBandeja, solicitudParametrosBandeja, bandejaCambioEstatusPendiente } = useContext(RegistroSolicitudContext);
+    const { getSolParametrosBandeja, solicitudParametrosBandeja, bandejaCambioEstatusPendiente, bandejaValidadaCambioEstatusReasignada } = useContext(RegistroSolicitudContext);
     const { getCien, programasList } = useContext(ProgramasContext);
     const { getEstatusRegistro, estatusRegistroList } = useContext(EstatusRegistroContext);
     const { getMunicipiosAll, municipiosList } = useContext(MunicipiosContext);
@@ -49,6 +50,7 @@ export const BandejaSolicitudesValidadas = () => {
     const [estatus, setEstatus] = useState('');
     const [selected, setSelected] = React.useState([]);
     const [showDialogEstatusGeneral, setShowDialogEstatusGeneral] = useState(false);
+    const [showDialogEstatusReasignada, setShowDialogEstatusReasignada] = useState(false);
     const [showDialogEstatusSeleccionadas, setShowDialogEstatusSeleccionadas] = useState(false);
     const [totalRegistros, setTotalRegistros] = useState('');
 
@@ -95,7 +97,6 @@ export const BandejaSolicitudesValidadas = () => {
         }
         bandejaCambioEstatusPendiente(selected);
         setShowDialogEstatusSeleccionadas(false);
-        // buscarSolitudes();
     }
 
     //cambio de estatus general
@@ -106,7 +107,6 @@ export const BandejaSolicitudesValidadas = () => {
         }
         bandejaCambioEstatusPendiente(solicitudParametrosBandeja);
         setShowDialogEstatusGeneral(false);
-        //buscarSolitudes();
     }
 
 
@@ -143,9 +143,22 @@ export const BandejaSolicitudesValidadas = () => {
         console.log('EXPEDIENTE=>>', row)
         history.push("/admin/expedienteapi", { id: row.idBeneficiario, curp: row.curp });
     }
-    const onSelectReasignarSol = (row) => {
-        console.log('EXPEDIENTE=>>', row)
+
+    const confirmarReasignacion = (row) => {
+        console.log("Entra a confirmar reasigacion")
+        setShowDialogEstatusReasignada(true);
     }
+
+    const handleCambiarEstatusReasignada = () => {
+        console.log("entra a handleCambiarEstatusReasiganda");
+        for (let i = 0; i < selected.length; i++) {
+            selected[i].idUsuario = sessionStorage.getItem('idUSuario');
+        }
+        console.log('selected=>>', selected)
+        bandejaValidadaCambioEstatusReasignada(selected);
+        setShowDialogEstatusReasignada(false);
+    }
+
     const isSelected = (dsfoliosolicitud) => selected.indexOf(dsfoliosolicitud) !== -1;
 
     return (
@@ -163,33 +176,7 @@ export const BandejaSolicitudesValidadas = () => {
                 </CardHeader>
                 <CardBody>
                     <Grid container spacing={3}>
-                        {/* <Grid item xs={3}>
-                            <TextField
-                                variant="outlined"
-                                label="Selecciona un estatus"
-                                select
-                                fullWidth
-                                name="estatus"
-                                value={estatus}
-                                onChange={(e) => setEstatus(e.target.value)}
-                            >
-                                <MenuItem value="">
-                                    <em>{t('cmb.ninguno')}</em>
-                                </MenuItem>
-                                {
-                                    estatusRegistroList.map(
-                                        item => (
-                                            <MenuItem
-                                                key={item.id}
-                                                value={item.id}>
-                                                {item.dsestatusregistro}
-                                            </MenuItem>
-                                        )
-                                    )
-                                }
-                            </TextField>
-                        </Grid>*/}
-
+                      
                         <Grid item xs={3}>
                             <TextField
                                 variant="outlined"
@@ -305,11 +292,16 @@ export const BandejaSolicitudesValidadas = () => {
                                             <TableCell align="center">{row.nombre}</TableCell >
                                             <TableCell align="center">{row.dsprograma}</TableCell >
                                             <TableCell align="center">{moment(row.fechaRegistro).format("MMMM DD YYYY, h:mm:ss a")}</TableCell>
-                                            {(row.isObservaciones === '') ?
+                                            {(row.validarObservaciones === '') ?
                                                 <TableCell align="center">NO</TableCell >
                                                 :
                                                 <TableCell align="center">
-                                                    <Tooltip title={row.observaciones}></Tooltip>
+                                                    <Tooltip
+                                                        id="tooltip-expedienteobser"
+                                                        title={row?.observaciones}
+                                                        placement="top">
+                                                        <></>
+                                                    </Tooltip>
                                                 </TableCell >
                                             }
 
@@ -330,7 +322,7 @@ export const BandejaSolicitudesValidadas = () => {
                                                     title="Reasignar"
                                                     placement="top"
                                                 >
-                                                    <IconButton aria-label="return" onClick={() => onSelectReasignarSol(row)}>
+                                                    <IconButton aria-label="return" onClick={() => confirmarReasignacion(row)}>
                                                         <ReplayIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -373,6 +365,11 @@ export const BandejaSolicitudesValidadas = () => {
                 showDialogEstatusSeleccionadas={showDialogEstatusSeleccionadas}
                 setShowDialogEstatusSeleccionadas={setShowDialogEstatusSeleccionadas}
                 handleCambiarEstatusSeleccionada={handleCambiarEstatusSeleccionada}
+            />
+            <DialogEstatusReasignada
+                showDialogEstatusReasignada={showDialogEstatusReasignada}
+                setShowDialogEstatusReasignada={setShowDialogEstatusReasignada}
+                handleCambiarEstatusReasignada={handleCambiarEstatusReasignada}
             />
         </GridItem>
 

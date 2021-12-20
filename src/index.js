@@ -75,6 +75,7 @@ import { ExpedienteContextProvider } from "contexts/expedienteContext"
 import { BeneficiariosContextProvider } from "contexts/BeneficiariosContext";
 import { BandejaRechazosContextProvider } from "contexts/BandejaRechazosContext";
 import { TipoRequisitosContextProvider } from "contexts/catalogos/TipoRequisitosContext";
+import { EstatusSolicitudContextProvider } from "contexts/catalogos/EstatusSolicitudContext";
 
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
@@ -129,11 +130,13 @@ ReactDOM.render(
                                                                                         <BeneficiariosContextProvider>
                                                                                           <BandejaRechazosContextProvider>
                                                                                             <TipoRequisitosContextProvider>
-                                                                                              <Switch>
-                                                                                                <Route path="/admin" component={Admin} />
-                                                                                                <Route path="/public" component={Auth} />
-                                                                                                <Redirect from="/" to="/admin/dashboard" />
-                                                                                              </Switch>
+                                                                                              <EstatusSolicitudContextProvider>
+                                                                                                <Switch>
+                                                                                                  <Route path="/admin" component={Admin} />
+                                                                                                  <Route path="/public" component={Auth} />
+                                                                                                  <Redirect from="/" to="/admin/dashboard" />
+                                                                                                </Switch>
+                                                                                              </EstatusSolicitudContextProvider>
                                                                                             </TipoRequisitosContextProvider>
                                                                                           </BandejaRechazosContextProvider>
                                                                                         </BeneficiariosContextProvider>

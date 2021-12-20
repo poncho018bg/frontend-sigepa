@@ -336,10 +336,10 @@ export const ProgramasEdit = () => {
   // Schema de validación
   const schemaValidacion = Yup.object({
     dsprograma: Yup.string().nullable()
-      .required('El nombre del programa  es obligatorio')
+      .required(`${t('msg.nombreprogramaobligatorio')}`)
       .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
     dsclaveprograma: Yup.string().nullable()
-      .required('La clave del programa es obligatoria')
+      .required(`${t('msg.claveprogramaobligatoria')}`)
       .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
     /*  vigenciaDesde: Yup.string()
           .required('La vigencia desde es obligatorio'),
@@ -354,7 +354,7 @@ export const ProgramasEdit = () => {
       periodoRegistroPresencialHasta: Yup.string()
         .required('El periodo del registro presencial hasta es obligatorio'),*/
     dsdescripcion: Yup.string().nullable()
-      .required('La descripcion del pograma de apoyo  es obligatorio')
+      .required(`${t('msg.descripcionpogramaapoyoobligatorio')}`)
       .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
     dscriterioelegibilidad: Yup.string().nullable()
       .matches('[A-Za-z0-9]', `${t('msg.nocarateresespeciales')}`),
@@ -365,9 +365,9 @@ export const ProgramasEdit = () => {
 
 
     dsobjetivo: Yup.string()
-      .required('El objetivo es obligatorio'),
+      .required(`${t('msg.objetivoobligatorio')}`),
     dsurl: Yup.string()
-      .required('URL pública es obligatorio'),
+      .required(`${t('msg.urlpublicaobligatorio')}`),
 
   });
 
@@ -467,7 +467,7 @@ export const ProgramasEdit = () => {
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <Card>
-                  <CardHeader color="primary"> Programas </CardHeader>
+                  <CardHeader color="primary"> {t('pnl.programas')} </CardHeader>
                   <CardBody>
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={12}>
@@ -475,7 +475,7 @@ export const ProgramasEdit = () => {
                           style={{ marginBottom: '20px' }}
                           id="dsprograma"
                           error={props.errors.dsprograma}
-                          label="Nombre del Programa de apoyo"
+                          label={t('lbl.nombreprogramaapoyo')}
                           variant="outlined"
                           name="dsprograma"
                           fullWidth
@@ -494,7 +494,7 @@ export const ProgramasEdit = () => {
                       <GridItem xs={12} sm={12} md={12}>
                         <TextField
                           id="dsclaveprograma"
-                          label="Clave del Programa"
+                          label={t('lbl.claveprograma')}
                           name="dsclaveprograma"
                           variant="outlined"
                           style={{ marginBottom: '20px' }}
@@ -520,7 +520,7 @@ export const ProgramasEdit = () => {
                         <CardBody>
                           <TextField
                             id="fcvigenciainicio"
-                            label="Vigencia del programa inicio"
+                            label={t('lbl.vigenciaprogramadesde')}
                             type="date"
                             fullWidth
                             className={classes.textField}
@@ -544,7 +544,7 @@ export const ProgramasEdit = () => {
                         <CardBody>
                           <TextField
                             id="fcvigenciafin"
-                            label="Vigencia del programa hasta"
+                            label={t('lbl.vigenciaprogramahasta')}
                             type="date"
                             fullWidth
                             className={classes.textField}
@@ -570,7 +570,7 @@ export const ProgramasEdit = () => {
                         <CardBody>
                           <TextField
                             id="fcregistropresencialinicio"
-                            label="Periodo registro presencial desde"
+                            label={t('lbl.periodoregistropresencialdesde')}
                             type="date"
                             fullWidth
                             className={classes.textField}
@@ -595,7 +595,7 @@ export const ProgramasEdit = () => {
                         <CardBody>
                           <TextField
                             id="fcregistropresencialfin"
-                            label="Periodo registro presencial hasta"
+                            label={t('lbl.periodoregistropresencialhasta')}
                             type="date"
                             fullWidth
                             className={classes.textField}
@@ -620,7 +620,7 @@ export const ProgramasEdit = () => {
                         <CardBody>
                           <TextField
                             id="fcregistrowebinicio"
-                            label="Periodo registro web desde"
+                            label={t('lbl.periodoregistrowebdesde')}
                             type="date"
                             fullWidth
                             className={classes.textField}
@@ -645,7 +645,7 @@ export const ProgramasEdit = () => {
                         <CardBody>
                           <TextField
                             id="fcregistrowebfin"
-                            label="Periodo registro web hasta"
+                            label={t('lbl.periodoregistrowebhasta')}
                             type="date"
                             fullWidth
                             className={classes.textField}
@@ -674,7 +674,7 @@ export const ProgramasEdit = () => {
                           style={{ marginBottom: '20px' }}
                           id="dsurl"
                           error={props.errors.dsurl}
-                          label="URL Pública para registro Web"
+                          label={t('lbl.urlpublicaregistroweb')}
                           variant="outlined"
                           name="dsurl"
                           fullWidth
@@ -696,7 +696,7 @@ export const ProgramasEdit = () => {
                         <TextField
                           id="dsdescripcion"
                           name="dsdescripcion"
-                          label="Descripción del Programa de Apoyo"
+                          label={t('lbl.descripcionprogramaapoyo')}
                           style={{ marginBottom: '20px' }}
                           fullWidth
                           multiline
@@ -722,7 +722,7 @@ export const ProgramasEdit = () => {
 
                           <TextField
                             variant="outlined"
-                            label="Selecciona un tipo de beneficiario"
+                            label={t('cmb.seleccionatipobeneficiario')}
                             select
                             style={{ marginBottom: '20px' }}
                             fullWidth
@@ -755,7 +755,7 @@ export const ProgramasEdit = () => {
 
                           <TextField
                             variant="outlined"
-                            label="Selecciona un rango de edad"
+                            label={t('cmb.seleccionarangoedad')}
                             select
                             style={{ marginBottom: '20px' }}
                             fullWidth
@@ -788,7 +788,7 @@ export const ProgramasEdit = () => {
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={12}>
-                        <FormLabel component="legend">Cobertura municipal </FormLabel>
+                        <FormLabel component="legend">{t('pnl.coberturamunicipal')}  </FormLabel>
 
                         <MultiSelect
                           style={{ marginBottom: '120px' }}
@@ -800,7 +800,7 @@ export const ProgramasEdit = () => {
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={12} style={{ marginBottom: '20px' }}>
-                        <FormLabel style={{ marginBottom: '20px' }} component="legend">Documentos y formatos requeridos</FormLabel>
+                        <FormLabel style={{ marginBottom: '20px' }} component="legend">{t('pnl.documentosformatosrequeridos')}</FormLabel>
                         <Grid
                           container
                           spacing={2}
@@ -842,7 +842,7 @@ export const ProgramasEdit = () => {
                       </GridItem>
 
                       <GridItem xs={12} sm={12} md={12} style={{ marginBottom: '20px' }}>
-                        <FormLabel style={{ marginBottom: '20px' }} component="legend">Documentos y formatos requeridos para complementar el expediente</FormLabel>
+                        <FormLabel style={{ marginBottom: '20px' }} component="legend">{t('pnl.documentosformatosrequeridoscomplementarexpediente')}</FormLabel>
                         <Grid
                           container
                           spacing={2}
@@ -888,7 +888,7 @@ export const ProgramasEdit = () => {
                         <TextField
                           id="dscriterioelegibilidad"
                           name="dscriterioelegibilidad"
-                          label="Criterios de Elegibilidad del Programa (opcional)"
+                          label={t('lbl.criterioselegibilidadprogramaopcional')}
                           style={{ marginBottom: '20px' }}
                           fullWidth
                           multiline
@@ -912,7 +912,7 @@ export const ProgramasEdit = () => {
                         <TextField
                           id="dscontinuidad"
                           name="dscontinuidad"
-                          label="Actividades por realizar para continuar con el programa (opcional)"
+                          label={t('lbl.actividadesrealizarcontinuarprogramaopcional')}
                           style={{ marginBottom: '20px' }}
                           fullWidth
                           multiline
@@ -936,7 +936,7 @@ export const ProgramasEdit = () => {
                         <TextField
                           id="dsobservaciones"
                           name="dsobservaciones"
-                          label="Observaciones (opcional)"
+                          label={t('lbl.observacionesopcional')}
                           style={{ marginBottom: '20px' }}
                           fullWidth
                           multiline
@@ -957,7 +957,7 @@ export const ProgramasEdit = () => {
                       <GridItem xs={12} sm={12} md={12}>
                         <TextField
                           variant="outlined"
-                          label="Selecciona una plantilla"
+                          label={t('cmb.seleccionaplantilla')}
                           select
                           style={{ marginBottom: '20px' }}
                           fullWidth
@@ -994,7 +994,7 @@ export const ProgramasEdit = () => {
                         <TextField
                           id="dsobjetivo"
                           name="dsobjetivo"
-                          label="Texto descriptivo del programa (html)"
+                          label={t('lbl.textodescriptivoprogramahtml')}
                           style={{ marginBottom: '20px' }}
                           fullWidth
                           multiline
@@ -1045,7 +1045,7 @@ export const ProgramasEdit = () => {
 
                     <Button className={classes.updateProfileButton}
                       type='submit'>
-                      Guardar
+                      {t('btn.guardar')}
                     </Button>
                     <Clearfix />
                   </CardBody>

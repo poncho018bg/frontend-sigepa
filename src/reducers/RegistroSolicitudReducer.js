@@ -20,7 +20,8 @@ import {
     CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_PENDIENTE,
     CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR,
     GET_BENEFICIARIO_REGISTRADO_PROGRAMA,
-    PROGRAMA_VIGENTE
+    PROGRAMA_VIGENTE,
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -129,23 +130,29 @@ export default (state, action) => {
         case CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_VALIDADA:
             return {
                 ...state,
-                solicitudParametrosBandeja: state.solicitudParametrosBandeja.filter(solicitudParametrosBandeja => solicitudParametrosBandeja.id !== action.payload)
+                solicitudParametrosBandeja: [...state.solicitudParametrosBandeja, action.payload]
             };
 
         case CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_PENDIENTE:
             return {
                 ...state,
-                solicitudParametrosBandeja: state.solicitudParametrosBandeja.filter(solicitudParametrosBandeja => solicitudParametrosBandeja.id !== action.payload)
+                solicitudParametrosBandeja: [...state.solicitudParametrosBandeja, action.payload]
             };
         case CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR:
             return {
                 ...state,
-                solicitudParametrosBandeja: state.solicitudParametrosBandeja.filter(solicitudParametrosBandeja => solicitudParametrosBandeja.id !== action.payload)
+                solicitudParametrosBandeja: [...state.solicitudParametrosBandeja, action.payload]
             };
         case PROGRAMA_VIGENTE:
             return {
                 ...state,
                 programaVigente: action.payload
+            };
+
+        case CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA:
+            return {
+                ...state,
+                solicitudParametrosBandeja: [...state.solicitudParametrosBandeja, action.payload]
             };
 
         default:

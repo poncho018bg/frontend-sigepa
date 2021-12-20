@@ -22,7 +22,8 @@ import {
     CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_PENDIENTE,
     CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR,
     GET_BENEFICIARIO_REGISTRADO_PROGRAMA,
-    PROGRAMA_VIGENTE
+    PROGRAMA_VIGENTE,
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA
 } from 'types/actionTypes';
 
 import { axiosGet, axiosPost, axiosPut, axiosGetSinToken } from 'helpers/axiosPublico';
@@ -449,6 +450,11 @@ export const RegistroSolicitudContextProvider = props => {
 
 
     const bandejaCambioEstatusValidada = async (SolicitudesSeleted) => {
+        let parametros = {
+            idPrograma: 'NULL',
+            idMunicipio: 'NULL',
+            idEstatus: 'Registradas'
+        }
         try {
             const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusValidada`;
             return new Promise((resolve, reject) => {
@@ -461,6 +467,9 @@ export const RegistroSolicitudContextProvider = props => {
                         type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_VALIDADA,
                         payload: response.data
                     })
+                    dispatch(
+                        getSolParametrosBandeja(parametros)
+                    )
                 }).catch(error => {
                     console.log('Err', error);
                     reject(error);
@@ -473,6 +482,11 @@ export const RegistroSolicitudContextProvider = props => {
     }
 
     const bandejaCambioEstatusPendiente = async (solicitudParametros) => {
+        let parametros = {
+            idPrograma: 'NULL',
+            idMunicipio: 'NULL',
+            idEstatus: 'Validadas'
+        }
         try {
             const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusPendiente`;
             return new Promise((resolve, reject) => {
@@ -485,6 +499,9 @@ export const RegistroSolicitudContextProvider = props => {
                         type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_PENDIENTE,
                         payload: response.data
                     })
+                    dispatch(
+                        getSolParametrosBandeja(parametros)
+                    )
                 }).catch(error => {
                     console.log('Err', error);
                     reject(error);
@@ -497,6 +514,10 @@ export const RegistroSolicitudContextProvider = props => {
     }
 
     const bandejaCambioEstatusAprobar = async (solicitudParametros) => {
+        let parametros = {
+            idPrograma: 'NULL',
+            idEstatus: 'NULL'
+        }
         try {
             const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusAprobar`;
             return new Promise((resolve, reject) => {
@@ -509,6 +530,9 @@ export const RegistroSolicitudContextProvider = props => {
                         type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR,
                         payload: response.data
                     })
+                    dispatch(
+                        getSolParametrosBandejaAprobar(parametros)
+                    )
                 }).catch(error => {
                     console.log('Err', error);
                     reject(error);
@@ -520,7 +544,7 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
-    const getProgramaVigente = async (idPrograma,vigencia) => {
+    const getProgramaVigente = async (idPrograma, vigencia) => {
         try {
             const url = `${baseUrl}programasOverride/programaVigente/${idPrograma}/${vigencia}`;
             return new Promise((resolve, reject) => {
@@ -547,6 +571,101 @@ export const RegistroSolicitudContextProvider = props => {
                 console.log("Error otro ------------->")
             }
             console.log("Descripción del error ------------->:", error)
+        }
+    }
+
+    const bandejaCambioEstatusReasignada = async (SolicitudesSeleted) => {
+        let parametros = {
+            idPrograma: 'NULL',
+            idMunicipio: 'NULL',
+            idEstatus: 'Registradas'
+        }
+        try {
+            const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusReasignada`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, SolicitudesSeleted, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    console.log('RESPONSE=>', response.data)
+                    resolve(response);
+                    dispatch({
+                        type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA,
+                        payload: response.data
+                    })
+                    dispatch(
+                        getSolParametrosBandeja(parametros)
+                    )
+                }).catch(error => {
+                    console.log('Err', error);
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            console.log('Err', error);
+        }
+    }
+
+    const bandejaValidadaCambioEstatusReasignada = async (SolicitudesSeleted) => {
+        let parametros = {
+            idPrograma: 'NULL',
+            idMunicipio: 'NULL',
+            idEstatus: 'Validadas'
+        }
+        try {
+            const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusReasignada`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, SolicitudesSeleted, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    console.log('RESPONSE=>', response.data)
+                    resolve(response);
+                    dispatch({
+                        type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA,
+                        payload: response.data
+                    })
+                    dispatch(
+                        getSolParametrosBandeja(parametros)
+                    )
+                }).catch(error => {
+                    console.log('Err', error);
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            console.log('Err', error);
+        }
+    }
+
+    const bandejaAprobarCambioEstatusReasignada = async (SolicitudesSeleted) => {
+        let parametros = {
+            idPrograma: 'NULL',
+            idEstatus: 'NULL'
+        }
+        try {
+            const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusReasignada`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, SolicitudesSeleted, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    console.log('RESPONSE=>', response.data)
+                    resolve(response);
+                    dispatch({
+                        type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA,
+                        payload: response.data
+                    })
+                    dispatch(
+                        getSolParametrosBandejaAprobar(parametros)
+                    )
+                }).catch(error => {
+                    console.log('Err', error);
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            console.log('Err', error);
         }
     }
 
@@ -586,7 +705,10 @@ export const RegistroSolicitudContextProvider = props => {
             bandejaCambioEstatusAprobar,
             getBeneficiarioRegistradoPrograma,
             actualizarBeneficiarioFolio,
-            getProgramaVigente
+            getProgramaVigente,
+            bandejaCambioEstatusReasignada,
+            bandejaValidadaCambioEstatusReasignada,
+            bandejaAprobarCambioEstatusReasignada
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>
