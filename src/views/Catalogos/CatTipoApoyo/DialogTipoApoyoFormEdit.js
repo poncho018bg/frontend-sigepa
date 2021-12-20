@@ -171,8 +171,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
             .required('La descripción obligatorio'),
         estatus: Yup.string()
             .required('El estatus es obligatorio'),
-        visita: Yup.string()
-            .required('la visita es obligatorio'),
+ 
         fcvigenciainicio: Yup.string()
             .required('La vigencia desde obligatorio'),
         fcvigenciafin: Yup.string()
@@ -490,13 +489,6 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
 
 
-                        <DialogContent>
-                            <FormLabel component="legend">Requiere Visita Obligatoria</FormLabel>
-                            <RadioGroup row aria-label="position" defaultValue="top" value={props.values.visita} onChange={props.handleChange} >
-                                <FormControlLabel name="visita" value="true" control={<Radio color="primary" />} label="SÍ" />
-                                <FormControlLabel name="visita" value="false" control={<Radio color="primary" />} label="NO" />
-                            </RadioGroup>
-                        </DialogContent>
 
 
 

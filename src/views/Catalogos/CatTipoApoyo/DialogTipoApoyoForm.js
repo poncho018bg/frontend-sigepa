@@ -235,7 +235,7 @@ export const DialogTipoApoyoForm = (props) => {
 
     const handleRegistrar = () => {
 
-        const { dsapoyo, idPrograma, dsdescripcion, estatus, visita, fcvigenciainicio, fcvigenciafin,
+        const { dsapoyo, idPrograma, dsdescripcion, estatus,  fcvigenciainicio, fcvigenciafin,
             cantidadPesos, enServicio,
             descApoyoEspecie, idPeriodicidad, observaciones, formaEntrega, numEntregas, numApoyos
         } = valores
@@ -244,7 +244,7 @@ export const DialogTipoApoyoForm = (props) => {
             idPrograma: idPrograma,
             dsdescripcion: dsdescripcion,
             estatus: estatus,
-            visita: visita,
+            visita: false,
             idTipoApoyo: selectedTipApoy,
             fcvigenciainicio: fcvigenciainicio,
             fcvigenciafin: fcvigenciafin,
@@ -532,13 +532,7 @@ export const DialogTipoApoyoForm = (props) => {
                         })
                     }
                 </CardBody>
-                <CardBody>
-                    <FormLabel component="legend">Requiere Visita Obligatoria</FormLabel>
-                    <RadioGroup row aria-label="position" defaultValue="top" value={formik.values.visita} onChange={formik.handleChange} >
-                        <FormControlLabel name="visita" value="true" control={<Radio color="primary" />} label="SÍ" />
-                        <FormControlLabel name="visita" value="false" control={<Radio color="primary" />} label="NO" />
-                    </RadioGroup>
-                </CardBody>
+           
 
 
 
