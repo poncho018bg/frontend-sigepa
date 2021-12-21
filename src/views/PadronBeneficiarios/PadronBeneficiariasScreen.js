@@ -143,7 +143,7 @@ export const PadronBeneficiariasScreen = () => {
 
                 setError(false);
                 setOpen(false);
-
+                setShowModalConfirmacion(false);
             }, 1500);
             return () => clearTimeout(timer);
         })
