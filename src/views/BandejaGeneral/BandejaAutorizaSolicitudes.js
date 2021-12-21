@@ -22,7 +22,7 @@ import { stylesArchivo } from 'css/stylesArchivo';
 import { DialogEstatusGeneral } from './DialogEstatusGeneral';
 import { DialogEstatusSeleccionadas } from './DialogEstatusSeleccionadas';
 import { DialogEstatusReasignada } from './DialogEstatusReasignada';
-
+import { useHistory } from "react-router";
 import { useTranslation } from 'react-i18next';
 import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
@@ -38,7 +38,7 @@ export const BandejaAutorizaSolicitudes = () => {
     const { getEstatusRegistro, estatusRegistroList } = useContext(EstatusRegistroContext);
     const { getComiteSecretarias, comiteSecretariasList } = useContext(ComiteSecretariasContext);
     const classes = useStyles();
-
+    let history = useHistory();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
