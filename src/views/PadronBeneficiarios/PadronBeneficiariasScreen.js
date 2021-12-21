@@ -29,6 +29,8 @@ import { MotivoRechazosContext } from 'contexts/catalogos/motivoRechazosContext'
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
 import { BandejaRechazosContext } from 'contexts/BandejaRechazosContext';
 import { Mensaje } from 'components/Personalizados/Mensaje';
+import { ModalConfirmacion } from 'commons/ModalConfirmacion';
+import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 
 
 
@@ -48,7 +50,7 @@ export const PadronBeneficiariasScreen = () => {
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-
+    const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
 
     const [nombre, setNombre] = useState('');
     const [curp, setCurp] = useState('');
@@ -115,13 +117,16 @@ export const PadronBeneficiariasScreen = () => {
         }
 
     }, [beneficiariaList]);
+    const mostrarConfirmacion = ()=>{
+        setShowModalConfirmacion(true);
+    }
 
     const redirectRegister = () => {
 
 
         let bandejaRechz = {
 
-           
+
             dsobservaciones: dsMotivoBaja,
             motivo_rechazo_id: llMotivoBaja,
             mv_bandeja_id: `${idMvBandejaSol}`,
@@ -313,9 +318,9 @@ export const PadronBeneficiariasScreen = () => {
 
 
                     </Grid>
-                   
 
-                    < Table stickyHeader aria-label="sticky table"  style={{paddingTop: '20px'}}>
+
+                    < Table stickyHeader aria-label="sticky table" style={{ paddingTop: '20px' }}>
                         < TableHead >
                             < TableRow key="898as" >
                                 < TableCell align="center"> Consecutivo </TableCell >
@@ -325,7 +330,7 @@ export const PadronBeneficiariasScreen = () => {
                                 < TableCell align="center"> Tipo de apoyo </TableCell >
                                 < TableCell align="center"> Folio SEDESEM </TableCell >
                                 < TableCell align="center"> Año de registro al programa </TableCell >
-                                < TableCell align="center"> Motivo de baja </TableCell >
+                                < TableCell align="center" width={250}> Motivo de baja </TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
@@ -469,13 +474,15 @@ export const PadronBeneficiariasScreen = () => {
 
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={() => redirectRegister()} color="primary">
+                    <Button autoFocus onClick={() => mostrarConfirmacion()} color="primary">
                         Guardar
                     </Button>
                 </DialogActions>
             </Dialog>
 
-
+            <ModalConfirmacion
+                handleRegistrar={redirectRegister} evento="Registrar"
+            />
 
         </GridItem>
 
