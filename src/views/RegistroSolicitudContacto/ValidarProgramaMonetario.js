@@ -42,6 +42,7 @@ const ValidarProgramaMonetario = ({ curp, idPrograma, edadValida, children, setA
             setActivar(false);
             return (
                 <GridItem xs={12} sm={12} md={12}>
+                    {/*
                     <Card>
                         <CardHeader color="primary">
                             <h4>Registro de Programa de Apoyo</h4>
@@ -52,6 +53,7 @@ const ValidarProgramaMonetario = ({ curp, idPrograma, edadValida, children, setA
                             </Typography>
                         </CardBody>
                     </Card>
+                    */}
                     <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="xs" fullWidth={true}>
                         <DialogContent >
                             <Typography variant="body1" color="text.secondary">
@@ -79,6 +81,7 @@ const ValidarProgramaMonetario = ({ curp, idPrograma, edadValida, children, setA
                 setActivar(false);
                 return (
                     <GridItem xs={12} sm={12} md={12}>
+                        {/*
                         <Card>
                             <CardHeader color="primary">
                                 <h4>Registro de Programa de Apoyo</h4>
@@ -89,6 +92,7 @@ const ValidarProgramaMonetario = ({ curp, idPrograma, edadValida, children, setA
                                 </Typography>
                             </CardBody>
                         </Card>
+                        */}
                         <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="xs" fullWidth={true}>
                             <DialogContent >
                                 <Typography variant="body1" color="text.secondary">
