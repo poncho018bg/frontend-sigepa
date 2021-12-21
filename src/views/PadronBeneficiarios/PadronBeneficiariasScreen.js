@@ -142,8 +142,9 @@ export const PadronBeneficiariasScreen = () => {
             const timer = setTimeout(() => {
 
                 setError(false);
-                setOpen(false);
                 setShowModalConfirmacion(false);
+                setOpen(false);
+               
             }, 1500);
             return () => clearTimeout(timer);
         })
@@ -153,6 +154,7 @@ export const PadronBeneficiariasScreen = () => {
                 setError(true);
                 setMsjConfirmacion(`${t('msg.ocurrioerrorcalidarinfo')}`);
             });
+            setShowModalConfirmacion(false);
     }
 
     const cambiarMotivoBaja = (row, dta) => {
