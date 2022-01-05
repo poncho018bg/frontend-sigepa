@@ -95,6 +95,7 @@ export const BandejaSolicitudesRegistradas = () => {
         }
         bandejaCambioEstatusValidada(selected);
         setShowDialogEstatusSeleccionadas(false);
+        getSolParametrosBandeja(null);
     }
 
     //cambio de estatus general
@@ -106,6 +107,7 @@ export const BandejaSolicitudesRegistradas = () => {
         bandejaCambioEstatusValidada(solicitudParametrosBandeja);
         setShowDialogEstatusGeneral(false);
         //buscarSolitudes();
+        getSolParametrosBandeja(null);
     }
 
 
@@ -295,10 +297,10 @@ export const BandejaSolicitudesRegistradas = () => {
                                                 <TableCell align="center">NO</TableCell >
                                                 :
                                                 <TableCell align="center">
-                                                    <Tooltip 
-                                                    id="tooltip-expedienteobser"
-                                                    title={row?.observaciones}
-                                                    placement="top">
+                                                    <Tooltip
+                                                        id="tooltip-expedienteobser"
+                                                        title={row?.observaciones}
+                                                        placement="top">
                                                         <></>
                                                     </Tooltip>
                                                 </TableCell >

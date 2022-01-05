@@ -193,7 +193,7 @@ export const PadronBeneficiariasScreen = () => {
 
                             <TextField
                                 id="nombre"
-                                label="Nombre beneficiarias"
+                                label="Nombre beneficiaria"
                                 variant="outlined"
                                 name={nombre}
                                 fullWidth

@@ -98,6 +98,7 @@ export const BandejaSolicitudesValidadas = () => {
         }
         bandejaCambioEstatusPendiente(selected);
         setShowDialogEstatusSeleccionadas(false);
+        getSolParametrosBandeja(null);
     }
 
     //cambio de estatus general
@@ -108,6 +109,7 @@ export const BandejaSolicitudesValidadas = () => {
         }
         bandejaCambioEstatusPendiente(solicitudParametrosBandeja);
         setShowDialogEstatusGeneral(false);
+        getSolParametrosBandeja(null);
     }
 
 
