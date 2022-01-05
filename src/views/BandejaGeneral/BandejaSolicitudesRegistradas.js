@@ -54,6 +54,7 @@ export const BandejaSolicitudesRegistradas = () => {
     useEffect(() => {
         getCien()
         getMunicipiosAll()
+        getSolParametrosBandeja(null);
     }, []);
 
     const handleChangePage = (event, newPage) => {

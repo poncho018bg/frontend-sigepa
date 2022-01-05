@@ -58,6 +58,7 @@ export const BandejaSolicitudesValidadas = () => {
         getCien()
         getEstatusRegistro()
         getMunicipiosAll()
+        getSolParametrosBandeja(null);
     }, []);
 
     const handleChangePage = (event, newPage) => {
