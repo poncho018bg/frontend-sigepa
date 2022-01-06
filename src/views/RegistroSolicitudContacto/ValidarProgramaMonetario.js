@@ -19,8 +19,8 @@ const ValidarProgramaMonetario = ({ curp, idPrograma, edadValida, children, setA
         console.log("Monetario curp", curp)
 
         useEffect(() => {
-            getBeneficiarioRegistradoPrograma(curp, idPrograma)
-            getBeneficiarioMonetario(curp);
+            getBeneficiarioRegistradoPrograma(curp, idPrograma);
+            getBeneficiarioMonetario(curp,idPrograma);
         }, [edadValida])
 
         console.log("programa, Monetario resultado", beneficiarioRegistrado, beneficiarioMonetario);

@@ -307,9 +307,10 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
-    const getBeneficiarioMonetario = async curp => {
+
+    const getBeneficiarioMonetario = async (curp,idPrograma) => {
         try {
-            const url = `${baseUrlPublico}beneficiarioOverride/beneficiarioProgramaMon/${curp}`;
+            const url = `${baseUrlPublico}beneficiarioOverride/beneficiarioProgramaMon/${curp}/${idPrograma}`;
             return new Promise((resolve, reject) => {
                 axios.get(url, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
