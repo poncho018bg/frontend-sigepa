@@ -400,7 +400,7 @@ export const RegistroSolicitudContextProvider = props => {
 
 
     const getSolParametrosBandeja = async parametros => {
-
+        console.log("sol parametros bandeja ==>", parametros);
         try {
             const url = `${baseUrlPublico}bandejaSolicitudOverride/consultarSolicitudesRegistrada/${parametros.idPrograma}/${parametros.idMunicipio}/${parametros.idEstatus}`;
             return new Promise((resolve, reject) => {

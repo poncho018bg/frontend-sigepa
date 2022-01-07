@@ -91,23 +91,33 @@ export const BandejaSolicitudesRegistradas = () => {
     const handleCambiarEstatusSeleccionada = () => {
         console.log("entra a handleCambiarEstatusSeleccionada");
         for (let i = 0; i < selected.length; i++) {
-            selected[i].idUsuario = sessionStorage.getItem('idUSuario');
+            selected[i].idUsuario = '9d67d277-f754-49ba-a3d0-e33f9a13cac0';
         }
         bandejaCambioEstatusValidada(selected);
         setShowDialogEstatusSeleccionadas(false);
-        getSolParametrosBandeja(null);
+        let parametros = {
+            idPrograma: 'NULL',
+            idMunicipio: 'NULL',
+            idEstatus: 'Validadas'
+        }
+        getSolParametrosBandeja(parametros);
     }
 
     //cambio de estatus general
     const handleCambiarGeneral = () => {
         console.log("entra a handleCambiarGeneral");
         for (let i = 0; i < solicitudParametrosBandeja.length; i++) {
-            solicitudParametrosBandeja[i].idUsuario = sessionStorage.getItem('idUSuario');
+            solicitudParametrosBandeja[i].idUsuario = '9d67d277-f754-49ba-a3d0-e33f9a13cac0';
         }
         bandejaCambioEstatusValidada(solicitudParametrosBandeja);
         setShowDialogEstatusGeneral(false);
         //buscarSolitudes();
-        getSolParametrosBandeja(null);
+        let parametros = {
+            idPrograma: 'NULL',
+            idMunicipio: 'NULL',
+            idEstatus: 'Validadas'
+        }
+        getSolParametrosBandeja(parametros);
     }
 
 
