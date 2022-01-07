@@ -91,7 +91,7 @@ export const BandejaSolicitudesRegistradas = () => {
     const handleCambiarEstatusSeleccionada = () => {
         console.log("entra a handleCambiarEstatusSeleccionada");
         for (let i = 0; i < selected.length; i++) {
-            selected[i].idUsuario = '9d67d277-f754-49ba-a3d0-e33f9a13cac0';
+            selected[i].idUsuario = sessionStorage.getItem('idUSuario');
         }
         bandejaCambioEstatusValidada(selected);
         setShowDialogEstatusSeleccionadas(false);
@@ -107,7 +107,7 @@ export const BandejaSolicitudesRegistradas = () => {
     const handleCambiarGeneral = () => {
         console.log("entra a handleCambiarGeneral");
         for (let i = 0; i < solicitudParametrosBandeja.length; i++) {
-            solicitudParametrosBandeja[i].idUsuario = '9d67d277-f754-49ba-a3d0-e33f9a13cac0';
+            solicitudParametrosBandeja[i].idUsuario = sessionStorage.getItem('idUSuario');
         }
         bandejaCambioEstatusValidada(solicitudParametrosBandeja);
         setShowDialogEstatusGeneral(false);
