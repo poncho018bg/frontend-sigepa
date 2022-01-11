@@ -18,7 +18,7 @@ import { Grid, TextField, MenuItem } from "@material-ui/core";
 import { EstadosContext } from "contexts/catalogos/EstadosContext";
 import { MunicipiosContext } from "contexts/catalogos/MunicipiosContext";
 import { LocalidadesContext } from "contexts/catalogos/Localidades/localidadesContext";
-
+import { useTranslation } from 'react-i18next';
 const styles = {
     infoText: {
         fontWeight: "300",
@@ -30,6 +30,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 export const DireccionExpediente = forwardRef((props, ref) => {
+    const { t } = useTranslation();
     const classes = useStyles();
     const { idBeneficiario, direccionBeneficiario, guardarDireccion } = props;
 

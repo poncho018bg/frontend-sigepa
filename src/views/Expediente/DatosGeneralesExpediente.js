@@ -21,6 +21,7 @@ import 'moment/locale/es';
 import { RegistroSolicitudContext } from "contexts/registroSolicitudContext";
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
 import { ExpedienteContext } from 'contexts/expedienteContext';
+import { useTranslation } from 'react-i18next';
 
 const styles = {
     infoText: {
@@ -43,9 +44,9 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export const DatosGeneralesExpediente = forwardRef((props, ref) => {
-
+    const { t } = useTranslation();
     console.log("LLEGA EL DatosGeneralesExpediente ---> ", props);
-    const { beneficiarioPadre} = props;
+    const { beneficiarioPadre, setDtosgrlsprint} = props;
 
     const classes = useStyles();
     const [nombre, setNombre] = useState("")
@@ -109,6 +110,14 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
             console.log("date parts EDAD ===>", Math.abs(ageDate.getUTCFullYear() - 1970))
             setEdad(Math.abs(ageDate.getUTCFullYear() - 1970));
             BeneficiarioPrograma(beneficiarioPadre.id);
+            setDtosgrlsprint(
+                {
+                    apellidoPaterno:apellidoPaterno,
+                    apellidoMaterno:apellidoMaterno,
+                    nombre:nombre
+                }
+            )
+
         }
         getCien().then(data => {
             setTimeout(() => setLoading(false), 500);

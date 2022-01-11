@@ -11,9 +11,11 @@ import { Grid, TextField } from '@material-ui/core'
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from 'css/stylesArchivo';
 import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles(stylesArchivo);
 
 export const ContactoExpediente = forwardRef((props, ref) => {
+    const { t } = useTranslation();
     const { direccionB, idBeneficiario } = props;
     console.log("direccionB en forward ref--->", direccionB, idBeneficiario);
     const classes = useStyles();

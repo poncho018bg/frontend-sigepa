@@ -69,6 +69,7 @@ export const DetalleExpDig = (props) => {
     const [error, setError] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
+    const [dtosgrlsprint, setDtosgrlsprint] = useState({});
 
     const handleChangePage = (event, newPage) => {
         // dispatch(expDigDocStartLoading(documentos[newPage].id))
@@ -219,21 +220,36 @@ export const DetalleExpDig = (props) => {
             <Box display="flex" justifyContent="center" borderColor="black" border={1} flex="auto">{console.log('xp', idExpedienteBoveda)}{console.log('xp', idExpediente)}
                 <Grid item xs={12} border={10} borderColor="primary.main" >
                     <h3>Datos generales</h3>
+                    <Grid item xs={12} style={{textAlign:'end'}}>
+                        <Button
+                            variant="contained"
+                            color="primary"                           
+                            size="large"
+                            onClick={()=>console.log('Dtosgrlsprint=>',dtosgrlsprint)}
+                        >
+                            Imprimir
+                        </Button>
+                    </Grid>
                     <DatosGeneralesExpediente
                         beneficiarioPadre={beneficiarioPadre}
                         setIdentPrograma={setIdentPrograma}
+                        setDtosgrlsprint={setDtosgrlsprint}
                     //setIdProgramaExpediente={setIdProgramaExpediente}
                     />
                     <DireccionExpediente
                         direccionBeneficiario={direccionBeneficiario}
-                        idBeneficiario={idBeneficiario} />
+                        idBeneficiario={idBeneficiario}
+                        setDtosgrlsprint={setDtosgrlsprint} />
                     <ContactoExpediente
                         direccionB={direccionBeneficiario}
-                        idBeneficiario={idBeneficiario} />
+                        idBeneficiario={idBeneficiario}
+                        setDtosgrlsprint={setDtosgrlsprint} />
                     <ApoyosRecibidosExpediente
-                        idBeneficiario={idBeneficiario} />
+                        idBeneficiario={idBeneficiario} 
+                        setDtosgrlsprint={setDtosgrlsprint}/>
                     <ObservacionesExpediente idBeneficiario={idBeneficiario}
                         idProgramaExpediente={idProgramaExpediente}
+                        setDtosgrlsprint={setDtosgrlsprint}
                     />
                 </Grid>
             </Box>

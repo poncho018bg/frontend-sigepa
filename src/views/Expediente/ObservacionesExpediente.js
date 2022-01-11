@@ -14,11 +14,12 @@ import { stylesArchivo } from 'css/stylesArchivo';
 import { MotivoRechazosContext } from 'contexts/catalogos/motivoRechazosContext';
 import { ExpedienteContext } from 'contexts/expedienteContext';
 
+
 const useStyles = makeStyles(stylesArchivo);
 
 export const ObservacionesExpediente = forwardRef((props, ref) => {
-    const { idBeneficiario, idProgramaExpediente } = props;
     const { t } = useTranslation();
+    const { idBeneficiario, idProgramaExpediente } = props;
     const [observaciones, setObservaciones] = useState('');
     const classes = useStyles();
     const { getMotivoRechazos, motivoRechazosList } = useContext(MotivoRechazosContext);
