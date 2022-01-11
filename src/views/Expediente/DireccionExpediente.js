@@ -256,7 +256,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="calle"
-                                    label="Calle"{t('')}
+                                    label={t('lbl.expCalle')}
                                     variant="outlined"
                                     name="calle"
                                     fullWidth
@@ -284,7 +284,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="numeroExterior"
-                                    label="Número exterior"{t('')}
+                                    label={t('lbl.expNumeroexterior')}
                                     variant="outlined"
                                     name="numeroExterior"
                                     fullWidth
@@ -313,7 +313,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="numeroInterior"
-                                    label="Número interior"{t('')}
+                                    label={t('lbl.expNumerointerior')}
                                     variant="outlined"
                                     name="numeroInterior"
                                     fullWidth
@@ -329,7 +329,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="colonia"
-                                    label="Colonia"{t('')}
+                                    label={t('lbl.expColonia')}
                                     variant="outlined"
                                     name="colonia"
                                     fullWidth
