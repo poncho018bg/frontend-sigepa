@@ -152,7 +152,7 @@ export const ContactoExpediente = forwardRef((props, ref) => {
         <GridItem xs={12} sm={12} md={12}>
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Información de contacto</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('lbl.expInformacioncontacto')}</h4>
                     <CardActions>
                     </CardActions>
                 </CardHeader>
@@ -164,7 +164,7 @@ export const ContactoExpediente = forwardRef((props, ref) => {
                                     style={{ marginBottom: '20px' }}
                                     variant="outlined"
                                     id="dscelular"
-                                    label="Celular"
+                                    label={t('lbl.expCelular')}
                                     variant="outlined"
                                     name="celular"
                                     fullWidth
@@ -193,7 +193,7 @@ export const ContactoExpediente = forwardRef((props, ref) => {
                                     style={{ marginBottom: '20px' }}
                                     variant="outlined"
                                     id="dstelefono"
-                                    label="Teléfono de casa"
+                                    label={t('lbl.expTelefonocasa')}
                                     variant="outlined"
                                     name="telefono"
                                     fullWidth
@@ -210,7 +210,7 @@ export const ContactoExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="dstelefonocontacto"
-                                    label="Teléfono de contacto"
+                                    label={t('lbl.expTelefonocontacto')}
                                     variant="outlined"
                                     name="telefonocontacto"
                                     fullWidth
@@ -227,7 +227,7 @@ export const ContactoExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="dsemail"
-                                    label="Correo Electrónico"
+                                    label={t('lbl.expCorreoElectronico')}
                                     variant="outlined"
                                     name="email"
                                     fullWidth

@@ -43,15 +43,15 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
         <GridItem xs={12} sm={12} md={12}>
             <Card>
                 <CardHeader color="primary">
-                    <h5 className={classes.cardTitleWhite}>Apoyos Recibidos</h5>
+                    <h5 className={classes.cardTitleWhite}>{t('pnl.Apoyosrecibidos')}</h5>
                 </CardHeader>
                 <CardBody>
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell align="center"> Programa otorgado</TableCell >
-                                < TableCell align="center"> Tipo de apoyo</TableCell >
-                                < TableCell align="center"> Año del apoyo otorgado</TableCell >
+                                < TableCell align="center"> {t('dgv.expProgramaotorgado')}</TableCell >
+                                < TableCell align="center"> {t('dgv.expTipoapoyo')}</TableCell >
+                                < TableCell align="center"> {t('dgv.expAnioapoyootorgado')}</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
