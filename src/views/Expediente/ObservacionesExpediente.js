@@ -19,7 +19,7 @@ const useStyles = makeStyles(stylesArchivo);
 
 export const ObservacionesExpediente = forwardRef((props, ref) => {
     const { t } = useTranslation();
-    const { idBeneficiario, idProgramaExpediente } = props;
+    const { idBeneficiario, idProgramaExpediente ,setDtosgrlsprint,  dtosgrlsprint} = props;
     const [observaciones, setObservaciones] = useState('');
     const classes = useStyles();
     const { getMotivoRechazos, motivoRechazosList } = useContext(MotivoRechazosContext);
@@ -57,6 +57,12 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
         if (bandejaRechazo !== null) {
             setObservaciones(bandejaRechazo.dsobservaciones);
             setMotivoRechazo(bandejaRechazo.motivo_rechazo_id);
+
+            var valoresprint = dtosgrlsprint
+            valoresprint.observaciones=bandejaRechazo.dsobservaciones
+            valoresprint.motivoBaja=motivoRechazosList.filter(e=> e.id === bandejaRechazo.motivo_rechazo_id)[0]?.dsmotivorechazo
+            setDtosgrlsprint(valoresprint)
+
         }
     }, [bandejaRechazo])
 

@@ -46,7 +46,7 @@ const useStyles = makeStyles(styles);
 export const DatosGeneralesExpediente = forwardRef((props, ref) => {
     const { t } = useTranslation();
     console.log("LLEGA EL DatosGeneralesExpediente ---> ", props);
-    const { beneficiarioPadre, setDtosgrlsprint} = props;
+    const { beneficiarioPadre, setDtosgrlsprint,  dtosgrlsprint} = props;
 
     const classes = useStyles();
     const [nombre, setNombre] = useState("")
@@ -110,13 +110,26 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
             console.log("date parts EDAD ===>", Math.abs(ageDate.getUTCFullYear() - 1970))
             setEdad(Math.abs(ageDate.getUTCFullYear() - 1970));
             BeneficiarioPrograma(beneficiarioPadre.id);
-            setDtosgrlsprint(
-                {
-                    apellidoPaterno:apellidoPaterno,
-                    apellidoMaterno:apellidoMaterno,
-                    nombre:nombre
-                }
-            )
+           
+            var valoresprint = dtosgrlsprint
+            
+            valoresprint.apellidoPaterno=beneficiarioPadre.dsapellido1
+            valoresprint.apellidoMaterno=beneficiarioPadre.dsapellido2
+            valoresprint.nombre=beneficiarioPadre.dsnombre
+            valoresprint.curp=beneficiarioPadre.dscurp 
+            valoresprint.rfc=beneficiarioPadre.rfc 
+            valoresprint.genero= generosList.filter(e=>e.id === beneficiarioPadre.idgenero )[0]?.dsgenero
+            valoresprint.fechaNacimiento=fechaNacimientoReal 
+            valoresprint.edad= Math.abs(ageDate.getUTCFullYear() - 1970)
+            valoresprint.estadoCivil=estadoCivilList.filter(e=> e.id === beneficiarioPadre.idestadocivil)[0]?.dsestadocivil
+            valoresprint.identificacionOficial= identificacionesList.filter(e=> e.id === beneficiarioPadre.ididentificacionoficial)[0]?.dsidentificacion
+            valoresprint.folioIdentificacion= beneficiarioPadre.dsiddocumento
+            valoresprint.folio= folioProgramaMostrar
+            valoresprint.programa= programasList.filter(e=> e.id === idProgramaMostrar)[0]?.dsprograma
+            valoresprint.folioSedesem= folioInterno 
+            
+
+            setDtosgrlsprint(valoresprint)
 
         }
         getCien().then(data => {
@@ -204,6 +217,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
     console.log("Beneficiario bem ==> ", beneficiario);
     return (
         <div>
+            
             <h4 className={classes.infoText}></h4>
             <GridItem xs={12} sm={12} md={12}>
                 <Card>

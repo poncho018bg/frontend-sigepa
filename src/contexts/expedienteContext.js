@@ -6,7 +6,7 @@ import {
     GET_ULTIMO_PROGRAMA_BENEFICIARIO, GET_ETAPAS_BY_PLANTILLA, GET_SOLICITUDES_EXPEDIENTE_BENEFICIARIO,
     GET_DOCUMENTOS_BY_ETAPA_EXPEDIENTE, GET_CONTENIDO_DOCUMENTO, AGREGAR_CONTENIDO_DOCUMENTO,DESHABILITAR_DOCUMENTO_EXPEDIENTE,GET_SOLICITUD_BENEFICIARIO_PROGRAMA,
     REGISTRAR_BANDEJA_MOTIVO_RECHAZO,
-    GET_BANDEJA_RECHAZOS,ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO,GET_EXPEDIENTE_BOVEDA_BY_BENEFICIARIO
+    GET_BANDEJA_RECHAZOS,ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO,GET_EXPEDIENTE_BOVEDA_BY_BENEFICIARIO,GENERAR_EXPEDIENTE_PDF
 } from '../types/actionTypes';
 
 import {  axiosPut, axiosPost } from 'helpers/axiosPublico';
@@ -29,7 +29,8 @@ export const ExpedienteContextProvider = props => {
         mvbandejasolicitud:null,
         bandejaMotivoRechazo: null,
         bandejaRechazo: null,
-        expedienteBoveda:null
+        expedienteBoveda:null,
+        expedientepdf:null
     }
 
     const [state, dispatch] = useReducer(expedienteReducer, initialState);
@@ -421,6 +422,28 @@ export const ExpedienteContextProvider = props => {
         }
     }
 
+
+    const generarExpedientepdf = async (preguntasFormioDTO) => {
+       
+        const url = `${baseUrlPublico}expedientepdf`;
+        console.log('URL=>',url)
+        return new Promise((resolve, reject) => {
+            axios.post(url, preguntasFormioDTO, {
+                headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+            }).then(response => {
+                resolve(response);
+                dispatch({
+                    type: GENERAR_EXPEDIENTE_PDF,
+                    payload: response
+                })
+            }).catch(error => {
+                console.log('Err', error);
+                reject(error);
+            });
+        })
+       
+    }
+
     return (
         <ExpedienteContext.Provider
             value={{
@@ -450,7 +473,8 @@ export const ExpedienteContextProvider = props => {
                 registrarBandejaMotivoRechazoExpediente,
                 getBandejaRechazos,
                 actualizarBandejaMotivoRechazoExpediente,
-                getExpedienteBovedaByBeneficiario
+                getExpedienteBovedaByBeneficiario,
+                generarExpedientepdf
             }}
         >
             {props.children}

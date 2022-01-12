@@ -55,7 +55,7 @@ export const DetalleExpDig = (props) => {
     const [infoGral, setInfoGral] = useState(false);
     const [validarCargaDocs, setValidarCargaDocs] = useState(false);
 
-    const { expDigDocumentosStartLoading, documentosExpedienteLst, expDigDocStartLoading, contenidoDocumento, deshabilitarDocumentoExpediente, deshabilitarDocumento } = useContext(ExpedienteContext);
+    const { expDigDocumentosStartLoading, documentosExpedienteLst, expDigDocStartLoading, contenidoDocumento, deshabilitarDocumentoExpediente, deshabilitarDocumento ,generarExpedientepdf} = useContext(ExpedienteContext);
 
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
@@ -204,6 +204,7 @@ export const DetalleExpDig = (props) => {
         console.log('abriendo');
         setShowDialogForm(true);
     }
+    
 
     function onDocumentLoadSuccess({ numPages }) {
         setNumPages(numPages);
@@ -215,6 +216,25 @@ export const DetalleExpDig = (props) => {
     const archivo = contenidoDocumento // useSelector(state => state.expDig.archivo);
     const fileContent = 'data:application/pdf;base64, ' + (archivo === null ? ' ' : archivo?.base64);
 
+
+    
+    const imprimirpdf = () => {
+        console.log('Dtosgrlsprint=>',dtosgrlsprint)
+        
+        console.log('Dtosgrlsprint=>',dtosgrlsprint)
+        let data = {
+                preguntasjson : {},
+                respuestasjson: {} ,
+                datosGeneralesExpedienteDTO:dtosgrlsprint,
+                ruta:dtosgrlsprint.ruta
+        }
+        generarExpedientepdf(data).then(response => {
+            console.log('generarExpedientepdf=>',response)
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
     if (props.etapaSeleccionada === '00000000-0000-0000-0000-000000000000' || props.etapaSeleccionada === null || props.etapaSeleccionada === undefined) {
         return (
             <Box display="flex" justifyContent="center" borderColor="black" border={1} flex="auto">{console.log('xp', idExpedienteBoveda)}{console.log('xp', idExpediente)}
@@ -225,7 +245,7 @@ export const DetalleExpDig = (props) => {
                             variant="contained"
                             color="primary"                           
                             size="large"
-                            onClick={()=>console.log('Dtosgrlsprint=>',dtosgrlsprint)}
+                            onClick={()=>imprimirpdf()}
                         >
                             Imprimir
                         </Button>
@@ -234,22 +254,27 @@ export const DetalleExpDig = (props) => {
                         beneficiarioPadre={beneficiarioPadre}
                         setIdentPrograma={setIdentPrograma}
                         setDtosgrlsprint={setDtosgrlsprint}
+                        dtosgrlsprint={dtosgrlsprint}
                     //setIdProgramaExpediente={setIdProgramaExpediente}
                     />
                     <DireccionExpediente
                         direccionBeneficiario={direccionBeneficiario}
                         idBeneficiario={idBeneficiario}
-                        setDtosgrlsprint={setDtosgrlsprint} />
+                        setDtosgrlsprint={setDtosgrlsprint} 
+                        dtosgrlsprint={dtosgrlsprint}/>
                     <ContactoExpediente
                         direccionB={direccionBeneficiario}
                         idBeneficiario={idBeneficiario}
-                        setDtosgrlsprint={setDtosgrlsprint} />
+                        setDtosgrlsprint={setDtosgrlsprint} 
+                        dtosgrlsprint={dtosgrlsprint}/>
                     <ApoyosRecibidosExpediente
                         idBeneficiario={idBeneficiario} 
-                        setDtosgrlsprint={setDtosgrlsprint}/>
+                        setDtosgrlsprint={setDtosgrlsprint}
+                        dtosgrlsprint={dtosgrlsprint}/>
                     <ObservacionesExpediente idBeneficiario={idBeneficiario}
                         idProgramaExpediente={idProgramaExpediente}
                         setDtosgrlsprint={setDtosgrlsprint}
+                        dtosgrlsprint={dtosgrlsprint}
                     />
                 </Grid>
             </Box>
@@ -263,7 +288,9 @@ export const DetalleExpDig = (props) => {
                     <h3>Información de la beneficiaria</h3>
                     <FormularioExpediente
                         idBeneficiario={idBeneficiario}
-                        idProgramaExpediente={idProgramaExpediente} />
+                        idProgramaExpediente={idProgramaExpediente}
+                        setDtosgrlsprint={setDtosgrlsprint}
+                        dtosgrlsprint={dtosgrlsprint} />
                 </Grid>
             </Box>
 

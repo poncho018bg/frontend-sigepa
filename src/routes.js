@@ -82,6 +82,7 @@ import { ConsultaExpediente } from "views/Expediente/ConsultaExpediente"
 import { PadronBeneficiariasScreen } from "views/PadronBeneficiarios/PadronBeneficiariasScreen";
 import { Expediente } from "views/Expediente/Expediente"
 import { Expedienteapi } from "views/Expediente/Expedienteapi";
+import { PrintPdfScreen } from "views/TestPrintPdf/PrintPdfScreen";
 
 const dashboardRoutes = [
   {
@@ -659,6 +660,14 @@ const dashboardRoutes = [
         icon: WidgetsIcon,
         component: RegistroProgramas,
         layout: "/public",
+      },
+      {
+        path: "/testprintpdf",
+        name: "Widgets",
+        rtlName: "الحاجيات",
+        icon: WidgetsIcon,
+        component: PrintPdfScreen,
+        layout: "/admin",
       },
     ]
   },

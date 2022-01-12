@@ -18,7 +18,7 @@ const useStyles = makeStyles(stylesArchivo);
 export const FormularioExpediente = (props) => {
     console.log("props FormularioExpediente --->", props);
     const classes = useStyles();
-    const { idBeneficiario, idProgramaExpediente } = props;
+    const { idBeneficiario, idProgramaExpediente,setDtosgrlsprint,  dtosgrlsprint } = props;
     const [activar, setActivar] = useState("");
     const { programa, getByID } = useContext(ProgramasContext);
     const { actualizarComplementoFurs, getComplementoFurs, registrarComplementoFurs, complementoList } = useContext(ComplementoFursContext);
@@ -60,8 +60,14 @@ export const FormularioExpediente = (props) => {
     }
 
     console.log("ruta", ruta);
+    console.log("jsonParseado=>",jsonParseado)
+
+    var valoresprint = dtosgrlsprint
+    valoresprint.ruta=ruta    
+    setDtosgrlsprint(valoresprint)
 
     const handleSubmit = (event) => {
+        console.log('EVENTO=>',event)
         window.scrollTo(0, 0)
         if (complementoList.length === 0) {
             console.log("Aqui es donde vamos a mandar a guardar event-------", event);

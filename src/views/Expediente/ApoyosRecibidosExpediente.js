@@ -23,7 +23,7 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
     const [apoyosList, setApoyosList] = useState([]);
     const { expedienteBeneficiario, programaList } = useContext(ExpedienteContext);
 
-    const { idBeneficiario } = props;
+    const { idBeneficiario ,setDtosgrlsprint,  dtosgrlsprint} = props;
 
     useEffect(() => {
         console.log("consulta");
@@ -39,6 +39,13 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
         setPage(0);
     };
 
+    useEffect(() => {
+       
+        
+        var valoresprint = dtosgrlsprint
+        valoresprint.programaList = programaList
+        setDtosgrlsprint(valoresprint)
+    }, [programaList]);
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>
