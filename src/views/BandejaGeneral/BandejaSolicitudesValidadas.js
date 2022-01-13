@@ -96,14 +96,14 @@ export const BandejaSolicitudesValidadas = () => {
         for (let i = 0; i < selected.length; i++) {
             selected[i].idUsuario = sessionStorage.getItem('idUSuario');
         }
-        bandejaCambioEstatusPendiente(selected);
-        setShowDialogEstatusSeleccionadas(false);
-        let parametros = {
-            idPrograma: 'NULL',
-            idMunicipio: 'NULL',
-            idEstatus: 'Validadas'
+        let solicitudFilter = {
+            'idEstatus': estatus === '' ? 'Validadas' : estatus,
+            'idPrograma': programa === '' ? 'NULL' : programa,
+            'idMunicipio': municipio === '' ? 'NULL' : municipio
         }
-        getSolParametrosBandeja(parametros);
+        bandejaCambioEstatusPendiente(selected, solicitudFilter);
+        setShowDialogEstatusSeleccionadas(false);
+        getSolParametrosBandeja(solicitudFilter);
     }
 
     //cambio de estatus general
@@ -112,14 +112,14 @@ export const BandejaSolicitudesValidadas = () => {
         for (let i = 0; i < solicitudParametrosBandeja.length; i++) {
             solicitudParametrosBandeja[i].idUsuario = sessionStorage.getItem('idUSuario');
         }
-        bandejaCambioEstatusPendiente(solicitudParametrosBandeja);
-        setShowDialogEstatusGeneral(false);
-        let parametros = {
-            idPrograma: 'NULL',
-            idMunicipio: 'NULL',
-            idEstatus: 'Validadas'
+        let solicitudFilter = {
+            'idEstatus': estatus === '' ? 'Validadas' : estatus,
+            'idPrograma': programa === '' ? 'NULL' : programa,
+            'idMunicipio': municipio === '' ? 'NULL' : municipio
         }
-        getSolParametrosBandeja(parametros);
+        bandejaCambioEstatusPendiente(solicitudParametrosBandeja, solicitudFilter);
+        setShowDialogEstatusGeneral(false);
+        getSolParametrosBandeja(solicitudFilter);
     }
 
 
@@ -167,8 +167,13 @@ export const BandejaSolicitudesValidadas = () => {
         for (let i = 0; i < selected.length; i++) {
             selected[i].idUsuario = sessionStorage.getItem('idUSuario');
         }
+        let solicitudFilter = {
+            'idEstatus': estatus === '' ? 'Validadas' : estatus,
+            'idPrograma': programa === '' ? 'NULL' : programa,
+            'idMunicipio': municipio === '' ? 'NULL' : municipio
+        }
         console.log('selected=>>', selected)
-        bandejaValidadaCambioEstatusReasignada(selected);
+        bandejaValidadaCambioEstatusReasignada(selected, solicitudFilter);
         setShowDialogEstatusReasignada(false);
     }
 
@@ -189,7 +194,7 @@ export const BandejaSolicitudesValidadas = () => {
                 </CardHeader>
                 <CardBody>
                     <Grid container spacing={3}>
-                      
+
                         <Grid item xs={3}>
                             <TextField
                                 variant="outlined"

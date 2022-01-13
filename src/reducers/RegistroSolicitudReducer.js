@@ -130,7 +130,7 @@ export default (state, action) => {
         case CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_VALIDADA:
             return {
                 ...state,
-                solicitudParametrosBandeja: [...state.solicitudParametrosBandeja, action.payload]
+                //solicitudParametrosBandeja: [...state.solicitudParametrosBandeja, action.payload]
             };
 
         case CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_PENDIENTE:
@@ -152,7 +152,7 @@ export default (state, action) => {
         case CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA:
             return {
                 ...state,
-                solicitudParametrosBandeja: [...state.solicitudParametrosBandeja, action.payload]
+                //solicitudParametrosBandeja: [...state.solicitudParametrosBandeja, action.payload]
             };
 
         default:
