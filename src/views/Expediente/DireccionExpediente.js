@@ -18,7 +18,7 @@ import { Grid, TextField, MenuItem } from "@material-ui/core";
 import { EstadosContext } from "contexts/catalogos/EstadosContext";
 import { MunicipiosContext } from "contexts/catalogos/MunicipiosContext";
 import { LocalidadesContext } from "contexts/catalogos/Localidades/localidadesContext";
-
+import { useTranslation } from 'react-i18next';
 const styles = {
     infoText: {
         fontWeight: "300",
@@ -30,6 +30,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 export const DireccionExpediente = forwardRef((props, ref) => {
+    const { t } = useTranslation();
     const classes = useStyles();
     const { idBeneficiario, direccionBeneficiario, guardarDireccion } = props;
 
@@ -245,7 +246,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
         <GridItem xs={12} sm={12} md={12}>
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Referencia domiciliaria</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.expReferenciadomiciliaria')}</h4>
                     <CardActions>
                     </CardActions>
                 </CardHeader>
@@ -256,7 +257,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="calle"
-                                    label="Calle"
+                                    label={t('lbl.expCalle')}
                                     variant="outlined"
                                     name="calle"
                                     fullWidth
@@ -284,7 +285,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="numeroExterior"
-                                    label="Número exterior"
+                                    label={t('lbl.expNumeroexterior')}
                                     variant="outlined"
                                     name="numeroExterior"
                                     fullWidth
@@ -313,7 +314,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="numeroInterior"
-                                    label="Número interior"
+                                    label={t('lbl.expNumerointerior')}
                                     variant="outlined"
                                     name="numeroInterior"
                                     fullWidth
@@ -329,7 +330,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="colonia"
-                                    label="Colonia"
+                                    label={t('lbl.expColonia')}
                                     variant="outlined"
                                     name="colonia"
                                     fullWidth
@@ -358,7 +359,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="entreCalle"
-                                    label="Entre calle"
+                                    label={t('lbl.expEntrecalle')}
                                     variant="outlined"
                                     name="entreCalle"
                                     onChange={onChange}
@@ -388,7 +389,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="yCalle"
-                                    label="Y calle"
+                                    label={t('lbl.expYcalle')}
                                     variant="outlined"
                                     name="yCalle"
                                     fullWidth
@@ -416,7 +417,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="entidadFederativa"
-                                    label="Entidad federativa"
+                                    label={t('lbl.expEntidadfederativa')}
                                     variant="outlined"
                                     name="entidadFederativa"
                                     fullWidth
@@ -442,7 +443,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="municipio"
-                                    label="Municipio"
+                                    label={t('lbl.expMunicipio')}
                                     variant="outlined"
                                     name="municipio"
                                     fullWidth
@@ -470,7 +471,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="codigoPostal"
-                                    label="Código postal"
+                                    label={t('lbl.expCodigopostal')}
                                     variant="outlined"
                                     name="codigoPostal"
                                     fullWidth
@@ -486,7 +487,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="ctLocalidad"
-                                    label="Localidad"
+                                    label={t('lbl.expLocalidad')}
                                     variant="outlined"
                                     name="localidad"
                                     fullWidth
@@ -529,7 +530,7 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                                 <TextField
                                     style={{ marginBottom: '20px' }}
                                     id="otraReferencia"
-                                    label="Otra referencia"
+                                    label={t('lbl.expOtrareferencia')}
                                     variant="outlined"
                                     name="otraReferencia"
                                     fullWidth

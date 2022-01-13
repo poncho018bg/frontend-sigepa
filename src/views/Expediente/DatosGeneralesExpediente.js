@@ -21,6 +21,7 @@ import 'moment/locale/es';
 import { RegistroSolicitudContext } from "contexts/registroSolicitudContext";
 import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
 import { ExpedienteContext } from 'contexts/expedienteContext';
+import { useTranslation } from 'react-i18next';
 
 const styles = {
     infoText: {
@@ -43,9 +44,9 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export const DatosGeneralesExpediente = forwardRef((props, ref) => {
-
+    const { t } = useTranslation();
     console.log("LLEGA EL DatosGeneralesExpediente ---> ", props);
-    const { beneficiarioPadre} = props;
+    const { beneficiarioPadre, setDtosgrlsprint} = props;
 
     const classes = useStyles();
     const [nombre, setNombre] = useState("")
@@ -109,6 +110,14 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
             console.log("date parts EDAD ===>", Math.abs(ageDate.getUTCFullYear() - 1970))
             setEdad(Math.abs(ageDate.getUTCFullYear() - 1970));
             BeneficiarioPrograma(beneficiarioPadre.id);
+            setDtosgrlsprint(
+                {
+                    apellidoPaterno:apellidoPaterno,
+                    apellidoMaterno:apellidoMaterno,
+                    nombre:nombre
+                }
+            )
+
         }
         getCien().then(data => {
             setTimeout(() => setLoading(false), 500);
@@ -220,7 +229,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     <TextField
                                         style={{ marginBottom: '20px' }}
                                         id="apellidoPaterno"
-                                        label="Apellido paterno"
+                                        label={t('lbl.expApellidoPaterno')}
                                         variant="outlined"
                                         name="nombre"
                                         fullWidth
@@ -233,7 +242,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     <TextField
                                         style={{ marginBottom: '20px' }}
                                         id="apellidoMaterno"
-                                        label="Apellido materno"
+                                        label={t('lbl.expApellidoMaterno')}
                                         variant="outlined"
                                         name="apellidoMaterno"
                                         fullWidth
@@ -246,7 +255,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     <TextField
                                         style={{ marginBottom: '20px' }}
                                         id="nombre"
-                                        label="Nombre"
+                                        label={t('lbl.expNombre')}
                                         variant="outlined"
                                         name="nombre"
                                         fullWidth
@@ -259,7 +268,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     <TextField
                                         style={{ marginBottom: '20px' }}
                                         id="curp"
-                                        label="CURP"
+                                        label={t('lbl.expCurp')}
                                         variant="outlined"
                                         name="curp"
                                         fullWidth
@@ -273,7 +282,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     <TextField
                                         style={{ marginBottom: '20px' }}
                                         id="rfc"
-                                        label="RFC"
+                                        label={t('lbl.expRfc')}
                                         variant="outlined"
                                         name="rfc"
                                         fullWidth
@@ -287,7 +296,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     <TextField
                                         style={{ marginBottom: '20px' }}
                                         id="genero"
-                                        label="Género"
+                                        label={t('lbl.expGenero')}
                                         variant="outlined"
                                         name="genero"
                                         fullWidth
@@ -297,7 +306,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                         disabled="True"
                                     >
                                         <MenuItem value="0">
-                                            <em>Seleccionar</em>
+                                            <em>{t('cmb.seleccionar')}</em>
                                         </MenuItem>
                                         {
                                             generosList.map(
@@ -317,7 +326,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     <TextField
                                         style={{ marginBottom: '20px' }}
                                         id="fechaNacimientoAxu"
-                                        label="Fecha nacimiento"
+                                        label={t('lbl.expFechaNacimiento')}
                                         variant="outlined"
                                         type="date"
                                         name="fechaNacimientoReal"
@@ -330,7 +339,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     <TextField
                                         style={{ marginBottom: '20px' }}
                                         id="edad"
-                                        label="Edad"
+                                        label={t('lbl.expEdad')}
                                         variant="outlined"
                                         name="edad"
                                         fullWidth
@@ -345,7 +354,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     <TextField
                                         style={{ marginBottom: '20px' }}
                                         id="estadoCivil"
-                                        label="Estado civil"
+                                        label={t('lbl.expEstadocivil')}
                                         variant="outlined"
                                         name="estadoCivil"
                                         fullWidth
@@ -355,7 +364,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                         disabled="True"
                                     >
                                         <MenuItem value="0">
-                                            <em>Seleccionar</em>
+                                            <em>{t('cmb.seleccionar')}</em>
                                         </MenuItem>
                                         {
                                             estadoCivilList.map(
@@ -374,7 +383,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     <TextField
                                         style={{ marginBottom: '20px' }}
                                         id="ine"
-                                        label="Identificación oficial"
+                                        label={t('lbl.expIdentificacionoficial')}
                                         variant="outlined"
                                         name="identificacion"
                                         fullWidth
@@ -384,7 +393,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                         disabled="True"
                                     >
                                         <MenuItem value="0">
-                                            <em>Seleccionar</em>
+                                            <em>{t('cmb.seleccionar')}</em>
                                         </MenuItem>
                                         {
                                             identificacionesList.map(
@@ -403,7 +412,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     <TextField
                                         style={{ marginBottom: '20px' }}
                                         id="idIdentificaion"
-                                        label="Folio de la identificación"
+                                        label={t('lbl.expFolioidentificacion')}
                                         variant="outlined"
                                         name="idIdentificaion"
                                         fullWidth
@@ -418,7 +427,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     <TextField
                                         style={{ marginBottom: '20px' }}
                                         id="dsfolio"
-                                        label="Folio"
+                                        label={t('lbl.expFolio')}
                                         variant="outlined"
                                         name="dsfolio"
                                         fullWidth
@@ -431,7 +440,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     <TextField
                                         style={{ marginBottom: '20px' }}
                                         id="programa"
-                                        label="Programa"
+                                        label={t('lbl.expPrograma')}
                                         variant="outlined"
                                         name="programa"
                                         fullWidth
@@ -457,7 +466,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
                                     <TextField
                                         style={{ marginBottom: '20px' }}
                                         id="folioInterno"
-                                        label="Folio Interno SEDESEM"
+                                        label={t('lbl.expFolioSEDESEM')}
                                         variant="outlined"
                                         name="folioInterno"
                                         fullWidth

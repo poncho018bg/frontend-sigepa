@@ -22,6 +22,8 @@ construccion:
     paths:
       - build/*
     expire_in: 1 week
+  only:
+    - develop
 
 sonarqube-check:
   image: 
@@ -56,6 +58,8 @@ imagen_container:
     - docker push $HARBOR_REGISTRY/library/$HARBOR_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
     - docker push $HARBOR_REGISTRY/library/$HARBOR_REGISTRY_IMAGE:lastest
     - docker logout $HARBOR_REGISTRY
+  only:
+    - develop
 
 despliegue_develop:
   stage: deploy
@@ -71,6 +75,8 @@ despliegue_develop:
     - sed -i "s/<HARBOR_REGISTRY>/${HARBOR_REGISTRY}/g" deployment.yaml
     - cat deployment.yaml
     - kubectl apply -f deployment.yaml
+  only:
+    - develop
 
 after_script:
   - echo "Finalizando Integracion Continua"

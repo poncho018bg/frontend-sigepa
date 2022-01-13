@@ -14,11 +14,12 @@ import { stylesArchivo } from 'css/stylesArchivo';
 import { MotivoRechazosContext } from 'contexts/catalogos/motivoRechazosContext';
 import { ExpedienteContext } from 'contexts/expedienteContext';
 
+
 const useStyles = makeStyles(stylesArchivo);
 
 export const ObservacionesExpediente = forwardRef((props, ref) => {
-    const { idBeneficiario, idProgramaExpediente } = props;
     const { t } = useTranslation();
+    const { idBeneficiario, idProgramaExpediente } = props;
     const [observaciones, setObservaciones] = useState('');
     const classes = useStyles();
     const { getMotivoRechazos, motivoRechazosList } = useContext(MotivoRechazosContext);
@@ -98,7 +99,7 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
         <GridItem xs={12} sm={12} md={12}>
             <Card>
                 <CardHeader color="primary">
-                    <h5 className={classes.cardTitleWhite}>Observaciones (opcional)</h5>
+                    <h5 className={classes.cardTitleWhite}>{t('pnl.expObservaciones')} </h5>
                     <CardActions>
                         {guardarObservaciones &&
                             <Grid item xs={1}>
@@ -115,7 +116,7 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
                 <CardBody>
                     <TextField
                         id="outlined-multiline-static"
-                        label="Observaciones"
+                        label={t('lbl.expObservaciones')} 
                         multiline
                         rows={4}
                         variant="outlined"
@@ -133,7 +134,7 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
             </Card >
             <Card>
                 <CardHeader color="primary">
-                    <h5 className={classes.cardTitleWhite}>Motivo de Baja / Suspensión (opcional)</h5>
+                    <h5 className={classes.cardTitleWhite}>{t('pnl.expMotivoBajaSuspencion')}</h5>
                 </CardHeader>
                 <CardActions>
                     {guardarMotivos &&
