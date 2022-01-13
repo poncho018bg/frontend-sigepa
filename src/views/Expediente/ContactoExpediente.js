@@ -16,7 +16,7 @@ const useStyles = makeStyles(stylesArchivo);
 
 export const ContactoExpediente = forwardRef((props, ref) => {
     const { t } = useTranslation();
-    const { direccionB, idBeneficiario } = props;
+    const { direccionB, idBeneficiario,setDtosgrlsprint,  dtosgrlsprint } = props;
     console.log("direccionB en forward ref--->", direccionB, idBeneficiario);
     const classes = useStyles();
     // 
@@ -41,6 +41,13 @@ export const ContactoExpediente = forwardRef((props, ref) => {
                 setTelefonoContato(direccionB[0].telefonoContacto);
                 setEmail(direccionB[0].correo);
                 setObservaciones(direccionB[0].dsobservaciones);
+
+                var valoresprint = dtosgrlsprint
+                valoresprint.celular=direccionB[0].telefonoCelular
+                valoresprint.telefonoCasa=direccionB[0].telefonoCasa
+                valoresprint.telefonoContacto=direccionB[0].telefonoContacto
+                valoresprint.correoElectronico=direccionB[0].correo
+                setDtosgrlsprint(valoresprint)
             }
         }
         setActivar(next());

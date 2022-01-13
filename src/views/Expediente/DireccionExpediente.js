@@ -32,7 +32,7 @@ const useStyles = makeStyles(styles);
 export const DireccionExpediente = forwardRef((props, ref) => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const { idBeneficiario, direccionBeneficiario, guardarDireccion } = props;
+    const { idBeneficiario, direccionBeneficiario, guardarDireccion,setDtosgrlsprint,  dtosgrlsprint } = props;
 
     console.log("LLEGA EL direccionBeneficiario ---> ", direccionBeneficiario);
 
@@ -77,6 +77,20 @@ export const DireccionExpediente = forwardRef((props, ref) => {
                     setCodigoPostal(direccionBeneficiario[0].codigoPostal);
                 }
 
+                var valoresprint = dtosgrlsprint
+                valoresprint.calle=direccionBeneficiario[0].calle
+                valoresprint.numeroExterior=direccionBeneficiario[0].noExterior
+                valoresprint.numeroInterior=direccionBeneficiario[0].noInterior
+                valoresprint.colonia=direccionBeneficiario[0].colonia
+                valoresprint.entreCalle=direccionBeneficiario[0].entreCalle
+                valoresprint.ycalle=direccionBeneficiario[0].ycalle
+                valoresprint.entidadFederativa=estadosList.filter(e=> e.id === direccionBeneficiario[0].idEstado)[0]?.dsestado
+                valoresprint.municipio=municipiosListId.filter(e=> e.id === direccionBeneficiario[0].idMunicipio)[0]?.dsmunicipio
+                valoresprint.codigoPostal=direccionBeneficiario[0].codigoPostal
+                valoresprint.localidad=localidadesList.filter(e=> e.id === direccionBeneficiario[0].idLocalidad)[0]?.dslocalidad
+                valoresprint.referencia=direccionBeneficiario[0].otraReferencia
+
+                setDtosgrlsprint(valoresprint)
 
             }
         }

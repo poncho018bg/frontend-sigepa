@@ -83,6 +83,7 @@ import { PadronBeneficiariasScreen } from "views/PadronBeneficiarios/PadronBenef
 import { Expediente } from "views/Expediente/Expediente"
 import { Expedienteapi } from "views/Expediente/Expedienteapi";
 
+
 const dashboardRoutes = [
   {
     path: "/dashboard",
@@ -660,6 +661,7 @@ const dashboardRoutes = [
         component: RegistroProgramas,
         layout: "/public",
       },
+
     ]
   },
 
