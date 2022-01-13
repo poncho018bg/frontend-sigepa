@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from "react-router-dom";
 import { Box, Button, Container, DialogContent, IconButton, Table, TableBody, TableCell, TablePagination, TableRow } from '@material-ui/core';
@@ -23,6 +23,7 @@ import { ExpedienteContext } from 'contexts/expedienteContext';
 import GridContainer from 'components/Grid/GridContainer';
 import { useTranslation } from 'react-i18next';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+import ReactToPrint from "react-to-print";
 moment.locale('es');
 
 //imports de los datos generales del expediente 
@@ -35,6 +36,7 @@ import { FormularioExpediente } from './FormularioExpediente';
 import { Mensaje } from 'components/Personalizados/Mensaje';
 import { ModalContextConfirmacion } from 'contexts/modalContextConfirmacion';
 import { ModalContext } from 'contexts/modalContex';
+import { ComponentToPrint } from 'views/TestPrintPdf/ComponentToPrint';
 
 /**
  * Aqui se va a mostrar el detalle del expediente del beneficiario
@@ -55,21 +57,22 @@ export const DetalleExpDig = (props) => {
     const [infoGral, setInfoGral] = useState(false);
     const [validarCargaDocs, setValidarCargaDocs] = useState(false);
 
-    const { expDigDocumentosStartLoading, documentosExpedienteLst, expDigDocStartLoading, contenidoDocumento, deshabilitarDocumentoExpediente, deshabilitarDocumento ,generarExpedientepdf} = useContext(ExpedienteContext);
-
+    const { expDigDocumentosStartLoading, documentosExpedienteLst, expDigDocStartLoading, contenidoDocumento, deshabilitarDocumentoExpediente, deshabilitarDocumento, generarExpedientepdf } = useContext(ExpedienteContext);
+    const [open, setOpen] = React.useState(false);
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(1);
     const [showDialogForm, setShowDialogForm] = useState(false);
     const idExpediente = idExpedienteBoveda
-
+    const componentRef = useRef();
     const { setShowModal } = useContext(ModalContext);
     const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
     const [error, setError] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
     const [dtosgrlsprint, setDtosgrlsprint] = useState({});
+    const [documentbs64, setDocumentbs64] = useState('');
 
     const handleChangePage = (event, newPage) => {
         // dispatch(expDigDocStartLoading(documentos[newPage].id))
@@ -143,6 +146,7 @@ export const DetalleExpDig = (props) => {
         setInfoGral(open);
     };
     const downloadPDF = (bytes, nombredoc, folio) => {
+        console.log('dta=>',bytes)
         const downloadLink = document.createElement("a");
         const fileName = `${nombredoc}_${folio}.pdf`;
         downloadLink.href = bytes;
@@ -161,6 +165,7 @@ export const DetalleExpDig = (props) => {
 
     const handleClose = () => {
         setShowModalDelete(false)
+        setOpen(false)
     }
 
     const handleAceptar = () => {
@@ -204,7 +209,7 @@ export const DetalleExpDig = (props) => {
         console.log('abriendo');
         setShowDialogForm(true);
     }
-    
+
 
     function onDocumentLoadSuccess({ numPages }) {
         setNumPages(numPages);
@@ -217,19 +222,29 @@ export const DetalleExpDig = (props) => {
     const fileContent = 'data:application/pdf;base64, ' + (archivo === null ? ' ' : archivo?.base64);
 
 
-    
+
     const imprimirpdf = () => {
-        console.log('Dtosgrlsprint=>',dtosgrlsprint)
-        
-        console.log('Dtosgrlsprint=>',dtosgrlsprint)
+        console.log('Dtosgrlsprint=>', dtosgrlsprint)
+
+        console.log('Dtosgrlsprint=>', dtosgrlsprint)
         let data = {
-                preguntasjson : {},
-                respuestasjson: {} ,
-                datosGeneralesExpedienteDTO:dtosgrlsprint,
-                ruta:dtosgrlsprint.ruta
+            preguntasjson: {},
+            respuestasjson: {},
+            datosGeneralesExpedienteDTO: dtosgrlsprint,
+            ruta: dtosgrlsprint.ruta
         }
         generarExpedientepdf(data).then(response => {
-            console.log('generarExpedientepdf=>',response)
+            console.log('generarExpedientepdf=>', response)
+
+            const timer = setTimeout(() => {
+                const downloadLink = document.createElement("a");
+                const fileName = `Expediente.pdf`;
+                downloadLink.href = `data:application/pdf;base64,${response?.data}` ;
+                downloadLink.download = fileName;
+                downloadLink.click();
+                console.log('downloadLink=>',downloadLink)
+            }, 1000);
+            return () => clearTimeout(timer);
         }).catch(err => {
             console.log(err)
         })
@@ -240,16 +255,18 @@ export const DetalleExpDig = (props) => {
             <Box display="flex" justifyContent="center" borderColor="black" border={1} flex="auto">{console.log('xp', idExpedienteBoveda)}{console.log('xp', idExpediente)}
                 <Grid item xs={12} border={10} borderColor="primary.main" >
                     <h3>Datos generales</h3>
-                    <Grid item xs={12} style={{textAlign:'end'}}>
+                    <Grid item xs={12} style={{ textAlign: 'end' }}>
                         <Button
                             variant="contained"
-                            color="primary"                           
+                            color="primary"
                             size="large"
-                            onClick={()=>imprimirpdf()}
+                            onClick={() => imprimirpdf()}
                         >
-                            Imprimir
+                            Imprimir 
                         </Button>
+                       
                     </Grid>
+
                     <DatosGeneralesExpediente
                         beneficiarioPadre={beneficiarioPadre}
                         setIdentPrograma={setIdentPrograma}
@@ -260,23 +277,37 @@ export const DetalleExpDig = (props) => {
                     <DireccionExpediente
                         direccionBeneficiario={direccionBeneficiario}
                         idBeneficiario={idBeneficiario}
-                        setDtosgrlsprint={setDtosgrlsprint} 
-                        dtosgrlsprint={dtosgrlsprint}/>
+                        setDtosgrlsprint={setDtosgrlsprint}
+                        dtosgrlsprint={dtosgrlsprint} />
                     <ContactoExpediente
                         direccionB={direccionBeneficiario}
                         idBeneficiario={idBeneficiario}
-                        setDtosgrlsprint={setDtosgrlsprint} 
-                        dtosgrlsprint={dtosgrlsprint}/>
-                    <ApoyosRecibidosExpediente
-                        idBeneficiario={idBeneficiario} 
                         setDtosgrlsprint={setDtosgrlsprint}
-                        dtosgrlsprint={dtosgrlsprint}/>
+                        dtosgrlsprint={dtosgrlsprint} />
+                    <ApoyosRecibidosExpediente
+                        idBeneficiario={idBeneficiario}
+                        setDtosgrlsprint={setDtosgrlsprint}
+                        dtosgrlsprint={dtosgrlsprint} />
                     <ObservacionesExpediente idBeneficiario={idBeneficiario}
                         idProgramaExpediente={idProgramaExpediente}
                         setDtosgrlsprint={setDtosgrlsprint}
                         dtosgrlsprint={dtosgrlsprint}
                     />
                 </Grid>
+
+
+                <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="xs" fullWidth={true}>
+                    <DialogContent >
+                        {console.log('documentbs64=>', documentbs64.data)}
+                        <ComponentToPrint ref={componentRef} documenb64={documentbs64.data} testpdf={'hola munsooo'} />
+                    </DialogContent>
+                    <DialogActions>
+                        <ReactToPrint
+                            trigger={() => <Button autoFocus color="primary">Imprimir</Button>}
+                            content={() => componentRef.current}
+                        />
+                    </DialogActions>
+                </Dialog>
             </Box>
         )
     }
@@ -453,6 +484,8 @@ export const DetalleExpDig = (props) => {
                         </Button>
                     </DialogActions>
                 </Dialog>
+
+
             </Grid>
 
         </Box>
