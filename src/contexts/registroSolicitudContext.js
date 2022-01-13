@@ -450,12 +450,14 @@ export const RegistroSolicitudContextProvider = props => {
     }
 
 
-    const bandejaCambioEstatusValidada = async (SolicitudesSeleted) => {
+    const bandejaCambioEstatusValidada = async (SolicitudesSeleted,parametros) => {
+        /*
         let parametros = {
             idPrograma: 'NULL',
             idMunicipio: 'NULL',
             idEstatus: 'Registradas'
         }
+        */
         try {
             const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusValidada`;
             return new Promise((resolve, reject) => {
@@ -482,12 +484,8 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
-    const bandejaCambioEstatusPendiente = async (solicitudParametros) => {
-        let parametros = {
-            idPrograma: 'NULL',
-            idMunicipio: 'NULL',
-            idEstatus: 'Validadas'
-        }
+    const bandejaCambioEstatusPendiente = async (solicitudParametros,parametros) => {
+        
         try {
             const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusPendiente`;
             return new Promise((resolve, reject) => {
@@ -575,12 +573,14 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
-    const bandejaCambioEstatusReasignada = async (SolicitudesSeleted) => {
+    const bandejaCambioEstatusReasignada = async (SolicitudesSeleted, parametros) => {
+        /*
         let parametros = {
             idPrograma: 'NULL',
             idMunicipio: 'NULL',
             idEstatus: 'Registradas'
         }
+        */
         try {
             const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusReasignada`;
             return new Promise((resolve, reject) => {
@@ -593,9 +593,11 @@ export const RegistroSolicitudContextProvider = props => {
                         type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA,
                         payload: response.data
                     })
+                    /*
                     dispatch(
                         getSolParametrosBandeja(parametros)
                     )
+                    */
                 }).catch(error => {
                     console.log('Err', error);
                     reject(error);
@@ -607,12 +609,12 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
-    const bandejaValidadaCambioEstatusReasignada = async (SolicitudesSeleted) => {
-        let parametros = {
+    const bandejaValidadaCambioEstatusReasignada = async (SolicitudesSeleted,parametros) => {
+        /*let parametros = {
             idPrograma: 'NULL',
             idMunicipio: 'NULL',
             idEstatus: 'Validadas'
-        }
+        }*/
         try {
             const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusReasignada`;
             return new Promise((resolve, reject) => {

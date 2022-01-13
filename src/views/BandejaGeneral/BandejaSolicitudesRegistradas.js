@@ -93,31 +93,49 @@ export const BandejaSolicitudesRegistradas = () => {
         for (let i = 0; i < selected.length; i++) {
             selected[i].idUsuario = sessionStorage.getItem('idUSuario');
         }
-        bandejaCambioEstatusValidada(selected);
-        setShowDialogEstatusSeleccionadas(false);
         let parametros = {
-            idPrograma: 'NULL',
-            idMunicipio: 'NULL',
-            idEstatus: 'Validadas'
+            'idEstatus': estatus === '' ? 'Registradas' : estatus,
+            'idPrograma': programa === '' ? 'NULL' : programa,
+            'idMunicipio': municipio === '' ? 'NULL' : municipio
         }
+        bandejaCambioEstatusValidada(selected,parametros);
+        setShowDialogEstatusSeleccionadas(false);
+        
+        
         getSolParametrosBandeja(parametros);
+        
     }
 
+    /*
+    useEffect(() => {
+        console.log("bandeja solicitudes registradas ===>", programa)
+        if (programa != '') {
+            console.log("bandeja solicitudes registradas 2 ===>", programa)
+            let parametros = {
+                'idEstatus': estatus === '' ? 'Registradas' : estatus,
+                'idPrograma': programa === '' ? 'NULL' : programa,
+                'idMunicipio': municipio === '' ? 'NULL' : municipio
+            }
+            getSolParametrosBandeja(parametros);
+        }
+    }, [showDialogEstatusSeleccionadas, showDialogEstatusReasignada, showDialogEstatusGeneral]);
+*/
     //cambio de estatus general
     const handleCambiarGeneral = () => {
         console.log("entra a handleCambiarGeneral");
         for (let i = 0; i < solicitudParametrosBandeja.length; i++) {
             solicitudParametrosBandeja[i].idUsuario = sessionStorage.getItem('idUSuario');
         }
-        bandejaCambioEstatusValidada(solicitudParametrosBandeja);
+        let parametros = {
+            'idEstatus': estatus === '' ? 'Registradas' : estatus,
+            'idPrograma': programa === '' ? 'NULL' : programa,
+            'idMunicipio': municipio === '' ? 'NULL' : municipio
+        }
+        bandejaCambioEstatusValidada(solicitudParametrosBandeja,parametros);
         setShowDialogEstatusGeneral(false);
         //buscarSolitudes();
-        let parametros = {
-            idPrograma: 'NULL',
-            idMunicipio: 'NULL',
-            idEstatus: 'Validadas'
-        }
         getSolParametrosBandeja(parametros);
+        
     }
 
 
@@ -165,8 +183,15 @@ export const BandejaSolicitudesRegistradas = () => {
         for (let i = 0; i < selected.length; i++) {
             selected[i].idUsuario = sessionStorage.getItem('idUSuario');
         }
-        console.log('selected=>>', selected)
+        console.log('selected=>>', selected);
         bandejaCambioEstatusReasignada(selected);
+
+        let parametros = {
+            'idEstatus': estatus === '' ? 'Registradas' : estatus,
+            'idPrograma': programa === '' ? 'NULL' : programa,
+            'idMunicipio': municipio === '' ? 'NULL' : municipio
+        }
+        getSolParametrosBandeja(parametros);
         setShowDialogEstatusReasignada(false);
     }
 
