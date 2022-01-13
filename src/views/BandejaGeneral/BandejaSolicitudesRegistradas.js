@@ -183,14 +183,15 @@ export const BandejaSolicitudesRegistradas = () => {
         for (let i = 0; i < selected.length; i++) {
             selected[i].idUsuario = sessionStorage.getItem('idUSuario');
         }
-        console.log('selected=>>', selected);
-        bandejaCambioEstatusReasignada(selected);
-
         let parametros = {
             'idEstatus': estatus === '' ? 'Registradas' : estatus,
             'idPrograma': programa === '' ? 'NULL' : programa,
             'idMunicipio': municipio === '' ? 'NULL' : municipio
         }
+        console.log('selected=>>', selected);
+        bandejaCambioEstatusReasignada(selected, parametros);
+
+        
         getSolParametrosBandeja(parametros);
         setShowDialogEstatusReasignada(false);
     }

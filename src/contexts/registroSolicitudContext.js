@@ -593,11 +593,11 @@ export const RegistroSolicitudContextProvider = props => {
                         type: CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA,
                         payload: response.data
                     })
-                    /*
+                    
                     dispatch(
                         getSolParametrosBandeja(parametros)
                     )
-                    */
+                    
                 }).catch(error => {
                     console.log('Err', error);
                     reject(error);
