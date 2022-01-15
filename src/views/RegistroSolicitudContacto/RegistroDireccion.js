@@ -31,7 +31,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 export const RegistroDireccion = forwardRef((props, ref) => {
     const classes = useStyles();
-    const { beneficiario, obtenerDireccion, direccionBeneficiario, setActivar, activar } = props;
+    const { beneficiario, obtenerDireccion, direccionBeneficiario, setActivar, activar ,idPrograma } = props;
 
     console.log("LLEGA EL ID DEL BENEFICIARIO ---> ", beneficiario);
 
@@ -39,6 +39,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
     const { getEstadosAll, estadosList } = useContext(EstadosContext);
     const { getMunicipioEstado, municipiosListId } = useContext(MunicipiosContext);
     const { localidadesList, getLocalidadesMunicipio } = useContext(LocalidadesContext);
+    const { getCoberturaProgramas, coberturalist } = useContext(RegistroSolicitudContext);
     const [calle, setCalle] = useState("");
     const [noExterior, setNoExterior] = useState("");
     const [noInterior, setNoInterior] = useState("");
@@ -50,12 +51,14 @@ export const RegistroDireccion = forwardRef((props, ref) => {
     const [otraReferencia, setOtraReferencia] = useState("");
     const [idEstado, setIdEstado] = useState("");
     const [idMunicipio, setIdMunicipio] = useState("");
+    const [lstMunicipios, setLstMunicipios] = useState([]);
 
 
 
 
     useEffect(() => {
         getEstadosAll();
+        getCoberturaProgramas(idPrograma)
         console.log("ESTO LLEGO DE LA CONSULTA DE LA DIRECCION DEL BENEFICIARIO -----> ", direccionBeneficiario);
         if (direccionBeneficiario !== undefined) {
             console.log("DIRECCION DEL BENEFICIARIO -----> ", direccionBeneficiario[0]);
@@ -74,10 +77,37 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                 setCodigoPostal(direccionBeneficiario[0].codigoPostal);
                 getLocalidadesMunicipio(direccionBeneficiario[0].idMunicipio, direccionBeneficiario[0].codigoPostal);
                 setIdLocalidad(direccionBeneficiario[0].idLocalidad);
+                
             }
         }
         setActivar(next());
     }, [direccionBeneficiario]);
+
+    useEffect(() => {
+       if(coberturalist?.length > 0){
+        estadosList.map(e=>{
+            if(coberturalist[0].idEstado === e.id){
+                setIdEstado(e.id) 
+                getMunicipioEstado(e.id)
+            }
+        })
+       }
+    }, [estadosList,coberturalist ]);
+
+    useEffect(() => {
+        var municipios = []
+        if(coberturalist?.length > 0){
+            municipiosListId.map(e=>{
+                coberturalist.map(cb=>{
+                    if(cb.idMunicipio === e.id){
+                        municipios.push(e)
+                    }
+                })
+             
+         })
+        }
+        setLstMunicipios(municipios)
+     }, [municipiosListId,coberturalist ]);
 
 
     const llenado = () => {
@@ -488,7 +518,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                 value={idMunicipio}
                             >
                                 {
-                                    municipiosListId.map(
+                                    lstMunicipios.map(
                                         (g, i) => (
                                             <MenuItem
                                                 key={i}

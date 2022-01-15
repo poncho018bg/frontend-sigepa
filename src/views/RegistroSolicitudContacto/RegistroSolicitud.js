@@ -300,7 +300,7 @@ export const RegistroSolicitud = () => {
                                                 setActivar={setActivar} />
                                         </ValidarProgramaMonetario>
                                         : activeStep === 2 ?
-                                            <RegistroDireccion activar={activar} setActivar={setActivar} beneficiario={beneficiario} obtenerDireccion={obtenerDireccion} ref={direccionChild} direccionBeneficiario={direccion} />
+                                            <RegistroDireccion activar={activar} setActivar={setActivar} beneficiario={beneficiario} obtenerDireccion={obtenerDireccion} ref={direccionChild} direccionBeneficiario={direccion}  idPrograma={query.state?.mobNo} />
                                             : activeStep === 3 ?
                                                 <RegistroSolicitudContacto activar={activar} setActivar={setActivar} direccionB={direccion} beneficiario={beneficiario} ref={contacto} />
                                                 : activeStep === 4 ?

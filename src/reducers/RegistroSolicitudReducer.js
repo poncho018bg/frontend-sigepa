@@ -21,7 +21,8 @@ import {
     CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR,
     GET_BENEFICIARIO_REGISTRADO_PROGRAMA,
     PROGRAMA_VIGENTE,
-    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA,
+    GET_COBERTURA_POR_PROGRAMA
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -153,6 +154,11 @@ export default (state, action) => {
             return {
                 ...state,
                 //solicitudParametrosBandeja: [...state.solicitudParametrosBandeja, action.payload]
+            };
+        case GET_COBERTURA_POR_PROGRAMA:
+            return {
+                ...state,
+                coberturalist: action.payload
             };
 
         default:
