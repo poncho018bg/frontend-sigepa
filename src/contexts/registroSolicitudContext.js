@@ -23,7 +23,8 @@ import {
     CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_APROBAR,
     GET_BENEFICIARIO_REGISTRADO_PROGRAMA,
     PROGRAMA_VIGENTE,
-    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA
+    CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA,
+    GET_COBERTURA_POR_PROGRAMA
 } from 'types/actionTypes';
 
 import { axiosGet, axiosPost, axiosPut, axiosGetSinToken } from 'helpers/axiosPublico';
@@ -46,7 +47,8 @@ export const RegistroSolicitudContextProvider = props => {
         beneficiarioCancelado: null,
         beneficiarioRegistrado: null,
         solicitudParametrosBandeja: [],
-        programaVigente: null
+        programaVigente: null,
+        coberturalist:[]
     }
 
 
@@ -672,6 +674,31 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
+    const getCoberturaProgramas = async idPrograma => {
+
+        try {
+            const url = `${baseUrlPublico}domicilioOverride/coberturaPorPrograma/${idPrograma}`;
+            return new Promise((resolve, reject) => {
+                axios.get(url, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    console.log('RESPONSE=>', response.data)
+                    resolve(response);
+                    dispatch({
+                        type: GET_COBERTURA_POR_PROGRAMA,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    console.log('Err', error);
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            console.log('Err', error);
+        }
+    }
+
     return (
         <RegistroSolicitudContext.Provider value={{
             generosList: state.generosList,
@@ -687,6 +714,7 @@ export const RegistroSolicitudContextProvider = props => {
             solicitudParametrosBandeja: state.solicitudParametrosBandeja,
             beneficiarioRegistrado: state.beneficiarioRegistrado,
             programaVigente: state.programaVigente,
+            coberturalist:state.coberturalist,
             getGeneros,
             getEstudios,
             getEstadoCivil,
@@ -711,7 +739,8 @@ export const RegistroSolicitudContextProvider = props => {
             getProgramaVigente,
             bandejaCambioEstatusReasignada,
             bandejaValidadaCambioEstatusReasignada,
-            bandejaAprobarCambioEstatusReasignada
+            bandejaAprobarCambioEstatusReasignada,
+            getCoberturaProgramas
         }}>
             {props.children}
         </RegistroSolicitudContext.Provider>

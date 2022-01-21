@@ -1,5 +1,5 @@
 
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox,  FormControlLabel,  FormHelperText, FormLabel, Grid,      makeStyles, MenuItem,  Radio, RadioGroup,  TextField } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLabel, FormHelperText, FormLabel, Grid, makeStyles, MenuItem, Radio, RadioGroup, TextField } from '@material-ui/core'
 import React, { useEffect, useState, useContext } from 'react';
 import Button from "components/CustomButtons/Button.js";
 import { useSelector } from 'react-redux';
@@ -56,26 +56,26 @@ function intersection(a, b) {
 
 function NumberFormatCustom(props) {
     const { inputRef, onChange, ...other } = props;
-  
+
     return (
-      <NumberFormat
-        {...other}
-        getInputRef={inputRef}
-        onValueChange={(values) => {
-          onChange({
-            target: {
-              name: props.name,
-              value: values.value,
-            },
-          });
-        }}
-        thousandSeparator
-        isNumericString
-        prefix="$"
-      />
+        <NumberFormat
+            {...other}
+            getInputRef={inputRef}
+            onValueChange={(values) => {
+                onChange({
+                    target: {
+                        name: props.name,
+                        value: values.value,
+                    },
+                });
+            }}
+            thousandSeparator
+            isNumericString
+            prefix="$"
+        />
     );
-  }
-  
+}
+
 
 
 export const DialogTipoApoyoForm = (props) => {
@@ -96,7 +96,7 @@ export const DialogTipoApoyoForm = (props) => {
     const { registrarApoyo } = useContext(ApoyoContext)
 
 
-  
+
     const [tipoApoyoSelect, setTipoApoyoSelect] = React.useState([]);
     const [actividadesContinuarSelect, setActividadesContinuarSelect] = React.useState([]);
 
@@ -178,7 +178,7 @@ export const DialogTipoApoyoForm = (props) => {
         formik.values.enServicio[index] = serv
 
         console.log('agregarServicioFormik 1=>', formik.values.enServicio)
-        console.log('Lista apoyoservicioList=>',apoyoservicioList)
+        console.log('Lista apoyoservicioList=>', apoyoservicioList)
         getApoyoServicio();
     }
 
@@ -204,6 +204,7 @@ export const DialogTipoApoyoForm = (props) => {
             numApoyos: ''
         },
         validationSchema: Yup.object({
+            
             dsapoyo: Yup.string()
                 .required('El nombre del apoyo es obligatorio'),
             idPrograma: Yup.string()
@@ -216,8 +217,10 @@ export const DialogTipoApoyoForm = (props) => {
                 .required('La vigencia desde obligatorio'),
             fcvigenciafin: Yup.string()
                 .required('La vigencia hasta es obligatorio'),
-            descApoyoEspecie: Yup.string()
-                .required('El apoyo en especie es obligatorio'),
+         
+            //descApoyoEspecie: Yup.string().required("El apoyo en especie es obligatorio")
+          
+                            
             idPeriodicidad: Yup.string()
                 .required('La periodicidad es obligatorio'),
             formaEntrega: Yup.string()
@@ -235,7 +238,7 @@ export const DialogTipoApoyoForm = (props) => {
 
     const handleRegistrar = () => {
 
-        const { dsapoyo, idPrograma, dsdescripcion, estatus,  fcvigenciainicio, fcvigenciafin,
+        const { dsapoyo, idPrograma, dsdescripcion, estatus, fcvigenciainicio, fcvigenciafin,
             cantidadPesos, enServicio,
             descApoyoEspecie, idPeriodicidad, observaciones, formaEntrega, numEntregas, numApoyos
         } = valores
@@ -377,7 +380,7 @@ export const DialogTipoApoyoForm = (props) => {
                                 }}
                                 value={formik.values.fcvigenciainicio}
                                 name="fcvigenciainicio"
-                                onClick={(e)=> setDisabledCalendar(false)}
+                                onClick={(e) => setDisabledCalendar(false)}
                                 onChange={formik.handleChange}
                                 InputProps={{
                                     inputProps: {
@@ -427,7 +430,7 @@ export const DialogTipoApoyoForm = (props) => {
 
                 </CardBody>
                 <CardBody>
-             
+
                     <TextField
                         label="Cantidad en pesos"
                         value={formik.values.cantidadPesos}
@@ -437,9 +440,9 @@ export const DialogTipoApoyoForm = (props) => {
                         fullWidth
                         InputProps={{
                             inputComponent: NumberFormatCustom,
-                            maxLength:7
+                            maxLength: 7
                         }}
-                        
+
                     />
                     {formik.touched.cantidadPesos && formik.errors.cantidadPesos ? (
                         <FormHelperText error={formik.errors.cantidadPesos}>{formik.errors.cantidadPesos}</FormHelperText>
@@ -447,17 +450,25 @@ export const DialogTipoApoyoForm = (props) => {
 
                 </CardBody>
                 <CardBody>
-                    <TextField
-                        id="descApoyoEspecie"
-                        label=" Descripción del apoyo en especie"
-                        variant="outlined"
-                        name="descApoyoEspecie"
-                        value={formik.values.descApoyoEspecie}
-                        onChange={formik.handleChange}
-                        fullWidth
-                        inputProps={{ maxLength: 100 }}
-                    />
+                    {
+                        // console.log('Contiene especie =>',selectedTipApoy?.filter(e=> e.value === 'c6213a36-7f3f-49be-b652-7ddd8d709d3f')?.length)
 
+                        selectedTipApoy?.filter(e => e.value === 'c6213a36-7f3f-49be-b652-7ddd8d709d3f')?.length === 1 ? (
+                            <TextField
+                                id="descApoyoEspecie"
+                                label=" Descripción del apoyo en especie"
+                                variant="outlined"
+                                name="descApoyoEspecie"
+                                value={formik.values.descApoyoEspecie}
+                                onChange={formik.handleChange}
+                                fullWidth
+                                inputProps={{ maxLength: 100 }}
+                            />
+
+
+                        ) : (<></>)
+
+                    }
                     {formik.touched.descApoyoEspecie && formik.errors.descApoyoEspecie ? (
                         <FormHelperText error={formik.errors.descApoyoEspecie}>{formik.errors.descApoyoEspecie}</FormHelperText>
                     ) : null}
@@ -479,8 +490,8 @@ export const DialogTipoApoyoForm = (props) => {
                                     >
                                         <FormControlLabel
                                             aria-label="Acknowledge"
-                                            
-                                            control={<Checkbox  onClick={agregarServicioFormik(apyo, i)}/>}
+
+                                            control={<Checkbox onClick={agregarServicioFormik(apyo, i)} />}
                                             label={apyo.dsservicio}
                                         />
                                     </AccordionSummary>
@@ -502,7 +513,7 @@ export const DialogTipoApoyoForm = (props) => {
                                                         name={fechaInicioq}
                                                         value={formik.values.enServicio.fechaInicio}
                                                         onChange={formik.handleChange}
-                                                
+
 
                                                     />
                                                 </GridItem>
@@ -532,7 +543,7 @@ export const DialogTipoApoyoForm = (props) => {
                         })
                     }
                 </CardBody>
-           
+
 
 
 

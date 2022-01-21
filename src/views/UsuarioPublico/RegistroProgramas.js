@@ -337,7 +337,8 @@ export const RegistroProgramas = () => {
                                                             obtenerDireccion={obtenerDireccion}
                                                             ref={direccionChild}
                                                             direccionBeneficiario={direccion}
-                                                            nombrePrograma={programa.dsprograma} />
+                                                            nombrePrograma={programa.dsprograma} 
+                                                            idPrograma={idPrograma}/>
                                                     </ValidarBeneficiarioGuardado>
                                                     : activeStep === 3 ?
                                                         <RegistroSolicitudContacto
