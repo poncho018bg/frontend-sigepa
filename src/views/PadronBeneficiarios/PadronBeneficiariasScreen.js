@@ -345,7 +345,7 @@ export const PadronBeneficiariasScreen = () => {
 
                                             <TableCell align="center">
                                                 <IconButton aria-label="delete" className={classes.margin}
-                                                    size="small" hidden={!row.monetario} onClick={() => buscarDetalle(row)}>
+                                                    size="small"  onClick={() => buscarDetalle(row)}>
                                                     <ExpandMoreIcon fontSize="inherit" />
                                                 </IconButton>
                                                 {row.nombre}

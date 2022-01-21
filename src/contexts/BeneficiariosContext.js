@@ -39,7 +39,7 @@ export const BeneficiariosContextProvider = props => {
     const getDetalleBeneficiarios = async idBeneficiario => {
 
         try {
-            const resultado = await axiosGet(`beneficiarioOverride/detallepadron/${idBeneficiario}`);
+            const resultado = await axiosGet(`beneficiarioOverride/detallepadron/${idBeneficiario}/NULL`);
             dispatch({
                 type: GET_DETALLE_PADRON_BENEFICIARIOS,
                 payload: resultado
