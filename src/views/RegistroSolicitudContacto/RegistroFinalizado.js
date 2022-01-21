@@ -85,14 +85,14 @@ export const RegistroFinalizado = (props) => {
             folios = {
                 idPrograma: idPrograma,
                 idBeneficiario: beneficiario?.id,
-                idUsuario: '1fd03e93-887c-4c48-9a25-71097e7f71f4',
+                idUsuario: sessionStorage.getItem('idUSuario'),
                 idOrigen: origen?.id
             }
         } else {
             folios = {
                 idPrograma: idPrograma,
                 idBeneficiario: beneficiario[0]?.id,
-                idUsuario: '1fd03e93-887c-4c48-9a25-71097e7f71f4',
+                idUsuario: sessionStorage.getItem('idUSuario'),
                 idOrigen: origen?.id
             }
         }
