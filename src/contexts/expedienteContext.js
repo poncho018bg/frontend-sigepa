@@ -358,6 +358,12 @@ export const ExpedienteContextProvider = props => {
                 type: REGISTRAR_BANDEJA_MOTIVO_RECHAZO,
                 payload: resultado
             })
+            let bitcacora = {
+                bitacoraaccion_id: "/cf648ed8-43aa-4230-9d5f-a65b8820b6d1",
+                usuario_id: sessionStorage.getItem('idUSuario'),
+                dsdescripcion:JSON.stringify(datos)
+            }
+            dispatch(registrarBtActividades(bitcacora))
         } catch (error) {
             console.log("mv bandeja solicitud ",error);
         }
