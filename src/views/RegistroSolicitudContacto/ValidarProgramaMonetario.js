@@ -57,7 +57,7 @@ const ValidarProgramaMonetario = ({ curp, idPrograma, edadValida, children, setA
                     <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="xs" fullWidth={true}>
                         <DialogContent >
                             <Typography variant="body1" color="text.secondary">
-                                Su registro no puede ser procesado, cualquier dudad o aclaración favor de comunicarse a la Dirección General de Programas Sociales Estratégicos al 722 2 13 89 15 extensiones de la 808 a la 811 y en el Centro de Atención Telefónica del Gobierno del Estado de México (CATGEM) al 800 22 57 333 para el interior de la República y 070 para Toluca y zona conurbada, las 24 horas del día, los 365 días del año
+                                Su registro no puede ser procesado, cualquier duda o aclaración favor de comunicarse a la Dirección General de Programas Sociales Estratégicos al 722 2 13 89 15 extensiones de la 808 a la 811 y en el Centro de Atención Telefónica del Gobierno del Estado de México (CATGEM) al 800 22 57 333 para el interior de la República y 070 para Toluca y zona conurbada, las 24 horas del día, los 365 días del año
                             </Typography>
                         </DialogContent>
                     </Dialog>
@@ -96,7 +96,7 @@ const ValidarProgramaMonetario = ({ curp, idPrograma, edadValida, children, setA
                         <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="xs" fullWidth={true}>
                             <DialogContent >
                                 <Typography variant="body1" color="text.secondary">
-                                    Su registro no puede ser procesado, cualquier dudad o aclaración favor de comunicarse a la Dirección General de Programas Sociales Estratégicos al 722 2 13 89 15 extensiones de la 808 a la 811 y en el Centro de Atención Telefónica del Gobierno del Estado de México (CATGEM) al 800 22 57 333 para el interior de la República y 070 para Toluca y zona conurbada, las 24 horas del día, los 365 días del año
+                                    Su registro no puede ser procesado, cualquier duda o aclaración favor de comunicarse a la Dirección General de Programas Sociales Estratégicos al 722 2 13 89 15 extensiones de la 808 a la 811 y en el Centro de Atención Telefónica del Gobierno del Estado de México (CATGEM) al 800 22 57 333 para el interior de la República y 070 para Toluca y zona conurbada, las 24 horas del día, los 365 días del año
                                 </Typography>
                             </DialogContent>
                         </Dialog>
