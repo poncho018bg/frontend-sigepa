@@ -300,6 +300,12 @@ export const ExpedienteContextProvider = props => {
                     type: DESHABILITAR_DOCUMENTO_EXPEDIENTE,
                     payload: response.data
                 })
+                let bitcacora = {
+                    bitacoraaccion_id: "/cf648ed8-43aa-4230-9d5f-a65b8820b6d1",
+                    usuario_id: sessionStorage.getItem('idUSuario'),
+                    dsdescripcion:JSON.stringify(idDocumentoExpediente)
+                }
+                dispatch(registrarBtActividades(bitcacora))
             }).catch(error => {
                 reject(error);
             });
