@@ -102,42 +102,7 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
     }
 
     return (
-        <GridItem xs={12} sm={12} md={12}>
-            <Card>
-                <CardHeader color="primary">
-                    <h5 className={classes.cardTitleWhite}>{t('pnl.expObservaciones')} </h5>
-                    <CardActions>
-                        {guardarObservaciones &&
-                            <Grid item xs={1}>
-                                <Button
-                                    round
-                                    onClick={onClickObservaciones}
-                                >
-                                    Guardar Cambios
-                                </Button>
-                            </Grid>
-                        }
-                    </CardActions>
-                </CardHeader>
-                <CardBody>
-                    <TextField
-                        id="outlined-multiline-static"
-                        label={t('lbl.expObservaciones')} 
-                        multiline
-                        rows={4}
-                        variant="outlined"
-                        name="observaciones"
-                        value={observaciones}
-                        fullWidth
-                        inputProps={{ maxLength: 500 }}
-                        onChange={event => {
-                            const { value } = event.target;
-                            setObservaciones(value);
-                            //setGuardarObservaciones(true);
-                        }}
-                    />
-                </CardBody>
-            </Card >
+        <GridItem xs={12} sm={12} md={12}>            
             <Card>
                 <CardHeader color="primary">
                     <h5 className={classes.cardTitleWhite}>{t('pnl.expMotivoBajaSuspencion')}</h5>
@@ -182,6 +147,43 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
                             )
                         }
                     </TextField>
+                </CardBody>
+            </Card >
+            <Card>
+                <CardHeader color="primary">
+                    <h5 className={classes.cardTitleWhite}>{t('pnl.expObservaciones')} </h5>
+                    <CardActions>
+                        {guardarObservaciones &&
+                            <Grid item xs={1}>
+                                <Button
+                                    round
+                                    onClick={onClickObservaciones}
+                                >
+                                    Guardar Cambios
+                                </Button>
+                            </Grid>
+                        }
+                    </CardActions>
+                </CardHeader>
+                <CardBody>
+                    {console.log('motivoRechazo=>',motivoRechazo)}
+                    <TextField
+                        id="outlined-multiline-static"
+                        label={t('lbl.expObservaciones')}
+                        multiline
+                        rows={4}
+                        variant="outlined"
+                        name="observaciones"
+                        value={observaciones}
+                        disabled= {!guardarMotivos}
+                        fullWidth
+                        inputProps={{ maxLength: 500 }}
+                        onChange={event => {
+                            const { value } = event.target;
+                            setObservaciones(value);
+                            //setGuardarObservaciones(true);
+                        }}
+                    />
                 </CardBody>
             </Card >
         </GridItem >

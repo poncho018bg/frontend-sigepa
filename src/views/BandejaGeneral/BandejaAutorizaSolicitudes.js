@@ -301,7 +301,7 @@ export const BandejaAutorizaSolicitudes = () => {
                                 onChange={handleSeleccionarFecha}
                                 InputProps={{
                                     inputProps: {
-
+                                        min: moment(new Date()).format("yyyy-MM-DD")
                                     }
                                 }}
                             />
