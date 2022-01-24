@@ -514,11 +514,13 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
-    const bandejaCambioEstatusAprobar = async (solicitudParametros) => {
+    const bandejaCambioEstatusAprobar = async (solicitudParametros, parametros) => {
+        /*
         let parametros = {
             idPrograma: 'NULL',
             idEstatus: 'NULL'
         }
+        */
         try {
             const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusAprobar`;
             return new Promise((resolve, reject) => {
@@ -643,11 +645,13 @@ export const RegistroSolicitudContextProvider = props => {
         }
     }
 
-    const bandejaAprobarCambioEstatusReasignada = async (SolicitudesSeleted) => {
+    const bandejaAprobarCambioEstatusReasignada = async (SolicitudesSeleted, parametros) => {
+        /*
         let parametros = {
             idPrograma: 'NULL',
             idEstatus: 'NULL'
         }
+        */
         try {
             const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusReasignada`;
             return new Promise((resolve, reject) => {
