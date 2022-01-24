@@ -212,7 +212,7 @@ export const BandejaSolicitudesValidadas = () => {
     selected.indexOf(dsfoliosolicitud) !== -1;
 
   const obtenerCobertura = (e) => {
-      console.log('valorr=>',e)
+    console.log("valorr=>", e);
     setPrograma(e.target.value);
     getCoberturaProgramas(e.target.value);
   };
