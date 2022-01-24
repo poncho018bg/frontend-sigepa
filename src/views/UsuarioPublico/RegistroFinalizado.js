@@ -146,7 +146,7 @@ export const RegistroFinalizado = (props) => {
                         </CardHeader>
                         <CardBody>
                             <Typography variant="body1" color="text.secondary">
-                                Registro de solicitud exitosa para el Programas “{nombrePrograma}", cualquier duda o aclaración favor de comunicarse a la Dirección General de Programas Sociales Estratégicos al 722 2 13 89 15 extensiones de la 808 a la 811 y en el Centro de Atención Telefónica del Gobierno del Estado de México (CATGEM) al 800 22 57 333 para el interior de la República y 070 para Toluca y zona conurbada, las 24 horas del día, los 365 días del año
+                                Registro de solicitud exitosa para el Programa “{nombrePrograma}", cualquier duda o aclaración favor de comunicarse a la Dirección General de Programas Sociales Estratégicos al 722 2 13 89 15 extensiones de la 808 a la 811 y en el Centro de Atención Telefónica del Gobierno del Estado de México (CATGEM) al 800 22 57 333 para el interior de la República y 070 para Toluca y zona conurbada, las 24 horas del día, los 365 días del año
                             </Typography>
                         </CardBody>
                     </Card>
