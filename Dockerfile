@@ -1,6 +1,6 @@
 # build environment
 # pull official base image
-FROM node:14.16.1-alpine as build
+FROM node:16.13.1-alpine as build
 
 WORKDIR /app
 
