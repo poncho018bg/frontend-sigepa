@@ -18,7 +18,7 @@ RUN cp /usr/share/zoneinfo/America/Mexico_City /etc/localtime
 
 RUN npm install -g serve
 
-RUN npm install
+RUN npm install --force
 
 RUN npm run build
 
