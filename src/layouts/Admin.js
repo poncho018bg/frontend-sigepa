@@ -150,10 +150,18 @@ export default function Admin({ ...rest }) {
 
 
   React.useEffect(() => {
-  
-    let groupssesion = JSON.parse(sessionStorage.getItem('groups'))
+    //console.log('GROUPS=>',sessionStorage.getItem('groups'))
+    var jsnarry = sessionStorage.getItem('groups')?.split(",")
+    var uno = JSON.stringify(jsnarry)
+    //console.log('GROUPS2=>',uno?.replace('/',''))
+    let groupssesion = null
+    if(uno != null){
+      //console.log('GROUPS3=>',JSON.parse(uno))
+      groupssesion = JSON.parse(uno)
+    }
+    
     if (groupssesion !== null && groupssesion !==  undefined && groupssesion[0] !== '') {
-      let namegroup = groupssesion[0]?.replace('/','')
+      let namegroup = groupssesion[0]?.replace('/','').replace('[','').replace('\"','').replace('\"','')
       console.log('namegroup=>',namegroup)
       const cargarPerfilesActivos = () => dispatch(getSubmodulosByPerfilId(namegroup, sessionStorage.getItem('idUSuario'), sessionStorage.getItem('token')));
       cargarPerfilesActivos();
@@ -195,7 +203,9 @@ export default function Admin({ ...rest }) {
 
         setInterval(() => {
           keycloak.updateToken(30).then(function (refreshed) {
+            console.log('refreshed=>',refreshed)
             if (refreshed) {
+              console.log('refreshed keycloak=>',keycloak)
               sessionStorage.setItem('token', keycloak.token);
               sessionStorage.setItem('idUSuario', keycloak.tokenParsed.sub);
               sessionStorage.setItem('username', keycloak.tokenParsed.preferred_username);
@@ -212,6 +222,7 @@ export default function Admin({ ...rest }) {
             }
           }).catch(function () {
             console.log(error);
+            console.log("Error ky=>",error);
             keycloak.logout()
           })
         }, 15000);
@@ -255,6 +266,7 @@ export default function Admin({ ...rest }) {
   if (keycloak) {
     if (authenticated) {
       { console.log('teststate', teststate) }
+      { console.log('perfilSubmodulos', perfilSubmodulos) }
       return (
         <div className={classes.wrapper}>
           <Sidebar
