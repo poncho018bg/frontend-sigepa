@@ -18,8 +18,6 @@ RUN cp /usr/share/zoneinfo/America/Mexico_City /etc/localtime
 
 RUN npm install -g serve
 
-RUN npm install node-sass@6.0.1 --force
-
 RUN npm install --force
 
 RUN npm run build
