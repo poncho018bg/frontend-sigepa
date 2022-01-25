@@ -74,7 +74,7 @@ export const BandejaSolicitudes = () => {
     }
 
     const onSelectBuscar = (linea) => {
-        console.log("expediente beneficiario ===>", linea);
+        console.log("expediente beneficiario BS ===>", linea);
         history.push("/admin/expedienteapi", { id: linea.idBeneficiario, curp:linea.dscurp });
     }
 

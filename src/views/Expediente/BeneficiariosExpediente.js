@@ -10,7 +10,7 @@ const BeneficiariosExpediente = ({ i, b }) => {
     let history = useHistory();
     
     const onClick = (linea) => {
-        console.log("expediente beneficiario ===>", linea);
+        console.log("expediente beneficiario BE ===>", linea);
         //history.push("/admin/expediente", { id: linea.id, curp:linea.dscurp });
         history.push("/admin/expedienteapi", { id: linea.id, curp:linea.dscurp });
     }
