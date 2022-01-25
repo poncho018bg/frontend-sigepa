@@ -49,6 +49,7 @@
     "react-html-parser": "^2.0.2",
     "react-html-renderer": "^0.3.3",
     "react-i18next": "^11.12.0",
+    "react-intl": "^5.24.4",
     "react-multi-carousel": "^2.6.5",
     "react-multi-select-component": "^4.1.10",
     "react-native-htmlview": "^0.16.0",
