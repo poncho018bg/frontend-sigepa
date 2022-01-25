@@ -30,7 +30,7 @@ import "moment/locale/es";
 import { ProgramasContext } from "contexts/catalogos/Programas/programasContext";
 import { NumeroApoyosContext } from "contexts/catalogos/numeroApoyosContext";
 import { ApoyoServicioContext } from "contexts/catalogos/ApoyoServicioContext";
-import { MultiSelect } from "react-multi-select-component";
+//import { MultiSelect } from "react-multi-select-component";
 import { ActividadesContinuarContext } from "contexts/catalogos/ActividadesContinuarContext";
 import { ApoyoContext } from "contexts/catalogos/ApoyoContext";
 import { Mensaje } from "components/Personalizados/Mensaje";
@@ -433,12 +433,12 @@ export const DialogTipoApoyoForm = (props) => {
 
         <CardBody>
           <FormLabel component="legend">Selecciona un tipo de apoyo</FormLabel>
-          <MultiSelect
+          {/* <MultiSelect
             options={tipoApoyoSelect}
             value={selectedTipApoy}
             onChange={setSelectedTipApoy}
             labelledBy="Seleccionar"
-          />
+          /> */}
         </CardBody>
         <CardBody>
           <TextField
@@ -624,12 +624,12 @@ export const DialogTipoApoyoForm = (props) => {
           <FormLabel component="legend">
             Selecciona actividades por realizar para continuar con el apoyo{" "}
           </FormLabel>
-          <MultiSelect
+          {/* <MultiSelect
             options={actividadesContinuarSelect}
             value={selectedActividadesContinuar}
             onChange={setSelectedActividadesContinuar}
             labelledBy="Seleccionar"
-          />
+          /> */}
         </CardBody>
 
         <CardBody>
