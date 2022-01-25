@@ -32,7 +32,7 @@ import { Loading } from "components/Personalizados/Loading";
 import { TiposBeneficiariosContext } from "contexts/catalogos/tiposBeneficiariosContext";
 import { EdadesBeneficiariosContext } from "contexts/catalogos/edadesBeneficiariosContext";
 import { RegionMunicipiosContext } from "contexts/catalogos/RegionMunicipiosContext";
-//import { MultiSelect } from "react-multi-select-component";
+import { MultiSelect } from "react-multi-select-component";
 import { DocumentosContext } from "contexts/catalogos/documentosContext";
 import { useTranslation } from 'react-i18next';
 import { DropzoneAreaBase } from "material-ui-dropzone";
@@ -781,13 +781,13 @@ export const ProgramasForm = () => {
                 </GridItem>
                 <GridItem xs={12} sm={12} md={12}>
                   <FormLabel component="legend">{t('pnl.coberturamunicipal')} </FormLabel>
-                   {/* <MultiSelect
+                    <MultiSelect
                     style={{ marginBottom: '120px' }}
                     options={municipiosSelect}
                     value={selected}
                     onChange={setSelected}
                     labelledBy={t('cmb.seleccionar')}
-                  />  */}
+                  />
                 </GridItem>
 
                 <GridItem xs={12} sm={12} md={12} style={{ marginBottom: '20px' }}>
