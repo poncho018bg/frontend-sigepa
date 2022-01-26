@@ -181,10 +181,25 @@ export const RegistroCargaDocumentos = (props) => {
 
       //confirmar carga de docuemnto en el array de validaciones
 
+      /*
       if (beneficiario.id !== undefined) {
         getDocumentosApoyo(idPrograma, beneficiario?.id);
       } else {
         getDocumentosApoyo(idPrograma, beneficiario[0]?.id);
+      }
+      */
+      if (beneficiario.id !== undefined) {
+        getDocumentosApoyoByTipoReq(
+          idPrograma,
+          beneficiario?.id,
+          IDTIPOREQUERIMIENTO
+        );
+      } else {
+        getDocumentosApoyoByTipoReq(
+          idPrograma,
+          beneficiario[0]?.id,
+          IDTIPOREQUERIMIENTO
+        );
       }
 
       validandodocs();
