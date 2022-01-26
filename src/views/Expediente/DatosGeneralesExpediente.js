@@ -206,7 +206,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
     };
 
     console.log("expediente actualizar beneficiario ===>", datosEnviar);
-    actualizarBeneficiarioFolio(datosEnviar);
+    actualizarBeneficiarioFolio(datosEnviar,sessionStorage.getItem('idUSuario'));
   };
 
   const onChange = (event) => {
