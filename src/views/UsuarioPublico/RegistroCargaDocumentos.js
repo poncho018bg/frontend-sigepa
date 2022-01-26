@@ -29,6 +29,8 @@ const Input = styled("input")({
   display: "none",
 });
 
+const IDTIPOREQUERIMIENTO = "c946c03b-eae1-4ee1-aa93-d99c08825f97";
+
 export const RegistroCargaDocumentos = (props) => {
   const classes = useStyles();
   const {
@@ -37,6 +39,7 @@ export const RegistroCargaDocumentos = (props) => {
     existeDocumento,
     existedoc,
     registrarDatosBoveda,
+    getDocumentosApoyoByTipoReq,
   } = useContext(RegistroCargaDocumentosContext);
   const { beneficiario, nombrePrograma } = props;
   const { idPrograma } = props;
@@ -73,8 +76,9 @@ export const RegistroCargaDocumentos = (props) => {
         );
       }
     } else {
-      console.log("carga documentos no ident", beneficiario.id);
+      //console.log("carga documentos no ident", beneficiario.id);
       if (beneficiario.id !== undefined) {
+        console.log("carga documentos defined", idPrograma, beneficiario?.id);
         //getDocumentosApoyo(idPrograma, beneficiario?.id);
         getDocumentosApoyoByTipoReq(
           idPrograma,
@@ -82,6 +86,11 @@ export const RegistroCargaDocumentos = (props) => {
           IDTIPOREQUERIMIENTO
         );
       } else {
+        console.log(
+          "carga documentos undefined",
+          idPrograma,
+          beneficiario[0]?.id
+        );
         //getDocumentosApoyo(idPrograma, beneficiario[0]?.id);
         getDocumentosApoyoByTipoReq(
           idPrograma,
