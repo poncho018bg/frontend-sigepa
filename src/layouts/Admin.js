@@ -161,7 +161,7 @@ export default function Admin({ ...rest }) {
     }
     
     if (groupssesion !== null && groupssesion !==  undefined && groupssesion[0] !== '') {
-      let namegroup = groupssesion[0]?.replace('/','').replace('[','').replace('\"','').replace('\"','')
+      let namegroup = groupssesion[0]?.replace('/','').replace('[','').replace('\"','').replace('\"','').replace(']','')
       console.log('namegroup=>',namegroup)
       const cargarPerfilesActivos = () => dispatch(getSubmodulosByPerfilId(namegroup, sessionStorage.getItem('idUSuario'), sessionStorage.getItem('token')));
       cargarPerfilesActivos();
