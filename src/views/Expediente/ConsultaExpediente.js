@@ -213,8 +213,8 @@ export const ConsultaExpediente = () => {
                             </TableRow >
                         </TableHead>
                         < TableBody >
-                            {beneficiariosList.length > 0 ?
-                                beneficiariosList.map((b, i) => {
+                            {beneficiariosList?.length > 0 ?
+                                beneficiariosList?.map((b, i) => {
                                     return (
                                         <BeneficiariosExpediente i={i} b={b} />
                                     )

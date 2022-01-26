@@ -17,6 +17,7 @@ import {
   ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO,
   GET_EXPEDIENTE_BOVEDA_BY_BENEFICIARIO,
   GENERAR_EXPEDIENTE_PDF,
+  REGISTRAR_BTACTIVIDADES
 } from "../types/actionTypes";
 
 import { axiosPut, axiosPost } from "helpers/axiosPublico";
