@@ -42,7 +42,7 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
     actualizarBandejaMotivoRechazoExpediente,
     bandejaRechazo,
     getBandejaRechazos,
-    registrarBtActividades,
+    bitacoraActiv,
   } = useContext(ExpedienteContext);
   const [motivoRechazo, setMotivoRechazo] = useState("");
   const [guardarObservaciones, setGuardarObservaciones] = useState(false);
@@ -121,7 +121,7 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
         usuario_id: sessionStorage.getItem("idUSuario"),
         dsdescripcion: JSON.stringify(guardarRechazo),
       };
-      registrarBtActividades(bitcacora);
+      bitacoraActiv(bitcacora);
     } else {
       let guardarRechazo = {
         id: bandejaRechazo.id,
@@ -135,7 +135,7 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
         usuario_id: sessionStorage.getItem("idUSuario"),
         dsdescripcion: JSON.stringify(guardarRechazo),
       };
-      registrarBtActividades(bitcacora);
+      bitacoraActiv(bitcacora);
     }
 
     setGuardarMotivos(false);
