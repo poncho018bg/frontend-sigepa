@@ -340,7 +340,7 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
         let bitcacora = {
             bitacoraaccion_id: "/cf648ed8-43aa-4230-9d5f-a65b8820b6d1",
             usuario_id: sessionStorage.getItem("idUSuario"),
-            dsdescripcion: JSON.stringify(documentExp),
+            dsdescripcion: JSON.stringify(dataModel),
           };
           bitacoraActiv(bitcacora);
     }
