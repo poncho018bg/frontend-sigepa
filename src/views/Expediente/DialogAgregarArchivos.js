@@ -55,7 +55,7 @@ const dataModel = {
 export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
     const classes = useStyles();
     const { idBeneficiario,  idProgramaExpediente, setValidarCargaDocs } = props;
-    const { expDigDocuments } = useContext(ExpedienteContext);
+    const { expDigDocuments,registrarBtActividades } = useContext(ExpedienteContext);
     const { documentosApoyoList, getDocumentosApoyoByTipoReq } = useContext(RegistroCargaDocumentosContext);
     const [formValues, setFormValues] = useState(initExpDig);
     const  activeExpDig =false;
@@ -331,9 +331,18 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
         //   dispatch(expDigDocuments(dataModel, bas64));
         expDigDocuments(dataModel, bas64)
 
+       
+
         props.setShowDialogForm(false);
         setFormValues(initExpDig);
         setValidarCargaDocs(true)
+
+        let bitcacora = {
+            bitacoraaccion_id: "/cf648ed8-43aa-4230-9d5f-a65b8820b6d1",
+            usuario_id: sessionStorage.getItem("idUSuario"),
+            dsdescripcion: JSON.stringify(documentExp),
+          };
+          dispatch(registrarBtActividades(bitcacora));
     }
 
 

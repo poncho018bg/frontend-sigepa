@@ -313,12 +313,7 @@ export const ExpedienteContextProvider = (props) => {
             type: AGREGAR_CONTENIDO_DOCUMENTO,
             payload: response,
           });
-          let bitcacora = {
-            bitacoraaccion_id: "/cf648ed8-43aa-4230-9d5f-a65b8820b6d1",
-            usuario_id: sessionStorage.getItem("idUSuario"),
-            dsdescripcion: JSON.stringify(documentExp),
-          };
-          dispatch(registrarBtActividades(bitcacora));
+          
         })
         .catch((error) => {
           console.log("Err", error);
