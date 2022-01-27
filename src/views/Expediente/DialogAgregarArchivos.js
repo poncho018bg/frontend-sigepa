@@ -55,7 +55,7 @@ const dataModel = {
 export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
     const classes = useStyles();
     const { idBeneficiario,  idProgramaExpediente, setValidarCargaDocs } = props;
-    const { expDigDocuments,registrarBtActividades } = useContext(ExpedienteContext);
+    const { expDigDocuments,bitacoraActiv } = useContext(ExpedienteContext);
     const { documentosApoyoList, getDocumentosApoyoByTipoReq } = useContext(RegistroCargaDocumentosContext);
     const [formValues, setFormValues] = useState(initExpDig);
     const  activeExpDig =false;
@@ -342,7 +342,7 @@ export const DialogAgregarArchivos = (props, { etapaSeleccionada }) => {
             usuario_id: sessionStorage.getItem("idUSuario"),
             dsdescripcion: JSON.stringify(documentExp),
           };
-          dispatch(registrarBtActividades(bitcacora));
+          bitacoraActiv(bitcacora);
     }
 
 
