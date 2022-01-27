@@ -114,14 +114,18 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
         dsobservaciones: observaciones,
         motivo_rechazo_id: motivoRechazo,
         mv_bandeja_id: mvbandejasolicitud.id_mv_bandeja_solicitudes,
+        idUsuario: sessionStorage.getItem("idUSuario"),
+        idMvBandeja: mvbandejasolicitud.id_mv_bandeja_solicitudes,
       };
       registrarBandejaMotivoRechazoExpediente(guardarRechazo);
+      /*
       let bitcacora = {
         bitacoraaccion_id: "/cf648ed8-43aa-4230-9d5f-a65b8820b6d1",
         usuario_id: sessionStorage.getItem("idUSuario"),
         dsdescripcion: JSON.stringify(guardarRechazo),
       };
       bitacoraActiv(bitcacora);
+      */
     } else {
       let guardarRechazo = {
         id: bandejaRechazo.id,
