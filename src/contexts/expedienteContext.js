@@ -339,6 +339,29 @@ export const ExpedienteContextProvider = (props) => {
     }
   };
 
+  const bitacoraActiv  = async (bitacoraActividades) => {
+    const url = `${baseUrlPublico}bitacoraActividades`;
+    return new Promise((resolve, reject) => {
+      axios
+        .post(url,bitacoraActividades, {
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+          },
+        })
+        .then((response) => {
+          resolve(response);
+          dispatch({
+            type: REGISTRAR_BTACTIVIDADES,
+            payload: resultado,
+          });          
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  };
+
   const deshabilitarDocumentoExpediente = async (idDocumentoExpediente) => {
     const url = `${baseApiExpediente}/documentosExpediente/deshabilitarDocumentosExpediente/${idDocumentoExpediente}`;
     return new Promise((resolve, reject) => {
@@ -354,13 +377,7 @@ export const ExpedienteContextProvider = (props) => {
           dispatch({
             type: DESHABILITAR_DOCUMENTO_EXPEDIENTE,
             payload: response.data,
-          });
-          let bitcacora = {
-            bitacoraaccion_id: "/cf648ed8-43aa-4230-9d5f-a65b8820b6d1",
-            usuario_id: sessionStorage.getItem("idUSuario"),
-            dsdescripcion: JSON.stringify(idDocumentoExpediente),
-          };
-          dispatch(registrarBtActividades(bitcacora));
+          });          
         })
         .catch((error) => {
           reject(error);
@@ -621,7 +638,8 @@ export const ExpedienteContextProvider = (props) => {
         actualizarBandejaMotivoRechazoExpediente,
         getExpedienteBovedaByBeneficiario,
         generarExpedientepdf,
-        registrarBtActividades
+        registrarBtActividades,
+        bitacoraActiv
       }}
     >
       {props.children}
