@@ -57,7 +57,7 @@ export const DetalleExpDig = (props) => {
     const [infoGral, setInfoGral] = useState(false);
     const [validarCargaDocs, setValidarCargaDocs] = useState(false);
 
-    const { expDigDocumentosStartLoading, documentosExpedienteLst, expDigDocStartLoading, contenidoDocumento, deshabilitarDocumentoExpediente, deshabilitarDocumento, generarExpedientepdf } = useContext(ExpedienteContext);
+    const { expDigDocumentosStartLoading, documentosExpedienteLst, expDigDocStartLoading, contenidoDocumento, deshabilitarDocumentoExpediente, deshabilitarDocumento, generarExpedientepdf ,registrarBtActividades} = useContext(ExpedienteContext);
     const [open, setOpen] = React.useState(false);
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
@@ -185,6 +185,13 @@ export const DetalleExpDig = (props) => {
             console.log(err)
         })
         setShowModalDelete(false)
+
+        let bitcacora = {
+            bitacoraaccion_id: "/cf648ed8-43aa-4230-9d5f-a65b8820b6d1",
+            usuario_id: sessionStorage.getItem("idUSuario"),
+            dsdescripcion: JSON.stringify(idDocumentoExpediente),
+          };
+          registrarBtActividades(bitcacora)
     }
 
     /*
