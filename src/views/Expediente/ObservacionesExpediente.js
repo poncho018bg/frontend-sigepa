@@ -47,6 +47,7 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
   const [motivoRechazo, setMotivoRechazo] = useState("");
   const [guardarObservaciones, setGuardarObservaciones] = useState(false);
   const [guardarMotivos, setGuardarMotivos] = useState(false);
+  const [desactivarGuardarMotivo, setDesactivarGuardarMotivo] = useState(false);
 
   useEffect(() => {
     getMotivoRechazos();
@@ -82,6 +83,13 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
     if (bandejaRechazo !== null) {
       setObservaciones(bandejaRechazo.dsobservaciones);
       setMotivoRechazo(bandejaRechazo.motivo_rechazo_id);
+      /**
+       * se agrega un boolean pasra cuando ya trae una bandeja de rechazo
+       */
+      console.log("bandeja rechazo 1 ====>", bandejaRechazo.motivo_rechazo_id);
+      if (bandejaRechazo.motivo_rechazo_id !== undefined) {
+        setDesactivarGuardarMotivo(true);
+      }
 
       var valoresprint = dtosgrlsprint;
       valoresprint.observaciones = bandejaRechazo.dsobservaciones;
@@ -143,6 +151,7 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
     }
 
     setGuardarMotivos(false);
+    setDesactivarGuardarMotivo(true);
   };
 
   return (
@@ -172,7 +181,10 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
             value={motivoRechazo}
             onChange={(e) => {
               setMotivoRechazo(e.target.value);
-              setGuardarMotivos(true);
+              console.log("bandeja rechazo 2 ====>", desactivarGuardarMotivo);
+              if (!desactivarGuardarMotivo) {
+                setGuardarMotivos(true);
+              }
             }}
           >
             <MenuItem value="">
