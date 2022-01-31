@@ -81,6 +81,11 @@ export const BandejaSolicitudesValidadas = () => {
   const [totalRegistros, setTotalRegistros] = useState("");
   const [lstMunicipios, setLstMunicipios] = useState([]);
 
+  const [nombre, setNombre] = useState("");
+  const [apellidopaterno, setApellidopaterno] = useState("");
+  const [apellidoMaterno, setApellidoMaterno] = useState("");
+  const [folio, setFolio] = useState("");
+
   useEffect(() => {
     getCien();
     getEstatusRegistro();
@@ -102,6 +107,10 @@ export const BandejaSolicitudesValidadas = () => {
       idEstatus: estatus === "" ? "Validadas" : estatus,
       idPrograma: programa === "" ? "NULL" : programa,
       idMunicipio: municipio === "" ? "NULL" : municipio,
+      paterno: apellidopaterno === "" ? "NULL" : apellidopaterno,
+      materno: apellidoMaterno === "" ? "NULL" : apellidoMaterno,
+      nombre: nombre === "" ? "NULL" : nombre,
+      folio: folio === "" ? "NULL" : folio
     };
     console.log(solicitudFilter);
     getSolParametrosBandeja(solicitudFilter);
@@ -127,6 +136,10 @@ export const BandejaSolicitudesValidadas = () => {
       idEstatus: estatus === "" ? "Validadas" : estatus,
       idPrograma: programa === "" ? "NULL" : programa,
       idMunicipio: municipio === "" ? "NULL" : municipio,
+      paterno: apellidopaterno === "" ? "NULL" : apellidopaterno,
+      materno: apellidoMaterno === "" ? "NULL" : apellidoMaterno,
+      nombre: nombre === "" ? "NULL" : nombre,
+      folio: folio === "" ? "NULL" : folio
     };
     bandejaCambioEstatusPendiente(selected, solicitudFilter);
     setShowDialogEstatusSeleccionadas(false);
@@ -145,6 +158,10 @@ export const BandejaSolicitudesValidadas = () => {
       idEstatus: estatus === "" ? "Validadas" : estatus,
       idPrograma: programa === "" ? "NULL" : programa,
       idMunicipio: municipio === "" ? "NULL" : municipio,
+      paterno: apellidopaterno === "" ? "NULL" : apellidopaterno,
+      materno: apellidoMaterno === "" ? "NULL" : apellidoMaterno,
+      nombre: nombre === "" ? "NULL" : nombre,
+      folio: folio === "" ? "NULL" : folio
     };
     bandejaCambioEstatusPendiente(solicitudParametrosBandeja, solicitudFilter);
     setShowDialogEstatusGeneral(false);
@@ -202,6 +219,10 @@ export const BandejaSolicitudesValidadas = () => {
       idEstatus: estatus === "" ? "Validadas" : estatus,
       idPrograma: programa === "" ? "NULL" : programa,
       idMunicipio: municipio === "" ? "NULL" : municipio,
+      paterno: apellidopaterno === "" ? "NULL" : apellidopaterno,
+      materno: apellidoMaterno === "" ? "NULL" : apellidoMaterno,
+      nombre: nombre === "" ? "NULL" : nombre,
+      folio: folio === "" ? "NULL" : folio
     };
     console.log("selected=>>", selected);
     bandejaValidadaCambioEstatusReasignada(selected, solicitudFilter);
@@ -243,6 +264,51 @@ export const BandejaSolicitudesValidadas = () => {
         </CardHeader>
         <CardBody>
           <Grid container spacing={3}>
+            <Grid item xs={3}>
+              <TextField
+                id="paterno"
+                label="Apellido paterno"
+                variant="outlined"
+                name={apellidopaterno}
+                fullWidth
+                value={apellidopaterno}
+                onChange={(e) => setApellidopaterno(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                id="materno"
+                label="Apellido materno"
+                variant="outlined"
+                name={apellidoMaterno}
+                fullWidth
+                value={apellidoMaterno}
+                onChange={(e) => setApellidoMaterno(e.target.value)}
+              />
+            </Grid>
+
+            <Grid item xs={3}>
+              <TextField
+                id="nombre"
+                label="Nombre"
+                variant="outlined"
+                name={nombre}
+                fullWidth
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                id="folio"
+                label="Folio"
+                variant="outlined"
+                name={folio}
+                fullWidth
+                value={folio}
+                onChange={(e) => setFolio(e.target.value)}
+              />
+            </Grid>
             <Grid item xs={3}>
               <TextField
                 variant="outlined"

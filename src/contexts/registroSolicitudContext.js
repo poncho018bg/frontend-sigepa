@@ -440,7 +440,7 @@ export const RegistroSolicitudContextProvider = (props) => {
   const getSolParametrosBandeja = async (parametros) => {
     console.log("sol parametros bandeja ==>", parametros);
     try {
-      const url = `${baseUrlPublico}bandejaSolicitudOverride/consultarSolicitudesRegistrada/${parametros.idPrograma}/${parametros.idMunicipio}/${parametros.idEstatus}`;
+      const url = `${baseUrlPublico}bandejaSolicitudOverride/consultarSolicitudesRegistrada/${parametros.idPrograma}/${parametros.idMunicipio}/${parametros.idEstatus}/${parametros.paterno}/${parametros.materno}/${parametros.nombre}/${parametros.folio}`;
       return new Promise((resolve, reject) => {
         axios
           .get(url, {
