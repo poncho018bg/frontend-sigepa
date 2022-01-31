@@ -7,8 +7,6 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-
-//import { expDigDocumentosStartLoading, expDigDocStartLoading } from 'actions/expediente/expedienteAction';
 import Grid from '@material-ui/core/Grid';
 import Drawer from '@material-ui/core/Drawer';
 import { pdfjs } from 'react-pdf';
@@ -74,8 +72,7 @@ export const DetalleExpDig = (props) => {
     const [dtosgrlsprint, setDtosgrlsprint] = useState({});
     const [documentbs64, setDocumentbs64] = useState('');
 
-    const handleChangePage = (event, newPage) => {
-        // dispatch(expDigDocStartLoading(documentos[newPage].id))
+    const handleChangePage = (event, newPage) => {        
         expDigDocStartLoading(documentos[newPage].id)
         setPage(newPage);
     };
@@ -88,10 +85,7 @@ export const DetalleExpDig = (props) => {
 
     useEffect(() => {
         if (validarCargaDocs) {
-
-            console.log('1 Actualizar docs', props.etapaSeleccionada?.idEtapa)
-            console.log('2 Actualizar docs', idExpediente)
-            console.log('3 Actualizar docs', idExpedienteBoveda)
+            
             expDigDocumentosStartLoading(props.etapaSeleccionada?.idEtapa, idExpediente).then(response => {
                 setOpenSnackbar(true);
 
@@ -130,13 +124,19 @@ export const DetalleExpDig = (props) => {
         setShowCambio(true);
     }, [props.etapaSeleccionada]);
 
-    const documentos = documentosExpedienteLst //useSelector((state) => state.expDig.lsDocumentos);
+    const documentos = documentosExpedienteLst 
 
-    useEffect(() => {
-        if (documentos !== null && documentos !== undefined && documentos.length === 1) {
-            handleChangePage(null, 0);
+    useEffect(() => {        
+        if (documentos !== null && documentos !== undefined && documentos.length === 1) {           
+            handleChangePage(null, 0);           
         }
     }, [documentos]);
+
+    useEffect(() => {              
+        if (documentosExpedienteLst !== null && documentosExpedienteLst !== undefined && documentosExpedienteLst.length > 0 ) {                 
+            expDigDocStartLoading(documentosExpedienteLst[0]?.id)
+        }
+    }, [documentosExpedienteLst]);
 
     useEffect(() => {
         const ad = idDocumentoBorrar === ''
@@ -205,23 +205,7 @@ export const DetalleExpDig = (props) => {
          
     }
 
-    /*
-    const deshabilitarDocumentos = (idDocumentoexp) => {
-        console.log('idDocumentoexp=>', idDocumentoexp)
-        deshabilitarDocumentoExpediente(idDocumentoexp.id).then(response => {
-
-
-            const timer = setTimeout(() => {
-                expDigDocumentosStartLoading(props.etapaSeleccionada?.idEtapa, idExpediente);
-
-            }, 1000);
-
-            return () => clearTimeout(timer);
-        }).catch(err => {
-            console.log(err)
-        })
-    }
-    */
+    
 
     const addDialog = () => {
         console.log('abriendo');
