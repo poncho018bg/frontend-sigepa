@@ -85,6 +85,11 @@ export const BandejaAutorizaSolicitudes = () => {
     getCien();
     getEstatusRegistro();
     getComiteSecretarias();
+    let solicitudFilter = {
+      idPrograma: "NULL",
+      idEstatus: "NULL",
+    };
+    getSolParametrosBandejaAprobar(solicitudFilter);
   }, []);
 
   const handleChangePage = (event, newPage) => {

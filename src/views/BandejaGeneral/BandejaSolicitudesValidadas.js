@@ -90,7 +90,16 @@ export const BandejaSolicitudesValidadas = () => {
     getCien();
     getEstatusRegistro();
     getMunicipiosAll();
-    getSolParametrosBandeja(null);
+    let solicitudFilter = {
+      idEstatus: "0",
+      idPrograma: "0",
+      idMunicipio: "0",
+      paterno: "0",
+      materno: "0",
+      nombre: "0",
+      folio: "0",
+    };
+    getSolParametrosBandeja(solicitudFilter);
   }, []);
 
   const handleChangePage = (event, newPage) => {
@@ -110,7 +119,7 @@ export const BandejaSolicitudesValidadas = () => {
       paterno: apellidopaterno === "" ? "NULL" : apellidopaterno,
       materno: apellidoMaterno === "" ? "NULL" : apellidoMaterno,
       nombre: nombre === "" ? "NULL" : nombre,
-      folio: folio === "" ? "NULL" : folio
+      folio: folio === "" ? "NULL" : folio,
     };
     console.log(solicitudFilter);
     getSolParametrosBandeja(solicitudFilter);
@@ -139,7 +148,7 @@ export const BandejaSolicitudesValidadas = () => {
       paterno: apellidopaterno === "" ? "NULL" : apellidopaterno,
       materno: apellidoMaterno === "" ? "NULL" : apellidoMaterno,
       nombre: nombre === "" ? "NULL" : nombre,
-      folio: folio === "" ? "NULL" : folio
+      folio: folio === "" ? "NULL" : folio,
     };
     bandejaCambioEstatusPendiente(selected, solicitudFilter);
     setShowDialogEstatusSeleccionadas(false);
@@ -161,7 +170,7 @@ export const BandejaSolicitudesValidadas = () => {
       paterno: apellidopaterno === "" ? "NULL" : apellidopaterno,
       materno: apellidoMaterno === "" ? "NULL" : apellidoMaterno,
       nombre: nombre === "" ? "NULL" : nombre,
-      folio: folio === "" ? "NULL" : folio
+      folio: folio === "" ? "NULL" : folio,
     };
     bandejaCambioEstatusPendiente(solicitudParametrosBandeja, solicitudFilter);
     setShowDialogEstatusGeneral(false);
@@ -222,7 +231,7 @@ export const BandejaSolicitudesValidadas = () => {
       paterno: apellidopaterno === "" ? "NULL" : apellidopaterno,
       materno: apellidoMaterno === "" ? "NULL" : apellidoMaterno,
       nombre: nombre === "" ? "NULL" : nombre,
-      folio: folio === "" ? "NULL" : folio
+      folio: folio === "" ? "NULL" : folio,
     };
     console.log("selected=>>", selected);
     bandejaValidadaCambioEstatusReasignada(selected, solicitudFilter);
