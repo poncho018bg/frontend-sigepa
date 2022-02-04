@@ -19,19 +19,16 @@ import { Router, Route, Switch, Redirect } from "react-router-dom";
 
 // core components
 
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 import "assets/css/material-dashboard-react.css?v=1.9.0";
 import { store } from "store/store";
 
-
-import { createTheme, ThemeProvider } from '@material-ui/core/styles';
-import { esES } from '@material-ui/core/locale';
-import './i18n';
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
+import { esES } from "@material-ui/core/locale";
+import "./i18n";
 import { PersonContextProvider } from "contexts/personContext";
 import { ModalContextProvider } from "contexts/modalContex";
 import { ModalContextDeleteProvider } from "contexts/modalContexDelete";
-
-
 
 import Admin from "layouts/Admin";
 import Auth from "layouts/Auth";
@@ -62,7 +59,7 @@ import { ApoyoContextProvider } from "contexts/catalogos/ApoyoContext";
 import { ClasificacionServiciosContextProvider } from "contexts/catalogos/clasificacionServiciosContext";
 import { LocalidadesContextProvider } from "contexts/catalogos/Localidades/localidadesContext";
 import { ModalContextConfirmacionProvider } from "contexts/modalContextConfirmacion";
-import { RegistroCargaDocumentosContextProvider } from "contexts/registroCargaDocumentosContext"
+import { RegistroCargaDocumentosContextProvider } from "contexts/registroCargaDocumentosContext";
 import { RegistroSolicitudContextProvider } from "contexts/registroSolicitudContext";
 import { ComplementoFursContextProvider } from "contexts/complementoFurContext";
 import { EstatusRegistroContextProvider } from "contexts/catalogos/EstatusRegistroContext";
@@ -71,17 +68,16 @@ import { GenerosContextProvider } from "contexts/catalogos/GenerosContext";
 import { IdentificacionesOficialesContextProvider } from "contexts/catalogos/IdentificacionesOficialesContext";
 import { GradoEstudioContextProvider } from "contexts/catalogos/GradoEstudioContext";
 import { OrigenSolicitudContextProvider } from "contexts/catalogos/OrigenSolicitudContext";
-import { ExpedienteContextProvider } from "contexts/expedienteContext"
+import { ExpedienteContextProvider } from "contexts/expedienteContext";
 import { BeneficiariosContextProvider } from "contexts/BeneficiariosContext";
 import { BandejaRechazosContextProvider } from "contexts/BandejaRechazosContext";
 import { TipoRequisitosContextProvider } from "contexts/catalogos/TipoRequisitosContext";
 import { EstatusSolicitudContextProvider } from "contexts/catalogos/EstatusSolicitudContext";
-
+import { SolicitudEmbozoTarjetasContextProvider } from "contexts/solicitudEmbozoTarjetasContext";
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
-const theme = createTheme({
-}, esES);
+const theme = createTheme({}, esES);
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
@@ -131,11 +127,26 @@ ReactDOM.render(
                                                                                           <BandejaRechazosContextProvider>
                                                                                             <TipoRequisitosContextProvider>
                                                                                               <EstatusSolicitudContextProvider>
-                                                                                                <Switch>
-                                                                                                  <Route path="/admin" component={Admin} />
-                                                                                                  <Route path="/public" component={Auth} />
-                                                                                                  <Redirect from="/" to="/admin/dashboard" />
-                                                                                                </Switch>
+                                                                                                <SolicitudEmbozoTarjetasContextProvider>
+                                                                                                  <Switch>
+                                                                                                    <Route
+                                                                                                      path="/admin"
+                                                                                                      component={
+                                                                                                        Admin
+                                                                                                      }
+                                                                                                    />
+                                                                                                    <Route
+                                                                                                      path="/public"
+                                                                                                      component={
+                                                                                                        Auth
+                                                                                                      }
+                                                                                                    />
+                                                                                                    <Redirect
+                                                                                                      from="/"
+                                                                                                      to="/admin/dashboard"
+                                                                                                    />
+                                                                                                  </Switch>
+                                                                                                </SolicitudEmbozoTarjetasContextProvider>
                                                                                               </EstatusSolicitudContextProvider>
                                                                                             </TipoRequisitosContextProvider>
                                                                                           </BandejaRechazosContextProvider>
@@ -181,8 +192,7 @@ ReactDOM.render(
           </ModalContextProvider>
         </ModalContextConfirmacionProvider>
       </Provider>
-    </Router></ThemeProvider>,
+    </Router>
+  </ThemeProvider>,
   document.getElementById("root")
 );
-
-

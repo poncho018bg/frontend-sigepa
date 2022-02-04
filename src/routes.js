@@ -83,6 +83,7 @@ import { PadronBeneficiariasScreen } from "views/PadronBeneficiarios/PadronBenef
 import { Expediente } from "views/Expediente/Expediente"
 import { Expedienteapi } from "views/Expediente/Expedienteapi";
 
+import {SolicitudEmbozoTarjetasScreen} from "views/SolicitudEmbozoTarjetas/SolicitudEmbozoTarjetasScreen";
 
 const dashboardRoutes = [
   {
@@ -651,6 +652,15 @@ const dashboardRoutes = [
         component: IdentificacioneScreen,
         layout: "/admin"
       },
+      {
+        path: "/solicitudEmbozoTarjetas",
+        name: "Solicitud de Embozo de Tarjetas",
+        rtlName: "Solicitud de Embozo de Tarjetas",
+        mini: "SE",
+        rtlMini: "SE",
+        component: SolicitudEmbozoTarjetasScreen,
+        layout: "/admin"
+      },
       //aqui ponemos la ruta que quiere poncho pero cambiamos el componete porque el que pone no existe
       //funcionaria con esta ruta http://localhost:3000/public/registroProgramas
       {
@@ -661,7 +671,6 @@ const dashboardRoutes = [
         component: RegistroProgramas,
         layout: "/public",
       },
-
     ]
   },
 
