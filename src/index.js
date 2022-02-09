@@ -73,6 +73,7 @@ import { BeneficiariosContextProvider } from "contexts/BeneficiariosContext";
 import { BandejaRechazosContextProvider } from "contexts/BandejaRechazosContext";
 import { TipoRequisitosContextProvider } from "contexts/catalogos/TipoRequisitosContext";
 import { EstatusSolicitudContextProvider } from "contexts/catalogos/EstatusSolicitudContext";
+import { SolicitudEmbozoTarjetasContextProvider } from "contexts/solicitudEmbozoTarjetasContext";
 import { TarjetasEmbozadasContextProvider } from "contexts/TarjetasEmbozadasContext";
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
@@ -127,6 +128,7 @@ ReactDOM.render(
                                                                                           <BandejaRechazosContextProvider>
                                                                                             <TipoRequisitosContextProvider>
                                                                                               <EstatusSolicitudContextProvider>
+                                                                                                <SolicitudEmbozoTarjetasContextProvider>
                                                                                                 <TarjetasEmbozadasContextProvider>
                                                                                                   <Switch>
                                                                                                     <Route
@@ -146,7 +148,8 @@ ReactDOM.render(
                                                                                                       to="/admin/dashboard"
                                                                                                     />
                                                                                                   </Switch>
-                                                                                                </TarjetasEmbozadasContextProvider>
+                                                                                                  </TarjetasEmbozadasContextProvider>
+                                                                                                </SolicitudEmbozoTarjetasContextProvider>
                                                                                               </EstatusSolicitudContextProvider>
                                                                                             </TipoRequisitosContextProvider>
                                                                                           </BandejaRechazosContextProvider>
