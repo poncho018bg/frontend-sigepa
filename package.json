@@ -55,6 +55,7 @@
     "react-native-htmlview": "^0.16.0",
     "react-number-format": "^4.7.3",
     "react-organizational-chart": "^2.0.0",
+    "react-papaparse": "^4.0.2",
     "react-pdf": "^5.5.0",
     "react-redux": "^7.2.3",
     "react-router-dom": "5.2.0",
