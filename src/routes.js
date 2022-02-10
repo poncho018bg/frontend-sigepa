@@ -85,6 +85,7 @@ import { Expedienteapi } from "views/Expediente/Expedienteapi";
 import { EmisionTarjetasScreen } from "views/Dispersion/EmisionTarjetas/EmisionTarjetasScreen";
 
 import {SolicitudEmbozoTarjetasScreen} from "views/SolicitudEmbozoTarjetas/SolicitudEmbozoTarjetasScreen";
+import { MotivoSuspensionScreen } from "views/Catalogos/MotivoSuspension/MotivoSuspensionScreen";
 
 const dashboardRoutes = [
   {
@@ -460,6 +461,15 @@ const dashboardRoutes = [
         component: MotivoRechazosScreen,
         layout: "/admin"
       },
+      {
+        path: "/motivosSuspension",
+        name: "Motivos suspensión",
+        rtlName: "motivossuspension",
+        mini: "MR",
+        rtlMini: "mr",
+        component: MotivoSuspensionScreen,
+        layout: "/admin"
+      },
 
 
       {
@@ -535,7 +545,8 @@ const dashboardRoutes = [
         rtlMini: "AS",
         component: PadronBeneficiariosScreen,
         layout: "/admin"
-      }, {
+      },
+       {
         path: "/documentoRequisito",
         name: "Documentos",
         rtlName: "Documentos",

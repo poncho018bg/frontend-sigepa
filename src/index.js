@@ -75,6 +75,7 @@ import { TipoRequisitosContextProvider } from "contexts/catalogos/TipoRequisitos
 import { EstatusSolicitudContextProvider } from "contexts/catalogos/EstatusSolicitudContext";
 import { SolicitudEmbozoTarjetasContextProvider } from "contexts/solicitudEmbozoTarjetasContext";
 import { TarjetasEmbozadasContextProvider } from "contexts/TarjetasEmbozadasContext";
+import { MotivoSuspensionContextProvider } from "contexts/MotivoSuspensionContext";
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
@@ -129,25 +130,27 @@ ReactDOM.render(
                                                                                             <TipoRequisitosContextProvider>
                                                                                               <EstatusSolicitudContextProvider>
                                                                                                 <SolicitudEmbozoTarjetasContextProvider>
-                                                                                                <TarjetasEmbozadasContextProvider>
-                                                                                                  <Switch>
-                                                                                                    <Route
-                                                                                                      path="/admin"
-                                                                                                      component={
-                                                                                                        Admin
-                                                                                                      }
-                                                                                                    />
-                                                                                                    <Route
-                                                                                                      path="/public"
-                                                                                                      component={
-                                                                                                        Auth
-                                                                                                      }
-                                                                                                    />
-                                                                                                    <Redirect
-                                                                                                      from="/"
-                                                                                                      to="/admin/dashboard"
-                                                                                                    />
-                                                                                                  </Switch>
+                                                                                                  <TarjetasEmbozadasContextProvider>
+                                                                                                    <MotivoSuspensionContextProvider>
+                                                                                                      <Switch>
+                                                                                                        <Route
+                                                                                                          path="/admin"
+                                                                                                          component={
+                                                                                                            Admin
+                                                                                                          }
+                                                                                                        />
+                                                                                                        <Route
+                                                                                                          path="/public"
+                                                                                                          component={
+                                                                                                            Auth
+                                                                                                          }
+                                                                                                        />
+                                                                                                        <Redirect
+                                                                                                          from="/"
+                                                                                                          to="/admin/dashboard"
+                                                                                                        />
+                                                                                                      </Switch>
+                                                                                                    </MotivoSuspensionContextProvider>
                                                                                                   </TarjetasEmbozadasContextProvider>
                                                                                                 </SolicitudEmbozoTarjetasContextProvider>
                                                                                               </EstatusSolicitudContextProvider>

@@ -68,20 +68,7 @@ export const CatalogosScreen = () => {
                     </GridItem>
 
                 </GridContainer>
-                <GridContainer>
-
-
-
-
-                    <GridItem xs={12} sm={6} md={3}>
-                        <Card>
-                            <Link to="../admin/padronBeneficiarios">
-                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
-                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}> {t('btn.padronbeneficiaros')}</p>
-                                </CardHeader>
-                            </Link>
-                        </Card>
-                    </GridItem>
+                <GridContainer>                    
 
                     <GridItem xs={12} sm={6} md={3}>
                         <Card>
@@ -91,6 +78,15 @@ export const CatalogosScreen = () => {
                                 </CardHeader>
                             </Link>
 
+                        </Card>
+                    </GridItem>
+                    <GridItem xs={12} sm={6} md={3}>
+                        <Card>
+                            <Link to="../admin/motivosSuspension">
+                                <CardHeader color="info" stats icon style={{ height: '9rem' }}>
+                                    <p style={{ margin: '3em', textAlign: 'center' }} className={classes.cardCategory}> {t('btn.causassuspension')}</p>
+                                </CardHeader>
+                            </Link>
                         </Card>
                     </GridItem>
                     <GridItem xs={12} sm={6} md={3}>
