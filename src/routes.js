@@ -82,6 +82,7 @@ import { ConsultaExpediente } from "views/Expediente/ConsultaExpediente"
 import { PadronBeneficiariasScreen } from "views/PadronBeneficiarios/PadronBeneficiariasScreen";
 import { Expediente } from "views/Expediente/Expediente"
 import { Expedienteapi } from "views/Expediente/Expedienteapi";
+import { EmisionTarjetasScreen } from "views/Dispersion/EmisionTarjetas/EmisionTarjetasScreen";
 
 import {SolicitudEmbozoTarjetasScreen} from "views/SolicitudEmbozoTarjetas/SolicitudEmbozoTarjetasScreen";
 
@@ -359,6 +360,15 @@ const dashboardRoutes = [
     state: "reportesCollapse",
     views: [
       {
+        
+          path: "/emisionTarjetas",
+          name: "Emisión de tarjetas de Broxel",
+          rtlName: "etbx",
+          mini: "etbx",
+          rtlMini: "etbx",
+          component: EmisionTarjetasScreen,
+          layout: "/admin"
+        
       }
     ]
   },
