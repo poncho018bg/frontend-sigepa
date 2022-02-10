@@ -10,6 +10,7 @@ import solicitudEmbozoTarjetasReducer from "reducers/solicitudEmbozoTarjetasRedu
 import {
   GET_EMBOZO_TARJETAS,
   AGREGAR_SOLICITUD_FOLIO_ERROR,
+  GUARDAR_EMBOZO_TARJETAS,
 } from "types/actionTypes";
 
 const baseUrl = process.env.REACT_APP_API_URL;
@@ -89,11 +90,72 @@ export const SolicitudEmbozoTarjetasContextProvider = (props) => {
     }
   };
 
+  const guardarEmbozoTarjetas = async (embozados) => {
+    try {
+      const url = `${baseUrlPublico}solicitudEmbozo`;
+      return new Promise((resolve, reject) => {
+        axios
+          .post(url, embozados, {
+            headers: {
+              Accept: "application/json",
+              "Content-type": "application/json",
+              Authorization: "Bearer " + sessionStorage.getItem("token"),
+            },
+          })
+          .then((response) => {
+            console.log("EMBOZO BENEFICIARIOS: ", response.data);
+            resolve(response);
+            dispatch({
+              type: GUARDAR_EMBOZO_TARJETAS,
+              payload: response.data,
+            });
+            dispatch(getEmbozoBeneficiarios());
+          })
+          .catch((error) => {
+            /**
+             * se agrega esto para detectar el error, si no es necesario, borrar
+             */
+            console.log("Error ", error);
+            if (error.response) {
+              console.log("--------------------------------------------------");
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              console.log("ERROR DATA", error.response.data);
+              console.log("ERROR STATUS", error.response.status);
+              console.log("ERROR HEADERS", error.response.headers);
+              dispatch({
+                type: GUARDAR_EMBOZO_TARJETAS,
+                payload: error.response,
+              });
+            } else if (error.request) {
+              console.log("*************************");
+
+              // The request was made but no response was received
+              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log("ERROR REQUEST", error.request);
+            } else {
+              console.log("++++++++++++++++++++++++");
+              // Something happened in setting up the request that triggered an Error
+              console.log("Error MESSAGE ", error.message);
+            }
+            console.log(error.config);
+          });
+      });
+    } catch (error) {
+      dispatch({
+        type: AGREGAR_SOLICITUD_FOLIO_ERROR,
+        payload: false,
+      });
+    }
+  };
+
   return (
     <SolicitudEmbozoTarjetasContext.Provider
       value={{
         embozoBeneficiarios: state.embozoBeneficiarios,
         getEmbozoBeneficiarios,
+        guardarEmbozoTarjetas,
       }}
     >
       {props.children}
