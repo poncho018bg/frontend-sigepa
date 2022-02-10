@@ -1,6 +1,7 @@
 import {
   GET_EMBOZO_TARJETAS,
   AGREGAR_SOLICITUD_FOLIO_ERROR,
+  GUARDAR_EMBOZO_TARJETAS,
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -15,6 +16,10 @@ export default (state, action) => {
       return {
         ...state,
         error: action.payload,
+      };
+    case GUARDAR_EMBOZO_TARJETAS:
+      return {
+        ...state,
       };
     default:
       return state;
