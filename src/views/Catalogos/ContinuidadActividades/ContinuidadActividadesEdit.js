@@ -63,8 +63,8 @@ export const ContinuidadActividadesEdit = ({ continuidadActividadesSeleccionada 
 
     const schemaValidacion = Yup.object({
         dsactividadcontinuidad: Yup.string()
-            .required('La descripción de la actividad  es obligatorio')
-            .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, "No debe contener caracteres especiales")
+            .required(`${t('msg.descripcionactividadesobligatorio')}`)
+            .matches(/^[a-zA-Z0-9_.-\sñÑ]*$/, `${t('msg.nocarateresespeciales')}`)
     });
 
     const actualizarActividad = async valores => {
@@ -93,7 +93,7 @@ export const ContinuidadActividadesEdit = ({ continuidadActividadesSeleccionada 
                         <DialogContent>
                             <TextField
                                 id="dsactividadcontinuidad"
-                                label="Descripción actividad"
+                                label={t('lbl.descripcionactividad')}
                                 variant="outlined"
                                 name="dsactividadcontinuidad"
                                 fullWidth

@@ -430,7 +430,8 @@ export const PadronBeneficiariasScreen = () => {
                       </TableCell>
                       <TableCell
                         align="center"
-                        style={{ wordWrap: "break-word" }}
+                        style={{ wordWrap: "break-word",  wordBreak: "break-all",}}
+                        width={150}
                       >
                         <TextField
                           variant="outlined"
@@ -441,6 +442,7 @@ export const PadronBeneficiariasScreen = () => {
                           style={{
                             wordWrap: "break-word",
                             wordBreak: "break-all",
+                            width: "10px !important"
                           }}
                           name={row.idMotivoSuspension}
                           value={row.idMotivoSuspension}

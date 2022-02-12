@@ -134,7 +134,7 @@ export const CatTipoApoyoScreen = () => {
                 <GridItem xs={12} sm={12} md={12}>
                     <Card>
                         <CardHeader color="primary">
-                            <h4 className={classes.cardTitleWhite}>Tipo apoyo</h4>
+                            <h4 className={classes.cardTitleWhite}>{t('pnl.tipoapoyo')}</h4>
                             <p className={classes.cardCategoryWhite}>
 
                             </p>
@@ -162,7 +162,7 @@ export const CatTipoApoyoScreen = () => {
                                 <Grid item xs={3}>
                                     <TextField
                                         variant="outlined"
-                                        label="Selecciona un tipo de apoyo"
+                                        label={t('lbl.seleccionatipoapoyo')}
                                         select
                                         fullWidth
                                         name={idApoyosl}
@@ -189,7 +189,7 @@ export const CatTipoApoyoScreen = () => {
                                 <Grid item xs={3}>
                                     <TextField
                                         variant="outlined"
-                                        label="Selecciona una periodicidad"
+                                        label={t('lbl.seleccionaperiodicidad')}
                                         select
                                         fullWidth
                                         name={idPeriodicidadsl}
@@ -215,7 +215,7 @@ export const CatTipoApoyoScreen = () => {
                                 </Grid>
                                 <Grid item xs={2}>
                                     <Button variant="contained" color="primary" fullWidth onClick={buscarTiposApoyos}>
-                                        Buscar
+                                    {t('Buscar')}
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -223,15 +223,15 @@ export const CatTipoApoyoScreen = () => {
                             < Table stickyHeader aria-label="sticky table" >
                                 < TableHead >
                                     < TableRow key="898as" >
-                                        < TableCell align="center"> Estatus</TableCell >
-                                        < TableCell align="center"> Tipo apoyo</TableCell >
-                                        < TableCell align="center"> Apoyo</TableCell >
-                                        < TableCell align="center"> Programa de apoyo en el que se otorga</TableCell >
-                                        < TableCell align="center"> Periodicidad</TableCell >
-                                        < TableCell align="center"> Número de entregas</TableCell >
-                                        < TableCell align="center"> Vigencia</TableCell >
-                                        < TableCell align="center"> Fecha de alta</TableCell >
-                                        < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                        < TableCell align="center">{t('dgv.estatus')} </TableCell >
+                                        < TableCell align="center">{t('dgv.tipoapoyo')} </TableCell >
+                                        < TableCell align="center">{t('dgv.apoyo')} </TableCell >
+                                        < TableCell align="center">{t('dgv.programaapoyootorga')}</TableCell >
+                                        < TableCell align="center">{t('dgv.periodicidad')} </TableCell >
+                                        < TableCell align="center">{t('dgv.numeroentregas')} </TableCell >
+                                        < TableCell align="center">{t('dgv.Vigencia')}</TableCell >
+                                        < TableCell align="center">{t('	dgv.fechaalta')}</TableCell >
+                                        < TableCell colSpan={2} align="center">{t('dgv.acciones')} </TableCell >
                                     </TableRow >
                                 </TableHead >
                                 < TableBody >

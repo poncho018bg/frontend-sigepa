@@ -70,7 +70,7 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsservicio: Yup.string()
-            .required('La descripción del apoyo servicio  es obligatorio')
+            .required(`${t('msg.descripcionapoyoservicioobligatorio')}`)
     });
 
     const actualizarInfoApoyoServicio = async valores => {
@@ -102,7 +102,7 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
                         <DialogContent>
                             <TextField
                                 variant="outlined"
-                                label="Selecciona una clasificación"
+                                label={t('lbl.seleccionaclasificacion')}
                                 select
                                 fullWidth
                                 name="clasificacion_id"
@@ -134,7 +134,7 @@ export const ApoyoServicioFormEdit = ({ ApoyoServicioSeleccionada }) => {
                         <DialogContent>
                             <TextField
                                 id="dsservicio"
-                                label="Desc. Apoyo servicio"
+                                label={t('lbl.descapoyoservicio')} 
                                 variant="outlined"
                                 name="dsservicio"
                                 fullWidth

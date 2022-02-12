@@ -210,18 +210,18 @@ export const DialogTipoApoyoForm = (props) => {
       numApoyos: "",
     },
     validationSchema: Yup.object({
-      dsapoyo: Yup.string().required("El nombre del apoyo es obligatorio"),
-      idPrograma: Yup.string().required("El programa es obligatorio"),
-      dsdescripcion: Yup.string().required("La descripción obligatorio"),
-      estatus: Yup.string().required("El estatus es obligatorio"),
-      fcvigenciainicio: Yup.string().required("La vigencia desde obligatorio"),
-      fcvigenciafin: Yup.string().required("La vigencia hasta es obligatorio"),
+      dsapoyo: Yup.string().required(`${t('msg.nombreapoyoobligatorio')}`),
+      idPrograma: Yup.string().required(`${t('msg.programaobligatorio')}`),
+      dsdescripcion: Yup.string().required(`${t('msg.descripcionobligatorio')}`),
+      estatus: Yup.string().required(`${t('msg.estatusobligatorio')}`),
+      fcvigenciainicio: Yup.string().required(`${t('msg.vigenciaobligatorio')}`),
+      fcvigenciafin: Yup.string().required(`${t('msg.vigenciahastaobligatorio')}`),
 
       //descApoyoEspecie: Yup.string().required("El apoyo en especie es obligatorio")
 
-      idPeriodicidad: Yup.string().required("La periodicidad es obligatorio"),
-      formaEntrega: Yup.string().required("La forma de entrega es obligatorio"),
-      numEntregas: Yup.string().required("El número de entrega es obligatorio"),
+      idPeriodicidad: Yup.string().required(`${t('msg.laperiodicidadobligatorio')}`),
+      formaEntrega: Yup.string().required(`${t('msg.laformaentregaobligatorio')}`),
+      numEntregas: Yup.string().required(`${t('msg.numeroentregaobligatorio')}`),
     }),
 
     onSubmit: async (valores) => {
@@ -291,13 +291,13 @@ export const DialogTipoApoyoForm = (props) => {
     <Card>
       <form onSubmit={formik.handleSubmit}>
         <CardHeader color="primary">
-          {tipoApoyoEditar ? "Editar Tipo de apoyo" : "Alta Tipo de apoyo"}{" "}
+         ${t('pnl.altatipodeapoyo')}
         </CardHeader>
         {console.log("ERRORES=>", formik.errors)}
         <CardBody>
           <TextField
             id="dsapoyo"
-            label="Nombre del Tipo de apoyo"
+            label={t('lbl.nombredeltipoapoyo')}
             variant="outlined"
             name="dsapoyo"
             value={formik.values.dsapoyo}
@@ -315,7 +315,7 @@ export const DialogTipoApoyoForm = (props) => {
         <CardBody>
           <TextField
             variant="outlined"
-            label="Selecciona un programa"
+            label={t('lbl.seleccionaunprograma')}
             select
             fullWidth
             name="idPrograma"
@@ -340,7 +340,7 @@ export const DialogTipoApoyoForm = (props) => {
         <CardBody>
           <TextField
             id="dsdescripcion"
-            label="Descripción del Tipo de apoyo"
+            label={t('lbl.descripciondeltipodeapoyo')}
             variant="outlined"
             name="dsdescripcion"
             value={formik.values.dsdescripcion}
@@ -357,7 +357,7 @@ export const DialogTipoApoyoForm = (props) => {
         </CardBody>
 
         <CardBody>
-          <FormLabel component="legend">Estatus </FormLabel>
+          <FormLabel component="legend">{t('lbl.estatus')}  </FormLabel>
           <RadioGroup
             row
             aria-label="position"
@@ -369,13 +369,13 @@ export const DialogTipoApoyoForm = (props) => {
               name="estatus"
               value="true"
               control={<Radio color="primary" />}
-              label="Activo"
+              label={t('lbl.activo')}
             />
             <FormControlLabel
               name="estatus"
               value="false"
               control={<Radio color="primary" />}
-              label="Inactivo"
+              label={t('lbl.inactivo')}
             />
           </RadioGroup>
         </CardBody>
@@ -383,13 +383,13 @@ export const DialogTipoApoyoForm = (props) => {
         {/* FECHA VIGENCIA */}
         <CardBody>
           <div>
-            <FormLabel component="legend">Vigencia del apoyo </FormLabel>
+            <FormLabel component="legend">{t('lbl.vigenciadelapoyo')} </FormLabel>
           </div>
           <GridContainer>
             <GridItem xs={12} sm={12} md={6}>
               <TextField
                 id="fcvigenciainicio"
-                label="Desde"
+                label={t('lbl.Desde')}
                 type="date"
                 fullWidth
                 className={classes.textField}
@@ -410,7 +410,7 @@ export const DialogTipoApoyoForm = (props) => {
             <GridItem xs={12} sm={12} md={6}>
               <TextField
                 id="fcvigenciafin"
-                label="Hasta"
+                label={t('lbl.hasta')}
                 type="date"
                 fullWidth
                 disabled={disabledCalendar}
@@ -432,17 +432,17 @@ export const DialogTipoApoyoForm = (props) => {
         </CardBody>
 
         <CardBody>
-          <FormLabel component="legend">Selecciona un tipo de apoyo</FormLabel>
+          <FormLabel component="legend">{t('lbl.seleccionauntipodeapoyo')}</FormLabel>
            <MultiSelect
             options={tipoApoyoSelect}
             value={selectedTipApoy}
             onChange={setSelectedTipApoy}
-            labelledBy="Seleccionar"
+            labelledBy={t('cmb.seleccionar')}
           /> 
         </CardBody>
         <CardBody>
           <TextField
-            label="Cantidad en pesos"
+            label={t('lbl.cantidadenpesos')}
             value={formik.values.cantidadPesos}
             onChange={formik.handleChange}
             name="cantidadPesos"
@@ -468,8 +468,8 @@ export const DialogTipoApoyoForm = (props) => {
             )?.length === 1 ? (
               <TextField
                 id="descApoyoEspecie"
-                label=" Descripción del apoyo en especie"
-                variant="outlined"
+                label={t('bl.descripciondelapoyoenespecie')}
+                variant="outlined"l
                 name="descApoyoEspecie"
                 value={formik.values.descApoyoEspecie}
                 onChange={formik.handleChange}
@@ -511,12 +511,12 @@ export const DialogTipoApoyoForm = (props) => {
                 <AccordionDetails>
                   <CardBody>
                     <div>
-                      <FormLabel component="legend">Vigencia</FormLabel>
+                      <FormLabel component="legend">{t('lbl.vigencia')}</FormLabel>
                     </div>
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={6}>
                         <TextField
-                          label="Desde"
+                          label={t('lbl.Desde')}
                           type="date"
                           fullWidth
                           className={classes.textField}
@@ -530,7 +530,7 @@ export const DialogTipoApoyoForm = (props) => {
                       </GridItem>
                       <GridItem xs={12} sm={12} md={6}>
                         <TextField
-                          label="Hasta"
+                          label={t('lbl.hasta')}
                           type="date"
                           fullWidth
                           className={classes.textField}
@@ -553,7 +553,7 @@ export const DialogTipoApoyoForm = (props) => {
         <CardBody>
           <TextField
             variant="outlined"
-            label="Entregar el apoyo"
+            label={t('lbl.entregarelapoyo')}
             select
             fullWidth
             name="idPeriodicidad"
@@ -585,7 +585,7 @@ export const DialogTipoApoyoForm = (props) => {
                 name="formaEntrega"
               />
             }
-            label="Forma de entrega de apoyo por exhibición"
+            label={t('lbl.formaentregaapoyoexhibicion')}
           />
         </CardBody>
 
@@ -593,7 +593,7 @@ export const DialogTipoApoyoForm = (props) => {
           {formik.values.formaEntrega ? (
             <TextField
               variant="outlined"
-              label="Número de entrega de Apoyos"
+              label={t('lbl.numeroentregaapoyos')}
               select
               fullWidth
               name="numEntregas"
@@ -622,20 +622,20 @@ export const DialogTipoApoyoForm = (props) => {
 
         <CardBody>
           <FormLabel component="legend">
-            Selecciona actividades por realizar para continuar con el apoyo{" "}
+          {t('lbl.seleccionactividadesrealizarparacontinuarapoyo')}
           </FormLabel>
-          {/* <MultiSelect
+           <MultiSelect
             options={actividadesContinuarSelect}
             value={selectedActividadesContinuar}
             onChange={setSelectedActividadesContinuar}
-            labelledBy="Seleccionar"
-          /> */}
+            labelledBy={t('cmb.seleccionar')}
+          /> 
         </CardBody>
 
         <CardBody>
           <TextField
             id="outlined-multiline-static"
-            label="Observaciones"
+            label={t('lbl.expObservaciones')}
             multiline
             rows={4}
             variant="outlined"

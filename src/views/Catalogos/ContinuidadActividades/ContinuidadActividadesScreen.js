@@ -125,9 +125,9 @@ export const ContinuidadActividadesScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Actividades por realizar para continuar con el beneficio</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.actividadesrealizarparacontinuarbeneficio')}</h4>
                     <p className={classes.cardCategoryWhite}>
-                        Pantalla que permite configurar las actividades por realizar para continuar con el beneficio
+                        
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -156,9 +156,9 @@ export const ContinuidadActividadesScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell align="center"> Estatus</TableCell >
-                                < TableCell align="center"> Descripción de actividad </TableCell>
-                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                < TableCell align="center">{t('dgv.estatus')}</TableCell >
+                                < TableCell align="center">{t('dgv.descripciondeactividad')}</TableCell>
+                                < TableCell colSpan={2} align="center">{t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >

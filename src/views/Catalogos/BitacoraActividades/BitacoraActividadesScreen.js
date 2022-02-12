@@ -68,9 +68,9 @@ export const BitacoraActividadesScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}> Movimientos por Usuario </h4>
+                    <h4 className={classes.cardTitleWhite}>Movimientos por Usuarioddd </h4>
                     <p className={classes.cardCategoryWhite}>
-                        Búsqueda de movimientos por Usuario
+                
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>

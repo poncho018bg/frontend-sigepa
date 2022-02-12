@@ -60,7 +60,7 @@ export const BitacoraScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}> Bitácora </h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.bitacora')}</h4>
                     <p className={classes.cardCategoryWhite}>
 
                     </p>
@@ -75,7 +75,7 @@ export const BitacoraScreen = () => {
                         <Grid item xs={3}>
                             <TextField
                                 id="nombre"
-                                label="Nombre del funcionario"
+                                label={t('lbl.nombredelfuncionario')}
                                 variant="outlined"
                                 name={nombre}
                                 fullWidth
@@ -92,7 +92,7 @@ export const BitacoraScreen = () => {
                                         <TextField
                                        
                                             id="fechainicio"
-                                            label="Fecha de movimiento desde"
+                                            label={t('lbl.fechamovimientodesde')}
                                             type="date"
                                             fullWidth
                                             className={classes.textField}
@@ -112,7 +112,7 @@ export const BitacoraScreen = () => {
                                     <GridItem xs={4} sm={4} md={4}>
                                         <TextField
                                             id="fechafin"
-                                            label="Fecha de movimiento hasta"
+                                            label={t('lbl.fechamovimientohasta')}
                                             type="date"
                                             fullWidth
                                             disabled={fechainicio === ''}
@@ -141,15 +141,15 @@ export const BitacoraScreen = () => {
 
                         <Grid item xs={2}>
                             <Button variant="contained" color="primary" fullWidth onClick={buscarMovimientos}>
-                                Buscar
+                            {t('lbl.buscar')} 
                             </Button>
                         </Grid>
                     </Grid>
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="898as" >
-                                < TableCell align="center"> Detalle del movimiento</TableCell >
-                                < TableCell align="center"> Horario del movimiento</TableCell >
+                                < TableCell align="center"> {t('dgv.detallemovimiento')}</TableCell >
+                                < TableCell align="center"> {t('dgv.horariomovimiento')}</TableCell >
 
                             </TableRow >
                         </TableHead >

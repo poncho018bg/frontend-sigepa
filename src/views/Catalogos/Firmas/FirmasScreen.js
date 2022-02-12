@@ -141,7 +141,7 @@ export const FirmasScreen = () => {
                                 < TableCell align="center">{t('dgv.fechaalta')}</TableCell >
                                 < TableCell align="center">{t('dgv.comentarios')}</TableCell >
 
-                                < TableCell align="center" colSpan={2}> Acciones</TableCell >
+                                < TableCell align="center" colSpan={2}> {t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >

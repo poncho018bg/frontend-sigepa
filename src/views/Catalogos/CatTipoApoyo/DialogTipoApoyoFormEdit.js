@@ -164,30 +164,30 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     const schemaValidacion = Yup.object({
 
         dsapoyo: Yup.string()
-            .required('El nombre del apoyo es obligatorio'),
+            .required(`${t('msg.nombreapoyoobligatorio')}`),
         idPrograma: Yup.string()
-            .required('El programa es obligatorio'),
+            .required(`${t('msg.programaobligatorio')}`),
         dsdescripcion: Yup.string()
-            .required('La descripción obligatorio'),
+            .required(`${t('msg.descripcionobligatorio')}`),
         estatus: Yup.string()
-            .required('El estatus es obligatorio'),
+            .required(`${t('msg.estatusobligatorio')}`),
  
         fcvigenciainicio: Yup.string()
-            .required('La vigencia desde obligatorio'),
+            .required(`${t('msg.vigenciaobligatorio')}`),
         fcvigenciafin: Yup.string()
-            .required('La vigencia hasta es obligatorio'),
+            .required(`${t('msg.vigenciahastaobligatorio')}`),
 
 
         cantidadPesos: Yup.string()
-            .required('La cantidad es obligatorio'),
+            .required(`${t('lbl.lacantidadesobligatorio')}`),
         // descApoyoEspecie: Yup.string()
         //     .required('El apoyo en especie es obligatorio'),
         idPeriodicidad: Yup.string()
-            .required('La periodicidad es obligatorio'),
+            .required(`${t('msg.laperiodicidadobligatorio')}`),
         formaEntrega: Yup.string()
-            .required('La forma de entrega es obligatorio'),
+            .required(`${t('msg.laformaentregaobligatorio')}`),
         numEntregas: Yup.string()
-            .required('El número de entrega es obligatorio'),
+            .required(`${t('msg.numeroentregaobligatorio')}`),
     });
 
     const actualizarTipoApoyo = async valores => {
@@ -246,7 +246,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         <DialogContent >
                             <TextField
                                 id="dsapoyo"
-                                label="Nombre del Tipo de apoyo"
+                                label={t('lbl.nombredeltipoapoyo')}
                                 variant="outlined"
                                 name="dsapoyo"
                                 fullWidth
@@ -261,7 +261,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         <DialogContent>
                             <TextField
                                 variant="outlined"
-                                label="Selecciona un programa"
+                                label={t('lbl.seleccionaunprograma')}
                                 select
                                 fullWidth
                                 name="idPrograma"
@@ -293,7 +293,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         <DialogContent>
                             <TextField
                                 id="dsdescripcion"
-                                label="Descripción del Tipo de apoyo"
+                                label={t('lbl.descripciondeltipodeapoyo')}
                                 variant="outlined"
                                 name="dsdescripcion"
                                 value={props.values.dsdescripcion}
@@ -308,21 +308,21 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         </DialogContent>
 
                         <DialogContent>
-                            <FormLabel component="legend">Estatus </FormLabel>
+                            <FormLabel component="legend">{t('lbl.estatus')} </FormLabel>
                             <RadioGroup row aria-label="position" defaultValue="top" value={props.values.estatus} onChange={props.handleChange} >
-                                <FormControlLabel name="estatus" value="true" control={<Radio color="primary" />} label="Activo" />
-                                <FormControlLabel name="estatus" value="false" control={<Radio color="primary" />} label="Inactivo" />
+                                <FormControlLabel name="estatus" value="true" control={<Radio color="primary" />} label={t('lbl.activo')} />
+                                <FormControlLabel name="estatus" value="false" control={<Radio color="primary" />} label={t('lbl.inactivo')} />
                             </RadioGroup>
                         </DialogContent>
 
                         {/* FECHA VIGENCIA */}
                         <DialogContent>
-                            <div><FormLabel component="legend">Vigencia del tipo apoyo </FormLabel></div>
+                            <div><FormLabel component="legend">{t('lbl.vigenciadelapoyo')} </FormLabel></div>
                             <GridContainer>
                                 <GridItem xs={12} sm={12} md={6}>
                                     <TextField
                                         id="fcvigenciainicio"
-                                        label="Desde"
+                                        label={t('lbl.Desde')}
                                         type="date"
                                         fullWidth
                                         className={classes.textField}
@@ -342,7 +342,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                 <GridItem xs={12} sm={12} md={6}>
                                     <TextField
                                         id="fcvigenciafin"
-                                        label="Hasta"
+                                        label={t('lbl.hasta')}
                                         type="date"
 
                                         fullWidth
@@ -365,12 +365,12 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
 
                         <DialogContent style={{ overflowY: 'visible' }}>
-                            <FormLabel component="legend">Selecciona un tipo de apoyo</FormLabel>
+                            <FormLabel component="legend">{t('lbl.seleccionauntipodeapoyo')}</FormLabel>
                               <MultiSelect
                                 options={tipoApoyoSelect}
                                 value={selectedTipApoy}
                                 onChange={setSelectedTipApoy}
-                                labelledBy="Seleccionar"
+                                labelledBy={t('cmb.seleccionar')}
 
                             />  
 
@@ -380,7 +380,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         <DialogContent>
 
                             <TextField
-                                label="Cantidad en pesos"
+                                label={t('lbl.cantidadenpesos')}
                                 value={props.values.cantidadPesos}
                                 onChange={props.handleChange}
                                 name="cantidadPesos"
@@ -400,7 +400,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         <DialogContent>
                             <TextField
                                 id="descApoyoEspecie"
-                                label="Descripción del apoyo en especie"
+                                label={t('bl.descripciondelapoyoenespecie')}
                                 variant="outlined"
                                 name="descApoyoEspecie"
                                 value={props.values.descApoyoEspecie}
@@ -442,12 +442,12 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                             <AccordionDetails>
 
                                                 <DialogContent>
-                                                    <div><FormLabel component="legend">Vigencia</FormLabel></div>
+                                                    <div><FormLabel component="legend">{t('lbl.vigencia')}</FormLabel></div>
                                                     <GridContainer>
                                                         <GridItem xs={12} sm={12} md={6}>
 
                                                             <TextField
-                                                                label="Desde"
+                                                                label={t('lbl.Desde')}
                                                                 type="date"
                                                                 fullWidth
                                                                 className={classes.textField}
@@ -462,7 +462,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                                                         </GridItem>
                                                         <GridItem xs={12} sm={12} md={6}>
                                                             <TextField
-                                                                label="Hasta"
+                                                                label={t('lbl.hasta')}
                                                                 type="date"
                                                                 fullWidth
                                                                 className={classes.textField}
@@ -495,7 +495,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         <DialogContent>
                             <TextField
                                 variant="outlined"
-                                label="Entregar el apoyo"
+                                label={t('lbl.entregarelapoyo')}
                                 select
                                 fullWidth
                                 name="idPeriodicidad"
@@ -525,7 +525,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         <DialogContent>
                             <FormControlLabel
                                 control={<Checkbox value={props.values.formaEntrega} defaultChecked={props.values.formaEntrega} onChange={props.handleChange} name="formaEntrega" />}
-                                label="Forma de entrega de apoyo por exhibición"
+                                label={t('lbl.formaentregaapoyoexhibicion')}
                             />
                         </DialogContent>
 
@@ -533,7 +533,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                             {
                                 props.values.formaEntrega ? (<TextField
                                     variant="outlined"
-                                    label="Número de entrega de Apoyos"
+                                    label={t('lbl.numeroentregaapoyos')}
                                     select
                                     fullWidth
                                     name="numEntregas"
@@ -566,13 +566,13 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
 
                         <DialogContent style={{ overflowY: 'visible' }}>
-                            <FormLabel component="legend">Selecciona actividades por realizar para continuar con el apoyo </FormLabel>
+                            <FormLabel component="legend">{t('lbl.seleccionactividadesrealizarparacontinuarapoyo')}</FormLabel>
 
                               <MultiSelect
                                 options={actividadesContinuarSelect}
                                 value={selectedActividadesContinuar}
                                 onChange={setSelectedActividadesContinuar}
-                                labelledBy="Seleccionar"
+                                labelledBy={t('cmb.seleccionar')}
                             />  
 
 
@@ -582,7 +582,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
                         <DialogContent>
                             <TextField
                                 id="outlined-multiline-static"
-                                label="Observaciones"
+                                label={t('lbl.expObservaciones')}
                                 multiline
                                 rows={4}
                                 variant="outlined"

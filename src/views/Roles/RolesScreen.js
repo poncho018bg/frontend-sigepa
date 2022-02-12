@@ -214,7 +214,7 @@ export const RolesScreen = () => {
      */
 
     if (idPerfilSelected === "") {
-      errores.idPerfil = "El campo perfil es obligatorio";
+      errores.idPerfil =  `${t('msg.campoperfilesobligatorio')}` ;
     }
 
     if (!isObjEmpty(errores)) {
@@ -289,7 +289,7 @@ export const RolesScreen = () => {
           <Card>
             <CardHeader color="primary">
               {" "}
-              Administración de perfiles{" "}
+              {t('pnl.administracionperfiles')}{" "}
             </CardHeader>
 
             <CardBody>
@@ -312,7 +312,7 @@ export const RolesScreen = () => {
                   <DialogContent>
                     <TextField
                       variant="outlined"
-                      label="Selecciona un perfil"
+                      label={t('lbl.seleccionaperfil')}
                       select
                       fullWidth
                       error={errors.idPerfil}
@@ -350,7 +350,7 @@ export const RolesScreen = () => {
                     aria-labelledby="nested-list-subheader"
                     subheader={
                       <ListSubheader component="div" id="nested-list-subheader">
-                        Modulos
+                       {t('lbl.modulos')}
                       </ListSubheader>
                     }
                     className={classes.root}
