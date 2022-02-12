@@ -105,7 +105,7 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
     // Schema de validación
     const schemaValidacion = Yup.object({
         dsdocumento: Yup.string()
-            .required('El nombre del documento es obligatorio')
+            .required(`${t('msg.nombredocumentoobligatorio')}`)
     });
 
     const actualizarInfoDocumentos = async valores => {       
@@ -140,7 +140,7 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dsdocumento"
-                                label="Documento"
+                                label={t('lbl.documento')}
                                 variant="outlined"
                                 name="dsdocumento"
                                 fullWidth
@@ -155,7 +155,7 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
                         <DialogContent>
                             <TextField
                                 id="dsdescripcion"
-                                label="Descripcion del documento"
+                                label={t('lbl.descripciondocumento')}
                                 variant="outlined"
                                 name="dsdescripcion"
                                 fullWidth
@@ -171,7 +171,7 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
                             <TextField
                                 id="idVigencia"
                                 variant="outlined"
-                                label="Selecciona una vigencia"
+                                label={t('cmb.seleccionavigencia')}
                                 select
                                 fullWidth
                                 name="idVigencia"
@@ -200,7 +200,7 @@ export const DocumentosEdit = ({ documentoSeleccionado }) => {
                             <TextField
                                 id="tiporequisitoid"
                                 variant="outlined"
-                                label="Selecciona un tipo de requisito"
+                                label={t('cmb.seleccionatiporequisito')} 
                                 select
                                 fullWidth
                                 name="tiporequisitoid"

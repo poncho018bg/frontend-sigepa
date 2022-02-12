@@ -122,9 +122,9 @@ export const DocumentosForm = () => {
         },
         validationSchema: Yup.object({
             dsdescripcion: Yup.string()
-                .required('La descripcion es obligatoria'),
+                .required(`${t('msg.descripcionobligatoria')}`),
             dsdocumento: Yup.string()
-                .required('El nombre del documento es obligatorio')
+                .required(`${t('msg.nombredocumentoobligatorio')}`)
 
         }),
         onSubmit: async valores => {
@@ -138,7 +138,7 @@ export const DocumentosForm = () => {
             <DialogContent>
                 <TextField
                     id="dsdocumento"
-                    label="Documento"
+                    label={t('lbl.documento')}
                     variant="outlined"
                     name="dsdocumento"
                     fullWidth
@@ -153,7 +153,7 @@ export const DocumentosForm = () => {
             <DialogContent>
                 <TextField
                     id="dsdescripcion"
-                    label="Descripcion del documento"
+                    label={t('lbl.descripciondocumento')}
                     variant="outlined"
                     name="dsdescripcion"
                     fullWidth
@@ -169,7 +169,7 @@ export const DocumentosForm = () => {
                 <TextField
                     id="idVigencia"
                     variant="outlined"
-                    label="Selecciona una vigencia"
+                    label={t('cmb.seleccionavigencia')}
                     select
                     fullWidth
                     name="idVigencia"
@@ -200,7 +200,7 @@ export const DocumentosForm = () => {
                 <TextField
                     id="tipoRequisitos"
                     variant="outlined"
-                    label="Selecciona un tipo de requisito"
+                    label={t('cmb.seleccionatiporequisito')} 
                     select
                     fullWidth
                     name="tipoRequisitos"
