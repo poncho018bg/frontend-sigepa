@@ -134,9 +134,9 @@ export const DocumentosScreen = () => {
 
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Documentos</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.documentos')}</h4>
                     <p className={classes.cardCategoryWhite}>
-                        En esta zona se consultan los documentos y programas a los que tiene asignados
+                        
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -165,11 +165,11 @@ export const DocumentosScreen = () => {
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell align="center">Documento</TableCell >
-                                < TableCell align="center" >Programa de apoyo</TableCell >
-                                < TableCell align="center">Vigencia</TableCell >
-                                < TableCell align="center" > Estatus</TableCell >
-                                < TableCell colSpan={2} align="center"> Acciones</TableCell >
+                                < TableCell align="center">{t('dgv.documento')}</TableCell >
+                                < TableCell align="center" >{t('dgv.programaapoyo')}</TableCell >
+                                < TableCell align="center">{t('dgv.Vigencia')}</TableCell >
+                                < TableCell align="center" > {t('dgv.estatus')}</TableCell >
+                                < TableCell colSpan={2} align="center">{t('dgv.acciones')}</TableCell >
                             </TableRow >
                         </TableHead >
                         < TableBody >
@@ -187,7 +187,7 @@ export const DocumentosScreen = () => {
                                                     round
                                                     onClick={() => verProgramas(row)}
                                                 >
-                                                    Ver Programas
+                                                    {t('btn.verprogramas')}
                                                 </Button>
                                             </TableCell >
                                             <TableCell align="center">

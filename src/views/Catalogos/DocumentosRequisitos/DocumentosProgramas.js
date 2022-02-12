@@ -41,9 +41,9 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
         <span>
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Programas</h4>
+                    <h4 className={classes.cardTitleWhite}>{t('pnl.documentos')}</h4>
                     <p className={classes.cardCategoryWhite}>
-                        En esta sección se podra ver los programas que contienen el documento {documentoProgramaSeleccionado.dsdocumento}
+                    {t('pnl.seccionpodraverprogramas')} {documentoProgramaSeleccionado.dsdocumento}
                     </p>
                     <CardActions>
                         <Grid container spacing={3}>
@@ -62,7 +62,7 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
                                     round
                                     onClick={cerrarProgramas}
                                 >
-                                    Cerrar
+                                    {t('btn.cerrar')}
                                 </Button>
                             </Grid>
                         </Grid>
@@ -73,11 +73,11 @@ export const DocumentosProgramas = ({ documentoProgramaSeleccionado, cerrarVista
                     < Table stickyHeader aria-label="sticky table" >
                         < TableHead >
                             < TableRow key="ta1" >
-                                < TableCell align="center">Programa de apoyo</ TableCell>
-                                < TableCell align="center" >Tipo de apoyo</TableCell >
-                                < TableCell align="center">Periodicidad</TableCell >
-                                < TableCell align="center"> Vigencia</TableCell >
-                                < TableCell align="center" > Estatus</TableCell >
+                                < TableCell align="center">{t('dgv.programaapoyo')}</ TableCell>
+                                < TableCell align="center" >{t('dgv.tipoapoyo')}</TableCell >
+                                < TableCell align="center">{t('dgv.periodicidad')}</TableCell >
+                                < TableCell align="center"> {t('dgv.Vigencia')}</TableCell >
+                                < TableCell align="center" > {t('dgv.estatus')}</TableCell >
                             </TableRow >
                         </TableHead>
                         < TableBody >
