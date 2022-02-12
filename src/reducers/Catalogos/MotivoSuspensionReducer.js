@@ -6,6 +6,9 @@ import {
   AGREGAR_MOTIVO_SUSPENSION_ERROR,
   CAMBIAR_PAGINA,
   CAMBIAR_TAMANIO_PAGINA,
+  GET_BANDEJA_SUSPENSION,
+  REGISTRAR_BANDEJA_MOTIVO_RECHAZO,
+  ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO,
 } from "../../types/actionTypes";
 
 export default (state, action) => {
@@ -48,6 +51,17 @@ export default (state, action) => {
         ...state,
         size: action.payload,
       };
+    case GET_BANDEJA_SUSPENSION:
+      return {
+        ...state,
+        bandejaSuspensionList: action.payload,
+      };
+    case REGISTRAR_BANDEJA_MOTIVO_RECHAZO:
+      return {
+        ...state,
+        bandejaMotivoSuspension: action.payload,
+      };
+    case ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO:
     default:
       return state;
   }

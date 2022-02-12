@@ -34,6 +34,7 @@ import {
   axiosPut,
   axiosGetSinToken,
 } from "helpers/axiosPublico";
+const UserService = sessionStorage.getItem("token");
 const baseUrl = process.env.REACT_APP_API_URL;
 const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL;
 const baseUrlCurp = process.env.REACT_APP_API_PUBLICO_URL;
@@ -661,7 +662,7 @@ export const RegistroSolicitudContextProvider = (props) => {
           .post(url, SolicitudesSeleted, {
             headers: {
               Accept: "application/json",
-              "Content-type": "application/json",
+              "Content-type": "application/json"
             },
           })
           .then((response) => {

@@ -9,9 +9,17 @@ import {
   AGREGAR_MOTIVO_SUSPENSION_ERROR,
   CAMBIAR_PAGINA,
   CAMBIAR_TAMANIO_PAGINA,
+  GET_BANDEJA_SUSPENSION,
+  REGISTRAR_BANDEJA_MOTIVO_RECHAZO,
+  ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO,
 } from "types/actionTypes";
 
 import { axiosGet, axiosPostHetoas } from "helpers/axios";
+import { axiosPut, axiosPost } from "helpers/axiosPublico";
+
+const UserService = sessionStorage.getItem("token");
+const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL;
+const baseApiExpediente = process.env.REACT_APP_API_EXPEDIENTE_URL;
 
 const baseUrl = process.env.REACT_APP_API_URL;
 export const MotivoSuspensionContext = createContext();
@@ -23,6 +31,8 @@ export const MotivoSuspensionContextProvider = (props) => {
     page: 0,
     size: 10,
     total: 0,
+    bandejaSuspensionList: [],
+    bandejaMotivoSuspension: null,
   };
 
   const [state, dispatch] = useReducer(MotivoSuspensionReducer, initialState);
@@ -183,6 +193,136 @@ export const MotivoSuspensionContextProvider = (props) => {
     }
   };
 
+  const getBandejaSuspendidos = async (idMvBandeja) => {
+    console.log("BANDEJA SUSPENSION", idMvBandeja);
+    try {
+      const url = `${baseUrlPublico}bandejaSuspensionOverride/bandejaSolicitudSuspension/${idMvBandeja}`;
+      console.log("BANDEJA SUSPENSION URL", url);
+      return new Promise((resolve, reject) => {
+        axios
+          .get(url, {
+            headers: {
+              Accept: "application/json",
+              "Content-type": "application/json",
+              Authorization: "Bearer " + UserService,
+            },
+          })
+          .then((response) => {
+            console.log("BANDEJA SUSPENSION RESPONSE =>", response.data);
+            resolve(response);
+            dispatch({
+              type: GET_BANDEJA_SUSPENSION,
+              payload: response.data,
+            });
+          })
+          .catch((error) => {
+            console.log("BANDEJA SUSPENSION ERROR =>", error);
+            if (error.response) {
+              console.log("--------------------------------------------------");
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              console.log("ERROR DATA", error.response.data);
+              console.log("ERROR STATUS", error.response.status);
+              console.log("ERROR HEADERS", error.response.headers);
+            } else if (error.request) {
+              console.log("*************************");
+
+              // The request was made but no response was received
+              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log("ERROR REQUEST", error.request);
+            } else {
+              console.log("++++++++++++++++++++++++");
+              // Something happened in setting up the request that triggered an Error
+              console.log("Error MESSAGE ", error.message);
+            }
+            console.log(error.config);
+          });
+      });
+    } catch (error) {
+      console.log("Err", error);
+    }
+  };
+
+  const registrarBandejaMotivoSuspensionExpediente = async (datos) => {
+    try {
+      console.log(
+        "mv bandeja solicitud expediente datos motivo suspension ===>",
+        datos
+      );
+      const url = `${baseUrlPublico}bandejaSuspensionOverride/suspenderExpediente`;
+      axios
+        .post(url, datos, {
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+            Authorization: "Bearer " + UserService,
+          },
+        })
+        .then((response) => {
+          console.log("GUARDADO SUSPENSION =>", response.data);
+          resolve(response);
+          dispatch({
+            type: REGISTRAR_BANDEJA_MOTIVO_RECHAZO,
+            payload: resultado,
+          });
+        })
+        .catch((error) => {
+          console.log("ERROR GUARDAR SUSPENSION =>", error);
+          if (error.response) {
+            console.log("--------------------------------------------------");
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log("ERROR DATA", error.response.data);
+            console.log("ERROR STATUS", error.response.status);
+            console.log("ERROR HEADERS", error.response.headers);
+          } else if (error.request) {
+            console.log("*************************");
+
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log("ERROR REQUEST", error.request);
+          } else {
+            console.log("++++++++++++++++++++++++");
+            // Something happened in setting up the request that triggered an Error
+            console.log("Error MESSAGE ", error.message);
+          }
+          console.log(error.config);
+        });
+    } catch (error) {
+      console.log("mv bandeja solicitud ", error);
+    }
+  };
+
+  const actualizarBandejaMotivoSuspensionExpediente = async (datos) => {
+    try {
+      console.log(
+        "mv bandeja solicitud expediente datos motivo rechazos ===>",
+        datos
+      );
+      const resultado = await axiosPut("bandejaSuspensionOverride", datos);
+      console.log(
+        "mv bandeja solicitud resultado guardado de bandeja rechazos ==>",
+        resultado
+      );
+      dispatch({
+        type: ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO,
+        payload: resultado,
+      });
+      /*
+            let bitcacora = {
+                bitacoraaccion_id: "/cf648ed8-43aa-4230-9d5f-a65b8820b6d1",
+                usuario_id: sessionStorage.getItem('idUSuario'),
+                dsdescripcion:JSON.stringify(datos)
+            }
+            dispatch(registrarBtActividades(bitcacora))
+            */
+    } catch (error) {
+      console.log("mv bandeja solicitud ", error);
+    }
+  };
+
   return (
     <MotivoSuspensionContext.Provider
       value={{
@@ -191,6 +331,8 @@ export const MotivoSuspensionContextProvider = (props) => {
         page: state.page,
         size: state.size,
         total: state.total,
+        bandejaMotivoSuspension: state.bandejaMotivoSuspension,
+        bandejaSuspensionList: state.bandejaSuspensionList,
         getMotivoSuspension,
         registrarMotivoSuspension,
         actualizarMotivoSuspension,
@@ -200,6 +342,9 @@ export const MotivoSuspensionContextProvider = (props) => {
         changePageSizes,
         changePage,
         getMotivoSuspensionByParametros,
+        getBandejaSuspendidos,
+        registrarBandejaMotivoSuspensionExpediente,
+        actualizarBandejaMotivoSuspensionExpediente,
       }}
     >
       {props.children}
