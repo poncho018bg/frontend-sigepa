@@ -30,15 +30,15 @@ export const DialogEstatusReasignada = (props) => {
             <DialogTitle id="alert-dialog-title">{"Confirmación"}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    ¿Esta seguro de reasignar la solicitud seleccionada ?
+                {t('msg.estaseguroreasignarsolicitudseleccionada')} 
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">
-                    No
+                {t('btn.no')}
                 </Button>
                 <Button onClick={props.handleCambiarEstatusReasignada} color="primary" autoFocus>
-                    Sí
+                {t('lbl.si')} 
                 </Button>
             </DialogActions>
         </Dialog>

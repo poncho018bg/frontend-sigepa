@@ -164,14 +164,14 @@ export const BandejaSolicitudes = () => {
     <GridItem xs={12} sm={12} md={12}>
       <Card>
         <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>Búsqueda de Solicitudes</h4>
+          <h4 className={classes.cardTitleWhite}>{t('pnl.busquedasolicitudes')}</h4>
         </CardHeader>
         <CardBody>
           <Grid container spacing={3}>
             <Grid item xs={3}>
               <TextField
                 id="paterno"
-                label="Apellido paterno"
+                label={t('lbl.apellidopaterno')}
                 variant="outlined"
                 name={apellidopaterno}
                 fullWidth
@@ -182,7 +182,7 @@ export const BandejaSolicitudes = () => {
             <Grid item xs={3}>
               <TextField
                 id="materno"
-                label="Apellido materno"
+                label={t('lbl.apellidomaterno')}
                 variant="outlined"
                 name={apellidoMaterno}
                 fullWidth
@@ -194,7 +194,7 @@ export const BandejaSolicitudes = () => {
             <Grid item xs={3}>
               <TextField
                 id="nombre"
-                label="Nombre"
+                label={t('lbl.nombre')}
                 variant="outlined"
                 name={nombre}
                 fullWidth
@@ -206,7 +206,7 @@ export const BandejaSolicitudes = () => {
             <Grid item xs={3}>
               <TextField
                 variant="outlined"
-                label="Selecciona un programa"
+                label={t('	lbl.seleccionaunprograma')}
                 select
                 fullWidth
                 name="programa"
@@ -227,7 +227,7 @@ export const BandejaSolicitudes = () => {
             <Grid item xs={3}>
               <TextField
                 id="folio"
-                label="Folio"
+                label={t('lbl.folio')}
                 variant="outlined"
                 name={folio}
                 fullWidth
@@ -239,7 +239,7 @@ export const BandejaSolicitudes = () => {
             <Grid item xs={3}>
               <TextField
                 variant="outlined"
-                label="Selecciona un estatus"
+                label={t('lbl.seleccionaestatus')}
                 select
                 fullWidth
                 name="estatus"
@@ -264,7 +264,7 @@ export const BandejaSolicitudes = () => {
                 fullWidth
                 onClick={buscarSolitudes}
               >
-                Buscar
+                {t('lbl.buscar')} 
               </Button>
             </Grid>
           </Grid>
@@ -273,13 +273,13 @@ export const BandejaSolicitudes = () => {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow key="898as">
-                <TableCell align="center"> Solicitante </TableCell>
-                <TableCell align="center"> Programa de apoyo </TableCell>
-                <TableCell align="center"> Folio </TableCell>
-                <TableCell align="center"> Estatus </TableCell>
-                <TableCell align="center"> Fecha de registro </TableCell>
-                <TableCell align="center"> Observaciones </TableCell>
-                <TableCell align="center"> Motivo de baja/rechazo </TableCell>
+                <TableCell align="center">{t('dgv.solicitante')} </TableCell>
+                <TableCell align="center">{t('dgv.programaapoyo')} </TableCell>
+                <TableCell align="center">{t('dgv.folio')}  </TableCell>
+                <TableCell align="center">{t('dgv.estatus')}  </TableCell>
+                <TableCell align="center">{t('dgv.fecharegistro')} </TableCell>
+                <TableCell align="center">{t('dgv.observaciones')} </TableCell>
+                <TableCell align="center">{t('dgv.motivobajarechazo')} </TableCell>
                 <TableCell align="center"> {t("dgv.acciones")}</TableCell>
               </TableRow>
             </TableHead>

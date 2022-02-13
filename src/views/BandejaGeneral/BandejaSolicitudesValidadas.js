@@ -266,7 +266,7 @@ export const BandejaSolicitudesValidadas = () => {
       <Card>
         <CardHeader color="primary">
           <h4 className={classes.cardTitleWhite}>
-            Bandeja general de solicitudes
+          {t('pnl.bandejageneralsolicitudes')} 
           </h4>
           <p className={classes.cardCategoryWhite}></p>
           <CardActions></CardActions>
@@ -276,7 +276,7 @@ export const BandejaSolicitudesValidadas = () => {
             <Grid item xs={3}>
               <TextField
                 id="paterno"
-                label="Apellido paterno"
+                label={t('lbl.apellidopaterno')}
                 variant="outlined"
                 name={apellidopaterno}
                 fullWidth
@@ -287,7 +287,7 @@ export const BandejaSolicitudesValidadas = () => {
             <Grid item xs={3}>
               <TextField
                 id="materno"
-                label="Apellido materno"
+                label={t('lbl.apellidomaterno')}
                 variant="outlined"
                 name={apellidoMaterno}
                 fullWidth
@@ -299,7 +299,7 @@ export const BandejaSolicitudesValidadas = () => {
             <Grid item xs={3}>
               <TextField
                 id="nombre"
-                label="Nombre"
+                label={t('lbl.nombre')}
                 variant="outlined"
                 name={nombre}
                 fullWidth
@@ -310,7 +310,7 @@ export const BandejaSolicitudesValidadas = () => {
             <Grid item xs={3}>
               <TextField
                 id="folio"
-                label="Folio"
+                label={t('lbl.folio')}
                 variant="outlined"
                 name={folio}
                 fullWidth
@@ -321,7 +321,7 @@ export const BandejaSolicitudesValidadas = () => {
             <Grid item xs={3}>
               <TextField
                 variant="outlined"
-                label="Selecciona un programa"
+                label={t('lbl.seleccionaunprograma')}
                 select
                 fullWidth
                 name="programa"
@@ -342,7 +342,7 @@ export const BandejaSolicitudesValidadas = () => {
             <Grid item xs={3}>
               <TextField
                 variant="outlined"
-                label="Selecciona un municipio"
+                label={t('cmb.seleccionamunicipio')}
                 select
                 fullWidth
                 name="municipio"
@@ -367,7 +367,7 @@ export const BandejaSolicitudesValidadas = () => {
                 onClick={buscarSolitudes}
               >
                 <SearchIcon />
-                Buscar
+                {t('lbl.buscar')}
               </Button>
             </Grid>
           </Grid>
@@ -380,7 +380,7 @@ export const BandejaSolicitudesValidadas = () => {
                   fullWidth
                   onClick={pendienteAprobarSeleccionadas}
                 >
-                  Pendientes de aprobar seleccionadas
+                 {t('lbl.pendientesdeaprobarseleccionadas')} 
                 </Button>
               </Grid>
             </GridItem>
@@ -389,14 +389,14 @@ export const BandejaSolicitudesValidadas = () => {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow key="898as">
-                <TableCell align="center">checkbox </TableCell>
-                <TableCell align="center"> Folio </TableCell>
-                <TableCell align="center"> Estatus </TableCell>
-                <TableCell align="center"> Solicitante </TableCell>
-                <TableCell align="center"> Programa de apoyo </TableCell>
-                <TableCell align="center"> Fecha de registro </TableCell>
-                <TableCell align="center"> Observaciones </TableCell>
-                <TableCell align="center"> Motivo de baja/rechazo </TableCell>
+                <TableCell align="center">{t('cmb.seleccionar')}</TableCell>
+                <TableCell align="center">{t('dgv.folio')}  </TableCell>
+                <TableCell align="center">{t('dgv.estatus')}  </TableCell>
+                <TableCell align="center">{t('dgv.solicitante')}  </TableCell>
+                <TableCell align="center">{t('dgv.programaapoyo')}  </TableCell>
+                <TableCell align="center">{t('dgv.fecharegistro')}  </TableCell>
+                <TableCell align="center">{t('dgv.observaciones')}  </TableCell>
+                <TableCell align="center">{t('dgv.motivobajarechazo')}  </TableCell>
                 <TableCell align="center"> {t("dgv.acciones")}</TableCell>
               </TableRow>
             </TableHead>
@@ -442,7 +442,7 @@ export const BandejaSolicitudesValidadas = () => {
                         )}
                       </TableCell>
                       {row.validarObservaciones === "" ? (
-                        <TableCell align="center">NO</TableCell>
+                        <TableCell align="center">{t('lbl.no')}</TableCell>
                       ) : (
                         <TableCell align="center">
                           <Tooltip
@@ -508,8 +508,8 @@ export const BandejaSolicitudesValidadas = () => {
                   fullWidth
                   onClick={pendienteAprobarGeneral}
                 >
-                  Pendientes de aprobar {solicitudParametrosBandeja.length}{" "}
-                  Seleccionadas
+                  {t('lbl.pendientesdeaprobarerparte')} {solicitudParametrosBandeja.length}{" "}
+                  {t('lbl.seleccionadassedparte')} 
                 </Button>
               </Grid>
             </GridItem>

@@ -260,7 +260,7 @@ export const BandejaAutorizaSolicitudes = () => {
       <Card>
         <CardHeader color="primary">
           <h4 className={classes.cardTitleWhite}>
-            Bandeja general de solicitudes
+          {t('pnl.bandejageneralsolicitudes')} 
           </h4>
           <p className={classes.cardCategoryWhite}></p>
           <CardActions></CardActions>
@@ -270,7 +270,7 @@ export const BandejaAutorizaSolicitudes = () => {
             <Grid item xs={3}>
               <TextField
                 variant="outlined"
-                label="Selecciona un programa"
+                label={t('lbl.seleccionaunprograma')}
                 select
                 fullWidth
                 name="programa"
@@ -295,7 +295,7 @@ export const BandejaAutorizaSolicitudes = () => {
                 onClick={buscarSolitudes}
               >
                 <SearchIcon />
-                Buscar
+                {t('lbl.buscar')}
               </Button>
             </Grid>
           </Grid>
@@ -304,7 +304,7 @@ export const BandejaAutorizaSolicitudes = () => {
             <Grid item xs={3}>
               <TextField
                 variant="outlined"
-                label="Sesión de comite que autoriza"
+                label={t('lbl.sesioncomitequeautoriza')}
                 select
                 fullWidth
                 name="comite"
@@ -329,7 +329,7 @@ export const BandejaAutorizaSolicitudes = () => {
             <Grid item xs={3}>
               <TextField
                 id="fcsesionComite"
-                label="Fecha de sesión del comité"
+                label={t('lbl.fechasesioncomite')} 
                 type="date"
                 fullWidth
                 className={classes.textField}
@@ -354,7 +354,7 @@ export const BandejaAutorizaSolicitudes = () => {
             <Grid item xs={3}></Grid>
             <Grid item xs={3} style={{ textAlign: "center", float: "right" }}>
               <Button color="primary" fullWidth onClick={aprobarSeleccionadas}>
-                Aprobar Seleccionadas
+              {t('lbl.aprobarseleccionadas')}
               </Button>
             </Grid>
           </Grid>
@@ -367,17 +367,17 @@ export const BandejaAutorizaSolicitudes = () => {
             <TableHead>
               <TableRow key="898as">
                 <TableCell align="center"> </TableCell>
-                <TableCell align="center"> Folio </TableCell>
-                <TableCell align="center"> Estatus </TableCell>
-                <TableCell align="center"> Solicitante </TableCell>
-                <TableCell align="center"> Programa de apoyo </TableCell>
-                <TableCell align="center"> Fecha de registro </TableCell>
-                <TableCell align="center"> Observaciones </TableCell>
-                <TableCell align="center"> Firmas de autorización </TableCell>
-                <TableCell align="center"> Sesión del cómite </TableCell>
+                <TableCell align="center">{t('dgv.folio')}  </TableCell>
+                <TableCell align="center">{t('dgv.estatus')}  </TableCell>
+                <TableCell align="center">{t('dgv.solicitante')}  </TableCell>
+                <TableCell align="center">{t('dgv.programaapoyo')}  </TableCell>
+                <TableCell align="center">{t('dgv.fecharegistro')}  </TableCell>
+                <TableCell align="center">{t('dgv.observaciones')}  </TableCell>
+                <TableCell align="center">{t('dgv.firmasdeautorizacion')}  </TableCell>
+                <TableCell align="center">{t('dgv.sesiondelcomite')}  </TableCell>
                 <TableCell align="center">
                   {" "}
-                  Fecha de sesión del cómite{" "}
+                  {t('lbl.fechadesesiondelcomite')}{" "}
                 </TableCell>
                 <TableCell align="center"> {t("dgv.acciones")}</TableCell>
               </TableRow>
@@ -482,7 +482,7 @@ export const BandejaAutorizaSolicitudes = () => {
                   fullWidth
                   onClick={aprobarSeleccionadasGeneral}
                 >
-                  Aprobar {solicitudParametrosBandeja.length} Seleccionadas
+                  {t('lbl.aprobar')} {solicitudParametrosBandeja.length} {t('lbl.seleccionadassedparte')}
                 </Button>
               </Grid>
             </GridItem>

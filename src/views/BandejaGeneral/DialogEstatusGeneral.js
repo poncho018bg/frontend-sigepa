@@ -30,15 +30,15 @@ export const DialogEstatusGeneral = (props) => {
             <DialogTitle id="alert-dialog-title">{"Confirmación"}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    ¿Esta seguro de aprobar el total de {props.totalRegistros} seleccionadas ?
+                {t('msg.estaseguroaprobartotalde')} {props.totalRegistros} {t('msg.seleccionadas')}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">
-                    No
+                {t('btn.no')}
                 </Button>
                 <Button onClick={props.handleCambiarGeneral} color="primary" autoFocus>
-                    Sí
+                {t('lbl.si')} 
                 </Button>
             </DialogActions>
         </Dialog>
