@@ -44,6 +44,7 @@ import { Mensaje } from "components/Personalizados/Mensaje";
 import { ModalConfirmacion } from "commons/ModalConfirmacion";
 import { ModalContextConfirmacion } from "contexts/modalContextConfirmacion";
 import { MotivoSuspensionContext } from "contexts/MotivoSuspensionContext";
+import { BandejaSuspensionContext } from "contexts/BandejaSuspensionContext";
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -64,7 +65,8 @@ export const PadronBeneficiariasScreen = () => {
   const { motivoSuspensionList, getMotivoSuspension } = useContext(
     MotivoSuspensionContext
   );
-  const { registrarBandejaRechazosPadron,registrarBandejaSuspensionPadron } = useContext(BandejaRechazosContext);
+  const { registrarBandejaRechazosPadron } = useContext(BandejaRechazosContext);
+  const { registrarBandejaSuspensionPadron } = useContext(BandejaSuspensionContext);
 
   const classes = useStyles();
 
