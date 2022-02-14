@@ -58,14 +58,17 @@ export const SuspensionExpediente = forwardRef((props) => {
   }, [mvbandejasolicitud]);
 
   useEffect(() => {
-    console.log("BANDEJA SUSPENSION USEEFFECT", bandejaSuspensionList);
+    console.log("BANDEJA SUSPENSION USEEFFECT LIST", bandejaSuspensionList);
     if (
       (bandejaSuspensionList !== null) &
       (bandejaSuspensionList !== undefined)
     ) {
       setMotivoSuspension(bandejaSuspensionList.idMotivoSuspension);
 
-      if (bandejaSuspensionList.idMotivoSuspension !== undefined) {
+      if (
+        bandejaSuspensionList.idMotivoSuspension !== undefined &&
+        bandejaSuspensionList.idMotivoSuspension !== null
+      ) {
         setDesactivarGuardarMotivo(true);
       }
       //se agrega un boolean pasra cuando ya trae una bandeja de rechazo
@@ -80,34 +83,47 @@ export const SuspensionExpediente = forwardRef((props) => {
   }, [bandejaSuspensionList]);
 
   const onClickMotivo = () => {
-    console.log("Se va a guardar el Motivo Suspension", bandejaSuspensionList);
+    console.log(
+      "BANDEJA SUSPENSION Se va a guardar el Motivo Suspension",
+      bandejaSuspensionList
+    );
 
-    if (bandejaSuspensionList === undefined) {
+    //verifica si la bandeja tiene datos
+    if (
+      bandejaSuspensionList === undefined ||
+      bandejaSuspensionList.length === 0
+    ) {
       let guardarSuspension = {
+        id: "NULL",
+        dsobservaciones: "NULL",
         motivo_rechazo_id: motivoSuspension,
         mv_bandeja_id: mvbandejasolicitud.id_mv_bandeja_solicitudes,
         idUsuario: sessionStorage.getItem("idUSuario"),
-        idMvBandeja: mvbandejasolicitud.id_mv_bandeja_solicitudes,
       };
       //se registra el motivo de suspension
       registrarBandejaMotivoSuspensionExpediente(guardarSuspension);
     } else {
-      if (bandejaSuspensionList === undefined) {
+      //revisa si el id viene nulo o vacio
+      if (
+        bandejaSuspensionList.id === undefined ||
+        bandejaSuspensionList.id === null
+      ) {
         let guardarSuspension = {
+          id: "NULL",
+          dsobservaciones: "NULL",
           motivo_rechazo_id: motivoSuspension,
           mv_bandeja_id: mvbandejasolicitud.id_mv_bandeja_solicitudes,
           idUsuario: sessionStorage.getItem("idUSuario"),
-          idMvBandeja: mvbandejasolicitud.id_mv_bandeja_solicitudes,
         };
         //se registra el motivo de suspension
         registrarBandejaMotivoSuspensionExpediente(guardarSuspension);
       } else {
         let guardarSuspension = {
           id: bandejaSuspensionList.id,
+          dsobservaciones: "NULL",
           motivo_rechazo_id: motivoSuspension,
           mv_bandeja_id: mvbandejasolicitud.id_mv_bandeja_solicitudes,
           idUsuario: sessionStorage.getItem("idUSuario"),
-          idMvBandeja: mvbandejasolicitud.id_mv_bandeja_solicitudes,
         };
         //se actualiza la bandeja de suspension
         actualizarBandejaMotivoSuspensionExpediente(guardarSuspension);
