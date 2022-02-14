@@ -121,7 +121,7 @@ export const BandejaSolicitudes = () => {
     }
 
     let guardarDatos = {
-      id: selected.id,
+      id: selected.idMvBandeja,
       nombre: selected.nombre,
       dsprograma: selected.dsprograma,
       dsfoliosolicitud: selected.dsfoliosolicitud,
