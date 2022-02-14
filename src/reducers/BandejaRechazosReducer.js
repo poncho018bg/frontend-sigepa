@@ -6,6 +6,7 @@ import {
   BANDEJA_RECHAZOS_ERROR,
   CAMBIAR_PAGINA,
   CAMBIAR_TAMANIO_PAGINA,
+  REGISTRAR_BANDEJA_SUSPENSION
 } from "types/actionTypes";
 
 export default (state, action) => {
