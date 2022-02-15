@@ -45,6 +45,7 @@ import { ModalConfirmacion } from "commons/ModalConfirmacion";
 import { ModalContextConfirmacion } from "contexts/modalContextConfirmacion";
 import { MotivoSuspensionContext } from "contexts/MotivoSuspensionContext";
 import { BandejaSuspensionContext } from "contexts/BandejaSuspensionContext";
+import AgregarFolioSedesem from "./AgregarFolioSedesem";
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -388,7 +389,7 @@ export const PadronBeneficiariasScreen = () => {
                       <TableCell align="center">{row.dscurp}</TableCell>
                       <TableCell align="center">{row.dsprograma}</TableCell>
                       <TableCell align="center">{row.dstipoapoyo}</TableCell>
-                      <TableCell align="center"> </TableCell>
+                      <TableCell align="center"><AgregarFolioSedesem row={row}/></TableCell>
                       <TableCell align="center">{row.anio}</TableCell>
                       <TableCell align="center">
                         <TextField
