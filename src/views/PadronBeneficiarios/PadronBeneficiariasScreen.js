@@ -80,6 +80,7 @@ export const PadronBeneficiariasScreen = () => {
   const [idTipoApoyo, setIdTipoApoyo] = useState("");
   const [anio, setAnio] = useState("");
   const [idMotivoBaja, setIdMotivoBaja] = useState("");
+  const [idMotivoSuspension, setIdMotivoSuspension] = useState("");
   const [masprogramas, setMasprogramas] = useState(true);
 
   const [llMotivoBaja, setLlMotivoBaja] = useState("");
@@ -123,6 +124,7 @@ export const PadronBeneficiariasScreen = () => {
       idTipoApoyo: idTipoApoyo === "" ? "NULL" : idTipoApoyo,
       anioPrograma: anio === "" ? "NULL" : anio,
       motivoRechazo: idMotivoBaja === "" ? "NULL" : idMotivoBaja,
+      motivoSuspension: idMotivoSuspension === "" ? "NULL" : idMotivoSuspension,
     };
     setMasprogramas(true);
 
@@ -339,6 +341,26 @@ export const PadronBeneficiariasScreen = () => {
                 {motivoRechazosList.map((item) => (
                   <MenuItem key={item.id} value={item.id}>
                     {item.dsmotivorechazo}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                variant="outlined"
+                label="Selecciona un motivo de suspensión"
+                select
+                fullWidth
+                name="idMotivoSuspension"
+                value={idMotivoSuspension}
+                onChange={(e) => setIdMotivoSuspension(e.target.value)}
+              >
+                <MenuItem value="0">
+                  <em>{t("cmb.ninguno")}</em>
+                </MenuItem>
+                {motivoSuspensionList.map((item) => (
+                  <MenuItem key={item.id} value={item.id}>
+                    {item.dsmotivosuspesion}
                   </MenuItem>
                 ))}
               </TextField>

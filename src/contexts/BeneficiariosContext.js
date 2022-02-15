@@ -26,7 +26,7 @@ export const BeneficiariosContextProvider = props => {
     const getPadronBeneficiarios = async parametros => {
 
         try {
-            const resultado = await axiosGet(`beneficiarioOverride/padron/${parametros.nombrebeneficiario}/${parametros.curp}/${parametros.idPrograma}/${parametros.idTipoApoyo}/${parametros.anioPrograma}/${parametros.motivoRechazo}`);
+            const resultado = await axiosGet(`beneficiarioOverride/padron/${parametros.nombrebeneficiario}/${parametros.curp}/${parametros.idPrograma}/${parametros.idTipoApoyo}/${parametros.anioPrograma}/${parametros.motivoRechazo}/${parametros.motivoSuspension}`);
             dispatch({
                 type: GET_PADRON_BENEFICIARIOS,
                 payload: resultado
