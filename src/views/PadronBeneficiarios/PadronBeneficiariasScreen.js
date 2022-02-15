@@ -325,46 +325,7 @@ export const PadronBeneficiariasScreen = () => {
               />
             </Grid>
 
-            <Grid item xs={3}>
-              <TextField
-                variant="outlined"
-                label="Selecciona un motivo de baja"
-                select
-                fullWidth
-                name="idMotivoBaja"
-                value={idMotivoBaja}
-                onChange={(e) => setIdMotivoBaja(e.target.value)}
-              >
-                <MenuItem value="0">
-                  <em>{t("cmb.ninguno")}</em>
-                </MenuItem>
-                {motivoRechazosList.map((item) => (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.dsmotivorechazo}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                variant="outlined"
-                label="Selecciona un motivo de suspensión"
-                select
-                fullWidth
-                name="idMotivoSuspension"
-                value={idMotivoSuspension}
-                onChange={(e) => setIdMotivoSuspension(e.target.value)}
-              >
-                <MenuItem value="0">
-                  <em>{t("cmb.ninguno")}</em>
-                </MenuItem>
-                {motivoSuspensionList.map((item) => (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.dsmotivosuspesion}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
+
 
             <Grid item xs={3} style={{ textAlign: "right", float: "right" }}>
               <Button
