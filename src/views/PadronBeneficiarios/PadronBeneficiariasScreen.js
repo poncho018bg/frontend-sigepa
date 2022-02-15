@@ -18,6 +18,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  TableContainer,
 } from "@material-ui/core";
 import Button from "components/CustomButtons/Button.js";
 import moment from "moment";
@@ -67,7 +68,9 @@ export const PadronBeneficiariasScreen = () => {
     MotivoSuspensionContext
   );
   const { registrarBandejaRechazosPadron } = useContext(BandejaRechazosContext);
-  const { registrarBandejaSuspensionPadron } = useContext(BandejaSuspensionContext);
+  const { registrarBandejaSuspensionPadron } = useContext(
+    BandejaSuspensionContext
+  );
 
   const classes = useStyles();
 
@@ -184,26 +187,26 @@ export const PadronBeneficiariasScreen = () => {
         });
     }
     if (esBajaOSuspension === "SUSPENSION") {
-        registrarBandejaSuspensionPadron(bandejaRechz)
-          .then((response) => {
-            setOpenSnackbar(true);
-  
-            setMsjConfirmacion(`${t("msg.registroguardadoexitosamente")}`);
-  
-            const timer = setTimeout(() => {
-              setError(false);
-              setShowModalConfirmacion(false);
-              setOpen(false);
-            }, 1500);
-            return () => clearTimeout(timer);
-          })
-          .catch((err) => {
-            console.log("err", err);
-            setOpenSnackbar(true);
-            setError(true);
-            setMsjConfirmacion(`${t("msg.ocurrioerrorcalidarinfo")}`);
-          });
-      }
+      registrarBandejaSuspensionPadron(bandejaRechz)
+        .then((response) => {
+          setOpenSnackbar(true);
+
+          setMsjConfirmacion(`${t("msg.registroguardadoexitosamente")}`);
+
+          const timer = setTimeout(() => {
+            setError(false);
+            setShowModalConfirmacion(false);
+            setOpen(false);
+          }, 1500);
+          return () => clearTimeout(timer);
+        })
+        .catch((err) => {
+          console.log("err", err);
+          setOpenSnackbar(true);
+          setError(true);
+          setMsjConfirmacion(`${t("msg.ocurrioerrorcalidarinfo")}`);
+        });
+    }
 
     setShowModalConfirmacion(false);
   };
@@ -236,7 +239,7 @@ export const PadronBeneficiariasScreen = () => {
         e.activo = true;
       }
     });
-    mostrarConfirmacion("SUSPENSION")
+    mostrarConfirmacion("SUSPENSION");
   };
 
   return (
@@ -326,8 +329,6 @@ export const PadronBeneficiariasScreen = () => {
               />
             </Grid>
 
-
-
             <Grid item xs={3} style={{ textAlign: "right", float: "right" }}>
               <Button
                 variant="contained"
@@ -339,118 +340,124 @@ export const PadronBeneficiariasScreen = () => {
               </Button>
             </Grid>
           </Grid>
+          <TableContainer>
+            <Table
+              stickyHeader
+              aria-label="sticky table"
+              style={{ paddingTop: "20px" }}
+            >
+              <TableHead>
+                <TableRow key="898as">
+                  <TableCell align="center"> Consecutivo </TableCell>
+                  <TableCell align="center"> Beneficiaria </TableCell>
+                  <TableCell align="center"> CURP </TableCell>
+                  <TableCell align="center"> Programa de apoyo </TableCell>
+                  <TableCell align="center"> Tipo de apoyo </TableCell>
+                  <TableCell align="center"> Folio SEDESEM </TableCell>
+                  <TableCell align="center">
+                    {" "}
+                    Año de registro al programa{" "}
+                  </TableCell>
+                  <TableCell align="center" width={250}>
+                    {" "}
+                    Motivo de baja{" "}
+                  </TableCell>
+                  <TableCell align="center" width={250}>
+                    {" "}
+                    Motivo de suspensión{" "}
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {padronList
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => {
+                    return (
+                      <TableRow key={row.id}>
+                        <TableCell align="center">{row.number}</TableCell>
 
-          <Table
-            stickyHeader
-            aria-label="sticky table"
-            style={{ paddingTop: "20px" }}
-          >
-            <TableHead>
-              <TableRow key="898as">
-                <TableCell align="center"> Consecutivo </TableCell>
-                <TableCell align="center"> Beneficiaria </TableCell>
-                <TableCell align="center"> CURP </TableCell>
-                <TableCell align="center"> Programa de apoyo </TableCell>
-                <TableCell align="center"> Tipo de apoyo </TableCell>
-                <TableCell align="center"> Folio SEDESEM </TableCell>
-                <TableCell align="center">
-                  {" "}
-                  Año de registro al programa{" "}
-                </TableCell>
-                <TableCell align="center" width={250}>
-                  {" "}
-                  Motivo de baja{" "}
-                </TableCell>
-                <TableCell align="center" width={250}>
-                  {" "}
-                  Motivo de suspensión{" "}
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {padronList
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow key={row.id}>
-                      <TableCell align="center">{row.number}</TableCell>
-
-                      <TableCell align="center">
-                        <IconButton
-                          aria-label="delete"
-                          className={classes.margin}
-                          size="small"
-                          onClick={() => buscarDetalle(row)}
-                        >
-                          <ExpandMoreIcon fontSize="inherit" />
-                        </IconButton>
-                        {row.nombre}
-                      </TableCell>
-                      <TableCell align="center">{row.dscurp}</TableCell>
-                      <TableCell align="center">{row.dsprograma}</TableCell>
-                      <TableCell align="center">{row.dstipoapoyo}</TableCell>
-                      <TableCell align="center"><AgregarFolioSedesem row={row}/></TableCell>
-                      <TableCell align="center">{row.anio}</TableCell>
-                      <TableCell align="center">
-                        <TextField
-                          variant="outlined"
-                          label="Seleccione"
-                          select
-                          disabled={row.activo}
-                          fullWidth
-                          name={row.idMotivoBaja}
-                          value={row.idMotivoBaja}
-                          onChange={(e) =>
-                            cambiarMotivoBaja(row, e.target.value)
-                          }
-                        >
-                          <MenuItem value="0">
-                            <em>{t("cmb.ninguno")}</em>
-                          </MenuItem>
-                          {motivoRechazosList.map((item) => (
-                            <MenuItem key={item.id} value={item.id}>
-                              {item.dsmotivorechazo}
+                        <TableCell align="center">
+                          <IconButton
+                            aria-label="delete"
+                            className={classes.margin}
+                            size="small"
+                            onClick={() => buscarDetalle(row)}
+                          >
+                            <ExpandMoreIcon fontSize="inherit" />
+                          </IconButton>
+                          {row.nombre}
+                        </TableCell>
+                        <TableCell align="center">{row.dscurp}</TableCell>
+                        <TableCell align="center">{row.dsprograma}</TableCell>
+                        <TableCell align="center">{row.dstipoapoyo}</TableCell>
+                        <TableCell align="center">
+                          <AgregarFolioSedesem row={row} />
+                        </TableCell>
+                        <TableCell align="center">{row.anio}</TableCell>
+                        <TableCell align="center">
+                          <TextField
+                            variant="outlined"
+                            label="Seleccione"
+                            select
+                            disabled={row.activo}
+                            fullWidth
+                            name={row.idMotivoBaja}
+                            value={row.idMotivoBaja}
+                            onChange={(e) =>
+                              cambiarMotivoBaja(row, e.target.value)
+                            }
+                          >
+                            <MenuItem value="0">
+                              <em>{t("cmb.ninguno")}</em>
                             </MenuItem>
-                          ))}
-                        </TextField>
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        style={{ wordWrap: "break-word",  wordBreak: "break-all",}}
-                        width={150}
-                      >
-                        <TextField
-                          variant="outlined"
-                          label="Seleccione"
-                          select
-                          disabled={row.activo}
-                          fullWidth
+                            {motivoRechazosList.map((item) => (
+                              <MenuItem key={item.id} value={item.id}>
+                                {item.dsmotivorechazo}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </TableCell>
+                        <TableCell
+                          align="center"
                           style={{
                             wordWrap: "break-word",
                             wordBreak: "break-all",
-                            width: "10px !important"
                           }}
-                          name={row.idMotivoSuspension}
-                          value={row.idMotivoSuspension}
-                          onChange={(e) =>
-                            cambiarMotivoSuspension(row, e.target.value)
-                          }
+                          width={150}
                         >
-                          <MenuItem value="0">
-                            <em>{t("cmb.ninguno")}</em>
-                          </MenuItem>
-                          {motivoSuspensionList.map((item) => (
-                            <MenuItem key={item.id} value={item.id}>
-                              {item.dsmotivosuspesion}
+                          <TextField
+                            variant="outlined"
+                            label="Seleccione"
+                            select
+                            disabled={row.activo}
+                            fullWidth
+                            style={{
+                              wordWrap: "break-word",
+                              wordBreak: "break-all",
+                              width: "10px !important",
+                            }}
+                            name={row.idMotivoSuspension}
+                            value={row.idMotivoSuspension}
+                            onChange={(e) =>
+                              cambiarMotivoSuspension(row, e.target.value)
+                            }
+                          >
+                            <MenuItem value="0">
+                              <em>{t("cmb.ninguno")}</em>
                             </MenuItem>
-                          ))}
-                        </TextField>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
+                            {motivoSuspensionList.map((item) => (
+                              <MenuItem key={item.id} value={item.id}>
+                                {item.dsmotivosuspesion}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
           <TablePagination
             rowsPerPageOptions={[25, 50, 75, 100]}
             component="div"

@@ -115,8 +115,8 @@ export const BandejaSolicitudes = () => {
   const handleCambiarEstatusReasignada = () => {
     console.log("entra a handleCambiarEstatusReaXsiganda", selected);
 
-    let estatus="";
-    if(selected.dsestatusregistro === "Suspensión"){
+    let estatus = "";
+    if (selected.dsestatusregistro === "Suspensión") {
       estatus = "suspension";
     }
 
@@ -197,6 +197,18 @@ export const BandejaSolicitudes = () => {
 
             <Grid item xs={3}>
               <TextField
+                id="folio"
+                label={t("lbl.folio")}
+                variant="outlined"
+                name={folio}
+                fullWidth
+                value={folio}
+                onChange={(e) => setFolio(e.target.value)}
+              />
+            </Grid>
+
+            <Grid item xs={3}>
+              <TextField
                 variant="outlined"
                 label={t("lbl.seleccionaunprograma")}
                 select
@@ -214,18 +226,6 @@ export const BandejaSolicitudes = () => {
                   </MenuItem>
                 ))}
               </TextField>
-            </Grid>
-
-            <Grid item xs={3}>
-              <TextField
-                id="folio"
-                label={t("lbl.folio")}
-                variant="outlined"
-                name={folio}
-                fullWidth
-                value={folio}
-                onChange={(e) => setFolio(e.target.value)}
-              />
             </Grid>
 
             <Grid item xs={3}>
