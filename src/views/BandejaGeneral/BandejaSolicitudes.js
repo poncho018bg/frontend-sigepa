@@ -44,6 +44,7 @@ export const BandejaSolicitudes = () => {
     getSolicitudesPorParametros,
     solicitudParametros,
     bandejaCambioEstatusReasignada,
+    reasignarSuspendida,
   } = useContext(RegistroSolicitudContext);
   const { getCien, programasList } = useContext(ProgramasContext);
   const { getEstatusSolicitud, estatusSolicitudList } = useContext(
@@ -113,38 +114,27 @@ export const BandejaSolicitudes = () => {
 
   const handleCambiarEstatusReasignada = () => {
     console.log("entra a handleCambiarEstatusReaXsiganda", selected);
-    for (let i = 0; i < selected.length; i++) {
-      selected[i].idUsuario = sessionStorage.getItem("idUSuario");
+
+    let estatus="";
+    if(selected.dsestatusregistro === "Suspensión"){
+      estatus = "suspension";
     }
 
-    let guardarDatos = [
-      {
-        id: selected.id,
-        nombre: selected.nombre,
-        dsprograma: selected.dsprograma,
-        dsfoliosolicitud: selected.dsfoliosolicitud,
-        dsestatusregistro: selected.dsestatusregistro,
-        fechaRegistro: selected.fechaRegistro,
-        observaciones: selected.observaciones,
-        motivobaja: selected.motivobaja,
-        idUsuario: sessionStorage.getItem("idUSuario"),
-        idBeneficiario: selected.idBeneficiario,
-        curp: selected.dscurp,
-        validarObservaciones: "false",
-      },
-    ];
-
-    let parametros = {
-      idEstatus: estatus === "" ? "Registradas" : estatus,
-      idPrograma: programa === "" ? "NULL" : programa,
-      idMunicipio: "NULL",
-      paterno: apellidopaterno === "" ? "NULL" : apellidopaterno,
-      materno: apellidoMaterno === "" ? "NULL" : apellidoMaterno,
-      nombre: nombre === "" ? "NULL" : nombre,
-      folio: folio === "" ? "NULL" : folio,
+    let guardarDatos = {
+      id: selected.idMvBandeja,
+      nombre: selected.nombre,
+      dsprograma: selected.dsprograma,
+      dsfoliosolicitud: selected.dsfoliosolicitud,
+      dsestatusregistro: estatus,
+      fechaRegistro: selected.fechaRegistro,
+      observaciones: selected.observaciones,
+      motivobaja: selected.motivobaja,
+      idUsuario: sessionStorage.getItem("idUSuario"),
+      idBeneficiario: selected.idBeneficiario,
+      curp: selected.dscurp,
     };
     console.log("guardar datos=>>", guardarDatos);
-    bandejaCambioEstatusReasignada(guardarDatos, parametros);
+    reasignarSuspendida(guardarDatos);
 
     let solcitudFilter = {
       paterno: apellidopaterno === "" ? "NULL" : apellidopaterno,
@@ -154,8 +144,8 @@ export const BandejaSolicitudes = () => {
       folio: folio === "" ? "NULL" : folio,
       idEstatus: estatus === "" ? "NULL" : estatus,
     };
-    console.log(solcitudFilter);
-    getSolicitudesPorParametros(solcitudFilter);
+    //console.log(solcitudFilter);
+    //getSolicitudesPorParametros(solcitudFilter);
 
     setShowDialogEstatusReasignada(false);
   };
@@ -164,14 +154,16 @@ export const BandejaSolicitudes = () => {
     <GridItem xs={12} sm={12} md={12}>
       <Card>
         <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>{t('pnl.busquedasolicitudes')}</h4>
+          <h4 className={classes.cardTitleWhite}>
+            {t("pnl.busquedasolicitudes")}
+          </h4>
         </CardHeader>
         <CardBody>
           <Grid container spacing={3}>
             <Grid item xs={3}>
               <TextField
                 id="paterno"
-                label={t('lbl.apellidopaterno')}
+                label={t("lbl.apellidopaterno")}
                 variant="outlined"
                 name={apellidopaterno}
                 fullWidth
@@ -182,7 +174,7 @@ export const BandejaSolicitudes = () => {
             <Grid item xs={3}>
               <TextField
                 id="materno"
-                label={t('lbl.apellidomaterno')}
+                label={t("lbl.apellidomaterno")}
                 variant="outlined"
                 name={apellidoMaterno}
                 fullWidth
@@ -194,7 +186,7 @@ export const BandejaSolicitudes = () => {
             <Grid item xs={3}>
               <TextField
                 id="nombre"
-                label={t('lbl.nombre')}
+                label={t("lbl.nombre")}
                 variant="outlined"
                 name={nombre}
                 fullWidth
@@ -206,7 +198,7 @@ export const BandejaSolicitudes = () => {
             <Grid item xs={3}>
               <TextField
                 variant="outlined"
-                label={t('	lbl.seleccionaunprograma')}
+                label={t("lbl.seleccionaunprograma")}
                 select
                 fullWidth
                 name="programa"
@@ -227,7 +219,7 @@ export const BandejaSolicitudes = () => {
             <Grid item xs={3}>
               <TextField
                 id="folio"
-                label={t('lbl.folio')}
+                label={t("lbl.folio")}
                 variant="outlined"
                 name={folio}
                 fullWidth
@@ -239,7 +231,7 @@ export const BandejaSolicitudes = () => {
             <Grid item xs={3}>
               <TextField
                 variant="outlined"
-                label={t('lbl.seleccionaestatus')}
+                label={t("lbl.seleccionaestatus")}
                 select
                 fullWidth
                 name="estatus"
@@ -264,7 +256,7 @@ export const BandejaSolicitudes = () => {
                 fullWidth
                 onClick={buscarSolitudes}
               >
-                {t('lbl.buscar')} 
+                {t("lbl.buscar")}
               </Button>
             </Grid>
           </Grid>
@@ -273,13 +265,15 @@ export const BandejaSolicitudes = () => {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow key="898as">
-                <TableCell align="center">{t('dgv.solicitante')} </TableCell>
-                <TableCell align="center">{t('dgv.programaapoyo')} </TableCell>
-                <TableCell align="center">{t('dgv.folio')}  </TableCell>
-                <TableCell align="center">{t('dgv.estatus')}  </TableCell>
-                <TableCell align="center">{t('dgv.fecharegistro')} </TableCell>
-                <TableCell align="center">{t('dgv.observaciones')} </TableCell>
-                <TableCell align="center">{t('dgv.motivobajarechazo')} </TableCell>
+                <TableCell align="center">{t("dgv.solicitante")} </TableCell>
+                <TableCell align="center">{t("dgv.programaapoyo")} </TableCell>
+                <TableCell align="center">{t("dgv.folio")} </TableCell>
+                <TableCell align="center">{t("dgv.estatus")} </TableCell>
+                <TableCell align="center">{t("dgv.fecharegistro")} </TableCell>
+                <TableCell align="center">{t("dgv.observaciones")} </TableCell>
+                <TableCell align="center">
+                  {t("dgv.motivobajarechazo")}{" "}
+                </TableCell>
                 <TableCell align="center"> {t("dgv.acciones")}</TableCell>
               </TableRow>
             </TableHead>

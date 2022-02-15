@@ -9,9 +9,11 @@ import Button from "components/CustomButtons/Button.js";
 import { useDispatch } from 'react-redux';
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "assets/jss/material-dashboard-pro-react/components/tableStyle";
+import { useTranslation } from "react-i18next";
 
 
 export const DialogEstatusReasignada = (props) => {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const useStyles = makeStyles(styles);
     const classes = useStyles();

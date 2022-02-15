@@ -662,7 +662,8 @@ export const RegistroSolicitudContextProvider = (props) => {
           .post(url, SolicitudesSeleted, {
             headers: {
               Accept: "application/json",
-              "Content-type": "application/json"
+              "Content-type": "application/json",
+              Authorization: "Bearer " + UserService,
             },
           })
           .then((response) => {
@@ -680,6 +681,50 @@ export const RegistroSolicitudContextProvider = (props) => {
             reject(error);
           });
       });
+    } catch (error) {
+      console.log("Err", error);
+    }
+  };
+
+  const reasignarSuspendida = async (solicitud) => {
+    try {
+      console.log("datos a reasignar ==>", solicitud);
+      const url = `${baseUrlPublico}bandejaSolicitudOverride/cambiarEstatusReasignadaSuspendida`;
+      axios
+        .post(url, solicitud, {
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+            Authorization: "Bearer " + UserService,
+          },
+        })
+        .then((response) => {
+          console.log("RESPONSE=>", response.data);
+          resolve(response);
+        })
+        .catch((error) => {
+          console.log("Err", error);
+          if (error.response) {
+            console.log("--------------------------------------------------");
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log("ERROR DATA", error.response.data);
+            console.log("ERROR STATUS", error.response.status);
+            console.log("ERROR HEADERS", error.response.headers);
+          } else if (error.request) {
+            console.log("*************************");
+
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log("ERROR REQUEST", error.request);
+          } else {
+            console.log("++++++++++++++++++++++++");
+            // Something happened in setting up the request that triggered an Error
+            console.log("Error MESSAGE ", error.message);
+          }
+          console.log(error.config);
+        });
     } catch (error) {
       console.log("Err", error);
     }
@@ -834,6 +879,7 @@ export const RegistroSolicitudContextProvider = (props) => {
         bandejaValidadaCambioEstatusReasignada,
         bandejaAprobarCambioEstatusReasignada,
         getCoberturaProgramas,
+        reasignarSuspendida,
       }}
     >
       {props.children}
