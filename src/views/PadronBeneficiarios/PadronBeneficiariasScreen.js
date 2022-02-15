@@ -72,7 +72,7 @@ export const PadronBeneficiariasScreen = () => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+  const { showModalConfirmacion, setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
 
   const [nombre, setNombre] = useState("");
   const [curp, setCurp] = useState("");
@@ -102,9 +102,11 @@ export const PadronBeneficiariasScreen = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setIdMotivoBaja("")
   };
   const handleClosesuspension = () => {
     setOpensuspension(false);
+    setIdMotivoSuspension("")
   };
 
   const handleChangePage = (event, newPage) => {
@@ -145,6 +147,17 @@ export const PadronBeneficiariasScreen = () => {
       }
     }
   }, [beneficiariaList]);
+
+  useEffect(() => {
+    console.log('idMotivoBaja',llMotivoBaja)
+    console.log('idMotivoSuspension',llMotivoBaja)
+    if(llMotivoBaja !== '' && !showModalConfirmacion  ){
+      setOpen(false);
+      buscarSolitudes();
+    }
+  
+  }, [showModalConfirmacion]);
+
   const mostrarConfirmacion = (esBaja) => {
     setShowModalConfirmacion(true);
     setEsBajaOSuspension(esBaja);
@@ -356,11 +369,11 @@ export const PadronBeneficiariasScreen = () => {
                   {" "}
                   Año de registro al programa{" "}
                 </TableCell>
-                <TableCell align="center" width={250}>
+                <TableCell align="center"  style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;", }}>
                   {" "}
                   Motivo de baja{" "}
                 </TableCell>
-                <TableCell align="center" width={250}>
+                <TableCell align="center" style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;", }}>
                   {" "}
                   Motivo de suspensión{" "}
                 </TableCell>
@@ -390,8 +403,9 @@ export const PadronBeneficiariasScreen = () => {
                       <TableCell align="center">{row.dstipoapoyo}</TableCell>
                       <TableCell align="center"> </TableCell>
                       <TableCell align="center">{row.anio}</TableCell>
-                      <TableCell align="center">
+                      <TableCell align="center" style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;", }}>
                         <TextField
+                        style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;", }}
                           variant="outlined"
                           label="Seleccione"
                           select
@@ -407,28 +421,25 @@ export const PadronBeneficiariasScreen = () => {
                             <em>{t("cmb.ninguno")}</em>
                           </MenuItem>
                           {motivoRechazosList.map((item) => (
-                            <MenuItem key={item.id} value={item.id}>
+                            <MenuItem key={item.id} value={item.id}  style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;"}}>
                               {item.dsmotivorechazo}
                             </MenuItem>
                           ))}
                         </TextField>
+                       
                       </TableCell>
                       <TableCell
                         align="center"
-                        style={{ wordWrap: "break-word",  wordBreak: "break-all",}}
-                        width={150}
+                        style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;"}}
+                       
                       >
                         <TextField
+                        style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;"}}
                           variant="outlined"
                           label="Seleccione"
                           select
-                          disabled={row.activo}
                           fullWidth
-                          style={{
-                            wordWrap: "break-word",
-                            wordBreak: "break-all",
-                            width: "10px !important"
-                          }}
+                          disabled={row.activo}
                           name={row.idMotivoSuspension}
                           value={row.idMotivoSuspension}
                           onChange={(e) =>
@@ -439,7 +450,7 @@ export const PadronBeneficiariasScreen = () => {
                             <em>{t("cmb.ninguno")}</em>
                           </MenuItem>
                           {motivoSuspensionList.map((item) => (
-                            <MenuItem key={item.id} value={item.id}>
+                            <MenuItem key={item.id} value={item.id}  style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;"}}>
                               {item.dsmotivosuspesion}
                             </MenuItem>
                           ))}

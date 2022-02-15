@@ -366,7 +366,7 @@ export const BandejaAutorizaSolicitudes = () => {
           >
             <TableHead>
               <TableRow key="898as">
-                <TableCell align="center"> </TableCell>
+              <TableCell align="center">{t('cmb.seleccionar')} </TableCell>
                 <TableCell align="center">{t('dgv.folio')}  </TableCell>
                 <TableCell align="center">{t('dgv.estatus')}  </TableCell>
                 <TableCell align="center">{t('dgv.solicitante')}  </TableCell>
