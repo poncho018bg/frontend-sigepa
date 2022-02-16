@@ -133,6 +133,7 @@ export const PadronBeneficiariasScreen = () => {
       anioPrograma: anio === "" ? "NULL" : anio,
       motivoRechazo: idMotivoBaja === "" ? "NULL" : idMotivoBaja,
       motivoSuspension: idMotivoSuspension === "" ? "NULL" : idMotivoSuspension,
+      
     };
     setMasprogramas(true);
 
