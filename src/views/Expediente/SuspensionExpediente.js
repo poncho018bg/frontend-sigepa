@@ -9,6 +9,9 @@ import CardActions from "@material-ui/core/CardActions";
 import Button from "components/CustomButtons/Button.js";
 import { Grid, MenuItem, TextField } from "@material-ui/core";
 
+//
+import DialogConfirmacionSuspension from "./DialogConfirmancionSuspension";
+
 //Styles
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from "css/stylesArchivo";
@@ -43,6 +46,8 @@ export const SuspensionExpediente = forwardRef((props) => {
   const [guardarMotivos, setGuardarMotivos] = useState(false);
   const [motivoSuspension, setMotivoSuspension] = useState("");
   const [desactivarGuardarMotivo, setDesactivarGuardarMotivo] = useState(false);
+  //dialogo
+  const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
 
   useEffect(() => {
     console.log("entro a use efect para buscar los motivos");
@@ -81,6 +86,10 @@ export const SuspensionExpediente = forwardRef((props) => {
       */
     }
   }, [bandejaSuspensionList]);
+
+  const confirmacionDialog = () => {
+    setMostrarConfirmacion(true);
+  };
 
   const onClickMotivo = () => {
     console.log(
@@ -130,6 +139,7 @@ export const SuspensionExpediente = forwardRef((props) => {
       }
     }
     setGuardarMotivos(false);
+    setMostrarConfirmacion(false);
     setDesactivarGuardarMotivo(true);
   };
 
@@ -138,13 +148,13 @@ export const SuspensionExpediente = forwardRef((props) => {
       <Card>
         <CardHeader color="primary">
           <h5 className={classes.cardTitleWhite}>
-            Motivo de Suspension (Opcional)
+            Motivo de Suspensión (Opcional)
           </h5>
         </CardHeader>
         <CardActions>
           {guardarMotivos && (
             <Grid item xs={1}>
-              <Button round onClick={onClickMotivo}>
+              <Button round onClick={confirmacionDialog}>
                 Guardar Cambios
               </Button>
             </Grid>
@@ -158,6 +168,7 @@ export const SuspensionExpediente = forwardRef((props) => {
             fullWidth
             name="motivoSuspension"
             value={motivoSuspension}
+            disabled={desactivarGuardarMotivo === true}
             onChange={(e) => {
               setMotivoSuspension(e.target.value);
               if (!desactivarGuardarMotivo) {
@@ -176,6 +187,11 @@ export const SuspensionExpediente = forwardRef((props) => {
           </TextField>
         </CardBody>
       </Card>
+      <DialogConfirmacionSuspension
+        mostrarConfirmacion={mostrarConfirmacion}
+        setMostrarConfirmacion={setMostrarConfirmacion}
+        onClickMotivo={onClickMotivo}
+      />
     </GridItem>
   );
 });
