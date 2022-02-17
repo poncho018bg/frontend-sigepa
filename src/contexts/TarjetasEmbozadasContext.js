@@ -6,6 +6,7 @@ import {
   REGISTRAR_TARJETAS_EMBOZADAS_ERROR,
 } from "../types/actionTypes";
 
+const UserService = sessionStorage.getItem('token')
 const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL;
 export const TarjetasEmbozadasContext = createContext();
 
@@ -17,19 +18,22 @@ export const TarjetasEmbozadasContextProvider = (props) => {
 
   const [state, dispatch] = useReducer(TarjetasEmbozadasReducer, initialState);
 
-  const registrarTarjetasEmbozo = async (files) => {
+  const registrarTarjetasEmbozo = async (datos) => {
     try {
     
       const url = `${baseUrlPublico}emisiontarjetas`;
 
-      
+      let datosfinal ={
+        datos
+      }
 
       return new Promise((resolve, reject) => {
         axios
-          .post(url, files, {
+          .post(url, datosfinal, {
             headers: {
                 Accept: "application/json",
                 "Content-type": "application/json",
+                Authorization: 'Bearer ' + UserService 
             },
           })
           .then((response) => {

@@ -168,6 +168,7 @@ export const EmisionTarjetasScreen = () => {
                   <TableCell align="center"> Tarjeta</TableCell>
                   <TableCell align="center"> Nombre</TableCell>
                   <TableCell align="center"> Nombre completo</TableCell>
+                  <TableCell align="center"> CURP</TableCell>
                   <TableCell align="center">Vigencia de las tarjetas</TableCell>
                   <TableCell align="center"> Empresa</TableCell>
                   <TableCell align="center"> Clave cliente</TableCell>
@@ -185,17 +186,20 @@ export const EmisionTarjetasScreen = () => {
                         <TableCell align="center">{row.cuenta}</TableCell>
                         <TableCell align="center">{row.tarjeta}</TableCell>
                         <TableCell align="center">
-                          {row.nombre_embozado}
+                          {row.nombre}
                         </TableCell>
                         <TableCell align="center">
-                          {row.nombre_completo}
+                          {row.nombre_com}
+                        </TableCell>
+                        <TableCell align="center">
+                          {row.curp}
                         </TableCell>
                         <TableCell align="center">
                           {row.vigencia_tarjetas}
                         </TableCell>
                         <TableCell align="center">{row.empresa}</TableCell>
                         <TableCell align="center">
-                          {row.clave_cliente}
+                          {row.cve_cte}
                         </TableCell>
                         <TableCell align="center">
                           {row.fecha_entrega}
