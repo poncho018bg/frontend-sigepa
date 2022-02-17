@@ -18,6 +18,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  TableContainer,
 } from "@material-ui/core";
 import Button from "components/CustomButtons/Button.js";
 import moment from "moment";
@@ -45,6 +46,7 @@ import { ModalConfirmacion } from "commons/ModalConfirmacion";
 import { ModalContextConfirmacion } from "contexts/modalContextConfirmacion";
 import { MotivoSuspensionContext } from "contexts/MotivoSuspensionContext";
 import { BandejaSuspensionContext } from "contexts/BandejaSuspensionContext";
+import AgregarFolioSedesem from "./AgregarFolioSedesem";
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -66,13 +68,17 @@ export const PadronBeneficiariasScreen = () => {
     MotivoSuspensionContext
   );
   const { registrarBandejaRechazosPadron } = useContext(BandejaRechazosContext);
-  const { registrarBandejaSuspensionPadron } = useContext(BandejaSuspensionContext);
+  const { registrarBandejaSuspensionPadron } = useContext(
+    BandejaSuspensionContext
+  );
 
   const classes = useStyles();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const { showModalConfirmacion, setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+  const { showModalConfirmacion, setShowModalConfirmacion } = useContext(
+    ModalContextConfirmacion
+  );
 
   const [nombre, setNombre] = useState("");
   const [curp, setCurp] = useState("");
@@ -102,11 +108,11 @@ export const PadronBeneficiariasScreen = () => {
 
   const handleClose = () => {
     setOpen(false);
-    setIdMotivoBaja("")
+    setIdMotivoBaja("");
   };
   const handleClosesuspension = () => {
     setOpensuspension(false);
-    setIdMotivoSuspension("")
+    setIdMotivoSuspension("");
   };
 
   const handleChangePage = (event, newPage) => {
@@ -127,6 +133,7 @@ export const PadronBeneficiariasScreen = () => {
       anioPrograma: anio === "" ? "NULL" : anio,
       motivoRechazo: idMotivoBaja === "" ? "NULL" : idMotivoBaja,
       motivoSuspension: idMotivoSuspension === "" ? "NULL" : idMotivoSuspension,
+      
     };
     setMasprogramas(true);
 
@@ -149,13 +156,12 @@ export const PadronBeneficiariasScreen = () => {
   }, [beneficiariaList]);
 
   useEffect(() => {
-    console.log('idMotivoBaja',llMotivoBaja)
-    console.log('idMotivoSuspension',llMotivoBaja)
-    if(llMotivoBaja !== '' && !showModalConfirmacion  ){
+    console.log("idMotivoBaja", llMotivoBaja);
+    console.log("idMotivoSuspension", llMotivoBaja);
+    if (llMotivoBaja !== "" && !showModalConfirmacion) {
       setOpen(false);
       buscarSolitudes();
     }
-  
   }, [showModalConfirmacion]);
 
   const mostrarConfirmacion = (esBaja) => {
@@ -196,26 +202,26 @@ export const PadronBeneficiariasScreen = () => {
         });
     }
     if (esBajaOSuspension === "SUSPENSION") {
-        registrarBandejaSuspensionPadron(bandejaRechz)
-          .then((response) => {
-            setOpenSnackbar(true);
-  
-            setMsjConfirmacion(`${t("msg.registroguardadoexitosamente")}`);
-  
-            const timer = setTimeout(() => {
-              setError(false);
-              setShowModalConfirmacion(false);
-              setOpen(false);
-            }, 1500);
-            return () => clearTimeout(timer);
-          })
-          .catch((err) => {
-            console.log("err", err);
-            setOpenSnackbar(true);
-            setError(true);
-            setMsjConfirmacion(`${t("msg.ocurrioerrorcalidarinfo")}`);
-          });
-      }
+      registrarBandejaSuspensionPadron(bandejaRechz)
+        .then((response) => {
+          setOpenSnackbar(true);
+
+          setMsjConfirmacion(`${t("msg.registroguardadoexitosamente")}`);
+
+          const timer = setTimeout(() => {
+            setError(false);
+            setShowModalConfirmacion(false);
+            setOpen(false);
+          }, 1500);
+          return () => clearTimeout(timer);
+        })
+        .catch((err) => {
+          console.log("err", err);
+          setOpenSnackbar(true);
+          setError(true);
+          setMsjConfirmacion(`${t("msg.ocurrioerrorcalidarinfo")}`);
+        });
+    }
 
     setShowModalConfirmacion(false);
   };
@@ -248,7 +254,7 @@ export const PadronBeneficiariasScreen = () => {
         e.activo = true;
       }
     });
-    mostrarConfirmacion("SUSPENSION")
+    mostrarConfirmacion("SUSPENSION");
   };
 
   return (
@@ -338,8 +344,6 @@ export const PadronBeneficiariasScreen = () => {
               />
             </Grid>
 
-
-
             <Grid item xs={3} style={{ textAlign: "right", float: "right" }}>
               <Button
                 variant="contained"
@@ -351,116 +355,159 @@ export const PadronBeneficiariasScreen = () => {
               </Button>
             </Grid>
           </Grid>
+          <TableContainer>
+            <Table
+              stickyHeader
+              aria-label="sticky table"
+              style={{ paddingTop: "20px" }}
+            >
+              <TableHead>
+                <TableRow key="898as">
+                  <TableCell align="center"> Consecutivo </TableCell>
+                  <TableCell align="center"> Beneficiaria </TableCell>
+                  <TableCell align="center"> CURP </TableCell>
+                  <TableCell align="center"> Programa de apoyo </TableCell>
+                  <TableCell align="center"> Tipo de apoyo </TableCell>
+                  <TableCell align="center"> Folio SEDESEM </TableCell>
+                  <TableCell align="center">
+                    {" "}
+                    Año de registro al programa{" "}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    style={{
+                      wordWrap: "break-word !important;",
+                      wordBreak: "break-all !important;",
+                    }}
+                  >
+                    {" "}
+                    Motivo de baja{" "}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    style={{
+                      wordWrap: "break-word !important;",
+                      wordBreak: "break-all !important;",
+                    }}
+                  >
+                    {" "}
+                    Motivo de suspensión{" "}
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {padronList
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => {
+                    return (
+                      <TableRow key={row.id}>
+                        <TableCell align="center">{row.number}</TableCell>
 
-          <Table
-            stickyHeader
-            aria-label="sticky table"
-            style={{ paddingTop: "20px" }}
-          >
-            <TableHead>
-              <TableRow key="898as">
-                <TableCell align="center"> Consecutivo </TableCell>
-                <TableCell align="center"> Beneficiaria </TableCell>
-                <TableCell align="center"> CURP </TableCell>
-                <TableCell align="center"> Programa de apoyo </TableCell>
-                <TableCell align="center"> Tipo de apoyo </TableCell>
-                <TableCell align="center"> Folio SEDESEM </TableCell>
-                <TableCell align="center">
-                  {" "}
-                  Año de registro al programa{" "}
-                </TableCell>
-                <TableCell align="center"  style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;", }}>
-                  {" "}
-                  Motivo de baja{" "}
-                </TableCell>
-                <TableCell align="center" style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;", }}>
-                  {" "}
-                  Motivo de suspensión{" "}
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {padronList
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow key={row.id}>
-                      <TableCell align="center">{row.number}</TableCell>
-
-                      <TableCell align="center">
-                        <IconButton
-                          aria-label="delete"
-                          className={classes.margin}
-                          size="small"
-                          onClick={() => buscarDetalle(row)}
+                        <TableCell align="center">
+                          <IconButton
+                            aria-label="delete"
+                            className={classes.margin}
+                            size="small"
+                            onClick={() => buscarDetalle(row)}
+                          >
+                            <ExpandMoreIcon fontSize="inherit" />
+                          </IconButton>
+                          {row.nombre}
+                        </TableCell>
+                        <TableCell align="center">{row.dscurp}</TableCell>
+                        <TableCell align="center">{row.dsprograma}</TableCell>
+                        <TableCell align="center">{row.dstipoapoyo}</TableCell>
+                        <TableCell align="center">
+                          {" "}
+                          <AgregarFolioSedesem row={row} />
+                        </TableCell>
+                        <TableCell align="center">{row.anio}</TableCell>
+                        <TableCell
+                          align="center"
+                          style={{
+                            wordWrap: "break-word !important;",
+                            wordBreak: "break-all !important;",
+                          }}
                         >
-                          <ExpandMoreIcon fontSize="inherit" />
-                        </IconButton>
-                        {row.nombre}
-                      </TableCell>
-                      <TableCell align="center">{row.dscurp}</TableCell>
-                      <TableCell align="center">{row.dsprograma}</TableCell>
-                      <TableCell align="center">{row.dstipoapoyo}</TableCell>
-                      <TableCell align="center"> </TableCell>
-                      <TableCell align="center">{row.anio}</TableCell>
-                      <TableCell align="center" style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;", }}>
-                        <TextField
-                        style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;", }}
-                          variant="outlined"
-                          label="Seleccione"
-                          select
-                          disabled={row.activo}
-                          fullWidth
-                          name={row.idMotivoBaja}
-                          value={row.idMotivoBaja}
-                          onChange={(e) =>
-                            cambiarMotivoBaja(row, e.target.value)
-                          }
-                        >
-                          <MenuItem value="0">
-                            <em>{t("cmb.ninguno")}</em>
-                          </MenuItem>
-                          {motivoRechazosList.map((item) => (
-                            <MenuItem key={item.id} value={item.id}  style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;"}}>
-                              {item.dsmotivorechazo}
+                          <TextField
+                            style={{
+                              wordWrap: "break-word !important;",
+                              wordBreak: "break-all !important;",
+                            }}
+                            variant="outlined"
+                            label="Seleccione"
+                            select
+                            disabled={row.activo}
+                            fullWidth
+                            name={row.idMotivoBaja}
+                            value={row.idMotivoBaja}
+                            onChange={(e) =>
+                              cambiarMotivoBaja(row, e.target.value)
+                            }
+                          >
+                            <MenuItem value="0">
+                              <em>{t("cmb.ninguno")}</em>
                             </MenuItem>
-                          ))}
-                        </TextField>
-                       
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;"}}
-                       
-                      >
-                        <TextField
-                        style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;"}}
-                          variant="outlined"
-                          label="Seleccione"
-                          select
-                          fullWidth
-                          disabled={row.activo}
-                          name={row.idMotivoSuspension}
-                          value={row.idMotivoSuspension}
-                          onChange={(e) =>
-                            cambiarMotivoSuspension(row, e.target.value)
-                          }
+                            {motivoRechazosList.map((item) => (
+                              <MenuItem
+                                key={item.id}
+                                value={item.id}
+                                style={{
+                                  wordWrap: "break-word !important;",
+                                  wordBreak: "break-all !important;",
+                                }}
+                              >
+                                {item.dsmotivorechazo}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          style={{
+                            wordWrap: "break-word !important;",
+                            wordBreak: "break-all !important;",
+                          }}
                         >
-                          <MenuItem value="0">
-                            <em>{t("cmb.ninguno")}</em>
-                          </MenuItem>
-                          {motivoSuspensionList.map((item) => (
-                            <MenuItem key={item.id} value={item.id}  style={{ wordWrap: "break-word !important;",  wordBreak: "break-all !important;"}}>
-                              {item.dsmotivosuspesion}
+                          <TextField
+                            style={{
+                              wordWrap: "break-word !important;",
+                              wordBreak: "break-all !important;",
+                            }}
+                            variant="outlined"
+                            label="Seleccione"
+                            select
+                            fullWidth
+                            disabled={row.activo}
+                            name={row.idMotivoSuspension}
+                            value={row.idMotivoSuspension}
+                            onChange={(e) =>
+                              cambiarMotivoSuspension(row, e.target.value)
+                            }
+                          >
+                            <MenuItem value="0">
+                              <em>{t("cmb.ninguno")}</em>
                             </MenuItem>
-                          ))}
-                        </TextField>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
+                            {motivoSuspensionList.map((item) => (
+                              <MenuItem
+                                key={item.id}
+                                value={item.id}
+                                style={{
+                                  wordWrap: "break-word !important;",
+                                  wordBreak: "break-all !important;",
+                                }}
+                              >
+                                {item.dsmotivosuspesion}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
           <TablePagination
             rowsPerPageOptions={[25, 50, 75, 100]}
             component="div"
