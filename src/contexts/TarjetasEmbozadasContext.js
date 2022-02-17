@@ -23,13 +23,10 @@ export const TarjetasEmbozadasContextProvider = (props) => {
     
       const url = `${baseUrlPublico}emisiontarjetas`;
 
-      let datosfinal ={
-        datos
-      }
-
+      
       return new Promise((resolve, reject) => {
         axios
-          .post(url, datosfinal, {
+          .post(url, datos, {
             headers: {
                 Accept: "application/json",
                 "Content-type": "application/json",
