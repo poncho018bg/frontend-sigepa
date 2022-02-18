@@ -83,7 +83,7 @@ import { PadronBeneficiariasScreen } from "views/PadronBeneficiarios/PadronBenef
 import { Expediente } from "views/Expediente/Expediente"
 import { Expedienteapi } from "views/Expediente/Expedienteapi";
 import { EmisionTarjetasScreen } from "views/Dispersion/EmisionTarjetas/EmisionTarjetasScreen";
-
+import {GeneracionEtiquetaScreen } from "views/GeneracionEtiqueta/GeneracionEtiquetaScreen";
 import {SolicitudEmbozoTarjetasScreen} from "views/SolicitudEmbozoTarjetas/SolicitudEmbozoTarjetasScreen";
 import { MotivoSuspensionScreen } from "views/Catalogos/MotivoSuspension/MotivoSuspensionScreen";
 
@@ -680,6 +680,15 @@ const dashboardRoutes = [
         mini: "SE",
         rtlMini: "SE",
         component: SolicitudEmbozoTarjetasScreen,
+        layout: "/admin"
+      }, 
+      {
+        path: "/generacionEtiqueta",
+        name: "Generacion de Etiquetas",
+        rtlName: "Generacion de Etiquetas",
+        mini: "GE",
+        rtlMini: "GE",
+        component: GeneracionEtiquetaScreen,
         layout: "/admin"
       },
       //aqui ponemos la ruta que quiere poncho pero cambiamos el componete porque el que pone no existe

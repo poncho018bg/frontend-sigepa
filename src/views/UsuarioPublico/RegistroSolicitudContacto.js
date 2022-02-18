@@ -13,7 +13,10 @@ import { stylesArchivo } from 'css/stylesArchivo';
 import { RegistroSolicitudContext } from 'contexts/registroSolicitudContext';
 const useStyles = makeStyles(stylesArchivo);
 
+import { useTranslation } from "react-i18next";
+
 export const RegistroSolicitudContacto = forwardRef((props, ref) => {
+    const { t } = useTranslation();
     const { direccionB, beneficiario, setActivar, activar, nombrePrograma } = props;
     console.log("direccionB en forward ref--->", direccionB, beneficiario);
     const classes = useStyles();

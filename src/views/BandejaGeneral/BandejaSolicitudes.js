@@ -194,18 +194,6 @@ export const BandejaSolicitudes = () => {
                 onChange={(e) => setNombre(e.target.value)}
               />
             </Grid>
-            <Grid item xs={3}>
-              <TextField
-                id="folio"
-                label={t("lbl.folio")}
-                variant="outlined"
-                name={folio}
-                fullWidth
-                value={folio}
-                onChange={(e) => setFolio(e.target.value)}
-              />
-            </Grid>
-            
 
             <Grid item xs={3}>
               <TextField

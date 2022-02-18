@@ -15,6 +15,8 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import { Link } from "react-router-dom";
 
+import { useTranslation } from "react-i18next";
+
 const styles = {
     infoText: {
         fontWeight: "300",
@@ -32,6 +34,8 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export const RegistroCurp = ({ setActivar, setCurp, curp,nombrePrograma }) => {
+    const { t } = useTranslation();
+
     const classes = useStyles();
 
     const [email, setemail] = React.useState("");
@@ -70,7 +74,7 @@ export const RegistroCurp = ({ setActivar, setCurp, curp,nombrePrograma }) => {
         <GridItem xs={12} sm={12} md={12}>
             <Card>
                 <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>CURP</h4>
+                    <h4 className={classes.cardTitleWhite}>{t("lbl.curp")}</h4>
                 </CardHeader>
                 <CardBody>
                     <GridContainer justify="center">
@@ -84,7 +88,7 @@ export const RegistroCurp = ({ setActivar, setCurp, curp,nombrePrograma }) => {
                             <TextField
                                 style={{ marginBottom: '20px' }}
                                 id="curp"
-                                label="CURP"
+                                label={t("lbl.curp")}
                                 variant="outlined"
                                 name="curp"
                                 fullWidth
@@ -107,7 +111,7 @@ export const RegistroCurp = ({ setActivar, setCurp, curp,nombrePrograma }) => {
                             />
                         </GridItem>
                         <GridItem xs={12} sm={12} md={12} lg={10}>
-                            <a href="https://www.gob.mx/curp/">¿No conoces tu CURP?</a>
+                            <a href="https://www.gob.mx/curp/">{t("lbl.noconocescurp")}</a>
                         </GridItem>
                     </GridContainer>
                 </CardBody>
