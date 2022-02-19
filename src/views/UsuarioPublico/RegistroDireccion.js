@@ -25,6 +25,8 @@ import { LocalidadesContext } from "contexts/catalogos/Localidades/localidadesCo
 import { RegistroSolicitudContext } from "contexts/registroSolicitudContext";
 import { ActividadesContinuarContext } from "contexts/catalogos/ActividadesContinuarContext";
 
+import { useTranslation } from "react-i18next";
+
 const styles = {
   infoText: {
     fontWeight: "300",
@@ -36,6 +38,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 export const RegistroDireccion = forwardRef((props, ref) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const {
     beneficiario,
@@ -337,7 +340,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
     <GridItem xs={12} sm={12} md={12}>
       <Card>
         <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>Dirección</h4>
+          <h4 className={classes.cardTitleWhite}>{t("lbl.direccionbeneficiario")}</h4>
         </CardHeader>
         <CardBody>
           <GridContainer justify="center">

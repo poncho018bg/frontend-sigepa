@@ -24,6 +24,8 @@ import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext'
 import ValidarCurp from "../RegistroSolicitudContacto/ValidarCurp";
 import { Loading } from "components/Personalizados/Loading";
 
+import { useTranslation } from "react-i18next";
+
 const styles = {
     infoText: {
         fontWeight: "300",
@@ -45,6 +47,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 const baseUrl = process.env.REACT_APP_AP_CURP_URL;
 export const RegistroDatosSolicitante = forwardRef((props, ref) => {
+    const { t } = useTranslation();
     console.log('aqui');
     console.log(props);
     const { curpR, llenarDatosBeneficiario, beneficiario, setIdentPrograma, idPrograma, setEdadValida, nombrePrograma,setActivar } = props;
@@ -250,7 +253,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                 <GridItem xs={12} sm={12} md={12}>
                     <Card>
                         <CardHeader color="primary">
-                            <h4 className={classes.cardTitleWhite}>Datos del Solicitante</h4>
+                            <h4 className={classes.cardTitleWhite}>{t("lbl.datossolicitante")}</h4>
                         </CardHeader>
                         <CardBody>
                             <GridContainer justify="center">
@@ -265,7 +268,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                                             <TextField
                                                 style={{ marginBottom: '20px' }}
                                                 id="curp"
-                                                label="CURP"
+                                                label={t("lbl.curp")}
                                                 variant="outlined"
                                                 name="curp"
                                                 fullWidth

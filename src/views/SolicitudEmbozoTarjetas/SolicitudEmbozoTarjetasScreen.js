@@ -105,7 +105,7 @@ export const SolicitudEmbozoTarjetasScreen = () => {
       <Card>
         <CardHeader color="primary">
           <h4 className={classes.cardTitleWhite}>
-            Solicitud de Embozo de Tarjetas
+            {t("lbl.solicitudembozotarjeta")}
           </h4>
           <p className={classes.cardCategoryWhite}></p>
           <CardActions>
@@ -117,7 +117,7 @@ export const SolicitudEmbozoTarjetasScreen = () => {
                   round
                   onClick={() => onClickGenerarLayout(embozoBeneficiarios)}
                 >
-                  Generar Layout para Emisión de Tarjetas
+                  {t("btn.generarlayouttarjetas")}
                 </Button>
               </Grid>
             </Grid>
@@ -128,24 +128,24 @@ export const SolicitudEmbozoTarjetasScreen = () => {
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow key="SE1MI">
-                  <TableCell align="center">Secuencial</TableCell>
-                  <TableCell align="center">Nombre Completo</TableCell>
-                  <TableCell align="center">Nombre a embozar</TableCell>
-                  <TableCell align="center">Calle, Numero exterior</TableCell>
-                  <TableCell align="center">Numero interior</TableCell>
-                  <TableCell align="center">Ciudad</TableCell>
-                  <TableCell align="center">Colonia</TableCell>
-                  <TableCell align="center">Teléfono</TableCell>
-                  <TableCell align="center">Código Postal</TableCell>
-                  <TableCell align="center">Código Provincia</TableCell>
-                  <TableCell align="center">Email</TableCell>
-                  <TableCell align="center">Tipo de Documento</TableCell>
-                  <TableCell align="center">Número de Documento</TableCell>
-                  <TableCell align="center">Sexo</TableCell>
-                  <TableCell align="center">Fecha de Nacimiento</TableCell>
-                  <TableCell align="center">RFC</TableCell>
-                  <TableCell align="center">CURP</TableCell>
-                  <TableCell align="center">Celular</TableCell>
+                  <TableCell align="center">{t("lbl.secuencial")}</TableCell>
+                  <TableCell align="center">{t("lbl.nombrecompleto")}</TableCell>
+                  <TableCell align="center">{t("lbl.nombreembozar")}</TableCell>
+                  <TableCell align="center">{t("lbl.callenumeroext")}</TableCell>
+                  <TableCell align="center">{t("lbl.numerointerior")}</TableCell>
+                  <TableCell align="center">{t("lbl.ciudad")}</TableCell>
+                  <TableCell align="center">{t("lbl.colonia")}</TableCell>
+                  <TableCell align="center">{t("lbl.telefono")}</TableCell>
+                  <TableCell align="center">{t("lbl.codigopostal")}</TableCell>
+                  <TableCell align="center">{t("lbl.codigoprovincia")}</TableCell>
+                  <TableCell align="center">{t("lbl.email")}</TableCell>
+                  <TableCell align="center">{t("lbl.tipodocumento")}</TableCell>
+                  <TableCell align="center">{t("lbl.numerodocumento")}</TableCell>
+                  <TableCell align="center">{t("lbl.sexo")}</TableCell>
+                  <TableCell align="center">{t("lbl.fechanacimiento")}</TableCell>
+                  <TableCell align="center">{t("lbl.rfc")}</TableCell>
+                  <TableCell align="center">{t("lbl.curp")}</TableCell>
+                  <TableCell align="center">{t("lbl.celular")}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

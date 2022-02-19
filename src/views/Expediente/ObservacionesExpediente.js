@@ -159,7 +159,7 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
       <Card>
         <CardHeader color="primary">
           <h5 className={classes.cardTitleWhite}>
-            {t("pnl.expMotivoBajaSuspencion")}
+            {t("lbl.motivobaja")}
           </h5>
         </CardHeader>
         <CardActions>
