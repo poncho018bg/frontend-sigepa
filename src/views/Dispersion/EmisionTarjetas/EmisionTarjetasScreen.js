@@ -98,7 +98,7 @@ export const EmisionTarjetasScreen = () => {
           setError(false);
           setShowModalConfirmacion(false);
           setShowModal(false);
-
+          setTarjetaslist([])
           console.log("GUARDO");
         }, 1000);
         return () => clearTimeout(timer);
