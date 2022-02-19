@@ -25,6 +25,9 @@ import { DropzoneAreaBase } from "material-ui-dropzone";
 import { ConsultaExpediente } from "views/Expediente/ConsultaExpediente";
 import { useCSVReader } from "react-papaparse";
 import { TarjetasEmbozadasContext } from "contexts/TarjetasEmbozadasContext";
+import { ModalConfirmacion } from "commons/ModalConfirmacion";
+import { ModalContextConfirmacion } from "contexts/modalContextConfirmacion";
+import { Mensaje } from "components/Personalizados/Mensaje";
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -63,7 +66,11 @@ export const EmisionTarjetasScreen = () => {
   const { registrarTarjetasEmbozo, tarjetasList } = useContext(
     TarjetasEmbozadasContext
   );
+  const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
   const [tarjetaslist, setTarjetaslist] = React.useState([]);
+    const [error] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [msjConfirmacion, setMsjConfirmacion] = useState("");
 
   useEffect(() => {}, []);
   const handleChangePage = (event, newPage) => {
@@ -82,7 +89,31 @@ export const EmisionTarjetasScreen = () => {
 
   const guardarTarjetas = () => {
     console.log("Metodo guardarTarjetas", tarjetaslist);
-    registrarTarjetasEmbozo(tarjetaslist);
+    registrarTarjetasEmbozo(tarjetaslist)
+      .then((response) => {
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`${t("msg.registroguardadoexitosamente")}`);
+
+        const timer = setTimeout(() => {
+          setError(false);
+          setShowModalConfirmacion(false);
+          setShowModal(false);
+
+          console.log("GUARDO");
+        }, 1000);
+        return () => clearTimeout(timer);
+      })
+      .catch((err) => {
+        console.log("NO GUARDO 1");
+        setOpenSnackbar(true);
+        setError(true);
+        setMsjConfirmacion(`${t("msg.ocurrioerrorcalidarinfo")}`);
+        console.log("NO GUARDO 2");
+      });
+  };
+
+  const mensajeConfirmation = () => {
+    setShowModalConfirmacion(true);
   };
   return (
     <>
@@ -101,18 +132,18 @@ export const EmisionTarjetasScreen = () => {
             <Grid container spacing={12}>
               <Grid item xs={12}>
                 {/* <DropzoneAreaBase
-                  acceptedFiles={[
-                    ".csv, text/csv, application/vnd.ms-excel, application/csv, text/x-csv, application/x-csv, text/comma-separated-values, text/x-comma-separated-values",
-                  ]}
-                  onAdd={(fileObjs) => setArchivoPrograma(fileObjs)}
-                  fileObjects={archivoPrograma}
-                  filesLimit="1"
-                  showPreviews={false}
-                  showPreviewsInDropzone={false}
-                  useChipsForPreview={false}
-                  previewChipProps={false}
-                  onDrop={handleChangeFile}
-                /> */}
+                        acceptedFiles={[
+                          ".csv, text/csv, application/vnd.ms-excel, application/csv, text/x-csv, application/x-csv, text/comma-separated-values, text/x-comma-separated-values",
+                        ]}
+                        onAdd={(fileObjs) => setArchivoPrograma(fileObjs)}
+                        fileObjects={archivoPrograma}
+                        filesLimit="1"
+                        showPreviews={false}
+                        showPreviewsInDropzone={false}
+                        useChipsForPreview={false}
+                        previewChipProps={false}
+                        onDrop={handleChangeFile}
+                      /> */}
 
                 <CSVReader
                   config={{
@@ -130,7 +161,6 @@ export const EmisionTarjetasScreen = () => {
                     acceptedFile,
                     ProgressBar,
                     getRemoveFileProps,
-                    
                   }: any) => (
                     <>
                       <div style={styles.csvReader}>
@@ -148,13 +178,12 @@ export const EmisionTarjetasScreen = () => {
                           Remover
                         </Button>
 
-                        <Button onClick={(e) => guardarTarjetas()}>
+                        <Button onClick={(e) => mensajeConfirmation()}>
                           Guardar
                         </Button>
                       </div>
                       <ProgressBar style={styles.progressBarBackgroundColor} />
-                      {console.log('doc=>',archivoPrograma)}
-                      
+                      {console.log("doc=>", archivoPrograma)}
                     </>
                   )}
                 </CSVReader>
@@ -185,22 +214,14 @@ export const EmisionTarjetasScreen = () => {
                       <TableRow>
                         <TableCell align="center">{row.cuenta}</TableCell>
                         <TableCell align="center">{row.tarjeta}</TableCell>
-                        <TableCell align="center">
-                          {row.nombre}
-                        </TableCell>
-                        <TableCell align="center">
-                          {row.nombre_com}
-                        </TableCell>
-                        <TableCell align="center">
-                          {row.curp}
-                        </TableCell>
+                        <TableCell align="center">{row.nombre}</TableCell>
+                        <TableCell align="center">{row.nombre_com}</TableCell>
+                        <TableCell align="center">{row.curp}</TableCell>
                         <TableCell align="center">
                           {row.vigencia_tarjetas}
                         </TableCell>
                         <TableCell align="center">{row.empresa}</TableCell>
-                        <TableCell align="center">
-                          {row.cve_cte}
-                        </TableCell>
+                        <TableCell align="center">{row.cve_cte}</TableCell>
                         <TableCell align="center">
                           {row.fecha_entrega}
                         </TableCell>
@@ -222,6 +243,16 @@ export const EmisionTarjetasScreen = () => {
             />
           </CardBody>
         </Card>
+        <ModalConfirmacion
+          handleRegistrar={guardarTarjetas}
+          evento="Registrar"
+        />
+        <Mensaje
+          setOpen={setOpenSnackbar}
+          open={openSnackbar}
+          severity={error ? "error" : "success"}
+          message={msjConfirmacion}
+        />
       </GridItem>
     </>
   );
