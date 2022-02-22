@@ -5,5 +5,5 @@
   "resource": "sigepa-web",
   "public-client": true,
   "confidential-port": 0,
-  "scope":"openid info offline_access"
+  "scope":"openid offline_access"
 }
