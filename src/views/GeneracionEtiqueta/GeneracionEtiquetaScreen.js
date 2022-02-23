@@ -14,6 +14,7 @@ import {
   TableRow,
   Grid,
   TableContainer,
+  TextField,
 } from "@material-ui/core";
 import Button from "components/CustomButtons/Button.js";
 import { useTranslation } from "react-i18next";
@@ -29,6 +30,7 @@ const useStyles = makeStyles(stylesArchivo);
 export const GeneracionEtiquetaScreen = () => {
   const { t } = useTranslation();
   const classes = useStyles();
+  const [fechaEntrega, setFechaEntrega] = useState();
   // context
   const {
     etiquetadoBeneficiarios,
@@ -60,9 +62,14 @@ export const GeneracionEtiquetaScreen = () => {
 
   const onClickGenerarLayout = () => {
     console.log("genarar archivo");
+    for (let i = 0; i < etiquetadoBeneficiarios.length; i++) {
+      etiquetadoBeneficiarios[i].fechaEntrega = fechaEntrega;
+    }
+    console.log("GUARDAR ETIQUETADO ===>", etiquetadoBeneficiarios);
     guardarEtiquetadoTarjetas(etiquetadoBeneficiarios);
     getEtiquedadoBeneficiarios();
   };
+
   return (
     <GridItem xs={12} sm={12} md={12}>
       <Card>
@@ -74,14 +81,16 @@ export const GeneracionEtiquetaScreen = () => {
           <CardActions>
             <Grid container spacing={3}>
               <Grid item xs={6}>
-                <Button
-                  color="white"
-                  aria-label="edit"
-                  round
-                  onClick={onClickGenerarLayout}
-                >
-                  {t("btn.generararchivo")}
-                </Button>
+                {fechaEntrega && (
+                  <Button
+                    color="white"
+                    aria-label="edit"
+                    round
+                    onClick={onClickGenerarLayout}
+                  >
+                    {t("btn.generararchivo")}
+                  </Button>
+                )}
               </Grid>
             </Grid>
           </CardActions>
@@ -101,7 +110,22 @@ export const GeneracionEtiquetaScreen = () => {
                   </TableCell>
                   <TableCell align="center">{t("lbl.codigoevento")}</TableCell>
                   <TableCell align="center">
-                    {t("lbl.fechaentregaevento")}
+                    <TextField
+                      id="fechaEntrega"
+                      label={t("lbl.fechaentregaevento")}
+                      type="date"
+                      fullWidth
+                      className={classes.textField}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      value={fechaEntrega}
+                      name="fechaEntrega"
+                      onChange={(event) => {
+                        console.log(event.target.value);
+                        setFechaEntrega(event.target.value);
+                      }}
+                    />
                   </TableCell>
                   <TableCell align="center">{t("lbl.vertiente")}</TableCell>
                   <TableCell align="center">
@@ -115,6 +139,7 @@ export const GeneracionEtiquetaScreen = () => {
                     <GeneracionEtiquetaDatosBeneficiarios
                       datos={row}
                       index={i}
+                      fechaEntrega={fechaEntrega}
                     />
                   );
                 })}
