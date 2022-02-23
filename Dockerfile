@@ -6,28 +6,24 @@ WORKDIR /app
 
 COPY . .
 
-RUN ls -l *
+RUN ls -l * && \
+    npm -v && \
+    node -v && \
+    npm install && \
+    npm run build 
 
-RUN npm -v
+FROM node:14.16.1-alpine
+WORKDIR /app
 
-RUN node -v
+RUN apk add tzdata && \
+    cp /usr/share/zoneinfo/America/Mexico_City /etc/localtime && \
+    npm install -g serve && \
+    mkdir -p /app/build/frontend-sigepa
 
-RUN apk add tzdata
-
-RUN cp /usr/share/zoneinfo/America/Mexico_City /etc/localtime
-
-RUN npm install -g serve
-
-RUN npm install --legacy-peer-deps
-
-RUN npm run build
-
-RUN mkdir /app/build/frontend-sigepa
-
-RUN mv /app/build/static/ /app/build/frontend-sigepa/
-
-RUN mv /app/build/keycloak.json /app/build/frontend-sigepa/
+COPY --from=build /app/build /app/build/frontend-sigepa/
+COPY --from=build /app/build/keycloak.json /app/build/frontend-sigepa/
 
 EXPOSE 3000
 
 CMD ["serve", "-l", "3000", "-s", "build"]
+
