@@ -14,13 +14,15 @@ export const TarjetasEmbozadasContextProvider = (props) => {
   const initialState = {
     tarjetasList: [],
     error: false,
+    loading: false,
   };
 
   const [state, dispatch] = useReducer(TarjetasEmbozadasReducer, initialState);
+  
 
   const registrarTarjetasEmbozo = async (datos) => {
     try {
-    
+      
       const url = `${baseUrlPublico}emisiontarjetas`;
 
       
@@ -58,6 +60,7 @@ export const TarjetasEmbozadasContextProvider = (props) => {
     <TarjetasEmbozadasContext.Provider
       value={{
         tarjetasList: state.tarjetasList,
+        loading:state.loading,
         registrarTarjetasEmbozo,
       }}
     >
