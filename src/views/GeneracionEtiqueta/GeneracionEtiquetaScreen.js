@@ -61,6 +61,7 @@ export const GeneracionEtiquetaScreen = () => {
   const onClickGenerarLayout = () => {
     console.log("genarar archivo");
     guardarEtiquetadoTarjetas(etiquetadoBeneficiarios);
+    getEtiquedadoBeneficiarios();
   };
   return (
     <GridItem xs={12} sm={12} md={12}>
