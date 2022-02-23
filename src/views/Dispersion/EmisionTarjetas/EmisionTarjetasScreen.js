@@ -19,6 +19,10 @@ import {
   Grid,
   TextField,
   MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { DropzoneAreaBase } from "material-ui-dropzone";
@@ -28,6 +32,8 @@ import { TarjetasEmbozadasContext } from "contexts/TarjetasEmbozadasContext";
 import { ModalConfirmacion } from "commons/ModalConfirmacion";
 import { ModalContextConfirmacion } from "contexts/modalContextConfirmacion";
 import { Mensaje } from "components/Personalizados/Mensaje";
+import moment from "moment";
+import "moment/locale/es";
 
 const useStyles = makeStyles(stylesArchivo);
 
@@ -68,10 +74,12 @@ export const EmisionTarjetasScreen = () => {
   );
   const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
   const [tarjetaslist, setTarjetaslist] = React.useState([]);
-    const [error] = useState(false);
+  const [error] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [msjConfirmacion, setMsjConfirmacion] = useState("");
-
+  const [fechaVig, setFechaVig] = React.useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [dsnombre, setDsnombre] = useState("");
   useEffect(() => {}, []);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -115,6 +123,34 @@ export const EmisionTarjetasScreen = () => {
   const mensajeConfirmation = () => {
     setShowModalConfirmacion(true);
   };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const ingresarFecha = () => {
+    var fechafinal = moment(new Date()).add(3, "years").format("yyyy-MM-DD");
+    var diashabiles = 7;
+    while (diashabiles > 0) {
+      if (
+        moment(fechafinal).isoWeekday() !== 6 &&
+        moment(fechafinal).isoWeekday() !== 7
+      ) {
+        diashabiles--;
+      }
+      fechafinal = moment(fechafinal).subtract(1, "days").format("yyyy-MM-DD");
+    }
+    setFechaVig(moment(fechafinal).format("DD-MM-yyyy"));
+  };
+
+  const aceptarNombre = () => {
+    tarjetaslist.map((e) => {
+      e.fecha_entrega = moment(new Date()).format("DD-MM-yyyy");
+      e.recibe = dsnombre;
+      e.vigencia_tarjetas = fechaVig;
+    });
+    setOpen(false);
+  };
+
   return (
     <>
       <GridItem xs={12} sm={12} md={12}>
@@ -154,6 +190,9 @@ export const EmisionTarjetasScreen = () => {
                     console.log(results);
                     setTarjetaslist(results?.data);
                     console.log("---------------------------");
+                    ingresarFecha();
+                    setDsnombre("");
+                    setOpen(true);
                   }}
                 >
                   {({
@@ -207,6 +246,7 @@ export const EmisionTarjetasScreen = () => {
               </TableHead>
               <TableBody>
                 {console.log("tarjetaslist=>", tarjetaslist)}
+
                 {tarjetaslist
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => {
@@ -253,6 +293,38 @@ export const EmisionTarjetasScreen = () => {
           severity={error ? "error" : "success"}
           message={msjConfirmacion}
         />
+
+        <Dialog
+          onClose={handleClose}
+          aria-labelledby="customized-dialog-title"
+          open={open}
+          maxWidth="lg"
+          fullWidth={true}
+        >
+          <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+            <h2> Nombre de quien recibe </h2>
+          </DialogTitle>
+          <DialogContent>
+            <DialogContent>
+              <TextField
+                id="dsnombre"
+                label="Nombre de quien recibe"
+                variant="outlined"
+                fullWidth
+                name={dsnombre}
+                fullWidth
+                value={dsnombre}
+                onChange={(e) => setDsnombre(e.target.value)}
+                inputProps={{ maxLength: 80 }}
+              />
+            </DialogContent>
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={() => aceptarNombre()} color="primary">
+              Cerrar
+            </Button>
+          </DialogActions>
+        </Dialog>
       </GridItem>
     </>
   );
