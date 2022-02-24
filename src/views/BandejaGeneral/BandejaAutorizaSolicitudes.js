@@ -428,19 +428,7 @@ export const BandejaAutorizaSolicitudes = () => {
                           >
                             <RemoveRedEyeIcon />
                           </IconButton>
-                        </Tooltip>
-                        <Tooltip
-                          id="tooltip-regresar"
-                          title="Reasignar"
-                          placement="top"
-                        >
-                          <IconButton
-                            aria-label="return"
-                            onClick={() => confirmarReasignacion(row)}
-                          >
-                            <ReplayIcon />
-                          </IconButton>
-                        </Tooltip>
+                        </Tooltip>                        
                       </TableCell>
                     </TableRow>
                   );

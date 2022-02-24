@@ -424,7 +424,7 @@ const dashboardRoutes = [
 
       {
         path: "/padron",
-        name: "Padrón de beneficiarias",
+        name: "Padrón de embozo",
         rtlName: "pbf",
         mini: "pbf",
         rtlMini: "pbf",
