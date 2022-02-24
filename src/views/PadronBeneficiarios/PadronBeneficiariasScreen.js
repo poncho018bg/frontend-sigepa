@@ -104,6 +104,7 @@ export const PadronBeneficiariasScreen = () => {
     getTiposApoyos();
     getMotivoRechazos();
     getMotivoSuspension();
+    buscarSolitudes();
   }, []);
 
   const handleClose = () => {
@@ -133,7 +134,6 @@ export const PadronBeneficiariasScreen = () => {
       anioPrograma: anio === "" ? "NULL" : anio,
       motivoRechazo: idMotivoBaja === "" ? "NULL" : idMotivoBaja,
       motivoSuspension: idMotivoSuspension === "" ? "NULL" : idMotivoSuspension,
-      
     };
     setMasprogramas(true);
 
@@ -230,7 +230,7 @@ export const PadronBeneficiariasScreen = () => {
     setOpen(true);
     setDsMotivoBaja("");
     row.idMotivoBaja = dta;
-    row.activo = true;
+    //row.activo = true;
     setLlMotivoBaja(dta);
     setIdMvBandejaSol(row.idMvBandejaSol);
     padronList.map((e) => {
@@ -359,7 +359,7 @@ export const PadronBeneficiariasScreen = () => {
             <Table
               stickyHeader
               aria-label="sticky table"
-              style={{ paddingTop: "20px" }}
+              style={{ paddingTop: "20px", width: "auto", tableLayout: "auto" }}
             >
               <TableHead>
                 <TableRow key="898as">
@@ -373,26 +373,8 @@ export const PadronBeneficiariasScreen = () => {
                     {" "}
                     Año de registro al programa{" "}
                   </TableCell>
-                  <TableCell
-                    align="center"
-                    style={{
-                      wordWrap: "break-word !important;",
-                      wordBreak: "break-all !important;",
-                    }}
-                  >
-                    {" "}
-                    Motivo de baja{" "}
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    style={{
-                      wordWrap: "break-word !important;",
-                      wordBreak: "break-all !important;",
-                    }}
-                  >
-                    {" "}
-                    Motivo de suspensión{" "}
-                  </TableCell>
+                  <TableCell align="center"> Motivo de baja </TableCell>
+                  <TableCell align="center"> Motivo de suspensión </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -424,15 +406,12 @@ export const PadronBeneficiariasScreen = () => {
                         <TableCell align="center">{row.anio}</TableCell>
                         <TableCell
                           align="center"
-                          style={{
-                            wordWrap: "break-word !important;",
-                            wordBreak: "break-all !important;",
-                          }}
                         >
                           <TextField
                             style={{
                               wordWrap: "break-word !important;",
                               wordBreak: "break-all !important;",
+                              width: "200px"
                             }}
                             variant="outlined"
                             label="Seleccione"
@@ -464,15 +443,12 @@ export const PadronBeneficiariasScreen = () => {
                         </TableCell>
                         <TableCell
                           align="center"
-                          style={{
-                            wordWrap: "break-word !important;",
-                            wordBreak: "break-all !important;",
-                          }}
                         >
                           <TextField
                             style={{
                               wordWrap: "break-word !important;",
                               wordBreak: "break-all !important;",
+                              width: "200px"
                             }}
                             variant="outlined"
                             label="Seleccione"
