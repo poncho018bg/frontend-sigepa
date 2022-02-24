@@ -355,11 +355,20 @@ const dashboardRoutes = [
   },
   {
     collapse: true,
-    name: "Reportes",
+    name: "Generación de Layout",
     rtlName: "صفحات",
     icon: TimelineIcon,
     state: "reportesCollapse",
     views: [
+      {
+        path: "/solicitudEmbozoTarjetas",
+        name: "Solicitud de Embozo de Tarjetas",
+        rtlName: "Solicitud de Embozo de Tarjetas",
+        mini: "SE",
+        rtlMini: "SE",
+        component: SolicitudEmbozoTarjetasScreen,
+        layout: "/admin"
+      }, 
       {
         
           path: "/emisionTarjetas",
@@ -370,7 +379,17 @@ const dashboardRoutes = [
           component: EmisionTarjetasScreen,
           layout: "/admin"
         
-      }
+      },
+
+      {
+        path: "/generacionEtiqueta",
+        name: "Generacion de Etiquetas",
+        rtlName: "Generacion de Etiquetas",
+        mini: "GE",
+        rtlMini: "GE",
+        component: GeneracionEtiquetaScreen,
+        layout: "/admin"
+      },
     ]
   },
   {
@@ -673,24 +692,8 @@ const dashboardRoutes = [
         component: IdentificacioneScreen,
         layout: "/admin"
       },
-      {
-        path: "/solicitudEmbozoTarjetas",
-        name: "Solicitud de Embozo de Tarjetas",
-        rtlName: "Solicitud de Embozo de Tarjetas",
-        mini: "SE",
-        rtlMini: "SE",
-        component: SolicitudEmbozoTarjetasScreen,
-        layout: "/admin"
-      }, 
-      {
-        path: "/generacionEtiqueta",
-        name: "Generacion de Etiquetas",
-        rtlName: "Generacion de Etiquetas",
-        mini: "GE",
-        rtlMini: "GE",
-        component: GeneracionEtiquetaScreen,
-        layout: "/admin"
-      },
+ 
+   
       //aqui ponemos la ruta que quiere poncho pero cambiamos el componete porque el que pone no existe
       //funcionaria con esta ruta http://localhost:3000/public/registroProgramas
       {
