@@ -261,7 +261,7 @@ export const PadronBeneficiariasScreen = () => {
     <GridItem xs={12} sm={12} md={12}>
       <Card>
         <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>Padrón de beneficiarias</h4>
+          <h4 className={classes.cardTitleWhite}>Padrón de embozo</h4>
           <p className={classes.cardCategoryWhite}></p>
           <CardActions></CardActions>
         </CardHeader>
@@ -373,8 +373,7 @@ export const PadronBeneficiariasScreen = () => {
                     {" "}
                     Año de registro al programa{" "}
                   </TableCell>
-                  <TableCell align="center"> Motivo de baja </TableCell>
-                  <TableCell align="center"> Motivo de suspensión </TableCell>
+                  
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -385,15 +384,7 @@ export const PadronBeneficiariasScreen = () => {
                       <TableRow key={row.id}>
                         <TableCell align="center">{row.number}</TableCell>
 
-                        <TableCell align="center">
-                          <IconButton
-                            aria-label="delete"
-                            className={classes.margin}
-                            size="small"
-                            onClick={() => buscarDetalle(row)}
-                          >
-                            <ExpandMoreIcon fontSize="inherit" />
-                          </IconButton>
+                        <TableCell align="center">                         
                           {row.nombre}
                         </TableCell>
                         <TableCell align="center">{row.dscurp}</TableCell>
@@ -404,80 +395,8 @@ export const PadronBeneficiariasScreen = () => {
                           <AgregarFolioSedesem row={row} />
                         </TableCell>
                         <TableCell align="center">{row.anio}</TableCell>
-                        <TableCell
-                          align="center"
-                        >
-                          <TextField
-                            style={{
-                              wordWrap: "break-word !important;",
-                              wordBreak: "break-all !important;",
-                              width: "200px"
-                            }}
-                            variant="outlined"
-                            label="Seleccione"
-                            select
-                            disabled={row.activo}
-                            fullWidth
-                            name={row.idMotivoBaja}
-                            value={row.idMotivoBaja}
-                            onChange={(e) =>
-                              cambiarMotivoBaja(row, e.target.value)
-                            }
-                          >
-                            <MenuItem value="0">
-                              <em>{t("cmb.ninguno")}</em>
-                            </MenuItem>
-                            {motivoRechazosList.map((item) => (
-                              <MenuItem
-                                key={item.id}
-                                value={item.id}
-                                style={{
-                                  wordWrap: "break-word !important;",
-                                  wordBreak: "break-all !important;",
-                                }}
-                              >
-                                {item.dsmotivorechazo}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                        >
-                          <TextField
-                            style={{
-                              wordWrap: "break-word !important;",
-                              wordBreak: "break-all !important;",
-                              width: "200px"
-                            }}
-                            variant="outlined"
-                            label="Seleccione"
-                            select
-                            fullWidth
-                            disabled={row.activo}
-                            name={row.idMotivoSuspension}
-                            value={row.idMotivoSuspension}
-                            onChange={(e) =>
-                              cambiarMotivoSuspension(row, e.target.value)
-                            }
-                          >
-                            <MenuItem value="0">
-                              <em>{t("cmb.ninguno")}</em>
-                            </MenuItem>
-                            {motivoSuspensionList.map((item) => (
-                              <MenuItem
-                                key={item.id}
-                                value={item.id}
-                                style={{
-                                  wordWrap: "break-word !important;",
-                                  wordBreak: "break-all !important;",
-                                }}
-                              >
-                                {item.dsmotivosuspesion}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                        </TableCell>
+                        
+               
                       </TableRow>
                     );
                   })}
