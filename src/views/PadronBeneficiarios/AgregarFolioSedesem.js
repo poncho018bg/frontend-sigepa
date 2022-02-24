@@ -129,7 +129,7 @@ export default function AgregarFolio(props) {
     return (
       <>
         <TextField
-          style={{ marginBottom: "5px" }}
+          style={{ width: "200px"}}
           id="folioInterno"
           label={t("lbl.expFolioSEDESEM")}
           variant="outlined"
@@ -138,6 +138,7 @@ export default function AgregarFolio(props) {
           inputProps={{
             maxLength: 80,
             pattern: "/^[a-zA-Z0-9_.-sñÑ]*$/",
+            alignItems: "center"
           }}
           onChange={onChange}
         />
