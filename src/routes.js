@@ -362,8 +362,8 @@ const dashboardRoutes = [
     views: [
       {
         path: "/solicitudEmbozoTarjetas",
-        name: "Solicitud de Embozo de Tarjetas",
-        rtlName: "Solicitud de Embozo de Tarjetas",
+        name: "Solicitud de embozo de tarjetas",
+        rtlName: "SolicituddeEmbozodeTarjetas",
         mini: "SE",
         rtlMini: "SE",
         component: SolicitudEmbozoTarjetasScreen,
@@ -383,8 +383,8 @@ const dashboardRoutes = [
 
       {
         path: "/generacionEtiqueta",
-        name: "Generacion de Etiquetas",
-        rtlName: "Generacion de Etiquetas",
+        name: "Generación de etiquetas",
+        rtlName: "GeneraciondeEtiquetas",
         mini: "GE",
         rtlMini: "GE",
         component: GeneracionEtiquetaScreen,
