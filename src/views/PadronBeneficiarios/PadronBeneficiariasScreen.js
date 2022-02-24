@@ -384,15 +384,7 @@ export const PadronBeneficiariasScreen = () => {
                       <TableRow key={row.id}>
                         <TableCell align="center">{row.number}</TableCell>
 
-                        <TableCell align="center">
-                          <IconButton
-                            aria-label="delete"
-                            className={classes.margin}
-                            size="small"
-                            onClick={() => buscarDetalle(row)}
-                          >
-                            <ExpandMoreIcon fontSize="inherit" />
-                          </IconButton>
+                        <TableCell align="center">                         
                           {row.nombre}
                         </TableCell>
                         <TableCell align="center">{row.dscurp}</TableCell>
