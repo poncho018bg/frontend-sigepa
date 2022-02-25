@@ -233,7 +233,7 @@ export const SolicitudEmbozoTarjetasContextProvider = (props) => {
               type: GUARDAR_EMBOZO_TARJETAS,
               payload: response.data,
             });
-            dispatch(getEmbozoBeneficiarios());
+            dispatch(getEtiquedadoBeneficiarios());
           })
           .catch((error) => {
             /**
