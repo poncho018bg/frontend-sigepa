@@ -86,6 +86,8 @@ import { EmisionTarjetasScreen } from "views/Dispersion/EmisionTarjetas/EmisionT
 import {GeneracionEtiquetaScreen } from "views/GeneracionEtiqueta/GeneracionEtiquetaScreen";
 import {SolicitudEmbozoTarjetasScreen} from "views/SolicitudEmbozoTarjetas/SolicitudEmbozoTarjetasScreen";
 import { MotivoSuspensionScreen } from "views/Catalogos/MotivoSuspension/MotivoSuspensionScreen";
+import { GeneracionEventoScreen } from "views/GeneracionEventos/GeneracionEventoScreen";
+import { PuntosEntregaScreen } from "views/Catalogos/PuntosEntrega/PuntosEntregaScreen";
 
 const dashboardRoutes = [
   {
@@ -390,6 +392,15 @@ const dashboardRoutes = [
         component: GeneracionEtiquetaScreen,
         layout: "/admin"
       },
+      {
+        path: "/generacionLotes",
+        name: "Creación de lote por punto de entrega",
+        rtlName: "generacionLotes",
+        mini: "GELE",
+        rtlMini: "GELE",
+        component: GeneracionEventoScreen,
+        layout: "/admin"
+      },
     ]
   },
   {
@@ -690,6 +701,15 @@ const dashboardRoutes = [
         mini: "IDT",
         rtlMini: "IDT",
         component: IdentificacioneScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/puntosentrega",
+        name: "Puntos de entrega",
+        rtlName: "puntosentrega",
+        mini: "PEGR",
+        rtlMini: "PEGR",
+        component: PuntosEntregaScreen,
         layout: "/admin"
       },
  
