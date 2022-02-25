@@ -134,15 +134,16 @@ export const GeneracionEtiquetaScreen = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {etiquetadoBeneficiarios.map((row, i) => {
-                  return (
-                    <GeneracionEtiquetaDatosBeneficiarios
-                      datos={row}
-                      index={i}
-                      fechaEntrega={fechaEntrega}
-                    />
-                  );
-                })}
+                {etiquetadoBeneficiarios &&
+                  etiquetadoBeneficiarios.map((row, i) => {
+                    return (
+                      <GeneracionEtiquetaDatosBeneficiarios
+                        datos={row}
+                        index={i}
+                        fechaEntrega={fechaEntrega}
+                      />
+                    );
+                  })}
               </TableBody>
             </Table>
           </TableContainer>
