@@ -5,7 +5,8 @@ import {
     MODIFICAR_PUNTOS_ENTREGA,
     PUNTOS_ENTREGA_ERROR,
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA
+    CAMBIAR_TAMANIO_PAGINA,
+    GET_TARJETAS_PARA_ENTREGA
 } from 'types/actionTypes';
 
 
@@ -50,6 +51,11 @@ export default (state, action) => {
                 ...state,
                 size: action.payload
             }
+            case GET_TARJETAS_PARA_ENTREGA:
+            return {
+                ...state,
+                terjetasEntregaList: [...state.terjetasEntregaList, action.payload]
+            };
         default:
             return state;
     }

@@ -10,7 +10,8 @@ import {
     MODIFICAR_PUNTOS_ENTREGA,
     PUNTOS_ENTREGA_ERROR,
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA
+    CAMBIAR_TAMANIO_PAGINA,
+    GET_TARJETAS_PARA_ENTREGA
 } from 'types/actionTypes';
 
 
@@ -24,6 +25,7 @@ export const PuntosEntregaContextProvider = props => {
 
     const initialState = {
         puntosEntregaList: [],
+        terjetasEntregaList:[],
         error: false,
         page: 0,
         size: 10,
@@ -118,6 +120,33 @@ export const PuntosEntregaContextProvider = props => {
         }
     }
 
+    const getTarjetasParaLotes = async (lstmunicipios) => {
+ 
+
+        try {
+            const url = `${baseUrlPublico}lotes/tarjetasparalotes`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, lstmunicipios, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: GET_TARJETAS_PARA_ENTREGA,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            dispatch({
+                type: PUNTOS_ENTREGA_ERROR,
+                payload: true
+            })
+        }
+    }
+
     //Paginacion
     const changePage = async (pages) => {
         try {
@@ -151,11 +180,13 @@ export const PuntosEntregaContextProvider = props => {
         <PuntosEntregaContext.Provider
             value={{
                 puntosEntregaList: state.puntosEntregaList,
+                terjetasEntregaList:state.terjetasEntregaList,
                 getPuntosEntrega,
                 registrarPuntosEntrega,
                 actualizarPuntosEntrega,
                 eliminarPuntosEntrega,
                 getPuntosEntregaByParametros,
+                getTarjetasParaLotes,
 
                 error: state.error,
                 page: state.page,

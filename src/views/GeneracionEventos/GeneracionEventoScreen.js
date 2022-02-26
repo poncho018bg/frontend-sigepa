@@ -15,28 +15,89 @@ import {
   Grid,
   TableContainer,
   TextField,
+  MenuItem,
 } from "@material-ui/core";
 import Button from "components/CustomButtons/Button.js";
 import { useTranslation } from "react-i18next";
 //useStyles
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from "css/stylesArchivo";
+import { PuntosEntregaContext } from "../../contexts/catalogos/PuntosEntregaContext";
+import { RegionMunicipiosContext } from "../../contexts/catalogos/RegionMunicipiosContext";
+import { MultiSelect } from "react-multi-select-component";
 const useStyles = makeStyles(stylesArchivo);
 
 export const GeneracionEventoScreen = () => {
   const { t } = useTranslation();
   const classes = useStyles();
+  const { puntosEntregaList, getPuntosEntrega, getTarjetasParaLotes, terjetasEntregaList } = useContext(
+    PuntosEntregaContext
+   
+  );
+  const { regionList, getRegionMunicipios } = useContext(
+    RegionMunicipiosContext
+  );
+
+  const [puntoentrega, setPuntoentrega] = useState("");
+  const [municipiosSelect, setMunicipiosSelect] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  useEffect(() => {
+    getPuntosEntrega();
+    getRegionMunicipios();
+    
+  }, []);
+
+  useEffect(() => {
+    const lstSelectMun = [];
+    selected.map(e=>{
+      lstSelectMun.push(e.value)
+    })
+
+    getTarjetasParaLotes(lstSelectMun)
+    
+  }, [selected]);
+
+  useEffect(() => {
+    const lstmun = [];
+    regionList.map((mn) => {
+      lstmun.push({ label: mn.dsMunicipio, value: mn.idMunicipio });
+    });
+    setMunicipiosSelect(lstmun);
+  }, [regionList]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   return (
     <GridItem xs={12} sm={12} md={12}>
       <Card>
         <CardHeader color="primary">
           <h4 className={classes.cardTitleWhite}>
-            Creación de lotes por punto de entrega
+            {t('pnl.creaciondlotesporpuntoentrega')}
           </h4>
           <p className={classes.cardCategoryWhite}></p>
         </CardHeader>
         <CardBody>
+          <Grid container spacing={3}>
+            <Grid item xs={3}>
+              <MultiSelect
+                style={{ marginBottom: "120px" }}
+                options={municipiosSelect}
+                value={selected}
+                onChange={setSelected}
+                labelledBy={t("cmb.seleccionar")}
+              />
+            </Grid>
+          </Grid>
           <Grid container spacing={3}>
             <Grid item xs={3}>
               <TextField
@@ -49,44 +110,82 @@ export const GeneracionEventoScreen = () => {
             <Grid item xs={3}>
               <TextField
                 variant="outlined"
-                label={t("lbl.seleccionaunprograma")}
+                label={t("lbl.puntoentrega")}
                 select
                 fullWidth
-                name="programa"
-                value={programa}
-                onChange={(e) => setPrograma(e.target.value)}
+                name="puntoentrega"
+                value={puntoentrega}
+                onChange={(e) => setPuntoentrega(e.target.value)}
               >
                 <MenuItem value="0">
                   <em>{t("cmb.ninguno")}</em>
                 </MenuItem>
-                {programasList.map((item) => (
+                {puntosEntregaList.map((item) => (
                   <MenuItem key={item.id} value={item.id}>
-                    {item.dsprograma}
+                    {item.dspuntoentrega}
                   </MenuItem>
                 ))}
               </TextField>
             </Grid>
             <Grid item xs={3}>
-              <TextField
-                variant="outlined"
-                label={t("lbl.seleccionaunprograma")}
-                select
+              <Button
+                variant="contained"
+                color="primary"
                 fullWidth
-                name="programa"
-                value={programa}
-                onChange={(e) => setPrograma(e.target.value)}
+                onClick={() => onClickGenerarLayout(embozoBeneficiarios)}
               >
-                <MenuItem value="0">
-                  <em>{t("cmb.ninguno")}</em>
-                </MenuItem>
-                {programasList.map((item) => (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.dsprograma}
-                  </MenuItem>
-                ))}
-              </TextField>
+                {t("btn.generarlayouttarjetas")}
+              </Button>
             </Grid>
           </Grid>
+        </CardBody>
+        <CardBody>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow key="898as">
+                <TableCell align="center">{t("dgv.consecutivo")} </TableCell>
+                <TableCell align="center">{t("dgv.nombrecompleto")} </TableCell>
+                <TableCell align="center">
+                  {t("dgv.fechadenacimiento")}{" "}
+                </TableCell>
+                <TableCell align="center">{t("dgv.curp")} </TableCell>
+                <TableCell align="center">{t("dgv.municipio")} </TableCell>
+                <TableCell align="center">{t("dgv.folio")} </TableCell>
+                <TableCell align="center">{t("dgv.etiquetas")} </TableCell>
+                <TableCell align="center">{t("dgv.tarjeta")} </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {terjetasEntregaList?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => {
+                  return (
+                    <TableRow key={row?.idTarjeta}>
+                      <TableCell align="center">{row?.consecutivo}</TableCell>
+                      <TableCell align="center">{row?.nombrecompleto}</TableCell>
+                      <TableCell align="center">{row?.fechanacimiento}</TableCell>
+                      <TableCell align="center">{row?.curp}</TableCell>
+                      <TableCell align="center">{row?.municipio}</TableCell>
+                      <TableCell align="center">{row?.folio}</TableCell>
+                      <TableCell align="center">{row?.etiqueta}</TableCell>
+                      <TableCell align="center">{row?.tarjeta}</TableCell>
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+          <TablePagination
+            rowsPerPageOptions={[25, 50, 75, 100]}
+            component="div"
+            labelRowsPerPage={t("dgv.registrospaginas")}
+            count={terjetasEntregaList.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+            labelDisplayedRows={({ from, to, count }) =>
+              `${from}-${to} de un total ${count} registros`
+            }
+          />
         </CardBody>
       </Card>
     </GridItem>
