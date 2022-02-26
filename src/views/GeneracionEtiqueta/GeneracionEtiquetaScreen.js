@@ -22,6 +22,7 @@ import { useTranslation } from "react-i18next";
 import { SolicitudEmbozoTarjetasContext } from "contexts/solicitudEmbozoTarjetasContext";
 //complementos
 import { GeneracionEtiquetaDatosBeneficiarios } from "./GeneracionEtiquetaDatosBeneficiarios";
+import DialogConfirmacionEtiquetado from "./DialogConfirmacionEtiquetado";
 //useStyles
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from "css/stylesArchivo";
@@ -31,6 +32,8 @@ export const GeneracionEtiquetaScreen = () => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [fechaEntrega, setFechaEntrega] = useState();
+  const [dialogConfirmar, setDialogConfirmar] = useState(false);
+  const [listaEtiquetado, setListaEtiquetado] = useState([]);
   // context
   const {
     etiquetadoBeneficiarios,
@@ -60,14 +63,24 @@ export const GeneracionEtiquetaScreen = () => {
     setPage(0);
   };
 
-  const onClickGenerarLayout = () => {
+  const onClickGenerarLayout = (e) => {
     console.log("genarar archivo");
-    for (let i = 0; i < etiquetadoBeneficiarios.length; i++) {
-      etiquetadoBeneficiarios[i].fechaEntrega = fechaEntrega;
+    for (let i = 0; i < e.length; i++) {
+      e[i].fechaEntrega = fechaEntrega;
     }
-    console.log("GUARDAR ETIQUETADO ===>", etiquetadoBeneficiarios);
-    guardarEtiquetadoTarjetas(etiquetadoBeneficiarios);
-    getEtiquedadoBeneficiarios();
+    console.log("GUARDAR ETIQUETADO ===>", e);
+    setListaEtiquetado(e);
+    setDialogConfirmar(true);
+  };
+
+  /**
+   * Dialogo de confirmación manda llamar esta función
+   * Guarda los beneficiarios etiquetados
+   */
+  const guardarLayourEtiquetas = () => {
+    guardarEtiquetadoTarjetas(listaEtiquetado);
+    setDialogConfirmar(false);
+    //getEtiquedadoBeneficiarios();
   };
 
   return (
@@ -86,7 +99,9 @@ export const GeneracionEtiquetaScreen = () => {
                     color="white"
                     aria-label="edit"
                     round
-                    onClick={onClickGenerarLayout}
+                    onClick={() =>
+                      onClickGenerarLayout(etiquetadoBeneficiarios)
+                    }
                   >
                     {t("btn.generararchivo")}
                   </Button>
@@ -158,6 +173,11 @@ export const GeneracionEtiquetaScreen = () => {
           />
         </CardBody>
       </Card>
+      <DialogConfirmacionEtiquetado
+        dialogConfirmar={dialogConfirmar}
+        setDialogConfirmar={setDialogConfirmar}
+        guardarLayourEtiquetas={guardarLayourEtiquetas}
+      />
     </GridItem>
   );
 };
