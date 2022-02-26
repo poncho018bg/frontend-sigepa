@@ -291,7 +291,7 @@ export const DialogTipoApoyoForm = (props) => {
     <Card>
       <form onSubmit={formik.handleSubmit}>
         <CardHeader color="primary">
-         ${t('pnl.altatipodeapoyo')}
+         {t('pnl.altatipodeapoyo')}
         </CardHeader>
         {console.log("ERRORES=>", formik.errors)}
         <CardBody>
