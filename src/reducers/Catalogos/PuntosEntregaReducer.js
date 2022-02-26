@@ -6,7 +6,8 @@ import {
     PUNTOS_ENTREGA_ERROR,
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA,
-    GET_TARJETAS_PARA_ENTREGA
+    GET_TARJETAS_PARA_ENTREGA,
+    REGISTRAR_LOTES_ENTREGA
 } from 'types/actionTypes';
 
 
@@ -51,11 +52,16 @@ export default (state, action) => {
                 ...state,
                 size: action.payload
             }
-            case GET_TARJETAS_PARA_ENTREGA:
+        case GET_TARJETAS_PARA_ENTREGA:
             return {
                 ...state,
                 terjetasEntregaList: [...state.terjetasEntregaList, action.payload]
             };
+        case REGISTRAR_LOTES_ENTREGA:
+                return {
+                    ...state,
+                    lotesEntregaList: [...state.lotesEntregaList, action.payload]
+                };
         default:
             return state;
     }

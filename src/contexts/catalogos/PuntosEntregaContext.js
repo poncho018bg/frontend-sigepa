@@ -11,7 +11,8 @@ import {
     PUNTOS_ENTREGA_ERROR,
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA,
-    GET_TARJETAS_PARA_ENTREGA
+    GET_TARJETAS_PARA_ENTREGA,
+    REGISTRAR_LOTES_ENTREGA
 } from 'types/actionTypes';
 
 
@@ -147,6 +148,33 @@ export const PuntosEntregaContextProvider = props => {
         }
     }
 
+
+    const registrarLotesEntrega = async lotesEntregas => {
+
+        try {
+            const url = `${baseUrlPublico}lotes/guardarlotes`;
+            return new Promise((resolve, reject) => {
+                axios.post(url, lotesEntregas, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: REGISTRAR_LOTES_ENTREGA,
+                        payload: response.data
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+
+        } catch (error) {
+            dispatch({
+                type: PUNTOS_ENTREGA_ERROR,
+                payload: true
+            })
+        }
+    }
+
     //Paginacion
     const changePage = async (pages) => {
         try {
@@ -187,6 +215,7 @@ export const PuntosEntregaContextProvider = props => {
                 eliminarPuntosEntrega,
                 getPuntosEntregaByParametros,
                 getTarjetasParaLotes,
+                registrarLotesEntrega,
 
                 error: state.error,
                 page: state.page,

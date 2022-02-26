@@ -25,15 +25,21 @@ import { stylesArchivo } from "css/stylesArchivo";
 import { PuntosEntregaContext } from "../../contexts/catalogos/PuntosEntregaContext";
 import { RegionMunicipiosContext } from "../../contexts/catalogos/RegionMunicipiosContext";
 import { MultiSelect } from "react-multi-select-component";
+import { ModalConfirmacion } from "commons/ModalConfirmacion";
+import { Mensaje } from "components/Personalizados/Mensaje";
+import { ModalContextConfirmacion } from "contexts/modalContextConfirmacion";
 const useStyles = makeStyles(stylesArchivo);
 
 export const GeneracionEventoScreen = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { puntosEntregaList, getPuntosEntrega, getTarjetasParaLotes, terjetasEntregaList } = useContext(
-    PuntosEntregaContext
-   
-  );
+  const {
+    puntosEntregaList,
+    getPuntosEntrega,
+    getTarjetasParaLotes,
+    terjetasEntregaList,
+    registrarLotesEntrega,
+  } = useContext(PuntosEntregaContext);
   const { regionList, getRegionMunicipios } = useContext(
     RegionMunicipiosContext
   );
@@ -43,21 +49,23 @@ export const GeneracionEventoScreen = () => {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+  const [error, setError] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
   useEffect(() => {
     getPuntosEntrega();
     getRegionMunicipios();
-    
   }, []);
 
   useEffect(() => {
     const lstSelectMun = [];
-    selected.map(e=>{
-      lstSelectMun.push(e.value)
-    })
+    selected.map((e) => {
+      lstSelectMun.push(e.value);
+    });
 
-    getTarjetasParaLotes(lstSelectMun)
-    
+    getTarjetasParaLotes(lstSelectMun);
   }, [selected]);
 
   useEffect(() => {
@@ -77,12 +85,43 @@ export const GeneracionEventoScreen = () => {
     setPage(0);
   };
 
+  const handleRegistrar = () => {
+     
+    registrarLotesEntrega(terjetasEntregaList)
+      .then((response) => {
+        setOpenSnackbar(true);
+
+        setMsjConfirmacion(`${t("msg.registroguardadoexitosamente")}`);
+
+        const timer = setTimeout(() => {
+          setError(false);
+          setShowModalConfirmacion(false);
+          setShowModalUpdate(false);
+        }, 1500);
+        return () => clearTimeout(timer);
+      })
+      .catch((err) => {
+        setOpenSnackbar(true);
+        setError(true);
+        setMsjConfirmacion(`${t("msg.ocurrioerrorcalidarinfo")}`);
+
+        setShowModalConfirmacion(false);
+        setShowModalUpdate(false);
+      });
+  };
+
+  const confirmacionDialog = (e) => {
+    
+    setShowModalConfirmacion(true);
+   
+}
+
   return (
     <GridItem xs={12} sm={12} md={12}>
       <Card>
         <CardHeader color="primary">
           <h4 className={classes.cardTitleWhite}>
-            {t('pnl.creaciondlotesporpuntoentrega')}
+            {t("pnl.creaciondlotesporpuntoentrega")}
           </h4>
           <p className={classes.cardCategoryWhite}></p>
         </CardHeader>
@@ -132,7 +171,7 @@ export const GeneracionEventoScreen = () => {
                 variant="contained"
                 color="primary"
                 fullWidth
-                onClick={() => onClickGenerarLayout(embozoBeneficiarios)}
+                onClick={() => confirmacionDialog()}
               >
                 {t("btn.generarlayouttarjetas")}
               </Button>
@@ -156,13 +195,18 @@ export const GeneracionEventoScreen = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {terjetasEntregaList?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              {terjetasEntregaList
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
                     <TableRow key={row?.idTarjeta}>
                       <TableCell align="center">{row?.consecutivo}</TableCell>
-                      <TableCell align="center">{row?.nombrecompleto}</TableCell>
-                      <TableCell align="center">{row?.fechanacimiento}</TableCell>
+                      <TableCell align="center">
+                        {row?.nombrecompleto}
+                      </TableCell>
+                      <TableCell align="center">
+                        {row?.fechanacimiento}
+                      </TableCell>
                       <TableCell align="center">{row?.curp}</TableCell>
                       <TableCell align="center">{row?.municipio}</TableCell>
                       <TableCell align="center">{row?.folio}</TableCell>
@@ -187,6 +231,13 @@ export const GeneracionEventoScreen = () => {
             }
           />
         </CardBody>
+        <ModalConfirmacion handleRegistrar={handleRegistrar} evento="Editar" />
+        <Mensaje
+          setOpen={setOpenSnackbar}
+          open={openSnackbar}
+          severity={error ? "error" : "success"}
+          message={msjConfirmacion}
+        />
       </Card>
     </GridItem>
   );
