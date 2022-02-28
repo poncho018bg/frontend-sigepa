@@ -65,7 +65,7 @@ export const SuspensionExpediente = forwardRef((props) => {
   useEffect(() => {
     console.log("BANDEJA SUSPENSION USEEFFECT LIST", bandejaSuspensionList);
     if (
-      (bandejaSuspensionList !== null) &
+      (bandejaSuspensionList !== null) &&
       (bandejaSuspensionList !== undefined)
     ) {
       setMotivoSuspension(bandejaSuspensionList.idMotivoSuspension);
