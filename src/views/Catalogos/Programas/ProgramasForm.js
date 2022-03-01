@@ -55,7 +55,7 @@ import { formioComplementoLoading } from 'actions/FormioComplementoAction';
 export const ProgramasForm = () => {
   const { t } = useTranslation();
   const { registrar } = useContext(ProgramasContext);
-  const { tiposBeneficiariosList } = useContext(TiposBeneficiariosContext);
+  const { tiposBeneficiariosList,getTipoBeneficiariosActivos} = useContext(TiposBeneficiariosContext);
   const { edadesBeneficiariosList } = useContext(EdadesBeneficiariosContext);
   const [loading, setLoading] = useState(false);
   const classes = useStyles();
@@ -105,6 +105,7 @@ export const ProgramasForm = () => {
     const cargarFormioComplemento = () => dispatch(formioComplementoLoading());
     cargarFormioComplemento();
     console.log("Esto es lo que trae la consulta formioComplemento", formioComplemento);
+    getTipoBeneficiariosActivos();
   }, []);
 
   useEffect(() => {
