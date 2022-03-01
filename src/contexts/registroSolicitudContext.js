@@ -74,7 +74,7 @@ export const RegistroSolicitudContextProvider = (props) => {
   };
   const getGenerosActivos = async () => {
     try {
-      const result = await axiosGetSinToken(`findByActivoTrue`);
+      const result = await axiosGetSinToken(`generos/search/findByActivoTrue`);
       console.log("RESULT GENEROS -->", result);
       dispatch({
         type: GET_GENEROS,
@@ -124,7 +124,7 @@ export const RegistroSolicitudContextProvider = (props) => {
   };
   const getIdentificacionesActivos = async () => {
     try {
-      const result = await axiosGetSinToken(`findByActivoTrue`);
+      const result = await axiosGetSinToken(`identificacionesOficiales/search/findByActivoTrue`);
       console.log("RESULT Estudios -->", result);
       dispatch({
         type: GET_IDENTIFICACIONES_OFICIALES,

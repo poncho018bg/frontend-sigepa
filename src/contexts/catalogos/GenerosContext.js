@@ -122,7 +122,7 @@ export const GenerosContextProvider = props => {
     const getGenerosActivos = async () => {
         try {
             
-            const result = await axiosGet(`findByActivoTrue`);
+            const result = await axiosGet(`generos/search/findByActivoTrue`);
             
             dispatch({
                 type: GET_GENERO,
