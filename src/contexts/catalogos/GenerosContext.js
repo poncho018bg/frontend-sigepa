@@ -119,6 +119,20 @@ export const GenerosContextProvider = props => {
         }
     }
 
+    const getGenerosActivos = async () => {
+        try {
+            
+            const result = await axiosGet(`findByActivoTrue`);
+            
+            dispatch({
+                type: GET_GENERO,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     //Paginacion
     const changePage = async (pages) => {
@@ -154,6 +168,7 @@ export const GenerosContextProvider = props => {
             value={{
                 generosList: state.generosList,
                 getGeneros,
+                getGenerosActivos,
                 registrarGeneros,
                 actualizarGeneros,
                 eliminarGeneros,

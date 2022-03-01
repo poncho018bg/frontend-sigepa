@@ -72,6 +72,18 @@ export const RegistroSolicitudContextProvider = (props) => {
       console.log(error);
     }
   };
+  const getGenerosActivos = async () => {
+    try {
+      const result = await axiosGetSinToken(`findByActivoTrue`);
+      console.log("RESULT GENEROS -->", result);
+      dispatch({
+        type: GET_GENEROS,
+        payload: result,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const getEstudios = async () => {
     try {
       const result = await axiosGetSinToken(`gradoEstudios`);
@@ -101,6 +113,18 @@ export const RegistroSolicitudContextProvider = (props) => {
   const getIdentificaciones = async () => {
     try {
       const result = await axiosGetSinToken(`identificacionesOficiales`);
+      console.log("RESULT Estudios -->", result);
+      dispatch({
+        type: GET_IDENTIFICACIONES_OFICIALES,
+        payload: result,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getIdentificacionesActivos = async () => {
+    try {
+      const result = await axiosGetSinToken(`findByActivoTrue`);
       console.log("RESULT Estudios -->", result);
       dispatch({
         type: GET_IDENTIFICACIONES_OFICIALES,
@@ -854,9 +878,11 @@ export const RegistroSolicitudContextProvider = (props) => {
         programaVigente: state.programaVigente,
         coberturalist: state.coberturalist,
         getGeneros,
+        getGenerosActivos,
         getEstudios,
         getEstadoCivil,
         getIdentificaciones,
+        getIdentificacionesActivos,
         registrarBeneficiario,
         registrarDireccionBeneficiario,
         actualizarDireccionBeneficiario,

@@ -83,13 +83,13 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
   const [activaGuardar, setActivaGuardar] = useState(false);
 
   const {
-    getGeneros,
+    getGenerosActivos,
     generosList,
     estudiosList,
     getEstudios,
     estadoCivilList,
     getEstadoCivil,
-    getIdentificaciones,
+    getIdentificacionesActivos,
     identificacionesList,
     actualizarBeneficiario,
     beneficiario,
@@ -170,10 +170,10 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
     getCien().then((data) => {
       setTimeout(() => setLoading(false), 500);
     });
-    getGeneros();
+    getGenerosActivos();
     getEstudios();
     getEstadoCivil();
-    getIdentificaciones();
+    getIdentificacionesActivos();
   }, [beneficiarioPadre]);
 
   const generoCurp = (generocrp) => {

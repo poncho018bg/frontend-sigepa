@@ -69,10 +69,10 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
 
     const [datosCorrectos, setDatosCorrectos] = useState(true);
 
-    const { getGeneros, generosList,
+    const { getGenerosActivos, generosList,
         estudiosList, getEstudios,
         estadoCivilList, getEstadoCivil,
-        getIdentificaciones, identificacionesList
+        getIdentificacionesActivos, identificacionesList
     } = useContext(RegistroSolicitudContext);
 
     const { programasList, get, getCien } = useContext(ProgramasContext);
@@ -151,10 +151,10 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
             setTimeout(() => setLoading(false), 500);
 
         });
-        getGeneros();
+        getGenerosActivos();
         getEstudios();
         getEstadoCivil();
-        getIdentificaciones();
+        getIdentificacionesActivos();
 
     }, [beneficiario]);
 
