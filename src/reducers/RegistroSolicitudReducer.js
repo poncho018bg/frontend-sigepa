@@ -31,7 +31,7 @@ export default (state, action) => {
             return {
                 ...state,
                 generosList: action.payload._embedded.generos,
-                total: action.payload.page.totalElements
+                total: action?.payload?.page?.totalElements
             };
         case AGREGAR_SOLICITUD_FOLIO_ERROR:
             console.log('err', action.type);
@@ -73,7 +73,7 @@ export default (state, action) => {
             return {
                 ...state,
                 identificacionesList: action.payload._embedded.identificacionesOficiales,
-                total: action.payload.page.totalElements
+                total: action?.payload?.page?.totalElements
             };
         case REGISTRAR_BENEFICIARIO:
             return {
