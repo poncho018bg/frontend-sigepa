@@ -7,14 +7,13 @@ const baseUrlExpediente = process.env.REACT_APP_API_EXPEDIENTE_URL;
 
  async function axiosGet(endpoint) {
      const url = `${ baseUrl }${ endpoint }`;
-
-
+     console.log("AXIOS GET token===>",UserService);
     try{
             const promise = await axios({
                 method:'GET',
                 url,
                 headers: {
-                    Authorization: 'Bearer ' + UserService,
+                    Authorization: `Bearer ${UserService}`,
                 }
             }).then(response => {
             return response.data

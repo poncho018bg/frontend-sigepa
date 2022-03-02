@@ -32,7 +32,7 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
   } = props;
   const [observaciones, setObservaciones] = useState("");
   const classes = useStyles();
-  const { getMotivoRechazos, motivoRechazosList } = useContext(
+  const { getMotivoRechazosActivos, motivoRechazosList } = useContext(
     MotivoRechazosContext
   );
   const {
@@ -50,7 +50,7 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
   const [desactivarGuardarMotivo, setDesactivarGuardarMotivo] = useState(false);
 
   useEffect(() => {
-    getMotivoRechazos();
+    getMotivoRechazosActivos();
     console.log("motivoRechazosList", motivoRechazosList);
     /**
      * buscamos la solicitud
