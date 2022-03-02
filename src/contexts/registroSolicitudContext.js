@@ -26,6 +26,7 @@ import {
   PROGRAMA_VIGENTE,
   CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA,
   GET_COBERTURA_POR_PROGRAMA,
+  GET_GENEROS_ACTIVOS
 } from "types/actionTypes";
 
 import {
@@ -77,7 +78,7 @@ export const RegistroSolicitudContextProvider = (props) => {
       const result = await axiosGetSinToken(`generos/search/findByActivoTrue`);
       console.log("RESULT GENEROS -->", result);
       dispatch({
-        type: GET_GENEROS,
+        type: GET_GENEROS_ACTIVOS,
         payload: result,
       });
     } catch (error) {
@@ -127,7 +128,7 @@ export const RegistroSolicitudContextProvider = (props) => {
       const result = await axiosGetSinToken(`identificacionesOficiales/search/findByActivoTrue`);
       console.log("RESULT Estudios -->", result);
       dispatch({
-        type: GET_IDENTIFICACIONES_OFICIALES,
+        type: GET_IDENTIFICACIONES_OFICIALES_ACTIVOS,
         payload: result,
       });
     } catch (error) {
