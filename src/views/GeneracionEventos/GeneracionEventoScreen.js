@@ -44,6 +44,7 @@ export const GeneracionEventoScreen = () => {
     RegionMunicipiosContext
   );
 
+  const [dsEvento, setDsEvento] = useState("");
   const [puntoentrega, setPuntoentrega] = useState("");
   const [municipiosSelect, setMunicipiosSelect] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -59,14 +60,7 @@ export const GeneracionEventoScreen = () => {
     getRegionMunicipios();
   }, []);
 
-  useEffect(() => {
-    const lstSelectMun = [];
-    selected.map((e) => {
-      lstSelectMun.push(e.value);
-    });
 
-    getTarjetasParaLotes(lstSelectMun);
-  }, [selected]);
 
   useEffect(() => {
     const lstmun = [];
@@ -87,7 +81,11 @@ export const GeneracionEventoScreen = () => {
 
   const handleRegistrar = () => {
      
-    registrarLotesEntrega(terjetasEntregaList)
+    terjetasEntregaList[0].map(e=>{
+      e.evento=dsEvento;
+      e.idPunto = puntoentrega;
+    })
+    registrarLotesEntrega(terjetasEntregaList[0])
       .then((response) => {
         setOpenSnackbar(true);
 
@@ -110,10 +108,17 @@ export const GeneracionEventoScreen = () => {
       });
   };
 
-  const confirmacionDialog = (e) => {
-    
-    setShowModalConfirmacion(true);
-   
+  const confirmacionDialog = (e) => {    
+    setShowModalConfirmacion(true);   
+}
+
+const buscarPorMunicipio=()=>{
+  const lstSelectMun = [];
+  selected.map((e) => {
+    lstSelectMun.push(e.value);
+  });
+
+  getTarjetasParaLotes(lstSelectMun);
 }
 
   return (
@@ -136,6 +141,16 @@ export const GeneracionEventoScreen = () => {
                 labelledBy={t("cmb.seleccionar")}
               />
             </Grid>
+            <Grid item xs={3}>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={() => buscarPorMunicipio()}
+              >
+                Buscar
+              </Button>
+            </Grid>
           </Grid>
           <Grid container spacing={3}>
             <Grid item xs={3}>
@@ -144,6 +159,9 @@ export const GeneracionEventoScreen = () => {
                 label="Número de Evento-Lote"
                 variant="outlined"
                 fullWidth
+                name={dsEvento}              
+                value={dsEvento}
+                onChange={(e) => setDsEvento(e.target.value)}
               />
             </Grid>
             <Grid item xs={3}>
@@ -195,11 +213,13 @@ export const GeneracionEventoScreen = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {terjetasEntregaList
+              
+              {terjetasEntregaList[0]
                 ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
                     <TableRow key={row?.idTarjeta}>
+                     
                       <TableCell align="center">{row?.consecutivo}</TableCell>
                       <TableCell align="center">
                         {row?.nombrecompleto}

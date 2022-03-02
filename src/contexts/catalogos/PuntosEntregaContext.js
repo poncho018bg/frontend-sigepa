@@ -21,7 +21,7 @@ import {
 export const PuntosEntregaContext = createContext();
 
 const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL
-
+const UserService = sessionStorage.getItem('token')
 export const PuntosEntregaContextProvider = props => {
 
     const initialState = {
@@ -128,7 +128,7 @@ export const PuntosEntregaContextProvider = props => {
             const url = `${baseUrlPublico}lotes/tarjetasparalotes`;
             return new Promise((resolve, reject) => {
                 axios.post(url, lstmunicipios, {
-                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json', Authorization: 'Bearer ' + UserService}
                 }).then(response => {
                     resolve(response);
                     dispatch({
@@ -155,7 +155,7 @@ export const PuntosEntregaContextProvider = props => {
             const url = `${baseUrlPublico}lotes/guardarlotes`;
             return new Promise((resolve, reject) => {
                 axios.post(url, lotesEntregas, {
-                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json',Authorization: 'Bearer ' + UserService }
                 }).then(response => {
                     resolve(response);
                     dispatch({
