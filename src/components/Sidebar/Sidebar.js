@@ -107,7 +107,7 @@ const nombre = () => {
 
 
 function Sidebar(props) {
-  const kcc = useSelector(state => state.auth);
+  const kcc = useSelector((state) => state.auth);
   let query = useLocation();
   let history = useHistory();
   const classes = useStyles();
@@ -116,8 +116,8 @@ function Sidebar(props) {
   const [openProfile, setOpenProfile] = React.useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch();
-  const rolesall = useSelector(state => state.roles);
-  const perfilSubmodulos = useSelector(state => state.perfilSubmodulos);
+  const rolesall = useSelector((state) => state.roles);
+  const perfilSubmodulos = useSelector((state) => state.perfilSubmodulos);
 
   // to check for active links and opened collapses
   let location = useLocation();
@@ -164,17 +164,15 @@ function Sidebar(props) {
   };
 
   const validateprofilesModulos = (modulename, lstRoutes) => {
-    if (lstRoutes?.filter(md => md.dsModulo === modulename).length !== 0) {
-      return true
+    if (lstRoutes?.filter((md) => md.dsModulo === modulename).length !== 0) {
+      return true;
     }
   };
 
   const validateprofiles = (routeNam, lstRoutes) => {
-
-    if (lstRoutes.filter(md => md.dsSubmodulo === routeNam).length !== 0) {
-      return true
+    if (lstRoutes.filter((md) => md.dsSubmodulo === routeNam).length !== 0) {
+      return true;
     }
-
   };
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = (routes) => {
@@ -238,8 +236,6 @@ function Sidebar(props) {
                   { [classes.collapseItem]: prop.icon === undefined }
                 )}
               >
-
-
                 <NavLink
                   to={"#"}
                   className={navLinkClasses}
@@ -255,7 +251,10 @@ function Sidebar(props) {
                       <prop.icon className={itemIcon} />
                     )
                   ) : (
-                    <span className={collapseItemMini} style={{ fontSize: `1px` }}>
+                    <span
+                      className={collapseItemMini}
+                      style={{ fontSize: `1px` }}
+                    >
                       {rtlActive ? prop.rtlMini : prop.mini}
                     </span>
                   )}
@@ -281,14 +280,10 @@ function Sidebar(props) {
                 <Collapse in={state[prop.state]} unmountOnExit>
                   <List className={classes.list + " " + classes.collapseList}>
                     {createLinks(prop.views)}
-
                   </List>
                 </Collapse>
-
-
               </ListItem>
-            ) : (null)}
-
+            ) : null}
           </>
         );
       }
@@ -336,45 +331,41 @@ function Sidebar(props) {
         });
       return (
         <>
-          {validateprofiles(prop.name, props.pantallasview) ? (<ListItem
-            key={key}
-            className={cx(
-              { [classes.item]: prop.icon !== undefined },
-              { [classes.collapseItem]: prop.icon === undefined }
-            )}
-          >
-
-            <NavLink
-              to={prop.layout + prop.path}
+          {validateprofiles(prop.name, props.pantallasview) ? (
+            <ListItem
+              key={key}
               className={cx(
-                { [navLinkClasses]: prop.icon !== undefined },
-                { [innerNavLinkClasses]: prop.icon === undefined }
+                { [classes.item]: prop.icon !== undefined },
+                { [classes.collapseItem]: prop.icon === undefined }
               )}
             >
-
-              {prop.icon !== undefined ? (
-                typeof prop.icon === "string" ? (
-                  <Icon className={itemIcon}>{prop.icon}</Icon>
-                ) : (
-                  <prop.icon className={itemIcon} />
-                )
-              ) : (
-                <span className={collapseItemMini}>
-                  
-                </span>
-              )}
-              <ListItemText
-                primary={rtlActive ? prop.rtlName : prop.name}
-                disableTypography={true}
+              <NavLink
+                to={prop.layout + prop.path}
                 className={cx(
-                  { [itemText]: prop.icon !== undefined },
-                  { [collapseItemText]: prop.icon === undefined }
+                  { [navLinkClasses]: prop.icon !== undefined },
+                  { [innerNavLinkClasses]: prop.icon === undefined }
                 )}
-              />
-
-            </NavLink>
-          </ListItem>) : (null)}
-
+              >
+                {prop.icon !== undefined ? (
+                  typeof prop.icon === "string" ? (
+                    <Icon className={itemIcon}>{prop.icon}</Icon>
+                  ) : (
+                    <prop.icon className={itemIcon} />
+                  )
+                ) : (
+                  <span className={collapseItemMini}></span>
+                )}
+                <ListItemText
+                  primary={rtlActive ? prop.rtlName : prop.name}
+                  disableTypography={true}
+                  className={cx(
+                    { [itemText]: prop.icon !== undefined },
+                    { [collapseItemText]: prop.icon === undefined }
+                  )}
+                />
+              </NavLink>
+            </ListItem>
+          ) : null}
         </>
       );
     });
@@ -423,10 +414,8 @@ function Sidebar(props) {
     });
   var user = (
     <div className={userWrapperClass}>
-
       <List className={classes.list}>
         <ListItem className={classes.item + " " + classes.userItem}>
-
           <Collapse in={openAvatar} unmountOnExit>
             <List className={classes.list + " " + classes.collapseList}>
               <ListItem className={classes.collapseItem}>
@@ -479,31 +468,44 @@ function Sidebar(props) {
         </ListItem>
       </List>
 
-      {(sessionStorage.getItem("token") !== null) ?
-        (
-          <div style={{ position: `fixed`, bottom: `0px`, width: `15em`, wordBreak: `break-word` }}>
-            <Card className={classesCard.card}>
-              <CardHeader
-                className={classesCard.card}
-                avatar={
-                  <Avatar aria-label="recipe" style={{ color: `#fff` }}>
-                    <PersonIcon style={{ color: `#fff` }}></PersonIcon>
-                  </Avatar>
-                }
-                action={
-                  <IconButton aria-label="settings" style={{ color: `#fff` }}
-                    onClick={logout}
-                  >
-                    <ExitToAppIcon />
-                  </IconButton>
-                }
-                title={<Typography className={classes.title}>{nombre()}</Typography>}
-                subheader={<Typography className={classes.title}>{roles()?.slice(0, 1)}</Typography>}
-              />
-
-            </Card>
-          </div>
-        ) : null}
+      {sessionStorage.getItem("token") !== null ? (
+        <div
+          style={{
+            position: `fixed`,
+            bottom: `0px`,
+            width: `15em`,
+            wordBreak: `break-word`,
+          }}
+        >
+          <Card className={classesCard.card}>
+            <CardHeader
+              className={classesCard.card}
+              avatar={
+                <Avatar aria-label="recipe" style={{ color: `#fff` }}>
+                  <PersonIcon style={{ color: `#fff` }}></PersonIcon>
+                </Avatar>
+              }
+              action={
+                <IconButton
+                  aria-label="settings"
+                  style={{ color: `#fff` }}
+                  onClick={logout}
+                >
+                  <ExitToAppIcon />
+                </IconButton>
+              }
+              title={
+                <Typography className={classes.title}>{nombre()}</Typography>
+              }
+              subheader={
+                <Typography className={classes.title}>
+                  {roles()}
+                </Typography>
+              }
+            />
+          </Card>
+        </div>
+      ) : null}
 
       <DialogLogOut
         openDialog={openDialog}
@@ -537,15 +539,11 @@ function Sidebar(props) {
     });
   var brand = (
     <div className={logoClasses}>
-      <a
-        href="/frontend-sigepa/"
-        target="_blank"
-        className={logoMini}
-      >
+      <a href="/frontend-sigepa/" target="_blank" className={logoMini}>
         <img src={logo} alt="logo" className={classes.img} />
       </a>
       <a
-        style={{ paddingLeft: '25%' }}
+        style={{ paddingLeft: "25%" }}
         href="/frontend-sigepa/"
         target="_blank"
         className={logoNormal}
@@ -623,7 +621,6 @@ function Sidebar(props) {
           ) : null}
         </Drawer>
       </Hidden>
-
     </div>
   );
 
@@ -632,7 +629,7 @@ function Sidebar(props) {
     setOpenDialog(true);
   }
   function handleDeshabilitar() {
-    history.replace("/admin/dashboard")
+    history.replace("/admin/dashboard");
     kcc.keycloak.logout();
     setOpenProfile(null);
     sessionStorage.removeItem("token");
@@ -642,21 +639,28 @@ function Sidebar(props) {
     sessionStorage.removeItem("lastName");
     sessionStorage.removeItem("roles");
     sessionStorage.removeItem("groups");
-   
   }
 
   function roles() {   
-   
-    let rolessesion = JSON.parse(sessionStorage.getItem("roles"));
-    return rolessesion?.roles?.map((rol) => {
-      if (rol != "offline_access") {
-        if (rol != "uma_authorization") {
-          return <>{rol}</>;
-        }
-      }
+    let rolessesion = "";
+    if (IsJsonString(sessionStorage.getItem("groups"))) {
+      rolessesion = JSON.parse(sessionStorage.getItem("groups"));
+    } else {
+      rolessesion = JSON.stringify(sessionStorage.getItem("groups"));
+    }   
+    return rolessesion?.map((rol) => { 
+          return <>{rol.replace("/",'')}</>;
     });
   }
+}
 
+function IsJsonString(str) {
+  try {
+      JSON.parse(str);
+  } catch (e) {
+      return false;
+  }
+  return true;
 }
 
 Sidebar.defaultProps = {
