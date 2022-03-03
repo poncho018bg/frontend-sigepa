@@ -24,7 +24,7 @@ import {
   CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA,
   GET_COBERTURA_POR_PROGRAMA,
   GET_GENEROS_ACTIVOS,
-  GET_IDENTIFICACIONES_OFICIALES_ACTIVOS
+  GET_IDENTIFICACIONES_OFICIALES_ACTIVOS,
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -38,7 +38,7 @@ export default (state, action) => {
     case GET_GENEROS_ACTIVOS:
       return {
         ...state,
-        generosList: action.payload._embedded.generos
+        generosList: action.payload._embedded.generos,
       };
     case AGREGAR_SOLICITUD_FOLIO_ERROR:
       console.log("err", action.type);
@@ -83,11 +83,11 @@ export default (state, action) => {
           action.payload._embedded.identificacionesOficiales,
         total: action.payload.page.totalElements,
       };
-      case GET_IDENTIFICACIONES_OFICIALES_ACTIVOS:
+    case GET_IDENTIFICACIONES_OFICIALES_ACTIVOS:
       return {
         ...state,
         identificacionesList:
-          action.payload._embedded.identificacionesOficiales
+          action.payload._embedded.identificacionesOficiales,
       };
     case REGISTRAR_BENEFICIARIO:
       return {
