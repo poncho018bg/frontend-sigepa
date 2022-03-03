@@ -60,7 +60,7 @@ export const PadronBeneficiariasScreen = () => {
   } = useContext(BeneficiariosContext);
   const { registrarBtActividades } = useContext(BtActividadesContext);
   const { getCien, programasList } = useContext(ProgramasContext);
-  const { tiposApoyosList, getTiposApoyos } = useContext(TiposApoyosContext);
+  const { tiposApoyosList, getTiposApoyosActivos } = useContext(TiposApoyosContext);
   const { motivoRechazosList, getMotivoRechazosActivos } = useContext(
     MotivoRechazosContext
   );
@@ -101,7 +101,7 @@ export const PadronBeneficiariasScreen = () => {
   const [esBajaOSuspension, setEsBajaOSuspension] = useState("");
   useEffect(() => {
     getCien();
-    getTiposApoyos();
+    getTiposApoyosActivos();
     getMotivoRechazosActivos();
     getMotivoSuspension();
     buscarSolitudes();
