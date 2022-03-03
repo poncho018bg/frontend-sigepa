@@ -645,18 +645,16 @@ function Sidebar(props) {
    
   }
 
-  function roles() {
-    let rolessesion = JSON.parse(sessionStorage.getItem('roles'))
-    return (
-      rolessesion?.roles?.map((rol) => {
-        if (rol != 'offline_access') {
-          if (rol != 'uma_authorization') {
-            return (<>{rol}</>);
-          }
+  function roles() {   
+   
+    let rolessesion = JSON.parse(sessionStorage.getItem("roles"));
+    return rolessesion?.roles?.map((rol) => {
+      if (rol != "offline_access") {
+        if (rol != "uma_authorization") {
+          return <>{rol}</>;
         }
-      })
-    )
-
+      }
+    });
   }
 
 }

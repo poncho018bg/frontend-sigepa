@@ -78,6 +78,7 @@ import { TarjetasEmbozadasContextProvider } from "contexts/TarjetasEmbozadasCont
 import { MotivoSuspensionContextProvider } from "contexts/MotivoSuspensionContext";
 import { BandejaSuspensionContextProvider } from "contexts/BandejaSuspensionContext";
 import { PuntosEntregaContextProvider } from "contexts/catalogos/PuntosEntregaContext";
+import { LoteEntregaTarjetaContextProvider } from "contexts/LoteEntregaTarjetaContext";
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
@@ -136,6 +137,7 @@ ReactDOM.render(
                                                                                                     <MotivoSuspensionContextProvider>
                                                                                                       <BandejaSuspensionContextProvider>
                                                                                                         <PuntosEntregaContextProvider>
+                                                                                                          <LoteEntregaTarjetaContextProvider>
                                                                                                           <Switch>
                                                                                                             <Route
                                                                                                               path="/admin"
@@ -154,6 +156,7 @@ ReactDOM.render(
                                                                                                               to="/admin/dashboard"
                                                                                                             />
                                                                                                           </Switch>
+                                                                                                          </LoteEntregaTarjetaContextProvider>                                                                                                          
                                                                                                         </PuntosEntregaContextProvider>
                                                                                                       </BandejaSuspensionContextProvider>
                                                                                                     </MotivoSuspensionContextProvider>

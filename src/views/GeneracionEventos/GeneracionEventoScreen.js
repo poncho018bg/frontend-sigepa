@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import "./styles.css";
 //componentes
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
@@ -28,6 +29,7 @@ import { MultiSelect } from "react-multi-select-component";
 import { ModalConfirmacion } from "commons/ModalConfirmacion";
 import { Mensaje } from "components/Personalizados/Mensaje";
 import { ModalContextConfirmacion } from "contexts/modalContextConfirmacion";
+import { LoteEntregaTarjetaContext } from "contexts/LoteEntregaTarjetaContext";
 const useStyles = makeStyles(stylesArchivo);
 
 export const GeneracionEventoScreen = () => {
@@ -43,11 +45,14 @@ export const GeneracionEventoScreen = () => {
   const { regionList, getRegionMunicipios } = useContext(
     RegionMunicipiosContext
   );
+  const {lotesEntregaTarjetaList, getLoteEntregaTarjetaAll}= useContext(LoteEntregaTarjetaContext)
 
   const [dsEvento, setDsEvento] = useState("");
   const [puntoentrega, setPuntoentrega] = useState("");
   const [municipiosSelect, setMunicipiosSelect] = useState([]);
+  const [lotesTarjSelect, setLotesTarjSelect] = useState([]);
   const [selected, setSelected] = useState([]);
+  const [selectedlotesTarj, setSelectedlotesTarj] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
@@ -58,6 +63,7 @@ export const GeneracionEventoScreen = () => {
   useEffect(() => {
     getPuntosEntrega();
     getRegionMunicipios();
+    getLoteEntregaTarjetaAll();
   }, []);
 
 
@@ -69,6 +75,14 @@ export const GeneracionEventoScreen = () => {
     });
     setMunicipiosSelect(lstmun);
   }, [regionList]);
+  useEffect(() => {
+    const lstmun = [];
+    console.log('LOTES=>>',lotesEntregaTarjetaList)
+    lotesEntregaTarjetaList.map((mn) => {
+      lstmun.push({ label: mn.dsclaveevento, value: mn.id });
+    });
+    setLotesTarjSelect(lstmun);
+  }, [lotesEntregaTarjetaList]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -81,11 +95,11 @@ export const GeneracionEventoScreen = () => {
 
   const handleRegistrar = () => {
      
-    terjetasEntregaList[0].map(e=>{
+    terjetasEntregaList.map(e=>{
       e.evento=dsEvento;
       e.idPunto = puntoentrega;
     })
-    registrarLotesEntrega(terjetasEntregaList[0])
+    registrarLotesEntrega(terjetasEntregaList)
       .then((response) => {
         setOpenSnackbar(true);
 
@@ -138,6 +152,15 @@ const buscarPorMunicipio=()=>{
                 options={municipiosSelect}
                 value={selected}
                 onChange={setSelected}
+                labelledBy={t("cmb.seleccionar")}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <MultiSelect
+                style={{ marginBottom: "120px" }}
+                options={lotesTarjSelect}
+                value={selectedlotesTarj}
+                onChange={setSelectedlotesTarj}
                 labelledBy={t("cmb.seleccionar")}
               />
             </Grid>
@@ -214,7 +237,7 @@ const buscarPorMunicipio=()=>{
             </TableHead>
             <TableBody>
               
-              {terjetasEntregaList[0]
+              {terjetasEntregaList
                 ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (

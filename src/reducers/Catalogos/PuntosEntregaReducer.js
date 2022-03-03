@@ -55,7 +55,7 @@ export default (state, action) => {
         case GET_TARJETAS_PARA_ENTREGA:
             return {
                 ...state,
-                terjetasEntregaList: [...state.terjetasEntregaList, action.payload]
+                terjetasEntregaList: action.payload
             };
         case REGISTRAR_LOTES_ENTREGA:
                 return {

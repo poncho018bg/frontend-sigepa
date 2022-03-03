@@ -3,6 +3,7 @@ import { typesKeycloak } from "../types/types";
 
 export function obtenerRolesAction(token) {
     return async (dispatch) => {
+        console.log('ENTRO A OBENER ROLES CON EL NUEVO TOKEN',token)
         dispatch(descargarRoles());
         try {
             const data = await axiosGet(`groups`,token);

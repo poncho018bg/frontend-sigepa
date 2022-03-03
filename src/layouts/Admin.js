@@ -150,19 +150,18 @@ export default function Admin({ ...rest }) {
 
 
   React.useEffect(() => {
-    //console.log('GROUPS=>',sessionStorage.getItem('groups'))
+    
     var jsnarry = sessionStorage.getItem('groups')?.split(",")
     var uno = JSON.stringify(jsnarry)
-    //console.log('GROUPS2=>',uno?.replace('/',''))
+    
     let groupssesion = null
-    if(uno != null){
-      //console.log('GROUPS3=>',JSON.parse(uno))
+    if(uno != null){     
       groupssesion = JSON.parse(uno)
     }
     
     if (groupssesion !== null && groupssesion !==  undefined && groupssesion[0] !== '') {
       let namegroup = groupssesion[0]?.replace('/','').replace('[','').replace('\"','').replace('\"','').replace(']','')
-      console.log('namegroup=>',namegroup)
+      
       const cargarPerfilesActivos = () => dispatch(getSubmodulosByPerfilId(namegroup, sessionStorage.getItem('idUSuario'), sessionStorage.getItem('token')));
       cargarPerfilesActivos();
     }
@@ -172,7 +171,7 @@ export default function Admin({ ...rest }) {
 
   React.useEffect(() => {
     setOpcionesMenu(perfilSubmodulos)
-    console.log('Permisosccccc=>', perfilSubmodulos)
+    
   }, [perfilSubmodulos]);
 
   React.useEffect(() => {
@@ -198,15 +197,12 @@ export default function Admin({ ...rest }) {
         kcc.keycloak = keycloak;
         kcc.authenticated = authenticated;
 
-        //obtiene los roles
-        const cargarRolesActivos = () => dispatch(obtenerRolesAction(keycloak.token));
-        cargarRolesActivos();
 
         setInterval(() => {
           keycloak.updateToken(30).then(function (refreshed) {
             console.log('refreshed=>',refreshed)
             if (refreshed) {
-              console.log('refreshed keycloak=>',keycloak)
+              
               sessionStorage.setItem('token', keycloak.token);
               sessionStorage.setItem('idUSuario', keycloak.tokenParsed.sub);
               sessionStorage.setItem('username', keycloak.tokenParsed.preferred_username);
@@ -214,10 +210,10 @@ export default function Admin({ ...rest }) {
               sessionStorage.setItem('lastName', keycloak.tokenParsed.family_name);
               sessionStorage.setItem('roles', keycloak.tokenParsed.realm_access);
               sessionStorage.setItem('groups', keycloak.tokenParsed.groups);
-              console.log("token ", keycloak.token)
-              cargarRolesActivos();
+             
               kcc.keycloak = keycloak;
               kcc.authenticated = authenticated;
+             
             } else {
               console.log("Token todavia válido")
             }
@@ -266,8 +262,7 @@ export default function Admin({ ...rest }) {
 
   if (keycloak) {
     if (authenticated) {
-      { console.log('teststate', teststate) }
-      { console.log('perfilSubmodulos', perfilSubmodulos) }
+     
       return (
         <div className={classes.wrapper}>
           <Sidebar
