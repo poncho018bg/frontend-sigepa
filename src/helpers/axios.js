@@ -7,13 +7,13 @@ const baseUrlExpediente = process.env.REACT_APP_API_EXPEDIENTE_URL;
 
  async function axiosGet(endpoint) {
      const url = `${ baseUrl }${ endpoint }`;
-     console.log("AXIOS GET token===>",UserService);
+   
     try{
             const promise = await axios({
                 method:'GET',
                 url,
                 headers: {
-                    Authorization: `Bearer ${UserService}`,
+                    Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 }
             }).then(response => {
             return response.data
@@ -36,7 +36,7 @@ const baseUrlExpediente = process.env.REACT_APP_API_EXPEDIENTE_URL;
                 data,
                
                 headers: {
-                    Authorization: 'Bearer ' + UserService,
+                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                     'Content-Type': 'application/json'
                 }
             }).then(response => {
@@ -73,7 +73,7 @@ async function axiosGetExpediente(endpoint) {
                 method:'GET',
                 url,
                 headers: {
-                    Authorization: 'Bearer ' + UserService,
+                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                 }
             }).then(response => {
             return response.data
@@ -95,7 +95,7 @@ async function axiosExpedienteToken(endpoint, method) {
                 method,
                 url,
                 headers: {
-                    Authorization: 'Bearer ' + UserService,
+                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                 }
             }).then(response => {
             return response.data
@@ -115,7 +115,7 @@ async function axiosPostExpediente(endpoint,data, method ) {
                 data,
                 url,
                 headers: {
-                    Authorization: 'Bearer ' + UserService,
+                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                 }
             }).then(response => {
             return response.data
@@ -134,7 +134,7 @@ async function axiosGetTipo(endpoint) {
                 method:'GET',
                 url,
                 headers: {
-                    Authorization: 'Bearer ' + UserService,
+                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                 }
             }).then(response => {
             return response.data
@@ -156,7 +156,7 @@ async function axiosGetTipo(endpoint) {
                 data,
                
                 headers: {
-                    Authorization: 'Bearer ' + UserService,
+                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                     'Content-Type': 'application/json'
                 }
             }).then(response => {
@@ -177,7 +177,7 @@ async function axiosDeleteTipo(endpoint) {
                 method:'DELETE',
                 url,
                 headers: {
-                    Authorization: 'Bearer ' + UserService,
+                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                 }
             }).then(response => {
             return response.data
@@ -199,7 +199,7 @@ async function axiosPostHetoas(endpoint,data, method ) {
                 data,
                
                 headers: {
-                    Authorization: 'Bearer ' + UserService,
+                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                     'Content-Type': 'application/json'
                 }
             }).then(response => {
@@ -219,7 +219,7 @@ async function axiosGetHetoas(endpoint) {
                 method:'GET',
                 url,
                 headers: {
-                    Authorization: 'Bearer ' + UserService,
+                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                 }
             }).then(response => {
             return response.data
