@@ -648,6 +648,7 @@ function Sidebar(props) {
     } else {
       rolessesion = JSON.stringify(sessionStorage.getItem("groups"));
     }   
+    console.log('rolessesion=>>>>',rolessesion)
     return rolessesion?.map((rol) => { 
           return <>{rol.replace("/",'')}</>;
     });
