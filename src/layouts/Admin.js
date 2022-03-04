@@ -178,7 +178,7 @@ export default function Admin({ ...rest }) {
 
     const keycloak = Keycloak(keyCloakConfig);
 
-    keycloak.init({ onLoad: 'login-required', checkLoginIframeInterval: 1, enableLogging: true }).then(authenticated => {
+    keycloak.init({ onLoad: 'login-required', checkLoginIframeInterval: 1, checkLoginIframe: false,enableLogging: false }).then(authenticated => {
       console.log('KEYCLOAK=>>',keycloak)
       if (keycloak.authenticated) {
 
