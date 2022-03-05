@@ -56,7 +56,7 @@ export const SubModuloForm = () => {
         console.log(dssubmodulo);
         let module = {
             dssubmodulo: dssubmodulo,
-            usuarioCreacionId: `${process.env.REACT_APP_API_URL}/usuario/${sessionStorage.getItem('idUSuario')}`,
+            usuarioCreacionId: `${process.env.REACT_APP_API_URL}usuario/${sessionStorage.getItem('idUSuario')}`,
             boactivo: true,
             crcModulosCollection: crcModulosCollection,
             activoval:true
