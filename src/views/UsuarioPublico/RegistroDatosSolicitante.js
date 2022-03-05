@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useContext, forwardRef, useImperativeHandle } from "react";
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -14,486 +20,600 @@ import customCheckboxRadioSwitch from "assets/jss/material-dashboard-pro-react/c
 import axios from "axios";
 import { TextField, MenuItem } from "@material-ui/core";
 
-import moment from 'moment';
-import 'moment/locale/es';
-
+import moment from "moment";
+import "moment/locale/es";
 
 //
 import { RegistroSolicitudContext } from "contexts/registroSolicitudContext";
-import { ProgramasContext } from 'contexts/catalogos/Programas/programasContext';
+import { ProgramasContext } from "contexts/catalogos/Programas/programasContext";
 import ValidarCurp from "../RegistroSolicitudContacto/ValidarCurp";
 import { Loading } from "components/Personalizados/Loading";
 
 import { useTranslation } from "react-i18next";
 
 const styles = {
-    infoText: {
-        fontWeight: "300",
-        margin: "10px 0 30px",
-        textAlign: "center",
-    },
-    inputAdornmentIcon: {
-        color: "#555",
-    },
-    choiche: {
-        textAlign: "center",
-        cursor: "pointer",
-        marginTop: "20px",
-    },
-    ...customSelectStyle,
-    ...customCheckboxRadioSwitch,
+  infoText: {
+    fontWeight: "300",
+    margin: "10px 0 30px",
+    textAlign: "center",
+  },
+  inputAdornmentIcon: {
+    color: "#555",
+  },
+  choiche: {
+    textAlign: "center",
+    cursor: "pointer",
+    marginTop: "20px",
+  },
+  ...customSelectStyle,
+  ...customCheckboxRadioSwitch,
 };
 
 const useStyles = makeStyles(styles);
 const baseUrl = process.env.REACT_APP_AP_CURP_URL;
 export const RegistroDatosSolicitante = forwardRef((props, ref) => {
-    const { t } = useTranslation();
-    console.log('aqui');
-    console.log(props);
-    const { curpR, llenarDatosBeneficiario, beneficiario, setIdentPrograma, idPrograma, setEdadValida, nombrePrograma,setActivar } = props;
-    //console.log(props.allStates.about);
-    const classes = useStyles();
-    const [nombre, setNombre] = useState("")
-    const [curp, setCurp] = useState("");
-    const [apellidoPaterno, setApellidoPaterno] = useState("");
-    const [apellidoMaterno, setapellidoMaterno] = useState("");
-    const [genero, setGenero] = useState("");
-    const [fechaNacimientoAxu, setFechaNacimientoAxu] = useState("");
-    const [fechaNacimientoReal, setFechaNacimientoReal] = useState("");
-    const [edad, setEdad] = useState("");
-    const [loading, setLoading] = useState(true);
-    const [estudios, setEstudios] = useState("");
-    const [estadoCivil, setEstadoCivil] = useState("");
-    const [identificacion, setIdentificacion] = useState("");
-    const [rfc, setRfc] = useState("");
-    const [idIdentificaion, setIdIdentificaion] = useState("");
-    //const [identPrograma, setIdentPrograma] = useState();
+  const { t } = useTranslation();
+  console.log("aqui");
+  console.log(props);
+  const {
+    curpR,
+    llenarDatosBeneficiario,
+    beneficiario,
+    setIdentPrograma,
+    idPrograma,
+    setEdadValida,
+    nombrePrograma,
+    setActivar,
+    activar,
+  } = props;
+  //console.log(props.allStates.about);
+  const classes = useStyles();
+  const [nombre, setNombre] = useState("");
+  const [curp, setCurp] = useState("");
+  const [apellidoPaterno, setApellidoPaterno] = useState("");
+  const [apellidoMaterno, setapellidoMaterno] = useState("");
+  const [genero, setGenero] = useState("");
+  const [fechaNacimientoAxu, setFechaNacimientoAxu] = useState("");
+  const [fechaNacimientoReal, setFechaNacimientoReal] = useState("");
+  const [edad, setEdad] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [estudios, setEstudios] = useState("");
+  const [estadoCivil, setEstadoCivil] = useState("");
+  const [identificacion, setIdentificacion] = useState("");
+  const [rfc, setRfc] = useState("");
+  const [idIdentificaion, setIdIdentificaion] = useState("");
+  //const [identPrograma, setIdentPrograma] = useState();
 
-    const [datosCorrectos, setDatosCorrectos] = useState(true);
+  const [datosCorrectos, setDatosCorrectos] = useState(true);
 
-    const { getGenerosActivos, generosList,
-        estudiosList, getEstudios,
-        estadoCivilList, getEstadoCivil,
-        getIdentificacionesActivos, identificacionesList
-    } = useContext(RegistroSolicitudContext);
+  const {
+    getGenerosActivos,
+    generosList,
+    estudiosList,
+    getEstudios,
+    estadoCivilList,
+    getEstadoCivil,
+    getIdentificacionesActivos,
+    identificacionesList,
+  } = useContext(RegistroSolicitudContext);
 
-    const { programasList, get, getCien } = useContext(ProgramasContext);
+  const { programasList, get, getCien } = useContext(ProgramasContext);
 
-    useEffect(() => {
-        setLoading(true);
-        setActivar(false);
-        console.log("curp que llega --> ", curpR);
+  useEffect(() => {
+    setLoading(true);
+    
+    console.log("curp que llega --> ", curpR);
 
-        console.log("BENEFICIARIO DEL USE EFFECT ====>", beneficiario);
-        axios.get(`${baseUrl}${curpR}`)
-            .then(response => {
-                console.log('X=>', response);
-                setNombre(response.data.response[0].nombre);
-                setCurp(response.data.response[0].curp);
-                setApellidoPaterno(response.data.response[0].apellidoPaterno);
-                setapellidoMaterno(response.data.response[0].apellidoMaterno);
-                setGenero(generoCurp(response.data.response[0].sexo))
-                console.log("fecha --->", response.data.response[0].fechaNacimientoAxu)
-                var dateParts = response.data.response[0].fechaNacimientoAxu.split("/");
-                console.log("date parts ", +dateParts[2], dateParts[1] - 1, dateParts[0])
-                var date = new Date(+dateParts[2], dateParts[1] - 1, dateParts[0]);
-                console.log("chale -->", date);
-                console.log("fomateada fecha ---> ", moment(date).format("YYYY-MM-DD"))
-                setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
-                setFechaNacimientoAxu(response.data.response[0].fechaNacimientoAxu);
-                setEdad(response.data.response[0].edad);
+    console.log("BENEFICIARIO DEL USE EFFECT ====>", beneficiario);
+    axios
+      .get(`${baseUrl}${curpR}`)
+      .then((response) => {
+        console.log("X=>", response);
+        setNombre(response.data.response[0].nombre);
+        setCurp(response.data.response[0].curp);
+        setApellidoPaterno(response.data.response[0].apellidoPaterno);
+        setapellidoMaterno(response.data.response[0].apellidoMaterno);
+        setGenero(generoCurp(response.data.response[0].sexo));
+        console.log("fecha --->", response.data.response[0].fechaNacimientoAxu);
+        var dateParts = response.data.response[0].fechaNacimientoAxu.split("/");
+        console.log(
+          "date parts ",
+          +dateParts[2],
+          dateParts[1] - 1,
+          dateParts[0]
+        );
+        var date = new Date(+dateParts[2], dateParts[1] - 1, dateParts[0]);
+        console.log("chale -->", date);
+        console.log("fomateada fecha ---> ", moment(date).format("YYYY-MM-DD"));
+        setFechaNacimientoReal(moment(date).format("YYYY-MM-DD"));
+        setFechaNacimientoAxu(response.data.response[0].fechaNacimientoAxu);
+        setEdad(response.data.response[0].edad);
 
-                console.log("EDAD ===>", response.data.response[0].edad)
-                if (response.data.response[0].edad !== null) {
-                    setEdadValida(response.data.response[0].edad);
-                }
-                setDatosCorrectos(true);
-                setActivar(true);
-            }).catch(error => {
-                console.log("Error ", error)
-                if (error.response) {
-                    console.log("--------------------------------------------------")
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    console.log("ERROR DATA", error.response.data);
-                    console.log("ERROR STATUS", error.response.status);
-                    console.log("ERROR HEADERS", error.response.headers);
-                    setDatosCorrectos(false);
-                    setActivar(false);
-                } else if (error.request) {
-                    console.log("*************************")
-
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
-                    console.log("ERROR REQUEST", error.request);
-                    setDatosCorrectos(false);
-                    setActivar(false);
-                } else {
-                    console.log("++++++++++++++++++++++++")
-                    // Something happened in setting up the request that triggered an Error
-                    console.log('Error MESSAGE ', error.message);
-                    setDatosCorrectos(false);
-                    setActivar(false);
-                }
-                console.log(error.config);
-            });
-        if (beneficiario !== undefined) {
-            console.log("se llenando los datos del beneficiario", beneficiario);
-            //setNombre(beneficiario.dsnombre);
-            setGenero(beneficiario.idgenero);
-            setEstudios(beneficiario.idgradoestudios);
-            setEstadoCivil(beneficiario.idestadocivil);
-            setIdentificacion(beneficiario.ididentificacionoficial);
-            setRfc(beneficiario.rfc);
-            setIdIdentificaion(beneficiario.dsiddocumento)
-
+        console.log("EDAD ===>", response.data.response[0].edad);
+        if (response.data.response[0].edad !== null) {
+          setEdadValida(response.data.response[0].edad);
         }
-        /*
+        setDatosCorrectos(true);
+        setActivar(next());
+      })
+      .catch((error) => {
+        console.log("Error ", error);
+        if (error.response) {
+          console.log("--------------------------------------------------");
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log("ERROR DATA", error.response.data);
+          console.log("ERROR STATUS", error.response.status);
+          console.log("ERROR HEADERS", error.response.headers);
+          setDatosCorrectos(false);
+          setActivar(false);
+        } else if (error.request) {
+          console.log("*************************");
+
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log("ERROR REQUEST", error.request);
+          setDatosCorrectos(false);
+          setActivar(false);
+        } else {
+          console.log("++++++++++++++++++++++++");
+          // Something happened in setting up the request that triggered an Error
+          console.log("Error MESSAGE ", error.message);
+          setDatosCorrectos(false);
+          setActivar(false);
+        }
+        console.log(error.config);
+      });
+    if (beneficiario !== undefined) {
+      console.log("se llenando los datos del beneficiario", beneficiario);
+      //setNombre(beneficiario.dsnombre);
+      setGenero(beneficiario.idgenero);
+      setEstudios(beneficiario.idgradoestudios);
+      setEstadoCivil(beneficiario.idestadocivil);
+      setIdentificacion(beneficiario.ididentificacionoficial);
+      setRfc(beneficiario.rfc);
+      setIdIdentificaion(beneficiario.dsiddocumento);
+    }
+    /*
         getCien().then(data => {
             setTimeout(() => setLoading(false), 500);
 
         });
         */
-        getGenerosActivos();
-        getEstudios();
-        getEstadoCivil();
-        getIdentificacionesActivos();
+    getGenerosActivos();
+    getEstudios();
+    getEstadoCivil();
+    getIdentificacionesActivos();
+    setActivar(next());
+  }, [beneficiario]);
 
-    }, [beneficiario]);
+  const generoCurp = (generocrp) => {
+    console.log("", generocrp);
+    let gen = "";
+    generosList.map((e) => {
+      console.log("e=>", e);
+      if (e.dsabreviatura === generocrp) {
+        gen = e.id;
+      }
+    });
+    return gen;
+  };
 
-    const generoCurp = (generocrp) => {
-        console.log('', generocrp)
-        let gen = '';
-        generosList.map(e => {
-            console.log('e=>', e)
-            if (e.dsabreviatura === generocrp) {
-                gen = e.id;
-            }
-        })
-        return gen
-    };
-
-    const llenado = () => {
-        console.log("entro al momento de cargar --->",
-            nombre, apellidoPaterno, apellidoMaterno, genero, estudios, estadoCivil, identificacion);
-
-        console.log("beneficiario que consulto si existe o no", beneficiario);
-        llenarDatosBeneficiario(
-            beneficiario.id,
-            nombre,
-            apellidoPaterno,
-            apellidoMaterno,
-            curp,
-            genero,
-            fechaNacimientoReal,
-            edad,
-            estudios,
-            estadoCivil,
-            identificacion,
-            rfc,
-            idIdentificaion);
-    }
-    useImperativeHandle(ref, () => ({
-        registroBeneficiario() {
-            llenado();
-        }
-    })
+  const llenado = () => {
+    console.log(
+      "entro al momento de cargar --->",
+      nombre,
+      apellidoPaterno,
+      apellidoMaterno,
+      genero,
+      estudios,
+      estadoCivil,
+      identificacion
     );
 
-    const onChange = event => {
-        console.log("nombre del evento ==>", event.target);
-        let testLetrasNum = /^[a-zA-Z0-9_.-\sñÑ]*$/;
-        switch (event.target.name) {
-            case 'rfc':
-                if (testLetrasNum.test(event.target.value)) {
-                    setRfc(event.target.value);
-                    console.log("RFC ==>", rfc);
-                }
-                break;
-            case 'idIdentificaion':
-                if (testLetrasNum.test(event.target.value)) {
-                    setIdIdentificaion(event.target.value);
-                }
-                break;
-            case 'programa':
-                setIdentPrograma(event.target.value);
-                break;
-            case 'genero':
-                setGenero(event.target.value);
-                console.log("genero onchange", genero);
-                break;
-            case 'estudios':
-                setEstudios(event.target.value);
-                console.log("estudios onchange", estudios);
-                break;
-            case 'estadoCivil':
-                setEstadoCivil(event.target.value);
-                console.log("civil ", estadoCivil);
-                break;
-            case 'identificacion':
-                setIdentificacion(event.target.value);
-                console.log("identificacion ", identificacion);
-                break;
+    console.log("beneficiario que consulto si existe o no", beneficiario);
+    llenarDatosBeneficiario(
+      beneficiario.id,
+      nombre,
+      apellidoPaterno,
+      apellidoMaterno,
+      curp,
+      genero,
+      fechaNacimientoReal,
+      edad,
+      estudios,
+      estadoCivil,
+      identificacion,
+      rfc,
+      idIdentificaion
+    );
+  };
+  useImperativeHandle(ref, () => ({
+    registroBeneficiario() {
+      llenado();
+    },
+  }));
+
+  const onChange = (event) => {
+    console.log("nombre del evento ==>", event.target);
+    let testLetrasNum = /^[a-zA-Z0-9_.-\sñÑ]*$/;
+    switch (event.target.name) {
+      case "rfc":
+        if (testLetrasNum.test(event.target.value)) {
+          setRfc(event.target.value);
+          console.log("RFC ==>", rfc);
         }
-
+        break;
+      case "idIdentificaion":
+        if (testLetrasNum.test(event.target.value)) {
+          setIdIdentificaion(event.target.value);
+        }
+        break;
+      case "programa":
+        setIdentPrograma(event.target.value);
+        break;
+      case "genero":
+        setGenero(event.target.value);
+        console.log("genero onchange", genero);
+        break;
+      case "estudios":
+        setEstudios(event.target.value);
+        console.log("estudios onchange", estudios);
+        break;
+      case "estadoCivil":
+        setEstadoCivil(event.target.value);
+        console.log("civil ", estadoCivil);
+        break;
+      case "identificacion":
+        setIdentificacion(event.target.value);
+        console.log("identificacion ", identificacion);
+        break;
     }
+  };
 
-    //console.log("Iden programa", identPrograma);
+  //console.log("Iden programa", identPrograma);
 
-    const isValidated = () => {
+  const isValidated = () => {
+    return true;
+  };
+
+  const next = () => {
+    if (activar || activar === undefined) {
+      if (
+        rfc !== "" &&
+        rfc !== undefined &&
+        genero !== "" &&
+        genero !== undefined &&
+        estudios !== "" &&
+        estudios !== undefined &&
+        estadoCivil !== "" &&
+        estadoCivil !== undefined &&
+        identificacion !== "" &&
+        identificacion !== undefined &&
+        idIdentificaion !== "" &&
+        idIdentificaion !== undefined
+      ) {
+        console.log("ENTRO AL NEXT 2", activar);
+        console.log("ENTRO AL NEXT RFC ===>", rfc);
         return true;
-    };
+      } else {
+        console.log("ENTRO AL NEXT 3", activar);
+        console.log("ENTRO AL NEXT RFC ===>", rfc);
+        if (rfc === "" || rfc === undefined) {
+          console.log("ENTRO AL NEXT datos 1");
+          return false;
+        }
+        if (genero === "" || genero === undefined) {
+          console.log("ENTRO AL NEXT datos 2");
+          return false;
+        }
+        if (estudios === "" || estudios === undefined) {
+          console.log("ENTRO AL NEXT datos 3");
+          return false;
+        }
+        if (estadoCivil === "" || estadoCivil === undefined) {
+          console.log("ENTRO AL NEXT datos 4");
+          return false;
+        }
+        if (identificacion === "" || identificacion === undefined) {
+          console.log("ENTRO AL NEXT datos 5");
+          return false;
+        }
+        if (idIdentificaion === "" || idIdentificaion === undefined) {
+          console.log("ENTRO AL NEXT datos 6");
+          return false;
+        }
+        console.log("ENTRO AL NEXT 4", activar);
+      }
+    }
+  };
 
-
-    return (
-        <ValidarCurp datosCorrectos={datosCorrectos}>
-            <div>
-                <h4 className={classes.infoText}></h4>
-                <GridItem xs={12} sm={12} md={12}>
-                    <Card>
-                        <CardHeader color="primary">
-                            <h4 className={classes.cardTitleWhite}>{t("lbl.datossolicitante")}</h4>
-                        </CardHeader>
-                        <CardBody>
-                            <GridContainer justify="center">
-                                <GridItem xs={12} sm={12}>
-                                    <h4 className={classes.infoText}>
-                                        {nombrePrograma}
-                                    </h4>
-                                </GridItem>
-                                <GridItem xs={12} sm={12} md={12} lg={10}>
-                                    <GridContainer>
-                                        <GridItem xs={12} sm={12}>
-                                            <TextField
-                                                style={{ marginBottom: '20px' }}
-                                                id="curp"
-                                                label={t("lbl.curp")}
-                                                variant="outlined"
-                                                name="curp"
-                                                fullWidth
-                                                value={curp}
-                                            />
-                                        </GridItem>
-                                        <GridItem xs={12} sm={12}>
-                                            <TextField
-                                                style={{ marginBottom: '20px' }}
-                                                id="apellidoPaterno"
-                                                label="Apellido paterno"
-                                                variant="outlined"
-                                                name="nombre"
-                                                fullWidth
-                                                value={apellidoPaterno}
-                                                inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
-                                            />
-                                        </GridItem>
-                                        <GridItem xs={12} sm={12}>
-                                            <TextField
-                                                style={{ marginBottom: '20px' }}
-                                                id="apellidoMaterno"
-                                                label="Apellido materno"
-                                                variant="outlined"
-                                                name="apellidoMaterno"
-                                                fullWidth
-                                                value={apellidoMaterno}
-                                                inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
-                                            />
-                                        </GridItem>
-                                        <GridItem xs={12} sm={12}>
-                                            <TextField
-                                                style={{ marginBottom: '20px' }}
-                                                id="nombre"
-                                                label="Nombre"
-                                                variant="outlined"
-                                                name="nombre"
-                                                fullWidth
-                                                value={nombre}
-                                                inputProps={{ maxLength: 80, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
-                                            />
-                                        </GridItem>
-                                        <GridItem xs={12} sm={6}>
-                                            <TextField
-                                                style={{ marginBottom: '20px' }}
-                                                id="rfc"
-                                                label="RFC"
-                                                variant="outlined"
-                                                name="rfc"
-                                                fullWidth
-                                                onChange={onChange}
-                                                value={rfc}
-                                                inputProps={{ maxLength: 13, pattern: '/^[a-zA-Z0-9_.-\sñÑ]*$/' }}
-                                            />
-                                        </GridItem>
-                                        <GridItem xs={12} sm={6}>
-
-                                            <TextField
-                                                style={{ marginBottom: '20px' }}
-                                                id="genero"
-                                                label="Género"
-                                                variant="outlined"
-                                                name="genero"
-                                                fullWidth
-                                                select
-                                                onChange={onChange}
-                                                value={genero}
-                                            >
-                                                <MenuItem value="0">
-                                                    <em>Seleccionar</em>
-                                                </MenuItem>
-                                                {
-                                                    generosList.map(
-                                                        (g, i) => (
-                                                            <MenuItem
-                                                                key={i}
-                                                                value={g.id}>
-                                                                {g.dsgenero}
-                                                            </MenuItem>
-                                                        )
-                                                    )
-                                                }
-                                            </TextField>
-                                        </GridItem>
-                                        <GridItem xs={12} sm={6}>
-                                            <TextField
-                                                style={{ marginBottom: '20px' }}
-                                                id="fechaNacimientoAxu"
-                                                label="Fecha nacimiento"
-                                                variant="outlined"
-                                                name="fechaNacimientoAxu"
-                                                fullWidth
-                                                value={fechaNacimientoAxu}
-
-                                            />
-                                        </GridItem>
-                                        <GridItem xs={12} sm={6}>
-                                            <TextField
-                                                style={{ marginBottom: '20px' }}
-                                                id="edad"
-                                                label="Edad"
-                                                variant="outlined"
-                                                name="edad"
-                                                fullWidth
-                                                value={edad}
-
-                                            />
-                                        </GridItem>
-                                        <GridItem xs={12} sm={12}>
-                                            <TextField
-                                                style={{ marginBottom: '20px' }}
-                                                id="estudios"
-                                                label="Grado de estudios"
-                                                variant="outlined"
-                                                name="estudios"
-                                                fullWidth
-                                                select
-                                                onChange={onChange}
-                                                value={estudios}
-                                            >
-                                                <MenuItem value="0">
-                                                    <em>Seleccionar</em>
-                                                </MenuItem>
-                                                {
-                                                    estudiosList.map(
-                                                        (g, i) => (
-                                                            <MenuItem
-                                                                key={i}
-                                                                value={g.id}>
-                                                                {g.dsgrado}
-                                                            </MenuItem>
-                                                        )
-                                                    )
-                                                }
-                                            </TextField>
-                                        </GridItem>
-                                    </GridContainer>
-                                </GridItem>
-                            </GridContainer>
-                            <GridContainer justify="center">
-                                <GridItem xs={12} sm={12} md={12} lg={10}>
-                                    <TextField
-                                        style={{ marginBottom: '20px' }}
-                                        id="estadoCivil"
-                                        label="Estado civil"
-                                        variant="outlined"
-                                        name="estadoCivil"
-                                        fullWidth
-                                        select
-                                        onChange={onChange}
-                                        value={estadoCivil}
-                                    >
-                                        <MenuItem value="0">
-                                            <em>Seleccionar</em>
-                                        </MenuItem>
-                                        {
-                                            estadoCivilList.map(
-                                                (g, i) => (
-                                                    <MenuItem
-                                                        key={i}
-                                                        value={g.id}>
-                                                        {g.dsestadocivil}
-                                                    </MenuItem>
-                                                )
-                                            )
-                                        }
-                                    </TextField>
-                                </GridItem>
-                            </GridContainer>
-                            <GridContainer justify="center">
-                                <GridItem xs={12} sm={12} md={12} lg={10}>
-                                    <GridContainer>
-                                        <GridItem xs={12} sm={6}>
-                                            <TextField
-                                                style={{ marginBottom: '20px' }}
-                                                id="ine"
-                                                label="Identificación oficial"
-                                                variant="outlined"
-                                                name="identificacion"
-                                                fullWidth
-                                                select
-                                                onChange={onChange}
-                                                value={identificacion}
-                                            >
-                                                <MenuItem value="0">
-                                                    <em>Seleccionar</em>
-                                                </MenuItem>
-                                                {
-                                                    identificacionesList.map(
-                                                        (g, i) => (
-                                                            <MenuItem
-                                                                key={i}
-                                                                value={g.id}>
-                                                                {g.dsidentificacion}
-                                                            </MenuItem>
-                                                        )
-                                                    )
-                                                }
-                                            </TextField>
-                                        </GridItem>
-                                        <GridItem xs={12} sm={6}>
-                                            <TextField
-                                                style={{ marginBottom: '20px' }}
-                                                id="idIdentificaion"
-                                                label="Folio de la identificación"
-                                                variant="outlined"
-                                                name="idIdentificaion"
-                                                fullWidth
-                                                onChange={onChange}
-                                                value={idIdentificaion}
-
-                                            />
-                                        </GridItem>
-                                    </GridContainer>
-                                </GridItem>
-                            </GridContainer>
-
-                        </CardBody>
-                    </Card>
+  return (
+    <ValidarCurp datosCorrectos={datosCorrectos}>
+      <div>
+        <h4 className={classes.infoText}></h4>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>
+                {t("lbl.datossolicitante")}
+              </h4>
+            </CardHeader>
+            <CardBody>
+              <GridContainer justify="center">
+                <GridItem xs={12} sm={12}>
+                  <h4 className={classes.infoText}>{nombrePrograma}</h4>
                 </GridItem>
-                {/*
+                <GridItem xs={12} sm={12} md={12} lg={10}>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12}>
+                      <TextField
+                        style={{ marginBottom: "20px" }}
+                        id="curp"
+                        label={t("lbl.curp")}
+                        variant="outlined"
+                        name="curp"
+                        fullWidth
+                        value={curp}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={12}>
+                      <TextField
+                        style={{ marginBottom: "20px" }}
+                        id="apellidoPaterno"
+                        label="Apellido paterno"
+                        variant="outlined"
+                        name="nombre"
+                        fullWidth
+                        value={apellidoPaterno}
+                        inputProps={{
+                          maxLength: 80,
+                          pattern: "/^[a-zA-Z0-9_.-sñÑ]*$/",
+                        }}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={12}>
+                      <TextField
+                        style={{ marginBottom: "20px" }}
+                        id="apellidoMaterno"
+                        label="Apellido materno"
+                        variant="outlined"
+                        name="apellidoMaterno"
+                        fullWidth
+                        value={apellidoMaterno}
+                        inputProps={{
+                          maxLength: 80,
+                          pattern: "/^[a-zA-Z0-9_.-sñÑ]*$/",
+                        }}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={12}>
+                      <TextField
+                        style={{ marginBottom: "20px" }}
+                        id="nombre"
+                        label="Nombre"
+                        variant="outlined"
+                        name="nombre"
+                        fullWidth
+                        value={nombre}
+                        inputProps={{
+                          maxLength: 80,
+                          pattern: "/^[a-zA-Z0-9_.-sñÑ]*$/",
+                        }}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={6}>
+                      <TextField
+                        style={{ marginBottom: "20px" }}
+                        id="rfc"
+                        label="RFC"
+                        variant="outlined"
+                        name="rfc"
+                        fullWidth
+                        onChange={onChange}
+                        value={rfc}
+                        inputProps={{
+                          maxLength: 13,
+                          pattern: "/^[a-zA-Z0-9_.-sñÑ]*$/",
+                          onChange: (event) => {
+                            console.log("evento exterior", event);
+                            if (event.target.value === "") {
+                              setActivar(false);
+                            } else {
+                              console.log("numero exterior");
+                              setActivar(next());
+                            }
+                          },
+                        }}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={6}>
+                      <TextField
+                        style={{ marginBottom: "20px" }}
+                        id="genero"
+                        label="Género"
+                        variant="outlined"
+                        name="genero"
+                        fullWidth
+                        select
+                        onChange={onChange}
+                        value={genero}
+                        inputProps={{
+                          onChange: (event) => {
+                            if (event.target.value === "") {
+                              setActivar(false);
+                            } else {
+                              setActivar(next());
+                            }
+                          },
+                        }}
+                      >
+                        <MenuItem value="0">
+                          <em>Seleccionar</em>
+                        </MenuItem>
+                        {generosList.map((g, i) => (
+                          <MenuItem key={i} value={g.id}>
+                            {g.dsgenero}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </GridItem>
+                    <GridItem xs={12} sm={6}>
+                      <TextField
+                        style={{ marginBottom: "20px" }}
+                        id="fechaNacimientoAxu"
+                        label="Fecha nacimiento"
+                        variant="outlined"
+                        name="fechaNacimientoAxu"
+                        fullWidth
+                        value={fechaNacimientoAxu}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={6}>
+                      <TextField
+                        style={{ marginBottom: "20px" }}
+                        id="edad"
+                        label="Edad"
+                        variant="outlined"
+                        name="edad"
+                        fullWidth
+                        value={edad}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={12}>
+                      <TextField
+                        style={{ marginBottom: "20px" }}
+                        id="estudios"
+                        label="Grado de estudios"
+                        variant="outlined"
+                        name="estudios"
+                        fullWidth
+                        select
+                        onChange={onChange}
+                        value={estudios}
+                        inputProps={{
+                          onChange: (event) => {
+                            if (event.target.value === "") {
+                              setActivar(false);
+                            } else {
+                              setActivar(next());
+                            }
+                          },
+                        }}
+                      >
+                        <MenuItem value="0">
+                          <em>Seleccionar</em>
+                        </MenuItem>
+                        {estudiosList.map((g, i) => (
+                          <MenuItem key={i} value={g.id}>
+                            {g.dsgrado}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </GridItem>
+                  </GridContainer>
+                </GridItem>
+              </GridContainer>
+              <GridContainer justify="center">
+                <GridItem xs={12} sm={12} md={12} lg={10}>
+                  <TextField
+                    style={{ marginBottom: "20px" }}
+                    id="estadoCivil"
+                    label="Estado civil"
+                    variant="outlined"
+                    name="estadoCivil"
+                    fullWidth
+                    select
+                    onChange={onChange}
+                    value={estadoCivil}
+                    inputProps={{
+                      onChange: (event) => {
+                        if (event.target.value === "") {
+                          setActivar(false);
+                        } else {
+                          setActivar(next());
+                        }
+                      },
+                    }}
+                  >
+                    <MenuItem value="0">
+                      <em>Seleccionar</em>
+                    </MenuItem>
+                    {estadoCivilList.map((g, i) => (
+                      <MenuItem key={i} value={g.id}>
+                        {g.dsestadocivil}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </GridItem>
+              </GridContainer>
+              <GridContainer justify="center">
+                <GridItem xs={12} sm={12} md={12} lg={10}>
+                  <GridContainer>
+                    <GridItem xs={12} sm={6}>
+                      <TextField
+                        style={{ marginBottom: "20px" }}
+                        id="ine"
+                        label="Identificación oficial"
+                        variant="outlined"
+                        name="identificacion"
+                        fullWidth
+                        select
+                        onChange={onChange}
+                        value={identificacion}
+                        inputProps={{
+                          onChange: (event) => {
+                            if (event.target.value === "") {
+                              setActivar(false);
+                            } else {
+                              setActivar(next());
+                            }
+                          },
+                        }}
+                      >
+                        <MenuItem value="0">
+                          <em>Seleccionar</em>
+                        </MenuItem>
+                        {identificacionesList.map((g, i) => (
+                          <MenuItem key={i} value={g.id}>
+                            {g.dsidentificacion}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </GridItem>
+                    <GridItem xs={12} sm={6}>
+                      <TextField
+                        style={{ marginBottom: "20px" }}
+                        id="idIdentificaion"
+                        label="Folio de la identificación"
+                        variant="outlined"
+                        name="idIdentificaion"
+                        fullWidth
+                        onChange={onChange}
+                        value={idIdentificaion}
+                        inputProps={{
+                          onChange: (event) => {
+                            if (event.target.value === "") {
+                              setActivar(false);
+                            } else {
+                              setActivar(next());
+                            }
+                          },
+                        }}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                </GridItem>
+              </GridContainer>
+            </CardBody>
+          </Card>
+        </GridItem>
+        {/*
             <Loading
                 loading={loading}
             />*/}
-            </div>
-        </ValidarCurp>
-    );
+      </div>
+    </ValidarCurp>
+  );
 });

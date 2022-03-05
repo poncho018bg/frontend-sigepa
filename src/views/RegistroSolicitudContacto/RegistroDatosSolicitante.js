@@ -61,6 +61,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     idPrograma,
     setEdadValida,
     setActivar,
+    activar,
   } = props;
   //console.log(props.allStates.about);
   const classes = useStyles();
@@ -96,6 +97,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
   const { programasList, get, getCien } = useContext(ProgramasContext);
 
   useEffect(() => {
+    
     setLoading(true);
     console.log("curp que llega --> ", curpR);
 
@@ -130,7 +132,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
           setEdadValida(response.data.response[0].edad);
         }
         setDatosCorrectos(true);
-        setActivar(true);
+        setActivar(next());
       })
       .catch((error) => {
         console.log("Error ", error);
@@ -178,6 +180,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     getEstudios();
     getEstadoCivil();
     getIdentificacionesActivos();
+    setActivar(next());
   }, [beneficiario]);
 
   const generoCurp = (generocrp) => {
@@ -268,6 +271,51 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
 
   const isValidated = () => {
     return true;
+  };
+
+  const next = () => {
+    if (activar || activar === undefined) {
+      if (
+        rfc !== "" && rfc !== undefined &&
+        genero !== "" && genero !== undefined &&
+        estudios !== "" && estudios !== undefined &&
+        estadoCivil !== "" && estadoCivil !== undefined &&
+        identificacion !== "" && identificacion !== undefined &&
+        idIdentificaion !== "" && idIdentificaion !== undefined 
+      ) {
+        console.log("ENTRO AL NEXT 2", activar);
+        console.log("ENTRO AL NEXT RFC ===>", rfc);
+        return true;
+      } else {
+        console.log("ENTRO AL NEXT 3", activar);
+        console.log("ENTRO AL NEXT RFC ===>", rfc);
+        if (rfc === "" || rfc === undefined) {
+          console.log("ENTRO AL NEXT datos 1");
+          return false;
+        }
+        if (genero === "" || genero === undefined) {
+          console.log("ENTRO AL NEXT datos 2");
+          return false;
+        }
+        if (estudios === "" || estudios === undefined) {
+          console.log("ENTRO AL NEXT datos 3");
+          return false;
+        }
+        if (estadoCivil === "" || estadoCivil === undefined) {
+          console.log("ENTRO AL NEXT datos 4");
+          return false;
+        }
+        if (identificacion === "" || identificacion === undefined) {
+          console.log("ENTRO AL NEXT datos 5");
+          return false;
+        }
+        if (idIdentificaion === "" || idIdentificaion === undefined) {
+          console.log("ENTRO AL NEXT datos 6");
+          return false;
+        }
+        console.log("ENTRO AL NEXT 4", activar);
+      }
+    }
   };
 
   return (
@@ -371,6 +419,15 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                         inputProps={{
                           maxLength: 13,
                           pattern: "/^[a-zA-Z0-9_.-sñÑ]*$/",
+                          onChange: (event) => {
+                            console.log("evento exterior", event);
+                            if (event.target.value === "") {
+                              setActivar(false);
+                            } else {
+                              console.log("numero exterior");
+                              setActivar(next());
+                            }
+                          },
                         }}
                       />
                     </GridItem>
@@ -385,6 +442,15 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                         select
                         onChange={onChange}
                         value={genero}
+                        inputProps={{
+                          onChange: (event) => {
+                            if (event.target.value === "") {
+                              setActivar(false);
+                            } else {
+                              setActivar(next());
+                            }
+                          },
+                        }}
                       >
                         <MenuItem value="0">
                           <em>Seleccionar</em>
@@ -429,6 +495,15 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                         select
                         onChange={onChange}
                         value={estudios}
+                        inputProps={{
+                          onChange: (event) => {
+                            if (event.target.value === "") {
+                              setActivar(false);
+                            } else {
+                              setActivar(next());
+                            }
+                          },
+                        }}
                       >
                         <MenuItem value="0">
                           <em>Seleccionar</em>
@@ -455,6 +530,15 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                     select
                     onChange={onChange}
                     value={estadoCivil}
+                    inputProps={{
+                      onChange: (event) => {
+                        if (event.target.value === "") {
+                          setActivar(false);
+                        } else {
+                          setActivar(next());
+                        }
+                      },
+                    }}
                   >
                     <MenuItem value="0">
                       <em>Seleccionar</em>
@@ -481,6 +565,15 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                         select
                         onChange={onChange}
                         value={identificacion}
+                        inputProps={{
+                          onChange: (event) => {
+                            if (event.target.value === "") {
+                              setActivar(false);
+                            } else {
+                              setActivar(next());
+                            }
+                          },
+                        }}
                       >
                         <MenuItem value="0">
                           <em>Seleccionar</em>
@@ -502,6 +595,15 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
                         fullWidth
                         onChange={onChange}
                         value={idIdentificaion}
+                        inputProps={{
+                          onChange: (event) => {
+                            if (event.target.value === "") {
+                              setActivar(false);
+                            } else {
+                              setActivar(next());
+                            }
+                          },
+                        }}
                       />
                     </GridItem>
                   </GridContainer>

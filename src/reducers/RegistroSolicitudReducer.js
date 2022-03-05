@@ -24,7 +24,7 @@ import {
   CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA,
   GET_COBERTURA_POR_PROGRAMA,
   GET_GENEROS_ACTIVOS,
-  GET_IDENTIFICACIONES_OFICIALES_ACTIVOS,
+  GET_IDENTIFICACIONES_OFICIALES_ACTIVOS
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -74,7 +74,6 @@ export default (state, action) => {
       return {
         ...state,
         estadoCivilList: action.payload._embedded.estadosCiviles,
-        total: action.payload.page.totalElements,
       };
     case GET_IDENTIFICACIONES_OFICIALES:
       return {
