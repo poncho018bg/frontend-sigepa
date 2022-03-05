@@ -72,9 +72,10 @@ export const TiposBeneficiariosContextProvider = props => {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
                     resolve(response);
+                    console.log("tipo beneficiario ==>", response)
                     dispatch({
                         type: REGISTRAR_TIPOS_BENEFICIARIOS,
-                        payload: response
+                        payload: response.data
                     })
                 }).catch(error => {
                     console.log('ERROR=>', error)
