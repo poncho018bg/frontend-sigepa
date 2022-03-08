@@ -14,9 +14,15 @@ import {
   TableRow,
   Grid,
   TableContainer,
+  TextField,
 } from "@material-ui/core";
 import Button from "components/CustomButtons/Button.js";
 import { useTranslation } from "react-i18next";
+//context
+import { SolicitudEmbozoTarjetasContext } from "contexts/solicitudEmbozoTarjetasContext";
+//complementos
+import { GeneracionEtiquetaDatosBeneficiarios } from "./GeneracionEtiquetaDatosBeneficiarios";
+import DialogConfirmacionEtiquetado from "./DialogConfirmacionEtiquetado";
 //useStyles
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from "css/stylesArchivo";
@@ -25,13 +31,29 @@ const useStyles = makeStyles(stylesArchivo);
 export const GeneracionEtiquetaScreen = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-
+  const [fechaEntrega, setFechaEntrega] = useState();
+  const [dialogConfirmar, setDialogConfirmar] = useState(false);
+  const [listaEtiquetado, setListaEtiquetado] = useState([]);
+  // context
+  const {
+    etiquetadoBeneficiarios,
+    getEtiquedadoBeneficiarios,
+    guardarEtiquetadoTarjetas,
+  } = useContext(SolicitudEmbozoTarjetasContext);
   /**
-   * funciones y datos del paginador
+   * Datos del paginador
    */
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+  //Useeffects
+  useEffect(() => {
+    console.log("consulta el listado de beneficiarios para etiquetar");
+    //
+    getEtiquedadoBeneficiarios();
+  }, []);
+
+  //funciones
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -41,19 +63,49 @@ export const GeneracionEtiquetaScreen = () => {
     setPage(0);
   };
 
-  const onClickGenerarLayout = (e) => {};
+  const onClickGenerarLayout = (e) => {
+    console.log("genarar archivo");
+    for (let i = 0; i < e.length; i++) {
+      e[i].fechaEntrega = fechaEntrega;
+    }
+    console.log("GUARDAR ETIQUETADO ===>", e);
+    setListaEtiquetado(e);
+    setDialogConfirmar(true);
+  };
+
+  /**
+   * Dialogo de confirmación manda llamar esta función
+   * Guarda los beneficiarios etiquetados
+   */
+  const guardarLayourEtiquetas = () => {
+    guardarEtiquetadoTarjetas(listaEtiquetado);
+    setDialogConfirmar(false);
+    //getEtiquedadoBeneficiarios();
+  };
+
   return (
     <GridItem xs={12} sm={12} md={12}>
       <Card>
         <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>{t("lbl.generacionetiqueta")}</h4>
+          <h4 className={classes.cardTitleWhite}>
+            {t("lbl.generacionetiqueta")}
+          </h4>
           <p className={classes.cardCategoryWhite}></p>
           <CardActions>
             <Grid container spacing={3}>
               <Grid item xs={6}>
-                <Button color="white" aria-label="edit" round>
-                 {t("btn.generararchivo")}
-                </Button>
+                {fechaEntrega && (
+                  <Button
+                    color="white"
+                    aria-label="edit"
+                    round
+                    onClick={() =>
+                      onClickGenerarLayout(etiquetadoBeneficiarios)
+                    }
+                  >
+                    {t("btn.generararchivo")}
+                  </Button>
+                )}
               </Grid>
             </Grid>
           </CardActions>
@@ -64,26 +116,49 @@ export const GeneracionEtiquetaScreen = () => {
               <TableHead>
                 <TableRow key="SE1MI">
                   <TableCell align="center">{t("lbl.secuencial")}</TableCell>
-                  <TableCell align="center">{t("lbl.nombrecompleto")}</TableCell>
+                  <TableCell align="center">
+                    {t("lbl.nombrecompleto")}
+                  </TableCell>
                   <TableCell align="center">{t("lbl.municipio")}</TableCell>
-                  <TableCell align="center">{t("lbl.numeroetiqueta")}</TableCell>
+                  <TableCell align="center">
+                    {t("lbl.numeroetiqueta")}
+                  </TableCell>
                   <TableCell align="center">{t("lbl.codigoevento")}</TableCell>
-                  <TableCell align="center">{t("lbl.fechaentregaevento")}</TableCell>
+                  <TableCell align="center">
+                    <TextField
+                      id="fechaEntrega"
+                      label={t("lbl.fechaentregaevento")}
+                      type="date"
+                      fullWidth
+                      className={classes.textField}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      value={fechaEntrega}
+                      name="fechaEntrega"
+                      onChange={(event) => {
+                        console.log(event.target.value);
+                        setFechaEntrega(event.target.value);
+                      }}
+                    />
+                  </TableCell>
                   <TableCell align="center">{t("lbl.vertiente")}</TableCell>
-                  <TableCell align="center">{t("lbl.terminaciontarjeta")}</TableCell>
+                  <TableCell align="center">
+                    {t("lbl.terminaciontarjeta")}
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  <TableCell align="center">Secuencial</TableCell>
-                  <TableCell align="center">Nombre Completo</TableCell>
-                  <TableCell align="center">Nombre a embozar</TableCell>
-                  <TableCell align="center">Calle, Numero exterior</TableCell>
-                  <TableCell align="center">Numero interior</TableCell>
-                  <TableCell align="center">Ciudad</TableCell>
-                  <TableCell align="center">Colonia</TableCell>
-                  <TableCell align="center">Teléfono</TableCell>
-                </TableRow>
+                {etiquetadoBeneficiarios &&
+                  etiquetadoBeneficiarios.map((row, i) => {
+                    return (
+                      <GeneracionEtiquetaDatosBeneficiarios
+                        datos={row}
+                        index={i}
+                        fechaEntrega={fechaEntrega}
+                      />
+                    );
+                  })}
               </TableBody>
             </Table>
           </TableContainer>
@@ -98,6 +173,11 @@ export const GeneracionEtiquetaScreen = () => {
           />
         </CardBody>
       </Card>
+      <DialogConfirmacionEtiquetado
+        dialogConfirmar={dialogConfirmar}
+        setDialogConfirmar={setDialogConfirmar}
+        guardarLayourEtiquetas={guardarLayourEtiquetas}
+      />
     </GridItem>
   );
 };

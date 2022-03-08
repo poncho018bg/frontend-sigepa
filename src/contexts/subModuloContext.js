@@ -57,7 +57,7 @@ export const SubModuloContextProvider = props => {
         console.log('ddd=>', subModulo);
         const moduloEnviar = {
             dssubmodulo: subModulo.dssubmodulo,
-            usuarioCreacionId: subModulo.usuarioCreacionId,
+            usuriousCreationId: subModulo.usuarioCreacionId,
             boactivo: true,
             crcModulosCollection: [`/${subModulo.crcModulosCollection}`],
             perfiles: [],

@@ -326,6 +326,7 @@ export const RegistroProgramas = () => {
                                                         idPrograma={idPrograma}
                                                         setEdadValida={setEdadValida}
                                                         nombrePrograma={programa.dsprograma}
+                                                        activar={activar}
                                                         setActivar={setActivar} />
                                                 </ValidarProgramaMonetario>
                                                 : activeStep === 2 ?

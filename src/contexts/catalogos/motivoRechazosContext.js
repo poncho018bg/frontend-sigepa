@@ -43,6 +43,20 @@ export const MotivoRechazosContextProvider = props => {
         }
     }
 
+    const getMotivoRechazosActivos = async () => {
+        try {
+            const result = await axiosGet(`motivoRechazos/search/findByActivoTrue`);
+            console.log(result._embedded);
+            console.log(result._embedded.motivoRechazos);
+            dispatch({
+                type: GET_MOTIVO_RECHAZOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     /**
      * Se registran los tipos de apoyos
      * @param {motivoRechazos} motivoRechazos 
@@ -183,7 +197,8 @@ export const MotivoRechazosContextProvider = props => {
                 changePageSize,
                 changePageSizes,
                 changePage,
-                getMotivoRechazosByParametros
+                getMotivoRechazosByParametros,
+                getMotivoRechazosActivos
             }}
         >
             {props.children}

@@ -241,7 +241,7 @@ export const RegistroSolicitud = () => {
     };
 
     const NextButton = () => {
-        // console.log("aqio esta el activar ---->>", activar, curp);
+        console.log("Entro aqio esta el activar ---->>", activar);
         //  console.log("BENEFICIARIO --->", beneficiario);
         if (activar && curp != undefined && curp != '') {
             return (
@@ -297,6 +297,7 @@ export const RegistroSolicitud = () => {
                                                 setIdentPrograma={setIdentPrograma}
                                                 idPrograma={query.state?.mobNo}
                                                 setEdadValida={setEdadValida}
+                                                activar={activar}
                                                 setActivar={setActivar} />
                                         </ValidarProgramaMonetario>
                                         : activeStep === 2 ?

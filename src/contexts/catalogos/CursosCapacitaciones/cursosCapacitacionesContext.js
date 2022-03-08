@@ -84,10 +84,10 @@ export const CursosCapacitacionesContextProvider = props => {
      */
     const actualizar = async objetoActualizar => {
         console.log(objetoActualizar);
-        const { dsestado, boactivo, _links: { cursosCapacitaciones: { href } } } = objetoActualizar;
+        const { dscurso, boactivo, _links: { cursosCapacitaciones: { href } } } = objetoActualizar;
 
         let objetoEnviar = {
-            dsestado,
+            dscurso,
             boactivo
         };
 
@@ -110,7 +110,7 @@ export const CursosCapacitacionesContextProvider = props => {
     const eliminar = async cursosCapacitacionesw => {
 
         const {
-            dsestado,
+            dscurso,
             id,
             fechaRegistro,
             activo,
@@ -120,7 +120,7 @@ export const CursosCapacitacionesContextProvider = props => {
 
 
         let localidad = {
-            dsestado,
+            dscurso,
             id,
             fechaRegistro,
             activo: act
@@ -129,9 +129,7 @@ export const CursosCapacitacionesContextProvider = props => {
 
 
         try {
-            const result = await axiosPostHetoas(href, localidad, 'PUT');
-            console.log("ELIMINAR -->", result);
-            console.log('mir mira');
+            const result = await axiosPostHetoas(href, localidad, 'PUT');            
             dispatch({
                 type: ELIMINAR_CURSOS_CAPACITACIONES,
                 payload: result,

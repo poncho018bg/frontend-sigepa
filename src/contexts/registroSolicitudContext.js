@@ -26,6 +26,8 @@ import {
   PROGRAMA_VIGENTE,
   CAMBIAR_ESTATUS_SOLICITUD_BANDEJA_REASIGNADA,
   GET_COBERTURA_POR_PROGRAMA,
+  GET_GENEROS_ACTIVOS,
+  GET_IDENTIFICACIONES_OFICIALES_ACTIVOS,
 } from "types/actionTypes";
 
 import {
@@ -72,6 +74,18 @@ export const RegistroSolicitudContextProvider = (props) => {
       console.log(error);
     }
   };
+  const getGenerosActivos = async () => {
+    try {
+      const result = await axiosGetSinToken(`generos/search/findByActivoTrue`);
+      console.log("RESULT GENEROS -->", result);
+      dispatch({
+        type: GET_GENEROS_ACTIVOS,
+        payload: result,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const getEstudios = async () => {
     try {
       const result = await axiosGetSinToken(`gradoEstudios`);
@@ -87,7 +101,7 @@ export const RegistroSolicitudContextProvider = (props) => {
 
   const getEstadoCivil = async () => {
     try {
-      const result = await axiosGetSinToken(`estadosCiviles`);
+      const result = await axiosGetSinToken(`estadosCiviles/search/findByActivoTrue`);
       console.log("RESULT Estudios -->", result);
       dispatch({
         type: GET_ESTADO_CIVIL,
@@ -104,6 +118,19 @@ export const RegistroSolicitudContextProvider = (props) => {
       console.log("RESULT Estudios -->", result);
       dispatch({
         type: GET_IDENTIFICACIONES_OFICIALES,
+        payload: result,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getIdentificacionesActivos = async () => {
+    try {
+      const result = await axiosGetSinToken(
+        `identificacionesOficiales/search/findByActivoTrue`
+      );
+      dispatch({
+        type: GET_IDENTIFICACIONES_OFICIALES_ACTIVOS,
         payload: result,
       });
     } catch (error) {
@@ -854,9 +881,11 @@ export const RegistroSolicitudContextProvider = (props) => {
         programaVigente: state.programaVigente,
         coberturalist: state.coberturalist,
         getGeneros,
+        getGenerosActivos,
         getEstudios,
         getEstadoCivil,
         getIdentificaciones,
+        getIdentificacionesActivos,
         registrarBeneficiario,
         registrarDireccionBeneficiario,
         actualizarDireccionBeneficiario,

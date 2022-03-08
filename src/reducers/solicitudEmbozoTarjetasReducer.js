@@ -2,6 +2,8 @@ import {
   GET_EMBOZO_TARJETAS,
   AGREGAR_SOLICITUD_FOLIO_ERROR,
   GUARDAR_EMBOZO_TARJETAS,
+  GET_ETIQUETADO_TARJETAS,
+  GUARDAR_ETIQUETADO_TARJETAS
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -18,6 +20,15 @@ export default (state, action) => {
         error: action.payload,
       };
     case GUARDAR_EMBOZO_TARJETAS:
+      return {
+        ...state,
+      };
+      case GET_ETIQUETADO_TARJETAS:
+      return {
+        ...state,
+        etiquetadoBeneficiarios: action.payload,
+      };
+      case GUARDAR_ETIQUETADO_TARJETAS:
       return {
         ...state,
       };

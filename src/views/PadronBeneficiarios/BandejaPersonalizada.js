@@ -32,7 +32,7 @@ export const BandejaPersonalizada = (props) => {
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [page, setPage] = React.useState(0);
     const { padronList, getPadronBeneficiarios, getDetalleBeneficiarios, beneficiariaList } = useContext(BeneficiariosContext);
-    const { motivoRechazosList, getMotivoRechazos } = useContext(MotivoRechazosContext);   
+    const { motivoRechazosList, getMotivoRechazosActivos } = useContext(MotivoRechazosContext);   
     const { registrarBandejaRechazos } = useContext(BandejaRechazosContext);
     const [bandeja, setBandeja] = useState([]);
     const [llMotivoBaja, setLlMotivoBaja] = useState('');
@@ -63,7 +63,7 @@ export const BandejaPersonalizada = (props) => {
 
     useEffect(() => {
 
-        getMotivoRechazos()
+        getMotivoRechazosActivos()
 
     }, []);
 

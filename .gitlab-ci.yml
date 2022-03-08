@@ -22,8 +22,6 @@ construccion:
     paths:
       - build/*
     expire_in: 1 week
-  only:
-    - develop
 
 sonarqube-check:
   image: 
@@ -59,7 +57,7 @@ imagen_container:
     - docker push $HARBOR_REGISTRY/library/$HARBOR_REGISTRY_IMAGE:lastest
     - docker logout $HARBOR_REGISTRY
   only:
-    - develop
+    - qa
 
 despliegue_develop:
   stage: deploy
@@ -74,9 +72,9 @@ despliegue_develop:
     - sed -i "s/<VERSION>/${CI_COMMIT_SHORT_SHA}/g" deployment.yaml
     - sed -i "s/<HARBOR_REGISTRY>/${HARBOR_REGISTRY}/g" deployment.yaml
     - cat deployment.yaml
-    - kubectl apply -f deployment.yaml
+    - kubectl --insecure-skip-tls-verify apply -f deployment.yaml
   only:
-    - develop
+    - qa
 
 after_script:
   - echo "Finalizando Integracion Continua"

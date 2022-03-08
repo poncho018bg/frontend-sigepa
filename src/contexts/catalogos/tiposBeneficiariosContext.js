@@ -42,6 +42,22 @@ export const TiposBeneficiariosContextProvider = props => {
         }
     }
 
+    const getTipoBeneficiariosActivos = async () => {
+        try {
+            console.log("page size ---> ", page, size);
+            const { page, size } = state;
+            const result = await axiosGet(`tiposBeneficiarios/search/findByActivoTrue`);
+            console.log(result);
+            console.log("tipoBeneficiarios --->", result._embedded.tiposBeneficiarios);
+            dispatch({
+                type: GET_TIPOS_BENEFICIARIOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     /**
      * Se registran los tipos de apoyos
      * @param {tiposBeneficiarios} tiposBeneficiarios 
@@ -56,9 +72,10 @@ export const TiposBeneficiariosContextProvider = props => {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
                     resolve(response);
+                    console.log("tipo beneficiario ==>", response)
                     dispatch({
                         type: REGISTRAR_TIPOS_BENEFICIARIOS,
-                        payload: response
+                        payload: response.data
                     })
                 }).catch(error => {
                     console.log('ERROR=>', error)
@@ -179,7 +196,8 @@ export const TiposBeneficiariosContextProvider = props => {
                 changePageSize,
                 changePageSizes,
                 changePage,
-                getTipoBeneficiariosByParametros
+                getTipoBeneficiariosByParametros,
+                getTipoBeneficiariosActivos
             }}
         >
             {props.children}

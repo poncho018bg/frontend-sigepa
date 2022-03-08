@@ -60,8 +60,8 @@ export const PadronBeneficiariasScreen = () => {
   } = useContext(BeneficiariosContext);
   const { registrarBtActividades } = useContext(BtActividadesContext);
   const { getCien, programasList } = useContext(ProgramasContext);
-  const { tiposApoyosList, getTiposApoyos } = useContext(TiposApoyosContext);
-  const { motivoRechazosList, getMotivoRechazos } = useContext(
+  const { tiposApoyosList, getTiposApoyosActivos } = useContext(TiposApoyosContext);
+  const { motivoRechazosList, getMotivoRechazosActivos } = useContext(
     MotivoRechazosContext
   );
   const { motivoSuspensionList, getMotivoSuspension } = useContext(
@@ -101,9 +101,10 @@ export const PadronBeneficiariasScreen = () => {
   const [esBajaOSuspension, setEsBajaOSuspension] = useState("");
   useEffect(() => {
     getCien();
-    getTiposApoyos();
-    getMotivoRechazos();
+    getTiposApoyosActivos();
+    getMotivoRechazosActivos();
     getMotivoSuspension();
+    buscarSolitudes();
   }, []);
 
   const handleClose = () => {
@@ -133,7 +134,6 @@ export const PadronBeneficiariasScreen = () => {
       anioPrograma: anio === "" ? "NULL" : anio,
       motivoRechazo: idMotivoBaja === "" ? "NULL" : idMotivoBaja,
       motivoSuspension: idMotivoSuspension === "" ? "NULL" : idMotivoSuspension,
-      
     };
     setMasprogramas(true);
 
@@ -230,7 +230,7 @@ export const PadronBeneficiariasScreen = () => {
     setOpen(true);
     setDsMotivoBaja("");
     row.idMotivoBaja = dta;
-    row.activo = true;
+    //row.activo = true;
     setLlMotivoBaja(dta);
     setIdMvBandejaSol(row.idMvBandejaSol);
     padronList.map((e) => {
@@ -261,7 +261,7 @@ export const PadronBeneficiariasScreen = () => {
     <GridItem xs={12} sm={12} md={12}>
       <Card>
         <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>Padrón de beneficiarias</h4>
+          <h4 className={classes.cardTitleWhite}>Padrón de embozo</h4>
           <p className={classes.cardCategoryWhite}></p>
           <CardActions></CardActions>
         </CardHeader>
@@ -359,7 +359,7 @@ export const PadronBeneficiariasScreen = () => {
             <Table
               stickyHeader
               aria-label="sticky table"
-              style={{ paddingTop: "20px" }}
+              style={{ paddingTop: "20px", width: "auto", tableLayout: "auto" }}
             >
               <TableHead>
                 <TableRow key="898as">
@@ -373,26 +373,7 @@ export const PadronBeneficiariasScreen = () => {
                     {" "}
                     Año de registro al programa{" "}
                   </TableCell>
-                  <TableCell
-                    align="center"
-                    style={{
-                      wordWrap: "break-word !important;",
-                      wordBreak: "break-all !important;",
-                    }}
-                  >
-                    {" "}
-                    Motivo de baja{" "}
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    style={{
-                      wordWrap: "break-word !important;",
-                      wordBreak: "break-all !important;",
-                    }}
-                  >
-                    {" "}
-                    Motivo de suspensión{" "}
-                  </TableCell>
+                  
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -403,15 +384,7 @@ export const PadronBeneficiariasScreen = () => {
                       <TableRow key={row.id}>
                         <TableCell align="center">{row.number}</TableCell>
 
-                        <TableCell align="center">
-                          <IconButton
-                            aria-label="delete"
-                            className={classes.margin}
-                            size="small"
-                            onClick={() => buscarDetalle(row)}
-                          >
-                            <ExpandMoreIcon fontSize="inherit" />
-                          </IconButton>
+                        <TableCell align="center">                         
                           {row.nombre}
                         </TableCell>
                         <TableCell align="center">{row.dscurp}</TableCell>
@@ -422,86 +395,8 @@ export const PadronBeneficiariasScreen = () => {
                           <AgregarFolioSedesem row={row} />
                         </TableCell>
                         <TableCell align="center">{row.anio}</TableCell>
-                        <TableCell
-                          align="center"
-                          style={{
-                            wordWrap: "break-word !important;",
-                            wordBreak: "break-all !important;",
-                          }}
-                        >
-                          <TextField
-                            style={{
-                              wordWrap: "break-word !important;",
-                              wordBreak: "break-all !important;",
-                            }}
-                            variant="outlined"
-                            label="Seleccione"
-                            select
-                            disabled={row.activo}
-                            fullWidth
-                            name={row.idMotivoBaja}
-                            value={row.idMotivoBaja}
-                            onChange={(e) =>
-                              cambiarMotivoBaja(row, e.target.value)
-                            }
-                          >
-                            <MenuItem value="0">
-                              <em>{t("cmb.ninguno")}</em>
-                            </MenuItem>
-                            {motivoRechazosList.map((item) => (
-                              <MenuItem
-                                key={item.id}
-                                value={item.id}
-                                style={{
-                                  wordWrap: "break-word !important;",
-                                  wordBreak: "break-all !important;",
-                                }}
-                              >
-                                {item.dsmotivorechazo}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          style={{
-                            wordWrap: "break-word !important;",
-                            wordBreak: "break-all !important;",
-                          }}
-                        >
-                          <TextField
-                            style={{
-                              wordWrap: "break-word !important;",
-                              wordBreak: "break-all !important;",
-                            }}
-                            variant="outlined"
-                            label="Seleccione"
-                            select
-                            fullWidth
-                            disabled={row.activo}
-                            name={row.idMotivoSuspension}
-                            value={row.idMotivoSuspension}
-                            onChange={(e) =>
-                              cambiarMotivoSuspension(row, e.target.value)
-                            }
-                          >
-                            <MenuItem value="0">
-                              <em>{t("cmb.ninguno")}</em>
-                            </MenuItem>
-                            {motivoSuspensionList.map((item) => (
-                              <MenuItem
-                                key={item.id}
-                                value={item.id}
-                                style={{
-                                  wordWrap: "break-word !important;",
-                                  wordBreak: "break-all !important;",
-                                }}
-                              >
-                                {item.dsmotivosuspesion}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                        </TableCell>
+                        
+               
                       </TableRow>
                     );
                   })}

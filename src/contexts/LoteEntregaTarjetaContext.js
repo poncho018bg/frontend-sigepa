@@ -1,28 +1,29 @@
 import React, { createContext, useReducer } from 'react';
-import GenerosReducer from 'reducers/Catalogos/GenerosReducer';
+import LoteEntregaTarjetaReducer from 'reducers/LoteEntregaTarjetaReducer';
 import { axiosGet } from 'helpers/axiosPublico';
 import { axiosPostHetoas } from 'helpers/axios';
 import axios from "axios";
 import {
-    GET_GENERO,
-    REGISTRAR_GENERO,
-    ELIMINAR_GENERO,
-    MODIFICAR_GENERO,
-    GENERO_ERROR,
+    GET_LOTE_ENTREGA_TARJETAS,
+    REGISTRAR_LOTE_ENTREGA_TARJETAS,
+    ELIMINAR_LOTE_ENTREGA_TARJETAS,
+    MODIFICAR_LOTE_ENTREGA_TARJETAS,
+    LOTE_ENTREGA_TARJETAS_ERROR,
     CAMBIAR_PAGINA,
     CAMBIAR_TAMANIO_PAGINA
 } from 'types/actionTypes';
 
 
 
-export const GenerosContext = createContext();
+
+export const LoteEntregaTarjetaContext = createContext();
 
 const baseUrlPublico = process.env.REACT_APP_API_PUBLICO_URL
 
-export const GenerosContextProvider = props => {
+export const LoteEntregaTarjetaContextProvider = props => {
 
     const initialState = {
-        generosList: [],
+        lotesEntregaTarjetaList: [],
         error: false,
         page: 0,
         size: 10,
@@ -30,16 +31,16 @@ export const GenerosContextProvider = props => {
 
     }
 
-    const [state, dispatch] = useReducer(GenerosReducer, initialState);
+    const [state, dispatch] = useReducer(LoteEntregaTarjetaReducer, initialState);
 
 
-    const getGeneros = async () => {
+    const getLoteEntregaTarjeta = async () => {
 
         try {
             const { page, size } = state;
-            const resultado = await axiosGet(`generos?page=${page}&size=${size}`);
+            const resultado = await axiosGet(`loteEntregaEarjetas?page=${page}&size=${size}`);
             dispatch({
-                type: GET_GENERO,
+                type: GET_LOTE_ENTREGA_TARJETAS,
                 payload: resultado
             })
         } catch (error) {
@@ -48,17 +49,17 @@ export const GenerosContextProvider = props => {
     }
 
 
-    const registrarGeneros = async generos => {
+    const registrarLoteEntregaTarjeta = async loteEntregaEarjetas => {
 
         try {
-            const url = `${baseUrlPublico}generos`;
+            const url = `${baseUrlPublico}loteEntregaEarjetas`;
             return new Promise((resolve, reject) => {
-                axios.post(url, generos, {
+                axios.post(url, loteEntregaEarjetas, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
                     resolve(response);
                     dispatch({
-                        type: REGISTRAR_GENERO,
+                        type: REGISTRAR_LOTE_ENTREGA_TARJETAS,
                         payload: response.data
                     })
                 }).catch(error => {
@@ -68,20 +69,20 @@ export const GenerosContextProvider = props => {
 
         } catch (error) {
             dispatch({
-                type: GENERO_ERROR,
+                type: LOTE_ENTREGA_TARJETAS_ERROR,
                 payload: true
             })
         }
     }
 
-    const actualizarGeneros = async generosw => {
+    const actualizarLoteEntregaTarjeta = async loteEntregaEarjetasw => {
         try {
-     
-            const { _links: { generos: { href } } } = generosw;
-            const resultado = await axiosPostHetoas(href, generosw, 'PUT');   
-
+          
+            const { _links: { loteEntregaEarjetas: { href } } } = loteEntregaEarjetasw;
+            const resultado = await axiosPostHetoas(href, loteEntregaEarjetasw, 'PUT');  
+            
             dispatch({
-                type: MODIFICAR_GENERO,
+                type: MODIFICAR_LOTE_ENTREGA_TARJETAS,
                 payload: resultado
             });
         } catch (error) {
@@ -89,14 +90,14 @@ export const GenerosContextProvider = props => {
         }
     }
 
-    const eliminarGeneros = async generos => {
-        const { activo, _links: { generos: { href } } } = generos
+    const eliminarLoteEntregaTarjeta = async loteEntregaEarjetas => {
+        const { activo, _links: { loteEntregaEarjetas: { href } } } = loteEntregaEarjetas
         const act = !activo
-        generos.activo = act
+        loteEntregaEarjetas.activo = act
         try {
-            const result = await axiosPostHetoas(href, generos, 'PUT');
+            const result = await axiosPostHetoas(href, loteEntregaEarjetas, 'PUT');
             dispatch({
-                type: ELIMINAR_GENERO,
+                type: ELIMINAR_LOTE_ENTREGA_TARJETAS,
                 payload: result,
             })
         } catch (error) {
@@ -105,13 +106,11 @@ export const GenerosContextProvider = props => {
     }
 
 
-    const getGenerosByParametros = async (search) => {
-        try {
-            
-            const result = await axiosGet(`generos/search/findByDsgeneroContaining?dsgenero=${search}`);
-            
+    const getLoteEntregaTarjetaByParametros = async (search) => {
+        try {            
+            const result = await axiosGet(`loteEntregaEarjetas/search/findByDsclaveeventoContaining?dsclaveevento=${search}`);            
             dispatch({
-                type: GET_GENERO,
+                type: GET_LOTE_ENTREGA_TARJETAS,
                 payload: result
             })
         } catch (error) {
@@ -119,21 +118,18 @@ export const GenerosContextProvider = props => {
         }
     }
 
-    const getGenerosActivos = async () => {
-        try {
+    const getLoteEntregaTarjetaAll = async () => {
 
-
-            const result = await axiosGet(`generos/search/findByActivoTrue`);
-            
+        try {            
+            const result = await axiosGet(`loteEntregaEarjetas/search/findByActivoTrue`);            
             dispatch({
-                type: GET_GENERO,
+                type: GET_LOTE_ENTREGA_TARJETAS,
                 payload: result
             })
         } catch (error) {
             console.log(error);
         }
     }
-
 
     //Paginacion
     const changePage = async (pages) => {
@@ -165,16 +161,15 @@ export const GenerosContextProvider = props => {
     })
 
     return (
-        <GenerosContext.Provider
+        <LoteEntregaTarjetaContext.Provider
             value={{
-                generosList: state.generosList,
-                getGeneros,
-                getGenerosActivos,
-                registrarGeneros,
-                actualizarGeneros,
-                eliminarGeneros,
-                getGenerosByParametros,
-
+                lotesEntregaTarjetaList: state.lotesEntregaTarjetaList,
+                getLoteEntregaTarjeta,
+                registrarLoteEntregaTarjeta,
+                actualizarLoteEntregaTarjeta,
+                eliminarLoteEntregaTarjeta,
+                getLoteEntregaTarjetaByParametros,
+                getLoteEntregaTarjetaAll,
                 error: state.error,
                 page: state.page,
                 size: state.size,
@@ -186,7 +181,7 @@ export const GenerosContextProvider = props => {
             }}
         >
             {props.children}
-        </GenerosContext.Provider>
+        </LoteEntregaTarjetaContext.Provider>
     )
 
 }

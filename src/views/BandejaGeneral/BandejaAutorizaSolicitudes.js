@@ -146,10 +146,10 @@ export const BandejaAutorizaSolicitudes = () => {
     console.log("Entra a aprobar seleccionadas");
     const errors = {};
     if (comite === "") {
-      errors.comite = "Debe selecionar un comite!";
+      errors.comite = `${t('msg.debeselecionarunembozo')}`;
     }
     if (fecha === "") {
-      errors.fecha = "Debe selecionar una fecha de comite!";
+      errors.fecha = `${t('msg.debeselecionarunafecha')}`;
     }
     if (!isObjEmpty(errors)) {
       setErrors(errors);
@@ -163,10 +163,10 @@ export const BandejaAutorizaSolicitudes = () => {
     console.log("Entra a aprobar General");
     const errors = {};
     if (comite === "") {
-      errors.comite = "Debe selecionar un comite!";
+      errors.comite = `${t('msg.debeselecionarunembozo')}`;
     }
     if (fecha === "") {
-      errors.fecha = "Debe selecionar una fecha de comite!";
+      errors.fecha = `${t('msg.debeselecionarunafecha')}`;
     }
     if (!isObjEmpty(errors)) {
       setErrors(errors);
@@ -260,7 +260,7 @@ export const BandejaAutorizaSolicitudes = () => {
       <Card>
         <CardHeader color="primary">
           <h4 className={classes.cardTitleWhite}>
-          {t('pnl.bandejageneralsolicitudes')} 
+          {t('pnl.autorizacionsolicitudesparaembozo')} 
           </h4>
           <p className={classes.cardCategoryWhite}></p>
           <CardActions></CardActions>
@@ -304,7 +304,7 @@ export const BandejaAutorizaSolicitudes = () => {
             <Grid item xs={3}>
               <TextField
                 variant="outlined"
-                label={t('lbl.sesioncomitequeautoriza')}
+                label={t('lbl.autorizarembozo')}
                 select
                 fullWidth
                 name="comite"
@@ -329,7 +329,7 @@ export const BandejaAutorizaSolicitudes = () => {
             <Grid item xs={3}>
               <TextField
                 id="fcsesionComite"
-                label={t('lbl.fechasesioncomite')} 
+                label={t('lbl.fechadeembozo')} 
                 type="date"
                 fullWidth
                 className={classes.textField}
@@ -373,12 +373,8 @@ export const BandejaAutorizaSolicitudes = () => {
                 <TableCell align="center">{t('dgv.programaapoyo')}  </TableCell>
                 <TableCell align="center">{t('dgv.fecharegistro')}  </TableCell>
                 <TableCell align="center">{t('dgv.observaciones')}  </TableCell>
-                <TableCell align="center">{t('dgv.firmasdeautorizacion')}  </TableCell>
-                <TableCell align="center">{t('dgv.sesiondelcomite')}  </TableCell>
-                <TableCell align="center">
-                  {" "}
-                  {t('lbl.fechadesesiondelcomite')}{" "}
-                </TableCell>
+                
+                
                 <TableCell align="center"> {t("dgv.acciones")}</TableCell>
               </TableRow>
             </TableHead>
@@ -418,17 +414,8 @@ export const BandejaAutorizaSolicitudes = () => {
                         )}
                       </TableCell>
                       <TableCell align="center">{row.observaciones}</TableCell>
-                      <TableCell align="center">
-                        {row.firmaAutorizacion}
-                      </TableCell>
-                      <TableCell align="center">
-                        {row.sesionComiteNombre}
-                      </TableCell>
-                      <TableCell align="center">
-                        {moment(row.fechaSesionComiteSecretarias).format(
-                          "MMMM DD YYYY, h:mm:ss a"
-                        )}
-                      </TableCell>
+                      
+                     
                       <TableCell align="center">
                         <Tooltip
                           id="tooltip-expediente"
@@ -441,19 +428,7 @@ export const BandejaAutorizaSolicitudes = () => {
                           >
                             <RemoveRedEyeIcon />
                           </IconButton>
-                        </Tooltip>
-                        <Tooltip
-                          id="tooltip-regresar"
-                          title="Reasignar"
-                          placement="top"
-                        >
-                          <IconButton
-                            aria-label="return"
-                            onClick={() => confirmarReasignacion(row)}
-                          >
-                            <ReplayIcon />
-                          </IconButton>
-                        </Tooltip>
+                        </Tooltip>                        
                       </TableCell>
                     </TableRow>
                   );

@@ -86,6 +86,8 @@ import { EmisionTarjetasScreen } from "views/Dispersion/EmisionTarjetas/EmisionT
 import {GeneracionEtiquetaScreen } from "views/GeneracionEtiqueta/GeneracionEtiquetaScreen";
 import {SolicitudEmbozoTarjetasScreen} from "views/SolicitudEmbozoTarjetas/SolicitudEmbozoTarjetasScreen";
 import { MotivoSuspensionScreen } from "views/Catalogos/MotivoSuspension/MotivoSuspensionScreen";
+import { GeneracionEventoScreen } from "views/GeneracionEventos/GeneracionEventoScreen";
+import { PuntosEntregaScreen } from "views/Catalogos/PuntosEntrega/PuntosEntregaScreen";
 
 const dashboardRoutes = [
   {
@@ -355,11 +357,20 @@ const dashboardRoutes = [
   },
   {
     collapse: true,
-    name: "Reportes",
+    name: "Generación de Layout",
     rtlName: "صفحات",
     icon: TimelineIcon,
     state: "reportesCollapse",
     views: [
+      {
+        path: "/solicitudEmbozoTarjetas",
+        name: "Solicitud de embozo de tarjetas",
+        rtlName: "SolicituddeEmbozodeTarjetas",
+        mini: "SE",
+        rtlMini: "SE",
+        component: SolicitudEmbozoTarjetasScreen,
+        layout: "/admin"
+      }, 
       {
         
           path: "/emisionTarjetas",
@@ -370,7 +381,26 @@ const dashboardRoutes = [
           component: EmisionTarjetasScreen,
           layout: "/admin"
         
-      }
+      },
+
+      {
+        path: "/generacionEtiqueta",
+        name: "Generación de etiquetas",
+        rtlName: "GeneraciondeEtiquetas",
+        mini: "GE",
+        rtlMini: "GE",
+        component: GeneracionEtiquetaScreen,
+        layout: "/admin"
+      },
+      {
+        path: "/generacionLotes",
+        name: "Creación de lote por punto de entrega",
+        rtlName: "generacionLotes",
+        mini: "GELE",
+        rtlMini: "GELE",
+        component: GeneracionEventoScreen,
+        layout: "/admin"
+      },
     ]
   },
   {
@@ -405,7 +435,7 @@ const dashboardRoutes = [
 
       {
         path: "/padron",
-        name: "Padrón de beneficiarias",
+        name: "Padrón de embozo",
         rtlName: "pbf",
         mini: "pbf",
         rtlMini: "pbf",
@@ -674,23 +704,16 @@ const dashboardRoutes = [
         layout: "/admin"
       },
       {
-        path: "/solicitudEmbozoTarjetas",
-        name: "Solicitud de Embozo de Tarjetas",
-        rtlName: "Solicitud de Embozo de Tarjetas",
-        mini: "SE",
-        rtlMini: "SE",
-        component: SolicitudEmbozoTarjetasScreen,
-        layout: "/admin"
-      }, 
-      {
-        path: "/generacionEtiqueta",
-        name: "Generacion de Etiquetas",
-        rtlName: "Generacion de Etiquetas",
-        mini: "GE",
-        rtlMini: "GE",
-        component: GeneracionEtiquetaScreen,
+        path: "/puntosentrega",
+        name: "Puntos de entrega",
+        rtlName: "puntosentrega",
+        mini: "PEGR",
+        rtlMini: "PEGR",
+        component: PuntosEntregaScreen,
         layout: "/admin"
       },
+ 
+   
       //aqui ponemos la ruta que quiere poncho pero cambiamos el componete porque el que pone no existe
       //funcionaria con esta ruta http://localhost:3000/public/registroProgramas
       {

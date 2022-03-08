@@ -18,6 +18,7 @@ export const Modal = (props) => {
     return (
         <>
         <Dialog
+                fullWidth 
                 classes={{ paper: classes.paper}}
                 onClose={setShowModal}
                 aria-labelledby="customized-dialog-title"

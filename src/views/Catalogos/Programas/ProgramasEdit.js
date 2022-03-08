@@ -56,7 +56,7 @@ export const ProgramasEdit = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
-  const { tiposBeneficiariosList, getTipoBeneficiarios } = useContext(TiposBeneficiariosContext);
+  const { tiposBeneficiariosList, getTipoBeneficiariosActivos } = useContext(TiposBeneficiariosContext);
   const { edadesBeneficiariosList } = useContext(EdadesBeneficiariosContext);
 
   const [municipiosSelect, setMunicipiosSelect] = useState([]);
@@ -93,7 +93,7 @@ export const ProgramasEdit = () => {
     getMunicipiosAll()
     getDocumentosByRequisito('c946c03b-eae1-4ee1-aa93-d99c08825f97')
     getDocumentosByComplementarios('36bd3924-24aa-4ce6-bbad-2c4bdbf5ed82')
-    getTipoBeneficiarios();
+    getTipoBeneficiariosActivos();
     const cargarFormioComplemento = () => dispatch(formioComplementoLoading());
     cargarFormioComplemento();
   }, []);
