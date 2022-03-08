@@ -10,7 +10,7 @@ RUN ls -l * && \
     npm install -g serve; \
     npm install && \
     npm run build; \
-    mkdir /app/build/frontend-sigeti; \
+    mkdir /app/build/frontend-sigepa; \
     mv /app/build/static/ /app/build/frontend-sigepa/; \
     mv /app/build/keycloak.json /app/build/frontend-sigepa/
 
