@@ -7,7 +7,7 @@ import {
     GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO,
     AGREGAR_MUNICIPIOS_ERROR,
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA, GET_MUNICIPIOS_ID
+    CAMBIAR_TAMANIO_PAGINA, GET_MUNICIPIOS_ID,GET_MUNICIPIOSBYREGIONES
 } from 'types/actionTypes';
 
 
@@ -21,6 +21,7 @@ export const MunicipiosContextProvider = props => {
         municipio: null,
         clienteActual: null,
         municipiosListId: [],
+        municipiosregList:[],
         error: false,
         page: 0,
         size: 10,
@@ -201,12 +202,43 @@ export const MunicipiosContextProvider = props => {
         }
     }
 
+    // const getMunicipioPorRegion = async idRegion => {
+    //     try {
+    //         const resultado = await axiosGetSinTokenAdmin(`municipiosRegion/municipiosPorRegion/${idRegion}`);
+    //         console.log("resultado de la consulta ", resultado);
+    //         dispatch({
+    //             type: GET_MUNICIPIOS,
+    //             payload: resultado
+    //         })
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+    const getMunicipioPorRegion = async idRegion => {
+        try {
+            
+            const resultado = await axiosPost('municipiosRegion/municipiosPorRegion', idRegion);
+            console.log(resultado);
+            dispatch({
+                type: GET_MUNICIPIOSBYREGIONES,
+                payload: resultado
+            })
+        } catch (error) {
+            console.log(error);
+            dispatch({
+                type: AGREGAR_MUNICIPIOS_ERROR,
+                payload: true
+            })
+        }
+    }
+
     return (
         <MunicipiosContext.Provider
             value={{
                 municipiosList: state.municipiosList,
                 municipio: state.municipio,
                 municipiosListId: state.municipiosListId,
+                municipiosregList:state.municipiosregList,
                 error: state.error,
                 page: state.page,
                 size: state.size,
@@ -221,7 +253,8 @@ export const MunicipiosContextProvider = props => {
                 changePageSize,
                 changePage,
                 getMunicipioEstado,
-                getMunicipiosAll
+                getMunicipiosAll,
+                getMunicipioPorRegion
             }}
         >
             {props.children}

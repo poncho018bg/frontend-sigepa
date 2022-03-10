@@ -2,7 +2,7 @@
 
 
 import {
-  GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO,
+  GET_MUNICIPIOS, REGISTRAR_MUNICIPIOS, ELIMINAR_MUNICIPIOS, MODIFICAR_MUNICIPIOS, GET_MUNICIPIO,GET_MUNICIPIOSBYREGIONES,
   CAMBIAR_PAGINA,
   AGREGAR_MUNICIPIOS_ERROR,
   CAMBIAR_TAMANIO_PAGINA,GET_MUNICIPIOS_ID
@@ -18,6 +18,11 @@ export default (state, action) => {
         municipiosList: action.payload._embedded.municipios,
         total: action.payload.page.totalElements
       };
+      case GET_MUNICIPIOSBYREGIONES:
+        return {
+          ...state,
+          municipiosregList: action.payload          
+        };
     case AGREGAR_MUNICIPIOS_ERROR:
       console.log(action.type);
       return {
