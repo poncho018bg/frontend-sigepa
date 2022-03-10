@@ -30,6 +30,9 @@ import { ModalConfirmacion } from "commons/ModalConfirmacion";
 import { Mensaje } from "components/Personalizados/Mensaje";
 import { ModalContextConfirmacion } from "contexts/modalContextConfirmacion";
 import { LoteEntregaTarjetaContext } from "contexts/LoteEntregaTarjetaContext";
+import { LocalidadesContext } from "contexts/catalogos/Localidades/localidadesContext";
+import { MunicipiosContext } from "contexts/catalogos/MunicipiosContext";
+import { RegionesContext } from "contexts/catalogos/RegionesContext";
 const useStyles = makeStyles(stylesArchivo);
 
 export const GeneracionEventoScreen = () => {
@@ -42,11 +45,11 @@ export const GeneracionEventoScreen = () => {
     terjetasEntregaList,
     registrarLotesEntrega,
   } = useContext(PuntosEntregaContext);
-  const { regionList, getRegionMunicipios } = useContext(
-    RegionMunicipiosContext
+  const { municipiosregList, getMunicipioPorRegion } = useContext(
+    MunicipiosContext
   );
-  const {lotesEntregaTarjetaList, getLoteEntregaTarjetaAll}= useContext(LoteEntregaTarjetaContext)
-
+  const { regionesList, getRegionesAll } = useContext(RegionesContext);
+  
   const [dsEvento, setDsEvento] = useState("");
   const [puntoentrega, setPuntoentrega] = useState("");
   const [municipiosSelect, setMunicipiosSelect] = useState([]);
@@ -62,27 +65,30 @@ export const GeneracionEventoScreen = () => {
 
   useEffect(() => {
     getPuntosEntrega();
-    getRegionMunicipios();
-    getLoteEntregaTarjetaAll();
+    getRegionesAll();
   }, []);
 
 
 
   useEffect(() => {
     const lstmun = [];
-    regionList.map((mn) => {
-      lstmun.push({ label: mn.dsMunicipio, value: mn.idMunicipio });
+    console.log('regionesList1=>>',municipiosregList)
+    municipiosregList?.map((mn) => {
+      lstmun.push({ label: mn.dsmunicipio, value: mn.id });
     });
     setMunicipiosSelect(lstmun);
-  }, [regionList]);
+  }, [municipiosregList]);
+
+
   useEffect(() => {
     const lstmun = [];
-    console.log('LOTES=>>',lotesEntregaTarjetaList)
-    lotesEntregaTarjetaList.map((mn) => {
-      lstmun.push({ label: mn.dsclaveevento, value: mn.id });
+    console.log('LOTES=>>',regionesList)
+    regionesList.map((mn) => {
+      lstmun.push({ label: mn.dsregion, value: mn.id });
     });
     setLotesTarjSelect(lstmun);
-  }, [lotesEntregaTarjetaList]);
+  }, [regionesList]);
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -126,14 +132,36 @@ export const GeneracionEventoScreen = () => {
     setShowModalConfirmacion(true);   
 }
 
-const buscarPorMunicipio=()=>{
-  const lstSelectMun = [];
-  selected.map((e) => {
-    lstSelectMun.push(e.value);
+const buscarPorMunicipio = () => {
+  const lstmunicipios = [];
+  const lstregiones = [];
+  selectedlotesTarj?.map((reg) => {
+    lstregiones.push(reg.value);
   });
 
-  getTarjetasParaLotes(lstSelectMun);
+  selected?.map((mun) => {
+    lstmunicipios.push(mun.value);
+  });
+
+  let parametrosbusqueda = {
+    regionesList: lstregiones,
+    municipiosList: lstmunicipios,
+  };
+
+  getTarjetasParaLotes(parametrosbusqueda);
+};
+
+const buscarporregion=(e)=>{
+  setSelectedlotesTarj(e)
+  const lstmun = [];
+  e?.map((mn) => {
+    lstmun.push(mn.value);
+  });
+  getMunicipioPorRegion(lstmun)
+ 
 }
+
+
 
   return (
     <GridItem xs={12} sm={12} md={12}>
@@ -146,21 +174,22 @@ const buscarPorMunicipio=()=>{
         </CardHeader>
         <CardBody>
           <Grid container spacing={3}>
+            
             <Grid item xs={3}>
               <MultiSelect
                 style={{ marginBottom: "120px" }}
-                options={municipiosSelect}
-                value={selected}
-                onChange={setSelected}
+                options={lotesTarjSelect}
+                value={selectedlotesTarj}
+                onChange={(e)=>buscarporregion(e)}
                 labelledBy={t("cmb.seleccionar")}
               />
             </Grid>
             <Grid item xs={3}>
               <MultiSelect
                 style={{ marginBottom: "120px" }}
-                options={lotesTarjSelect}
-                value={selectedlotesTarj}
-                onChange={setSelectedlotesTarj}
+                options={municipiosSelect}
+                value={selected}
+                onChange={setSelected}
                 labelledBy={t("cmb.seleccionar")}
               />
             </Grid>
