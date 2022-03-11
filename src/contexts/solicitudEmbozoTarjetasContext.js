@@ -216,7 +216,7 @@ export const SolicitudEmbozoTarjetasContextProvider = (props) => {
     }
   };
 
-  const guardarEtiquetadoTarjetas = async (etiquetados) => {
+  const guardarEtiquetadoTarjetas = async (etiquetados,idLote) => {
     try {
       const url = `${baseUrlPublico}emisiontarjetas/registroEtiqueta`;
       return new Promise((resolve, reject) => {
@@ -235,7 +235,7 @@ export const SolicitudEmbozoTarjetasContextProvider = (props) => {
               type: GUARDAR_EMBOZO_TARJETAS,
               payload: response.data,
             });
-            dispatch(getEtiquedadoBeneficiarios());
+            dispatch(getEtiquedadoBeneficiariosLote(idLote));
           })
           .catch((error) => {
             /**

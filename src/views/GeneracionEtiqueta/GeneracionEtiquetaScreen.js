@@ -74,7 +74,7 @@ export const GeneracionEtiquetaScreen = () => {
 
   const onClickGenerarLayout = (e) => {
     console.log("lista etiquetas selected ==>", e);
-    /*
+
     console.log("genarar archivo");
     for (let i = 0; i < e.length; i++) {
       e[i].fechaEntrega = fechaEntrega;
@@ -82,7 +82,6 @@ export const GeneracionEtiquetaScreen = () => {
     console.log("GUARDAR ETIQUETADO ===>", e);
     setListaEtiquetado(e);
     setDialogConfirmar(true);
-    */
   };
 
   /**
@@ -90,13 +89,10 @@ export const GeneracionEtiquetaScreen = () => {
    * Guarda los beneficiarios etiquetados
    */
   const guardarLayourEtiquetas = () => {
-    guardarEtiquetadoTarjetas(listaEtiquetado);
+    guardarEtiquetadoTarjetas(listaEtiquetado,idLote);
     setDialogConfirmar(false);
     //getEtiquedadoBeneficiarios();
-    /**
-     * despues de guardar realiza la busqueda por el lote
-     */
-    getEtiquedadoBeneficiariosLote(idLote);
+    //getEtiquedadoBeneficiariosLote(idLote);
   };
 
   /**
@@ -251,9 +247,7 @@ export const GeneracionEtiquetaScreen = () => {
                       return (
                         <TableRow
                           hover
-                          onClick={(event) =>
-                            handleClick(event, row)
-                          }
+                          onClick={(event) => handleClick(event, row)}
                           role="checkbox"
                           aria-checked={isItemSelected}
                           tabIndex={-1}
