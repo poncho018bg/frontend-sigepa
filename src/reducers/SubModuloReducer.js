@@ -9,9 +9,10 @@ export default (state, action) => {
 
     switch (action.type) {
         case GET_SUBMODULOS:
+           
             return {
                 ...state,
-                submoduloList: action.payload
+                submoduloList: action.payload.sort((a, b) => (a.fcfecharegistro < b.fcfecharegistro) ? 1 : -1)
 
             };
         case GET_MODULO_SUBMODULOS:
