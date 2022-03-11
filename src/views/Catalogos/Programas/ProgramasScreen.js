@@ -44,7 +44,7 @@ export const ProgramasScreen = () => {
     changePage, getByParametros, changePageSizes } = useContext(ProgramasContext);
 
   const { getTipoBeneficiarios } = useContext(TiposBeneficiariosContext);
-  const { getEdadesBeneficiarios } = useContext(EdadesBeneficiariosContext);
+  const { getEdadesBeneficiariosActivos } = useContext(EdadesBeneficiariosContext);
 
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export const ProgramasScreen = () => {
 
     });
     getTipoBeneficiarios();
-    getEdadesBeneficiarios();
+    getEdadesBeneficiariosActivos();
 
   }, [size,page])
 

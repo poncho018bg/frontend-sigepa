@@ -128,7 +128,7 @@ export const PuntosEntregaContextProvider = props => {
             const url = `${baseUrlPublico}lotes/tarjetasparalotes`;
             return new Promise((resolve, reject) => {
                 axios.post(url, lstmunicipios, {
-                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json', Authorization: 'Bearer ' + UserService}
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json', Authorization: 'Bearer ' +  sessionStorage.getItem('token')}
                 }).then(response => {
                     resolve(response);
                     dispatch({

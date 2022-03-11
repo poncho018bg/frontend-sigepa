@@ -32,8 +32,21 @@ export const PeriodicidadApoyosContextProvider = props => {
         try {
             const { page, size } = state;
             const result = await axiosGet(`periodicidadApoyos?page=${page}&size=${size}`);
-            console.log(result._embedded);
-            console.log(result._embedded.periodicidadApoyos);
+          
+            dispatch({
+                type: GET_PERIODICIDAD_APOYOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const getPeriodicidadApoyosActivos = async () => {
+        try {
+           
+            const result = await axiosGet(`periodicidadApoyos/search/findByActivoTrue`);
+            
             dispatch({
                 type: GET_PERIODICIDAD_APOYOS,
                 payload: result
@@ -157,6 +170,7 @@ export const PeriodicidadApoyosContextProvider = props => {
                 size: state.size,
                 total: state.total,
                 getPeriodicidadApoyos,
+                getPeriodicidadApoyosActivos,
                 registrarPeriodicidadApoyos,
                 actualizarPeriodicidadApoyos,
                 eliminarPeriodicidadApoyos,

@@ -76,9 +76,9 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     const { setShowModalUpdate } = useContext(ModalContextUpdate);
 
     const classes = useStyles();   
-    const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);
-    const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
-    const { programasList, get } = useContext(ProgramasContext);
+    const { getTiposApoyosActivos, tiposApoyosList } = useContext(TiposApoyosContext);
+    const { getPeriodicidadApoyosActivos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
+    const { programasList, getCien } = useContext(ProgramasContext);
     const { apoyoservicioList, getApoyoServicio } = useContext(ApoyoServicioContext);
     const { numeroApoyosList, getNumeroApoyos } = useContext(NumeroApoyosContext);
     const { actividadescontinuarList, getActividadesContinuar } = useContext(ActividadesContinuarContext)
@@ -100,10 +100,10 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
     useEffect(() => {
-        getTiposApoyos();
+        getTiposApoyosActivos();
         getActividadesContinuar();
-        getPeriodicidadApoyos();
-        get();
+        getPeriodicidadApoyosActivos();
+        getCien();
         getNumeroApoyos();
         getApoyoServicio();
 

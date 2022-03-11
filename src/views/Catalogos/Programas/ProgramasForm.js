@@ -56,7 +56,7 @@ export const ProgramasForm = () => {
   const { t } = useTranslation();
   const { registrar } = useContext(ProgramasContext);
   const { tiposBeneficiariosList,getTipoBeneficiariosActivos} = useContext(TiposBeneficiariosContext);
-  const { edadesBeneficiariosList } = useContext(EdadesBeneficiariosContext);
+  const { edadesBeneficiariosList ,getEdadesBeneficiariosActivos } = useContext(EdadesBeneficiariosContext);
   const [loading, setLoading] = useState(false);
   const classes = useStyles();
   let history = useHistory();
@@ -106,6 +106,7 @@ export const ProgramasForm = () => {
     cargarFormioComplemento();
     console.log("Esto es lo que trae la consulta formioComplemento", formioComplemento);
     getTipoBeneficiariosActivos();
+    getEdadesBeneficiariosActivos();
   }, []);
 
   useEffect(() => {
