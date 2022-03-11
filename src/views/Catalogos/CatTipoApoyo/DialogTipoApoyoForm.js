@@ -94,9 +94,9 @@ export const DialogTipoApoyoForm = (props) => {
    */
   const classes = useStyles();
   const { tipoApoyoEditar } = useSelector((state) => state.tipoApoyo);
-  const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);
+  const { getTiposApoyosActivos, tiposApoyosList } = useContext(TiposApoyosContext);
 
-  const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(
+  const { getPeriodicidadApoyosActivos, periodicidadApoyosList } = useContext(
     PeriodicidadApoyosContext
   );
   const { programasList, getCien } = useContext(ProgramasContext);
@@ -142,9 +142,9 @@ export const DialogTipoApoyoForm = (props) => {
   };
 
   useEffect(() => {
-    getTiposApoyos();
+    getTiposApoyosActivos();
     getActividadesContinuar();
-    getPeriodicidadApoyos();
+    getPeriodicidadApoyosActivos();
     getCien();
     getNumeroApoyos();
     getApoyoServicio();

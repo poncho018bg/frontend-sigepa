@@ -36,8 +36,18 @@ export const EdadesBeneficiariosContextProvider = props => {
         try {
             const { page, size } = state;
             const result = await axiosGet(`edadesBeneficiarios?page=${page}&size=${size}`);
-            console.log(result._embedded);
-            console.log(result._embedded.edadesBeneficiarios);
+            dispatch({
+                type: GET_EDADES_BENEFICIARIOS,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const getEdadesBeneficiariosActivos = async () => {
+        try {
+            const result = await axiosGet(`edadesBeneficiarios/search/findByActivoTrue`);           
             dispatch({
                 type: GET_EDADES_BENEFICIARIOS,
                 payload: result
@@ -188,6 +198,7 @@ export const EdadesBeneficiariosContextProvider = props => {
                 size: state.size,
                 total: state.total,
                 getEdadesBeneficiarios,
+                getEdadesBeneficiariosActivos,
                 registrarEdadesBeneficiarios,
                 actualizarEdadesBeneficiarios,
                 eliminarEdadesBeneficiarios,

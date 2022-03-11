@@ -57,7 +57,7 @@ export const ProgramasEdit = () => {
   const [msjConfirmacion, setMsjConfirmacion] = useState('');
 
   const { tiposBeneficiariosList, getTipoBeneficiariosActivos } = useContext(TiposBeneficiariosContext);
-  const { edadesBeneficiariosList } = useContext(EdadesBeneficiariosContext);
+  const { edadesBeneficiariosList, getEdadesBeneficiariosActivos } = useContext(EdadesBeneficiariosContext);
 
   const [municipiosSelect, setMunicipiosSelect] = useState([]);
 
@@ -96,6 +96,7 @@ export const ProgramasEdit = () => {
     getTipoBeneficiariosActivos();
     const cargarFormioComplemento = () => dispatch(formioComplementoLoading());
     cargarFormioComplemento();
+    getEdadesBeneficiariosActivos();
   }, []);
 
   useEffect(() => {

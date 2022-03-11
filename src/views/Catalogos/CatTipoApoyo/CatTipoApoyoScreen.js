@@ -48,8 +48,8 @@ export const CatTipoApoyoScreen = () => {
     const [personaSeleccionada, setPersonaSeleccionada] = useState();
     const { showModalUpdate,  setShowModalUpdate }
         = useContext(ModalContextUpdate);
-    const { getPeriodicidadApoyos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
-    const { getTiposApoyos, tiposApoyosList } = useContext(TiposApoyosContext);
+    const { getPeriodicidadApoyosActivos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
+    const { getTiposApoyosActivos, tiposApoyosList } = useContext(TiposApoyosContext);
     const [idApoyosl, setIdApoyosl] = useState('');
     const [idPeriodicidadsl, setIdPeriodicidadsl] = useState('');
     const { eliminarApoyo } = useContext(ApoyoContext)
@@ -62,8 +62,8 @@ export const CatTipoApoyoScreen = () => {
 
 
     useEffect(() => {
-        getPeriodicidadApoyos()
-        getTiposApoyos()
+        getPeriodicidadApoyosActivos()
+        getTiposApoyosActivos()
     }, []);
 
     useEffect(() => {
