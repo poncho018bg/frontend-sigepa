@@ -17,6 +17,7 @@ import {
   TableContainer,
   TextField,
   MenuItem,
+  FormHelperText,
 } from "@material-ui/core";
 import Button from "components/CustomButtons/Button.js";
 import { useTranslation } from "react-i18next";
@@ -62,6 +63,7 @@ export const GeneracionEventoScreen = () => {
   const [error, setError] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [msjConfirmacion, setMsjConfirmacion] = useState('');
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     getPuntosEntrega();
@@ -128,7 +130,23 @@ export const GeneracionEventoScreen = () => {
       });
   };
 
-  const confirmacionDialog = (e) => {    
+  const isObjEmpty = (obj) => {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  };
+  
+  const confirmacionDialog = (e) => {   
+    const errors = {};
+    if (dsEvento === "") {
+      errors.dsEvento = `${t('msg.debeselecionarunembozo')}`;
+    }
+    if (puntoentrega === "") {
+      errors.puntoentrega = `${t('msg.debeselecionarunafecha')}`;
+    }
+    if (!isObjEmpty(errors)) {
+      setErrors(errors);
+      return;
+    }
+
     setShowModalConfirmacion(true);   
 }
 
@@ -207,7 +225,7 @@ const buscarporregion=(e)=>{
           <Grid container spacing={3}>
             <Grid item xs={3}>
               <TextField
-                id="paterno"
+                id="dsEvento"
                 label="Número de Evento-Lote"
                 variant="outlined"
                 fullWidth
@@ -215,6 +233,11 @@ const buscarporregion=(e)=>{
                 value={dsEvento}
                 onChange={(e) => setDsEvento(e.target.value)}
               />
+              {errors.dsEvento && (
+                <FormHelperText error={errors.dsEvento}>
+                  {errors.dsEvento}
+                </FormHelperText>
+              )}
             </Grid>
             <Grid item xs={3}>
               <TextField
@@ -235,6 +258,11 @@ const buscarporregion=(e)=>{
                   </MenuItem>
                 ))}
               </TextField>
+              {errors.puntoentrega && (
+                <FormHelperText error={errors.puntoentrega}>
+                  {errors.puntoentrega}
+                </FormHelperText>
+              )}
             </Grid>
             <Grid item xs={3}>
               <Button

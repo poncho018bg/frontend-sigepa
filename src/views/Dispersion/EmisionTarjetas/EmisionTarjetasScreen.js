@@ -23,6 +23,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  FormHelperText,
 } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { DropzoneAreaBase } from "material-ui-dropzone";
@@ -74,7 +75,8 @@ export const EmisionTarjetasScreen = () => {
   );
   const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
   const [tarjetaslist, setTarjetaslist] = React.useState([]);
-  const [error] = useState(false);
+  const [error,setError ] = useState(false);
+  const [errordoc,setErrordoc ] = useState({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [msjConfirmacion, setMsjConfirmacion] = useState("");
   const [fechaVig, setFechaVig] = React.useState([]);
@@ -95,7 +97,13 @@ export const EmisionTarjetasScreen = () => {
     console.log(archivoPrograma);
   };
 
+  const isObjEmpty = (obj) => {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  };
+
   const guardarTarjetas = () => {
+   
+
     console.log("Metodo guardarTarjetas", tarjetaslist);
     registrarTarjetasEmbozo(tarjetaslist)
       .then((response) => {
@@ -121,6 +129,16 @@ export const EmisionTarjetasScreen = () => {
   };
 
   const mensajeConfirmation = () => {
+    const errorsd = {};
+    if (tarjetaslist.length === 0) {
+      errorsd.tarjetaslist = `${t('msg.debeimportararchivo')}`;
+    }
+    
+    if (!isObjEmpty(errorsd)) {
+      setErrordoc(errorsd);
+      return;
+    }
+
     setShowModalConfirmacion(true);
   };
 
@@ -225,7 +243,13 @@ export const EmisionTarjetasScreen = () => {
                       {console.log("doc=>", archivoPrograma)}
                     </>
                   )}
+                 
                 </CSVReader>
+                {errordoc.tarjetaslist && (
+                <FormHelperText error={errordoc.tarjetaslist}>
+                  {errordoc.tarjetaslist}
+                </FormHelperText>
+              )}
               </Grid>
             </Grid>
 
