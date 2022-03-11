@@ -46,7 +46,7 @@ const pasos = [
     'Características adicionales de la solicitante',
     'Registro finalizado'
 ];
-const ORIGEN_SOLICITUD_AGENTE_MODULO = 'URL'
+const ORIGEN_SOLICITUD_AGENTE_MODULO = 'Registro por URL'
 
 export const RegistroProgramas = () => {
     const queryParams = new URLSearchParams(window.location.search);

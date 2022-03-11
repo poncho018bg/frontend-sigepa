@@ -43,7 +43,7 @@ const pasos = [
     'Características adicionales de la solicitante',
     'Registro finalizado'
 ];
-const ORIGEN_SOLICITUD_AGENTE_MODULO = 'MODULO'
+const ORIGEN_SOLICITUD_AGENTE_MODULO = 'Agente de módulo'
 export const RegistroSolicitud = () => {
     //id del programa
     let query = useLocation();
