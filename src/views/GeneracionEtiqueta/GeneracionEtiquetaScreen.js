@@ -52,7 +52,7 @@ export const GeneracionEtiquetaScreen = () => {
    * Datos del paginador
    */
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(2);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   //Useeffects
   useEffect(() => {
@@ -286,7 +286,7 @@ export const GeneracionEtiquetaScreen = () => {
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[2, 10, 25, 100]}
+            rowsPerPageOptions={[10, 25, 100]}
             component="div"
             count={etiquetadoBeneficiarios.length}
             rowsPerPage={rowsPerPage}
