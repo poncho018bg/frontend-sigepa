@@ -179,6 +179,7 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
             fullWidth
             name="motivoRechazo"
             value={motivoRechazo}
+            disabled={desactivarGuardarMotivo}
             onChange={(e) => {
               setMotivoRechazo(e.target.value);
               console.log("bandeja rechazo 2 ====>", desactivarGuardarMotivo);
