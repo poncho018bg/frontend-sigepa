@@ -335,10 +335,11 @@ export const RegistroSolicitudContextProvider = (props) => {
 
   const getSolicitudesPorParametros = async (parametros) => {
     try {
-      const url = `${baseUrlPublico}solicitudOverride/consultarSolicitudes/${parametros.paterno}/${parametros.materno}/${parametros.nombre}/${parametros.idPrograma}/${parametros.folio}/${parametros.idEstatus}`;
+      const url = `${baseUrlPublico}solicitudOverride/consultarSolicitudes`;
+      console.log('parametros=>',parametros)
       return new Promise((resolve, reject) => {
         axios
-          .get(url, {
+          .post(url, parametros,{
             headers: {
               Accept: "application/json",
               "Content-type": "application/json",
