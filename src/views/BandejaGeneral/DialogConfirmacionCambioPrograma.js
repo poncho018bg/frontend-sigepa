@@ -31,7 +31,7 @@ export default function DialogConfirmacionCambioPrograma(props) {
       <DialogTitle id="alert-dialog-title">{"Confirmación"}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          ¿Estas seguro de cambiar el programa?
+          ¿Está seguro de realizar el cambio de programa de apoyo?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
