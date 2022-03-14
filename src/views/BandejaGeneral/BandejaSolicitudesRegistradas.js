@@ -33,6 +33,7 @@ import { stylesArchivo } from "css/stylesArchivo";
 import { DialogEstatusGeneral } from "./DialogEstatusGeneral";
 import { DialogEstatusSeleccionadas } from "./DialogEstatusSeleccionadas";
 import { DialogEstatusReasignada } from "./DialogEstatusReasignada";
+import DialogConfirmacionCambioPrograma from "./DialogConfirmacionCambioPrograma";
 
 import { useTranslation } from "react-i18next";
 import { RegistroSolicitudContext } from "contexts/registroSolicitudContext";
@@ -50,6 +51,7 @@ export const BandejaSolicitudesRegistradas = () => {
     bandejaCambioEstatusReasignada,
     getCoberturaProgramas,
     coberturalist,
+    guardarCambioPrograma
   } = useContext(RegistroSolicitudContext);
   const { getCien, programasList } = useContext(ProgramasContext);
   const { getMunicipiosAll, municipiosList } = useContext(MunicipiosContext);
@@ -81,6 +83,8 @@ export const BandejaSolicitudesRegistradas = () => {
   const [apellidopaterno, setApellidopaterno] = useState("");
   const [apellidoMaterno, setApellidoMaterno] = useState("");
   const [folio, setFolio] = useState("");
+
+  const [dialogConfirmar, setDialogConfirmar] = useState(false);
 
   useEffect(() => {
     getCien();
@@ -272,12 +276,45 @@ export const BandejaSolicitudesRegistradas = () => {
       setLstMunicipios(municipios);
     }
   }, [programa, coberturalist]);
+
+  const [datosBeneficiario, setDatosBeneficiario] = useState();
+  const [idProgramaCambio, setIdProgramaCambio] = useState();
+
+  const onChangePrograma = (datos, e) => {
+    console.log("datos del beneficiario ==>", datos);
+    console.log("datos del programa seleccionado ==>", e);
+    setDatosBeneficiario(datos);
+    setIdProgramaCambio(e);
+    setDialogConfirmar(true);
+  };
+
+  const guardarCambio = () => {
+    let datosEnviar = {
+      id_mv_bandeja: datosBeneficiario.id,
+      id_programa: idProgramaCambio.target.value,
+    };
+    /**
+     * estos datos son para que haga la consulta de nuevo
+     */
+    let parametros = {
+      idEstatus: estatus === "" ? "Registradas" : estatus,
+      idPrograma: programa === "" ? "NULL" : programa,
+      idMunicipio: municipio === "" ? "NULL" : municipio,
+      paterno: apellidopaterno === "" ? "NULL" : apellidopaterno,
+      materno: apellidoMaterno === "" ? "NULL" : apellidoMaterno,
+      nombre: nombre === "" ? "NULL" : nombre,
+      folio: folio === "" ? "NULL" : folio,
+    };
+    guardarCambioPrograma(datosEnviar, parametros);
+    setDialogConfirmar(false);
+  };
+
   return (
     <GridItem xs={12} sm={12} md={12}>
       <Card>
         <CardHeader color="primary">
           <h4 className={classes.cardTitleWhite}>
-          {t('pnl.bandejageneralsolicitudes')} 
+            {t("pnl.bandejageneralsolicitudes")}
           </h4>
           <p className={classes.cardCategoryWhite}></p>
           <CardActions></CardActions>
@@ -287,7 +324,7 @@ export const BandejaSolicitudesRegistradas = () => {
             <Grid item xs={3}>
               <TextField
                 id="paterno"
-                label={t('lbl.apellidopaterno')}
+                label={t("lbl.apellidopaterno")}
                 variant="outlined"
                 name={apellidopaterno}
                 fullWidth
@@ -298,7 +335,7 @@ export const BandejaSolicitudesRegistradas = () => {
             <Grid item xs={3}>
               <TextField
                 id="materno"
-                label={t('lbl.apellidomaterno')}
+                label={t("lbl.apellidomaterno")}
                 variant="outlined"
                 name={apellidoMaterno}
                 fullWidth
@@ -310,7 +347,7 @@ export const BandejaSolicitudesRegistradas = () => {
             <Grid item xs={3}>
               <TextField
                 id="nombre"
-                label={t('lbl.nombre')}
+                label={t("lbl.nombre")}
                 variant="outlined"
                 name={nombre}
                 fullWidth
@@ -321,7 +358,7 @@ export const BandejaSolicitudesRegistradas = () => {
             <Grid item xs={3}>
               <TextField
                 id="folio"
-                label={t('lbl.folio')}
+                label={t("lbl.folio")}
                 variant="outlined"
                 name={folio}
                 fullWidth
@@ -332,7 +369,7 @@ export const BandejaSolicitudesRegistradas = () => {
             <Grid item xs={3}>
               <TextField
                 variant="outlined"
-                label={t('lbl.seleccionaunprograma')}
+                label={t("lbl.seleccionaunprograma")}
                 select
                 fullWidth
                 name="programa"
@@ -353,7 +390,7 @@ export const BandejaSolicitudesRegistradas = () => {
             <Grid item xs={3}>
               <TextField
                 variant="outlined"
-                label={t('cmb.seleccionamunicipio')}
+                label={t("cmb.seleccionamunicipio")}
                 select
                 fullWidth
                 name="municipio"
@@ -378,7 +415,7 @@ export const BandejaSolicitudesRegistradas = () => {
                 onClick={buscarSolitudes}
               >
                 <SearchIcon />
-                {t('lbl.buscar')}
+                {t("lbl.buscar")}
               </Button>
             </Grid>
           </Grid>
@@ -391,7 +428,7 @@ export const BandejaSolicitudesRegistradas = () => {
                   fullWidth
                   onClick={validarSeleccionadas}
                 >
-                  {t('btn.validarseleccionadas')}
+                  {t("btn.validarseleccionadas")}
                 </Button>
               </Grid>
             </GridItem>
@@ -400,14 +437,17 @@ export const BandejaSolicitudesRegistradas = () => {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow key="898as">
-                <TableCell align="center">{t('cmb.seleccionar')} </TableCell>
-                <TableCell align="center">{t('dgv.folio')}  </TableCell>
-                <TableCell align="center">{t('dgv.estatus')}  </TableCell>
-                <TableCell align="center">{t('dgv.solicitante')}  </TableCell>
-                <TableCell align="center">{t('dgv.programaapoyo')}  </TableCell>
-                <TableCell align="center">{t('dgv.fecharegistro')}  </TableCell>
-                <TableCell align="center">{t('dgv.observaciones')}  </TableCell>
-                <TableCell align="center">{t('dgv.motivobajarechazo')}  </TableCell>
+                <TableCell align="center">{t("cmb.seleccionar")} </TableCell>
+                <TableCell align="center">{t("dgv.folio")} </TableCell>
+                <TableCell align="center">{t("dgv.estatus")} </TableCell>
+                <TableCell align="center">{t("dgv.solicitante")} </TableCell>
+                <TableCell align="center">{t("dgv.programaapoyo")} </TableCell>
+                <TableCell align="center">Cambiar Programa de Apoyo </TableCell>
+                <TableCell align="center">{t("dgv.fecharegistro")} </TableCell>
+                <TableCell align="center">{t("dgv.observaciones")} </TableCell>
+                <TableCell align="center">
+                  {t("dgv.motivobajarechazo")}{" "}
+                </TableCell>
                 <TableCell align="center"> {t("dgv.acciones")}</TableCell>
               </TableRow>
             </TableHead>
@@ -448,12 +488,33 @@ export const BandejaSolicitudesRegistradas = () => {
                       <TableCell align="center">{row.nombre}</TableCell>
                       <TableCell align="center">{row.dsprograma}</TableCell>
                       <TableCell align="center">
+                        <TextField
+                          variant="outlined"
+                          label="Programas"
+                          select
+                          fullWidth
+                          name="cambiarPrograma"
+                          onChange={(e) => {
+                            onChangePrograma(row, e);
+                          }}
+                        >
+                          <MenuItem value="">
+                            <em>{t("cmb.ninguno")}</em>
+                          </MenuItem>
+                          {programasList.map((item) => (
+                            <MenuItem key={item.id} value={item.id}>
+                              {item.dsprograma}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      </TableCell>
+                      <TableCell align="center">
                         {moment(row.fechaRegistro).format(
                           "MMMM DD YYYY, h:mm:ss a"
                         )}
                       </TableCell>
                       {row.validarObservaciones === "" ? (
-                        <TableCell align="center">{t('lbl.no')}</TableCell>
+                        <TableCell align="center">{t("lbl.no")}</TableCell>
                       ) : (
                         <TableCell align="center">
                           <Tooltip
@@ -469,7 +530,7 @@ export const BandejaSolicitudesRegistradas = () => {
                       <TableCell align="center">
                         <Tooltip
                           id="tooltip-expediente"
-                          title={t('lbl.verexpediente')}
+                          title={t("lbl.verexpediente")}
                           placement="top"
                         >
                           <IconButton
@@ -481,7 +542,7 @@ export const BandejaSolicitudesRegistradas = () => {
                         </Tooltip>
                         <Tooltip
                           id="tooltip-regresar"
-                          title={t('lbl.reasignar')}
+                          title={t("lbl.reasignar")}
                           placement="top"
                         >
                           <IconButton
@@ -518,7 +579,8 @@ export const BandejaSolicitudesRegistradas = () => {
                   fullWidth
                   onClick={validarSeleccionadasGeneral}
                 >
-                  {t('lbl.validarerparte')}  {solicitudParametrosBandeja.length} {t('lbl.seleccionadassedparte')}
+                  {t("lbl.validarerparte")} {solicitudParametrosBandeja.length}{" "}
+                  {t("lbl.seleccionadassedparte")}
                 </Button>
               </Grid>
             </GridItem>
@@ -540,6 +602,11 @@ export const BandejaSolicitudesRegistradas = () => {
         showDialogEstatusReasignada={showDialogEstatusReasignada}
         setShowDialogEstatusReasignada={setShowDialogEstatusReasignada}
         handleCambiarEstatusReasignada={handleCambiarEstatusReasignada}
+      />
+      <DialogConfirmacionCambioPrograma
+        dialogConfirmar={dialogConfirmar}
+        setDialogConfirmar={setDialogConfirmar}
+        guardarCambio={guardarCambio}
       />
     </GridItem>
   );
