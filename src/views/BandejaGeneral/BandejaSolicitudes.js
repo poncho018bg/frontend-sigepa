@@ -82,12 +82,12 @@ export const BandejaSolicitudes = () => {
 
   const buscarSolitudes = () => {
     let solcitudFilter = {
-      paterno: apellidopaterno === "" ? "0" : apellidopaterno,
-      materno: apellidoMaterno === "" ? "0" : apellidoMaterno,
-      nombre: nombre === "" ? "0" : nombre,
-      idPrograma: programa === "" ? "0" : programa,
-      folio: folio === "" ? "0" : folio,
-      idEstatus: estatus === "" ? "0" : estatus,
+      paterno: apellidopaterno === "" ? "NULL" : apellidopaterno,
+      materno: apellidoMaterno === "" ? "NULL" : apellidoMaterno,
+      nombre: nombre === "" ? "NULL" : nombre,
+      idPrograma: programa === "" ? "NULL" : programa,
+      folio: folio === "" ? "NULL" : folio,
+      idEstatus: estatus === "" ? "NULL" : estatus,
     };
     console.log(solcitudFilter);
     getSolicitudesPorParametros(solcitudFilter);
