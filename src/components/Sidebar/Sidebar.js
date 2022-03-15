@@ -15,20 +15,19 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Hidden from "@material-ui/core/Hidden";
 import Collapse from "@material-ui/core/Collapse";
 import Icon from "@material-ui/core/Icon";
-import PersonIcon from '@material-ui/icons/Person';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import { red } from '@material-ui/core/colors';
-import IconButton from '@material-ui/core/IconButton';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import PersonIcon from "@material-ui/icons/Person";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import { red } from "@material-ui/core/colors";
+import IconButton from "@material-ui/core/IconButton";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { Typography, Avatar } from "@material-ui/core";
 
 // core components
 import { DialogLogOut } from "views/Dialogs/DialogLogOut";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import sidebarStyle from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 import { useHistory } from "react-router";
-
 
 const useStyles = makeStyles(sidebarStyle);
 
@@ -38,35 +37,34 @@ const useStylesCard = makeStyles((theme) => ({
   },
   media: {
     height: 0,
-    paddingTop: '56.25%', // 16:9
+    paddingTop: "56.25%", // 16:9
   },
   expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
       duration: theme.transitions.duration.shortest,
     }),
   },
   expandOpen: {
-    transform: 'rotate(180deg)',
+    transform: "rotate(180deg)",
   },
   avatar: {
     backgroundColor: red[500],
   },
   title: {
-    color: '#fff !important',
-    background: 'transparent',
-    wordBreak: 'break-all',
-    width: '3em !important',
+    color: "#fff !important",
+    background: "transparent",
+    wordBreak: "break-all",
+    width: "3em !important",
   },
   subheader: {
-    color: '#fff',
+    color: "#fff",
   },
   card: {
-    color: '#fff !important',
-    background: 'transparent'
-  }
-
+    color: "#fff !important",
+    background: "transparent",
+  },
 }));
 
 var ps;
@@ -79,7 +77,6 @@ function SidebarWrapper({ className, user, headerLinks, links }) {
   const sidebarWrapper = React.useRef();
 
   React.useEffect(() => {
-
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(sidebarWrapper.current, {
         suppressScrollX: true,
@@ -102,9 +99,12 @@ function SidebarWrapper({ className, user, headerLinks, links }) {
 }
 
 const nombre = () => {
-  return (<div>{sessionStorage.getItem('firstName')} {sessionStorage.getItem('lastName')}</div>)
-}
-
+  return (
+    <div>
+      {sessionStorage.getItem("firstName")} {sessionStorage.getItem("lastName")}
+    </div>
+  );
+};
 
 function Sidebar(props) {
   const kcc = useSelector((state) => state.auth);
@@ -498,9 +498,7 @@ function Sidebar(props) {
                 <Typography className={classes.title}>{nombre()}</Typography>
               }
               subheader={
-                <Typography className={classes.title}>
-                  {roles()}
-                </Typography>
+                <Typography className={classes.title}>{roles()}</Typography>
               }
             />
           </Card>
@@ -641,25 +639,31 @@ function Sidebar(props) {
     sessionStorage.removeItem("groups");
   }
 
-  function roles() {   
+  function roles() {
     let rolessesion = "";
     if (IsJsonString(sessionStorage.getItem("groups"))) {
       rolessesion = JSON.parse(sessionStorage.getItem("groups"));
     } else {
       rolessesion = JSON.stringify(sessionStorage.getItem("groups"));
-    }   
-    console.log('rolessesion=>>>>',rolessesion)
-    return rolessesion?.map((rol) => { 
-          return <>{rol.replace("/",'')}</>;
-    });
+    }
+    console.log("rolessesion=>>>>", rolessesion);
+    if (Array.isArray(rolessesion)) {
+      console.log('ES ARRAY')
+      return rolessesion?.map((rol) => {
+        return <>{rol.replace("/", "")}</>;
+      });
+    } else {     
+      console.log('NO ES ARRAY') 
+        return <>{rolessesion.replace("/", "")}</>;     
+    }
   }
 }
 
 function IsJsonString(str) {
   try {
-      JSON.parse(str);
+    JSON.parse(str);
   } catch (e) {
-      return false;
+    return false;
   }
   return true;
 }
