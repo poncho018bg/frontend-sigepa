@@ -44,6 +44,22 @@ export const ApoyoServicioContextProvider = props => {
         }
     }
 
+    const getApoyoServicioActivos = async () => {
+
+        try {
+            
+            const resultado = await axiosGet(`apoyosServicios/search/findByActivoTrue`);
+            
+            dispatch({
+                type: GET_APOYOSERVICIO,
+                payload: resultado
+            })
+        } catch (error) {
+
+            console.log(error);
+        }
+    }
+
 
     const registrarApoyoSevicio = async apoyosServicios => {
 
@@ -185,6 +201,7 @@ export const ApoyoServicioContextProvider = props => {
                 size: state.size,
                 total: state.total,
                 getApoyoServicio,
+                getApoyoServicioActivos,
                 registrarApoyoSevicio,
                 eliminarApoyoServicio,
                 actualizarApoyoServicio,

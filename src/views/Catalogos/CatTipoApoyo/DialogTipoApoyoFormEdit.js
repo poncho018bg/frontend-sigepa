@@ -79,7 +79,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     const { getTiposApoyosActivos, tiposApoyosList } = useContext(TiposApoyosContext);
     const { getPeriodicidadApoyosActivos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
     const { programasList, getCien } = useContext(ProgramasContext);
-    const { apoyoservicioList, getApoyoServicio } = useContext(ApoyoServicioContext);
+    const { apoyoservicioList, getApoyoServicioActivos } = useContext(ApoyoServicioContext);
     const { numeroApoyosList, getNumeroApoyos } = useContext(NumeroApoyosContext);
     const { actividadescontinuarList, getActividadesContinuar } = useContext(ActividadesContinuarContext)
     const { actualizarApoyo } = useContext(ApoyoContext)
@@ -105,7 +105,7 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
         getPeriodicidadApoyosActivos();
         getCien();
         getNumeroApoyos();
-        getApoyoServicio();
+        getApoyoServicioActivos();
 
         setSelectedTipApoy(personaSeleccionada.idTipoApoyo)
         setSelectedActividadesContinuar(personaSeleccionada.idActividadContinuidadApoyo)
