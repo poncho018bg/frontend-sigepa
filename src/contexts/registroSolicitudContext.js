@@ -101,7 +101,9 @@ export const RegistroSolicitudContextProvider = (props) => {
 
   const getEstadoCivil = async () => {
     try {
-      const result = await axiosGetSinToken(`estadosCiviles/search/findByActivoTrue`);
+      const result = await axiosGetSinToken(
+        `estadosCiviles/search/findByActivoTrue`
+      );
       console.log("RESULT Estudios -->", result);
       dispatch({
         type: GET_ESTADO_CIVIL,
@@ -333,11 +335,11 @@ export const RegistroSolicitudContextProvider = (props) => {
 
   const getSolicitudesPorParametros = async (parametros) => {
     try {
-      const url = `${baseUrlPublico}solicitudOverride/consultarSolicitudes`;
-      console.log('parametros=>',parametros)
+      const url = `${baseUrlPublico}solicitudOverride/consultarSolicitudes/${parametros.idPrograma}/${parametros.idEstatus}/${parametros.paterno}/${parametros.materno}/${parametros.nombre}/${parametros.folio}`;
+      console.log("parametros=>", parametros);
       return new Promise((resolve, reject) => {
         axios
-          .post(url, parametros,{
+          .get(url,{
             headers: {
               Accept: "application/json",
               "Content-type": "application/json",
@@ -864,6 +866,32 @@ export const RegistroSolicitudContextProvider = (props) => {
     }
   };
 
+  const guardarCambioPrograma = async (cambioPrograma, parametros) => {
+    try {
+      const url = `${baseUrlPublico}bandejaSolicitudOverride/cambioPrograma`;
+      return new Promise((resolve, reject) => {
+        axios
+          .post(url, cambioPrograma, {
+            headers: {
+              Accept: "application/json",
+              "Content-type": "application/json",
+            },
+          })
+          .then((response) => {
+            console.log("RESPONSE=>", response.data);
+            resolve(response);
+            dispatch(getSolParametrosBandeja(parametros));
+          })
+          .catch((error) => {
+            console.log("Err", error);
+            reject(error);
+          });
+      });
+    } catch (error) {
+      console.log("Err", error);
+    }
+  };
+
   return (
     <RegistroSolicitudContext.Provider
       value={{
@@ -910,6 +938,7 @@ export const RegistroSolicitudContextProvider = (props) => {
         bandejaAprobarCambioEstatusReasignada,
         getCoberturaProgramas,
         reasignarSuspendida,
+        guardarCambioPrograma,
       }}
     >
       {props.children}
