@@ -105,7 +105,7 @@ export const DialogTipoApoyoForm = (props) => {
   );
   const { numeroApoyosList, getNumeroApoyos } = useContext(NumeroApoyosContext);
 
-  const { actividadescontinuarList, getActividadesContinuar } = useContext(
+  const { actividadescontinuarList, getActividadesContinuarActivos } = useContext(
     ActividadesContinuarContext
   );
   const { registrarApoyo } = useContext(ApoyoContext);
@@ -143,7 +143,7 @@ export const DialogTipoApoyoForm = (props) => {
 
   useEffect(() => {
     getTiposApoyosActivos();
-    getActividadesContinuar();
+    getActividadesContinuarActivos();
     getPeriodicidadApoyosActivos();
     getCien();
     getNumeroApoyos();
