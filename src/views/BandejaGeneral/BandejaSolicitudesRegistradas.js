@@ -14,6 +14,7 @@ import {
   Grid,
   TextField,
   MenuItem,
+  TableContainer,
 } from "@material-ui/core";
 import Button from "components/CustomButtons/Button.js";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -51,7 +52,7 @@ export const BandejaSolicitudesRegistradas = () => {
     bandejaCambioEstatusReasignada,
     getCoberturaProgramas,
     coberturalist,
-    guardarCambioPrograma
+    guardarCambioPrograma,
   } = useContext(RegistroSolicitudContext);
   const { getCien, programasList } = useContext(ProgramasContext);
   const { getMunicipiosAll, municipiosList } = useContext(MunicipiosContext);
@@ -434,130 +435,143 @@ export const BandejaSolicitudesRegistradas = () => {
             </GridItem>
           </Grid>
           {console.log("xx", selected)}
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow key="898as">
-                <TableCell align="center">{t("cmb.seleccionar")} </TableCell>
-                <TableCell align="center">{t("dgv.folio")} </TableCell>
-                <TableCell align="center">{t("dgv.estatus")} </TableCell>
-                <TableCell align="center">{t("dgv.solicitante")} </TableCell>
-                <TableCell align="center">{t("dgv.programaapoyo")} </TableCell>
-                <TableCell align="center">Cambiar Programa de Apoyo </TableCell>
-                <TableCell align="center">{t("dgv.fecharegistro")} </TableCell>
-                <TableCell align="center">{t("dgv.observaciones")} </TableCell>
-                <TableCell align="center">
-                  {t("dgv.motivobajarechazo")}{" "}
-                </TableCell>
-                <TableCell align="center"> {t("dgv.acciones")}</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {solicitudParametrosBandeja
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row);
-                  const labelId = `${index}`;
+          <TableContainer sx={{ maxHeight: 900 }} sm={{ maxWidth: 900 }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow key="898as">
+                  <TableCell align="center">{t("cmb.seleccionar")} </TableCell>
+                  <TableCell align="center">{t("dgv.folio")} </TableCell>
+                  <TableCell align="center">{t("dgv.estatus")} </TableCell>
+                  <TableCell align="center">{t("dgv.solicitante")} </TableCell>
+                  <TableCell align="center">
+                    {t("dgv.programaapoyo")}{" "}
+                  </TableCell>
+                  <TableCell align="center">
+                    Cambiar Programa de Apoyo{" "}
+                  </TableCell>
+                  <TableCell align="center">
+                    {t("dgv.fecharegistro")}{" "}
+                  </TableCell>
+                  <TableCell align="center">
+                    {t("dgv.observaciones")}{" "}
+                  </TableCell>
+                  <TableCell align="center">
+                    {t("dgv.motivobajarechazo")}{" "}
+                  </TableCell>
+                  <TableCell align="center"> {t("dgv.acciones")}</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {solicitudParametrosBandeja
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const isItemSelected = isSelected(row);
+                    const labelId = `${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ "aria-labelledby": labelId }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
+                    return (
+                      <TableRow
+                        hover
+                        onClick={(event) => handleClick(event, row)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.id}
+                        selected={isItemSelected}
                       >
-                        {row.dsfoliosolicitud}
-                      </TableCell>
-                      <TableCell align="center">
-                        {row.dsestatusregistro}
-                      </TableCell>
-                      <TableCell align="center">{row.nombre}</TableCell>
-                      <TableCell align="center">{row.dsprograma}</TableCell>
-                      <TableCell align="center">
-                        <TextField
-                          variant="outlined"
-                          label="Programas"
-                          select
-                          fullWidth
-                          name="cambiarPrograma"
-                          onChange={(e) => {
-                            onChangePrograma(row, e);
-                          }}
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={isItemSelected}
+                            inputProps={{ "aria-labelledby": labelId }}
+                          />
+                        </TableCell>
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
                         >
-                          <MenuItem value="">
-                            <em>{t("cmb.ninguno")}</em>
-                          </MenuItem>
-                          {programasList.map((item) => (
-                            <MenuItem key={item.id} value={item.id}>
-                              {item.dsprograma}
+                          {row.dsfoliosolicitud}
+                        </TableCell>
+                        <TableCell align="center">
+                          {row.dsestatusregistro}
+                        </TableCell>
+                        <TableCell align="center">{row.nombre}</TableCell>
+                        <TableCell align="center">{row.dsprograma}</TableCell>
+                        <TableCell align="center">
+                          <TextField
+                            label="Programas"
+                            select
+                            fullWidth
+                            className={classes.textField}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            name="cambiarPrograma"
+                            onChange={(e) => {
+                              onChangePrograma(row, e);
+                            }}
+                          >
+                            <MenuItem value="">
+                              <em>{t("cmb.ninguno")}</em>
                             </MenuItem>
-                          ))}
-                        </TextField>
-                      </TableCell>
-                      <TableCell align="center">
-                        {moment(row.fechaRegistro).format(
-                          "MMMM DD YYYY, h:mm:ss a"
+                            {programasList.map((item) => (
+                              <MenuItem key={item.id} value={item.id}>
+                                {item.dsprograma}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </TableCell>
+                        <TableCell align="center">
+                          {moment(row.fechaRegistro).format(
+                            "MMMM DD YYYY, h:mm:ss a"
+                          )}
+                        </TableCell>
+                        {row.validarObservaciones === "" ? (
+                          <TableCell align="center">{t("lbl.no")}</TableCell>
+                        ) : (
+                          <TableCell align="center">
+                            <Tooltip
+                              id="tooltip-expedienteobser"
+                              title={row?.observaciones}
+                              placement="top"
+                            >
+                              <></>
+                            </Tooltip>
+                          </TableCell>
                         )}
-                      </TableCell>
-                      {row.validarObservaciones === "" ? (
-                        <TableCell align="center">{t("lbl.no")}</TableCell>
-                      ) : (
+                        <TableCell align="center">{row.motivobaja}</TableCell>
                         <TableCell align="center">
                           <Tooltip
-                            id="tooltip-expedienteobser"
-                            title={row?.observaciones}
+                            id="tooltip-expediente"
+                            title={t("lbl.verexpediente")}
                             placement="top"
                           >
-                            <></>
+                            <IconButton
+                              aria-label="view"
+                              onClick={() => onSelectVerExpediente(row)}
+                            >
+                              <RemoveRedEyeIcon />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip
+                            id="tooltip-regresar"
+                            title={t("lbl.reasignar")}
+                            placement="top"
+                          >
+                            <IconButton
+                              aria-label="return"
+                              onClick={() => confirmarReasignacion(row)}
+                            >
+                              <ReplayIcon />
+                            </IconButton>
                           </Tooltip>
                         </TableCell>
-                      )}
-                      <TableCell align="center">{row.motivobaja}</TableCell>
-                      <TableCell align="center">
-                        <Tooltip
-                          id="tooltip-expediente"
-                          title={t("lbl.verexpediente")}
-                          placement="top"
-                        >
-                          <IconButton
-                            aria-label="view"
-                            onClick={() => onSelectVerExpediente(row)}
-                          >
-                            <RemoveRedEyeIcon />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip
-                          id="tooltip-regresar"
-                          title={t("lbl.reasignar")}
-                          placement="top"
-                        >
-                          <IconButton
-                            aria-label="return"
-                            onClick={() => confirmarReasignacion(row)}
-                          >
-                            <ReplayIcon />
-                          </IconButton>
-                        </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
           <TablePagination
             rowsPerPageOptions={[25, 50, 75, 100]}
             component="div"

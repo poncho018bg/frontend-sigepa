@@ -28,6 +28,8 @@ export const SuspensionExpediente = forwardRef((props) => {
     idProgramaExpediente,
     setDtosgrlsprint,
     dtosgrlsprint,
+    setSuspendido,
+    bajado
   } = props;
   const classes = useStyles();
   //context
@@ -74,6 +76,7 @@ export const SuspensionExpediente = forwardRef((props) => {
         bandejaSuspensionList.idMotivoSuspension !== undefined &&
         bandejaSuspensionList.idMotivoSuspension !== null
       ) {
+        setSuspendido(true);
         setDesactivarGuardarMotivo(true);
       }
       //se agrega un boolean pasra cuando ya trae una bandeja de rechazo
@@ -141,6 +144,7 @@ export const SuspensionExpediente = forwardRef((props) => {
     setGuardarMotivos(false);
     setMostrarConfirmacion(false);
     setDesactivarGuardarMotivo(true);
+    setSuspendido(true);
   };
 
   return (
@@ -168,7 +172,7 @@ export const SuspensionExpediente = forwardRef((props) => {
             fullWidth
             name="motivoSuspension"
             value={motivoSuspension}
-            disabled={desactivarGuardarMotivo === true}
+            disabled={desactivarGuardarMotivo === true || bajado === true}
             onChange={(e) => {
               setMotivoSuspension(e.target.value);
               if (!desactivarGuardarMotivo) {

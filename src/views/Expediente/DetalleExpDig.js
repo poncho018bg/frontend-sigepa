@@ -99,6 +99,8 @@ export const DetalleExpDig = (props) => {
   const [msjConfirmacion, setMsjConfirmacion] = useState("");
   const [dtosgrlsprint, setDtosgrlsprint] = useState({});
   const [documentbs64, setDocumentbs64] = useState("");
+  const [suspendido, setSuspendido] = useState(false);
+  const [bajado, setBajado] = useState(false);
 
   const handleChangePage = (event, newPage) => {
     expDigDocStartLoading(documentos[newPage].id);
@@ -352,6 +354,8 @@ export const DetalleExpDig = (props) => {
             idProgramaExpediente={idProgramaExpediente}
             setDtosgrlsprint={setDtosgrlsprint}
             dtosgrlsprint={dtosgrlsprint}
+            setSuspendido={setSuspendido}
+            bajado={bajado}
           />
 
           <ObservacionesExpediente
@@ -359,6 +363,8 @@ export const DetalleExpDig = (props) => {
             idProgramaExpediente={idProgramaExpediente}
             setDtosgrlsprint={setDtosgrlsprint}
             dtosgrlsprint={dtosgrlsprint}
+            setBajado={setBajado}
+            suspendido={suspendido}
           />
         </Grid>
 
