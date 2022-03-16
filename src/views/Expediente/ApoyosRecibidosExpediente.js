@@ -88,6 +88,7 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
                     {" "}
                     {t("dgv.expAnioapoyootorgado")}
                   </TableCell>
+                  {/*
                   <TableCell align="center">
                     Número de Tarjeta de Débito
                   </TableCell>
@@ -97,6 +98,7 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
                     Motivo No. Entrega de apoyo
                   </TableCell>
                   <TableCell align="center">Guardar cambios</TableCell>
+  */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -114,6 +116,7 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
                             "MMMM DD YYYY, h:mm:ss a"
                           )}
                         </TableCell>
+                        {/*
                         <TableCell align="center">
                           <TextField
                             id="filled-basic"
@@ -168,6 +171,7 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
                             Guardar Cambios
                           </Button>
                         </TableCell>
+                            */}
                       </TableRow>
                     );
                   })}
