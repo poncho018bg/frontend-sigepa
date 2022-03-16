@@ -47,6 +47,8 @@ import { ModalContextConfirmacion } from "contexts/modalContextConfirmacion";
 import { ModalContext } from "contexts/modalContex";
 import { ComponentToPrint } from "views/TestPrintPdf/ComponentToPrint";
 import { SuspensionExpediente } from "./SuspensionExpediente";
+import { ComplementoFursContext } from "contexts/complementoFurContext";
+import { ProgramasContext } from "contexts/catalogos/Programas/programasContext";
 
 /**
  * Aqui se va a mostrar el detalle del expediente del beneficiario
@@ -101,6 +103,11 @@ export const DetalleExpDig = (props) => {
   const [documentbs64, setDocumentbs64] = useState("");
   const [suspendido, setSuspendido] = useState(false);
   const [bajado, setBajado] = useState(false);
+  const {  getComplementoFurs, complementoList } = useContext(ComplementoFursContext);
+  const { programa, getByID } = useContext(ProgramasContext);
+  let ruta = '';
+  let jsonParseado = {};
+  let idBusqueda = '';
 
   const handleChangePage = (event, newPage) => {
     expDigDocStartLoading(documentos[newPage].id);
@@ -111,6 +118,41 @@ export const DetalleExpDig = (props) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  useEffect(() => {
+    getByID(idProgramaExpediente);
+    getComplementoFurs(idProgramaExpediente, idBeneficiario)
+   
+}, []);
+
+if (Array.isArray(complementoList)) {
+  if (complementoList.length > 0) {
+      jsonParseado = JSON.parse(complementoList[0]?.jsComplemento);
+      console.log("idBusquedaasdfasdf ----------- ", jsonParseado._id)
+      idBusqueda = jsonParseado._id
+  }
+
+} else {
+  jsonParseado = JSON.parse(complementoList?.jsComplemento);
+  console.log("complementoList ----------- ", jsonParseado._id)
+  idBusqueda = jsonParseado._id
+}
+
+if (programa !== null) {
+  console.log("idBusqueda ----------- ", idBusqueda)
+  if (Array.isArray(complementoList)) {
+      if (complementoList.length === 0) {
+          ruta = `${baseUrlFormio}${programa.dsnombreplantilla}`;
+      } else {
+          ruta = `${baseUrlFormio}${programa.dsnombreplantilla}/submission/${jsonParseado._id}`;
+      }
+  }
+  console.log("ruta", ruta);
+}
+var valoresprint = dtosgrlsprint
+valoresprint.ruta=ruta    
+
+
 
   useEffect(() => {
     if (validarCargaDocs) {
@@ -297,6 +339,8 @@ export const DetalleExpDig = (props) => {
       });
   };
 
+
+
   if (
     props.etapaSeleccionada === "00000000-0000-0000-0000-000000000000" ||
     props.etapaSeleccionada === null ||
@@ -310,6 +354,8 @@ export const DetalleExpDig = (props) => {
         border={1}
         flex="auto"
       >
+ 
+         
         {console.log("xp", idExpedienteBoveda)}
         {console.log("xp", idExpediente)}
         <Grid item xs={12} border={10} borderColor="primary.main">

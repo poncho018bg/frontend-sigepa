@@ -79,9 +79,9 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
     const { getTiposApoyosActivos, tiposApoyosList } = useContext(TiposApoyosContext);
     const { getPeriodicidadApoyosActivos, periodicidadApoyosList } = useContext(PeriodicidadApoyosContext);
     const { programasList, getCien } = useContext(ProgramasContext);
-    const { apoyoservicioList, getApoyoServicio } = useContext(ApoyoServicioContext);
+    const { apoyoservicioList, getApoyoServicioActivos } = useContext(ApoyoServicioContext);
     const { numeroApoyosList, getNumeroApoyos } = useContext(NumeroApoyosContext);
-    const { actividadescontinuarList, getActividadesContinuar } = useContext(ActividadesContinuarContext)
+    const { actividadescontinuarList, getActividadesContinuarActivos } = useContext(ActividadesContinuarContext)
     const { actualizarApoyo } = useContext(ApoyoContext)
 
     const [tipoApoyoSelect, setTipoApoyoSelect] = React.useState([]);
@@ -101,11 +101,11 @@ export const DialogTipoApoyoFormEdit = ({ personaSeleccionada }) => {
 
     useEffect(() => {
         getTiposApoyosActivos();
-        getActividadesContinuar();
+        getActividadesContinuarActivos();
         getPeriodicidadApoyosActivos();
         getCien();
         getNumeroApoyos();
-        getApoyoServicio();
+        getApoyoServicioActivos();
 
         setSelectedTipApoy(personaSeleccionada.idTipoApoyo)
         setSelectedActividadesContinuar(personaSeleccionada.idActividadContinuidadApoyo)

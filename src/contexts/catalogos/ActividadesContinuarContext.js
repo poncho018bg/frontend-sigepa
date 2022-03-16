@@ -41,6 +41,21 @@ export const ActividadesContinuarContextProvider = props => {
             console.log(error);
         }
     }
+    
+    const getActividadesContinuarActivos = async () => {
+        try {
+            const { page, size } = state;
+            const resultado = await axiosGet(`continuidadActividades/search/findByActivoTrue`);
+            console.log(resultado._embedded.continuidadActividades);
+            dispatch({
+                type: GET_ACTIVIDADESCONTINUAR,
+                payload: resultado
+            })
+        } catch (error) {
+
+            console.log(error);
+        }
+    }
 
     const registrarActividadesContinuar = async continuidadActividades => {
         try {
@@ -163,6 +178,7 @@ export const ActividadesContinuarContextProvider = props => {
                 size: state.size,
                 total: state.total,
                 getActividadesContinuar,
+                getActividadesContinuarActivos,
                 registrarActividadesContinuar,
                 eliminarActividadesContinuar,
                 actualizarActividadesContinuar,

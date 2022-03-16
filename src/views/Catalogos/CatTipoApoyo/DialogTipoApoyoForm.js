@@ -100,12 +100,12 @@ export const DialogTipoApoyoForm = (props) => {
     PeriodicidadApoyosContext
   );
   const { programasList, getCien } = useContext(ProgramasContext);
-  const { apoyoservicioList, getApoyoServicio } = useContext(
+  const { apoyoservicioList, getApoyoServicioActivos } = useContext(
     ApoyoServicioContext
   );
   const { numeroApoyosList, getNumeroApoyos } = useContext(NumeroApoyosContext);
 
-  const { actividadescontinuarList, getActividadesContinuar } = useContext(
+  const { actividadescontinuarList, getActividadesContinuarActivos } = useContext(
     ActividadesContinuarContext
   );
   const { registrarApoyo } = useContext(ApoyoContext);
@@ -143,11 +143,11 @@ export const DialogTipoApoyoForm = (props) => {
 
   useEffect(() => {
     getTiposApoyosActivos();
-    getActividadesContinuar();
+    getActividadesContinuarActivos();
     getPeriodicidadApoyosActivos();
     getCien();
     getNumeroApoyos();
-    getApoyoServicio();
+    getApoyoServicioActivos();
   }, []);
 
   useEffect(() => {
@@ -185,7 +185,7 @@ export const DialogTipoApoyoForm = (props) => {
 
     console.log("agregarServicioFormik 1=>", formik.values.enServicio);
     console.log("Lista apoyoservicioList=>", apoyoservicioList);
-    getApoyoServicio();
+    getApoyoServicioActivos();
   };
 
   const formik = useFormik({
