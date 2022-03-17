@@ -49,7 +49,8 @@ import { ComponentToPrint } from "views/TestPrintPdf/ComponentToPrint";
 import { SuspensionExpediente } from "./SuspensionExpediente";
 import { ComplementoFursContext } from "contexts/complementoFurContext";
 import { ProgramasContext } from "contexts/catalogos/Programas/programasContext";
-
+//Ruta para mandar a llamar de forma dinamica el formulario a agregar
+const baseUrlFormio = process.env.REACT_APP_API_FORMIO_URL;
 /**
  * Aqui se va a mostrar el detalle del expediente del beneficiario
  * @param {props} props
