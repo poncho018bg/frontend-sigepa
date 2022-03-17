@@ -124,7 +124,7 @@ export const DetalleExpDig = (props) => {
     getByID(idProgramaExpediente);
     getComplementoFurs(idProgramaExpediente, idBeneficiario)
    
-}, []);
+}, [idProgramaExpediente,idBeneficiario]);
 
 if (Array.isArray(complementoList)) {
   if (complementoList.length > 0) {
