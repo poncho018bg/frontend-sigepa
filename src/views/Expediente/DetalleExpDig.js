@@ -102,6 +102,8 @@ export const DetalleExpDig = (props) => {
   const [msjConfirmacion, setMsjConfirmacion] = useState("");
   const [dtosgrlsprint, setDtosgrlsprint] = useState({});
   const [documentbs64, setDocumentbs64] = useState("");
+  const [suspendido, setSuspendido] = useState(false);
+  const [bajado, setBajado] = useState(false);
   const {  getComplementoFurs, complementoList } = useContext(ComplementoFursContext);
   const { programa, getByID } = useContext(ProgramasContext);
   let ruta = '';
@@ -399,6 +401,8 @@ valoresprint.ruta=ruta
             idProgramaExpediente={idProgramaExpediente}
             setDtosgrlsprint={setDtosgrlsprint}
             dtosgrlsprint={dtosgrlsprint}
+            setSuspendido={setSuspendido}
+            bajado={bajado}
           />
 
           <ObservacionesExpediente
@@ -406,6 +410,8 @@ valoresprint.ruta=ruta
             idProgramaExpediente={idProgramaExpediente}
             setDtosgrlsprint={setDtosgrlsprint}
             dtosgrlsprint={dtosgrlsprint}
+            setBajado={setBajado}
+            suspendido={suspendido}
           />
         </Grid>
 

@@ -29,6 +29,8 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
     idProgramaExpediente,
     setDtosgrlsprint,
     dtosgrlsprint,
+    setBajado,
+    suspendido
   } = props;
   const [observaciones, setObservaciones] = useState("");
   const classes = useStyles();
@@ -87,7 +89,8 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
        * se agrega un boolean pasra cuando ya trae una bandeja de rechazo
        */
       console.log("bandeja rechazo 1 ====>", bandejaRechazo.motivo_rechazo_id);
-      if (bandejaRechazo.motivo_rechazo_id !== undefined) {
+      if (bandejaRechazo.motivo_rechazo_id !== undefined) {+
+        setBajado(true);
         setDesactivarGuardarMotivo(true);
       }
 
@@ -152,6 +155,7 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
 
     setGuardarMotivos(false);
     setDesactivarGuardarMotivo(true);
+    setBajado(true);
   };
 
   return (
@@ -179,7 +183,7 @@ export const ObservacionesExpediente = forwardRef((props, ref) => {
             fullWidth
             name="motivoRechazo"
             value={motivoRechazo}
-            disabled={desactivarGuardarMotivo}
+            disabled={desactivarGuardarMotivo || suspendido}
             onChange={(e) => {
               setMotivoRechazo(e.target.value);
               console.log("bandeja rechazo 2 ====>", desactivarGuardarMotivo);
