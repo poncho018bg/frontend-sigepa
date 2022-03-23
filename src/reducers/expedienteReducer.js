@@ -20,10 +20,14 @@ export default (state, action) => {
                 expediente: action.payload
             };
         case GET_ULTIMO_PROGRAMA_BENEFICIARIO:
+            return{
+                ...state,
+                programaBeneficiario: action.payload
+            };
         case GET_SOLICITUDES_EXPEDIENTE_BENEFICIARIO:
             return {
                 ...state,
-                programaList: action.payload
+                programaExpedienteList: action.payload
             };
 
         case GET_ETAPAS_BY_PLANTILLA:
