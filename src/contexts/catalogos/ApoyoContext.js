@@ -81,16 +81,22 @@ export const ApoyoContextProvider = props => {
 
     const eliminarApoyo = async idApoyo => {
         try {
-            console.log('x=>', idApoyo)
-           
-            await axiosPostHetoas(`${baseUrl}tipoApoyoOverride`, idApoyo, 'DELETE')
-            dispatch({
-                type: ELIMINAR_APOYOS,
-                payload: idApoyo
-            })
+            console.log('x=>', idApoyo)           
+            return new Promise((resolve, reject) => {
+                axios.put(`${baseUrl}tipoApoyoOverride/desactivar`, idApoyo, {
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+                }).then(response => {
+                    resolve(response);
+                    dispatch({
+                        type: ELIMINAR_APOYOS,
+                        payload: response
+                    })
+                }).catch(error => {
+                    reject(error);
+                });
+            });
 
         } catch (error) {
-
             console.log(error);
         }
     }

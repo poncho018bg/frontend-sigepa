@@ -167,13 +167,30 @@ export const ProgramasContextProvider = (props) => {
 
   const eliminar = async (id) => {
     try {
+      
       console.log("ELIMINAR context ", id);
-      const result = await axiosDeleteTipo(`programasOverride/${id.id}`);
-      console.log("ELIMINAR result ", result);
-      dispatch({
-        type: ELIMINAR_PROGRAMAS,
-        payload: result,
+      const url = `${baseUrl}programasOverride/${id.id}`;
+      return new Promise((resolve, reject) => {
+        axios
+          .put(url, {
+            headers: {
+              Accept: "application/json",
+              "Content-type": "application/json",
+            },
+          })
+          .then((response) => {
+            console.log("ELIMINAR result ", response);
+            resolve(response);
+            dispatch({
+              type: ELIMINAR_PROGRAMAS,
+              payload: response,
+            });
+          })
+          .catch((error) => {
+            reject(error);
+          });
       });
+
     } catch (error) {
       console.log(error);
     }
