@@ -183,7 +183,7 @@ export const ProgramasContextProvider = (props) => {
             resolve(response);
             dispatch({
               type: ELIMINAR_PROGRAMAS,
-              payload: response,
+              payload: response?.data,
             });
           })
           .catch((error) => {
