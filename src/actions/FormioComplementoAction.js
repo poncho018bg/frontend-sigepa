@@ -10,7 +10,7 @@ export const formioComplementoLoading = () => {
         console.log('Entro a formioComplemento: -----------ZZZzzzzzz')
 
         try {
-            await axiosGetFormio(`form?type=form`).then(data => {
+            await axiosGetFormio(`form?type=form&limit=20`).then(data => {
                 console.log("data{}zzzzzzzzzzzzzzzzzzzz", data);
                 dispatch(formioComplementosLoaded(data))
             });
