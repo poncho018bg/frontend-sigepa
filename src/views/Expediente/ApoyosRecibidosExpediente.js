@@ -45,6 +45,8 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
     expedienteBeneficiario,
     programaExpedienteList,
     guardarCambiosTarjetaExpediente,
+    obtenerDispersion,
+    dispersion,
   } = useContext(ExpedienteContext);
 
   const [listaProgramas, setListaProgramas] = useState([]);
@@ -91,6 +93,11 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
 
   const [openCol, setOpenCol] = useState(false);
 
+  const onClickConsultaDispersion = (row) => {
+    console.log("dispersion datos consulta ", row);
+    obtenerDispersion(idBeneficiario);
+  };
+
   return (
     <GridItem xs={12} sm={12} md={12}>
       <Card>
@@ -103,7 +110,7 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow key="ta1">
-                <TableCell />
+                  <TableCell />
                   <TableCell align="center">
                     {" "}
                     {t("dgv.expProgramaotorgado")}
@@ -126,56 +133,71 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {programaExpedienteList && programaExpedienteList
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    //const isItemSelected = isSelected(row);
-                    //const labelId = `enhanced-table-checkbox-${index}`;
-                    return (
-                      <>
-                        <TableRow key={index}>
-                          <TableCell>
-                            <IconButton
-                              aria-label="expand row"
-                              size="small"
-                              onClick={() => setOpenCol(!openCol)}
-                            >
-                              {openCol ? (
-                                <KeyboardArrowUp />
-                              ) : (
-                                <KeyboardArrowDown />
+                {programaExpedienteList &&
+                  programaExpedienteList
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => {
+                      //const isItemSelected = isSelected(row);
+                      //const labelId = `enhanced-table-checkbox-${index}`;
+                      return (
+                        <>
+                          <TableRow key={index}>
+                            <TableCell>
+                              <IconButton
+                                key={index}
+                                aria-label="expand row"
+                                size="small"
+                                onClick={() => {
+                                  setOpenCol(!openCol);
+                                  onClickConsultaDispersion(row);
+                                }}
+                              >
+                                {openCol ? (
+                                  <KeyboardArrowUp />
+                                ) : (
+                                  <KeyboardArrowDown />
+                                )}
+                              </IconButton>
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.dsprograma}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.dstipoapoyo}
+                            </TableCell>
+                            <TableCell align="center">
+                              {moment(row.fcvigenciainicio).format(
+                                "MMMM DD YYYY, h:mm:ss a"
                               )}
-                            </IconButton>
-                          </TableCell>
-                          <TableCell align="center">{row.dsprograma}</TableCell>
-                          <TableCell align="center">
-                            {row.dstipoapoyo}
-                          </TableCell>
-                          <TableCell align="center">
-                            {moment(row.fcvigenciainicio).format(
-                              "MMMM DD YYYY, h:mm:ss a"
-                            )}
-                          </TableCell>
-                          <TableCell align="center">{row.tarjeta}</TableCell>
-                          <TableCell align="center">{row.cuenta}</TableCell>
-                          <TableCell align="center">{row.vigencia}</TableCell>
-                          <TableCell align="center">Entrega apoyo</TableCell>
-                        </TableRow>
-                        <TableRow key={index}>
-                          <TableCell
-                            style={{ paddingBottom: 0, paddingTop: 0 }}
-                            colSpan={8}
-                          >
-                            <Collapse in={openCol} timeout="auto" unmountOnExit>
-                              {row.idDispersion}
-                              {row.fechaRegistroDispersion}
-                              {row.estatusDispersion}
-                            </Collapse>
-                          </TableCell>
-                        </TableRow>
-                      </>
-                    );
-                  })}
+                            </TableCell>
+                            <TableCell align="center">{row.tarjeta}</TableCell>
+                            <TableCell align="center">{row.cuenta}</TableCell>
+                            <TableCell align="center">{row.vigencia}</TableCell>
+                            <TableCell align="center">Entrega apoyo</TableCell>
+                          </TableRow>
+                          <TableRow key={index}>
+                            <TableCell
+                              style={{ paddingBottom: 0, paddingTop: 0 }}
+                              colSpan={8}
+                            >
+                              <Collapse
+                                in={openCol}
+                                timeout="auto"
+                                unmountOnExit
+                              >
+                                {dispersion.map((row, i) => {
+                                  return (
+                                    <Grid item xs={3} key={i}>
+                                      {row}
+                                    </Grid>
+                                  );
+                                })}
+                              </Collapse>
+                            </TableCell>
+                          </TableRow>
+                        </>
+                      );
+                    })}
               </TableBody>
             </Table>
           </TableContainer>
