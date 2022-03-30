@@ -26,6 +26,7 @@ import { LoteEntregaTarjetaContext } from "contexts/LoteEntregaTarjetaContext";
 //complementos
 import { GeneracionEtiquetaDatosBeneficiarios } from "./GeneracionEtiquetaDatosBeneficiarios";
 import DialogConfirmacionEtiquetado from "./DialogConfirmacionEtiquetado";
+import GeneracionEtiquetaEvento from "./GeneracionEtiquetaEvento";
 //useStyles
 import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from "css/stylesArchivo";
@@ -45,9 +46,10 @@ export const GeneracionEtiquetaScreen = () => {
     guardarEtiquetadoTarjetas,
     getEtiquedadoBeneficiariosLote,
   } = useContext(SolicitudEmbozoTarjetasContext);
-  const { getLoteEntregaTarjetaAll, lotesEntregaTarjetaList } = useContext(
-    LoteEntregaTarjetaContext
-  );
+  const {
+    getLoteEntregaTarjetaAll,
+    lotesEntregaTarjetaList,
+  } = useContext(LoteEntregaTarjetaContext);
   /**
    * Datos del paginador
    */
@@ -89,7 +91,7 @@ export const GeneracionEtiquetaScreen = () => {
    * Guarda los beneficiarios etiquetados
    */
   const guardarLayourEtiquetas = () => {
-    guardarEtiquetadoTarjetas(listaEtiquetado,idLote);
+    guardarEtiquetadoTarjetas(listaEtiquetado, idLote);
     setDialogConfirmar(false);
     //getEtiquedadoBeneficiarios();
     //getEtiquedadoBeneficiariosLote(idLote);
@@ -301,6 +303,7 @@ export const GeneracionEtiquetaScreen = () => {
         setDialogConfirmar={setDialogConfirmar}
         guardarLayourEtiquetas={guardarLayourEtiquetas}
       />
+      <GeneracionEtiquetaEvento dialogConfirmar={dialogConfirmar}/>
     </GridItem>
   );
 };
