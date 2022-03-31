@@ -88,6 +88,7 @@ import {SolicitudEmbozoTarjetasScreen} from "views/SolicitudEmbozoTarjetas/Solic
 import { MotivoSuspensionScreen } from "views/Catalogos/MotivoSuspension/MotivoSuspensionScreen";
 import { GeneracionEventoScreen } from "views/GeneracionEventos/GeneracionEventoScreen";
 import { PuntosEntregaScreen } from "views/Catalogos/PuntosEntrega/PuntosEntregaScreen";
+import { DispersionLayout } from "views/Dispersion/Dispersion/DispersionLayout";
 
 const dashboardRoutes = [
   {
@@ -401,6 +402,18 @@ const dashboardRoutes = [
         component: GeneracionEventoScreen,
         layout: "/admin"
       },
+
+      {
+        
+        path: "/dispersiontarjetas",
+        name: "Solicitud de dispersión de fondos a Broxel",
+        rtlName: "etbx",
+        mini: "etbx",
+        rtlMini: "etbx",
+        component: DispersionLayout,
+        layout: "/admin"
+      
+    },
     ]
   },
   {

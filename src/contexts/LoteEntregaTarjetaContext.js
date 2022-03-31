@@ -10,7 +10,8 @@ import {
     MODIFICAR_LOTE_ENTREGA_TARJETAS,
     LOTE_ENTREGA_TARJETAS_ERROR,
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA
+    CAMBIAR_TAMANIO_PAGINA,
+    GET_LOTE_EVENTO
 } from 'types/actionTypes';
 
 
@@ -27,7 +28,8 @@ export const LoteEntregaTarjetaContextProvider = props => {
         error: false,
         page: 0,
         size: 10,
-        total: 0
+        total: 0,
+        loteEventoList:[],
 
     }
 
@@ -160,6 +162,19 @@ export const LoteEntregaTarjetaContextProvider = props => {
         payload: size
     })
 
+    const getLoteEventoTarjetaActivos = async () => {
+
+        try {            
+            const result = await axiosGet(`loteEvento/search/findByActivoTrue`);            
+            dispatch({
+                type: GET_LOTE_EVENTO,
+                payload: result
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <LoteEntregaTarjetaContext.Provider
             value={{
@@ -174,10 +189,12 @@ export const LoteEntregaTarjetaContextProvider = props => {
                 page: state.page,
                 size: state.size,
                 total: state.total,
+                loteEventoList: state.loteEventoList,
                 changePageNumber,
                 changePageSize,
                 changePageSizes,
                 changePage,
+                getLoteEventoTarjetaActivos
             }}
         >
             {props.children}
