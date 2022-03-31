@@ -9,6 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { stylesArchivo } from "css/stylesArchivo";
 import Button from "components/CustomButtons/Button.js";
 import Add from "@material-ui/icons/Add";
+import Checkbox from "@material-ui/core/Checkbox";
 import {
   Table,
   TableBody,
@@ -54,6 +55,7 @@ export const DispersionLayout = () => {
     dispersionLayouList,
     registrarDispersionLayout,
   } = useContext(DispersionLayoutContext);
+  const [selected, setSelected] = React.useState([]);
 
   useEffect(() => {
     getDispersionLayout();
@@ -79,6 +81,8 @@ export const DispersionLayout = () => {
   const buscarTarjetas = () => {
     getDispersionLayoutByParametros(fechainicio);
   };
+
+  const isSelected = (name) => selected.indexOf(name) !== -1;
 
   return (
     <>
@@ -154,7 +158,7 @@ export const DispersionLayout = () => {
               <TableBody>
                 {dispersionLayouList
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
+                  .map((row,index ) => {
                     const isItemSelected = isSelected(row);
                     const labelId = `enhanced-table-checkbox-${index}`;
 

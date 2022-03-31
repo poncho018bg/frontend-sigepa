@@ -34,7 +34,7 @@ export const DispersionLayoutContextProvider = props => {
     const getDispersionLayout = async () => {
 
         try {            
-            const resultado = await axiosGet(`dispersionTarjetas`);
+            const resultado = await axiosGet(`dispersionTarjetas/consultarTarjetas`);
             dispatch({
                 type: GET_DISPERSION_LAYOUT,
                 payload: resultado
@@ -76,7 +76,7 @@ export const DispersionLayoutContextProvider = props => {
 
     const getDispersionLayoutByParametros = async (fecha) => {
         try {            
-            const result = await axiosGet(`dispersionTarjetas/${fecha}`);            
+            const result = await axiosGet(`dispersionTarjetas/consultarTarjetasFecha/${fecha}`);            
             dispatch({
                 type: GET_DISPERSION_LAYOUT,
                 payload: result
