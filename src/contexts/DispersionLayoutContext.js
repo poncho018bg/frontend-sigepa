@@ -1,7 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import DispersionLayoutReducer from 'reducers/DispersionLayoutReducer';
 import { axiosGet } from 'helpers/axiosPublico';
-import { axiosPostHetoas } from 'helpers/axios';
 import axios from "axios";
 import {
     GET_DISPERSION_LAYOUT,
@@ -46,12 +45,12 @@ export const DispersionLayoutContextProvider = props => {
     }
 
 
-    const registrarDispersionLayout = async identificacionesOficiales => {
+    const registrarDispersionLayout = async dispersion => {
 
         try {
             const url = `${baseUrlPublico}dispersionTarjetas`;
             return new Promise((resolve, reject) => {
-                axios.post(url, identificacionesOficiales, {
+                axios.post(url, dispersion, {
                     headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
                 }).then(response => {
                     resolve(response);
@@ -75,9 +74,9 @@ export const DispersionLayoutContextProvider = props => {
 
 
 
-    const getDispersionLayoutByParametros = async (search) => {
+    const getDispersionLayoutByParametros = async (fecha) => {
         try {            
-            const result = await axiosGet(`dispersionTarjetas`);            
+            const result = await axiosGet(`dispersionTarjetas/${fecha}`);            
             dispatch({
                 type: GET_DISPERSION_LAYOUT,
                 payload: result

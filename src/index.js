@@ -80,6 +80,7 @@ import { BandejaSuspensionContextProvider } from "contexts/BandejaSuspensionCont
 import { PuntosEntregaContextProvider } from "contexts/catalogos/PuntosEntregaContext";
 import { LoteEntregaTarjetaContextProvider } from "contexts/LoteEntregaTarjetaContext";
 import { RegionesContextProvider } from "contexts/catalogos/RegionesContext";
+import { DispersionLayoutContextProvider } from "contexts/DispersionLayoutContext";
 
 const hist = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
@@ -140,24 +141,26 @@ ReactDOM.render(
                                                                                                         <PuntosEntregaContextProvider>
                                                                                                           <LoteEntregaTarjetaContextProvider>
                                                                                                             <RegionesContextProvider>
-                                                                                                              <Switch>
-                                                                                                                <Route
-                                                                                                                  path="/admin"
-                                                                                                                  component={
-                                                                                                                    Admin
-                                                                                                                  }
-                                                                                                                />
-                                                                                                                <Route
-                                                                                                                  path="/public"
-                                                                                                                  component={
-                                                                                                                    Auth
-                                                                                                                  }
-                                                                                                                />
-                                                                                                                <Redirect
-                                                                                                                  from="/"
-                                                                                                                  to="/admin/dashboard"
-                                                                                                                />
-                                                                                                              </Switch>
+                                                                                                              <DispersionLayoutContextProvider>
+                                                                                                                <Switch>
+                                                                                                                  <Route
+                                                                                                                    path="/admin"
+                                                                                                                    component={
+                                                                                                                      Admin
+                                                                                                                    }
+                                                                                                                  />
+                                                                                                                  <Route
+                                                                                                                    path="/public"
+                                                                                                                    component={
+                                                                                                                      Auth
+                                                                                                                    }
+                                                                                                                  />
+                                                                                                                  <Redirect
+                                                                                                                    from="/"
+                                                                                                                    to="/admin/dashboard"
+                                                                                                                  />
+                                                                                                                </Switch>
+                                                                                                              </DispersionLayoutContextProvider>
                                                                                                             </RegionesContextProvider>
                                                                                                           </LoteEntregaTarjetaContextProvider>
                                                                                                         </PuntosEntregaContextProvider>

@@ -29,7 +29,7 @@ import { useTranslation } from "react-i18next";
 
 import { ConsultaExpediente } from "views/Expediente/ConsultaExpediente";
 
-import { TarjetasEmbozadasContext } from "contexts/TarjetasEmbozadasContext";
+import { DispersionLayoutContext } from "contexts/DispersionLayoutContext";
 import { ModalConfirmacion } from "commons/ModalConfirmacion";
 import { ModalContextConfirmacion } from "contexts/modalContextConfirmacion";
 import { Mensaje } from "components/Personalizados/Mensaje";
@@ -41,26 +41,93 @@ const useStyles = makeStyles(stylesArchivo);
 export const DispersionLayout = () => {
   const { t } = useTranslation();
   const classes = useStyles();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [msjConfirmacion, setMsjConfirmacion] = useState("");
+  const [error, setError] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [fechainicio, setFechainicio] = useState("");
+  const {
+    getDispersionLayout,
+    getDispersionLayoutByParametros,
+    dispersionLayouList,
+    registrarDispersionLayout,
+  } = useContext(DispersionLayoutContext);
+
+  useEffect(() => {
+    getDispersionLayout();
+  }, []);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const guardarTarjetas = () => {
+    console.log("METODO DE GUARDAR");
+  };
+
+  const buscarTarjetas = () => {
+    getDispersionLayoutByParametros(fechainicio);
+  };
 
   return (
     <>
-
-<GridItem xs={12} sm={12} md={12}>
+      <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Reporte de Dispersión de recursos</h4>
+            <h4 className={classes.cardTitleWhite}>
+              Reporte de dispersión de recursos
+            </h4>
             <p className={classes.cardCategoryWhite}></p>
             <CardActions>
               <Grid container spacing={3}>
-                <Grid item xs={2}></Grid>
+                <Grid item xs={4}>
+                  Fecha de solicitud de dispersión:{" "}
+                  {moment(new Date()).format("DD-MM-yyyy")}
+                </Grid>
               </Grid>
             </CardActions>
           </CardHeader>
           <CardBody>
             <Grid container spacing={12}>
-              <Grid item xs={12}>
-                
+              <Grid item xs={4}>
+                <TextField
+                  id="fechainicio"
+                  label="Fecha de búsqueda"
+                  type="date"
+                  fullWidth
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={fechainicio}
+                  name={fechainicio}
+                  onChange={(e) => setFechainicio(e.target.value)}
+                  InputProps={{
+                    inputProps: {},
+                  }}
+                />
+              </Grid>
 
+              <Grid item xs={4}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  onClick={buscarTarjetas}
+                >
+                  {t("lbl.buscar")}
+                </Button>
               </Grid>
             </Grid>
 
@@ -82,27 +149,51 @@ export const DispersionLayout = () => {
                   <TableCell align="center"> Tarjeta </TableCell>
                   <TableCell align="center"> Año </TableCell>
                   <TableCell align="center"> Apoyo </TableCell>
-                  
                 </TableRow>
               </TableHead>
               <TableBody>
-                {console.log("tarjetaslist=>", tarjetaslist)}
-
-                {tarjetaslist
+                {dispersionLayouList
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => {
+                    const isItemSelected = isSelected(row);
+                    const labelId = `enhanced-table-checkbox-${index}`;
+
                     return (
-                      <TableRow>
+                      <TableRow
+                        hover
+                        onClick={(event) => handleClick(event, row)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.id}
+                        selected={isItemSelected}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={isItemSelected}
+                            inputProps={{ "aria-labelledby": labelId }}
+                          />
+                        </TableCell>
+                        <TableCell align="center">{row.secuencial}</TableCell>
+                        <TableCell align="center">{row.nombre}</TableCell>
+                        <TableCell align="center">
+                          {row.apellidoPaterno}
+                        </TableCell>
+                        <TableCell align="center">
+                          {row.apellidoMaterno}
+                        </TableCell>
+                        <TableCell align="center">
+                          {row.fechaNacimiento}
+                        </TableCell>
+                        <TableCell align="center">{row.telefono}</TableCell>
+                        <TableCell align="center">{row.numIne}</TableCell>
+                        <TableCell align="center">{row.curp}</TableCell>
+                        <TableCell align="center">{row.municipio}</TableCell>
+                        <TableCell align="center">{row.region}</TableCell>
                         <TableCell align="center">{row.cuenta}</TableCell>
                         <TableCell align="center">{row.tarjeta}</TableCell>
-                        <TableCell align="center">{row.nombre}</TableCell>
-                        <TableCell align="center">{row.nombre_com}</TableCell>
-                        <TableCell align="center">{row.curp}</TableCell>
-                        <TableCell align="center">
-                          {row.vigencia_tarjetas}
-                        </TableCell>
-                        <TableCell align="center">{row.empresa}</TableCell>
-                        <TableCell align="center">{row.cve_cte}</TableCell>
+                        <TableCell align="center">{row.anio}</TableCell>
+                        <TableCell align="center">{row.apoyo}</TableCell>
                         <TableCell align="center">
                           {row.fecha_entrega}
                         </TableCell>
@@ -116,7 +207,7 @@ export const DispersionLayout = () => {
               rowsPerPageOptions={[25, 50, 100, 500]}
               component="div"
               labelRowsPerPage={t("dgv.registrospaginas")}
-              count={tarjetaslist.length}
+              count={dispersionLayouList.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onChangePage={handleChangePage}
@@ -146,28 +237,15 @@ export const DispersionLayout = () => {
             <h2> Nombre de quien recibe </h2>
           </DialogTitle>
           <DialogContent>
-            <DialogContent>
-              <TextField
-                id="dsnombre"
-                label="Nombre de quien recibe"
-                variant="outlined"
-                fullWidth
-                name={dsnombre}
-                fullWidth
-                value={dsnombre}
-                onChange={(e) => setDsnombre(e.target.value)}
-                inputProps={{ maxLength: 80 }}
-              />
-            </DialogContent>
+            <DialogContent></DialogContent>
           </DialogContent>
           <DialogActions>
-            <Button autoFocus onClick={() => aceptarNombre()} color="primary">
+            <Button autoFocus color="primary">
               Cerrar
             </Button>
           </DialogActions>
         </Dialog>
       </GridItem>
-
     </>
-    )
+  );
 };
