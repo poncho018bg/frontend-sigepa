@@ -371,7 +371,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                       setActivar(next());
                     }
                   },
-                  maxLength: 20,
+                  maxLength: 150,
                 }}
               />
             </GridItem>
