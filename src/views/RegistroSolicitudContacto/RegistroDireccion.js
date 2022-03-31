@@ -338,7 +338,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
                                             setCalleStatus("success");
                                             setActivar(next())
                                         }
-                                    }, maxLength: 20
+                                    }, maxLength: 150
                                 }}
                             />
                         </GridItem>
