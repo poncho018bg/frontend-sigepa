@@ -19,7 +19,11 @@ import {
   TablePagination,
   TableRow,
   TableContainer,
+  Collapse,
+  IconButton,
 } from "@material-ui/core";
+import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
+import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
 import Button from "components/CustomButtons/Button.js";
 import moment from "moment";
 import "moment/locale/es";
@@ -37,10 +41,15 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [apoyosList, setApoyosList] = useState([]);
-  const { expedienteBeneficiario, programaList } = useContext(
-    ExpedienteContext
-  );
+  const {
+    expedienteBeneficiario,
+    programaExpedienteList,
+    guardarCambiosTarjetaExpediente,
+    obtenerDispersion,
+    dispersion,
+  } = useContext(ExpedienteContext);
 
+  const [listaProgramas, setListaProgramas] = useState([]);
   const { idBeneficiario, setDtosgrlsprint, dtosgrlsprint } = props;
 
   useEffect(() => {
@@ -59,12 +68,34 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
 
   useEffect(() => {
     var valoresprint = dtosgrlsprint;
-    valoresprint.programaList = programaList;
+    valoresprint.programaList = programaExpedienteList;
     setDtosgrlsprint(valoresprint);
-  }, [programaList]);
+    setListaProgramas(programaExpedienteList);
+  }, [programaExpedienteList]);
 
-  const onClickCambios = (e) => {
-    console.log("datos nuevos expediente ==>", e);
+  const onClickCambios = (row) => {
+    console.log("datos nuevos expediente ==>", row);
+  };
+
+  const onChangeInfo = (value, row, columna) => {
+    console.log("value ", value);
+    console.log("row ", row);
+    console.log("columna ", columna);
+    setListaProgramas((old) =>
+      listaProgramas.map((r) => {
+        if ((row.idTarjeta = r.idTarjeta)) {
+          r.tarjeta = value;
+        }
+        return r;
+      })
+    );
+  };
+
+  const [openCol, setOpenCol] = useState(false);
+
+  const onClickConsultaDispersion = (row) => {
+    console.log("dispersion datos consulta ", row);
+    obtenerDispersion(idBeneficiario);
   };
 
   return (
@@ -79,6 +110,7 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow key="ta1">
+                  <TableCell />
                   <TableCell align="center">
                     {" "}
                     {t("dgv.expProgramaotorgado")}
@@ -88,93 +120,84 @@ export const ApoyosRecibidosExpediente = forwardRef((props) => {
                     {" "}
                     {t("dgv.expAnioapoyootorgado")}
                   </TableCell>
-                  {/*
                   <TableCell align="center">
                     Número de Tarjeta de Débito
                   </TableCell>
                   <TableCell align="center">Número de Cuenta</TableCell>
                   <TableCell align="center">Vencimiento Tarjeta</TableCell>
+                  {/*
                   <TableCell align="center">
                     Motivo No. Entrega de apoyo
                   </TableCell>
-                  <TableCell align="center">Guardar cambios</TableCell>
-  */}
+                    */}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {programaList
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    //const isItemSelected = isSelected(row);
-                    //const labelId = `enhanced-table-checkbox-${index}`;
-                    return (
-                      <TableRow key={index}>
-                        <TableCell align="center">{row.dsprograma}</TableCell>
-                        <TableCell align="center">{row.dstipoapoyo}</TableCell>
-                        <TableCell align="center">
-                          {moment(row.fcvigenciainicio).format(
-                            "MMMM DD YYYY, h:mm:ss a"
-                          )}
-                        </TableCell>
-                        {/*
-                        <TableCell align="center">
-                          <TextField
-                            id="filled-basic"
-                            label="No Tarjeta de Debito"
-                            fullWidth
-                            onChange={(e) => {
-                              console.log("evento ", e.target.value);
-                              console.log("registro ", row);
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell align="center">
-                          <TextField
-                            id="filled-basic"
-                            label="No de Cuenta"
-                            fullWidth
-                            onChange={(e) => {
-                                console.log("evento ", e.target.value);
-                                console.log("registro ", row);
-                              }}
-                          />
-                        </TableCell>
-                        <TableCell align="center">
-                          <TextField
-                            id="filled-basic"
-                            label="Vencimiento Tarjeta"
-                            fullWidth
-                            onChange={(e) => {
-                                console.log("evento ", e.target.value);
-                                console.log("registro ", row);
-                              }}
-                          />
-                        </TableCell>
-                        <TableCell align="center">
-                          <TextField
-                            id="filled-basic"
-                            label="Motivo No. Entrega de apoyo"
-                            fullWidth
-                            onChange={(e) => {
-                                console.log("evento ", e.target.value);
-                                console.log("registro ", row);
-                              }}
-                          />
-                        </TableCell>
-                        <TableCell align="center">
-                          <Button
-                            color="white"
-                            aria-label="edit"
-                            round
-                            onClick={() => onClickCambios(row)}
-                          >
-                            Guardar Cambios
-                          </Button>
-                        </TableCell>
-                            */}
-                      </TableRow>
-                    );
-                  })}
+                {programaExpedienteList &&
+                  programaExpedienteList
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => {
+                      //const isItemSelected = isSelected(row);
+                      //const labelId = `enhanced-table-checkbox-${index}`;
+                      return (
+                        <>
+                          <TableRow key={index}>
+                            <TableCell>
+                              <IconButton
+                                key={index}
+                                aria-label="expand row"
+                                size="small"
+                                onClick={() => {
+                                  setOpenCol(!openCol);
+                                  onClickConsultaDispersion(row);
+                                }}
+                              >
+                                {openCol ? (
+                                  <KeyboardArrowUp />
+                                ) : (
+                                  <KeyboardArrowDown />
+                                )}
+                              </IconButton>
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.dsprograma}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.dstipoapoyo}
+                            </TableCell>
+                            <TableCell align="center">
+                              {moment(row.fcvigenciainicio).format(
+                                "MMMM DD YYYY, h:mm:ss a"
+                              )}
+                            </TableCell>
+                            <TableCell align="center">{row.tarjeta}</TableCell>
+                            <TableCell align="center">{row.cuenta}</TableCell>
+                            <TableCell align="center">{row.vigencia}</TableCell>
+                            <TableCell align="center">Entrega apoyo</TableCell>
+                          </TableRow>
+                          <TableRow key={index}>
+                            <TableCell
+                              style={{ paddingBottom: 0, paddingTop: 0 }}
+                              colSpan={8}
+                            >
+                              <Collapse
+                                in={openCol}
+                                timeout="auto"
+                                unmountOnExit
+                              >
+                                {dispersion.map((row, i) => {
+                                  return (
+                                    <Grid item xs={3} key={i}>
+                                      {row}
+                                    </Grid>
+                                  );
+                                })}
+                              </Collapse>
+                            </TableCell>
+                          </TableRow>
+                        </>
+                      );
+                    })}
               </TableBody>
             </Table>
           </TableContainer>

@@ -98,7 +98,7 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
 
   const { programasList, get, getCien } = useContext(ProgramasContext);
 
-  const { BeneficiarioPrograma, programaList } = useContext(ExpedienteContext);
+  const { BeneficiarioPrograma,programaBeneficiario, programaExpedienteList } = useContext(ExpedienteContext);
   useEffect(() => {
     setLoading(true);
     console.log("expediente beneficiario DG ==>", beneficiarioPadre);
@@ -227,20 +227,20 @@ export const DatosGeneralesExpediente = forwardRef((props, ref) => {
   };
 
   useEffect(() => {
-    if (programaList.length > 0) {
-      if (programaList.programa_id !== undefined) {
-        console.log("folio ", programaList);
-        setFolioProgramaMostrar(programaList.dsfolio);
-        setIdProgramaMostrar(programaList.programa_id);
+    if (programaBeneficiario.length > 0) {
+      if (programaBeneficiario.programa_id !== undefined) {
+        console.log("folio ", programaBeneficiario);
+        setFolioProgramaMostrar(programaBeneficiario.dsfolio);
+        setIdProgramaMostrar(programaBeneficiario.programa_id);
         //setIdProgramaExpediente(programaList.programa_id);
       } else {
-        console.log("folio ", programaList[0]);
-        setFolioProgramaMostrar(programaList[0].dsfolio);
-        setIdProgramaMostrar(programaList[0].programa_id);
+        console.log("folio ", programaBeneficiario[0]);
+        setFolioProgramaMostrar(programaBeneficiario[0].dsfolio);
+        setIdProgramaMostrar(programaBeneficiario[0].programa_id);
         //setIdProgramaExpediente(programaList[0].programa_id);
       }
     }
-  }, [programaList]);
+  }, [programaBeneficiario]);
 
   const onClickGuardar = () => {
     //console.log("GUARDA LOS CAMBIOS");

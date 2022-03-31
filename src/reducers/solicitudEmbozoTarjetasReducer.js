@@ -3,7 +3,8 @@ import {
   AGREGAR_SOLICITUD_FOLIO_ERROR,
   GUARDAR_EMBOZO_TARJETAS,
   GET_ETIQUETADO_TARJETAS,
-  GUARDAR_ETIQUETADO_TARJETAS
+  GUARDAR_ETIQUETADO_TARJETAS,
+  GET_ETIQUETA_EVENTO,
 } from "../types/actionTypes";
 
 export default (state, action) => {
@@ -23,14 +24,19 @@ export default (state, action) => {
       return {
         ...state,
       };
-      case GET_ETIQUETADO_TARJETAS:
+    case GET_ETIQUETADO_TARJETAS:
       return {
         ...state,
         etiquetadoBeneficiarios: action.payload,
       };
-      case GUARDAR_ETIQUETADO_TARJETAS:
+    case GUARDAR_ETIQUETADO_TARJETAS:
       return {
         ...state,
+      };
+    case GET_ETIQUETA_EVENTO:
+      return {
+        ...state,
+        eventoTarjetasEtiquetadas: action.payload,
       };
     default:
       return state;

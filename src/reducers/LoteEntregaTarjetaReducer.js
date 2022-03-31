@@ -5,7 +5,8 @@ import {
     MODIFICAR_LOTE_ENTREGA_TARJETAS,
     LOTE_ENTREGA_TARJETAS_ERROR,
     CAMBIAR_PAGINA,
-    CAMBIAR_TAMANIO_PAGINA
+    CAMBIAR_TAMANIO_PAGINA,
+    GET_LOTE_EVENTO
 } from 'types/actionTypes';
 
 
@@ -50,6 +51,11 @@ export default (state, action) => {
                 ...state,
                 size: action.payload
             }
+            case GET_LOTE_EVENTO:
+            return {
+                ...state,
+                loteEventoList: action.payload._embedded.loteEvento,
+            };
         default:
             return state;
     }

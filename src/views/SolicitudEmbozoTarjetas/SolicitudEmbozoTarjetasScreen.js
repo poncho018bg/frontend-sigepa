@@ -129,31 +129,48 @@ export const SolicitudEmbozoTarjetasScreen = () => {
               <TableHead>
                 <TableRow key="SE1MI">
                   <TableCell align="center">{t("lbl.secuencial")}</TableCell>
-                  <TableCell align="center">{t("lbl.nombrecompleto")}</TableCell>
+                  <TableCell align="center">
+                    {t("lbl.nombrecompleto")}
+                  </TableCell>
                   <TableCell align="center">{t("lbl.nombreembozar")}</TableCell>
-                  <TableCell align="center">{t("lbl.callenumeroext")}</TableCell>
-                  <TableCell align="center">{t("lbl.numerointerior")}</TableCell>
+                  <TableCell align="center">
+                    {t("lbl.callenumeroext")}
+                  </TableCell>
+                  <TableCell align="center">
+                    {t("lbl.numerointerior")}
+                  </TableCell>
                   <TableCell align="center">{t("lbl.ciudad")}</TableCell>
                   <TableCell align="center">{t("lbl.colonia")}</TableCell>
                   <TableCell align="center">{t("lbl.telefono")}</TableCell>
                   <TableCell align="center">{t("lbl.codigopostal")}</TableCell>
-                  <TableCell align="center">{t("lbl.codigoprovincia")}</TableCell>
+                  <TableCell align="center">
+                    {t("lbl.codigoprovincia")}
+                  </TableCell>
                   <TableCell align="center">{t("lbl.email")}</TableCell>
                   <TableCell align="center">{t("lbl.tipodocumento")}</TableCell>
-                  <TableCell align="center">{t("lbl.numerodocumento")}</TableCell>
+                  <TableCell align="center">
+                    {t("lbl.numerodocumento")}
+                  </TableCell>
                   <TableCell align="center">{t("lbl.sexo")}</TableCell>
-                  <TableCell align="center">{t("lbl.fechanacimiento")}</TableCell>
+                  <TableCell align="center">
+                    {t("lbl.fechanacimiento")}
+                  </TableCell>
                   <TableCell align="center">{t("lbl.rfc")}</TableCell>
                   <TableCell align="center">{t("lbl.curp")}</TableCell>
                   <TableCell align="center">{t("lbl.celular")}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {embozoBeneficiarios.map((row, i) => {
-                  return (
-                    <SolicitudEmbozoTarjetaBeneficiario datos={row} index={i} />
-                  );
-                })}
+                {embozoBeneficiarios
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, i) => {
+                    return (
+                      <SolicitudEmbozoTarjetaBeneficiario
+                        datos={row}
+                        index={i}
+                      />
+                    );
+                  })}
               </TableBody>
             </Table>
           </TableContainer>

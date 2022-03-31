@@ -17,7 +17,8 @@ import {
   ACTUALIZAR_BANDEJA_MOTIVO_RECHAZO,
   GET_EXPEDIENTE_BOVEDA_BY_BENEFICIARIO,
   GENERAR_EXPEDIENTE_PDF,
-  REGISTRAR_BTACTIVIDADES
+  REGISTRAR_BTACTIVIDADES,
+  OBTENER_DISPERSIONES,
 } from "../types/actionTypes";
 
 import { axiosPut, axiosPost } from "helpers/axiosPublico";
@@ -32,7 +33,8 @@ export const ExpedienteContextProvider = (props) => {
   const initialState = {
     expedienteList: [],
     beneficiariosList: [],
-    programaList: [],
+    programaBeneficiario: [],
+    programaExpedienteList: [],
     etapasPlantilla: [],
     documentosExpedienteLst: [],
     deshabilitarDocumento: null,
@@ -41,6 +43,7 @@ export const ExpedienteContextProvider = (props) => {
     bandejaRechazo: null,
     expedienteBoveda: null,
     expedientepdf: null,
+    dispersion: [],
   };
 
   const [state, dispatch] = useReducer(expedienteReducer, initialState);
@@ -172,7 +175,7 @@ export const ExpedienteContextProvider = (props) => {
             },
           })
           .then((response) => {
-            console.log("Expediente Response=>", response.data);
+            console.log("Expediente Response A=>", response.data);
             resolve(response);
             dispatch({
               type: GET_SOLICITUDES_EXPEDIENTE_BENEFICIARIO,
@@ -313,7 +316,6 @@ export const ExpedienteContextProvider = (props) => {
             type: AGREGAR_CONTENIDO_DOCUMENTO,
             payload: response,
           });
-          
         })
         .catch((error) => {
           console.log("Err", error);
@@ -339,11 +341,11 @@ export const ExpedienteContextProvider = (props) => {
     }
   };
 
-  const bitacoraActiv  = async (bitacoraActividades) => {
+  const bitacoraActiv = async (bitacoraActividades) => {
     const url = `${baseUrlPublico}bitacoraActividades`;
     return new Promise((resolve, reject) => {
       axios
-        .post(url,bitacoraActividades, {
+        .post(url, bitacoraActividades, {
           headers: {
             Accept: "application/json",
             "Content-type": "application/json",
@@ -354,7 +356,7 @@ export const ExpedienteContextProvider = (props) => {
           dispatch({
             type: REGISTRAR_BTACTIVIDADES,
             payload: resultado,
-          });          
+          });
         })
         .catch((error) => {
           reject(error);
@@ -377,7 +379,7 @@ export const ExpedienteContextProvider = (props) => {
           dispatch({
             type: DESHABILITAR_DOCUMENTO_EXPEDIENTE,
             payload: response.data,
-          });          
+          });
         })
         .catch((error) => {
           reject(error);
@@ -448,7 +450,10 @@ export const ExpedienteContextProvider = (props) => {
         "mv bandeja solicitud expediente datos motivo rechazos ===>",
         datos
       );
-      const resultado = await axiosPost("bandejaRechazosOverride/rechazoexpediente", datos);
+      const resultado = await axiosPost(
+        "bandejaRechazosOverride/rechazoexpediente",
+        datos
+      );
       console.log(
         "mv bandeja solicitud resultado guardado de bandeja rechazos ==>",
         resultado
@@ -599,13 +604,62 @@ export const ExpedienteContextProvider = (props) => {
     });
   };
 
+  const guardarCambiosTarjetaExpediente = async (actualizarTarjeta) => {
+    const url = `${baseUrlPublico}expedienteOverride/ExpedienteTarjeta`;
+    return new Promise((resolve, reject) => {
+      axios
+        .post(url, actualizarTarjeta, {
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+          },
+        })
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          console.log("Err", error);
+          reject(error);
+        });
+    });
+  };
+
+  const obtenerDispersion = async (idBeneficiario) => {
+    try {
+      console.log("dispersion datos consulta response ", idBeneficiario);
+      const url = `${baseUrlPublico}expedienteOverride/dispersion/${idBeneficiario}`;
+      return new Promise((resolve, reject) => {
+        axios
+          .get(url, {
+            headers: {
+              Accept: "application/json",
+              "Content-type": "application/json",
+            },
+          })
+          .then((response) => {
+            resolve(response);
+            console.log("dispersion datos consulta response ", response);
+            dispatch({
+              type: OBTENER_DISPERSIONES,
+              payload: response.data,
+            });
+          })
+          .catch((error) => {
+            console.log("Error ", error);
+          });
+      });
+    } catch (error) {
+      console.log("Err", error);
+    }
+  };
+
   return (
     <ExpedienteContext.Provider
       value={{
         beneficiariosList: state.beneficiariosList,
         expedienteList: state.expedienteList,
         solicitudParametrosExpediente: state.solicitudParametrosExpediente,
-        programaList: state.programaList,
+        programaExpedienteList: state.programaExpedienteList,
         etapasPlantilla: state.etapasPlantilla,
         documentosExpedienteLst: state.documentosExpedienteLst,
         contenidoDocumento: state.contenidoDocumento,
@@ -615,6 +669,8 @@ export const ExpedienteContextProvider = (props) => {
         bandejaMotivoRechazo: state.bandejaMotivoRechazo,
         bandejaRechazo: state.bandejaRechazo,
         expedienteBoveda: state.expedienteBoveda,
+        programaBeneficiario: state.programaBeneficiario,
+        dispersion: state.dispersion,
         getExpedienteParametros,
         actualizarExpediente,
         BeneficiarioPrograma,
@@ -631,7 +687,9 @@ export const ExpedienteContextProvider = (props) => {
         getExpedienteBovedaByBeneficiario,
         generarExpedientepdf,
         registrarBtActividades,
-        bitacoraActiv
+        bitacoraActiv,
+        guardarCambiosTarjetaExpediente,
+        obtenerDispersion,
       }}
     >
       {props.children}
