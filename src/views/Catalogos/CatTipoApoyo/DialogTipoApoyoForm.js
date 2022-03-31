@@ -506,6 +506,7 @@ export const DialogTipoApoyoForm = (props) => {
                       <Checkbox onClick={agregarServicioFormik(apyo, i)} />
                     }
                     label={apyo.dsservicio}
+                    labelPlacement="start"
                   />
                 </AccordionSummary>
                 <AccordionDetails>
