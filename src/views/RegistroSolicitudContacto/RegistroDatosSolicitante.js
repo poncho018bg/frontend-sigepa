@@ -97,7 +97,6 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
   const { programasList, get, getCien } = useContext(ProgramasContext);
 
   useEffect(() => {
-    
     setLoading(true);
     console.log("curp que llega --> ", curpR);
 
@@ -132,7 +131,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
           setEdadValida(response.data.response[0].edad);
         }
         setDatosCorrectos(true);
-        setActivar(next());
+        //setActivar(next());
       })
       .catch((error) => {
         console.log("Error ", error);
@@ -180,8 +179,13 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
     getEstudios();
     getEstadoCivil();
     getIdentificacionesActivos();
-    setActivar(next());
+    //setActivar(next());
   }, [beneficiario]);
+
+  useEffect(() => {
+    console.log("entro al useeffect del rfc =>>", rfc)
+    setActivar(next());
+  }, [rfc]);
 
   const generoCurp = (generocrp) => {
     console.log("", generocrp);
@@ -232,7 +236,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
 
   const onChange = (event) => {
     console.log("nombre del evento ==>", event.target);
-    let testLetrasNum = /^[a-zA-Z0-9_.-\sñÑ]*$/;
+    let testLetrasNum = /^[a-zA-Z0-9ñÑ]*$/;
     switch (event.target.name) {
       case "rfc":
         if (testLetrasNum.test(event.target.value)) {
@@ -274,14 +278,20 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
   };
 
   const next = () => {
-    if (activar || activar === undefined) {
+    //if (activar || activar === undefined) {
       if (
-        rfc !== "" && rfc !== undefined &&
-        genero !== "" && genero !== undefined &&
-        estudios !== "" && estudios !== undefined &&
-        estadoCivil !== "" && estadoCivil !== undefined &&
-        identificacion !== "" && identificacion !== undefined &&
-        idIdentificaion !== "" && idIdentificaion !== undefined 
+        rfc !== "" &&
+        rfc !== undefined &&
+        genero !== "" &&
+        genero !== undefined &&
+        estudios !== "" &&
+        estudios !== undefined &&
+        estadoCivil !== "" &&
+        estadoCivil !== undefined &&
+        identificacion !== "" &&
+        identificacion !== undefined &&
+        idIdentificaion !== "" &&
+        idIdentificaion !== undefined
       ) {
         console.log("ENTRO AL NEXT 2", activar);
         console.log("ENTRO AL NEXT RFC ===>", rfc);
@@ -315,7 +325,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
         }
         console.log("ENTRO AL NEXT 4", activar);
       }
-    }
+    //}
   };
 
   return (

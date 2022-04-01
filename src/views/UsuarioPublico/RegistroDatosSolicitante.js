@@ -237,7 +237,7 @@ export const RegistroDatosSolicitante = forwardRef((props, ref) => {
 
   const onChange = (event) => {
     console.log("nombre del evento ==>", event.target);
-    let testLetrasNum = /^[a-zA-Z0-9_.-\sñÑ]*$/;
+    let testLetrasNum = /^[a-zA-Z0-9ñÑ]*$/;
     switch (event.target.name) {
       case "rfc":
         if (testLetrasNum.test(event.target.value)) {
