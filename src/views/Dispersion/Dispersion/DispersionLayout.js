@@ -56,6 +56,8 @@ export const DispersionLayout = () => {
     registrarDispersionLayout,
   } = useContext(DispersionLayoutContext);
   const [selected, setSelected] = React.useState([]);
+  const { setShowModalConfirmacion } = useContext(ModalContextConfirmacion);
+
 
   useEffect(() => {
     getDispersionLayout();
@@ -83,6 +85,64 @@ export const DispersionLayout = () => {
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
+
+  const handleClick = (event, solicitud) => {
+    if(!solicitud.activo){
+      const selectedIndex = selected.indexOf(solicitud);
+      let newSelected = [];
+  
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(selected, solicitud);
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(selected.slice(1));
+      } else if (selectedIndex === selected.length - 1) {
+        newSelected = newSelected.concat(selected.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(
+          selected.slice(0, selectedIndex),
+          selected.slice(selectedIndex + 1)
+        );
+      }
+      setSelected(newSelected);
+      console.log("selected final", selected);
+    }
+ 
+  };
+
+
+  const confirmacionMensaje = () => {
+    if(selected?.length === 0){
+      setOpenSnackbar(true);
+      setError(true);
+        setMsjConfirmacion(`${t("No se ha seleccionado tarjetas para la dispersión")}`);
+    }else{
+      setShowModalConfirmacion(true);
+    }
+    
+  };
+
+  const guardarTarjetasSeleccionadas = () => {    
+
+    registrarDispersionLayout(selected)
+      .then((response) => {
+        setOpenSnackbar(true);
+        setMsjConfirmacion(`${t("msg.registroguardadoexitosamente")}`);
+
+        const timer = setTimeout(() => {
+          setError(false);
+          setShowModalConfirmacion(false);
+          console.log("GUARDO");
+        }, 1000);
+        return () => clearTimeout(timer);
+      })
+      .catch((err) => {
+        console.log("NO GUARDO 1");
+        setOpenSnackbar(true);
+        setError(true);
+        setMsjConfirmacion(`${t("msg.ocurrioerrorcalidarinfo")}`);
+        console.log("NO GUARDO 2");
+      });
+  };
 
   return (
     <>
@@ -123,7 +183,7 @@ export const DispersionLayout = () => {
                 />
               </Grid>
 
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -134,11 +194,26 @@ export const DispersionLayout = () => {
                 </Button>
               </Grid>
             </Grid>
+            <Grid container spacing={12}>
+              
+            <Grid item xs={10}>
+              </Grid>
+              <Grid item xs={2}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  onClick={confirmacionMensaje}
+                >
+                  Generar layout
+                </Button>
+              </Grid>
+            </Grid>
 
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow key="898as">
-                  <TableCell align="center"> Selecciona todo</TableCell>
+                <TableCell align="center">{t('cmb.seleccionar')} </TableCell>
                   <TableCell align="center"> Secuencial</TableCell>
                   <TableCell align="center"> Nombre (s)</TableCell>
                   <TableCell align="center"> Primer Apellido</TableCell>
@@ -169,11 +244,14 @@ export const DispersionLayout = () => {
                         role="checkbox"
                         aria-checked={isItemSelected}
                         tabIndex={-1}
+                        
                         key={row.id}
                         selected={isItemSelected}
                       >
                         <TableCell padding="checkbox">
+                          {console.log('row.activo=>',row.activo)}
                           <Checkbox
+                          disabled={row.activo}
                             checked={isItemSelected}
                             inputProps={{ "aria-labelledby": labelId }}
                           />
@@ -217,10 +295,24 @@ export const DispersionLayout = () => {
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
+              <Grid container spacing={12}>
+              
+
+              <Grid item xs={2}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  onClick={confirmacionMensaje}
+                >
+                  Generar layout
+                </Button>
+              </Grid>
+            </Grid>
           </CardBody>
         </Card>
         <ModalConfirmacion
-          handleRegistrar={guardarTarjetas}
+          handleRegistrar={guardarTarjetasSeleccionadas}
           evento="Registrar"
         />
         <Mensaje
@@ -229,26 +321,7 @@ export const DispersionLayout = () => {
           severity={error ? "error" : "success"}
           message={msjConfirmacion}
         />
-
-        <Dialog
-          onClose={handleClose}
-          aria-labelledby="customized-dialog-title"
-          open={open}
-          maxWidth="lg"
-          fullWidth={true}
-        >
-          <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-            <h2> Nombre de quien recibe </h2>
-          </DialogTitle>
-          <DialogContent>
-            <DialogContent></DialogContent>
-          </DialogContent>
-          <DialogActions>
-            <Button autoFocus color="primary">
-              Cerrar
-            </Button>
-          </DialogActions>
-        </Dialog>
+       
       </GridItem>
     </>
   );
