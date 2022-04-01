@@ -230,7 +230,7 @@ export const RegistroDireccion = forwardRef((props, ref) => {
     console.log("target direccion ===> ", event.target.name);
     console.log(event.target.value);
     //llenado de los datos a registrar
-    let testLetrasNum = /^[a-zA-Z0-9_.-\sñÑ]*$/;
+    let testLetrasNum = /^[a-zA-Z0-9ñÑ]*$/;
     let textSoloNum = /^[0-9]*$/;
     switch (event.target.name) {
       case "calle":
