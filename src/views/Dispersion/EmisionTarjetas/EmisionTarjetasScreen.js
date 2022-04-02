@@ -69,7 +69,7 @@ export const EmisionTarjetasScreen = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [archivoPrograma, setArchivoPrograma] = React.useState([]);
-  const { CSVReader } = useCSVReader();
+  const { CSVReader ,acceptedFile} = useCSVReader();
   const { registrarTarjetasEmbozo, tarjetasList } = useContext(
     TarjetasEmbozadasContext
   );
@@ -109,12 +109,12 @@ export const EmisionTarjetasScreen = () => {
       .then((response) => {
         setOpenSnackbar(true);
         setMsjConfirmacion(`${t("msg.registroguardadoexitosamente")}`);
-
+        setTarjetaslist([])
         const timer = setTimeout(() => {
           setError(false);
           setShowModalConfirmacion(false);
           setShowModal(false);
-          setTarjetaslist([])
+          
           console.log("GUARDO");
         }, 1000);
         return () => clearTimeout(timer);
@@ -129,6 +129,7 @@ export const EmisionTarjetasScreen = () => {
   };
 
   const mensajeConfirmation = () => {
+    console.log('acceptedFile=>',acceptedFile)
     const errorsd = {};
     if (tarjetaslist.length === 0) {
       errorsd.tarjetaslist = `${t('msg.debeimportararchivo')}`;
@@ -185,20 +186,7 @@ export const EmisionTarjetasScreen = () => {
           <CardBody>
             <Grid container spacing={12}>
               <Grid item xs={12}>
-                {/* <DropzoneAreaBase
-                        acceptedFiles={[
-                          ".csv, text/csv, application/vnd.ms-excel, application/csv, text/x-csv, application/x-csv, text/comma-separated-values, text/x-comma-separated-values",
-                        ]}
-                        onAdd={(fileObjs) => setArchivoPrograma(fileObjs)}
-                        fileObjects={archivoPrograma}
-                        filesLimit="1"
-                        showPreviews={false}
-                        showPreviewsInDropzone={false}
-                        useChipsForPreview={false}
-                        previewChipProps={false}
-                        onDrop={handleChangeFile}
-                      /> */}
-
+              
                 <CSVReader
                   config={{
                     header: true,

@@ -58,9 +58,11 @@ export default (state, action) => {
                 terjetasEntregaList: action.payload
             };
         case REGISTRAR_LOTES_ENTREGA:
+            console.log('state',state)
+            console.log('action',action)
                 return {
                     ...state,
-                    lotesEntregaList: [...state.lotesEntregaList, action.payload]
+                    lotesEntregaList: [...state?.lotesEntregaList, action.payload]
                 };
         default:
             return state;
