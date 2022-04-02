@@ -44,6 +44,7 @@ export const RegistroCargaDocumentos = (props) => {
   const { idPrograma } = props;
   const { identPrograma } = props;
   const { setValidarDocs, validarDocs, setActivar } = props;
+  const [documentosAgregados, setDocumentosAgregados] = useState([]);
   const [archivo, setArchivos] = useState();
   const [sesion, setSesion] = useState("");
 
@@ -86,8 +87,6 @@ export const RegistroCargaDocumentos = (props) => {
         );
       }
     }
-
-    console.log("documentos ", documentosApoyoList);
     const getLogin = async () => {
       const result = await axiosLoginBoveda();
       console.log("resultado de la sesion ", result);
@@ -100,7 +99,6 @@ export const RegistroCargaDocumentos = (props) => {
    * Se crea el array con los documentos para validar si ya estan cargados,
    * se inicializan todos en false
    */
-
   useEffect(() => {
     setActivar(true);
     if (documentosApoyoList.length > 0) {
@@ -110,7 +108,6 @@ export const RegistroCargaDocumentos = (props) => {
         }
       });
     }
-
     setValidarDocs(documentosApoyoList);
   }, [documentosApoyoList, archivo]);
 
@@ -133,7 +130,7 @@ export const RegistroCargaDocumentos = (props) => {
     setOpen("true");
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e, row) => {
     /**
      * Aqui se llenan los archivos que se van a subir a la boveda
      */
@@ -141,7 +138,14 @@ export const RegistroCargaDocumentos = (props) => {
       setArchivos(
         new File([e[0]], `${+new Date()}_${e[0].name}`, { type: e[0].type })
       );
+      if(!documentosAgregados.includes(row.id)){
+        setDocumentosAgregados([...documentosAgregados, row.id]);
+      }
     }
+  };
+
+  const handleRemoveDocumento = (row) => {
+    setDocumentosAgregados(documentosAgregados.filter((e) => e !== row.id));
   };
 
   const submit = (documentoApoyo) => {
@@ -235,7 +239,7 @@ export const RegistroCargaDocumentos = (props) => {
   };
 
   const BotonSubir = ({ row }) => {
-    if (archivo != undefined) {
+    if (documentosAgregados.includes(row.id)) {
       console.log("archivo boton subir activo boton", archivo);
       if (!row.validarCarga) {
         return (
@@ -257,6 +261,7 @@ export const RegistroCargaDocumentos = (props) => {
       return <label>Selecciona un archivo</label>;
     }
   };
+
   return (
     <GridItem xs={12} sm={12} md={12}>
       <Card>
@@ -272,20 +277,26 @@ export const RegistroCargaDocumentos = (props) => {
                 </Grid>
                 <Grid item xs={12}>
                   <Grid item xs={6}>
-                    <DropzoneArea
-                      key={row.id}
-                      acceptedFiles={["application/pdf"]}
-                      filesLimit="1"
-                      onChange={handleChange}
-                      dropzoneText={
-                        "Arrastra un pdf aquí o da clic para agregar un archivo"
-                      }
-                      getPreviewIcon={handlePreviewIcon}
-                      maxFileSize="5242880"
-                    />
+                    {
+                      !row.validarCarga  
+                      ? <>
+                          <DropzoneArea
+                            key={row.id}
+                            acceptedFiles={["application/pdf"]}
+                            filesLimit="1"
+                            onChange={(e) => handleChange(e, row)}
+                            onDelete={() => handleRemoveDocumento(row)}
+                            dropzoneText={
+                              "Arrastra un pdf aquí o da clic para agregar un archivo"
+                            }
+                            getPreviewIcon={handlePreviewIcon}
+                            maxFileSize="5242880"
+                          />
+                          <BotonSubir row={row} />
+                        </>
+                      : <p>Documento cargado.</p>
+                  }
                   </Grid>
-
-                  <BotonSubir row={row} />
                 </Grid>
               </Grid>
             );
