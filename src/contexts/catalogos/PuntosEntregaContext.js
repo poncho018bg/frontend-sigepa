@@ -160,7 +160,7 @@ export const PuntosEntregaContextProvider = props => {
                     resolve(response);
                     dispatch({
                         type: REGISTRAR_LOTES_ENTREGA,
-                        payload: response.data
+                        payload: response?.data
                     })
                 }).catch(error => {
                     reject(error);
